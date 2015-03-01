@@ -1,0 +1,15 @@
+﻿<mvvm:MvvmAppBase
+    x:Class="Flantter.MilkyWay.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:local="using:Flantter.MilkyWay"
+    RequestedTheme="Dark">
+    <mvvm:MvvmAppBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Themes/Style/Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </mvvm:MvvmAppBase.Resources>
+</mvvm:MvvmAppBase>

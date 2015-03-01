@@ -1,0 +1,162 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
+using Flantter.MilkyWay.Common;
+
+namespace Flantter.MilkyWay.Setting
+{
+    public static class SettingSupport
+    {
+        public enum SizeEnum
+        {
+            ExtraSmall = 0,
+            Small = 1,
+            Medium = 2,
+            Large = 3,
+        }
+
+        public enum DoubleTappedEventEnum
+        {
+            None = 0,
+            TweetDetail = 1,
+            UserProfile = 2,
+            Favorite = 3,
+            Reply = 4,
+            Retweet = 5,
+        }
+
+        public enum TrendsPlaceEnum
+        {
+            Default = 0,
+            Global = 1,
+            Japan = 2,
+            UnitedStates = 3,
+            UnitedKingdom = 4,
+            Canada = 5,
+            Australia = 6,
+        }
+
+        public enum TileNotificationEnum
+        {
+            None = 0,
+            Mentions = 1,
+            Images = 2,
+        }
+
+        public enum TweetAnimationEnum
+        {
+            None = 0,
+            Expand = 1,
+            Slide = 2,
+            ScrollToTop = 3,
+        }
+
+        public enum ThemeEnum
+        {
+            Light = 0,
+            Dark = 1,
+        }
+
+        public enum TweetListTypeEnum
+        {
+            Home = 0,
+            Mentions = 1,
+            DirectMessages = 2,
+            Events = 3,
+            Favorites = 4,
+            Search = 5,
+            UserTimeline = 6,
+            List = 7,
+            Filter = 8,
+        }
+    }
+
+    public class SettingService : SettingServiceBase<SettingService>
+    {
+        // 通知設定
+        public bool FavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool UnfavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool FollowNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool RetweetNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool MentionNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool DirectMessageNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool SystemNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool StreamNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool AchievementNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool NotificationSound { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public SettingSupport.TileNotificationEnum TileNotification { get { return (SettingSupport.TileNotificationEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
+
+        // 表示設定
+        public SettingSupport.ThemeEnum Theme { get { return (SettingSupport.ThemeEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
+        public double FontSize { get { return GetValue(12.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public double TweetBrushAlpha { get { return GetValue(20.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public double TweetFieldBrushAlpha { get { return GetValue(255.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public double TweetFieldColumnSize { get { return GetValue(384.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public int TweetFieldColumnCount { get { return GetValue(2); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool ExpandTweetField { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool EnableTweetClickAnimation { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public double TweetPostFieldFontSize { get { return GetValue(14.5); } set { SetValue(value); OnPropertyChanged(); } }
+        public double TweetFieldCommandBarHeight { get { return GetValue(45.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public SettingSupport.SizeEnum IconSize { get { return (SettingSupport.SizeEnum)GetValue(2); } set { SetValue((int)value); OnPropertyChanged(); } }
+        public SettingSupport.TweetAnimationEnum TweetAnimation { get { return (SettingSupport.TweetAnimationEnum)GetValue(3); } set { SetValue((int)value); OnPropertyChanged(); } }
+
+        [LocalValue]
+        public bool UseBackgroundImage { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); OnPropertyChanged("BackgroundImagePath"); } }
+        [LocalValue]
+        public string BackgroundImagePath 
+        { 
+            get 
+            {
+                if (UseBackgroundImage)
+                    return GetValue(string.Empty);
+                else 
+                    return string.Empty;
+            } 
+            set { SetValue(value); OnPropertyChanged(); } }
+        
+        // 動作設定
+        public bool ShowRetweetToMentionColumn { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool ShowFavoriteConfirmDialog { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool ShowRetweetConfirmDialog { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool RemoveRetweetAlreadyReceive { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool UnlockAfterScroll { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool DisableStreamingScroll { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool TweetCollectionEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public SettingSupport.DoubleTappedEventEnum DoubleTappedAction { get { return (SettingSupport.DoubleTappedEventEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
+        public SettingSupport.TrendsPlaceEnum TrendsPlace { get { return (SettingSupport.TrendsPlaceEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
+
+        // Mute設定
+        public string MuteFilter { get { return GetValue("(False)"); } set { SetValue(value); OnPropertyChanged(); } }
+
+        // 上級者向け設定
+        public bool UseOfficialApi { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool UseExtendedConversation { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+
+        [LocalValue]
+        public bool UseCustomFont { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); /*FontService.Font.ChangeFont();*/ } }
+        [LocalValue]
+        public string CustomFontName { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); /*FontService.Font.ChangeFont();*/ } }
+
+        [LocalValue]
+        public bool UseCustomTheme { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); /*ThemeService.Theme.ChangeTheme();*/ } }
+        [LocalValue]
+        public string CustomThemePath { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); /*ThemeService.Theme.ChangeTheme();*/ } }
+
+        // その他
+        public bool FixedTypo { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+    }
+
+    public class SettingProvider
+    {
+        public SettingService Setting { get { return SettingService.Setting; } }
+    }
+}

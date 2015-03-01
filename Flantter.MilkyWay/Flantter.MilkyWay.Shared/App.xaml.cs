@@ -44,9 +44,15 @@ namespace Flantter.MilkyWay
             }
 #endif
 
-            var accountSetting = await ApplicationData.Current.RoamingFolder.GetFileAsync("account.xml");
-            using (var stream = await accountSetting.OpenStreamForReadAsync())
-                AdvancedSettingService.AdvancedSetting.LoadFromStream(stream);
+            try
+            {
+                var accountSetting = await ApplicationData.Current.RoamingFolder.GetFileAsync("account.xml");
+                using (var stream = await accountSetting.OpenStreamForReadAsync())
+                    AdvancedSettingService.AdvancedSetting.LoadFromStream(stream);
+            }
+            catch
+            {
+            }
 
             if (AdvancedSettingService.AdvancedSetting.Account == null || AdvancedSettingService.AdvancedSetting.Account.Count == 0)
                 this.NavigationService.Navigate("Initialize", args.Arguments);

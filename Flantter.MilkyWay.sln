@@ -11,6 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flantter.MilkyWay.Windows",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flantter.MilkyWay.WindowsPhone", "Flantter.MilkyWay\Flantter.MilkyWay.WindowsPhone\Flantter.MilkyWay.WindowsPhone.csproj", "{0ECC4A2A-1FF3-4424-B49A-CDFF35A8FFD2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{88C92A31-680C-4518-BC70-FEEE31E84069}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Flantter.MilkyWay\Flantter.MilkyWay.Shared\Flantter.MilkyWay.Shared.projitems*{75853050-bd54-4b36-9ec4-1ff2e8def258}*SharedItemsImports = 13

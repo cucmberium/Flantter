@@ -7,10 +7,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="{Binding Message}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="54"/>
+        </Grid.RowDefinitions>
+        
+        <contents:BottomBar Grid.Row="1"/>
     </Grid>
 </prism:VisualStateAwarePage>

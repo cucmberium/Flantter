@@ -1,0 +1,127 @@
+﻿<UserControl
+    x:Class="Flantter.MilkyWay.Views.Contents.BottomBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="54"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <Style x:Name="PointerDownAnimationButton" TargetType="Button">
+            <Setter Property="Foreground" Value="{ThemeResource AppBarItemForegroundThemeBrush}"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="Transparent" x:Name="RootGrid">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver"/>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <!--<PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>-->
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition From="Pressed" To="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualTransition>
+                                    </VisualStateGroup.Transitions>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid 
+                            Height="30" 
+                            Width="30">
+                                <ContentPresenter 
+                                x:Name="Content" 
+                                Foreground="{TemplateBinding Foreground}" 
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch"
+                                Content="{TemplateBinding Content}"/>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="#FF222233">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="54"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="64"/>
+        </Grid.ColumnDefinitions>
+
+        <Button Template="{StaticResource ButtonControlTemplateNoPadding}" Grid.Column="0" x:Name="BottomBar_ProfileImageButton" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="54" Height="54" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <Image Source="https://pbs.twimg.com/profile_images/3077279905/11e31fda9b6648ea0a362820ed4d7d0f.png" x:Name="BottomBar_ProfileImage" Width="54" Height="54"/>
+        </Button>
+
+        <Grid Grid.Column="1" Margin="25,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.25*" MinWidth="54"/>
+                <ColumnDefinition Width="0.25*" MinWidth="54"/>
+                <ColumnDefinition Width="0.25*" MinWidth="54"/>
+                <ColumnDefinition Width="0.25*" MinWidth="54"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Style="{StaticResource PointerDownAnimationButton}" Template="{StaticResource ButtonControlTemplateNoPadding}" Grid.Column="0" x:Name="BottomBar_HomeButtonGrid" Height="54" Width="60" BorderThickness="0">
+                <SymbolIcon x:Name="BottomBar_HomeIcon" Symbol="Home" RenderTransformOrigin="0.5,0.5">
+                    <SymbolIcon.RenderTransform>
+                        <CompositeTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </SymbolIcon.RenderTransform>
+                </SymbolIcon>
+            </Button>
+            <Button Style="{StaticResource PointerDownAnimationButton}" Template="{StaticResource ButtonControlTemplateNoPadding}" Grid.Column="1" x:Name="BottomBar_MentionsGrid" Height="54" Width="60" BorderThickness="0">
+                <FontIcon x:Name="BottomBar_MentionsIcon" FontFamily="Segoe UI Symbol" Glyph="@" RenderTransformOrigin="0.5,0.5">
+                    <FontIcon.RenderTransform>
+                        <CompositeTransform ScaleX="1.6" ScaleY="1.6" TranslateY="-3"/>
+                    </FontIcon.RenderTransform>
+                </FontIcon>
+            </Button>
+            <Button Style="{StaticResource PointerDownAnimationButton}" Template="{StaticResource ButtonControlTemplateNoPadding}" Grid.Column="2" x:Name="BottomBar_DirectMessagesGrid" Height="54" Width="60" BorderThickness="0">
+                <SymbolIcon x:Name="BottomBar_DirectMessagesIcon" Symbol="Mail" RenderTransformOrigin="0.5,0.5">
+                    <SymbolIcon.RenderTransform>
+                        <CompositeTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </SymbolIcon.RenderTransform>
+                </SymbolIcon>
+            </Button>
+            <Button Style="{StaticResource PointerDownAnimationButton}" Template="{StaticResource ButtonControlTemplateNoPadding}" Grid.Column="3" x:Name="BottomBar_OthersGrid" Height="54" Width="60" BorderThickness="0">
+                <SymbolIcon x:Name="BottomBar_OthersIcon" Symbol="Add" RenderTransformOrigin="0.5,0.5">
+                    <SymbolIcon.RenderTransform>
+                        <CompositeTransform ScaleX="1.5" ScaleY="1.5"/>
+                    </SymbolIcon.RenderTransform>
+                </SymbolIcon>
+            </Button>
+        </Grid>
+
+        <AppBarButton Grid.Column="2" IsCompact="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,-5,0,0">
+            <AppBarButton.Icon>
+                <PathIcon Data="M20.3599987030029,17.0200004577637L20.2982959747314,15.3165817260742 20.7248592376709,13.8618698120117 21.6109313964844,12.6718635559082 22.9277572631836,11.7625598907471 24.349178314209,11.3314666748047 25.7337284088135,11.3477125167847 27.0583534240723,11.8207426071167 28.2999992370605,12.7600002288818 31.2799987792969,11.6399993896484 30.5911140441895,13.0404796600342 29.2799987792969,14.1999998092651 31.9199981689453,13.5 29.5999984741211,15.8999996185303 29.3917999267578,18.8514404296875 28.6413745880127,21.4481601715088 27.5722007751465,23.5763988494873 25.5548362731934,26.1680793762207 23.3233985900879,27.9143581390381 20.9852809906006,29.036039352417 17.6354751586914,29.7396450042725 14.4869346618652,29.6789989471436 11.6279172897339,28.9678649902344 9.14667892456055,27.7199993133545 12.7489204406738,27.4371242523193 14.4411554336548,26.7908344268799 16.0533199310303,25.7733192443848 13.3364295959473,24.83811378479 11.7066783905029,22.5200004577637 13.7333202362061,22.4133186340332 12.1511697769165,21.7406959533691 11.0099296569824,20.7355556488037 10.3170547485352,19.4226360321045 10.0799999237061,17.8266792297363 12.1066799163818,18.3600006103516 10.8615303039551,17.0618438720703 10.2149152755737,15.5937051773071 10.1675119400024,13.9553833007813 10.7199993133545,12.1466808319092 12.8063335418701,14.1511659622192 15.1005001068115,15.6508445739746 17.6144161224365,16.616771697998 20.3599987030029,17.0200004577637z">
+                    <PathIcon.RenderTransform>
+                        <CompositeTransform ScaleX="1" ScaleY="1"/>
+                    </PathIcon.RenderTransform>
+                </PathIcon>
+            </AppBarButton.Icon>
+        </AppBarButton>
+    </Grid>
+</UserControl>

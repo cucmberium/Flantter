@@ -55,8 +55,6 @@ namespace Flantter.MilkyWay.Views.Contents
 
             this.Height = Window.Current.Bounds.Height;
             this.Width = Window.Current.Bounds.Width;
-
-            Window.Current.SizeChanged += SizeChanced_Event;
         }
 
         private void SizeChanced_Event(object sender, WindowSizeChangedEventArgs e)
@@ -149,6 +147,8 @@ namespace Flantter.MilkyWay.Views.Contents
         private bool authorizeCompleted = false;
         public async Task<Account> ShowAsync()
         {
+            Window.Current.SizeChanged += SizeChanced_Event;
+
             accountInfo = null;
             authorizeCompleted = false;
             contentPopup.IsOpen = true;
@@ -158,6 +158,8 @@ namespace Flantter.MilkyWay.Views.Contents
                     new Task(() => { }).Wait(200);
             });
             contentPopup.IsOpen = false;
+
+            Window.Current.SizeChanged -= SizeChanced_Event;
 
             if (accountInfo != null)
                 await new MessageDialog(resourceLoader.GetString("AuthorizePopup_AuthorizeCompleted")).ShowAsync();

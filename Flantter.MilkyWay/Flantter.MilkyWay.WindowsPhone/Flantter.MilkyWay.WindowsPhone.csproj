@@ -86,6 +86,9 @@
     <Compile Include="Views\Contents\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contents\BottomBar.xaml.cs">
+      <DependentUpon>BottomBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\InitializePage.xaml.cs">
       <DependentUpon>InitializePage.xaml</DependentUpon>
     </Compile>
@@ -158,7 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
-    <Folder Include="Views\Fragments\" />
+    <Folder Include="Views\Controls\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">
@@ -174,6 +177,10 @@
     <Page Include="Views\Contents\AuthorizePopup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\BottomBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InitializePage.xaml">
       <Generator>MSBuild:Compile</Generator>

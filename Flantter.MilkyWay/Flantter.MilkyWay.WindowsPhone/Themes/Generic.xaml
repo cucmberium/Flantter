@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Flantter.MilkyWay.Themes">
+    xmlns:local="using:Flantter.MilkyWay.Themes"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls">
 
     <Style x:Key="NavigationBackButtonSmallStyle" TargetType="Button">
         <Setter Property="Foreground" Value="{ThemeResource AppBarItemForegroundThemeBrush}"/>
@@ -102,5 +103,4 @@
     <Style x:Key="SubtitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
         <Setter Property="FontWeight" Value="Normal"/>
     </Style>
-    
 </ResourceDictionary>

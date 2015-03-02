@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="800"
+    d:DesignHeight="720"
     d:DesignWidth="400">
     
     <Grid>
@@ -23,7 +23,6 @@
 
         <Grid RequestedTheme="Dark" Grid.Row="0" Background="#FF323232">
             
-
             <Button x:Name="AuthorizePopup_HeaderBackButton" Click="AuthorizePopup_HeaderBackButton_Click" Style="{StaticResource NavigationBackButtonSmallStyle}" VerticalAlignment="Bottom" Margin="0" Padding="0"/>
             <TextBlock x:Name="AuthorizePopup_HeaderTitleTextblock" Style="{StaticResource SubheaderTextBlockStyle}" Text="Twitter" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="120,0,0,15"/>
 

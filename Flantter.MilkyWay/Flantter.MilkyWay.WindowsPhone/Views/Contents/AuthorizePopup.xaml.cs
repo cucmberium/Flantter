@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Phone.UI.Input;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -53,8 +54,24 @@ namespace Flantter.MilkyWay.Views.Contents
 
             this.Height = Window.Current.Bounds.Height;
             this.Width = Window.Current.Bounds.Width;
+        }
 
-            Window.Current.SizeChanged += SizeChanced_Event;
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            if (this.contentPopup != null && !this.contentPopup.IsOpen)
+            {
+                if (AuthorizePopup_MainContentGrid.Visibility == Visibility.Collapsed && AuthorizePopup_AuthorizeGrid.Visibility == Visibility.Visible)
+                {
+                    AuthorizePopup_MainContentGrid.Visibility = Visibility.Visible;
+                    AuthorizePopup_AuthorizeGrid.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    authorizeCompleted = true;
+                }
+
+                e.Handled = true;
+            }
         }
 
         private void SizeChanced_Event(object sender, WindowSizeChangedEventArgs e)
@@ -147,6 +164,9 @@ namespace Flantter.MilkyWay.Views.Contents
         private bool authorizeCompleted = false;
         public async Task<Account> ShowAsync()
         {
+            Window.Current.SizeChanged += SizeChanced_Event;
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+
             accountInfo = null;
             authorizeCompleted = false;
             contentPopup.IsOpen = true;
@@ -156,6 +176,9 @@ namespace Flantter.MilkyWay.Views.Contents
                     new Task(() => { }).Wait(200);
             });
             contentPopup.IsOpen = false;
+
+            Window.Current.SizeChanged -= SizeChanced_Event;
+            HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
 
             if (accountInfo != null)
                 await new MessageDialog(resourceLoader.GetString("AuthorizePopup_AuthorizeCompleted")).ShowAsync();

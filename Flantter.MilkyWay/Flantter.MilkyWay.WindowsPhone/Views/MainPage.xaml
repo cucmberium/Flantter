@@ -14,9 +14,9 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="54"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <contents:BottomBar Grid.Row="1"/>
+
+        <contents:BottomBar Grid.Row="1" Height="54"/>
     </Grid>
 </prism:VisualStateAwarePage>

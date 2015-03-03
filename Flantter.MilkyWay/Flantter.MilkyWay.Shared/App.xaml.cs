@@ -29,6 +29,12 @@ namespace Flantter.MilkyWay
         public App()
         {
             this.InitializeComponent();
+
+            this.UnhandledException += App_UnhandledException;
+        }
+
+        void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
         }
 
         protected async override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)

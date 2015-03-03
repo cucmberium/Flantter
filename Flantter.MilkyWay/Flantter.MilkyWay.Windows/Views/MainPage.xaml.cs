@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -33,6 +34,25 @@ namespace Flantter.MilkyWay.Views
             base.OnNavigatedTo(e);
             this.Frame.BackStack.Clear();
             this.Frame.ForwardStack.Clear();
+
+            Window.Current.SizeChanged += Window_SizeChanged;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            Window.Current.SizeChanged -= Window_SizeChanged;
+        }
+
+        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            if (e.Size.Width < 384)
+                VisualStateManager.GoToState(this, "Under384px", true);
+            else if (e.Size.Width < 500)
+                VisualStateManager.GoToState(this, "Under500px", true);
+            else
+                VisualStateManager.GoToState(this, "Default", true);
         }
     }
 }

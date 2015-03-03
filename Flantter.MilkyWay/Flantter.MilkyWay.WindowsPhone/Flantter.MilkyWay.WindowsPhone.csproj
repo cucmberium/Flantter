@@ -89,6 +89,7 @@
     <Compile Include="Views\Contents\BottomBar.xaml.cs">
       <DependentUpon>BottomBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\BindableMenuFlyout.cs" />
     <Compile Include="Views\InitializePage.xaml.cs">
       <DependentUpon>InitializePage.xaml</DependentUpon>
     </Compile>
@@ -161,7 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
-    <Folder Include="Views\Controls\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">

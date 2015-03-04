@@ -8,6 +8,7 @@
     <mvvm:MvvmAppBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Themes/Skins/Default.xaml" />
                 <ResourceDictionary Source="ms-appx:///Themes/Style/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

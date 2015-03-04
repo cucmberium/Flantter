@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Themes;
 
 namespace Flantter.MilkyWay.Setting
 {
@@ -93,7 +94,7 @@ namespace Flantter.MilkyWay.Setting
         public SettingSupport.TileNotificationEnum TileNotification { get { return (SettingSupport.TileNotificationEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
 
         // 表示設定
-        public SettingSupport.ThemeEnum Theme { get { return (SettingSupport.ThemeEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
+        public string Theme { get { return GetValue("Light"); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
         public double FontSize { get { return GetValue(12.0); } set { SetValue(value); OnPropertyChanged(); } }
         public double TweetBrushAlpha { get { return GetValue(20.0); } set { SetValue(value); OnPropertyChanged(); } }
         public double TweetFieldBrushAlpha { get { return GetValue(255.0); } set { SetValue(value); OnPropertyChanged(); } }
@@ -147,9 +148,9 @@ namespace Flantter.MilkyWay.Setting
         public string CustomFontName { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); /*FontService.Font.ChangeFont();*/ } }
 
         [LocalValue]
-        public bool UseCustomTheme { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); /*ThemeService.Theme.ChangeTheme();*/ } }
+        public bool UseCustomTheme { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
         [LocalValue]
-        public string CustomThemePath { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); /*ThemeService.Theme.ChangeTheme();*/ } }
+        public string CustomThemePath { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
 
         // その他
         public bool FixedTypo { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }

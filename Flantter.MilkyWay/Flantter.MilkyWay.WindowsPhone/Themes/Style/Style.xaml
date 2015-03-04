@@ -31,6 +31,8 @@
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="Width" Value="41"/>
         <Setter Property="Height" Value="41"/>
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="MinHeight" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -113,6 +115,8 @@
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="Width" Value="30"/>
         <Setter Property="Height" Value="30"/>
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="MinHeight" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">

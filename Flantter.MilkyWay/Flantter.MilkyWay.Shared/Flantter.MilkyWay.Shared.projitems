@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\TwitterConsumerKeyPatterns.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Setting\AdvancedSettingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Setting\SettingService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Themes\ThemeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

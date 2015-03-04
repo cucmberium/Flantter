@@ -11,7 +11,8 @@
     d:DesignWidth="720">
 
     <UserControl.Resources>
-        <ControlTemplate x:Name="TextblockButtonPressedAnimTemplete" TargetType="ButtonBase">
+        
+        <ControlTemplate x:Key="TextblockButtonPressedAnimTemplete" TargetType="ButtonBase">
             <Grid Background="Transparent">
                 <ContentPresenter x:Name="Text" Content="{TemplateBinding Content}" />
                 <Rectangle
@@ -88,7 +89,7 @@
             </Grid>
         </ControlTemplate>
 
-        <ControlTemplate x:Name="ButtonPressedAnimTemplete" TargetType="Button">
+        <ControlTemplate x:Key="ButtonPressedAnimTemplete" TargetType="Button">
             <Grid>
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup x:Name="CommonStates">
@@ -154,7 +155,7 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                Margin="3">
+                                Margin="0">
                     <ContentPresenter x:Name="ContentPresenter"
                                               Content="{TemplateBinding Content}"
                                               ContentTransitions="{TemplateBinding ContentTransitions}"
@@ -180,9 +181,150 @@
                                    StrokeDashOffset="0.5" />
             </Grid>
         </ControlTemplate>
+
+        <Style x:Key="BottomBarAppButtonStyle"  TargetType="AppBarButton">
+            <Setter Property="Foreground" Value="{StaticResource Windows_BottomBarAppBarButtonItemForegroundThemeBrush}"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="AppBarButton">
+                        <Grid x:Name="RootGrid" Width="100" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ApplicationViewStates">
+                                    <!-- FullSize is used when we are in landscape or filled mode -->
+                                    <VisualState x:Name="FullSize"/>
+                                    <!-- Compact is used when we are in portrait or snapped mode -->
+                                    <VisualState x:Name="Compact">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="60"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundEllipse" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemPointerOverBackgroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemPointerOverForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OutlineEllipse" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundEllipse" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemPressedForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OutlineEllipse" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <DoubleAnimation
+                            Storyboard.TargetName="FocusVisualWhite"
+                            Storyboard.TargetProperty="Opacity"
+                            To="1"
+                            Duration="0"/>
+                                            <DoubleAnimation
+                            Storyboard.TargetName="FocusVisualBlack"
+                            Storyboard.TargetProperty="Opacity"
+                            To="1"
+                            Duration="0"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unfocused" />
+                                    <VisualState x:Name="PointerFocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <StackPanel VerticalAlignment="Top" Margin="0,14,0,13">
+                                <Grid Width="40" Height="40" Margin="0,0,0,5" HorizontalAlignment="Center">
+                                    <Ellipse
+                    x:Name="BackgroundEllipse"
+                    UseLayoutRounding="False"
+                    Width="40"
+                    Height="40"
+                    Fill="{StaticResource Windows_BottomBarAppBarButtonItemBackgroundThemeBrush}"/>
+                                    <Ellipse
+                    x:Name="OutlineEllipse"
+                    UseLayoutRounding="False"
+                    Width="40"
+                    Height="40"
+                    Stroke="{StaticResource Windows_BottomBarAppBarButtonItemForegroundThemeBrush}"
+                    StrokeThickness="2" />
+                                    <ContentPresenter
+                    x:Name="Content"
+                    Content="{TemplateBinding Icon}"
+                    Foreground="{TemplateBinding Foreground}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    AutomationProperties.AccessibilityView="Raw"/>
+                                </Grid>
+                                <TextBlock
+                  x:Name="TextLabel"
+                  Text="{TemplateBinding Label}"
+                  Foreground="{StaticResource Windows_BottomBarAppBarButtonItemForegroundThemeBrush}"
+                  FontSize="12"
+                  FontFamily="{TemplateBinding FontFamily}"
+                  TextAlignment="Center"
+                  Width="88"
+                  TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <Rectangle
+                x:Name="FocusVisualWhite"
+                IsHitTestVisible="False"
+                Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}"
+                StrokeEndLineCap="Square"
+                StrokeDashArray="1,1"
+                Opacity="0"
+                StrokeDashOffset="1.5"/>
+                            <Rectangle
+                x:Name="FocusVisualBlack"
+                IsHitTestVisible="False"
+                Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}"
+                StrokeEndLineCap="Square"
+                StrokeDashArray="1,1"
+                Opacity="0"
+                StrokeDashOffset="0.5"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </UserControl.Resources>
     
-    <Grid x:Name="BottomBar_RootGrid" Background="#FF222233">
+    <Grid x:Name="BottomBar_RootGrid" Background="{StaticResource Windows_BottomBarBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -198,6 +340,14 @@
 
         <Button x:Name="BottomBar_ProfileImageButton" Grid.Column="0" Width="75" Height="75" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <Image Source="https://pbs.twimg.com/profile_images/3077279905/11e31fda9b6648ea0a362820ed4d7d0f.png" x:Name="BottomBar_ProfileImage"/>
+            <Button.Flyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem x:Uid="BottomBar_ProfileImageButton_Flyout_AccountChange" Text="&#xE125; アカウント切り替え" FontFamily="Segoe UI Symbol"/>
+                    <MenuFlyoutItem x:Uid="BottomBar_ProfileImageButton_Flyout_Menu" Text="&#xE14C; メニュー" FontFamily="Segoe UI Symbol"/>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem x:Uid="BottomBar_ProfileImageButton_Flyout_MyProfile" Text="&#xE181; 自分のプロフィール" FontFamily="Segoe UI Symbol"/>
+                </MenuFlyout>
+            </Button.Flyout>
         </Button>
 
         <Grid x:Name="BottomBar_ButtonSelecter" Grid.Column="1" Visibility="Collapsed">
@@ -266,12 +416,12 @@
             <Button x:Name="BottomBar_DirectMessagesTextButton" Grid.Column="3" Style="{StaticResource TextBlockButtonStyle}" Template="{StaticResource TextblockButtonPressedAnimTemplete}" Tapped="BottomBar_DirectMessagesButton_Tapped" BorderThickness="0" Content="DirectMessages" FontSize="24" Margin="12,0"/>
             <Button x:Name="BottomBar_OthersTextButton" Grid.Column="4" Style="{StaticResource TextBlockButtonStyle}" Template="{StaticResource TextblockButtonPressedAnimTemplete}" BorderThickness="0" Content="Others" FontSize="24" Margin="12,0">
                 <Button.Flyout>
-                    <controls:BindableMenuFlyout x:Name="BottomBar_OthersTextButton_Flyout"/>
+                    <controls:BindableMenuFlyout x:Name="BottomBar_OthersTextButton_Flyout" Source="{Binding Items}"/><!-- Todo -->
                 </Button.Flyout>
             </Button>
         </Grid>
 
-        <AppBarButton x:Name="BottomBar_TweetButton" Grid.Column="2" Width="100" IsCompact="False" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,-5" Label="Tweet">
+        <AppBarButton x:Name="BottomBar_TweetButton" Grid.Column="2" Style="{StaticResource BottomBarAppButtonStyle}" Width="100" IsCompact="False" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,-5" Label="Tweet">
             <AppBarButton.Icon>
                 <PathIcon Data="M20.3599987030029,17.0200004577637L20.2982959747314,15.3165817260742 20.7248592376709,13.8618698120117 21.6109313964844,12.6718635559082 22.9277572631836,11.7625598907471 24.349178314209,11.3314666748047 25.7337284088135,11.3477125167847 27.0583534240723,11.8207426071167 28.2999992370605,12.7600002288818 31.2799987792969,11.6399993896484 30.5911140441895,13.0404796600342 29.2799987792969,14.1999998092651 31.9199981689453,13.5 29.5999984741211,15.8999996185303 29.3917999267578,18.8514404296875 28.6413745880127,21.4481601715088 27.5722007751465,23.5763988494873 25.5548362731934,26.1680793762207 23.3233985900879,27.9143581390381 20.9852809906006,29.036039352417 17.6354751586914,29.7396450042725 14.4869346618652,29.6789989471436 11.6279172897339,28.9678649902344 9.14667892456055,27.7199993133545 12.7489204406738,27.4371242523193 14.4411554336548,26.7908344268799 16.0533199310303,25.7733192443848 13.3364295959473,24.83811378479 11.7066783905029,22.5200004577637 13.7333202362061,22.4133186340332 12.1511697769165,21.7406959533691 11.0099296569824,20.7355556488037 10.3170547485352,19.4226360321045 10.0799999237061,17.8266792297363 12.1066799163818,18.3600006103516 10.8615303039551,17.0618438720703 10.2149152755737,15.5937051773071 10.1675119400024,13.9553833007813 10.7199993133545,12.1466808319092 12.8063335418701,14.1511659622192 15.1005001068115,15.6508445739746 17.6144161224365,16.616771697998 20.3599987030029,17.0200004577637z">
                     <PathIcon.RenderTransform>

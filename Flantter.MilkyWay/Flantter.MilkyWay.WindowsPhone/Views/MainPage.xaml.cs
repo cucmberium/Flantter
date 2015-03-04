@@ -34,5 +34,10 @@ namespace Flantter.MilkyWay.Views
             this.Frame.BackStack.Clear();
             this.Frame.ForwardStack.Clear();
         }
+
+        private void Button_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Setting.SettingService.Setting.Theme = "Light";
+        }
     }
 }

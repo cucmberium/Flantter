@@ -135,4 +135,13 @@
   <data name="AuthorizePopup_PincodeIsEmpty" xml:space="preserve">
     <value>Pincodeが空になっています。</value>
   </data>
+  <data name="BottomBar_ProfileImageButton_Flyout_AccountChange.Text" xml:space="preserve">
+    <value>    アカウント変更</value>
+  </data>
+  <data name="BottomBar_ProfileImageButton_Flyout_Menu.Text" xml:space="preserve">
+    <value>    メニュー</value>
+  </data>
+  <data name="BottomBar_ProfileImageButton_Flyout_MyProfile.Text" xml:space="preserve">
+    <value>    自分のプロフィール</value>
+  </data>
 </root>

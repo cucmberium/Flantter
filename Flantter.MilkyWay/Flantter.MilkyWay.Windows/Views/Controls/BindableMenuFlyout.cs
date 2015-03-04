@@ -45,7 +45,7 @@ namespace Flantter.MilkyWay.Views.Controls
                 foreach (var item in collection)
                 {
                     var menuFlyoutItem = new MenuFlyoutItem() { Text = item, Tag = bindableMenuFlyout };
-                    menuFlyoutItem.Tapped += MenuFlyoutItem_Tapped;
+                    menuFlyoutItem.Click += MenuFlyoutItem_Click;
                     bindableMenuFlyout.Items.Add(menuFlyoutItem);
                 }
             }
@@ -64,7 +64,7 @@ namespace Flantter.MilkyWay.Views.Controls
                 foreach (var item in collection)
                 {
                     var menuFlyoutItem = new MenuFlyoutItem() { Text = item, Tag = bindableMenuFlyout };
-                    menuFlyoutItem.Tapped += MenuFlyoutItem_Tapped;
+                    menuFlyoutItem.Click += MenuFlyoutItem_Click;
                     bindableMenuFlyout.Items.Add(menuFlyoutItem);
                 }
                     
@@ -80,7 +80,7 @@ namespace Flantter.MilkyWay.Views.Controls
 
         }
 
-        private static void MenuFlyoutItem_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private static void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             var menuFlyoutItem = sender as MenuFlyoutItem;
             var bindableMenuFlyout = menuFlyoutItem.Tag as BindableMenuFlyout;

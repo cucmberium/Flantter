@@ -11,6 +11,7 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
+        
         <ControlTemplate x:Key="ButtonControlTemplateNoPadding" TargetType="Button">
             <Grid x:Name="Grid" Background="Transparent">
                 <VisualStateManager.VisualStateGroups>
@@ -65,9 +66,81 @@
             </Grid>
         </ControlTemplate>
 
+        <Style x:Key="BottomBarAppButtonStyle" TargetType="AppBarButton">
+            <Setter Property="Foreground" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush}" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="AppBarButton">
+                        <StackPanel x:Name="LayoutRoot" Width="80" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ApplicationViewStates">
+                                    <!-- FullSize is used when we are in landscape or filled mode -->
+                                    <VisualState x:Name="FullSize" />
+                                    <!-- Compact is used when we are in portrait or snapped mode -->
+                                    <VisualState x:Name="Compact">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="48" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemPressedForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid Width="38.5" Height="38.5" Margin="0,12,0,4" HorizontalAlignment="Center">
+                                <Ellipse x:Name="Ellipse" UseLayoutRounding="False" Width="38.5" Height="38.5" Fill="{StaticResource WindowsPhone_BottomBarAppBarButtonItemBackgroundThemeBrush}"
+                       Stroke="{StaticResource WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush}" StrokeThickness="2.5" />
+                                <Grid x:Name="ContentRoot" Background="Transparent">
+                                    <ContentPresenter x:Name="Content" Content="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch" AutomationProperties.AccessibilityView="Raw" />
+                                </Grid>
+                            </Grid>
+                            <TextBlock x:Name="TextLabel" Text="{TemplateBinding Label}" Foreground="{StaticResource WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush}" FontSize="9.5"
+                       FontFamily="{TemplateBinding FontFamily}" TextAlignment="Center" Width="70.5" TextWrapping="Wrap" Margin="0,0,0,10.5" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </UserControl.Resources>
     
-    <Grid x:Name="BottomBar_RootGrid" Background="#FF222233">
+    <Grid x:Name="BottomBar_RootGrid" Background="{StaticResource WindowsPhone_BottomBarBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -86,21 +159,21 @@
                 <ColumnDefinition Width="0.25*" MinWidth="54"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="BottomBar_HomeButton" Grid.Column="0" Template="{StaticResource ButtonControlTemplateNoPadding}" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Button x:Name="BottomBar_HomeButton" Grid.Column="0" Template="{StaticResource ButtonControlTemplateNoPadding}" Tapped="BottomBar_HomeButton_Tapped" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <SymbolIcon x:Name="BottomBar_HomeIcon" Symbol="Home" RenderTransformOrigin="0.5,0.5">
                     <SymbolIcon.RenderTransform>
                         <CompositeTransform ScaleX="1.5" ScaleY="1.5"/>
                     </SymbolIcon.RenderTransform>
                 </SymbolIcon>
             </Button>
-            <Button x:Name="BottomBar_MentionsButton" Grid.Column="1" Template="{StaticResource ButtonControlTemplateNoPadding}" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Button x:Name="BottomBar_MentionsButton" Grid.Column="1" Template="{StaticResource ButtonControlTemplateNoPadding}" Tapped="BottomBar_MentionsButton_Tapped" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <FontIcon x:Name="BottomBar_MentionsIcon" FontFamily="Segoe UI Symbol" Glyph="@" RenderTransformOrigin="0.5,0.5">
                     <FontIcon.RenderTransform>
                         <CompositeTransform ScaleX="1.6" ScaleY="1.6" TranslateY="-3"/>
                     </FontIcon.RenderTransform>
                 </FontIcon>
             </Button>
-            <Button x:Name="BottomBar_DirectMessagesButton" Grid.Column="2" Template="{StaticResource ButtonControlTemplateNoPadding}" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Button x:Name="BottomBar_DirectMessagesButton" Grid.Column="2" Template="{StaticResource ButtonControlTemplateNoPadding}" Tapped="BottomBar_DirectMessagesButton_Tapped" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <SymbolIcon x:Name="BottomBar_DirectMessagesIcon" Symbol="Mail" RenderTransformOrigin="0.5,0.5">
                     <SymbolIcon.RenderTransform>
                         <CompositeTransform ScaleX="1.5" ScaleY="1.5"/>
@@ -115,12 +188,12 @@
                 </SymbolIcon>
 
                 <Button.Flyout>
-                    <controls:BindableMenuFlyout x:Name="BottomBar_OthersButton_Flyout"/>
+                    <controls:BindableMenuFlyout x:Name="BottomBar_OthersButton_Flyout" Source="{Binding Items}" /><!-- Todo -->
                 </Button.Flyout>
             </Button>
         </Grid>
 
-        <AppBarButton x:Name="BottomBar_TweetButton" Grid.Column="2" Width="64" IsCompact="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,-5">
+        <AppBarButton x:Name="BottomBar_TweetButton" Grid.Column="2" Style="{StaticResource BottomBarAppButtonStyle}" Width="64" IsCompact="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,-5">
             <AppBarButton.Icon>
                 <PathIcon Data="M20.3599987030029,17.0200004577637L20.2982959747314,15.3165817260742 20.7248592376709,13.8618698120117 21.6109313964844,12.6718635559082 22.9277572631836,11.7625598907471 24.349178314209,11.3314666748047 25.7337284088135,11.3477125167847 27.0583534240723,11.8207426071167 28.2999992370605,12.7600002288818 31.2799987792969,11.6399993896484 30.5911140441895,13.0404796600342 29.2799987792969,14.1999998092651 31.9199981689453,13.5 29.5999984741211,15.8999996185303 29.3917999267578,18.8514404296875 28.6413745880127,21.4481601715088 27.5722007751465,23.5763988494873 25.5548362731934,26.1680793762207 23.3233985900879,27.9143581390381 20.9852809906006,29.036039352417 17.6354751586914,29.7396450042725 14.4869346618652,29.6789989471436 11.6279172897339,28.9678649902344 9.14667892456055,27.7199993133545 12.7489204406738,27.4371242523193 14.4411554336548,26.7908344268799 16.0533199310303,25.7733192443848 13.3364295959473,24.83811378479 11.7066783905029,22.5200004577637 13.7333202362061,22.4133186340332 12.1511697769165,21.7406959533691 11.0099296569824,20.7355556488037 10.3170547485352,19.4226360321045 10.0799999237061,17.8266792297363 12.1066799163818,18.3600006103516 10.8615303039551,17.0618438720703 10.2149152755737,15.5937051773071 10.1675119400024,13.9553833007813 10.7199993133545,12.1466808319092 12.8063335418701,14.1511659622192 15.1005001068115,15.6508445739746 17.6144161224365,16.616771697998 20.3599987030029,17.0200004577637z">
                     <PathIcon.RenderTransform>

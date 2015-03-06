@@ -137,8 +137,18 @@
     <Reference Include="Microsoft.Practices.Prism.StoreApps.Phone">
       <HintPath>..\..\packages\Prism.StoreApps.2.0.0\lib\wpa81\Microsoft.Practices.Prism.StoreApps.Phone.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1-beta1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveProperty">
+      <HintPath>..\..\packages\ReactiveProperty.2.1.0\lib\wpa81\ReactiveProperty.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveProperty.DataAnnotations">
+      <HintPath>..\..\packages\ReactiveProperty.2.1.0\lib\wpa81\ReactiveProperty.DataAnnotations.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveProperty.WPA81">
+      <HintPath>..\..\packages\ReactiveProperty.2.1.0\lib\wpa81\ReactiveProperty.WPA81.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Core">
       <HintPath>..\..\packages\Rx-Core.2.2.5\lib\portable-win81+wpa81\System.Reactive.Core.dll</HintPath>
@@ -160,9 +170,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>

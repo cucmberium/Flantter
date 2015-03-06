@@ -6,10 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="75"
     d:DesignWidth="720">
 
+    <d:UserControls.DataContext>
+        <viewModels:AccountViewModels/>
+    </d:UserControls.DataContext>
+    
     <UserControl.Resources>
         
         <ControlTemplate x:Key="TextblockButtonPressedAnimTemplete" TargetType="ButtonBase">
@@ -339,7 +344,7 @@
         </Grid.Transitions>
 
         <Button x:Name="BottomBar_ProfileImageButton" Grid.Column="0" Width="75" Height="75" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-            <Image Source="https://pbs.twimg.com/profile_images/3077279905/11e31fda9b6648ea0a362820ed4d7d0f.png" x:Name="BottomBar_ProfileImage"/>
+            <Image Source="{Binding ProfileImageUrl.Value}" x:Name="BottomBar_ProfileImage"/>
             <Button.Flyout>
                 <MenuFlyout>
                     <MenuFlyoutItem x:Uid="BottomBar_ProfileImageButton_Flyout_AccountChange" Text="&#xE125; アカウント切り替え" FontFamily="Segoe UI Symbol"/>

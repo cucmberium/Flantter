@@ -8,15 +8,40 @@
     xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 
-    <Grid Background="{StaticResource WindowsPhone_PageBackgroundBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <d:VisualStateAwarePage.DataContext>
+        <viewModels:MainPageViewModel/>
+    </d:VisualStateAwarePage.DataContext>
 
-        <contents:BottomBar Grid.Row="1" Height="54"/>
+    <Grid x:Name="Flantter_MainContents" Background="{StaticResource WindowsPhone_PageBackgroundBrush}">
+        <ItemsControl ItemsSource="{Binding Account}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <contents:BottomBar x:Name="Flantter_BottomBar" Grid.Row="1" Height="54"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
     </Grid>
+    
 </prism:VisualStateAwarePage>

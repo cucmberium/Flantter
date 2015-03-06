@@ -6,10 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="54"
     d:DesignWidth="400">
 
+    <d:UserControls.DataContext>
+        <viewModels:AccountViewModels/>
+    </d:UserControls.DataContext>
+    
     <UserControl.Resources>
         
         <ControlTemplate x:Key="ButtonControlTemplateNoPadding" TargetType="Button">
@@ -148,7 +153,7 @@
         </Grid.ColumnDefinitions>
 
         <Button Template="{StaticResource ButtonControlTemplateNoPadding}" Grid.Column="0" x:Name="BottomBar_ProfileImageButton" Width="54" Height="54" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-            <Image Source="https://pbs.twimg.com/profile_images/3077279905/11e31fda9b6648ea0a362820ed4d7d0f.png" x:Name="BottomBar_ProfileImage"/>
+            <Image Source="{Binding ProfileImageUrl.Value}" x:Name="BottomBar_ProfileImage"/>
         </Button>
 
         <Grid Grid.Column="1" Margin="25,0">

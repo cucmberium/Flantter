@@ -26,12 +26,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ThemeServiceBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\TweetRegexPatterns.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\TwitterConsumerKeyPatterns.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AccountModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MainPageModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Setting\AdvancedSettingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Setting\SettingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Themes\ThemeService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AccountViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)String\en-US\Resources.resw" />

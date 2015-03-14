@@ -30,12 +30,14 @@ namespace Flantter.MilkyWay.Setting
 
         public string ProfileImageUrl { get; set; }
         public string ProfileBannerUrl { get; set; }
+
+        public bool IsEnabled { get; set; }
     }
 
     public class ColumnSetting
     {
         public string Name { get; set; }
-        public SettingSupport.TweetListTypeEnum Action { get; set; }
+        public SettingSupport.ColumnTypeEnum Action { get; set; }
         public string Parameter { get; set; }
         public string Filter { get; set; }
 
@@ -44,6 +46,8 @@ namespace Flantter.MilkyWay.Setting
         public double AutoRefreshTimerInterval { get; set; }
         public bool Stream { get; set; }
         public int Index { get; set; }
+
+        public int FetchingNumberOfTweet { get; set; }
     }
 
     public class AdvancedSettingService : AdvancedSettingServiceBase<AdvancedSettingService>
@@ -71,7 +75,6 @@ namespace Flantter.MilkyWay.Setting
 
         // アカウント,カラム設定
         public ObservableCollection<AccountSetting> Account { get { return GetValue((ObservableCollection<AccountSetting>)null); } set { SetValue(value); OnPropertyChanged(); } }
-        public long EnableAccountUserId { get { return GetValue((long)0); } set { SetValue(value); OnPropertyChanged(); } }
         
         // ミュート設定
         public ObservableCollection<string> MuteUsers { get { return GetValue((ObservableCollection<string>)null); } set { SetValue(value); OnPropertyChanged(); } }

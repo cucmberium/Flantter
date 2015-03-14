@@ -21,21 +21,40 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ExtendedObservableCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\FontServiceBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\GetMethodHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\SetterValueBindingHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SettingServiceBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ThemeServiceBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\TweetRegexPatterns.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\TwitterConsumerKeyPatterns.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AccountModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ColumnModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MainPageModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Setting\AdvancedSettingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Setting\SettingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Themes\ThemeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ColumnViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AccountViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Util\WindowSizeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)String\en-US\Resources.resw" />
     <PRIResource Include="$(MSBuildThisFileDirectory)String\ja-JP\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Skins\Dark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Skins\Default.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Skins\Light.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

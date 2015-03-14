@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:local="using:Flantter.MilkyWay"
+    xmlns:converters="using:Flantter.MilkyWay.Views.Converters"
     RequestedTheme="Dark">
     <mvvm:MvvmAppBase.Resources>
         <ResourceDictionary>
@@ -11,6 +12,8 @@
                 <ResourceDictionary Source="ms-appx:///Themes/Skins/Default.xaml" />
                 <ResourceDictionary Source="ms-appx:///Themes/Style/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </mvvm:MvvmAppBase.Resources>
 </mvvm:MvvmAppBase>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Flantter.MilkyWay.Setting;
+using Microsoft.Practices.Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,30 +9,33 @@ namespace Flantter.MilkyWay.Models
 {
     public class MainPageModel : BindableBase
     {
-        #region Account
-        private ObservableCollection<AccountModel> _Account;
-        private ReadOnlyObservableCollection<AccountModel> _ReadOnlyAccount;
-        public ReadOnlyObservableCollection<AccountModel> ReadOnlyAccount
+        #region Accounts
+        private ObservableCollection<AccountModel> _Accounts;
+        private ReadOnlyObservableCollection<AccountModel> _ReadOnlyAccounts;
+        public ReadOnlyObservableCollection<AccountModel> ReadOnlyAccounts
         {
             get
             {
-                return _ReadOnlyAccount;
+                return _ReadOnlyAccounts;
             }
         }
         #endregion
 
         #region Initialize
-        public async void Initialize()
+        public void Initialize()
         {
-            this._Account.Add(new AccountModel());
+            foreach (var account in AdvancedSettingService.AdvancedSetting.Account)
+            {
+                this._Accounts.Add(new AccountModel(account));
+            }
         }
         #endregion
 
         #region Constructor
         private MainPageModel()
         {
-            this._Account = new ObservableCollection<AccountModel>();
-            this._ReadOnlyAccount = new ReadOnlyObservableCollection<AccountModel>(this._Account);
+            this._Accounts = new ObservableCollection<AccountModel>();
+            this._ReadOnlyAccounts = new ReadOnlyObservableCollection<AccountModel>(this._Accounts);
         }
         #endregion
 

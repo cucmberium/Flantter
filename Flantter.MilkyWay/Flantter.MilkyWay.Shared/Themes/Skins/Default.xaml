@@ -1,0 +1,32 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Flantter.MilkyWay.Themes">
+
+    <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FF202020" />
+    
+    <SolidColorBrush x:Key="BottomBarBackgroundBrush" Color="#FF222233" />
+    <SolidColorBrush x:Key="BottomBarTextblockButtonSelectedBrush" Color="White" />
+    <SolidColorBrush x:Key="BottomBarTextblockButtonUnselectedBrush" Color="Gray" />
+    <SolidColorBrush x:Key="BottomBarButtonSelectedBackgroundBrush" Color="#FF202020" />
+    <SolidColorBrush x:Key="BottomBarButtonSelectedForegroundBrush" Color="Black" />
+    <SolidColorBrush x:Key="BottomBarButtonUnselectedBackgroundBrush" Color="#FF222233" />
+    <SolidColorBrush x:Key="BottomBarButtonUnselectedForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="BottomBarAppBarButtonItemBackgroundThemeBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="BottomBarAppBarButtonItemDisabledForegroundThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="BottomBarAppBarButtonItemForegroundThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="BottomBarAppBarButtonItemPointerOverBackgroundThemeBrush" Color="#21FFFFFF" />
+    <SolidColorBrush x:Key="BottomBarAppBarButtonItemPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="BottomBarAppBarButtonItemPressedForegroundThemeBrush" Color="#FF000000" />
+
+    <SolidColorBrush x:Key="ColumnViewBackgroundBrush" Color="#FF121212" />
+
+    <SolidColorBrush x:Key="ColumnViewControlBarSelectedForegroundBrush" Color="#7F808080" />
+    <SolidColorBrush x:Key="ColumnViewControlBarUnselectedForegroundBrush" Color="#54808080" />
+    <SolidColorBrush x:Key="ColumnViewControlBarSymbolIconForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="ColumnViewControlBarDisabledSymbolIconForegroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="ColumnViewControlBarTextblockForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="ColumnViewControlBarUnreadCountGridBackgroundBrush" Color="Tomato" />
+    <SolidColorBrush x:Key="ColumnViewControlBarUnreadCountTextblockForegroundBrush" Color="White" />
+    
+</ResourceDictionary>

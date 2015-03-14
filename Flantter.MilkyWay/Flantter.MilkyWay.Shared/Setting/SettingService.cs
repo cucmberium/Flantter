@@ -64,7 +64,7 @@ namespace Flantter.MilkyWay.Setting
             Dark = 1,
         }
 
-        public enum TweetListTypeEnum
+        public enum ColumnTypeEnum
         {
             Home = 0,
             Mentions = 1,

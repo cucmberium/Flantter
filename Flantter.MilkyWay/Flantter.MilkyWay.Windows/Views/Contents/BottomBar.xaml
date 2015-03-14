@@ -188,7 +188,7 @@
         </ControlTemplate>
 
         <Style x:Key="BottomBarAppButtonStyle"  TargetType="AppBarButton">
-            <Setter Property="Foreground" Value="{StaticResource Windows_BottomBarAppBarButtonItemForegroundThemeBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -218,36 +218,36 @@
                                     <VisualState x:Name="PointerOver">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundEllipse" Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemPointerOverBackgroundThemeBrush}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemPointerOverBackgroundThemeBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemPointerOverForegroundThemeBrush}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemPointerOverForegroundThemeBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OutlineEllipse" Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemForegroundThemeBrush}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundEllipse" Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemForegroundThemeBrush}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemPressedForegroundThemeBrush}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemPressedForegroundThemeBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OutlineEllipse" Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemDisabledForegroundThemeBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemDisabledForegroundThemeBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource Windows_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemDisabledForegroundThemeBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -279,13 +279,13 @@
                     UseLayoutRounding="False"
                     Width="40"
                     Height="40"
-                    Fill="{StaticResource Windows_BottomBarAppBarButtonItemBackgroundThemeBrush}"/>
+                    Fill="{StaticResource BottomBarAppBarButtonItemBackgroundThemeBrush}"/>
                                     <Ellipse
                     x:Name="OutlineEllipse"
                     UseLayoutRounding="False"
                     Width="40"
                     Height="40"
-                    Stroke="{StaticResource Windows_BottomBarAppBarButtonItemForegroundThemeBrush}"
+                    Stroke="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}"
                     StrokeThickness="2" />
                                     <ContentPresenter
                     x:Name="Content"
@@ -298,7 +298,7 @@
                                 <TextBlock
                   x:Name="TextLabel"
                   Text="{TemplateBinding Label}"
-                  Foreground="{StaticResource Windows_BottomBarAppBarButtonItemForegroundThemeBrush}"
+                  Foreground="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}"
                   FontSize="12"
                   FontFamily="{TemplateBinding FontFamily}"
                   TextAlignment="Center"
@@ -329,7 +329,7 @@
 
     </UserControl.Resources>
     
-    <Grid x:Name="BottomBar_RootGrid" Background="{StaticResource Windows_BottomBarBackgroundBrush}">
+    <Grid x:Name="BottomBar_RootGrid" Background="{StaticResource BottomBarBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>

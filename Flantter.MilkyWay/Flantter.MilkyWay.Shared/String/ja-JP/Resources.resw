@@ -144,4 +144,13 @@
   <data name="BottomBar_ProfileImageButton_Flyout_MyProfile.Text" xml:space="preserve">
     <value>    自分のプロフィール</value>
   </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_ColumnSetting.Text" xml:space="preserve">
+    <value>    カラム設定</value>
+  </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn.Text" xml:space="preserve">
+    <value>    フィルタカラムを作成</value>
+  </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_Refresh.Text" xml:space="preserve">
+    <value>    更新</value>
+  </data>
 </root>

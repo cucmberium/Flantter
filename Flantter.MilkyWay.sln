@@ -18,6 +18,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{88C92A
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{CDABE6F1-E383-4132-84C0-2B93DDB4486C}"
+	ProjectSection(SolutionItems) = preProject
+		Memo.txt = Memo.txt
+		ReleaseNotes.txt = ReleaseNotes.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Flantter.MilkyWay\Flantter.MilkyWay.Shared\Flantter.MilkyWay.Shared.projitems*{75853050-bd54-4b36-9ec4-1ff2e8def258}*SharedItemsImports = 13

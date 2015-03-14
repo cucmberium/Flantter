@@ -144,4 +144,13 @@
   <data name="BottomBar_ProfileImageButton_Flyout_MyProfile.Text" xml:space="preserve">
     <value>    My Profile</value>
   </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_ColumnSetting.Text" xml:space="preserve">
+    <value>    Column Setting</value>
+  </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn.Text" xml:space="preserve">
+    <value>    Create FilterColumn</value>
+  </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_Refresh.Text" xml:space="preserve">
+    <value>    Refresh</value>
+  </data>
 </root>

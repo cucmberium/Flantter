@@ -1,0 +1,174 @@
+﻿<UserControl
+    x:Class="Flantter.MilkyWay.Views.Contents.MainArea"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
+    xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
+    xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="ExtendedListBox" TargetType="ListBox">
+            <Setter Property="Foreground" Value="{ThemeResource ListBoxForegroundThemeBrush}" />
+            <Setter Property="Background" Value="{ThemeResource ListBoxBackgroundThemeBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource ListBoxBorderThemeBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource ListBoxBorderThemeThickness}" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="TabNavigation" Value="Once" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border x:Name="LayoutRoot" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ListBoxDisabledForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ScrollViewer x:Name="ScrollViewer" VerticalSnapPointsType="MandatorySingle" HorizontalSnapPointsType="MandatorySingle" Padding="{TemplateBinding Padding}" TabNavigation="{TemplateBinding TabNavigation}"
+                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                          IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                          IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+                          IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                          BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                          AutomationProperties.AccessibilityView="Raw">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListBox x:Name="Flantter_ColumnView" Grid.Row="0" Style="{StaticResource ExtendedListBox}" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Columns}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <controls:ExtendedCanvas Width="{Binding PanelWidth.Value}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Background="{StaticResource ColumnViewBackgroundBrush}" Width="{Binding Width.Value}" Height="{Binding Height.Value}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1" Background="{StaticResource ColumnViewControlBarSelectedForegroundBrush}">
+                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="Home" HorizontalAlignment="Left"/>
+                            <TextBlock Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,120,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Run Text="{Binding Name.Value}"/>
+                                                <Run Text=" - "/>
+                                                <Run Text="@"/><Run Text="{Binding OwnerScreenName.Value}"/>
+                            </TextBlock>
+
+                            <Grid Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}" Visibility="Collapsed" HorizontalAlignment="Right" Width="40" Height="30" Margin="0">
+                                <Button Template="{StaticResource ButtonControlTemplateNoPadding}" MinWidth="0" MinHeight="0" Width="40" Height="30" Margin="0" Padding="0" BorderThickness="0">
+                                    <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="1" FontSize="14" FontWeight="Bold"/>
+                                </Button>
+                            </Grid>
+                            <Button Template="{StaticResource ButtonControlTemplateNoPadding}" MinWidth="0" MinHeight="0" ToolTipService.ToolTip="Menu" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="40" BorderThickness="0" BorderBrush="Transparent" Foreground="Transparent" Margin="0,0,40,0" Padding="0">
+                                <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Add"/>
+                                <Button.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol"/>
+                                        <MenuFlyoutSeparator/>
+                                        <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol"/>
+                                        <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                            </Button>
+                            <Button Template="{StaticResource ButtonControlTemplateNoPadding}" MinWidth="0" MinHeight="0" Command="{Binding TweetFieldTweetListBarStreamingButtonClickCommand}" ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0,0,80,0" Width="40" BorderBrush="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0">
+                                <SymbolIcon Symbol="Play" />
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="TabNavigation" Value="Local" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="common:SetterValueBindingHelper.PropertyBinding">
+                        <Setter.Value>
+                            <common:SetterValueBindingHelper>
+                                <common:SetterValueBindingHelper
+                                                     Type="Windows.UI.Xaml.Controls.Canvas, Windows.UI.Xaml, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime"
+                                                     Property="Left"
+                                                     Binding="{Binding Left.Value, Mode=OneWay}" />
+                            </common:SetterValueBindingHelper>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border x:Name="LayoutRoot"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter x:Name="ContentPresenter"
+                                                        Content="{TemplateBinding Content}"
+                                                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        Margin="0" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ListBox>
+
+        <contents:BottomBar x:Name="Flantter_BottomBar" Grid.Row="1" Height="54"/>
+    </Grid>
+</UserControl>

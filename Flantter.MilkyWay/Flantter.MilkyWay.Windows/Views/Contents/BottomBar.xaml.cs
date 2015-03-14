@@ -56,43 +56,43 @@ namespace Flantter.MilkyWay.Views.Contents
 
         public void BottomBar_SelectedIndexChanged()
         {
-            this.BottomBar_HomeButton.Background = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonUnselectedBackgroundBrush"]);
-            this.BottomBar_HomeIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonUnselectedForegroundBrush"]);
-            this.BottomBar_MentionsButton.Background = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonUnselectedBackgroundBrush"]);
-            this.BottomBar_MentionsIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonUnselectedForegroundBrush"]);
-            this.BottomBar_DirectMessagesButton.Background = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonUnselectedBackgroundBrush"]);
-            this.BottomBar_DirectMessagesIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonUnselectedForegroundBrush"]);
-            this.BottomBar_OthersButton.Background = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonUnselectedBackgroundBrush"]);
-            this.BottomBar_OthersIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonUnselectedForegroundBrush"]);
+            this.BottomBar_HomeButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
+            this.BottomBar_HomeIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
+            this.BottomBar_MentionsButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
+            this.BottomBar_MentionsIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
+            this.BottomBar_DirectMessagesButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
+            this.BottomBar_DirectMessagesIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
+            this.BottomBar_OthersButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
+            this.BottomBar_OthersIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
 
-            this.BottomBar_HomeTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarTextblockButtonUnselectedBrush"]);
-            this.BottomBar_MentionsTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarTextblockButtonUnselectedBrush"]);
-            this.BottomBar_DirectMessagesTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarTextblockButtonUnselectedBrush"]);
-            this.BottomBar_OthersTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarTextblockButtonUnselectedBrush"]);
+            this.BottomBar_HomeTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
+            this.BottomBar_MentionsTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
+            this.BottomBar_DirectMessagesTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
+            this.BottomBar_OthersTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
 
             if (this.SelectedIndex == 0)
             {
-                this.BottomBar_HomeButton.Background = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonSelectedBackgroundBrush"]);
-                this.BottomBar_HomeIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonSelectedForegroundBrush"]);
-                this.BottomBar_HomeTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarTextblockButtonSelectedBrush"]);
+                this.BottomBar_HomeButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
+                this.BottomBar_HomeIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
+                this.BottomBar_HomeTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
             }
             else if (this.SelectedIndex == 1)
             {
-                this.BottomBar_MentionsButton.Background = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonSelectedBackgroundBrush"]);
-                this.BottomBar_MentionsIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonSelectedForegroundBrush"]);
-                this.BottomBar_MentionsTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarTextblockButtonSelectedBrush"]);
+                this.BottomBar_MentionsButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
+                this.BottomBar_MentionsIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
+                this.BottomBar_MentionsTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
             }
             else if (this.SelectedIndex == 2)
             {
-                this.BottomBar_DirectMessagesButton.Background = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonSelectedBackgroundBrush"]);
-                this.BottomBar_DirectMessagesIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonSelectedForegroundBrush"]);
-                this.BottomBar_DirectMessagesTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarTextblockButtonSelectedBrush"]);
+                this.BottomBar_DirectMessagesButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
+                this.BottomBar_DirectMessagesIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
+                this.BottomBar_DirectMessagesTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
             }
             else
             {
-                this.BottomBar_OthersButton.Background = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonSelectedBackgroundBrush"]);
-                this.BottomBar_OthersIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonSelectedForegroundBrush"]);
-                this.BottomBar_OthersTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarTextblockButtonSelectedBrush"]);
+                this.BottomBar_OthersButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
+                this.BottomBar_OthersIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
+                this.BottomBar_OthersTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
             }
         }
 

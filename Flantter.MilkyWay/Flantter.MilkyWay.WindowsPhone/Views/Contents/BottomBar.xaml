@@ -17,62 +17,8 @@
     
     <UserControl.Resources>
         
-        <ControlTemplate x:Key="ButtonControlTemplateNoPadding" TargetType="Button">
-            <Grid x:Name="Grid" Background="Transparent">
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualStateGroup.Transitions>
-                            <VisualTransition From="Pressed" To="PointerOver">
-                                <Storyboard>
-                                    <PointerUpThemeAnimation Storyboard.TargetName="Grid" />
-                                </Storyboard>
-                            </VisualTransition>
-                            <VisualTransition From="PointerOver" To="Normal">
-                                <Storyboard>
-                                    <PointerUpThemeAnimation Storyboard.TargetName="Grid" />
-                                </Storyboard>
-                            </VisualTransition>
-                            <VisualTransition From="Pressed" To="Normal">
-                                <Storyboard>
-                                    <PointerUpThemeAnimation Storyboard.TargetName="Grid" />
-                                </Storyboard>
-                            </VisualTransition>
-                        </VisualStateGroup.Transitions>
-                        <VisualState x:Name="Normal" />
-                        <VisualState x:Name="PointerOver" />
-                        <VisualState x:Name="Pressed">
-                            <Storyboard>
-                                <PointerDownThemeAnimation Storyboard.TargetName="Grid" />
-                            </Storyboard>
-                        </VisualState>
-                        <VisualState x:Name="Disabled">
-                            <Storyboard>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledForegroundThemeBrush}" />
-                                </ObjectAnimationUsingKeyFrames>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="BorderBrush">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledBorderThemeBrush}" />
-                                </ObjectAnimationUsingKeyFrames>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledBackgroundThemeBrush}" />
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-                <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-            Background="{TemplateBinding Background}">
-                    <ContentPresenter x:Name="ContentPresenter" Foreground="{TemplateBinding Foreground}"
-                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}"
-                Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
-                AutomationProperties.AccessibilityView="Raw"/>
-                </Border>
-            </Grid>
-        </ControlTemplate>
-
         <Style x:Key="BottomBarAppButtonStyle" TargetType="AppBarButton">
-            <Setter Property="Foreground" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -102,40 +48,40 @@
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemPressedForegroundThemeBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemPressedForegroundThemeBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Stroke">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemDisabledForegroundThemeBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemDisabledForegroundThemeBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource WindowsPhone_BottomBarAppBarButtonItemDisabledForegroundThemeBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BottomBarAppBarButtonItemDisabledForegroundThemeBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                             <Grid Width="38.5" Height="38.5" Margin="0,12,0,4" HorizontalAlignment="Center">
-                                <Ellipse x:Name="Ellipse" UseLayoutRounding="False" Width="38.5" Height="38.5" Fill="{StaticResource WindowsPhone_BottomBarAppBarButtonItemBackgroundThemeBrush}"
-                       Stroke="{StaticResource WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush}" StrokeThickness="2.5" />
+                                <Ellipse x:Name="Ellipse" UseLayoutRounding="False" Width="38.5" Height="38.5" Fill="{StaticResource BottomBarAppBarButtonItemBackgroundThemeBrush}"
+                       Stroke="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}" StrokeThickness="2.5" />
                                 <Grid x:Name="ContentRoot" Background="Transparent">
                                     <ContentPresenter x:Name="Content" Content="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch" AutomationProperties.AccessibilityView="Raw" />
                                 </Grid>
                             </Grid>
-                            <TextBlock x:Name="TextLabel" Text="{TemplateBinding Label}" Foreground="{StaticResource WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush}" FontSize="9.5"
+                            <TextBlock x:Name="TextLabel" Text="{TemplateBinding Label}" Foreground="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}" FontSize="9.5"
                        FontFamily="{TemplateBinding FontFamily}" TextAlignment="Center" Width="70.5" TextWrapping="Wrap" Margin="0,0,0,10.5" />
                         </StackPanel>
                     </ControlTemplate>
@@ -145,7 +91,7 @@
 
     </UserControl.Resources>
     
-    <Grid x:Name="BottomBar_RootGrid" Background="{StaticResource WindowsPhone_BottomBarBackgroundBrush}">
+    <Grid x:Name="BottomBar_RootGrid" Background="{StaticResource BottomBarBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>

@@ -9,15 +9,16 @@
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
+    xmlns:common="using:Flantter.MilkyWay.Common"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 
     <d:VisualStateAwarePage.DataContext>
         <viewModels:MainPageViewModel/>
     </d:VisualStateAwarePage.DataContext>
-
-    <Grid x:Name="Flantter_MainContents" Background="{StaticResource Windows_PageBackgroundBrush}">
-        <ItemsControl ItemsSource="{Binding Account}">
+    
+    <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}">
+        <ItemsControl ItemsSource="{Binding Accounts}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid/>
@@ -25,34 +26,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <contents:BottomBar x:Name="Flantter_BottomBar" Grid.Row="1" Height="75"/>
-
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="ApplicationViewStates">
-                                <VisualState x:Name="Default"/>
-                                <VisualState x:Name="Under500px">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_BottomBar" Storyboard.TargetProperty="Height">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="64"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Under384px">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_BottomBar" Storyboard.TargetProperty="Height">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="64"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Grid>
+                    <contents:MainArea Visibility="{Binding IsEnabled.Value,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <Style TargetType="ContentPresenter">

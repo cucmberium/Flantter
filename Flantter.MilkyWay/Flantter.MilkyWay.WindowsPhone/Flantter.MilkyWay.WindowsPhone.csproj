@@ -89,7 +89,11 @@
     <Compile Include="Views\Contents\BottomBar.xaml.cs">
       <DependentUpon>BottomBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contents\MainArea.xaml.cs">
+      <DependentUpon>MainArea.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\BindableMenuFlyout.cs" />
+    <Compile Include="Views\Controls\ExtendedCanvas.cs" />
     <Compile Include="Views\InitializePage.xaml.cs">
       <DependentUpon>InitializePage.xaml</DependentUpon>
     </Compile>
@@ -177,18 +181,6 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="Themes\Skins\Light.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Skins\Dark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Skins\Default.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\Style\Style.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -199,6 +191,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\BottomBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\MainArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

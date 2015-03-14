@@ -9,6 +9,8 @@
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
+    xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 
@@ -16,8 +18,8 @@
         <viewModels:MainPageViewModel/>
     </d:VisualStateAwarePage.DataContext>
 
-    <Grid x:Name="Flantter_MainContents" Background="{StaticResource WindowsPhone_PageBackgroundBrush}">
-        <ItemsControl ItemsSource="{Binding Account}">
+    <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}">
+        <ItemsControl ItemsSource="{Binding Accounts}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid/>
@@ -25,14 +27,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <contents:BottomBar x:Name="Flantter_BottomBar" Grid.Row="1" Height="54"/>
-                    </Grid>
+                    <contents:MainArea/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>

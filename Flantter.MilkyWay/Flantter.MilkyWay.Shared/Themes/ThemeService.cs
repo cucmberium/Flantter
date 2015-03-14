@@ -95,39 +95,21 @@ namespace Flantter.MilkyWay.Themes
 
             try
             {
-#if WINDOWS_PHONE_APP
-                // WindowsPhone Resource
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_PageBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_PageBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PageBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PageBackgroundBrush"]).Color;
 
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarBackgroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarTextblockButtonSelectedBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarTextblockButtonSelectedBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarTextblockButtonUnselectedBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarTextblockButtonUnselectedBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarButtonSelectedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarButtonSelectedBackgroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarButtonSelectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarButtonSelectedForegroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarButtonUnselectedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarButtonUnselectedBackgroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarButtonUnselectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarButtonUnselectedForegroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarAppBarButtonItemBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarAppBarButtonItemBackgroundThemeBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarAppBarButtonItemDisabledForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarAppBarButtonItemDisabledForegroundThemeBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarAppBarButtonItemForegroundThemeBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["WindowsPhone_BottomBarAppBarButtonItemPressedForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["WindowsPhone_BottomBarAppBarButtonItemPressedForegroundThemeBrush"]).Color;
-#elif WINDOWS_APP
-                // Windows Resource
-                ((SolidColorBrush)Application.Current.Resources["Windows_PageBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_PageBackgroundBrush"]).Color;
-
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarBackgroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarTextblockButtonSelectedBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarTextblockButtonSelectedBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarTextblockButtonUnselectedBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarTextblockButtonUnselectedBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonSelectedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarButtonSelectedBackgroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonSelectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarButtonSelectedForegroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonUnselectedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarButtonUnselectedBackgroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarButtonUnselectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarButtonUnselectedForegroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarAppBarButtonItemBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarAppBarButtonItemBackgroundThemeBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarAppBarButtonItemDisabledForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarAppBarButtonItemDisabledForegroundThemeBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarAppBarButtonItemPointerOverBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarAppBarButtonItemPointerOverBackgroundThemeBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarAppBarButtonItemPointerOverForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarAppBarButtonItemPointerOverForegroundThemeBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarAppBarButtonItemForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarAppBarButtonItemForegroundThemeBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["Windows_BottomBarAppBarButtonItemPressedForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["Windows_BottomBarAppBarButtonItemPressedForegroundThemeBrush"]).Color;
-#endif
+                ((SolidColorBrush)Application.Current.Resources["BottomBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarTextblockButtonSelectedBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarTextblockButtonUnselectedBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarButtonSelectedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarButtonSelectedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarButtonUnselectedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarButtonUnselectedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarAppBarButtonItemBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarAppBarButtonItemBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarAppBarButtonItemDisabledForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarAppBarButtonItemDisabledForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarAppBarButtonItemPointerOverBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarAppBarButtonItemPointerOverBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarAppBarButtonItemPointerOverForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarAppBarButtonItemPointerOverForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarAppBarButtonItemForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarAppBarButtonItemForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["BottomBarAppBarButtonItemPressedForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarAppBarButtonItemPressedForegroundThemeBrush"]).Color;
             }
             catch
             {

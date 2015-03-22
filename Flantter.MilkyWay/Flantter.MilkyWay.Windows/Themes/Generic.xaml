@@ -1,6 +1,62 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Flantter.MilkyWay">
-    
+    xmlns:local="using:Flantter.MilkyWay"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls">
+
+    <Style TargetType="controls:PullToRefreshPanel">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:PullToRefreshPanel">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="VisualStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Pull">
+                                    <Storyboard>
+                                        <FadeInThemeAnimation TargetName="PullContent" />
+                                        <FadeOutThemeAnimation TargetName="RefreshContent" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Refresh">
+                                    <Storyboard>
+                                        <FadeInThemeAnimation TargetName="RefreshContent" />
+                                        <FadeOutThemeAnimation TargetName="PullContent" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <ScrollViewer x:Name="ScrollViewer"
+                                      BringIntoViewOnFocusChange="False"
+                                      IsScrollInertiaEnabled="False"
+                                      HorizontalScrollMode="Disabled"
+                                      VerticalScrollBarVisibility="Hidden"
+                                      ZoomMode="Disabled">
+                            <StackPanel x:Name="StackPanel">
+                                <Grid Name="PullGrid"
+                                      Width="{Binding Width,ElementName=ScrollViewer}"
+                                      Height="4096">
+                                    <ContentControl x:Name="RefreshContent"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Bottom"
+                                                    Content="{TemplateBinding RefreshContent}" />
+                                    <ContentControl x:Name="PullContent"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Bottom"
+                                                    Content="{TemplateBinding PullContent}" />
+                                </Grid>
+                                <Grid x:Name="ContentGrid">
+                                    <ContentPresenter />
+                                </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

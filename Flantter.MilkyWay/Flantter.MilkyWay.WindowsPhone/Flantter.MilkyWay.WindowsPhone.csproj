@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Views\Controls\BindableMenuFlyout.cs" />
     <Compile Include="Views\Controls\ExtendedCanvas.cs" />
+    <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
     <Compile Include="Views\InitializePage.xaml.cs">
       <DependentUpon>InitializePage.xaml</DependentUpon>
     </Compile>
@@ -125,6 +126,10 @@
     </Reference>
     <Reference Include="CoreTweet.Streaming.Reactive">
       <HintPath>..\..\packages\CoreTweet.Streaming.Reactive.0.4.1\lib\portable-net4+wp8+win81+wpa81+MonoAndroid+MonoTouch\CoreTweet.Streaming.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="ExtendedListView, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ExtendedListview.0.0.5.4\lib\portable-win81+wpa81\ExtendedListView.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.Mvvm">
       <HintPath>..\..\packages\Prism.Mvvm.1.1.1\lib\wpa81\Microsoft.Practices.Prism.Mvvm.dll</HintPath>

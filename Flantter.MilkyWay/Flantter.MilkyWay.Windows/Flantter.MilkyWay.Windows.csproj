@@ -116,6 +116,8 @@
       <DependentUpon>MainArea.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\BindableMenuFlyout.cs" />
+    <Compile Include="Views\Controls\ExtendedCanvas.cs" />
+    <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
     <Compile Include="Views\InitializePage.xaml.cs">
       <DependentUpon>InitializePage.xaml</DependentUpon>
     </Compile>

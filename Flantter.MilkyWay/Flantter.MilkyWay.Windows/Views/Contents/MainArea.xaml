@@ -8,8 +8,10 @@
     xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
     xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:ptrctrl="using:ExtendedListView"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -93,6 +95,146 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="TweetMultipulActionAppButtonStyle"  TargetType="AppBarButton">
+            <Setter Property="Foreground" Value="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="AppBarButton">
+                        <Grid x:Name="RootGrid" Width="100" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ApplicationViewStates">
+                                    <!-- FullSize is used when we are in landscape or filled mode -->
+                                    <VisualState x:Name="FullSize"/>
+                                    <!-- Compact is used when we are in portrait or snapped mode -->
+                                    <VisualState x:Name="Compact">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="60"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundEllipse" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TweetMultipulActionAppBarButtonItemPointerOverBackgroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TweetMultipulActionAppBarButtonItemPointerOverForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OutlineEllipse" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundEllipse" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TweetMultipulActionAppBarButtonItemPressedForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OutlineEllipse" Storyboard.TargetProperty="Stroke">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TweetMultipulActionAppBarButtonItemDisabledForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TweetMultipulActionAppBarButtonItemDisabledForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TweetMultipulActionAppBarButtonItemDisabledForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <DoubleAnimation
+                            Storyboard.TargetName="FocusVisualWhite"
+                            Storyboard.TargetProperty="Opacity"
+                            To="1"
+                            Duration="0"/>
+                                            <DoubleAnimation
+                            Storyboard.TargetName="FocusVisualBlack"
+                            Storyboard.TargetProperty="Opacity"
+                            To="1"
+                            Duration="0"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unfocused" />
+                                    <VisualState x:Name="PointerFocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <StackPanel VerticalAlignment="Top" Margin="0,14,0,13">
+                                <Grid Width="40" Height="40" Margin="0,0,0,5" HorizontalAlignment="Center">
+                                    <Ellipse
+                    x:Name="BackgroundEllipse"
+                    UseLayoutRounding="False"
+                    Width="40"
+                    Height="40"
+                    Fill="{StaticResource TweetMultipulActionAppBarButtonItemBackgroundThemeBrush}"/>
+                                    <Ellipse
+                    x:Name="OutlineEllipse"
+                    UseLayoutRounding="False"
+                    Width="40"
+                    Height="40"
+                    Stroke="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}"
+                    StrokeThickness="2" />
+                                    <ContentPresenter
+                    x:Name="Content"
+                    Content="{TemplateBinding Icon}"
+                    Foreground="{TemplateBinding Foreground}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    AutomationProperties.AccessibilityView="Raw"/>
+                                </Grid>
+                                <TextBlock
+                  x:Name="TextLabel"
+                  Text="{TemplateBinding Label}"
+                  Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}"
+                  FontSize="12"
+                  FontFamily="{TemplateBinding FontFamily}"
+                  TextAlignment="Center"
+                  Width="88"
+                  TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <Rectangle
+                x:Name="FocusVisualWhite"
+                IsHitTestVisible="False"
+                Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}"
+                StrokeEndLineCap="Square"
+                StrokeDashArray="1,1"
+                Opacity="0"
+                StrokeDashOffset="1.5"/>
+                            <Rectangle
+                x:Name="FocusVisualBlack"
+                IsHitTestVisible="False"
+                Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}"
+                StrokeEndLineCap="Square"
+                StrokeDashArray="1,1"
+                Opacity="0"
+                StrokeDashOffset="0.5"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     
     <Grid Visibility="{Binding IsEnabled.Value,Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -116,6 +258,29 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
+                        <controls:PullToRefreshPanel Grid.Row="0">
+                            <controls:PullToRefreshPanel.PullContent>
+                                <Grid Height="250" Width="320" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40*"/>
+                                        <ColumnDefinition Width="60*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <SymbolIcon Grid.Column="0" Margin="0,0,0,15" Foreground="{StaticResource PullToRefreshCharacterBrush}" Symbol="Download" VerticalAlignment="Bottom"/>
+                                    <TextBlock x:Uid="TweetField_TweetList_PullToRefreshScrollViewer_PullToRefreshTextBlock" Grid.Column="1" Margin="0,10" VerticalAlignment="Bottom" Foreground="{StaticResource PullToRefreshCharacterBrush}" x:Name="PullToRefresh" Text="引っ張って更新" FontFamily="Yu Gothic" FontSize="20" />
+                                </Grid>
+                            </controls:PullToRefreshPanel.PullContent>
+                            <controls:PullToRefreshPanel.RefreshContent>
+                                <Grid Height="250" Width="320"  HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40*"/>
+                                        <ColumnDefinition Width="60*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <SymbolIcon Grid.Column="0" Margin="0,0,0,15" Foreground="{StaticResource PullToRefreshCharacterBrush}" Symbol="Refresh" VerticalAlignment="Bottom"/>
+                                    <TextBlock x:Uid="TweetField_TweetList_PullToRefreshScrollViewer_ReleaseToRefreshTextBlock" Grid.Column="1" Margin="0,10" VerticalAlignment="Bottom" Foreground="{StaticResource PullToRefreshCharacterBrush}" x:Name="ReleaseToRefresh" Text="指を離して更新" FontFamily="Yu Gothic" FontSize="20" />
+                                </Grid>
+                            </controls:PullToRefreshPanel.RefreshContent>
+                        </controls:PullToRefreshPanel>
+                        
                         <Grid Grid.Row="1" Background="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}">
                             <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="Home" HorizontalAlignment="Left"/>
                             <TextBlock Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,120,0" HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -144,6 +309,13 @@
                                 <SymbolIcon Symbol="Play"/>
                             </Button>
                         </Grid>
+
+                        <StackPanel x:Name="TweetMultipulActionStackPanel" Grid.Row="2" Visibility="Visible" Height="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
+                            <AppBarButton Command="{Binding MultipulRetweetClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare"/>
+                            <AppBarButton Command="{Binding MultipulFavoriteClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite"/>
+                            <AppBarButton Command="{Binding MultipulReplyClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message"/>
+                            <AppBarButton Command="{Binding MultipulCancelClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel"/>
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

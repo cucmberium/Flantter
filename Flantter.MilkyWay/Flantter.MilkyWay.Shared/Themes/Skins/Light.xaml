@@ -19,6 +19,15 @@
     <SolidColorBrush x:Key="BottomBarAppBarButtonItemPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="BottomBarAppBarButtonItemPressedForegroundThemeBrush" Color="#FF000000" />
 
+    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemBackgroundThemeBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemDisabledForegroundThemeBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemForegroundThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemPointerOverBackgroundThemeBrush" Color="#3D000000" />
+    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemPointerOverForegroundThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemPressedForegroundThemeBrush" Color="#FFFFFFFF" />
+
+    <SolidColorBrush x:Key="PullToRefreshCharacterBrush" Color="Black" />
+    
     <SolidColorBrush x:Key="ColumnViewBackgroundBrush" Color="White" />
 
     <SolidColorBrush x:Key="ColumnViewControlBarSelectedForegroundBrush" Color="#7F808080" />

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  IgnorableNamespaces="uap mp">
+
+  <Identity
+    Name="7e7c4562-ec93-41ad-a280-db74388182b2"
+    Publisher="CN=Clarkdale"
+    Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="7e7c4562-ec93-41ad-a280-db74388182b2" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>Flantter.MilkyWay</DisplayName>
+    <PublisherDisplayName>Clarkdale</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetPlatform Name="Windows.Universal" MinVersion="10.0.10030.0" MaxVersionTested="10.0.10030.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="Flantter.MilkyWay.App">
+      <uap:VisualElements
+        DisplayName="Flantter.MilkyWay"
+        Square150x150Logo="Assets\Logo.png"
+        Square44x44Logo="Assets\SmallLogo.png"
+        Description="Flantter.MilkyWay"
+        ForegroundText="light"
+        BackgroundColor="#B01E00">
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:ApplicationView MinWidth="width320" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>

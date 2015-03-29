@@ -1,4 +1,5 @@
 ﻿using Flantter.MilkyWay.Models;
+using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -17,12 +18,16 @@ namespace Flantter.MilkyWay.ViewModels
         private AccountModel _AccountModel { get; set; }
 
         public ReadOnlyReactiveCollection<ColumnViewModel> Columns { get; private set; }
+        public ReadOnlyReactiveCollection<string> AdditionalColumnsName { get; private set; }
 
         public ReactiveProperty<string> ProfileImageUrl { get; private set; }
         public ReactiveProperty<string> ProfileBannerUrl { get; private set; }
         public ReactiveProperty<bool> IsEnabled { get; private set; }
         public ReactiveProperty<double> PanelWidth { get; private set; }
+        public ReactiveProperty<int> ColumnCount { get; private set; }
+        public ReactiveProperty<double> ColumnWidth { get; private set; }
         public ReactiveProperty<double> SnapPointsSpaceing { get; private set; }
+        public ReactiveProperty<double> MaxSnapPoint { get; private set; }
 
         #region Constructor
         /*public AccountViewModel()
@@ -37,16 +42,43 @@ namespace Flantter.MilkyWay.ViewModels
             this.IsEnabled = account.ObserveProperty(x => x.IsEnabled).ToReactiveProperty();
 
             this.Columns = this._AccountModel.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x));
+            this.AdditionalColumnsName = this._AccountModel.ReadOnlyColumns.ToObservable().Where(x => x.Name != "Home" && x.Name != "Mentions" && x.Name != "DirectMessages").Select(x => x.Name).ToReadOnlyReactiveCollection();
+            
+            this.ColumnCount = Observable.CombineLatest<double, double, int, int>(
+                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
+                SettingService.Setting.ObserveProperty(x => x.TweetFieldColumnSize),
+                SettingService.Setting.ObserveProperty(x => x.TweetFieldColumnCount),
+                (width, minWidth, maxCount) =>
+                {
+                    return (int)Math.Max(Math.Min(maxCount, (width - 5.0 * 2) / (minWidth + 5.0 * 2)), 1.0);
+                }).ToReactiveProperty();
+
+            this.ColumnWidth = Observable.CombineLatest<double, int, double>(
+                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
+                this.ColumnCount,
+                (width, count) =>
+                {
+                    if (width < 352.0)
+                        return width;
+                    else
+                        return (width - 5.0 * 2) / count - 10.0;
+                }).ToReactiveProperty();
 
             this.PanelWidth = Observable.CombineLatest<double, int, double>(
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
+                this.ColumnWidth,
                 this.Columns.ObserveProperty(x => x.Count),
                 (width, count) =>
                 {
-                    return width * count;
+                    if (width < 352.0)
+                        return width * count;
+                    else
+                        return (width + 10.0) * count;
                 }).ToReactiveProperty();
 
-            this.SnapPointsSpaceing = WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth).ToReactiveProperty();
+            this.SnapPointsSpaceing = this.ColumnWidth.Select(x => {
+                return x + 10.0;
+            }).ToReactiveProperty();
+            this.MaxSnapPoint = Observable.CombineLatest<double, double, double>(this.PanelWidth, WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth), (panelWidth, windowWidth) => (panelWidth + 10.0) - windowWidth).ToReactiveProperty();
         }
         #endregion
 

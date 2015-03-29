@@ -3,8 +3,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Flantter.MilkyWay.Themes">
 
+    <SolidColorBrush x:Key="FlyoutBackgroundThemeBrush" Color="#FFF2F2F2"/>
+    <SolidColorBrush x:Key="FlyoutBorderThemeBrush" Color="#FFCCCCCC"/>
+    <SolidColorBrush x:Key="MenuFlyoutSeparatorBackgroundThemeBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="MenuFlyoutItemPointerOverBackgroundThemeBrush" Color="#19000000" />
+    <SolidColorBrush x:Key="MenuFlyoutItemDisabledBackgroundThemeBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="MenuFlyoutItemPressedBackgroundThemeBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="MenuFlyoutItemFocusVisualWhiteStrokeThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="MenuFlyoutItemFocusVisualBlackStrokeThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="MenuFlyoutItemTextblockForegroundThemeBrush" Color="Black" />
+
     <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FFEBEBEB" />
 
+    <SolidColorBrush x:Key="BottomAppBarBackgroundBrush" Color="LightBlue" />
+    
     <SolidColorBrush x:Key="BottomBarBackgroundBrush" Color="#FF2387C1" />
     <SolidColorBrush x:Key="BottomBarTextblockButtonSelectedBrush" Color="White" />
     <SolidColorBrush x:Key="BottomBarTextblockButtonUnselectedBrush" Color="Gray" />

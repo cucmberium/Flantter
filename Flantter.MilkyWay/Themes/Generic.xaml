@@ -48,7 +48,7 @@
                                                     VerticalAlignment="Bottom"
                                                     Content="{TemplateBinding PullContent}" />
                                 </Grid>
-                                <Grid x:Name="ContentGrid">
+                                <Grid x:Name="ContentGrid" Background="Transparent">
                                     <ContentPresenter />
                                 </Grid>
                             </StackPanel>

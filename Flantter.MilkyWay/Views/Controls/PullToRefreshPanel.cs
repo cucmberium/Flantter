@@ -111,6 +111,9 @@ namespace Flantter.MilkyWay.Views.Controls
             var grid = GetTemplateChild("PullGrid") as Grid;
             grid.SizeChanged += (s, e) => UpdateView();
 
+            var contentGrid = GetTemplateChild("ContentGrid") as Grid;
+            contentGrid.PointerWheelChanged += (s, e) => e.Handled = true;
+
             base.OnApplyTemplate();
         }
 

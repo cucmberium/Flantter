@@ -1,0 +1,16 @@
+﻿<UserControl
+    x:Class="Flantter.MilkyWay.Views.Contents.TimelineArea"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:common="using:Flantter.MilkyWay.Common"
+    mc:Ignorable="d"
+    d:DesignHeight="720"
+    d:DesignWidth="400">
+
+    <ListView ItemsSource="{Binding Tweets}" BorderThickness="0" BorderBrush="{x:Null}" Foreground="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,0" ShowsScrollingPlaceholders="True" SelectionMode="Extended">
+        
+    </ListView>
+</UserControl>

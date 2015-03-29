@@ -5,6 +5,7 @@
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:local="using:Flantter.MilkyWay"
     xmlns:converters="using:Flantter.MilkyWay.Views.Converters"
+    xmlns:setting="using:Flantter.MilkyWay.Setting"
     RequestedTheme="Dark">
     <mvvm:MvvmAppBase.Resources>
         <ResourceDictionary>
@@ -14,6 +15,8 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <setting:SettingProvider x:Key="Setting"/>
+            <setting:AdvancedSettingProvider x:Key="AdvancedSetting"/>
         </ResourceDictionary>
     </mvvm:MvvmAppBase.Resources>
 </mvvm:MvvmAppBase>

@@ -23,11 +23,12 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<double> Width { get; private set; }
         public ReactiveProperty<double> Left { get; private set; }
         public IObservable<int> ColumnCount { get; set; }
-        public ReactiveProperty<double> Opacity { get; private set; }
 
         public ReactiveProperty<SettingSupport.ColumnTypeEnum> Action { get; private set; }
         public ReactiveProperty<string> Name { get; private set; }
         public ReactiveProperty<string> OwnerScreenName { get; private set; }
+
+        public ReadOnlyReactiveCollection<TweetViewModel> Tweets { get; private set; }
 
         public ReactiveProperty<int> Index { get; private set; }
 
@@ -44,7 +45,6 @@ namespace Flantter.MilkyWay.ViewModels
             this.Name = column.ObserveProperty(x => x.Name).ToReactiveProperty();
             this.OwnerScreenName = column.ObserveProperty(x => x.OwnerScreenName).ToReactiveProperty();
             this.Index = column.ObserveProperty(x => x.Index).ToReactiveProperty();
-
 
             #region Windows App
 #if WINDOWS_APP
@@ -166,13 +166,7 @@ namespace Flantter.MilkyWay.ViewModels
                         return 5.0 + index * (columnWidth + 10.0);
                 }).ToReactiveProperty();
 
-            this.Opacity = Observable.CombineLatest<int, int, double>(
-                this.Index,
-                this.ColumnCount,
-                (index, count) =>
-                {
-                    return (index < count) ? 1.0 : 0.0;
-                }).ToReactiveProperty();
+            this.Tweets = this._ColumnModel.ReadOnlyTweets.ToReadOnlyReactiveCollection(x => new TweetViewModel(x));
         }
         #endregion
 

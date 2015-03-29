@@ -8,6 +8,7 @@
     xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
     xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
     xmlns:common="using:Flantter.MilkyWay.Common"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
@@ -18,6 +19,7 @@
     </d:VisualStateAwarePage.DataContext>
     
     <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}">
+        
         <ItemsControl ItemsSource="{Binding Accounts}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -35,5 +37,4 @@
             </Style>
         </ItemsControl>
     </Grid>
-    
 </prism:VisualStateAwarePage>

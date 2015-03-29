@@ -20,10 +20,10 @@
             <Setter Property="Background" Value="{ThemeResource ListBoxBackgroundThemeBrush}" />
             <Setter Property="BorderBrush" Value="{ThemeResource ListBoxBorderThemeBrush}" />
             <Setter Property="BorderThickness" Value="{ThemeResource ListBoxBorderThemeThickness}" />
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
-            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
-            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
+            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True" />
             <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
             <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="False" />
             <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
@@ -87,6 +87,7 @@
                                       ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
                                       IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
                                       BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                      HorizontalSnapPointsType="MandatorySingle"
                                       AutomationProperties.AccessibilityView="Raw">
                                 <ItemsPresenter />
                             </ScrollViewer>
@@ -243,15 +244,15 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ListBox x:Name="Flantter_ColumnView" Grid.Row="0" Style="{StaticResource ExtendedListBox}" Margin="5,10" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding Columns}">
+        <ListBox x:Name="Flantter_ColumnView" Grid.Row="0" Style="{StaticResource ExtendedListBox}" Margin="5,10" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding Columns}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas/>
+                    <controls:ExtendedCanvas Background="Transparent" Width="{Binding PanelWidth.Value}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value}" MaxSnapPoint="{Binding MaxSnapPoint.Value}"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Background="{StaticResource ColumnViewBackgroundBrush}" Opacity="{Binding Opacity.Value}" Width="{Binding Width.Value}" Height="{Binding Height.Value}">
+                    <Grid Background="{StaticResource ColumnViewBackgroundBrush}" Width="{Binding Width.Value}" Height="{Binding Height.Value}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
@@ -357,7 +358,7 @@
             </ItemsControl.ItemContainerStyle>
         </ListBox>
 
-        <contents:BottomBar x:Name="Flantter_BottomBar" Grid.Row="1" Height="75"/>
+        <contents:BottomBarArea x:Name="Flantter_BottomBar" Grid.Row="1" Height="75"/>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="SizeStateGroup">

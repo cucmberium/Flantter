@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -17,24 +18,24 @@ namespace Flantter.MilkyWay.Views.Controls
 
     public sealed class BindableMenuFlyout : MenuFlyout
     {
-        public ObservableCollection<string> Source
+        public object Source
         {
-            get { return (ObservableCollection<string>)GetValue(SourceProperty); }
+            get { return (object)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(ObservableCollection<string>), typeof(BindableMenuFlyout), new PropertyMetadata(new ObservableCollection<string>(), ItemsSource_Changed));
+            DependencyProperty.Register("Source", typeof(object), typeof(BindableMenuFlyout), new PropertyMetadata(null, ItemsSource_Changed));
 
         private static void ItemsSource_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.OldValue is ObservableCollection<string>)
-                (e.OldValue as ObservableCollection<string>).CollectionChanged -= ItemsSource_CollectionChanged;
+            if (e.OldValue != null && e.OldValue is INotifyCollectionChanged)
+                (e.OldValue as INotifyCollectionChanged).CollectionChanged -= ItemsSource_CollectionChanged;
 
-            if (e.NewValue is ObservableCollection<string>)
-                (e.NewValue as ObservableCollection<string>).CollectionChanged += ItemsSource_CollectionChanged;
-
+            if (e.OldValue != null && e.NewValue is INotifyCollectionChanged)
+                (e.NewValue as INotifyCollectionChanged).CollectionChanged += ItemsSource_CollectionChanged;
+            
             var bindableMenuFlyout = d as BindableMenuFlyout;
-            var collection = e.NewValue as ObservableCollection<string>;
+            var collection = e.NewValue as IList;
 
             if (bindableMenuFlyout == null)
                 return;
@@ -44,7 +45,7 @@ namespace Flantter.MilkyWay.Views.Controls
             {
                 foreach (var item in collection)
                 {
-                    var menuFlyoutItem = new MenuFlyoutItem() { Text = item, Tag = bindableMenuFlyout };
+                    var menuFlyoutItem = new MenuFlyoutItem() { Text = item?.ToString() , Tag = bindableMenuFlyout };
                     menuFlyoutItem.Click += MenuFlyoutItem_Click;
                     bindableMenuFlyout.Items.Add(menuFlyoutItem);
                 }
@@ -54,7 +55,7 @@ namespace Flantter.MilkyWay.Views.Controls
         private static void ItemsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             var bindableMenuFlyout = sender as BindableMenuFlyout;
-            var collection = bindableMenuFlyout.Source;
+            var collection = bindableMenuFlyout.Source as IList;
             if (bindableMenuFlyout == null)
                 return;
 
@@ -63,7 +64,7 @@ namespace Flantter.MilkyWay.Views.Controls
             {
                 foreach (var item in collection)
                 {
-                    var menuFlyoutItem = new MenuFlyoutItem() { Text = item, Tag = bindableMenuFlyout };
+                    var menuFlyoutItem = new MenuFlyoutItem() { Text = item?.ToString(), Tag = bindableMenuFlyout };
                     menuFlyoutItem.Click += MenuFlyoutItem_Click;
                     bindableMenuFlyout.Items.Add(menuFlyoutItem);
                 }

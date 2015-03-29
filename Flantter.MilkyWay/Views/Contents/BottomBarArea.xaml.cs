@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Flantter.MilkyWay.Views.Contents
 {
-    public sealed partial class BottomBar : UserControl
+    public sealed partial class BottomBarArea : UserControl
     {
         public int SelectedIndex
         {
@@ -26,15 +26,15 @@ namespace Flantter.MilkyWay.Views.Contents
             set { SetValue(SelectedIndexProperty, value); }
         }
         public static readonly DependencyProperty SelectedIndexProperty =
-            DependencyProperty.Register("SelectedIndex", typeof(int), typeof(BottomBar), new PropertyMetadata(0, SelectedIndex_Changed));
+            DependencyProperty.Register("SelectedIndex", typeof(int), typeof(BottomBarArea), new PropertyMetadata(0, SelectedIndex_Changed));
 
         private static void SelectedIndex_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var bottomBar = d as BottomBar;
+            var bottomBar = d as BottomBarArea;
             bottomBar.BottomBar_SelectedIndexChanged();
         }
 
-        public BottomBar()
+        public BottomBarArea()
         {
             this.InitializeComponent();
 

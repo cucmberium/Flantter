@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Text;
+using Windows.Foundation;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -63,15 +65,42 @@ namespace Flantter.MilkyWay.Views.Util
             this.ClientWidth = Window.Current.Bounds.Width;
             this.ClientHeight = Window.Current.Bounds.Height;
 
+            /*Observable.CombineLatest<WindowSizeChangedEventArgs, ApplicationViewTitleBar, bool>(
+                Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
+                    h => (sender, e) => h(e),
+                    h => Window.Current.SizeChanged += h,
+                    h => Window.Current.SizeChanged -= h),
+                Observable.FromEvent<TypedEventHandler<ApplicationViewTitleBar, object>, ApplicationViewTitleBar>(
+                    h => (sender, e) => h(sender),
+                    h => ApplicationView.GetForCurrentView().TitleBar.IsVisibleChanged += h,
+                    h => ApplicationView.GetForCurrentView().TitleBar.IsVisibleChanged -= h),
+                (size, titleBar) => titleBar.IsVisible).Subscribe(x =>
+                {
+                    if (x)
+                    {
+                        var applicationView = ApplicationView.GetForCurrentView();
+                        this.WindowWidth = Window.Current.Bounds.Width;
+                        this.WindowHeight = Window.Current.Bounds.Height;
+                        this.ClientWidth = Window.Current.Bounds.Width;
+                        this.ClientHeight = Window.Current.Bounds.Height - applicationView.TitleBar.Height;
+                    }
+                    else
+                    {
+                        this.WindowWidth = Window.Current.Bounds.Width;
+                        this.WindowHeight = Window.Current.Bounds.Height;
+                        this.ClientWidth = Window.Current.Bounds.Width;
+                        this.ClientHeight = Window.Current.Bounds.Height;
+                    }
+                });*/
             Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
                     h => (sender, e) => h(e),
                     h => Window.Current.SizeChanged += h,
                     h => Window.Current.SizeChanged -= h).Subscribe(x =>
                     {
-                        this.WindowHeight = x.Size.Height;
-                        this.WindowWidth = x.Size.Width;
-                        this.ClientHeight = x.Size.Height;
-                        this.ClientWidth = x.Size.Width;
+                        this.WindowWidth = Window.Current.Bounds.Width;
+                        this.WindowHeight = Window.Current.Bounds.Height;
+                        this.ClientWidth = Window.Current.Bounds.Width;
+                        this.ClientHeight = Window.Current.Bounds.Height;
                     });
         }
 

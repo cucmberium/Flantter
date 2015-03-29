@@ -127,6 +127,7 @@
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\ColumnModel.cs" />
     <Compile Include="Models\MainPageModel.cs" />
+    <Compile Include="Models\TweetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setting\AdvancedSettingService.cs" />
     <Compile Include="Setting\SettingService.cs" />
@@ -134,15 +135,21 @@
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\ColumnViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\TweetViewModel.cs" />
+    <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
     <Compile Include="Views\Contents\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Contents\BottomBar.xaml.cs">
-      <DependentUpon>BottomBar.xaml</DependentUpon>
+    <Compile Include="Views\Contents\BottomBarArea.xaml.cs">
+      <DependentUpon>BottomBarArea.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\MainArea.xaml.cs">
       <DependentUpon>MainArea.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contents\TimelineArea.xaml.cs">
+      <DependentUpon>TimelineArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\BindableFlyout.cs" />
     <Compile Include="Views\Controls\BindableMenuFlyout.cs" />
     <Compile Include="Views\Controls\ExtendedCanvas.cs" />
     <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
@@ -193,10 +200,12 @@
     <Reference Include="Microsoft.Practices.Prism.SharedInterfaces">
       <HintPath>..\packages\Prism.Mvvm.1.1.1\lib\windows8\Microsoft.Practices.Prism.SharedInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism.StoreApps">
+    <Reference Include="Microsoft.Practices.Prism.StoreApps, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Prism.StoreApps.2.0.0\lib\windows8\Microsoft.Practices.Prism.StoreApps.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism.StoreApps.Windows">
+    <Reference Include="Microsoft.Practices.Prism.StoreApps.Windows, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Prism.StoreApps.2.0.0\lib\windows8\Microsoft.Practices.Prism.StoreApps.Windows.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
@@ -256,13 +265,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Contents\BottomBar.xaml">
+    <Page Include="Views\Contents\BottomBarArea.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\MainArea.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\TimelineArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InitializePage.xaml">
       <Generator>MSBuild:Compile</Generator>

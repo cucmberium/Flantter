@@ -2,6 +2,7 @@
 using Microsoft.Practices.Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Text;
 
@@ -108,6 +109,18 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region Columns
+        private ObservableCollection<TweetModel> _Tweets;
+        private ReadOnlyObservableCollection<TweetModel> _ReadOnlyTweets;
+        public ReadOnlyObservableCollection<TweetModel> ReadOnlyTweets
+        {
+            get
+            {
+                return _ReadOnlyTweets;
+            }
+        }
+        #endregion
+
         #region Constructor
         /*public ColumnModel()
         {
@@ -140,6 +153,9 @@ namespace Flantter.MilkyWay.Models
             this.Stream = column.Stream;
             this.FetchingNumberOfTweet = column.FetchingNumberOfTweet;
             this.OwnerScreenName = screenName;
+
+            this._Tweets = new ObservableCollection<TweetModel>();
+            this._ReadOnlyTweets = new ReadOnlyObservableCollection<TweetModel>(this._Tweets);
         }
         #endregion
     }

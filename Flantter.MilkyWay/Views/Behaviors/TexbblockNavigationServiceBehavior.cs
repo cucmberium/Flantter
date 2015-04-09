@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 
-namespace Flantter.Cascade.Views.Behaviors.AttachedBehaviors
+namespace Flantter.MilkyWay.Views.Behaviors.AttachedBehaviors
 {
     public static class TexbblockNavigationServiceBehavior
     {

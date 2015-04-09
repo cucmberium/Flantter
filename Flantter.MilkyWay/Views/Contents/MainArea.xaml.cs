@@ -23,33 +23,6 @@ namespace Flantter.MilkyWay.Views.Contents
         public MainArea()
         {
             this.InitializeComponent();
-            Window.Current.SizeChanged += Window_SizeChanged;
-
-            if (Window.Current.Bounds.Width < 352)
-                VisualStateManager.GoToState(this, "Under352px", true);
-            else if (Window.Current.Bounds.Width < 384)
-                VisualStateManager.GoToState(this, "Under384px", true);
-            else if (Window.Current.Bounds.Width < 500)
-                VisualStateManager.GoToState(this, "Under500px", true);
-            else
-                VisualStateManager.GoToState(this, "Default", true);
-        }
-
-        ~MainArea()
-        {
-            Window.Current.SizeChanged -= Window_SizeChanged;
-        }
-
-        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-            if (e.Size.Width < 352)
-                VisualStateManager.GoToState(this, "Under352px", true);
-            else if (e.Size.Width < 384)
-                VisualStateManager.GoToState(this, "Under384px", true);
-            else if (e.Size.Width < 500)
-                VisualStateManager.GoToState(this, "Under500px", true);
-            else
-                VisualStateManager.GoToState(this, "Default", true);
         }
     }
 }

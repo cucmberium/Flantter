@@ -30,76 +30,76 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private static void SelectedIndex_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var bottomBar = d as BottomBarArea;
-            bottomBar.BottomBar_SelectedIndexChanged();
+            var bottomBarArea = d as BottomBarArea;
+            bottomBarArea.BottomBarArea_SelectedIndexChanged();
         }
 
         public BottomBarArea()
         {
             this.InitializeComponent();
 
-            this.SizeChanged += BottomBar_SizeChanged;
+            this.SizeChanged += BottomBarArea_SizeChanged;
 
-            this.BottomBar_OthersButton_Flyout.ItemSelected += BottomBar_OthersButton_Flyout_ItemSelected;
-            this.BottomBar_OthersTextButton_Flyout.ItemSelected += BottomBar_OthersButton_Flyout_ItemSelected;
+            this.BottomBarArea_OthersButton_Flyout.ItemSelected += this.BottomBarArea_OthersButton_Flyout_ItemSelected;
+            this.BottomBarArea_OthersTextButton_Flyout.ItemSelected += this.BottomBarArea_OthersButton_Flyout_ItemSelected;
 
-            this.BottomBar_OthersButton_Flyout.Source = new ObservableCollection<string>() { "Events", "Favorites" };
-            this.BottomBar_OthersTextButton_Flyout.Source = new ObservableCollection<string>() { "Events", "Favorites" };
+            this.BottomBarArea_OthersButton_Flyout.Source = new ObservableCollection<string>() { "Events", "Favorites" };
+            this.BottomBarArea_OthersTextButton_Flyout.Source = new ObservableCollection<string>() { "Events", "Favorites" };
 
-            this.BottomBar_SelectedIndexChanged();
+            this.BottomBarArea_SelectedIndexChanged();
         }
 
-        private void BottomBar_OthersButton_Flyout_ItemSelected(object sender, Controls.ItemSelectedEventArgs e)
+        private void BottomBarArea_OthersButton_Flyout_ItemSelected(object sender, Controls.ItemSelectedEventArgs e)
         {
             this.SelectedIndex = 3 + e.Index;
         }
 
-        public void BottomBar_SelectedIndexChanged()
+        public void BottomBarArea_SelectedIndexChanged()
         {
-            this.BottomBar_HomeButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
-            this.BottomBar_HomeIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
-            this.BottomBar_MentionsButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
-            this.BottomBar_MentionsIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
-            this.BottomBar_DirectMessagesButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
-            this.BottomBar_DirectMessagesIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
-            this.BottomBar_OthersButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
-            this.BottomBar_OthersIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
+            this.BottomBarArea_HomeButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
+            this.BottomBarArea_HomeIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
+            this.BottomBarArea_MentionsButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
+            this.BottomBarArea_MentionsIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
+            this.BottomBarArea_DirectMessagesButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
+            this.BottomBarArea_DirectMessagesIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
+            this.BottomBarArea_OthersButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedBackgroundBrush"]);
+            this.BottomBarArea_OthersIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonUnselectedForegroundBrush"]);
 
-            this.BottomBar_HomeTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
-            this.BottomBar_MentionsTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
-            this.BottomBar_DirectMessagesTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
-            this.BottomBar_OthersTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
+            this.BottomBarArea_HomeTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
+            this.BottomBarArea_MentionsTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
+            this.BottomBarArea_DirectMessagesTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
+            this.BottomBarArea_OthersTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]);
 
             if (this.SelectedIndex == 0)
             {
-                this.BottomBar_HomeButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
-                this.BottomBar_HomeIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
-                this.BottomBar_HomeTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
+                this.BottomBarArea_HomeButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
+                this.BottomBarArea_HomeIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
+                this.BottomBarArea_HomeTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
             }
             else if (this.SelectedIndex == 1)
             {
-                this.BottomBar_MentionsButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
-                this.BottomBar_MentionsIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
-                this.BottomBar_MentionsTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
+                this.BottomBarArea_MentionsButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
+                this.BottomBarArea_MentionsIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
+                this.BottomBarArea_MentionsTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
             }
             else if (this.SelectedIndex == 2)
             {
-                this.BottomBar_DirectMessagesButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
-                this.BottomBar_DirectMessagesIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
-                this.BottomBar_DirectMessagesTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
+                this.BottomBarArea_DirectMessagesButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
+                this.BottomBarArea_DirectMessagesIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
+                this.BottomBarArea_DirectMessagesTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
             }
             else
             {
-                this.BottomBar_OthersButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
-                this.BottomBar_OthersIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
-                this.BottomBar_OthersTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
+                this.BottomBarArea_OthersButton.Background = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedBackgroundBrush"]);
+                this.BottomBarArea_OthersIcon.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarButtonSelectedForegroundBrush"]);
+                this.BottomBarArea_OthersTextButton.Foreground = ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]);
             }
         }
 
-        void BottomBar_SizeChanged(object sender, SizeChangedEventArgs e)
+        void BottomBarArea_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.BottomBar_ProfileImageButton.Width = e.NewSize.Height;
-            this.BottomBar_ProfileImageButton.Height = e.NewSize.Height;
+            this.BottomBarArea_ProfileImageButton.Width = e.NewSize.Height;
+            this.BottomBarArea_ProfileImageButton.Height = e.NewSize.Height;
 
             if (e.NewSize.Width < 384)
                 VisualStateManager.GoToState(this, "Under384px", true);
@@ -111,17 +111,17 @@ namespace Flantter.MilkyWay.Views.Contents
                 VisualStateManager.GoToState(this, "Default", true);
         }
 
-        private void BottomBar_HomeButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void BottomBarArea_HomeButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             this.SelectedIndex = 0;
         }
 
-        private void BottomBar_MentionsButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void BottomBarArea_MentionsButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             this.SelectedIndex = 1;
         }
 
-        private void BottomBar_DirectMessagesButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void BottomBarArea_DirectMessagesButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             this.SelectedIndex = 2;
         }

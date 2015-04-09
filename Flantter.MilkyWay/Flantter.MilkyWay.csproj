@@ -118,12 +118,14 @@
     <Compile Include="Common\ExtendedObservableCollection.cs" />
     <Compile Include="Common\FontServiceBase.cs" />
     <Compile Include="Common\GetMethodHelper.cs" />
+    <Compile Include="Common\IEnumerableExtensions.cs" />
     <Compile Include="Common\SetterValueBindingHelper.cs" />
     <Compile Include="Common\SettingServiceBase.cs" />
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Common\ThemeServiceBase.cs" />
     <Compile Include="Common\TweetRegexPatterns.cs" />
     <Compile Include="Common\TwitterConsumerKeyPatterns.cs" />
+    <Compile Include="Common\VisualTreeHelperExtensions.cs" />
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\ColumnModel.cs" />
     <Compile Include="Models\MainPageModel.cs" />
@@ -142,6 +144,9 @@
     </Compile>
     <Compile Include="Views\Contents\BottomBarArea.xaml.cs">
       <DependentUpon>BottomBarArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\ColumnArea.xaml.cs">
+      <DependentUpon>ColumnArea.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\MainArea.xaml.cs">
       <DependentUpon>MainArea.xaml</DependentUpon>
@@ -204,10 +209,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Prism.StoreApps.2.0.0\lib\windows8\Microsoft.Practices.Prism.StoreApps.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism.StoreApps.Windows, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Prism.StoreApps.2.0.0\lib\windows8\Microsoft.Practices.Prism.StoreApps.Windows.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\winrt45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -269,6 +270,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Contents\ColumnArea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Contents\MainArea.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -292,6 +297,18 @@
     <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
       <Name>Behaviors SDK %28XAML%29</Name>
     </SDKReference>
+    <SDKReference Include="Windows Desktop, Version=10.0.10030.0">
+      <Name>Windows Desktop Extension SDK</Name>
+    </SDKReference>
+    <SDKReference Include="Windows Mobile, Version=10.0.0.1">
+      <Name>Windows Mobile Extension SDK</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Practices.Prism.StoreApps.Windows\Microsoft.Practices.Prism.StoreApps.Windows.csproj">
+      <Project>{c60d71d4-f262-4fe6-95b6-e667a0508afa}</Project>
+      <Name>Microsoft.Practices.Prism.StoreApps.Windows</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

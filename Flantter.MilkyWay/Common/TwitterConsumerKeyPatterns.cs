@@ -15,7 +15,6 @@ namespace Flantter.MilkyWay.Common
         private const string Twitter_for_Mac = "3rJOl1ODzm9yZy63FACdg";
         private const string Twitter_for_Windows_Phone = "yN3DUNVO0Me63IAQdhTfCA";
         private const string TweetDeck = "yT577ApRtZw51q4NPMPPOQ";
-
         public static readonly List<string> OfficialConsumerKeyList = new List<string>() { Twitter_for_iPhone, Twitter_for_Android, Twitter_for_Google_TV, Twitter_for_iPad, Twitter_for_Mac, Twitter_for_Windows_Phone, TweetDeck };
     }
 }

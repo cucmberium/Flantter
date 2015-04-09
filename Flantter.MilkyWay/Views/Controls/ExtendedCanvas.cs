@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
+using Flantter.MilkyWay.Common;
 
 namespace Flantter.MilkyWay.Views.Controls
 {

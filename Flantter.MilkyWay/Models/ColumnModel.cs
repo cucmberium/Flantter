@@ -89,14 +89,14 @@ namespace Flantter.MilkyWay.Models
             get { return this._Parameter; }
             set { this.SetProperty(ref this._Parameter, value); }
         }
-        #endregion
+		#endregion
 
-        #region Stream変更通知プロパティ
-        private bool _Stream;
-        public bool Stream
-        {
-            get { return this._Stream; }
-            set { this.SetProperty(ref this._Stream, value); }
+		#region Streaming変更通知プロパティ
+		private bool _Streaming;
+        public bool Streaming
+		{
+            get { return this._Streaming; }
+            set { this.SetProperty(ref this._Streaming, value); }
         }
         #endregion
 
@@ -122,23 +122,6 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region Constructor
-        /*public ColumnModel()
-        {
-        }
-
-        public ColumnModel(ColumnSetting column)
-        {
-            this.Action = column.Action;
-            this.AutoRefresh = column.AutoRefresh;
-            this.AutoRefreshTimerInterval = column.AutoRefreshTimerInterval;
-            this.DisableStartupRefresh = column.DisableStartupRefresh;
-            this.Filter = column.Filter;
-            this.Index = column.Index;
-            this.Name = column.Name;
-            this.Parameter = column.Parameter;
-            this.Stream = column.Stream;
-            this.FetchingNumberOfTweet = column.FetchingNumberOfTweet;
-        }*/
 
         public ColumnModel(ColumnSetting column, string screenName)
         {
@@ -150,7 +133,7 @@ namespace Flantter.MilkyWay.Models
             this.Index = column.Index;
             this.Name = column.Name;
             this.Parameter = column.Parameter;
-            this.Stream = column.Stream;
+            this.Streaming = column.Streaming;
             this.FetchingNumberOfTweet = column.FetchingNumberOfTweet;
             this.OwnerScreenName = screenName;
 

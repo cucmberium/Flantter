@@ -15,6 +15,10 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+			<converters:EnumToIntConverter x:Key="EnumToIntConverter"/>
+			<converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
+			<converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
+			<converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
             <setting:SettingProvider x:Key="Setting"/>
             <setting:AdvancedSettingProvider x:Key="AdvancedSetting"/>
         </ResourceDictionary>

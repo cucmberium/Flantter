@@ -6,11 +6,27 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:common="using:Flantter.MilkyWay.Common"
+	xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
     mc:Ignorable="d"
     d:DesignHeight="720"
     d:DesignWidth="400">
 
     <ListView ItemsSource="{Binding Tweets}" BorderThickness="0" BorderBrush="{x:Null}" Foreground="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,0" ShowsScrollingPlaceholders="True" SelectionMode="Extended">
-        
+        <!--<ItemsControl.ItemTemplateSelector>
+		    <common:DataTypeTemplateSelector>
+		        <DataTemplate x:Key="TViewModel">
+		            <timeline:Status DataContext="{Binding}"/>
+		        </DataTemplate>
+		        <DataTemplate x:Key="DViewModel">
+		            <timeline:DirectMessage DataContext="{Binding}"/>
+		        </DataTemplate>
+		        <DataTemplate x:Key="EViewModel">
+		            <timeline:Event DataContext="{Binding}"/>
+		        </DataTemplate>
+		        <DataTemplate x:Key="GViewModel">
+		            <timeline:Gap DataContext="{Binding}"/>
+		        </DataTemplate>
+		    </common:DataTypeTemplateSelector>
+		</ItemsControl.ItemTemplateSelector>-->
     </ListView>
 </UserControl>

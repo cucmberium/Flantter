@@ -48,8 +48,8 @@ namespace Flantter.MilkyWay.ViewModels
             
             this.ColumnCount = Observable.CombineLatest<double, double, int, int>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
-                SettingService.Setting.ObserveProperty(x => x.TweetFieldColumnSize),
-                SettingService.Setting.ObserveProperty(x => x.TweetFieldColumnCount),
+                SettingService.Setting.ObserveProperty(x => x.MinColumnSize),
+                SettingService.Setting.ObserveProperty(x => x.MaxColumnCount),
                 (width, minWidth, maxCount) =>
                 {
                     return (int)Math.Max(Math.Min(maxCount, (width - 5.0 * 2) / (minWidth + 5.0 * 2)), 1.0);

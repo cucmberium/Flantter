@@ -16,10 +16,10 @@ namespace Flantter.MilkyWay.Setting
     {
         public enum SizeEnum
         {
-            ExtraSmall = 0,
-            Small = 1,
-            Medium = 2,
-            Large = 3,
+            ExtraSmall = 40,
+            Small = 45,
+            Medium = 50,
+            Large = 55,
         }
 
         public enum DoubleTappedEventEnum
@@ -96,15 +96,15 @@ namespace Flantter.MilkyWay.Setting
         // 表示設定
         public string Theme { get { return GetValue("Light"); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
         public double FontSize { get { return GetValue(12.0); } set { SetValue(value); OnPropertyChanged(); } }
-        public double TweetBrushAlpha { get { return GetValue(20.0); } set { SetValue(value); OnPropertyChanged(); } }
-        public double TweetFieldBrushAlpha { get { return GetValue(255.0); } set { SetValue(value); OnPropertyChanged(); } }
-        public double TweetFieldColumnSize { get { return GetValue(384.0); } set { SetValue(value); OnPropertyChanged(); } }
-        public int TweetFieldColumnCount { get { return GetValue(2); } set { SetValue(value); OnPropertyChanged(); } }
+        public double ColumnBackgroundBrushAlpha { get { return GetValue(20.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public double TweetBackgroundBrushAlpha { get { return GetValue(255.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public double MinColumnSize { get { return GetValue(384.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public int MaxColumnCount { get { return GetValue(2); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ExpandTweetField { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool EnableTweetClickAnimation { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public double TweetPostFieldFontSize { get { return GetValue(14.5); } set { SetValue(value); OnPropertyChanged(); } }
-        public double TweetFieldCommandBarHeight { get { return GetValue(45.0); } set { SetValue(value); OnPropertyChanged(); } }
-        public SettingSupport.SizeEnum IconSize { get { return (SettingSupport.SizeEnum)GetValue(2); } set { SetValue((int)value); OnPropertyChanged(); } }
+        public double TweetCommandBarHeight { get { return GetValue(45.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public SettingSupport.SizeEnum IconSize { get { return (SettingSupport.SizeEnum)GetValue(45); } set { SetValue((int)value); OnPropertyChanged(); } }
         public SettingSupport.TweetAnimationEnum TweetAnimation { get { return (SettingSupport.TweetAnimationEnum)GetValue(3); } set { SetValue((int)value); OnPropertyChanged(); } }
 
         [LocalValue]
@@ -119,8 +119,8 @@ namespace Flantter.MilkyWay.Setting
                 else 
                     return string.Empty;
             } 
-            set { SetValue(value); OnPropertyChanged(); } }
-        
+            set { SetValue(value); OnPropertyChanged(); } }		
+
         // 動作設定
         public bool ShowRetweetToMentionColumn { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
@@ -141,11 +141,9 @@ namespace Flantter.MilkyWay.Setting
         // 上級者向け設定
         public bool UseOfficialApi { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool UseExtendedConversation { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
-
+		
         [LocalValue]
-        public bool UseCustomFont { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); /*FontService.Font.ChangeFont();*/ } }
-        [LocalValue]
-        public string CustomFontName { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); /*FontService.Font.ChangeFont();*/ } }
+        public string CustomFontName { get { return GetValue("Global User Interface"); } set { SetValue(value); OnPropertyChanged(); } }
 
         [LocalValue]
         public bool UseCustomTheme { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }

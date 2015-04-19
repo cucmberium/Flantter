@@ -262,7 +262,7 @@
                                     <ColumnDefinition Width="60*"/>
                                 </Grid.ColumnDefinitions>
                                 <SymbolIcon Grid.Column="0" Margin="0,0,0,15" Foreground="{StaticResource PullToRefreshCharacterBrush}" Symbol="Download" VerticalAlignment="Bottom"/>
-                                <TextBlock x:Uid="TweetField_TweetList_PullToRefreshScrollViewer_PullToRefreshTextBlock" Grid.Column="1" Margin="0,10" VerticalAlignment="Bottom" Foreground="{StaticResource PullToRefreshCharacterBrush}" x:Name="PullToRefresh" Text="引っ張って更新" FontFamily="Yu Gothic" FontSize="20" />
+                                <TextBlock x:Uid="ColumnArea_PullToRefreshPanel_PullToRefreshTextBlock" Grid.Column="1" Margin="0,10" VerticalAlignment="Bottom" Foreground="{StaticResource PullToRefreshCharacterBrush}" x:Name="PullToRefresh" Text="引っ張って更新" FontFamily="Yu Gothic" FontSize="20" />
                             </Grid>
                         </controls:PullToRefreshPanel.PullContent>
                         <controls:PullToRefreshPanel.RefreshContent>
@@ -272,13 +272,17 @@
                                     <ColumnDefinition Width="60*"/>
                                 </Grid.ColumnDefinitions>
                                 <SymbolIcon Grid.Column="0" Margin="0,0,0,15" Foreground="{StaticResource PullToRefreshCharacterBrush}" Symbol="Refresh" VerticalAlignment="Bottom"/>
-                                <TextBlock x:Uid="TweetField_TweetList_PullToRefreshScrollViewer_ReleaseToRefreshTextBlock" Grid.Column="1" Margin="0,10" VerticalAlignment="Bottom" Foreground="{StaticResource PullToRefreshCharacterBrush}" x:Name="ReleaseToRefresh" Text="指を離して更新" FontFamily="Yu Gothic" FontSize="20" />
+                                <TextBlock x:Uid="ColumnArea_PullToRefreshPanel_ReleaseToRefreshTextBlock" Grid.Column="1" Margin="0,10" VerticalAlignment="Bottom" Foreground="{StaticResource PullToRefreshCharacterBrush}" x:Name="ReleaseToRefresh" Text="指を離して更新" FontFamily="Yu Gothic" FontSize="20" />
                             </Grid>
                         </controls:PullToRefreshPanel.RefreshContent>
+						
+						<contents:TimelineArea>
+							
+						</contents:TimelineArea>
                     </controls:PullToRefreshPanel>
 
                     <Grid Grid.Row="1" Height="30" Background="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}">
-                        <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="Home" HorizontalAlignment="Left"/>
+                        <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="{Binding Action.Value}" HorizontalAlignment="Left"/>
                         <TextBlock Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,120,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <Run Text="{Binding Name.Value}"/>
                                 <Run Text=" - "/>
@@ -297,12 +301,12 @@
                                     <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol"/>
                                     <MenuFlyoutSeparator/>
                                     <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol"/>
-                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
+                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{Binding EnableCreateFilterColumn.Value,Converter={StaticResource BooleanToVisibilityConverter}}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>
                         <Button ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0,0,80,0" Width="40" BorderBrush="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0">
-                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Play"/>
+                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{Binding Streaming.Value}"/>
                         </Button>
                     </Grid>
 

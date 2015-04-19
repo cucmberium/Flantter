@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -16,18 +15,13 @@ using Windows.UI.Xaml.Navigation;
 
 // ユーザー コントロールのアイテム テンプレートについては、http://go.microsoft.com/fwlink/?LinkId=234236 を参照してください
 
-namespace Flantter.MilkyWay.Views.Contents
+namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
-    public sealed partial class MainArea : UserControl
+    public sealed partial class Gap : UserControl
     {
-        public MainArea()
+        public Gap()
         {
             this.InitializeComponent();
         }
-
-		private void MainArea_BottomBar_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			Setting.SettingService.Setting.Theme = Setting.SettingService.Setting.Theme == "Dark" ? "Light" : "Dark";
-		}
-	}
+    }
 }

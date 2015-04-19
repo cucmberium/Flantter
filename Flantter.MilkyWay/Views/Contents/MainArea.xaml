@@ -21,7 +21,7 @@
 
         <contents:ColumnArea x:Name="MainArea_ColumnList" Grid.Row="0" />
         
-        <contents:BottomBarArea x:Name="MainArea_BottomBar" Grid.Row="1" Height="75"/>
+        <contents:BottomBarArea Tapped="MainArea_BottomBar_Tapped" x:Name="MainArea_BottomBar" Grid.Row="1" Height="75"/>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="SizeStateGroup">

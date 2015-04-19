@@ -113,7 +113,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\AdvancedSettingBase.cs" />
-    <Compile Include="Common\DataTypeStyleSelector.cs" />
     <Compile Include="Common\DataTypeTempleteSelector.cs" />
     <Compile Include="Common\ExtendedObservableCollection.cs" />
     <Compile Include="Common\FontServiceBase.cs" />
@@ -139,6 +138,7 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\TweetViewModel.cs" />
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
+    <Compile Include="Views\Behaviors\TweetBackgroundColorBehavior.cs" />
     <Compile Include="Views\Contents\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
     </Compile>
@@ -154,10 +154,26 @@
     <Compile Include="Views\Contents\TimelineArea.xaml.cs">
       <DependentUpon>TimelineArea.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contents\Timeline\DirectMessage.xaml.cs">
+      <DependentUpon>DirectMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\Timeline\Event.xaml.cs">
+      <DependentUpon>Event.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\Timeline\Gap.xaml.cs">
+      <DependentUpon>Gap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\Timeline\Status.xaml.cs">
+      <DependentUpon>Status.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\BindableFlyout.cs" />
     <Compile Include="Views\Controls\BindableMenuFlyout.cs" />
     <Compile Include="Views\Controls\ExtendedCanvas.cs" />
     <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
+    <Compile Include="Views\Converters\ObjectToVisibilityConverter.cs" />
+    <Compile Include="Views\Converters\DateTimeToStringConverter.cs" />
+    <Compile Include="Views\Converters\IntToVisibilityConverter.cs" />
+    <Compile Include="Views\Converters\EnumToIntConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\InitializePage.xaml.cs">
       <DependentUpon>InitializePage.xaml</DependentUpon>
@@ -165,6 +181,7 @@
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Util\ShowAttachedFlyoutAction.cs" />
     <Compile Include="Views\Util\WindowSizeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +299,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Contents\Timeline\DirectMessage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\Timeline\Event.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\Timeline\Gap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\Timeline\Status.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\InitializePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -310,6 +343,7 @@
       <Name>Microsoft.Practices.Prism.StoreApps.Windows</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

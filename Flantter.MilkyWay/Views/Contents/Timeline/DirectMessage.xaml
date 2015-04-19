@@ -1,0 +1,186 @@
+﻿<UserControl
+    x:Class="Flantter.MilkyWay.Views.Contents.Timeline.DirectMessage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Flantter.MilkyWay.Views.Contents.Timeline"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:winRTXamlControls="using:WinRTXamlToolkit.Controls"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
+    xmlns:setting="using:Flantter.MilkyWay.Setting"
+    xmlns:common="using:Flantter.MilkyWay.Common"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <Storyboard x:Name="TweetSlideAnimation">
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TweetGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-40">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuarticEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuarticEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="TweetGrid">
+                <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
+                <LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="TweetExpandAnimation">
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="TweetGrid">
+                <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
+                <LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    
+    <Grid x:Name="TweetGrid" behaviors:TweetBackgroundColorBehavior.MentionBackground="{StaticResource TweetFieldTweetListTweetMentionBackgroundBrush}" behaviors:TweetBackgroundColorBehavior.MyStatusBackground="{StaticResource TweetFieldTweetListTweetMyStatusBackgroundBrush}" behaviors:TweetBackgroundColorBehavior.TweetBrushAlpha="{Binding Source={StaticResource Setting},Path=Setting.TweetBrushAlpha}" behaviors:TweetBackgroundColorBehavior.TweetType="{Binding DirectMessage.TweetType}">
+        <Grid.RenderTransform>
+            <CompositeTransform/>
+        </Grid.RenderTransform>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="7"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="1" VerticalAlignment="Top" BorderThickness="0" Height="{Binding Source={StaticResource Setting},Path=Setting.IconSize,Converter={StaticResource EnumToIntConverter}}" Width="{Binding Source={StaticResource Setting},Path=Setting.IconSize,Converter={StaticResource EnumToIntConverter}}" Margin="0,0,0,0" CornerRadius="4">
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding DirectMessage.Sender.ProfileImageUrl}" />
+                </Border.Background>
+				
+				<i:Interaction.Behaviors>
+					<core:EventTriggerBehavior EventName="Tapped">
+						<core:InvokeCommandAction Command="{Binding Source={StaticResource Notice},Path=UserProfileShowCommand}" CommandParameter="{Binding DirectMessage.Sender.ScreenName}"/>
+					</core:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+            </Border>
+
+            <StackPanel Grid.Column="3" x:Name="TweetBox" Orientation="Vertical">
+                <TextBlock>
+                    <Run Foreground="{StaticResource TweetFieldTweetListTweetUserNameTextblockForegroundBrush}" FontSize="12" Text="{Binding DirectMessage.Sender.Name}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetFieldTweetListTweetUserScreenNameNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetFieldTweetListTweetUserScreenNameNameTextblockForegroundBrush}" FontSize="10.5" Text="{Binding DirectMessage.Sender.ScreenName}"/>
+                </TextBlock>
+
+                <TextBlock Width="{Binding ElementName=TweetBox, Path=Width}" TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Entities="{Binding DirectMessage.Entities}" behaviors:TexbblockNavigationServiceBehavior.Text="{Binding DirectMessage.Text}"/>
+                <TextBlock Foreground="{StaticResource TweetFieldTweetListTweetDateTimeTextblockForegroundBrush}" Text="{Binding DirectMessage.CreatedAt,Converter={StaticResource DateTimeToStringConverter}}" FontSize="10.5" HorizontalAlignment="Left" />
+
+                <ItemsControl Visibility="{Binding DirectMessage.Entities.MediaEntities.Count,Converter={StaticResource IntToVisibilityConverter}}" Grid.Row="1" ItemsSource="{Binding DirectMessage.Entities.MediaEntities}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <winRTXamlControls:WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Foreground="{StaticResource FlantterTransparentBrush}" BorderBrush="{x:Null}" BorderThickness="0" Command="{Binding Source={StaticResource Notice},Path=MediaShowCommand}" CommandParameter="{Binding}">
+                                <Image MinWidth="75" MaxWidth="150" Height="75" Source="{Binding MediaThumbnailUrl}" Stretch="Uniform"/>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Grid Grid.Row="2" Margin="0,2,0,0" Background="{StaticResource FlantterTransparentBrush}" HorizontalAlignment="Left">
+
+					<i:Interaction.Behaviors>
+						<core:EventTriggerBehavior EventName="Tapped">
+							<core:InvokeCommandAction Command="{Binding Source={StaticResource Notice},Path=UserProfileShowCommand}" CommandParameter="{Binding DirectMessage.Recipient.ScreenName}"/>
+						</core:EventTriggerBehavior>
+					</i:Interaction.Behaviors>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" Height="22" Width="22" CornerRadius="2">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding DirectMessage.Recipient.ProfileImageUrl}" />
+                        </Border.Background>
+                    </Border>
+                    <TextBlock Grid.Column="1" Foreground="{StaticResource TweetFieldTweetListTweetRetweetTextTextblockForegroundBrush}" FontSize="10" Margin="5,0,0,0" VerticalAlignment="Bottom" TextWrapping="Wrap">
+                        <Run Text="Sent to "/><Run Text="{Binding DirectMessage.Recipient.ScreenName}"/><Run Text=" ("/><Run Text="{Binding DirectMessage.Recipient.Name}"/><Run Text=")"/>
+                    </TextBlock>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2" x:Name="TweetCommandBar" Visibility="Collapsed" Height="0" HorizontalAlignment="Right" Margin="0,0,18,0"  behaviors:TweetCommandBarBehaviors.Selected="{Binding Selected}">
+            <Grid.Resources>
+                <Storyboard x:Name="TweetCommandBarOpenAnimation">
+                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="TweetCommandBar">
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="{Binding Source={StaticResource Setting},Path=Setting.TweetCommandBarHeight}">
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <SineEase EasingMode="EaseInOut"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+                <Storyboard x:Name="TweetCommandBarCloseAnimation">
+                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="TweetCommandBar">
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0">
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <SineEase EasingMode="EaseInOut"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetCommandBar" Storyboard.TargetProperty="Visibility">
+                        <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="Collapsed"/>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="2" x:Uid="TweetField_TweetList_TweetCommand_DMConversationCommandButton" ToolTipService.ToolTip="会話を表示" BorderBrush="{x:Null}" FlowDirection="LeftToRight" Margin="0,0" Padding="10,4" Command="{Binding Source={StaticResource Notice},Path=DirectMessageConversationShowCommand}" CommandParameter="{Binding DirectMessage}" VerticalAlignment="Stretch">
+                <SymbolIcon Foreground="{StaticResource TweetFieldTweetListTweetCommandReplySymbolIconForegroundBrush}" Symbol="Message"/>
+            </Button>
+            <Button Grid.Column="1" x:Uid="TweetField_TweetList_TweetCommand_URLCommandButton" ToolTipService.ToolTip="URL" BorderBrush="{x:Null}" FlowDirection="LeftToRight" Margin="0,0" Padding="10,4" VerticalAlignment="Stretch">
+                <SymbolIcon Foreground="{StaticResource TweetFieldTweetListTweetCommandUrlSymbolIconForegroundBrush}" Symbol="Link"/>
+                <Button.Flyout>
+                    <Flyout controls:BindableFlyout.ItemsSource="{Binding DirectMessage.Entities.UrlEntities}">
+                        <controls:BindableFlyout.ItemTemplate>
+                            <DataTemplate>
+                                <MenuFlyoutItem ToolTipService.Placement="Top" ToolTipService.ToolTip="{Binding ExpandedUrl}" Text="{Binding DisplayUrl}" Command="{Binding Source={StaticResource Notice},Path=UrlClickCommand}" CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </controls:BindableFlyout.ItemTemplate>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+            <Button Grid.Column="0" x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton" ToolTipService.ToolTip="メニュー" BorderBrush="{x:Null}" FlowDirection="LeftToRight" Margin="0,0" VerticalAlignment="Stretch">
+                <SymbolIcon Foreground="{StaticResource TweetFieldTweetListTweetCommandMenuSymbolIconForegroundBrush}" Symbol="Add"/>
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_UserProfile" Text="&#xE136;    ユーザープロフィール" FontFamily="Segoe UI Symbol" Command="{Binding Source={StaticResource Notice},Path=UserProfileShowCommand}" CommandParameter="{Binding DirectMessage.Sender.ScreenName}"/>
+                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_Copy" Text="&#xE16F;    コピー" FontFamily="Segoe UI Symbol" Command="{Binding Source={StaticResource Notice},Path=DirectMessageCopyCommand}" CommandParameter="{Binding DirectMessage}"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_UserMute" Text="&#xE1E0;    ユーザーミュート" FontFamily="Segoe UI Symbol" Command="{Binding Source={StaticResource Notice},Path=DirectMessageUserMuteCommand}" CommandParameter="{Binding DirectMessage}"/>
+                        <MenuFlyoutItem Visibility="{Binding DirectMessage.IsMyStatus,Converter={StaticResource BooleanToVisibilityConverter}}" x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_Delete" Text="&#xE107;    削除" FontFamily="Segoe UI Symbol" Command="{Binding Source={StaticResource Notice},Path=DirectMessageDeleteCommand}" CommandParameter="{Binding DirectMessage}"/>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+    </Grid>
+
+</UserControl>

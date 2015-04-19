@@ -7,7 +7,31 @@ using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.ViewModels
 {
-    public class TweetViewModel
+	public enum TweetTypeEnum
+	{
+		None,
+		Mention,
+		Favorite,
+		Retweet,
+		MyStatus
+	}
+
+	public enum MediaTypeEnum
+	{
+		Picture,
+		Video,
+	}
+
+	public enum EventTypeEnum
+	{
+		Favorite,
+		Unfavorite,
+		Follow,
+		UserUpdate,
+		Other
+	}
+
+	public class TweetViewModel
     {
         public TweetViewModel(TweetModel tweet)
         {

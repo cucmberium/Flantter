@@ -144,6 +144,12 @@
   <data name="BottomBar_ProfileImageButton_Flyout_MyProfile.Text" xml:space="preserve">
     <value>    自分のプロフィール</value>
   </data>
+  <data name="ColumnArea_PullToRefreshPanel_PullToRefreshTextBlock.Text" xml:space="preserve">
+    <value>引っ張って更新</value>
+  </data>
+  <data name="ColumnArea_PullToRefreshPanel_ReleaseToRefreshTextBlock.Text" xml:space="preserve">
+    <value>離して更新</value>
+  </data>
   <data name="ColumnView_ControlBar_MenuFlyout_ColumnSetting.Text" xml:space="preserve">
     <value>    カラム設定</value>
   </data>

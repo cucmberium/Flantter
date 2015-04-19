@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Flantter.MilkyWay.Views.Controls
 {
-    public class PullToRefreshPanel : Control
+    public class PullToRefreshPanel : ContentControl
     {
         public event EventHandler PullToRefresh;
 

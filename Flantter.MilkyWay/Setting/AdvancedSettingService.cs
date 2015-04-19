@@ -44,7 +44,7 @@ namespace Flantter.MilkyWay.Setting
         public bool DisableStartupRefresh { get; set; }
         public bool AutoRefresh { get; set; }
         public double AutoRefreshTimerInterval { get; set; }
-        public bool Stream { get; set; }
+        public bool Streaming { get; set; }
         public int Index { get; set; }
 
         public int FetchingNumberOfTweet { get; set; }

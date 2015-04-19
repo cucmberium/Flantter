@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 
-namespace Flantter.MilkyWay.Views.Behaviors.AttachedBehaviors
+namespace Flantter.MilkyWay.Views.Behaviors
 {
     public static class TexbblockNavigationServiceBehavior
     {
@@ -132,14 +132,6 @@ namespace Flantter.MilkyWay.Views.Behaviors.AttachedBehaviors
             hyperLink.Inlines.Add(new Run() { Text = text });
             hyperLink.Click += HyperLink_Click;
             hyperLink.SetValue(LinkProperty, linkUrl);
-            
-            /*var binding = new Binding
-            {
-                Source = Theme.ThemeService.Theme,
-                Path = new PropertyPath("TweetFieldTweetListTweetHyperlinkTextblockForegroundBrush"),
-                Mode = BindingMode.OneWay
-            };
-            BindingOperations.SetBinding(hyperLink, Hyperlink.ForegroundProperty, binding);*/
 
             hyperLink.Foreground = (Brush)Application.Current.Resources["TweetFieldTweetListTweetHyperlinkTextblockForegroundBrush"];
 
@@ -262,12 +254,14 @@ namespace Flantter.MilkyWay.Views.Behaviors.AttachedBehaviors
 
             var match = Regex.Match(linkUrl, @"https?://twitter.com/(#!/)?([a-zA-Z0-9_])+/status(es)?/(?<Id>[0-9]+)$", RegexOptions.IgnoreCase);
             var match2 = Regex.Match(linkUrl, @"https?://twitter.com/(#!/)?(?<ScreenName>([a-zA-Z0-9_])+)$", RegexOptions.IgnoreCase);
-            if (match.Success)
-            { }
-            else if (match2.Success)
-            { }
-            else
-                await Launcher.LaunchUriAsync(new Uri(linkUrl));
+			if (match.Success)
+			{ }
+			else if (match2.Success)
+			{ }
+			else
+			{
+				await Launcher.LaunchUriAsync(new Uri(linkUrl));
+			}
         }
     }
 

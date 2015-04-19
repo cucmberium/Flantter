@@ -3,7 +3,7 @@
 
 FlantterはWindowsで使用できるストアアプリのツイッタークライアントです。
 
-アプリの入手は[こちら](http://apps.microsoft.com/windows/ja-jp/app/flantter-cascade/cedc3eca-9d14-452e-bf40-0e32bd76b5b7)よりどうぞ。
+アプリの入手は[こちら](http://apps.microsoft.com/windows/ja-jp/app/flantter-cascade/cedc3eca-9d14-452e-bf40-0e32bd76b5b7)よりどうぞ。(Flantter.Cascade)
 
 より詳しい情報は[wiki](https://github.com/cucmberium/Flantter/wiki)を参照してください。
 
@@ -11,7 +11,7 @@ FlantterはWindowsで使用できるストアアプリのツイッタークラ�
 
 第三世代のFlantterです。
 名前がすこしかっこよくなっただけで中身はソースコードを(自分なりに)綺麗に書きなおしただけのものになっているので、
-見た目や機能は第一,第二世代のものとあまり変わりません。ご了承ください。
+見た目や機能は第一,第二世代のものとあまり変わらない予定です。ご了承ください。
 
 ### 使用ライブラリ
 
@@ -30,6 +30,6 @@ FlantterはWindowsで使用できるストアアプリのツイッタークラ�
 
 * MIT License
 
-#### Thanks tp
+#### Thanks to
 
 * [@hexmaniacib](https://twitter.com/hexmaniacib) Fix translate and typo.

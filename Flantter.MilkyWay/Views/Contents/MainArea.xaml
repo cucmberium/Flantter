@@ -30,20 +30,17 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_BottomBar" Storyboard.TargetProperty="Height">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="64"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_ColumnView" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,0,0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainArea_BottomBar" Storyboard.TargetProperty="Height">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="64"/>
+						</ObjectAnimationUsingKeyFrames>
+					</Storyboard>
                 </VisualState>
                 <VisualState x:Name="Min">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="352" />
                     </VisualState.StateTriggers>
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_BottomBar" Storyboard.TargetProperty="Height">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainArea_BottomBar" Storyboard.TargetProperty="Height">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="64"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
@@ -53,7 +50,7 @@
                         <AdaptiveTrigger MinWindowWidth="384" />
                     </VisualState.StateTriggers>
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_BottomBar" Storyboard.TargetProperty="Height">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainArea_BottomBar" Storyboard.TargetProperty="Height">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="64"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>

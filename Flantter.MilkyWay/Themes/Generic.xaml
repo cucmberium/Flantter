@@ -20,13 +20,13 @@
                                         <FadeOutThemeAnimation TargetName="RefreshContent" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Refresh">
-                                    <Storyboard>
-                                        <FadeInThemeAnimation TargetName="RefreshContent" />
-                                        <FadeOutThemeAnimation TargetName="PullContent" />
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
+								<VisualState x:Name="Refresh">
+									<Storyboard>
+										<FadeInThemeAnimation TargetName="RefreshContent" />
+										<FadeOutThemeAnimation TargetName="PullContent" />
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
                         <ScrollViewer x:Name="ScrollViewer"

@@ -242,7 +242,7 @@
     <ListBox x:Name="ColumnArea_ColumnList" Grid.Row="0" Style="{StaticResource ExtendedListBox}" Margin="5,10" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding Columns}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                <controls:ExtendedCanvas x:Name="ColumnListCanvas" Background="Transparent" Width="{Binding PanelWidth.Value}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value}" MaxSnapPoint="{Binding MaxSnapPoint.Value}"/>
+                <controls:ExtendedCanvas x:Name="ColumnListCanvas" Background="Transparent" Width="{Binding PanelWidth.Value}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value}" MaxSnapPoint="{Binding MaxSnapPoint.Value}" MinSnapPoint="{Binding MinSnapPoint.Value}"/>
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
@@ -351,6 +351,36 @@
                 </Setter>
             </Style>
         </ItemsControl.ItemContainerStyle>
+		
+		<VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SizeStateGroup">
+                <VisualState x:Name="Minimal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+					<Storyboard>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnArea_ColumnList" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,0,0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Min">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="352" />
+					</VisualState.StateTriggers>
+				</VisualState>
+                <VisualState x:Name="Normal">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="384" />
+					</VisualState.StateTriggers>
+				</VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </ListBox>
 
 </UserControl>

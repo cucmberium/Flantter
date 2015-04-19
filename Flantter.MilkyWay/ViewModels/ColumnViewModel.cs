@@ -161,9 +161,9 @@ namespace Flantter.MilkyWay.ViewModels
                 (width, index, columnWidth) =>
                 {
                     if (width < 352.0)
-                        return index * (columnWidth + 10.0);
+                        return index * (columnWidth + 10.0) + 352.0;
                     else
-                        return 5.0 + index * (columnWidth + 10.0);
+                        return 5.0 + index * (columnWidth + 10.0) + 352.0;
                 }).ToReactiveProperty();
 
             this.Tweets = this._ColumnModel.ReadOnlyTweets.ToReadOnlyReactiveCollection(x => new TweetViewModel(x));

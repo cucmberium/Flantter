@@ -103,7 +103,7 @@ namespace Flantter.MilkyWay.Views.Controls
         {
             this.ScrollViewer = GetTemplateChild("ScrollViewer") as ScrollViewer;
             //this.ScrollViewer.SizeChanged += (s, e) => UpdateView();
-            Window.Current.SizeChanged += async (s, e) => { await Task.Delay(10); UpdateView(); };
+            Window.Current.SizeChanged += async (s, e) => { await Task.Delay(30); UpdateView(); };
             this.ScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             
             this.Loaded += (s, e) => UpdateView();

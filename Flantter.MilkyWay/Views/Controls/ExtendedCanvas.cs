@@ -39,7 +39,24 @@ namespace Flantter.MilkyWay.Views.Controls
                         DependencyProperty.RegisterAttached("MaxSnapPoint", typeof(double),
                         typeof(ExtendedCanvas), new PropertyMetadata(0.0, MaxSnapPoint_Changed));
 
-        private static void MaxSnapPoint_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private static void MaxSnapPoint_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var extendedCanvas = d as ExtendedCanvas;
+
+			extendedCanvas.HorizontalSnapPointsChanged_OnCommandExecute();
+			extendedCanvas.VerticalSnapPointsChanged_OnCommandExecute();
+		}
+
+		public double MinSnapPoint
+		{
+			get { return (double)this.GetValue(MinSnapPointProperty); }
+			set { this.SetValue(MinSnapPointProperty, value); }
+		}
+		public static readonly DependencyProperty MinSnapPointProperty =
+						DependencyProperty.RegisterAttached("MinSnapPoint", typeof(double),
+						typeof(ExtendedCanvas), new PropertyMetadata(0.0, MinSnapPoint_Changed));
+
+		private static void MinSnapPoint_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var extendedCanvas = d as ExtendedCanvas;
 
@@ -61,10 +78,10 @@ namespace Flantter.MilkyWay.Views.Controls
         {
             var snapPointsList = new List<float>();
 
-            if (SnapPointsSpaceing <= 0.0 || MaxSnapPoint <= 0.0)
+            if (SnapPointsSpaceing <= 0.0 || MaxSnapPoint - MinSnapPoint <= 0.0)
                 return snapPointsList;
 
-            for (var i = 0.0; i <= MaxSnapPoint; i += SnapPointsSpaceing)
+            for (var i = MinSnapPoint; i <= MaxSnapPoint; i += SnapPointsSpaceing)
                 snapPointsList.Add((float)i);
 
             return snapPointsList;
@@ -89,21 +106,6 @@ namespace Flantter.MilkyWay.Views.Controls
         {
             if (VerticalSnapPointsChanged != null)
                 VerticalSnapPointsChanged(this, EventArgs.Empty);
-        }
-
-        public ExtendedCanvas()
-        {
-            this.PointerWheelChanged += ExtendedCanvas_PointerWheelChanged;
-        }
-
-        ~ExtendedCanvas()
-        {
-            this.PointerWheelChanged -= ExtendedCanvas_PointerWheelChanged;
-        }
-            
-        private void ExtendedCanvas_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            //e.Handled = true;
         }
     }
 }

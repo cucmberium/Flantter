@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Views.Controls;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -32,13 +33,14 @@ namespace Flantter.MilkyWay.Views.Contents
         private static void SelectedIndex_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var columnArea = d as ColumnArea;
-            columnArea.ColumnArea_SelectedIndexChanged(false);
-        }
+            columnArea.ColumnArea_UpdateView(false);
+			System.Diagnostics.Debug.WriteLine("SelectedIndex : " + e.NewValue);
+		}
 
         public ColumnArea()
         {
             this.InitializeComponent();
-            this.SizeChanged += (s, e) => this.ColumnArea_SelectedIndexChanged();
+            this.SizeChanged += (s, e) => { this.ColumnArea_UpdateView(); };
             this.Loaded += (s, e) =>
             {
                 var scrollViewer = this.ColumnArea_ColumnList.GetVisualChild<ScrollViewer>();
@@ -74,6 +76,9 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
+            if (scrollViewerControlDisabled)
+                return;
+
             if (e.IsIntermediate)
                 return;
 
@@ -97,8 +102,11 @@ namespace Flantter.MilkyWay.Views.Contents
             
         }
 
-        public void ColumnArea_SelectedIndexChanged(bool disableAnimation = true)
+        bool scrollViewerControlDisabled = false;
+        public void ColumnArea_UpdateView(bool disableAnimation = true)
         {
+            scrollViewerControlDisabled = true;
+
             var extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
             var snapPointsList = extendedCanvas.GetIrregularSnapPoints(Orientation.Horizontal, SnapPointsAlignment.Near);
             var selectedIndex = this.SelectedIndex;
@@ -109,6 +117,10 @@ namespace Flantter.MilkyWay.Views.Contents
                 this.ColumnArea_ColumnList.GetVisualChild<ScrollViewer>()?.ChangeView(snapPointsList.Last(), null, null, disableAnimation);
             else
                 this.ColumnArea_ColumnList.GetVisualChild<ScrollViewer>()?.ChangeView(snapPointsList[selectedIndex], null, null, disableAnimation);
+            
+            scrollViewerControlDisabled = false;
+
+			//System.Diagnostics.Debug.WriteLine("SelectedIndex : " + this.SelectedIndex);
         }
     }
 }

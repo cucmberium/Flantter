@@ -11,8 +11,8 @@
     <AssemblyName>Flantter.MilkyWay</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10030.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10030.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.10069.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10069.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
@@ -137,8 +137,11 @@
     <Compile Include="ViewModels\ColumnViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\TweetViewModel.cs" />
+    <Compile Include="Views\Behaviors\SymbolIconColorSwitchBehavior.cs" />
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetBackgroundColorBehavior.cs" />
+    <Compile Include="Views\Behaviors\TweetCommandBarAnimationBehavior.cs" />
+    <Compile Include="Views\Behaviors\TweetMentionAnimationBehavior.cs" />
     <Compile Include="Views\Contents\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
     </Compile>
@@ -325,25 +328,22 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework and 
-         Windows SDK is automatically included -->
-    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
-      <Name>Behaviors SDK %28XAML%29</Name>
-    </SDKReference>
-    <SDKReference Include="Windows Desktop, Version=10.0.10030.0">
-      <Name>Windows Desktop Extension SDK</Name>
-    </SDKReference>
-    <SDKReference Include="Windows Mobile, Version=10.0.0.1">
-      <Name>Windows Mobile Extension SDK</Name>
-    </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Microsoft.Practices.Prism.StoreApps.Windows\Microsoft.Practices.Prism.StoreApps.Windows.csproj">
       <Project>{c60d71d4-f262-4fe6-95b6-e667a0508afa}</Project>
       <Name>Microsoft.Practices.Prism.StoreApps.Windows</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
+      <Name>Behaviors SDK %28XAML%29</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10069.0">
+      <Name>Microsoft Desktop Extension SDK for Universal App Platform</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.0.1">
+      <Name>Microsoft Mobile Extension SDK for Universal App Platform</Name>
+    </SDKReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

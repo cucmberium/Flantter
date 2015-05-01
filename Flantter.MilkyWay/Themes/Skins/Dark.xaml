@@ -50,4 +50,30 @@
     <SolidColorBrush x:Key="ColumnViewControlBarUnreadCountGridBackgroundBrush" Color="Tomato" />
     <SolidColorBrush x:Key="ColumnViewControlBarUnreadCountTextblockForegroundBrush" Color="White" />
     
+	<!-- Tweet -->
+	<SolidColorBrush x:Key="TweetFavoriteBackgroundBrush" Color="Yellow" />
+    <SolidColorBrush x:Key="TweetRetweetBackgroundBrush" Color="Lime" />
+    <SolidColorBrush x:Key="TweetMentionBackgroundBrush" Color="Red" />
+    <SolidColorBrush x:Key="TweetMyStatusBackgroundBrush" Color="Cyan" />
+
+	<SolidColorBrush x:Key="TweetRetweetSymbolIconForegroundBrush" Color="LightGreen" />
+    <SolidColorBrush x:Key="TweetNameTextblockForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="TweetScreenNameTextblockForegroundBrush" Color="#FFA6A6A6" />
+    <SolidColorBrush x:Key="TweetTextTextblockForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="TweetTextHyperlinkTextblockForegroundBrush" Color="#FFB2CBE4" />
+    <SolidColorBrush x:Key="TweetDateTimeTextblockForegroundBrush" Color="#FFA6A6A6" />
+    <SolidColorBrush x:Key="TweetSourceTextblockForegroundBrush" Color="#FFA6A6A6" />
+    <SolidColorBrush x:Key="TweetOtherTextblockForegroundBrush" Color="#FFA6A6A6" />
+    <SolidColorBrush x:Key="TweetRetweetTextblockForegroundBrush" Color="#FFA6A6A6" />
+	
+	<SolidColorBrush x:Key="TweetCommandBarReplySymbolIconForegroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="TweetCommandBarRetweetSymbolIconForegroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="TweetCommandBarDestroyRetweetSymbolIconForegroundBrush" Color="LightGreen" />
+    <SolidColorBrush x:Key="TweetCommandBarFavoriteSymbolIconForegroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush" Color="Yellow" />
+    <SolidColorBrush x:Key="TweetCommandBarUrlSymbolIconForegroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="TweetCommandBarMenuSymbolIconForegroundBrush" Color="Gray" />
+	
+	<SolidColorBrush x:Key="TweetGetGapTextblockForegroundBrush" Color="#FFA6A6A6" />
+	
 </ResourceDictionary>

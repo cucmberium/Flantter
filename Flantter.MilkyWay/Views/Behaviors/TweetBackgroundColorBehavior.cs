@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
-namespace Flantter.Cascade.Views.Behaviors
+namespace Flantter.MilkyWay.Views.Behaviors
 {
     public class TweetBackgroundColorBehavior
 	{

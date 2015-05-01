@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Flantter.MilkyWay.Views.Behaviors
 {
-    public static class TexbblockNavigationServiceBehavior
+    public class TexbblockNavigationServiceBehavior
     {
         public static string GetText(DependencyObject obj) { return obj.GetValue(TextProperty) as string; }
         public static void SetText(DependencyObject obj, string value) { obj.SetValue(TextProperty, value); }
@@ -116,7 +116,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             };
             BindingOperations.SetBinding(run, Run.ForegroundProperty, binding);*/
 
-            run.Foreground = (Brush)Application.Current.Resources["TweetFieldTweetListTweetTextTextblockForegroundBrush"];
+            run.Foreground = (Brush)Application.Current.Resources["TweetTextTextblockForegroundBrush"];
 
             return run;
         }
@@ -133,7 +133,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             hyperLink.Click += HyperLink_Click;
             hyperLink.SetValue(LinkProperty, linkUrl);
 
-            hyperLink.Foreground = (Brush)Application.Current.Resources["TweetFieldTweetListTweetHyperlinkTextblockForegroundBrush"];
+            hyperLink.Foreground = (Brush)Application.Current.Resources["TweetTextHyperlinkTextblockForegroundBrush"];
 
             return hyperLink;
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -36,6 +37,9 @@ namespace Flantter.MilkyWay.Views
             base.OnNavigatedTo(e);
             this.Frame.BackStack.Clear();
             this.Frame.ForwardStack.Clear();
+
+            var coreApplicationView = CoreApplication.GetCurrentView();
+            coreApplicationView.TitleBar.ExtendViewIntoTitleBar = false;
 
             /*var applicationView = ApplicationView.GetForCurrentView();
             applicationView.Title = "";
@@ -70,7 +74,6 @@ namespace Flantter.MilkyWay.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            ApplicationView.GetForCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
         }
     }
 }

@@ -19,8 +19,17 @@
     </d:VisualStateAwarePage.DataContext>
     
     <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         
-        <ItemsControl ItemsSource="{Binding Accounts}">
+        <Grid Grid.Row="0" Height="0" Background="AliceBlue">
+            
+        </Grid>
+
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Accounts}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid/>

@@ -86,17 +86,24 @@ namespace Flantter.MilkyWay.ViewModels
                     return (int)Math.Max(Math.Min(maxCount, (width - 5.0 * 2) / (minWidth + 5.0 * 2)), 1.0);
                 }).ToReactiveProperty();
 
-            this.Height = Observable.CombineLatest<double, double, double>(
+            this.Height = Observable.CombineLatest<double, double, bool, double>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
-                (width, height) =>
+                SettingService.Setting.ObserveProperty(x => x.TitleBarVisibility),
+                (width, height, titleBarVisibility) =>
                 {
+                    var retheight = 0.0;
                     if (width < 352.0)
-                        return height - 64.0;
+                        retheight = height - 64.0;
                     else if (width < 500.0)
-                        return height - 64.0 - 20.0;
+                        retheight = height - 64.0 - 20.0;
                     else
-                        return height - 75.0 - 20.0;
+                        retheight = height - 75.0 - 20.0;
+
+                    if (titleBarVisibility == true)
+                        retheight -= 32.0;
+
+                    return retheight;
                 }).ToReactiveProperty();
 
             this.Width = Observable.CombineLatest<double, int, double>(

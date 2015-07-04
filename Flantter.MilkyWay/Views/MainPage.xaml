@@ -11,21 +11,36 @@
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
     xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 
     <d:VisualStateAwarePage.DataContext>
         <viewModels:MainPageViewModel/>
     </d:VisualStateAwarePage.DataContext>
-    
+
+    <i:Interaction.Behaviors>
+        <core:DataTriggerBehavior Binding="{Binding TitleBarVisivility.Value}" Value="True" >
+            <behaviors:TitleBarSwitchAction TitleBarVisibility="True"/>
+        </core:DataTriggerBehavior>
+        <core:DataTriggerBehavior Binding="{Binding TitleBarVisivility.Value}" Value="False">
+            <behaviors:TitleBarSwitchAction TitleBarVisibility="False"/>
+        </core:DataTriggerBehavior>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <behaviors:TitleBarSwitchAction TitleBarVisibility="{Binding TitleBarVisivility.Value}"/>
+        </core:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+
     <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0" Height="0" Background="AliceBlue">
+
+        <Grid x:Name="Flantter_TitleBar" Background="{StaticResource TitleBarBackgroundBrush}" Grid.Row="0" Height="0" Visibility="Collapsed">
             
         </Grid>
 
@@ -45,5 +60,33 @@
                 <Setter Property="VerticalAlignment" Value="Stretch"/>
             </Style>
         </ItemsControl>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ApplicationViewState">
+                <VisualState x:Name="TitleBarOpened">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_TitleBar" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_TitleBar" Storyboard.TargetProperty="Height">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="32"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="TitleBarClosed">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_TitleBar" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_TitleBar" Storyboard.TargetProperty="Height">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
     </Grid>
+
+    
 </prism:VisualStateAwarePage>

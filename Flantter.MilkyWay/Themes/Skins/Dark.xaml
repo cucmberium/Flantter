@@ -15,6 +15,13 @@
 
     <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FF202020" />
 
+    <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#FF222233" />
+    <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="TitleBarButtonBackgroundBrush" Color="#FF222233" />
+    <SolidColorBrush x:Key="TitleBarButtonForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="TitleBarButtonInactiveBackgroundBrush" Color="#FF222233" />
+    <SolidColorBrush x:Key="TitleBarButtonInactiveForegroundBrush" Color="#FFFFFFFF" />
+    
     <SolidColorBrush x:Key="BottomAppBarBackgroundBrush" Color="#FF000000" />
 
     <SolidColorBrush x:Key="BottomBarBackgroundBrush" Color="#FF222233" />

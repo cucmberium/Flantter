@@ -119,9 +119,11 @@ namespace Flantter.MilkyWay.Setting
                 else 
                     return string.Empty;
             } 
-            set { SetValue(value); OnPropertyChanged(); } }		
+            set { SetValue(value); OnPropertyChanged(); } }
 
         // 動作設定
+        public bool AutoTitleBarVisibility { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool TitleBarVisibility { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ShowRetweetToMentionColumn { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ShowFavoriteConfirmDialog { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }

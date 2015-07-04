@@ -30,6 +30,29 @@ namespace Flantter.MilkyWay.Views
         public MainPage()
         {
             this.InitializeComponent();
+
+            Themes.ThemeService.Theme.PropertyChanged += Theme_PropertyChanged;
+
+            //Windows.UI.ViewManagement.UIViewSettings.GetForCurrentView().UserInteractionMode;
+
+            var applicationView = ApplicationView.GetForCurrentView();
+            applicationView.TitleBar.ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonBackgroundBrush"]).Color;
+            applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
+            applicationView.TitleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveBackgroundBrush"]).Color;
+            applicationView.TitleBar.ButtonInactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
+            applicationView.TitleBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
+            applicationView.TitleBar.ForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
+        }
+
+        private void Theme_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var applicationView = ApplicationView.GetForCurrentView();
+            applicationView.TitleBar.ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonBackgroundBrush"]).Color;
+            applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
+            applicationView.TitleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveBackgroundBrush"]).Color;
+            applicationView.TitleBar.ButtonInactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
+            applicationView.TitleBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
+            applicationView.TitleBar.ForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -37,39 +60,7 @@ namespace Flantter.MilkyWay.Views
             base.OnNavigatedTo(e);
             this.Frame.BackStack.Clear();
             this.Frame.ForwardStack.Clear();
-
-            var coreApplicationView = CoreApplication.GetCurrentView();
-            coreApplicationView.TitleBar.ExtendViewIntoTitleBar = false;
-
-            /*var applicationView = ApplicationView.GetForCurrentView();
-            applicationView.Title = "";
-
-            applicationView.TitleBar.ButtonBackgroundColor = Color.FromArgb(255, 176, 30, 0);
-            applicationView.TitleBar.ButtonForegroundColor = Color.FromArgb(255, 255, 255, 255);
-            applicationView.TitleBar.ButtonInactiveBackgroundColor = Color.FromArgb(255, 176, 30, 0);
-            applicationView.TitleBar.ButtonInactiveForegroundColor = Color.FromArgb(255, 255, 255, 255);
-            applicationView.TitleBar.BackgroundColor = Color.FromArgb(255, 176, 30, 0);
-            applicationView.TitleBar.ForegroundColor = Color.FromArgb(255, 255, 255, 255);
-            applicationView.TitleBar.InactiveBackgroundColor = Color.FromArgb(255, 176, 30, 0);
-            applicationView.TitleBar.InactiveForegroundColor = Color.FromArgb(255, 255, 255, 255);
-
-            applicationView.TitleBar.ExtendViewIntoTitleBar = true;
-            applicationView.TitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;*/
         }
-        /*private void TitleBar_IsVisibleChanged(ApplicationViewTitleBar sender, object args)
-        {
-            var applicationView = ApplicationView.GetForCurrentView();
-            if (applicationView.TitleBar.IsVisible)
-            {
-                this.Flantter_TitleBar.Visibility = Visibility.Visible;
-                this.Flantter_TitleBar.Height = applicationView.TitleBar.Height;
-            }
-            else
-            {
-                this.Flantter_TitleBar.Visibility = Visibility.Collapsed;
-                this.Flantter_TitleBar.Height = applicationView.TitleBar.Height;
-            }
-        }*/
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {

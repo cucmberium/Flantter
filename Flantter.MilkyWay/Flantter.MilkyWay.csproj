@@ -141,6 +141,7 @@
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetBackgroundColorBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetCommandBarAnimationBehavior.cs" />
+    <Compile Include="Views\Behaviors\TitleBarSwitchAction.cs" />
     <Compile Include="Views\Behaviors\TweetMentionAnimationBehavior.cs" />
     <Compile Include="Views\Contents\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
@@ -191,6 +192,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="app.config" />
     <None Include="Flantter.MilkyWay_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <PRIResource Include="String\ja-JP\Resources.resw" />
@@ -210,11 +212,13 @@
     <Content Include="ReleaseNotes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="CoreTweet">
-      <HintPath>..\packages\CoreTweet.0.4.2.84\lib\portable-win81+wpa81\CoreTweet.dll</HintPath>
+    <Reference Include="CoreTweet, Version=0.5.2.200, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CoreTweet.0.5.2.200\lib\portable-win81+wpa81\CoreTweet.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="CoreTweet.Streaming.Reactive">
-      <HintPath>..\packages\CoreTweet.Streaming.Reactive.0.4.1\lib\portable-net4+wp8+win81+wpa81+MonoAndroid+MonoTouch\CoreTweet.Streaming.Reactive.dll</HintPath>
+    <Reference Include="CoreTweet.Streaming.Reactive, Version=0.5.1.191, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CoreTweet.Streaming.Reactive.0.5.1.191\lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS\CoreTweet.Streaming.Reactive.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.Mvvm">
       <HintPath>..\packages\Prism.Mvvm.1.1.1\lib\windows8\Microsoft.Practices.Prism.Mvvm.dll</HintPath>
@@ -229,29 +233,37 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Prism.StoreApps.2.0.0\lib\windows8\Microsoft.Practices.Prism.StoreApps.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\winrt45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\netcore45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="ReactiveProperty">
-      <HintPath>..\packages\ReactiveProperty.2.1.8.1\lib\win81\ReactiveProperty.dll</HintPath>
+    <Reference Include="ReactiveProperty, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReactiveProperty.2.2.1\lib\win81\ReactiveProperty.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="ReactiveProperty.DataAnnotations">
-      <HintPath>..\packages\ReactiveProperty.2.1.8.1\lib\win81\ReactiveProperty.DataAnnotations.dll</HintPath>
+    <Reference Include="ReactiveProperty.DataAnnotations, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReactiveProperty.2.2.1\lib\win81\ReactiveProperty.DataAnnotations.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="ReactiveProperty.WinRT">
-      <HintPath>..\packages\ReactiveProperty.2.1.8.1\lib\win81\ReactiveProperty.WinRT.dll</HintPath>
+    <Reference Include="ReactiveProperty.WinRT, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReactiveProperty.2.2.1\lib\win81\ReactiveProperty.WinRT.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.2.5\lib\windows8\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Reactive.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.3.0-beta2\lib\windows8\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\windows8\System.Reactive.Interfaces.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.3.0-beta2\lib\windows8\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.2.5\lib\windows8\System.Reactive.Linq.dll</HintPath>
+    <Reference Include="System.Reactive.Linq, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.3.0-beta2\lib\windows8\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\windows8\System.Reactive.PlatformServices.dll</HintPath>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-PlatformServices.2.3.0-beta2\lib\windows8\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WinRTXamlToolkit">
       <HintPath>..\packages\WinRTXamlToolkit.Windows.1.8.1.0\lib\netcore451\WinRTXamlToolkit.dll</HintPath>

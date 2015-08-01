@@ -18,7 +18,7 @@ using Windows.Foundation.Metadata;
 
 namespace Microsoft.Practices.Prism.Mvvm
 {
-    public abstract class MvvmAppBase : Application
+    public abstract class MvvmAppBaseUniversal : Application
     {
         private bool _isRestoringFromTermination;
 
@@ -26,7 +26,7 @@ namespace Microsoft.Practices.Prism.Mvvm
         /// Initializes the singleton application object. This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
-        protected MvvmAppBase()
+        protected MvvmAppBaseUniversal()
         {
             this.Suspending += OnSuspending;
         }

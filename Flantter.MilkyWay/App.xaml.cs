@@ -25,13 +25,15 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Flantter.MilkyWay
 {
-    sealed partial class App : MvvmAppBase
+    sealed partial class App : MvvmAppBaseUniversal
     {
         public App()
         {
             this.InitializeComponent();
 
             this.UnhandledException += App_UnhandledException;
+            
+            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(Microsoft.ApplicationInsights.WindowsCollectors.Metadata | Microsoft.ApplicationInsights.WindowsCollectors.Session);
         }
 
         void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -40,6 +42,8 @@ namespace Flantter.MilkyWay
 
         protected async override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 720 });
+
             try
             {
                 var accountSetting = await ApplicationData.Current.RoamingFolder.GetFileAsync("account.xml");

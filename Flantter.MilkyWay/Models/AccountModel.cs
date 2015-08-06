@@ -118,7 +118,7 @@ namespace Flantter.MilkyWay.Models
             this.UserId = account.UserId;
 
             foreach (var column in account.Column)
-                this._Columns.Add(new ColumnModel(column, account.ScreenName));
+                this._Columns.Add(new ColumnModel(column, account.ScreenName, account.UserId));
         }
         #endregion
     }

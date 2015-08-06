@@ -282,19 +282,27 @@
                     </controls:PullToRefreshPanel>
 
                     <Grid Grid.Row="1" Height="30" Background="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}">
-                        <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="{Binding Action.Value}" HorizontalAlignment="Left"/>
-                        <TextBlock Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,120,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid Grid.Column="0">
+                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="{Binding ActionSymbol.Value}" HorizontalAlignment="Left"/>
+                            <TextBlock Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <Run Text="{Binding Name.Value}"/>
                                 <Run Text=" - "/>
                                 <Run Text="@"/><Run Text="{Binding OwnerScreenName.Value}"/>
-                        </TextBlock>
-
-                        <Grid Visibility="Collapsed" HorizontalAlignment="Right" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
+                            </TextBlock>
+                        </Grid>
+                        <Grid Grid.Column="3" Visibility="Collapsed" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
                             <Button Width="40" Height="30" Margin="0" Padding="0" BorderThickness="0">
                                 <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="{Binding TweetListUnreadCount}" FontSize="14" FontWeight="Bold"/>
                             </Button>
                         </Grid>
-                        <Button ToolTipService.ToolTip="Menu" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="40" BorderThickness="0" BorderBrush="Transparent" Foreground="Transparent" Margin="0,0,40,0" Padding="0">
+                        <Button Grid.Column="2" ToolTipService.ToolTip="Menu" VerticalAlignment="Stretch" Width="40" BorderThickness="0" BorderBrush="Transparent" Foreground="Transparent" Padding="0">
                             <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Add"/>
                             <Button.Flyout>
                                 <MenuFlyout>
@@ -305,8 +313,8 @@
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>
-                        <Button ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0,0,80,0" Width="40" BorderBrush="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0">
-                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{Binding Streaming.Value}"/>
+                        <Button Grid.Column="1" ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" Width="40" BorderBrush="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" Visibility="{Binding IsEnabledStreaming.Value,Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{Binding StreamingSymbol.Value}"/>
                         </Button>
                     </Grid>
 

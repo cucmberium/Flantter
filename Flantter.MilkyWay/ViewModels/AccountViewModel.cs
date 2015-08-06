@@ -28,8 +28,9 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<double> ColumnWidth { get; private set; }
         public ReactiveProperty<double> SnapPointsSpaceing { get; private set; }
         public ReactiveProperty<double> MaxSnapPoint { get; private set; }
-
 		public ReactiveProperty<double> MinSnapPoint { get; private set; }
+
+        public ReactiveProperty<int> ColumnSelectedIndex { get; private set; }
 
         #region Constructor
         /*public AccountViewModel()
@@ -84,6 +85,8 @@ namespace Flantter.MilkyWay.ViewModels
             this.MaxSnapPoint = Observable.CombineLatest<double, double, double>(this.PanelWidth, WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth), (panelWidth, windowWidth) => (panelWidth + 10.0) - windowWidth + 352.0).ToReactiveProperty();
 
 			this.MinSnapPoint = new ReactiveProperty<double>(352.0);
+
+            this.ColumnSelectedIndex = new ReactiveProperty<int>(0);
 		}
         #endregion
 

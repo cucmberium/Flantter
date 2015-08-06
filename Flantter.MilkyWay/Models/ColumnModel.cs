@@ -1,4 +1,5 @@
-﻿using Flantter.MilkyWay.Setting;
+﻿using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Setting;
 using Microsoft.Practices.Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -82,6 +83,15 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region OwnerUserId変更通知プロパティ
+        private long _OwnerUserId;
+        public long OwnerUserId
+        {
+            get { return this._OwnerUserId; }
+            set { this.SetProperty(ref this._OwnerUserId, value); }
+        }
+        #endregion
+
         #region Parameter変更通知プロパティ
         private string _Parameter;
         public string Parameter
@@ -123,7 +133,7 @@ namespace Flantter.MilkyWay.Models
 
         #region Constructor
 
-        public ColumnModel(ColumnSetting column, string screenName)
+        public ColumnModel(ColumnSetting column, string screenName, long userId)
         {
             this.Action = column.Action;
             this.AutoRefresh = column.AutoRefresh;
@@ -136,9 +146,13 @@ namespace Flantter.MilkyWay.Models
             this.Streaming = column.Streaming;
             this.FetchingNumberOfTweet = column.FetchingNumberOfTweet;
             this.OwnerScreenName = screenName;
+            this.OwnerUserId = userId;
 
             this._Tweets = new ObservableCollection<TweetModel>();
             this._ReadOnlyTweets = new ReadOnlyObservableCollection<TweetModel>(this._Tweets);
+
+            if (Streaming)
+                Connection.Instance.AppServiceConnection.SendMessageAsync(new Windows.Foundation.Collections.ValueSet() { { "Command", "StartUserstream" }, { "UserId", userId } });
         }
         #endregion
     }

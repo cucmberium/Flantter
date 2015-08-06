@@ -19,9 +19,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <contents:ColumnArea x:Name="MainArea_ColumnList" Grid.Row="0" />
-        
-        <contents:BottomBarArea Tapped="MainArea_BottomBar_Tapped" x:Name="MainArea_BottomBar" Grid.Row="1" Height="75"/>
+        <contents:ColumnArea x:Name="MainArea_ColumnList" Grid.Row="0" SelectedIndex="{Binding ColumnSelectedIndex.Value,Mode=TwoWay}" />
+
+        <contents:BottomBarArea x:Name="MainArea_BottomBar" Grid.Row="1" SelectedIndex="{Binding ColumnSelectedIndex.Value,Mode=TwoWay}" Height="75"/>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="SizeStateGroup">

@@ -119,7 +119,10 @@
     <Compile Include="Common\VisualTreeHelperExtensions.cs" />
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\ColumnModel.cs" />
+    <Compile Include="Models\Exceptions\Main.cs" />
+    <Compile Include="Models\Exceptions\Service.cs" />
     <Compile Include="Models\MainPageModel.cs" />
+    <Compile Include="Models\Services\Connection.cs" />
     <Compile Include="Models\TweetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setting\AdvancedSettingService.cs" />
@@ -219,6 +222,10 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Flantter.MilkyWay.Service\Flantter.MilkyWay.Service.csproj">
+      <Project>{e2aace63-5d8c-4b68-96d0-bc5ed8194aa2}</Project>
+      <Name>Flantter.MilkyWay.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Practices.Prism.StoreApps.Universal\Microsoft.Practices.Prism.StoreApps.Universal.csproj">
       <Project>{a403211c-861f-4baf-a08a-88972f0ce539}</Project>
       <Name>Microsoft.Practices.Prism.StoreApps.Universal</Name>

@@ -24,11 +24,5 @@ namespace Flantter.MilkyWay.Views.Contents
         {
             this.InitializeComponent();
         }
-
-		private void MainArea_BottomBar_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			Setting.SettingService.Setting.Theme = Setting.SettingService.Setting.Theme == "Dark" ? "Light" : "Dark";
-            Setting.SettingService.Setting.TitleBarVisibility = !Setting.SettingService.Setting.TitleBarVisibility;
-        }
 	}
 }

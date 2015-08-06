@@ -26,6 +26,11 @@
           <uap:Rotation Preference="landscapeFlipped" />
         </uap:InitialRotationPreference>
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.appService" EntryPoint="Flantter.MilkyWay.Service.AppServiceTask">
+          <uap:AppService Name="Flantter.MilkyWay.Service" />
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>

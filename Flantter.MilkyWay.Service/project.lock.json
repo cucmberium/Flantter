@@ -28,37 +28,6 @@
           "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights/1.0.0": {
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.WindowsApps/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
-        }
-      },
       "Microsoft.CSharp/4.0.0": {
         "dependencies": {
           "System.Runtime": "[4.0.20, )",
@@ -257,52 +226,12 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/7.0.1": {
+      "Newtonsoft.Json/6.0.8": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
-        }
-      },
-      "Prism.Mvvm/1.1.1": {
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        }
-      },
-      "Prism.StoreApps/2.0.0": {
-        "dependencies": {
-          "Prism.Mvvm": "[1.1.1, )"
-        },
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        }
-      },
-      "ReactiveProperty/2.2.2": {
-        "dependencies": {
-          "Rx-Main": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
-        },
-        "runtime": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         }
       },
       "Rx-Core/2.2.5": {
@@ -334,26 +263,6 @@
         },
         "runtime": {
           "lib/windows8/System.Reactive.Linq.dll": {}
-        }
-      },
-      "Rx-Main/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )",
-          "Rx-Linq": "[2.2.5, )",
-          "Rx-PlatformServices": "[2.2.5, )"
-        }
-      },
-      "Rx-PlatformServices/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
         }
       },
       "SQLite.Net-PCL/3.0.5": {
@@ -1700,14 +1609,6 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "WinRTXamlToolkit.Windows/1.8.1": {
-        "compile": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        }
       }
     },
     "UAP,Version=v10.0/win10-arm": {
@@ -1734,37 +1635,6 @@
         },
         "runtime": {
           "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights/1.0.0": {
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.WindowsApps/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -2008,52 +1878,12 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/7.0.1": {
+      "Newtonsoft.Json/6.0.8": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
-        }
-      },
-      "Prism.Mvvm/1.1.1": {
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        }
-      },
-      "Prism.StoreApps/2.0.0": {
-        "dependencies": {
-          "Prism.Mvvm": "[1.1.1, )"
-        },
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        }
-      },
-      "ReactiveProperty/2.2.2": {
-        "dependencies": {
-          "Rx-Main": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
-        },
-        "runtime": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         }
       },
       "Rx-Core/2.2.5": {
@@ -2085,26 +1915,6 @@
         },
         "runtime": {
           "lib/windows8/System.Reactive.Linq.dll": {}
-        }
-      },
-      "Rx-Main/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )",
-          "Rx-Linq": "[2.2.5, )",
-          "Rx-PlatformServices": "[2.2.5, )"
-        }
-      },
-      "Rx-PlatformServices/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
         }
       },
       "SQLite.Net-PCL/3.0.5": {
@@ -3498,14 +3308,6 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "WinRTXamlToolkit.Windows/1.8.1": {
-        "compile": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        }
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
@@ -3532,37 +3334,6 @@
         },
         "runtime": {
           "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights/1.0.0": {
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.WindowsApps/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -3792,52 +3563,12 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/7.0.1": {
+      "Newtonsoft.Json/6.0.8": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
-        }
-      },
-      "Prism.Mvvm/1.1.1": {
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        }
-      },
-      "Prism.StoreApps/2.0.0": {
-        "dependencies": {
-          "Prism.Mvvm": "[1.1.1, )"
-        },
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        }
-      },
-      "ReactiveProperty/2.2.2": {
-        "dependencies": {
-          "Rx-Main": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
-        },
-        "runtime": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         }
       },
       "Rx-Core/2.2.5": {
@@ -3869,26 +3600,6 @@
         },
         "runtime": {
           "lib/windows8/System.Reactive.Linq.dll": {}
-        }
-      },
-      "Rx-Main/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )",
-          "Rx-Linq": "[2.2.5, )",
-          "Rx-PlatformServices": "[2.2.5, )"
-        }
-      },
-      "Rx-PlatformServices/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
         }
       },
       "SQLite.Net-PCL/3.0.5": {
@@ -5268,14 +4979,6 @@
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "WinRTXamlToolkit.Windows/1.8.1": {
-        "compile": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        }
       }
     },
     "UAP,Version=v10.0/win10-x86": {
@@ -5302,37 +5005,6 @@
         },
         "runtime": {
           "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights/1.0.0": {
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.WindowsApps/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -5581,52 +5253,12 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/7.0.1": {
+      "Newtonsoft.Json/6.0.8": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
-        }
-      },
-      "Prism.Mvvm/1.1.1": {
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        }
-      },
-      "Prism.StoreApps/2.0.0": {
-        "dependencies": {
-          "Prism.Mvvm": "[1.1.1, )"
-        },
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        }
-      },
-      "ReactiveProperty/2.2.2": {
-        "dependencies": {
-          "Rx-Main": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
-        },
-        "runtime": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         }
       },
       "Rx-Core/2.2.5": {
@@ -5658,26 +5290,6 @@
         },
         "runtime": {
           "lib/windows8/System.Reactive.Linq.dll": {}
-        }
-      },
-      "Rx-Main/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )",
-          "Rx-Linq": "[2.2.5, )",
-          "Rx-PlatformServices": "[2.2.5, )"
-        }
-      },
-      "Rx-PlatformServices/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
         }
       },
       "SQLite.Net-PCL/3.0.5": {
@@ -7071,14 +6683,6 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "WinRTXamlToolkit.Windows/1.8.1": {
-        "compile": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        }
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
@@ -7105,37 +6709,6 @@
         },
         "runtime": {
           "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights/1.0.0": {
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.WindowsApps/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -7365,52 +6938,12 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/7.0.1": {
+      "Newtonsoft.Json/6.0.8": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
-        }
-      },
-      "Prism.Mvvm/1.1.1": {
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        }
-      },
-      "Prism.StoreApps/2.0.0": {
-        "dependencies": {
-          "Prism.Mvvm": "[1.1.1, )"
-        },
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        }
-      },
-      "ReactiveProperty/2.2.2": {
-        "dependencies": {
-          "Rx-Main": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
-        },
-        "runtime": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         }
       },
       "Rx-Core/2.2.5": {
@@ -7442,26 +6975,6 @@
         },
         "runtime": {
           "lib/windows8/System.Reactive.Linq.dll": {}
-        }
-      },
-      "Rx-Main/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )",
-          "Rx-Linq": "[2.2.5, )",
-          "Rx-PlatformServices": "[2.2.5, )"
-        }
-      },
-      "Rx-PlatformServices/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
         }
       },
       "SQLite.Net-PCL/3.0.5": {
@@ -8841,14 +8354,6 @@
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "WinRTXamlToolkit.Windows/1.8.1": {
-        "compile": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        }
       }
     },
     "UAP,Version=v10.0/win10-x64": {
@@ -8875,37 +8380,6 @@
         },
         "runtime": {
           "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights/1.0.0": {
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.WindowsApps/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -9154,52 +8628,12 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/7.0.1": {
+      "Newtonsoft.Json/6.0.8": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
-        }
-      },
-      "Prism.Mvvm/1.1.1": {
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        }
-      },
-      "Prism.StoreApps/2.0.0": {
-        "dependencies": {
-          "Prism.Mvvm": "[1.1.1, )"
-        },
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        }
-      },
-      "ReactiveProperty/2.2.2": {
-        "dependencies": {
-          "Rx-Main": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
-        },
-        "runtime": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         }
       },
       "Rx-Core/2.2.5": {
@@ -9231,26 +8665,6 @@
         },
         "runtime": {
           "lib/windows8/System.Reactive.Linq.dll": {}
-        }
-      },
-      "Rx-Main/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )",
-          "Rx-Linq": "[2.2.5, )",
-          "Rx-PlatformServices": "[2.2.5, )"
-        }
-      },
-      "Rx-PlatformServices/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
         }
       },
       "SQLite.Net-PCL/3.0.5": {
@@ -10644,14 +10058,6 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "WinRTXamlToolkit.Windows/1.8.1": {
-        "compile": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        }
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
@@ -10678,37 +10084,6 @@
         },
         "runtime": {
           "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights/1.0.0": {
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
-        }
-      },
-      "Microsoft.ApplicationInsights.WindowsApps/1.0.0": {
-        "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.0.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.0.0, )"
-        },
-        "compile": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
         }
       },
       "Microsoft.CSharp/4.0.0": {
@@ -10938,52 +10313,12 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/7.0.1": {
+      "Newtonsoft.Json/6.0.8": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
-        }
-      },
-      "Prism.Mvvm/1.1.1": {
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll": {}
-        }
-      },
-      "Prism.StoreApps/2.0.0": {
-        "dependencies": {
-          "Prism.Mvvm": "[1.1.1, )"
-        },
-        "compile": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll": {},
-          "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll": {}
-        }
-      },
-      "ReactiveProperty/2.2.2": {
-        "dependencies": {
-          "Rx-Main": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
-        },
-        "runtime": {
-          "lib/win81/ReactiveProperty.WinRT.dll": {},
-          "lib/win81/ReactiveProperty.DataAnnotations.dll": {},
-          "lib/win81/ReactiveProperty.dll": {}
+          "lib/netcore45/Newtonsoft.Json.dll": {}
         }
       },
       "Rx-Core/2.2.5": {
@@ -11015,26 +10350,6 @@
         },
         "runtime": {
           "lib/windows8/System.Reactive.Linq.dll": {}
-        }
-      },
-      "Rx-Main/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )",
-          "Rx-Linq": "[2.2.5, )",
-          "Rx-PlatformServices": "[2.2.5, )"
-        }
-      },
-      "Rx-PlatformServices/2.2.5": {
-        "dependencies": {
-          "Rx-Interfaces": "[2.2.5, )",
-          "Rx-Core": "[2.2.5, )"
-        },
-        "compile": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
-        },
-        "runtime": {
-          "lib/windows8/System.Reactive.PlatformServices.dll": {}
         }
       },
       "SQLite.Net-PCL/3.0.5": {
@@ -12414,14 +11729,6 @@
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "WinRTXamlToolkit.Windows/1.8.1": {
-        "compile": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        },
-        "runtime": {
-          "lib/netcore451/WinRTXamlToolkit.dll": {}
-        }
       }
     }
   },
@@ -12461,56 +11768,6 @@
         "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.dll",
         "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.xml",
         "package/services/metadata/core-properties/f4d80e887b5a4680a79fa4704f17e1b4.psmdcp",
-        "[Content_Types].xml"
-      ]
-    },
-    "Microsoft.ApplicationInsights/1.0.0": {
-      "sha512": "HZ47/thX57SOuIivSvIbsR6L9CCb/Yt3IyB2i4KHmmNlf3DO+lqFwWIKDdbDNWKX+qh0Rg20/JSMPK0dwUsYYw==",
-      "type": "Package",
-      "files": [
-        "_rels/.rels",
-        "Microsoft.ApplicationInsights.nuspec",
-        "lib/net40/Microsoft.ApplicationInsights.dll",
-        "lib/net40/Microsoft.ApplicationInsights.XML",
-        "lib/net45/Microsoft.ApplicationInsights.dll",
-        "lib/net45/Microsoft.ApplicationInsights.XML",
-        "lib/wp8/Microsoft.ApplicationInsights.dll",
-        "lib/wp8/Microsoft.ApplicationInsights.XML",
-        "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll",
-        "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.XML",
-        "package/services/metadata/core-properties/b9e7bc7ab2454491af07046165ff01d0.psmdcp",
-        "[Content_Types].xml"
-      ]
-    },
-    "Microsoft.ApplicationInsights.PersistenceChannel/1.0.0": {
-      "sha512": "0qQXC+CtbyF2RPuld5pF74fxsnP6ml0LUnzQ6GL9AXXY64LPsLDsPUAymoUffo7LZvPDppZboTYX59TfVxKA7A==",
-      "type": "Package",
-      "files": [
-        "_rels/.rels",
-        "Microsoft.ApplicationInsights.PersistenceChannel.nuspec",
-        "lib/net40/Microsoft.ApplicationInsights.PersistenceChannel.dll",
-        "lib/net40/Microsoft.ApplicationInsights.PersistenceChannel.XML",
-        "lib/wp8/Microsoft.ApplicationInsights.PersistenceChannel.dll",
-        "lib/wp8/Microsoft.ApplicationInsights.PersistenceChannel.XML",
-        "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll",
-        "lib/portable-win8+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.XML",
-        "package/services/metadata/core-properties/dc9ebba80e7343fdbd0a39a3cdeb672c.psmdcp",
-        "[Content_Types].xml"
-      ]
-    },
-    "Microsoft.ApplicationInsights.WindowsApps/1.0.0": {
-      "sha512": "fNCAjIwvbTV+G0dT14bgM5tptsqeSaKQaCrlq7QknOq1Xdm8ZmgsDYddMgXkvykyKLjWyU6fKuOpj6fsQJy+wQ==",
-      "type": "Package",
-      "files": [
-        "_rels/.rels",
-        "Microsoft.ApplicationInsights.WindowsApps.nuspec",
-        "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll",
-        "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.XML",
-        "lib/wp8/Microsoft.ApplicationInsights.Extensibility.Windows.dll",
-        "lib/wp8/Microsoft.ApplicationInsights.Extensibility.Windows.XML",
-        "lib/wpa81/Microsoft.ApplicationInsights.Extensibility.Windows.dll",
-        "lib/wpa81/Microsoft.ApplicationInsights.Extensibility.Windows.XML",
-        "package/services/metadata/core-properties/4f6f732debe548beaa1183418e8d65cc.psmdcp",
         "[Content_Types].xml"
       ]
     },
@@ -13167,8 +12424,8 @@
         "[Content_Types].xml"
       ]
     },
-    "Newtonsoft.Json/7.0.1": {
-      "sha512": "q3V4KLetMLnt1gpAVWgtXnHjKs0UG/RalBc29u2ZKxd5t5Ze4JBL5WiiYIklJyK/5CRiIiNwigVQUo0FgbsuWA==",
+    "Newtonsoft.Json/6.0.8": {
+      "sha512": "7ut47NDedTW19EbL0JpFDYUP62fcuz27hJrehCDNajdCS5NtqL+E39+7Um3OkNc2wl2ym7K8Ln5eNuLus6mVGQ==",
       "type": "Package",
       "files": [
         "_rels/.rels",
@@ -13181,136 +12438,14 @@
         "lib/net40/Newtonsoft.Json.xml",
         "lib/net45/Newtonsoft.Json.dll",
         "lib/net45/Newtonsoft.Json.xml",
+        "lib/netcore45/Newtonsoft.Json.dll",
+        "lib/netcore45/Newtonsoft.Json.xml",
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.dll",
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
-        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
-        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
+        "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll",
+        "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.xml",
         "tools/install.ps1",
-        "package/services/metadata/core-properties/49e907fc018c4c7ab632e6d4ad4766f8.psmdcp",
-        "[Content_Types].xml"
-      ]
-    },
-    "Prism.Mvvm/1.1.1": {
-      "sha512": "vaV/EBX3GS39vAcUN/tpOK+1B85lh16Sb6Ip+VdzUsTaN9IYdzz8EUha6Nm70YDjrdDz74oJahJomrftza0ySw==",
-      "type": "Package",
-      "files": [
-        "_rels/.rels",
-        "Prism.Mvvm.nuspec",
-        "%5BContent_Types%5D.xml",
-        "[Content_Types].xml",
-        "lib/net45/Microsoft.Practices.Prism.Mvvm.Desktop.dll",
-        "lib/net45/Microsoft.Practices.Prism.Mvvm.dll",
-        "lib/net45/Microsoft.Practices.Prism.Mvvm.xml",
-        "lib/net45/Microsoft.Practices.Prism.SharedInterfaces.dll",
-        "lib/net45/Microsoft.Practices.Prism.SharedInterfaces.xml",
-        "lib/portable-windows8+wpa81+net45/Microsoft.Practices.Prism.Mvvm.dll",
-        "lib/portable-windows8+wpa81+net45/Microsoft.Practices.Prism.Mvvm.xml",
-        "lib/portable-windows8+wpa81+net45/Microsoft.Practices.Prism.SharedInterfaces.dll",
-        "lib/portable-windows8+wpa81+net45/Microsoft.Practices.Prism.SharedInterfaces.xml",
-        "lib/windows8/Microsoft.Practices.Prism.Mvvm.dll",
-        "lib/windows8/Microsoft.Practices.Prism.Mvvm.Store.dll",
-        "lib/windows8/Microsoft.Practices.Prism.Mvvm.xml",
-        "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.dll",
-        "lib/windows8/Microsoft.Practices.Prism.SharedInterfaces.xml",
-        "lib/wpa81/Microsoft.Practices.Prism.Mvvm.dll",
-        "lib/wpa81/Microsoft.Practices.Prism.Mvvm.Phone.dll",
-        "lib/wpa81/Microsoft.Practices.Prism.Mvvm.xml",
-        "lib/wpa81/Microsoft.Practices.Prism.SharedInterfaces.dll",
-        "lib/wpa81/Microsoft.Practices.Prism.SharedInterfaces.xml",
-        "package/services/metadata/core-properties/1951281b8f2d45c1bf74ce41987210ab.psmdcp",
-        "package/services/metadata/core-properties/460a1cdd31ba4955a3be6b66ed9e0e9b.psmdcp",
-        "package/services/metadata/core-properties/9e2fc39d86cd4a85bedd66f4d7cd9dce.psmdcp",
-        "[Content_Types].xml"
-      ]
-    },
-    "Prism.StoreApps/2.0.0": {
-      "sha512": "nHyMahNvD+WVYk8GBYksDyw5odD8rD2wQ74UWnlt0aFAEmI3i+Ml/KJZxgvT3kSE2ecDirUFl46lZmz5cpRklg==",
-      "type": "Package",
-      "files": [
-        "_rels/.rels",
-        "Prism.StoreApps.nuspec",
-        "Readme.txt",
-        "[Content_Types].xml",
-        "lib/portable-windows8+wpa81/Microsoft.Practices.Prism.StoreApps.dll",
-        "lib/portable-windows8+wpa81/Microsoft.Practices.Prism.StoreApps.pri",
-        "lib/windows8/Microsoft.Practices.Prism.StoreApps.dll",
-        "lib/windows8/Microsoft.Practices.Prism.StoreApps.pri",
-        "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.dll",
-        "lib/windows8/Microsoft.Practices.Prism.StoreApps.Windows.pri",
-        "lib/wpa81/Microsoft.Practices.Prism.StoreApps.dll",
-        "lib/wpa81/Microsoft.Practices.Prism.StoreApps.Phone.dll",
-        "lib/wpa81/Microsoft.Practices.Prism.StoreApps.Phone.pri",
-        "lib/wpa81/Microsoft.Practices.Prism.StoreApps.pri",
-        "package/services/metadata/core-properties/cd785694db404ec49165d71de46dab3a.psmdcp",
-        "package/services/metadata/core-properties/e6959099a4a6415aa25c30b6e5536101.psmdcp",
-        "[Content_Types].xml"
-      ]
-    },
-    "ReactiveProperty/2.2.2": {
-      "sha512": "umJ/NY7JauzheoMG32q1LIqJSpPxkZcBYlsWIWbjWMpHtRN9kRKYoMCSXRmhoB44TCWSqcJ4AXJQzerAhhsvjw==",
-      "type": "Package",
-      "files": [
-        "_rels/.rels",
-        "ReactiveProperty.nuspec",
-        "Snippet/csharp5/ReactiveCollection.snippet",
-        "Snippet/csharp5/ReactiveCommand.snippet",
-        "Snippet/csharp5/ReactiveCommandGeneric.snippet",
-        "Snippet/csharp5/ReactiveProperty.snippet",
-        "Snippet/csharp5/ReadOnlyReactiveCollection.snippet",
-        "Snippet/csharp5/ReadOnlyReactiveProperty.snippet",
-        "Snippet/csharp6/ReactiveCollection.snippet",
-        "Snippet/csharp6/ReactiveCommand.snippet",
-        "Snippet/csharp6/ReactiveCommandGeneric.snippet",
-        "Snippet/csharp6/ReactiveProperty.snippet",
-        "Snippet/csharp6/ReadOnlyReactiveCollection.snippet",
-        "Snippet/csharp6/ReadOnlyReactiveProperty.snippet",
-        "Docs/ReadMe.txt",
-        "LICENSE.txt",
-        "lib/net4/ReactiveProperty.NET4.dll",
-        "lib/net4/ReactiveProperty.NET4.xml",
-        "lib/net45/ReactiveProperty.NET45.dll",
-        "lib/net45/ReactiveProperty.NET45.XML",
-        "lib/net45/ReactiveProperty.DataAnnotations.dll",
-        "lib/net45/ReactiveProperty.DataAnnotations.XML",
-        "lib/net45/ReactiveProperty.dll",
-        "lib/net45/ReactiveProperty.XML",
-        "lib/win81/ReactiveProperty.WinRT.dll",
-        "lib/win81/ReactiveProperty.WinRT.XML",
-        "lib/win81/ReactiveProperty.DataAnnotations.dll",
-        "lib/win81/ReactiveProperty.DataAnnotations.XML",
-        "lib/win81/ReactiveProperty.dll",
-        "lib/win81/ReactiveProperty.XML",
-        "lib/wp8/ReactiveProperty.WP8.dll",
-        "lib/wp8/ReactiveProperty.WP8.XML",
-        "lib/wp8/ReactiveProperty.dll",
-        "lib/wp8/ReactiveProperty.XML",
-        "lib/wpa81/ReactiveProperty.WPA81.dll",
-        "lib/wpa81/ReactiveProperty.WPA81.XML",
-        "lib/wpa81/ReactiveProperty.DataAnnotations.dll",
-        "lib/wpa81/ReactiveProperty.DataAnnotations.XML",
-        "lib/wpa81/ReactiveProperty.dll",
-        "lib/wpa81/ReactiveProperty.XML",
-        "lib/MonoAndroid/ReactiveProperty.DataAnnotations.dll",
-        "lib/MonoAndroid/ReactiveProperty.DataAnnotations.XML",
-        "lib/MonoAndroid/ReactiveProperty.dll",
-        "lib/MonoAndroid/ReactiveProperty.XML",
-        "lib/MonoAndroid/ReactiveProperty.Android.dll",
-        "lib/MonoAndroid/ReactiveProperty.Android.XML",
-        "lib/MonoTouch/ReactiveProperty.DataAnnotations.dll",
-        "lib/MonoTouch/ReactiveProperty.DataAnnotations.XML",
-        "lib/MonoTouch/ReactiveProperty.dll",
-        "lib/MonoTouch/ReactiveProperty.XML",
-        "lib/portable-win81+wpa81/ReactiveProperty.DataAnnotations.dll",
-        "lib/portable-win81+wpa81/ReactiveProperty.DataAnnotations.XML",
-        "lib/portable-win81+wpa81/ReactiveProperty.dll",
-        "lib/portable-win81+wpa81/ReactiveProperty.XML",
-        "lib/portable-net45+win81+wpa81+MonoTouch+MonoAndroid/ReactiveProperty.DataAnnotations.dll",
-        "lib/portable-net45+win81+wpa81+MonoTouch+MonoAndroid/ReactiveProperty.DataAnnotations.XML",
-        "lib/portable-net45+win81+wpa81+MonoTouch+MonoAndroid/ReactiveProperty.dll",
-        "lib/portable-net45+win81+wpa81+MonoTouch+MonoAndroid/ReactiveProperty.XML",
-        "lib/portable-net45+WP8+win8+wpa81+MonoTouch+MonoAndroid/ReactiveProperty.dll",
-        "lib/portable-net45+WP8+win8+wpa81+MonoTouch+MonoAndroid/ReactiveProperty.XML",
-        "package/services/metadata/core-properties/b9f74de5af13429298f85ad27d0a6152.psmdcp",
+        "package/services/metadata/core-properties/d6cceb7474b245aab29598e10c6e65d6.psmdcp",
         "[Content_Types].xml"
       ]
     },
@@ -13401,46 +12536,6 @@
         "lib/windowsphone71/System.Reactive.Linq.XML",
         "lib/windowsphone8/System.Reactive.Linq.XML",
         "package/services/metadata/core-properties/0b05bef9a8e34a3da5e4d5d41f320ee4.psmdcp",
-        "[Content_Types].xml"
-      ]
-    },
-    "Rx-Main/2.2.5": {
-      "sha512": "qdQ6qENEiLsp/LRdzZlLlodihWN8VDjwNfWa8c2ELjEHZgTdKzt1V4i61gkHVtFKZXe8Px6KupbMP3pZ+1tusQ==",
-      "type": "Package",
-      "files": [
-        "_rels/.rels",
-        "Rx-Main.nuspec",
-        "package/services/metadata/core-properties/42be7976390b4c6f82065a7d2c011282.psmdcp",
-        "[Content_Types].xml"
-      ]
-    },
-    "Rx-PlatformServices/2.2.5": {
-      "sha512": "pMnNEvJVjT+wuDib+W/bi5hhIYcre7dW5yxvKrJxnR4iKJ1VLA/dY2FTtjDriHGx7OeGn12lQewXlH2oHiWFPA==",
-      "type": "Package",
-      "files": [
-        "_rels/.rels",
-        "Rx-PlatformServices.nuspec",
-        "lib/net40/System.Reactive.PlatformServices.dll",
-        "lib/net45/System.Reactive.PlatformServices.dll",
-        "lib/portable-net40+sl5+win8+wp8/System.Reactive.PlatformServices.dll",
-        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.dll",
-        "lib/portable-win81+wpa81/System.Reactive.PlatformServices.dll",
-        "lib/portable-windows8+net45+wp8/System.Reactive.PlatformServices.dll",
-        "lib/sl5/System.Reactive.PlatformServices.dll",
-        "lib/windows8/System.Reactive.PlatformServices.dll",
-        "lib/windowsphone71/System.Reactive.PlatformServices.dll",
-        "lib/windowsphone8/System.Reactive.PlatformServices.dll",
-        "lib/net40/System.Reactive.PlatformServices.XML",
-        "lib/net45/System.Reactive.PlatformServices.XML",
-        "lib/portable-net40+sl5+win8+wp8/System.Reactive.PlatformServices.XML",
-        "lib/portable-net45+winrt45+wp8+wpa81/System.Reactive.PlatformServices.XML",
-        "lib/portable-win81+wpa81/System.Reactive.PlatformServices.XML",
-        "lib/portable-windows8+net45+wp8/System.Reactive.PlatformServices.XML",
-        "lib/sl5/System.Reactive.PlatformServices.XML",
-        "lib/windows8/System.Reactive.PlatformServices.XML",
-        "lib/windowsphone71/System.Reactive.PlatformServices.XML",
-        "lib/windowsphone8/System.Reactive.PlatformServices.XML",
-        "package/services/metadata/core-properties/5087526007294f7d8e78a6a4a61c494a.psmdcp",
         "[Content_Types].xml"
       ]
     },
@@ -16167,66 +15262,14 @@
         "package/services/metadata/core-properties/1cffc42bca944f1d81ef3c3abdb0f0be.psmdcp",
         "[Content_Types].xml"
       ]
-    },
-    "WinRTXamlToolkit.Windows/1.8.1": {
-      "sha512": "DQlGwXUhKofcR1RRTjinxSvMbCQm6+3vug2QFrCuwbktJ8v2M9fbKcQC6xF59ABuv8G/Qa4X5Rg/cq9XNgkilQ==",
-      "type": "Package",
-      "files": [
-        "_rels/.rels",
-        "WinRTXamlToolkit.Windows.nuspec",
-        "lib/netcore451/WinRTXamlToolkit.dll",
-        "lib/netcore451/WinRTXamlToolkit.pri",
-        "lib/netcore451/WinRTXamlToolkit/WinRTXamlToolkit.xr.xml",
-        "lib/netcore451/WinRTXamlToolkit/Controls/AlternativeFrame/AlternativeFrame.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/AnimatingContainer/AnimatingContainer.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/CameraCaptureControl/CameraCaptureControl.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/CascadingImageControl/CascadingImageControl.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/CascadingTextBlock/CascadingTextBlock.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/ColorPicker/ColorPicker.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/CountdownControl/CountdownControl.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/CustomAppBar/CustomAppBar.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/CustomGridSplitter/CustomGridSplitter.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/DelayedLoadControl/DelayedLoadControl.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/FocusVisualizer/FocusVisualizer.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/FxContentControl/FxContentControl.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/ImageButton/ImageButton.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/ImageToggleButton/ImageToggleButton.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/InputDialog/InputDialog.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/ListItemButton/ListItemButton.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/NumericUpDown/NumericUpDown.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/ToolStrip/ToolStrip.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/ToolWindow/ToolWindow.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/TreeView/TreeView.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/TreeView/TreeViewItem.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/TreeView/TreeViewMouse.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/TreeView/TreeViewTouch.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/WatermarkPasswordBox/WatermarkPasswordBox.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/WatermarkTextBox/WatermarkTextBox.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Controls/WebBrowser/WebBrowser.xbf",
-        "lib/netcore451/WinRTXamlToolkit/Themes/Generic.xbf",
-        "package/services/metadata/core-properties/995f4a0dbf3b4fe99b8b6c7d22dbd232.psmdcp",
-        "[Content_Types].xml"
-      ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
       "CoreTweet >= 0.5.2.200",
       "CoreTweet.Streaming.Reactive >= 0.5.1.191",
-      "Microsoft.ApplicationInsights >= 1.0.0",
-      "Microsoft.ApplicationInsights.PersistenceChannel >= 1.0.0",
-      "Microsoft.ApplicationInsights.WindowsApps >= 1.0.0",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0",
-      "Newtonsoft.Json >= 7.0.1",
-      "Prism.Mvvm >= 1.1.1",
-      "ReactiveProperty >= 2.2.2",
-      "Rx-Core >= 2.2.5",
-      "Rx-Interfaces >= 2.2.5",
-      "Rx-Linq >= 2.2.5",
-      "Rx-Main >= 2.2.5",
-      "Rx-PlatformServices >= 2.2.5",
-      "WinRTXamlToolkit.Windows >= 1.8.1"
+      "SQLite.Net-PCL >= 3.0.5"
     ],
     "UAP,Version=v10.0": []
   }

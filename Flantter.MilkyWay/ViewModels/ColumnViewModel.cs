@@ -30,6 +30,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<string> OwnerScreenName { get; private set; }
 		public ReactiveProperty<bool> EnableCreateFilterColumn { get; private set; }
 		public ReactiveProperty<Symbol> StreamingSymbol { get; private set; }
+        public ReactiveProperty<bool> IsEnabledStreaming { get; private set; }
 
 		public ReadOnlyReactiveCollection<TweetViewModel> Tweets { get; private set; }
 
@@ -75,6 +76,16 @@ namespace Flantter.MilkyWay.ViewModels
             this.Name = column.ObserveProperty(x => x.Name).ToReactiveProperty();
             this.OwnerScreenName = column.ObserveProperty(x => x.OwnerScreenName).ToReactiveProperty();
 			this.StreamingSymbol = column.ObserveProperty(x => x.Streaming).Select(x => x ? Symbol.Pause : Symbol.Play).ToReactiveProperty();
+            this.IsEnabledStreaming = column.ObserveProperty(x => x.Action).Select(x =>
+            {
+                switch (x)
+                {
+                    case SettingSupport.ColumnTypeEnum.Home:
+                        return true;
+                    default:
+                        return false;
+                }
+            }).ToReactiveProperty();
             this.Index = column.ObserveProperty(x => x.Index).ToReactiveProperty();
 
             this.ColumnCount = Observable.CombineLatest<double, double, int, int>(

@@ -76,6 +76,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
+    <EnableGatekeeperAnalysis>false</EnableGatekeeperAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -89,6 +90,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <WarningLevel>2</WarningLevel>
+    <EnableGatekeeperAnalysis>false</EnableGatekeeperAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
@@ -122,8 +124,16 @@
     <Compile Include="Models\Exceptions\Main.cs" />
     <Compile Include="Models\Exceptions\Service.cs" />
     <Compile Include="Models\MainPageModel.cs" />
-    <Compile Include="Models\Services\Connection.cs" />
-    <Compile Include="Models\TweetModel.cs" />
+    <Compile Include="Models\Notifications\Core.cs" />
+    <Compile Include="Models\Services\Connecter.cs" />
+    <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\Twitter\Objects\DirectMessage.cs" />
+    <Compile Include="Models\Twitter\Objects\Entities.cs" />
+    <Compile Include="Models\Twitter\Objects\EventMessage.cs" />
+    <Compile Include="Models\Twitter\Objects\ITweet.cs" />
+    <Compile Include="Models\Twitter\Objects\Status.cs" />
+    <Compile Include="Models\Twitter\MediaParser.cs" />
+    <Compile Include="Models\Twitter\Objects\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setting\AdvancedSettingService.cs" />
     <Compile Include="Setting\SettingService.cs" />
@@ -131,13 +141,11 @@
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\ColumnViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\TweetViewModel.cs" />
-    <Compile Include="Views\Behaviors\SymbolIconColorSwitchBehavior.cs" />
+    <Compile Include="ViewModels\Service\Notice.cs" />
+    <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />
+    <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
     <Compile Include="Views\Behaviors\TitlebarSwitchAction.cs" />
-    <Compile Include="Views\Behaviors\TweetBackgroundColorBehavior.cs" />
-    <Compile Include="Views\Behaviors\TweetCommandBarAnimationBehavior.cs" />
-    <Compile Include="Views\Behaviors\TweetMentionAnimationBehavior.cs" />
     <Compile Include="Views\Contents\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
     </Compile>
@@ -152,15 +160,6 @@
     </Compile>
     <Compile Include="Views\Contents\TimelineArea.xaml.cs">
       <DependentUpon>TimelineArea.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Contents\Timeline\DirectMessage.xaml.cs">
-      <DependentUpon>DirectMessage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Contents\Timeline\Event.xaml.cs">
-      <DependentUpon>Event.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Contents\Timeline\Gap.xaml.cs">
-      <DependentUpon>Gap.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\Timeline\Status.xaml.cs">
       <DependentUpon>Status.xaml</DependentUpon>
@@ -214,6 +213,12 @@
     <SDKReference Include="Microsoft.NET.Native.Runtime.1.1, Version=1.1">
       <Name>Microsoft .NET Core Runtime Package for Windows</Name>
     </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
+    <SDKReference Include="SQLite.UAP.2015, Version=3.8.11.1">
+      <Name>SQLite for Universal App Platform</Name>
+    </SDKReference>
     <SDKReference Include="WindowsDesktop, Version=10.0.10240.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
@@ -222,10 +227,6 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Flantter.MilkyWay.Service\Flantter.MilkyWay.Service.csproj">
-      <Project>{e2aace63-5d8c-4b68-96d0-bc5ed8194aa2}</Project>
-      <Name>Flantter.MilkyWay.Service</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Practices.Prism.StoreApps.Universal\Microsoft.Practices.Prism.StoreApps.Universal.csproj">
       <Project>{a403211c-861f-4baf-a08a-88972f0ce539}</Project>
       <Name>Microsoft.Practices.Prism.StoreApps.Universal</Name>
@@ -272,21 +273,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Contents\Timeline\DirectMessage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Contents\Timeline\Event.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Contents\Timeline\Gap.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Contents\Timeline\Status.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InitializePage.xaml">
       <Generator>MSBuild:Compile</Generator>

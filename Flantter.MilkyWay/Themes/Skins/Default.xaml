@@ -62,8 +62,9 @@
     <SolidColorBrush x:Key="TweetRetweetBackgroundBrush" Color="Lime" />
     <SolidColorBrush x:Key="TweetMentionBackgroundBrush" Color="Red" />
     <SolidColorBrush x:Key="TweetMyStatusBackgroundBrush" Color="Cyan" />
+    <SolidColorBrush x:Key="TweetDefaultBackgroundBrush" Color="#00FFFFFF" />
 
-	<SolidColorBrush x:Key="TweetRetweetSymbolIconForegroundBrush" Color="LightGreen" />
+    <SolidColorBrush x:Key="TweetRetweetSymbolIconForegroundBrush" Color="LightGreen" />
     <SolidColorBrush x:Key="TweetNameTextblockForegroundBrush" Color="White" />
     <SolidColorBrush x:Key="TweetScreenNameTextblockForegroundBrush" Color="#FFA6A6A6" />
     <SolidColorBrush x:Key="TweetTextTextblockForegroundBrush" Color="White" />
@@ -72,8 +73,10 @@
     <SolidColorBrush x:Key="TweetSourceTextblockForegroundBrush" Color="#FFA6A6A6" />
     <SolidColorBrush x:Key="TweetOtherTextblockForegroundBrush" Color="#FFA6A6A6" />
     <SolidColorBrush x:Key="TweetRetweetTextblockForegroundBrush" Color="#FFA6A6A6" />
-	
-	<SolidColorBrush x:Key="TweetCommandBarReplySymbolIconForegroundBrush" Color="Gray" />
+
+    <SolidColorBrush x:Key="TweetQuotedStatusBackgroundBrush" Color="#80A6A6A6" />
+
+    <SolidColorBrush x:Key="TweetCommandBarReplySymbolIconForegroundBrush" Color="Gray" />
     <SolidColorBrush x:Key="TweetCommandBarRetweetSymbolIconForegroundBrush" Color="Gray" />
     <SolidColorBrush x:Key="TweetCommandBarDestroyRetweetSymbolIconForegroundBrush" Color="LightGreen" />
     <SolidColorBrush x:Key="TweetCommandBarFavoriteSymbolIconForegroundBrush" Color="Gray" />

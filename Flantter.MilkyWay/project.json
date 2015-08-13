@@ -2,9 +2,9 @@
   "dependencies": {
     "CoreTweet": "0.5.2.200",
     "CoreTweet.Streaming.Reactive": "0.5.1.191",
-    "Microsoft.ApplicationInsights": "1.0.0",
-    "Microsoft.ApplicationInsights.PersistenceChannel": "1.0.0",
-    "Microsoft.ApplicationInsights.WindowsApps": "1.0.0",
+    "Microsoft.ApplicationInsights": "1.1.0",
+    "Microsoft.ApplicationInsights.PersistenceChannel": "1.1.0",
+    "Microsoft.ApplicationInsights.WindowsApps": "1.1.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "Newtonsoft.Json": "7.0.1",
     "Prism.Mvvm": "1.1.1",
@@ -14,6 +14,7 @@
     "Rx-Linq": "2.2.5",
     "Rx-Main": "2.2.5",
     "Rx-PlatformServices": "2.2.5",
+    "SQLite.Net-PCL": "3.0.5",
     "WinRTXamlToolkit.Windows": "1.8.1"
   },
   "frameworks": {

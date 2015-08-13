@@ -1,4 +1,6 @@
-﻿using Flantter.MilkyWay.Setting;
+﻿using CoreTweet;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Setting;
 using Microsoft.Practices.Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -93,6 +95,34 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region Tokens
+        private Tokens _Tokens;
+        #endregion
+        #region AccountSetting
+        private AccountSetting _AccountSetting;
+        #endregion
+
+        #region Initialize
+        public async void Initialize()
+        {
+            this.IsEnabled = this._AccountSetting.IsEnabled;
+            this.IncludeFollowingsActivity = this._AccountSetting.IncludeFollowingsActivity;
+            this.Name = this._AccountSetting.Name;
+            this.PossiblySensitive = this._AccountSetting.PossiblySensitive;
+            this.ProfileBannerUrl = this._AccountSetting.ProfileBannerUrl;
+            this.ProfileImageUrl = this._AccountSetting.ProfileImageUrl;
+            this.ScreenName = this._AccountSetting.ScreenName;
+            this.UserId = this._AccountSetting.UserId;
+
+            foreach (var columnModel in this._Columns)
+            {
+                columnModel.Initialize();
+            }
+
+            // Todo : ScreenNameの更新, 下部UserProfileImageの更新等
+        }
+        #endregion
+
         #region Constructor
         public AccountModel()
         {
@@ -107,19 +137,25 @@ namespace Flantter.MilkyWay.Models
         {
             this._Columns = new ObservableCollection<ColumnModel>();
             this._ReadOnlyColumns = new ReadOnlyObservableCollection<ColumnModel>(this._Columns);
+            
+            this._Tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName);
 
-            this.IsEnabled = account.IsEnabled;
-            this.IncludeFollowingsActivity = account.IncludeFollowingsActivity;
-            this.Name = account.Name;
-            this.PossiblySensitive = account.PossiblySensitive;
-            this.ProfileBannerUrl = account.ProfileBannerUrl;
-            this.ProfileImageUrl = account.ProfileImageUrl;
-            this.ScreenName = account.ScreenName;
-            this.UserId = account.UserId;
+            this._AccountSetting = account;
+
+            Connecter.Instance.AddAccount(account);
 
             foreach (var column in account.Column)
-                this._Columns.Add(new ColumnModel(column, account.ScreenName, account.UserId));
+                this._Columns.Add(new ColumnModel(column, account, this));
         }
         #endregion
+
+        public void DisconnectAllFilterStreaming()
+        {
+            foreach (var column in this._Columns)
+            {
+                if (column.Action == SettingSupport.ColumnTypeEnum.Search || column.Action == SettingSupport.ColumnTypeEnum.List)
+                    column.Streaming = false;
+            }
+        }
     }
 }

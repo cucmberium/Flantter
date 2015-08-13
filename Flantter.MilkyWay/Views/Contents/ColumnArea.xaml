@@ -276,7 +276,7 @@
                             </Grid>
                         </controls:PullToRefreshPanel.RefreshContent>
 						
-						<contents:TimelineArea>
+						<contents:TimelineArea ViewModel="{Binding}">
 							
 						</contents:TimelineArea>
                     </controls:PullToRefreshPanel>
@@ -313,7 +313,7 @@
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>
-                        <Button Grid.Column="1" ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" Width="40" BorderBrush="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" Visibility="{Binding IsEnabledStreaming.Value,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Button Grid.Column="1" ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" Width="40" BorderBrush="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" Visibility="{Binding IsEnabledStreaming.Value,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding StreamingCommand, Mode=OneWay}">
                             <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{Binding StreamingSymbol.Value}"/>
                         </Button>
                     </Grid>

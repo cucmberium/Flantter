@@ -8,15 +8,12 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:winRTXamlControls="using:WinRTXamlToolkit.Controls"
-    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
-    xmlns:setting="using:Flantter.MilkyWay.Setting"
-    xmlns:common="using:Flantter.MilkyWay.Common"
-	xmlns:util="using:Flantter.MilkyWay.Views.Util"
+    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
     mc:Ignorable="d"
-    d:DesignHeight="200"
+    d:DesignHeight="300"
     d:DesignWidth="400">
-
+    
     <UserControl.Resources>
         <Storyboard x:Name="TweetSlideAnimation">
             <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TweetGrid">
@@ -43,110 +40,20 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    
-    <Grid x:Name="TweetGrid" behaviors:TweetBackgroundColorBehavior.RetweetBackground="{StaticResource TweetRetweetBackgroundBrush}" behaviors:TweetBackgroundColorBehavior.FavoriteBackground="{StaticResource TweetFavoriteBackgroundBrush}" behaviors:TweetBackgroundColorBehavior.MentionBackground="{StaticResource TweetMentionBackgroundBrush}" behaviors:TweetBackgroundColorBehavior.MyStatusBackground="{StaticResource TweetMyStatusBackgroundBrush}" behaviors:TweetBackgroundColorBehavior.TweetBrushAlpha="{Binding Source={StaticResource Setting},Path=Setting.TweetBrushAlpha}" behaviors:TweetBackgroundColorBehavior.TweetType="{Binding Tweet.TweetType}" RenderTransformOrigin="0.5,0.5">
-		<Grid.RenderTransform>
-			<CompositeTransform/>
-		</Grid.RenderTransform>
 
-		<Grid.RowDefinitions>
+    <Grid x:Name="TweetGrid" Background="{x:Bind ViewModel.BackgroundBrush.Value, Mode=OneWay}" RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <CompositeTransform/>
+        </Grid.RenderTransform>
+
+        <Grid.RowDefinitions>
             <RowDefinition Height="7"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/><!-- Mention Field -->
+            <RowDefinition Height="Auto"/><!-- Main Field -->
+            <RowDefinition Height="Auto"/><!-- Quoted Status Field -->
+            <RowDefinition Height="Auto"/><!-- Command Field -->
             <RowDefinition Height="7"/>
         </Grid.RowDefinitions>
-
-        <Grid Grid.Row="1" x:Name="MentionTweetGrid" Visibility="Collapsed" Height="0" Background="Transparent" behaviors:TweetMentionAnimationBehavior.IsEnabled="{Binding MentionIsEnabled}" behaviors:TweetMentionAnimationBehavior.IsLoading="{Binding MentionIsLoading}">
-            <Grid.Resources>
-				<Storyboard x:Name="MentionTweetOpenAnimation">
-					<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetGrid" Storyboard.TargetProperty="Visibility">
-						<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-					</ObjectAnimationUsingKeyFrames>
-					<DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="MentionTweetGrid">
-						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="50">
-							<EasingDoubleKeyFrame.EasingFunction>
-								<SineEase EasingMode="EaseInOut"/>
-							</EasingDoubleKeyFrame.EasingFunction>
-						</EasingDoubleKeyFrame>
-					</DoubleAnimationUsingKeyFrames>
-					<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetMainGrid" Storyboard.TargetProperty="Visibility">
-						<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-					</ObjectAnimationUsingKeyFrames>
-					<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetLoadingProgressBar" Storyboard.TargetProperty="Visibility">
-						<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-					</ObjectAnimationUsingKeyFrames>
-					<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetLoadingProgressBar" Storyboard.TargetProperty="IsIndeterminate">
-						<DiscreteObjectKeyFrame KeyTime="0" Value="False"/>
-					</ObjectAnimationUsingKeyFrames>
-				</Storyboard>
-				<Storyboard x:Name="MentionTweetCloseAnimation">
-					<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetGrid" Storyboard.TargetProperty="Visibility">
-						<DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-					</ObjectAnimationUsingKeyFrames>
-					<DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="MentionTweetGrid">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                                <SineEase EasingMode="EaseInOut"/>
-                            </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                    </DoubleAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetMainGrid" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Visible"/>
-                    </ObjectAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetLoadingProgressBar" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-                    </ObjectAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetLoadingProgressBar" Storyboard.TargetProperty="IsIndeterminate">
-                        <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="False"/>
-                    </ObjectAnimationUsingKeyFrames>
-                </Storyboard>
-                <Storyboard x:Name="MentionTweetOpenLoadingAnimation">
-					<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetGrid" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                    </ObjectAnimationUsingKeyFrames>
-					<DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="MentionTweetGrid">
-						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="20">
-							<EasingDoubleKeyFrame.EasingFunction>
-								<SineEase EasingMode="EaseInOut"/>
-							</EasingDoubleKeyFrame.EasingFunction>
-						</EasingDoubleKeyFrame>
-					</DoubleAnimationUsingKeyFrames>
-					<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetMainGrid" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                    </ObjectAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetLoadingProgressBar" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                    </ObjectAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionTweetLoadingProgressBar" Storyboard.TargetProperty="IsIndeterminate">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
-                    </ObjectAnimationUsingKeyFrames>
-                </Storyboard>
-            </Grid.Resources>
-            
-			<i:Interaction.Behaviors>
-				<core:EventTriggerBehavior EventName="Tapped">
-					<core:InvokeCommandAction Command="{Binding ConversationShowCommand}" CommandParameter="{Binding Tweet}"/>
-				</core:EventTriggerBehavior>
-			</i:Interaction.Behaviors>
-
-            <ProgressBar Visibility="Collapsed" x:Name="MentionTweetLoadingProgressBar"/>
-
-			<Grid Visibility="Collapsed" x:Name="MentionTweetMainGrid" Height="50" Margin="0,0,0,7.5">
-
-				<Border BorderThickness="0" Height="30" Width="30" Margin="30,2.5,0,0" CornerRadius="3" HorizontalAlignment="Left" VerticalAlignment="Top">
-					<Border.Background>
-						<ImageBrush ImageSource="{Binding Tweet.MentionInformation.User.ProfileImageUrl}" />
-					</Border.Background>
-				</Border>
-
-				<TextBlock Margin="65,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{Binding Tweet.MentionInformation.User.Name}" FontWeight="Bold"/>
-					<Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{Binding Tweet.MentionInformation.User.ScreenName}"/>
-				</TextBlock>
-				<TextBlock FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" Height="19.5" Width="{Binding ElementName=MentionTweetMainGrid, Path=Width}" TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="65,18,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{StaticResource TweetTextTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Entities="{Binding Tweet.MentionInformation.Entities}" behaviors:TexbblockNavigationServiceBehavior.Text="{Binding Tweet.MentionInformation.Text}"/>
-			</Grid>
-		</Grid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -157,55 +64,53 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="1" Orientation="Vertical">
-                <Border BorderThickness="0" Height="{Binding Source={StaticResource Setting},Path=Setting.IconSize,Converter={StaticResource EnumToIntConverter}}" Width="{Binding Source={StaticResource Setting},Path=Setting.IconSize,Converter={StaticResource EnumToIntConverter}}" Margin="0,0,0,0" CornerRadius="4">
+                <Border BorderThickness="0" Height="{Binding Source={StaticResource Setting},Path=Setting.IconSize,Converter={StaticResource EnumToIntConverter}}" Width="{Binding RelativeSource={RelativeSource Self},Path=Height}" Margin="0,0,0,0" CornerRadius="4">
                     <Border.Background>
-                        <ImageBrush ImageSource="{Binding Tweet.User.ProfileImageUrl}" />
+                        <ImageBrush ImageSource="{x:Bind ViewModel.ProfileImageUrl.Value, Mode=OneWay}" />
                     </Border.Background>
-					
-                    <!--<Image Source="{Binding Tweet.User.ProfileImageUrl}" />-->
-                    
-					<i:Interaction.Behaviors>
-						<core:EventTriggerBehavior EventName="Tapped">
-							<core:InvokeCommandAction Command="{Binding UserProfileShowCommand}" CommandParameter="{Binding Tweet.User.ScreenName}"/>
-						</core:EventTriggerBehavior>
-					</i:Interaction.Behaviors>
+
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.Value.UserProfileShowCommand}" CommandParameter="{x:Bind ViewModel.ScreenName.Value}"/>
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                 </Border>
-                <SymbolIcon Visibility="{Binding Tweet.HasRetweetInformation,Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{StaticResource TweetRetweetSymbolIconForegroundBrush}" Symbol="ReShare" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Margin="0"/>
+                <SymbolIcon Visibility="{x:Bind ViewModel.RetweetInformationVisibility.Value, Mode=OneWay}" Foreground="{StaticResource TweetRetweetSymbolIconForegroundBrush}" Symbol="ReShare" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Margin="0"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="3" x:Name="TweetBox" Orientation="Vertical">
+            <StackPanel Grid.Column="3" x:Name="StatusBox" Orientation="Vertical">
                 <TextBlock>
-                    <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{Binding Tweet.User.Name}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{Binding Tweet.User.ScreenName}"/>
+                    <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name.Value, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock Width="{Binding ElementName=TweetBox, Path=Width}" TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Entities="{Binding Tweet.Entities}" behaviors:TexbblockNavigationServiceBehavior.Text="{Binding Tweet.Text}"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities.Value, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text.Value, Mode=OneWay}"/>
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
-                    <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{Binding Tweet.CreatedAt,Converter={StaticResource DateTimeToStringConverter}}"/>
+                    <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{x:Bind ViewModel.CreatedAt.Value, Mode=OneWay}"/>
                     <Run Foreground="{StaticResource TweetOtherTextblockForegroundBrush}" Text="  -  "/>
-                    <Run Foreground="{StaticResource TweetOtherTextblockForegroundBrush}" Text="via "/><Run Foreground="{StaticResource TweetSourceTextblockForegroundBrush}" Text="{Binding Tweet.Source}"/>
+                    <Run Foreground="{StaticResource TweetOtherTextblockForegroundBrush}" Text="via "/><Run Foreground="{StaticResource TweetSourceTextblockForegroundBrush}" Text="{x:Bind ViewModel.Source.Value, Mode=OneWay}"/>
                 </TextBlock>
 
-                <ItemsControl Visibility="{Binding Tweet.Entities.MediaEntities.Count,Converter={StaticResource IntToVisibilityConverter}}" Grid.Row="1" ItemsSource="{Binding Tweet.Entities.MediaEntities}">
+                <ItemsControl Visibility="{x:Bind ViewModel.MediaVisibility.Value, Mode=OneWay}" Grid.Row="1" ItemsSource="{x:Bind ViewModel.MediaEntities, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <winRTXamlControls:WrapPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Foreground="Transparent" BorderBrush="{x:Null}" BorderThickness="0" Command="{Binding MediaShowCommand}" CommandParameter="{Binding}">
-                                <Image MinWidth="75" MaxWidth="150" Height="75" Source="{Binding MediaThumbnailUrl}" Stretch="Uniform"/>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:MediaEntityViewModel">
+                            <Button Foreground="Transparent" BorderBrush="{x:Null}" BorderThickness="0" Command="{x:Bind Notice.Value.MediaShowCommand, Mode=OneWay}" CommandParameter="{x:Bind Model, Mode=OneWay}">
+                                <Image MinWidth="75" MaxWidth="150" Height="75" Source="{x:Bind MediaThumbnailUrl.Value, Mode=OneWay}" Stretch="Uniform"/>
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <Grid Visibility="{Binding Tweet.HasRetweetInformation,Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="2" Margin="0,2,0,0" Background="Transparent" HorizontalAlignment="Left">
+                <Grid Visibility="{x:Bind ViewModel.RetweetInformationVisibility.Value, Mode=OneWay}" Grid.Row="2" Margin="0,2,0,0" Background="Transparent" HorizontalAlignment="Left">
 
-					<i:Interaction.Behaviors>
-						<core:EventTriggerBehavior EventName="Tapped">
-							<core:InvokeCommandAction Command="{Binding UserProfileShowCommand}" CommandParameter="{Binding Tweet.RetweetInformation.User.ScreenName}"/>
-						</core:EventTriggerBehavior>
-					</i:Interaction.Behaviors>
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.Value.UserProfileShowCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.RetweetInformationScreenName.Value, Mode=OneWay}"/>
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -213,118 +118,48 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.Column="0" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" Height="22" Width="22" CornerRadius="2">
                         <Border.Background>
-                            <ImageBrush ImageSource="{Binding Tweet.RetweetInformation.User.ProfileImageUrl}" />
+                            <ImageBrush ImageSource="{x:Bind ViewModel.RetweetInformationProfileImageUrl.Value, Mode=OneWay}" />
                         </Border.Background>
                     </Border>
-                    <TextBlock Grid.Column="1" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="5,0,0,0" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{Binding Tweet.ConvertedRetweetCounterString}"/>
+                    <TextBlock Grid.Column="1" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="5,0,0,0" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetInformationText.Value, Mode=OneWay}"/>
                 </Grid>
 
-                <TextBlock Visibility="{Binding Tweet.RetweetCounter2Visibility,Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="2" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,2,0,0" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{Binding Tweet.ConvertedRetweetCounter2String}"/>
+                <TextBlock Visibility="{x:Bind ViewModel.RetweetCounterVisibility.Value, Mode=OneWay}" Grid.Row="2" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,2,0,0" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetCounterText.Value, Mode=OneWay}"/>
             </StackPanel>
 
-            <ContentControl Style="{StaticResource RetweetTriangleIcon}" Grid.Column="1" Visibility="{Binding Tweet.RetweetTriangleIcon,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
-            <ContentControl Style="{StaticResource FavoriteTriangleIcon}" Grid.Column="1" Visibility="{Binding Tweet.FavoriteTriangleIcon,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
-            <ContentControl Style="{StaticResource RetweetFavoriteTriangleIcon}" Grid.Column="1" Visibility="{Binding Tweet.RetweetFavoriteTriangleIcon,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
-
+            <ContentControl Style="{StaticResource RetweetTriangleIcon}" Grid.Column="1" Visibility="{x:Bind ViewModel.RetweetTriangleIconVisibility.Value, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
+            <ContentControl Style="{StaticResource FavoriteTriangleIcon}" Grid.Column="1" Visibility="{x:Bind ViewModel.FavoriteTriangleIconVisibility.Value, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
+            <ContentControl Style="{StaticResource RetweetFavoriteTriangleIcon}" Grid.Column="1" Visibility="{x:Bind ViewModel.RetweetFavoriteTriangleIconVisibility.Value, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
         </Grid>
 
-        <Grid Grid.Row="3" x:Name="TweetCommandBar" Visibility="Collapsed" Height="0" HorizontalAlignment="Right" Margin="0,0,18,0" behaviors:TweetCommandBarAnimationBehavior.Selected="{Binding Selected}">
-            <Grid.Resources>
-                <Storyboard x:Name="TweetCommandBarOpenAnimation">
-                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="TweetCommandBar">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="{Binding Source={StaticResource Setting},Path=Setting.TweetCommandBarHeight}">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                                <SineEase EasingMode="EaseInOut"/>
-                            </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                    </DoubleAnimationUsingKeyFrames>
-					<ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetCommandBar" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                    </ObjectAnimationUsingKeyFrames>
-                </Storyboard>
-                <Storyboard x:Name="TweetCommandBarCloseAnimation">
-                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="TweetCommandBar">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                                <SineEase EasingMode="EaseInOut"/>
-                            </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                    </DoubleAnimationUsingKeyFrames>
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetCommandBar" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="Collapsed"/>
-                    </ObjectAnimationUsingKeyFrames>
-                </Storyboard>
-            </Grid.Resources>
+        <Border Grid.Row="3" x:Name="QuotedStatusBorder" Visibility="{x:Bind ViewModel.QuotedStatusVisibility.Value, Mode=OneWay}" Background="{StaticResource TweetQuotedStatusBackgroundBrush}" Padding="4,2,0,2" CornerRadius="5" HorizontalAlignment="Right" Margin="0,4">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <i:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="Tapped">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.Value.StatusDetailShowCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.QuotedStatusId.Value, Mode=OneWay}"/>
+                </core:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
 
-            <Button Grid.Column="4" x:Uid="TweetField_TweetList_TweetCommand_ReplyCommandButton" ToolTipService.ToolTip="返信" BorderBrush="{x:Null}" FlowDirection="LeftToRight" Margin="0,0" Padding="10,4" Command="{Binding ReplyCommand}" CommandParameter="{Binding Tweet}" VerticalAlignment="Stretch">
-                <i:Interaction.Behaviors>
-					<core:EventTriggerBehavior EventName="RightTapped">
-						<util:ShowAttachedFlyoutAction/>
-					</core:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-                <SymbolIcon Foreground="{StaticResource TweetCommandBarReplySymbolIconForegroundBrush}" Symbol="Message"/>
-                <FlyoutBase.AttachedFlyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_ReplyCommandButton_Reply" Text="&#xE172;    返信" Command="{Binding ReplyCommand}" CommandParameter="{Binding Tweet}" FontFamily="Segoe UI Symbol"/>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_ReplyCommandButton_ReplyAll" Text="&#xE165;    全員に返信" Command="{Binding ReplyToAllCommand}" CommandParameter="{Binding Tweet}" FontFamily="Segoe UI Symbol"/>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_ReplyCommandButton_SendDM" Text="&#xE119;    DMで返信" Command="{Binding ReplyWithDirectMessageCommand}" CommandParameter="{Binding Tweet}" FontFamily="Segoe UI Symbol"/>
-                    </MenuFlyout>
-                </FlyoutBase.AttachedFlyout>
-            </Button>
-            <Button Grid.Column="3" x:Uid="TweetField_TweetList_TweetCommand_RetweetCommandButton" ToolTipService.ToolTip="リツイート" BorderBrush="{x:Null}" FlowDirection="LeftToRight" Margin="0,0" Padding="10,4" Command="{Binding RetweetCommand}" CommandParameter="{Binding Tweet}" VerticalAlignment="Stretch">
-                <i:Interaction.Behaviors>
-					<core:EventTriggerBehavior EventName="RightTapped">
-						<util:ShowAttachedFlyoutAction/>
-					</core:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-                <SymbolIcon Symbol="ReShare" behaviors:SymbolIconColorSwitchBehavior.IsSwitched="{Binding Tweet.Retweeted}" behaviors:SymbolIconColorSwitchBehavior.DefaultSymbolIconForegroundBrush="{StaticResource TweetCommandBarRetweetSymbolIconForegroundBrush}" behaviors:SymbolIconColorSwitchBehavior.CustomSymbolIconForegroundBrush="{StaticResource TweetCommandBarDestroyRetweetSymbolIconForegroundBrush}"/>
-                <FlyoutBase.AttachedFlyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_RetweetCommandButton_Retweet" Text="&#xE1CA;    公式RT" FontFamily="Segoe UI Symbol" Command="{Binding RetweetCommand}" CommandParameter="{Binding Tweet}"/>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_ReplyCommandButton_UnofficialRetweet" Text="&#xE172;    非公式RT" FontFamily="Segoe UI Symbol" Command="{Binding UnofficialRetweetCommand}" CommandParameter="{Binding Tweet}"/>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_ReplyCommandButton_URLQuoteTweet" Text="&#xE167;    URLを引用してツイート" FontFamily="Segoe UI Symbol" Command="{Binding UrlQuoteRetweetCommand}" CommandParameter="{Binding Tweet}"/>
-                    </MenuFlyout>
-                </FlyoutBase.AttachedFlyout>
-            </Button>
-            <Button Grid.Column="2" x:Uid="TweetField_TweetList_TweetCommand_FavoriteCommandButton" ToolTipService.ToolTip="お気に入り" BorderBrush="{x:Null}" FlowDirection="LeftToRight" Margin="0,0" Padding="10,4" Command="{Binding FavoriteCommand}" CommandParameter="{Binding Tweet}" VerticalAlignment="Stretch">
-                <SymbolIcon Symbol="Favorite" behaviors:SymbolIconColorSwitchBehavior.IsSwitched="{Binding Tweet.Favorited}" behaviors:SymbolIconColorSwitchBehavior.DefaultSymbolIconForegroundBrush="{StaticResource TweetCommandBarFavoriteSymbolIconForegroundBrush}" behaviors:SymbolIconColorSwitchBehavior.CustomSymbolIconForegroundBrush="{StaticResource TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush}"/>
-            </Button>
-            <Button Grid.Column="1" x:Uid="TweetField_TweetList_TweetCommand_URLCommandButton" ToolTipService.ToolTip="URL" BorderBrush="{x:Null}" FlowDirection="LeftToRight" Margin="0,0" Padding="10,4" VerticalAlignment="Stretch">
-                <SymbolIcon Foreground="{StaticResource TweetCommandBarUrlSymbolIconForegroundBrush}" Symbol="Link"/>
-                <Button.Flyout>
-                    <Flyout controls:BindableFlyout.ItemsSource="{Binding Tweet.Entities.UrlEntities}">
-                        <controls:BindableFlyout.ItemTemplate>
-                            <DataTemplate>
-                                <MenuFlyoutItem ToolTipService.Placement="Top" ToolTipService.ToolTip="{Binding ExpandedUrl}" Text="{Binding DisplayUrl}" Command="{Binding UrlClickCommand}" CommandParameter="{Binding}"/>
-                            </DataTemplate>
-                        </controls:BindableFlyout.ItemTemplate>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-            <Button Grid.Column="0" x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton" ToolTipService.ToolTip="メニュー" BorderBrush="{x:Null}" FlowDirection="LeftToRight" Margin="0,0" VerticalAlignment="Stretch">
-                <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="Add"/>
-                <Button.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_UserProfile" Text="&#xE136;    ユーザープロフィール" FontFamily="Segoe UI Symbol" Command="{Binding UserProfileShowCommand}" CommandParameter="{Binding Tweet.User.ScreenName}"/>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_TweetDetail" Text="&#xE14C;    ツイートの詳細" FontFamily="Segoe UI Symbol" Command="{Binding TweetDetailShowCommand}" CommandParameter="{Binding Tweet}"/>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_Retweeter" Visibility="{Binding Tweet.RetweetCount,Converter={StaticResource IntToVisibilityConverter}}" Text="&#xE1CA;    リツイートした人" FontFamily="Segoe UI Symbol" Command="{Binding RetweeterShowCommand}" CommandParameter="{Binding Tweet}"/>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_Copy" Text="&#xE16F;    コピー" FontFamily="Segoe UI Symbol" Command="{Binding TweetCopyCommand}" CommandParameter="{Binding Tweet}"/>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_UserMute" Text="&#xE1E0;    ユーザーミュート" FontFamily="Segoe UI Symbol" Command="{Binding UserMuteCommand}" CommandParameter="{Binding Tweet}"/>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_ClientMute" Text="&#xE1E0;    クライアントミュート" FontFamily="Segoe UI Symbol" Command="{Binding ClientMuteCommand}" CommandParameter="{Binding Tweet}"/>
-                        <MenuFlyoutItem x:Uid="TweetField_TweetList_TweetCommand_MenuCommandButton_Delete" Visibility="{Binding Tweet.IsMyStatus,Converter={StaticResource BooleanToVisibilityConverter}}" Text="&#xE107;    削除" FontFamily="Segoe UI Symbol" Command="{Binding TweetDeleteCommand}" CommandParameter="{Binding Tweet}"/>
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
-        </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" BorderThickness="0" Height="28" Width="28" Margin="0,0,0,0" CornerRadius="4">
+                    <Border.Background>
+                        <ImageBrush ImageSource="{x:Bind ViewModel.QuotedStatusProfileImageUrl.Value, Mode=OneWay}" />
+                    </Border.Background>
+                </Border>
+
+                <StackPanel Grid.Column="2" Width="{Binding ElementName=StatusBox, Path=ActualWidth}" x:Name="QuotedStatusBox" Orientation="Vertical">
+                    <TextBlock>
+                        <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.QuotedStatusName.Value, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.QuotedStatusScreenName.Value, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.QuotedStatusEntities.Value, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.QuotedStatusText.Value, Mode=OneWay}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
-
 </UserControl>

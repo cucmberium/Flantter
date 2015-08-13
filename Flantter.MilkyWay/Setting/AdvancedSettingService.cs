@@ -1,4 +1,5 @@
 ﻿using Flantter.MilkyWay.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Windows.Storage;
 using Windows.UI.Notifications;
 
 namespace Flantter.MilkyWay.Setting
@@ -53,24 +55,22 @@ namespace Flantter.MilkyWay.Setting
     public class AdvancedSettingService : AdvancedSettingServiceBase<AdvancedSettingService>
     {
         private readonly List<Type> knownTypes = new List<Type> { typeof(ObservableCollection<AccountSetting>), typeof(ObservableCollection<string>), typeof(SettingSupport.DoubleTappedEventEnum), typeof(SettingSupport.TrendsPlaceEnum), typeof(SettingSupport.SizeEnum), typeof(SettingSupport.TileNotificationEnum), typeof(SettingSupport.TweetAnimationEnum) };
-        public void SaveToStream(Stream s)
+        public async Task SaveToStream(StorageFile s)
         {
-            var serializer = new DataContractSerializer(typeof(Dictionary<string, object>), knownTypes);
-            serializer.WriteObject(s, Dict);
+            string json = JsonConvert.SerializeObject(Dict);
+            await Windows.Storage.FileIO.WriteTextAsync(s, json);
         }
-        public void LoadFromStream(Stream s)
+        public async Task LoadFromStream(StorageFile s)
         {
-            var serializer = new DataContractSerializer(typeof(Dictionary<string, object>), knownTypes);
-            Dict = serializer.ReadObject(s) as Dictionary<string, object>;
-        }
-        public void LoadFromString(string s)
-        {
-            var serializer = new DataContractSerializer(typeof(Dictionary<string, object>), knownTypes);
-            using (var sr = new StringReader(s))
-            using (var xr = XmlReader.Create(sr))
-            {
-                Dict = serializer.ReadObject(xr) as Dictionary<string, object>;
-            }
+            string json = await Windows.Storage.FileIO.ReadTextAsync(s);
+            Dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+
+            if (Dict.ContainsKey("Account"))
+                Dict["Account"] = JsonConvert.DeserializeObject<ObservableCollection<AccountSetting>>(JsonConvert.SerializeObject(Dict["Account"]));
+            if (Dict.ContainsKey("MuteUsers"))
+                Dict["MuteUsers"] = JsonConvert.DeserializeObject<ObservableCollection<string>>(JsonConvert.SerializeObject(Dict["MuteUsers"]));
+            if (Dict.ContainsKey("MuteClients"))
+                Dict["MuteClients"] = JsonConvert.DeserializeObject<ObservableCollection<string>>(JsonConvert.SerializeObject(Dict["MuteClients"]));
         }
 
         // アカウント,カラム設定

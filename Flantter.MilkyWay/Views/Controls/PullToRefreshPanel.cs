@@ -102,17 +102,17 @@ namespace Flantter.MilkyWay.Views.Controls
         protected override void OnApplyTemplate()
         {
             this.ScrollViewer = GetTemplateChild("ScrollViewer") as ScrollViewer;
-            //this.ScrollViewer.SizeChanged += (s, e) => UpdateView();
             Window.Current.SizeChanged += async (s, e) => { await Task.Delay(30); UpdateView(); };
             this.ScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             
             this.Loaded += (s, e) => UpdateView();
 
-            var grid = GetTemplateChild("PullGrid") as Grid;
-            grid.SizeChanged += (s, e) => UpdateView();
+            var pullGrid = GetTemplateChild("PullGrid") as Grid;
+            pullGrid.SizeChanged += (s, e) => UpdateView();
 
             var contentGrid = GetTemplateChild("ContentGrid") as Grid;
             contentGrid.PointerWheelChanged += (s, e) => e.Handled = true;
+            contentGrid.SizeChanged += (s, e) => UpdateView();
 
             base.OnApplyTemplate();
         }

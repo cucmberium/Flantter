@@ -1,4 +1,5 @@
 ﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Twitter.Objects;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -45,30 +46,18 @@ namespace Flantter.MilkyWay.Views.Behaviors
             textBlock.Inlines.Clear();
 
             var text = GetText(obj);
-            var entities = GetEntities(obj) as object;            
+            var entities = GetEntities(obj) as Entities;            
 
             if (string.IsNullOrEmpty(text))
                 return;
 
-            /*if (entities == null)
-            {
-                textBlock.Inlines.Add(GenerateText(text));
-                return;
-            }
-
-            if (entities.UserMentionsEntities == null && entities.HashTagEntities == null && entities.UrlEntities == null)
-            {
-                textBlock.Inlines.Add(GenerateText(text));
-                return;
-            }*/
-
-            foreach (var inline in GenerateInlines(text))
+            foreach (var inline in GenerateInlines(text, entities))
                 textBlock.Inlines.Add(inline);
 
             textBlock.Inlines.Add(new Run() { Text = " " });
         }
 
-        private static IEnumerable<Inline> GenerateInlines(string text)
+        private static IEnumerable<Inline> GenerateInlines(string text, Entities entities = null)
         {
             foreach (var token in Tokenize(text))
             {
@@ -84,18 +73,15 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         yield return GenerateLink((string)token.Value, "usermention://" + (string)token.Value);
                         break;
                     case TextToken.TextTokenId.Url:
-                        /*if (entities == null)
+                        if (entities == null)
                             continue;
 
-                        if (entities.UrlEntities == null)
+                        var urls = entities.Urls.Where(x => x.Url == (string)token.Value);
+                        if (urls.Count() == 0)
                             continue;
 
-                        var urlEntities = entities.UrlEntities.Where(x => x.Url == (string)token.Value);
-                        if (urlEntities.Count() == 0)
-                            continue;
-
-                        yield return GenerateLink(urlEntities.First().DisplayUrl, !string.IsNullOrWhiteSpace(urlEntities.First().ExpandedUrl) ? urlEntities.First().ExpandedUrl : urlEntities.First().Url);*/
-                        yield return GenerateLink((string)token.Value, (string)token.Value);
+                        yield return GenerateLink(urls.First().DisplayUrl, !string.IsNullOrWhiteSpace(urls.First().ExpandedUrl) ? urls.First().ExpandedUrl : urls.First().Url);
+                        //yield return GenerateLink((string)token.Value, (string)token.Value);
                         break;
                 }
             }
@@ -107,15 +93,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 text = "";
 
             var run = new Run() { Text = text };
-
-            /*var binding = new Binding
-            {
-                Source = Theme.ThemeService.Theme,
-                Path = new PropertyPath("TweetFieldTweetListTweetTextTextblockForegroundBrush"),
-                Mode = BindingMode.OneWay
-            };
-            BindingOperations.SetBinding(run, Run.ForegroundProperty, binding);*/
-
+            
             run.Foreground = (Brush)Application.Current.Resources["TweetTextTextblockForegroundBrush"];
 
             return run;
@@ -252,6 +230,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 return;
             }
 
+            // Todo : 正規表現のCompile
             var match = Regex.Match(linkUrl, @"https?://twitter.com/(#!/)?([a-zA-Z0-9_])+/status(es)?/(?<Id>[0-9]+)$", RegexOptions.IgnoreCase);
             var match2 = Regex.Match(linkUrl, @"https?://twitter.com/(#!/)?(?<ScreenName>([a-zA-Z0-9_])+)$", RegexOptions.IgnoreCase);
 			if (match.Success)

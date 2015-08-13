@@ -87,7 +87,16 @@ namespace Flantter.MilkyWay.ViewModels
 			this.MinSnapPoint = new ReactiveProperty<double>(352.0);
 
             this.ColumnSelectedIndex = new ReactiveProperty<int>(0);
-		}
+
+            #region Command
+
+            Service.Notice.Instance.UserProfileShowCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(_ =>
+            {
+                System.Diagnostics.Debug.WriteLine("UserProfile Showed!");
+            });
+
+            #endregion
+        }
         #endregion
 
         #region Destructor

@@ -1,5 +1,7 @@
 ﻿using Flantter.MilkyWay.Models;
+using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -32,9 +34,13 @@ namespace Flantter.MilkyWay.ViewModels
 		public ReactiveProperty<Symbol> StreamingSymbol { get; private set; }
         public ReactiveProperty<bool> IsEnabledStreaming { get; private set; }
 
-		public ReadOnlyReactiveCollection<TweetViewModel> Tweets { get; private set; }
+		public ReadOnlyReactiveCollection<object> Tweets { get; private set; }
 
         public ReactiveProperty<int> Index { get; private set; }
+
+        public ReactiveProperty<int> SelectedIndex { get; private set; }
+
+        public ReactiveCommand StreamingCommand { get; private set; }
 
         #region Constructor
         /*public ColumnViewModel()
@@ -76,17 +82,39 @@ namespace Flantter.MilkyWay.ViewModels
             this.Name = column.ObserveProperty(x => x.Name).ToReactiveProperty();
             this.OwnerScreenName = column.ObserveProperty(x => x.OwnerScreenName).ToReactiveProperty();
 			this.StreamingSymbol = column.ObserveProperty(x => x.Streaming).Select(x => x ? Symbol.Pause : Symbol.Play).ToReactiveProperty();
+            this.Index = column.ObserveProperty(x => x.Index).ToReactiveProperty();
             this.IsEnabledStreaming = column.ObserveProperty(x => x.Action).Select(x =>
             {
                 switch (x)
                 {
+                    case SettingSupport.ColumnTypeEnum.Search:
+                        return true;
+                    case SettingSupport.ColumnTypeEnum.List:
+                        return true;
                     case SettingSupport.ColumnTypeEnum.Home:
                         return true;
                     default:
                         return false;
                 }
             }).ToReactiveProperty();
-            this.Index = column.ObserveProperty(x => x.Index).ToReactiveProperty();
+
+            this.SelectedIndex = column.ToReactivePropertyAsSynchronized(x => x.SelectedIndex);
+
+            this.StreamingCommand = column.ObserveProperty(x => x.Action).Select(x =>
+            {
+                switch (x)
+                {
+                    case SettingSupport.ColumnTypeEnum.Home:
+                        return true;
+                    case SettingSupport.ColumnTypeEnum.List:
+                        return true;
+                    case SettingSupport.ColumnTypeEnum.Search:
+                        return true;
+                    default:
+                        return false;
+                }
+            }).ToReactiveCommand();
+            this.StreamingCommand.Subscribe(_ => { this._ColumnModel.Streaming = !this._ColumnModel.Streaming; });
 
             this.ColumnCount = Observable.CombineLatest<double, double, int, int>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
@@ -140,7 +168,18 @@ namespace Flantter.MilkyWay.ViewModels
                         return 5.0 + index * (columnWidth + 10.0) + 352.0;
                 }).ToReactiveProperty();
 
-            this.Tweets = this._ColumnModel.ReadOnlyTweets.ToReadOnlyReactiveCollection(x => new TweetViewModel(x));
+            this.Tweets = this._ColumnModel.ReadOnlyTweets.ToReadOnlyReactiveCollection(x => 
+            {
+                if (x is Status)
+                    return (object)(new StatusViewModel((Status)x, this._ColumnModel));
+                /*else if (x is DirectMessage)
+                    return new DirectMessageViewModel((DirectMessage)x);
+                else if (x is EventMessage)
+                    return new EventMessageViewModel((EventMessage)x);*/
+
+                //return (object)(new StatusViewModel((Status)x, this._ColumnModel));
+                return null;
+            });
         }
         #endregion
 

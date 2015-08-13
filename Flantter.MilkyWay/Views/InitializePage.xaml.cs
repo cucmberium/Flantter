@@ -58,6 +58,9 @@ namespace Flantter.MilkyWay.Views
                 if (account == null)
                     continue;
 
+                AdvancedSettingService.AdvancedSetting.MuteClients = new ObservableCollection<string>();
+                AdvancedSettingService.AdvancedSetting.MuteUsers = new ObservableCollection<string>();
+
                 AdvancedSettingService.AdvancedSetting.Account = new ObservableCollection<AccountSetting>();
                 AdvancedSettingService.AdvancedSetting.Account.Add(new AccountSetting()
                 {
@@ -80,9 +83,8 @@ namespace Flantter.MilkyWay.Views
 
                 try
                 {
-                    var advancedSetting = await ApplicationData.Current.RoamingFolder.CreateFileAsync("account.xml", CreationCollisionOption.ReplaceExisting);
-                    using (var s = await advancedSetting.OpenStreamForWriteAsync())
-                        AdvancedSettingService.AdvancedSetting.SaveToStream(s);
+                    var advancedSetting = await ApplicationData.Current.RoamingFolder.CreateFileAsync("account.json", CreationCollisionOption.ReplaceExisting);
+                    await AdvancedSettingService.AdvancedSetting.SaveToStream(advancedSetting);
                 }
                 catch (Exception ex)
                 {

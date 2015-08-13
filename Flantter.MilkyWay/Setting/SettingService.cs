@@ -96,12 +96,10 @@ namespace Flantter.MilkyWay.Setting
         // 表示設定
         public string Theme { get { return GetValue("Light"); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
         public double FontSize { get { return GetValue(12.0); } set { SetValue(value); OnPropertyChanged(); } }
-        public double ColumnBackgroundBrushAlpha { get { return GetValue(20.0); } set { SetValue(value); OnPropertyChanged(); } }
-        public double TweetBackgroundBrushAlpha { get { return GetValue(255.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public double ColumnBackgroundBrushAlpha { get { return GetValue(255.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public double TweetBackgroundBrushAlpha { get { return GetValue(15.0); } set { SetValue(value); OnPropertyChanged(); } }
         public double MinColumnSize { get { return GetValue(384.0); } set { SetValue(value); OnPropertyChanged(); } }
         public int MaxColumnCount { get { return GetValue(2); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool ExpandTweetField { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool EnableTweetClickAnimation { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public double TweetPostFieldFontSize { get { return GetValue(14.5); } set { SetValue(value); OnPropertyChanged(); } }
         public double TweetCommandBarHeight { get { return GetValue(45.0); } set { SetValue(value); OnPropertyChanged(); } }
         public SettingSupport.SizeEnum IconSize { get { return (SettingSupport.SizeEnum)GetValue(45); } set { SetValue((int)value); OnPropertyChanged(); } }
@@ -132,8 +130,8 @@ namespace Flantter.MilkyWay.Setting
         public bool UnlockAfterScroll { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool DisableStreamingScroll { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool TweetCollectionEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public SettingSupport.DoubleTappedEventEnum DoubleTappedAction { get { return (SettingSupport.DoubleTappedEventEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
         public SettingSupport.TrendsPlaceEnum TrendsPlace { get { return (SettingSupport.TrendsPlaceEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
 

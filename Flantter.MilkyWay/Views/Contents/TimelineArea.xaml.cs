@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flantter.MilkyWay.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,14 @@ namespace Flantter.MilkyWay.Views.Contents
 {
     public sealed partial class TimelineArea : UserControl
     {
+        public ColumnViewModel ViewModel
+        {
+            get { return (ColumnViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(ColumnViewModel), typeof(TimelineArea), null);
+
         public TimelineArea()
         {
             this.InitializeComponent();

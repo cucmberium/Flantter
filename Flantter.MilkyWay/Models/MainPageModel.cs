@@ -25,31 +25,11 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region Initialize
-        public async void Initialize()
+        public void Initialize()
         {
-            await Connection.Instance.Initialize();
-            
-            foreach (var account in AdvancedSettingService.AdvancedSetting.Account)
+            foreach (var accountModel in this._Accounts)
             {
-                var message = new ValueSet();
-                message.Add("Command", "AddAccountInfo");
-
-                message.Add("Name", account.Name);
-                message.Add("ScreenName", account.ScreenName);
-                message.Add("UserId", account.UserId);
-                message.Add("ConsumerKey", account.ConsumerKey);
-                message.Add("ConsumerSecret", account.ConsumerSecret);
-                message.Add("AccessToken", account.AccessToken);
-                message.Add("AccessTokenSecret", account.AccessTokenSecret);
-                message.Add("IncludeFollowingsActivity", account.IncludeFollowingsActivity);
-                message.Add("PossiblySensitive", account.PossiblySensitive);
-
-                await Connection.Instance.AppServiceConnection.SendMessageAsync(message);
-            }
-
-            foreach (var account in AdvancedSettingService.AdvancedSetting.Account)
-            {
-                this._Accounts.Add(new AccountModel(account));
+                accountModel.Initialize();
             }
         }
         #endregion
@@ -59,6 +39,13 @@ namespace Flantter.MilkyWay.Models
         {
             this._Accounts = new ObservableCollection<AccountModel>();
             this._ReadOnlyAccounts = new ReadOnlyObservableCollection<AccountModel>(this._Accounts);
+
+            Connecter.Instance.Initialize();
+
+            foreach (var account in AdvancedSettingService.AdvancedSetting.Account)
+            {
+                this._Accounts.Add(new AccountModel(account));
+            }
         }
         #endregion
 

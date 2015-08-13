@@ -11,6 +11,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 namespace Flantter.MilkyWay.Themes
 {
@@ -148,7 +149,33 @@ namespace Flantter.MilkyWay.Themes
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarTextblockForegroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnreadCountGridBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarUnreadCountGridBackgroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnreadCountTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarUnreadCountTextblockForegroundBrush"]).Color;
-			}
+
+                ((SolidColorBrush)Application.Current.Resources["TweetFavoriteBackgroundBrush"]).Color = Color.FromArgb(Convert.ToByte(SettingService.Setting.TweetBackgroundBrushAlpha), ((SolidColorBrush)_ResourceDictionary["TweetFavoriteBackgroundBrush"]).Color.R, ((SolidColorBrush)_ResourceDictionary["TweetFavoriteBackgroundBrush"]).Color.G, ((SolidColorBrush)_ResourceDictionary["TweetFavoriteBackgroundBrush"]).Color.B);
+                ((SolidColorBrush)Application.Current.Resources["TweetRetweetBackgroundBrush"]).Color = Color.FromArgb(Convert.ToByte(SettingService.Setting.TweetBackgroundBrushAlpha), ((SolidColorBrush)_ResourceDictionary["TweetRetweetBackgroundBrush"]).Color.R, ((SolidColorBrush)_ResourceDictionary["TweetRetweetBackgroundBrush"]).Color.G, ((SolidColorBrush)_ResourceDictionary["TweetRetweetBackgroundBrush"]).Color.B);
+                ((SolidColorBrush)Application.Current.Resources["TweetMentionBackgroundBrush"]).Color = Color.FromArgb(Convert.ToByte(SettingService.Setting.TweetBackgroundBrushAlpha), ((SolidColorBrush)_ResourceDictionary["TweetMentionBackgroundBrush"]).Color.R, ((SolidColorBrush)_ResourceDictionary["TweetMentionBackgroundBrush"]).Color.G, ((SolidColorBrush)_ResourceDictionary["TweetMentionBackgroundBrush"]).Color.B);
+                ((SolidColorBrush)Application.Current.Resources["TweetMyStatusBackgroundBrush"]).Color = Color.FromArgb(Convert.ToByte(SettingService.Setting.TweetBackgroundBrushAlpha), ((SolidColorBrush)_ResourceDictionary["TweetMyStatusBackgroundBrush"]).Color.R, ((SolidColorBrush)_ResourceDictionary["TweetMyStatusBackgroundBrush"]).Color.G, ((SolidColorBrush)_ResourceDictionary["TweetMyStatusBackgroundBrush"]).Color.B);
+
+                ((SolidColorBrush)Application.Current.Resources["TweetRetweetSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetRetweetSymbolIconForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetNameTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetNameTextblockForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetScreenNameTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetScreenNameTextblockForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetTextTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetTextTextblockForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetTextHyperlinkTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetTextHyperlinkTextblockForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetDateTimeTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetDateTimeTextblockForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetSourceTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetSourceTextblockForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetOtherTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetOtherTextblockForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetRetweetTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetRetweetTextblockForegroundBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["TweetQuotedStatusBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetQuotedStatusBackgroundBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["TweetCommandBarReplySymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCommandBarReplySymbolIconForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetCommandBarRetweetSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCommandBarRetweetSymbolIconForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetCommandBarDestroyRetweetSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCommandBarDestroyRetweetSymbolIconForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetCommandBarFavoriteSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCommandBarFavoriteSymbolIconForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetCommandBarUrlSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCommandBarUrlSymbolIconForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TweetCommandBarMenuSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetGetGapTextblockForegroundBrush"]).Color;
+            }
             catch
             {
             }

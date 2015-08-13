@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,12 +14,20 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// ユーザー コントロールのアイテム テンプレートについては、http://go.microsoft.com/fwlink/?LinkId=234236 を参照してください
+// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
     public sealed partial class Status : UserControl
     {
+        public StatusViewModel ViewModel
+        {
+            get { return (StatusViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(StatusViewModel), typeof(Status), null);
+
         public Status()
         {
             this.InitializeComponent();

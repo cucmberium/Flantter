@@ -14,15 +14,37 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public MediaEntityViewModel(MediaEntity mediaEntity)
         {
             this.Model = mediaEntity;
-            this.MediaThumbnailUrl = mediaEntity.ObserveProperty(x => x.MediaThumbnailUrl).ToReactiveProperty();
 
-            this.Notice = new ReactiveProperty<Service.Notice>(Service.Notice.Instance);
+            this.MediaThumbnailUrl = mediaEntity.MediaThumbnailUrl;
+
+            this.Notice = Service.Notice.Instance;
         }
 
         public MediaEntity Model { get; private set; }
 
-        public ReactiveProperty<string> MediaThumbnailUrl { get; set; }
+        public string MediaThumbnailUrl { get; set; }
 
-        public ReactiveProperty<Service.Notice> Notice { get; set; }
+        public Service.Notice Notice { get; set; }
+    }
+
+    public class UrlEntityViewModel
+    {
+        public UrlEntityViewModel(UrlEntity urlEntity)
+        {
+            this.Model = urlEntity;
+
+            this.ExpandedUrl = urlEntity.ExpandedUrl;
+            this.DisplayUrl = urlEntity.DisplayUrl;
+
+            this.Notice = Service.Notice.Instance;
+        }
+
+        public UrlEntity Model { get; private set; }
+
+        public string ExpandedUrl { get; set; }
+
+        public string DisplayUrl { get; set; }
+
+        public Service.Notice Notice { get; set; }
     }
 }

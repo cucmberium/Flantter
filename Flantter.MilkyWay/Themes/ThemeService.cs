@@ -140,9 +140,9 @@ namespace Flantter.MilkyWay.Themes
 
 				((SolidColorBrush)Application.Current.Resources["PullToRefreshCharacterBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PullToRefreshCharacterBrush"]).Color;
 
-				((SolidColorBrush)Application.Current.Resources["ColumnViewBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewBackgroundBrush"]).Color;
+				((SolidColorBrush)Application.Current.Resources["ColumnViewBackgroundBrush"]).Color = Color.FromArgb(Convert.ToByte(SettingService.Setting.ColumnBackgroundBrushAlpha), ((SolidColorBrush)_ResourceDictionary["ColumnViewBackgroundBrush"]).Color.R, ((SolidColorBrush)_ResourceDictionary["ColumnViewBackgroundBrush"]).Color.G, ((SolidColorBrush)_ResourceDictionary["ColumnViewBackgroundBrush"]).Color.B);
 
-				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarSelectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarSelectedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarSelectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarSelectedForegroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnselectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarUnselectedForegroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarSymbolIconForegroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarDisabledSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarDisabledSymbolIconForegroundBrush"]).Color;
@@ -189,8 +189,15 @@ namespace Flantter.MilkyWay.Themes
 			"Light",
             "Custom"
 		};
+        
+        public void ChangeBackgroundAlpha()
+        {
+            ((SolidColorBrush)Application.Current.Resources["ColumnViewBackgroundBrush"]).Color = Color.FromArgb(Convert.ToByte(SettingService.Setting.ColumnBackgroundBrushAlpha), ((SolidColorBrush)Application.Current.Resources["ColumnViewBackgroundBrush"]).Color.R, ((SolidColorBrush)Application.Current.Resources["ColumnViewBackgroundBrush"]).Color.G, ((SolidColorBrush)Application.Current.Resources["ColumnViewBackgroundBrush"]).Color.B);
 
-        //public Thickness TweetFieldTweetListListViewItemListViewItemSelectedBorderThickness { get { return GetValue<Thickness>(); } }
-        //public Double TweetFieldTweetListListViewItemListViewItemSelectedBorderThicknessDouble { get { return GetValue<Thickness>("TweetFieldTweetListListViewItemListViewItemSelectedBorderThickness").Bottom; } }
+            ((SolidColorBrush)Application.Current.Resources["TweetFavoriteBackgroundBrush"]).Color = Color.FromArgb(Convert.ToByte(SettingService.Setting.TweetBackgroundBrushAlpha), ((SolidColorBrush)Application.Current.Resources["TweetFavoriteBackgroundBrush"]).Color.R, ((SolidColorBrush)Application.Current.Resources["TweetFavoriteBackgroundBrush"]).Color.G, ((SolidColorBrush)Application.Current.Resources["TweetFavoriteBackgroundBrush"]).Color.B);
+            ((SolidColorBrush)Application.Current.Resources["TweetRetweetBackgroundBrush"]).Color = Color.FromArgb(Convert.ToByte(SettingService.Setting.TweetBackgroundBrushAlpha), ((SolidColorBrush)Application.Current.Resources["TweetRetweetBackgroundBrush"]).Color.R, ((SolidColorBrush)Application.Current.Resources["TweetRetweetBackgroundBrush"]).Color.G, ((SolidColorBrush)Application.Current.Resources["TweetRetweetBackgroundBrush"]).Color.B);
+            ((SolidColorBrush)Application.Current.Resources["TweetMentionBackgroundBrush"]).Color = Color.FromArgb(Convert.ToByte(SettingService.Setting.TweetBackgroundBrushAlpha), ((SolidColorBrush)Application.Current.Resources["TweetMentionBackgroundBrush"]).Color.R, ((SolidColorBrush)Application.Current.Resources["TweetMentionBackgroundBrush"]).Color.G, ((SolidColorBrush)Application.Current.Resources["TweetMentionBackgroundBrush"]).Color.B);
+            ((SolidColorBrush)Application.Current.Resources["TweetMyStatusBackgroundBrush"]).Color = Color.FromArgb(Convert.ToByte(SettingService.Setting.TweetBackgroundBrushAlpha), ((SolidColorBrush)Application.Current.Resources["TweetMyStatusBackgroundBrush"]).Color.R, ((SolidColorBrush)Application.Current.Resources["TweetMyStatusBackgroundBrush"]).Color.G, ((SolidColorBrush)Application.Current.Resources["TweetMyStatusBackgroundBrush"]).Color.B);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Flantter.MilkyWay.Models;
+﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Service;
@@ -17,183 +18,199 @@ using Windows.UI.Xaml.Media;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
-    public class StatusViewModel
+    public class StatusViewModel : ExtendedBindableBase
     {
         public StatusViewModel(Status status, ColumnModel column)
         {
+
             this.Model = status;
 
-            this.CreatedAt = status.ObserveProperty(x => x.CreatedAt).Select(x => x.ToLocalTime().ToString()).ToReactiveProperty();
-            this.Source = status.ObserveProperty(x => x.Source).ToReactiveProperty();
-            this.Text = status.ObserveProperty(x => x.Text).ToReactiveProperty();
-            this.ScreenName = status.User.ObserveProperty(x => x.ScreenName).ToReactiveProperty();
-            this.Name = status.User.ObserveProperty(x => x.Name).ToReactiveProperty();
-            this.ProfileImageUrl = status.User.ObserveProperty(x => x.ProfileImageUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
-            this.Entities = status.ObserveProperty(x => x.Entities).ToReactiveProperty();
+            this.CreatedAt = status.CreatedAt.ToLocalTime().ToString();
+            this.Source = status.Source;
+            this.Text = status.Text;
+            this.ScreenName = status.User.ScreenName;
+            this.Name = status.User.Name;
+            this.ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl) ? "http://localhost/" : status.User.ProfileImageUrl;
+            this.Entities = status.Entities;
 
-            // Todo : 軽量化, バグ修正
-            this.BackgroundBrush = Observable.CombineLatest(
-                SettingService.Setting.ObserveProperty(x => x.TweetBackgroundBrushAlpha),
-                status.ObserveProperty(x => x.HasRetweetInformation),
-                status.ObserveProperty(x => x.InReplyToUserId),
-                status.ObserveProperty(x => x.IsFavorited),
-                status.User.ObserveProperty(x => x.Id),
-                (brushAlpha, isRetweet, inReplyToUserId, isFavorited, userId) =>
-                {
-                    SolidColorBrush backgroundBrush = null;
-                    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        if (isRetweet)
-                            backgroundBrush = (SolidColorBrush)Application.Current.Resources["TweetRetweetBackgroundBrush"];
-                        else if (inReplyToUserId == column.OwnerUserId)
-                            backgroundBrush = (SolidColorBrush)Application.Current.Resources["TweetMentionBackgroundBrush"];
-                        else if (isFavorited == true)
-                            backgroundBrush = (SolidColorBrush)Application.Current.Resources["TweetFavoriteBackgroundBrush"];
-                        else if (userId == column.OwnerUserId)
-                            backgroundBrush = (SolidColorBrush)Application.Current.Resources["TweetMyStatusBackgroundBrush"];
-                        else
-                            backgroundBrush = (SolidColorBrush)Application.Current.Resources["TweetDefaultBackgroundBrush"];
-                    }).AsTask().Wait();
-                    return backgroundBrush;
-                }).ToReactiveProperty();
+            // BackgroundBrush
+            this.BackgroundBrush = "Default";
+            if (status.HasRetweetInformation)
+                this.BackgroundBrush = "Retweet";
+            else if (status.InReplyToUserId == column.OwnerUserId)
+                this.BackgroundBrush = "Mention";
+            else if (status.IsFavorited)
+                this.BackgroundBrush = "Favorite";
+            else if (status.User.Id == column.OwnerUserId)
+                this.BackgroundBrush = "MyStatus";
 
-            this.RetweetInformationVisibility = status.ObserveProperty(x => x.HasRetweetInformation).Select(x => x ? Visibility.Visible : Visibility.Collapsed).ToReactiveProperty();
-            this.MediaVisibility = new ReactiveProperty<Visibility>(status.Entities.Media.Count == 0 ? Visibility.Collapsed : Visibility.Visible);
-            this.MediaEntities = this.Model.Entities.Media.ToReadOnlyReactiveCollection(x => new MediaEntityViewModel(x));
+            this.RetweetInformationVisibility = status.HasRetweetInformation;
+            this.MediaVisibility = status.Entities.Media.Count == 0 ? false : true;
+            this.MediaEntities = new List<MediaEntityViewModel>();
+            foreach (var mediaEntity in status.Entities.Media)
+                this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
 
-            this.RetweetInformationText = Observable.CombineLatest(
-                status.ObserveProperty(x => x.RetweetCount),
-                status.ObserveProperty(x => x.RetweetInformation),
-                (retweetCount, retweetInformation) =>
-                {
-                    if (retweetInformation == null)
-                        return "";
+            this.UrlEntities = new List<UrlEntityViewModel>();
+            foreach (var urlEntity in status.Entities.Urls)
+                this.UrlEntities.Add(new UrlEntityViewModel(urlEntity));
 
-                    if (retweetCount >= 2)
-                        return "Retweet by " + retweetInformation.User.ScreenName + " ( " + retweetInformation.User.Name + " ) and " + retweetCount.ToString() + " others";
-                    else
-                        return "Retweet by " + retweetInformation.User.ScreenName + " ( " + retweetInformation.User.Name + " )";
-                }).ToReactiveProperty();
-            this.RetweetInformationProfileImageUrl = status.ObserveProperty(x => x.RetweetInformation).Select(x => (x != null && !string.IsNullOrWhiteSpace(x.User.ProfileImageUrl)) ? x.User.ProfileImageUrl : "http://localhost/").ToReactiveProperty();
-            this.RetweetInformationScreenName = status.ObserveProperty(x => x.RetweetInformation).Select(x => x != null ? x.User.ScreenName : "").ToReactiveProperty();
+            this.IsFavorited = status.IsFavorited;
+            this.IsRetweeted = status.IsRetweeted;
 
-            this.RetweetCounterVisibility = Observable.CombineLatest(
-                status.ObserveProperty(x => x.RetweetCount),
-                status.ObserveProperty(x => x.HasRetweetInformation),
-                (retweetCount, hasRetweetInformation) =>
-                {
-                    if (!hasRetweetInformation && retweetCount > 0)
-                        return Visibility.Visible;
-                    else
-                        return Visibility.Collapsed;
-                }).ToReactiveProperty();
-            this.RetweetCounterText = Observable.CombineLatest(
-                status.ObserveProperty(x => x.RetweetCount),
-                status.ObserveProperty(x => x.HasRetweetInformation),
-                (retweetCount, hasRetweetInformation) =>
-                {
-                    if (!hasRetweetInformation && retweetCount > 0)
-                        return "Retweeted " + retweetCount.ToString() + " times";
-                    else
-                        return "";
-                }).ToReactiveProperty();
+            // RetweetInformation
+            if (status.RetweetInformation != null)
+            {
+                if (status.RetweetCount >= 2)
+                    this.RetweetInformationText = "Retweet by " + status.RetweetInformation.User.ScreenName + " ( " + status.RetweetInformation.User.Name + " ) and " + status.RetweetCount.ToString() + " others";
+                else
+                    this.RetweetInformationText = "Retweet by " + status.RetweetInformation.User.ScreenName + " ( " + status.RetweetInformation.User.Name + " )";
 
-            this.RetweetTriangleIconVisibility = Observable.CombineLatest(
-                status.ObserveProperty(x => x.IsRetweeted),
-                status.ObserveProperty(x => x.IsFavorited),
-                (isRetweeted, isFavorited) =>
-                {
-                    if (isRetweeted && !isFavorited)
-                        return Visibility.Visible;
-                    else
-                        return Visibility.Collapsed;
-                }).ToReactiveProperty();
-            this.FavoriteTriangleIconVisibility = Observable.CombineLatest(
-                status.ObserveProperty(x => x.IsRetweeted),
-                status.ObserveProperty(x => x.IsFavorited),
-                (isRetweeted, isFavorited) =>
-                {
-                    if (!isRetweeted && isFavorited)
-                        return Visibility.Visible;
-                    else
-                        return Visibility.Collapsed;
-                }).ToReactiveProperty();
-            this.RetweetFavoriteTriangleIconVisibility = Observable.CombineLatest(
-                status.ObserveProperty(x => x.IsRetweeted),
-                status.ObserveProperty(x => x.IsFavorited),
-                (isRetweeted, isFavorited) =>
-                {
-                    if (isRetweeted && isFavorited)
-                        return Visibility.Visible;
-                    else
-                        return Visibility.Collapsed;
-                }).ToReactiveProperty();
+                this.RetweetInformationProfileImageUrl = string.IsNullOrWhiteSpace(status.RetweetInformation.User.ProfileImageUrl) ? "http://localhost/" : status.RetweetInformation.User.ProfileImageUrl;
+                this.RetweetInformationScreenName = status.RetweetInformation.User.ScreenName;
+            }
+            else
+            {
+                this.RetweetInformationText = "";
+                this.RetweetInformationProfileImageUrl = "http://localhost/";
+            }
 
-            this.QuotedStatusVisibility = status.ObserveProperty(x => x.QuotedStatusId).Select(x => x != 0 ? Visibility.Visible : Visibility.Collapsed).ToReactiveProperty();
-            this.QuotedStatusName = status.ObserveProperty(x => x.QuotedStatus).Select(x => x != null ? x.User.Name : "").ToReactiveProperty();
-            this.QuotedStatusScreenName = status.ObserveProperty(x => x.QuotedStatus).Select(x => x != null ? x.User.ScreenName : "").ToReactiveProperty();
-            this.QuotedStatusText = status.ObserveProperty(x => x.QuotedStatus).Select(x => x != null ? x.Text : "").ToReactiveProperty();
-            this.QuotedStatusProfileImageUrl = status.ObserveProperty(x => x.QuotedStatus).Select(x => (x != null && !string.IsNullOrWhiteSpace(x.User.ProfileImageUrl)) ? x.User.ProfileImageUrl : "http://localhost/").ToReactiveProperty();
-            this.QuotedStatusId = status.ObserveProperty(x => x.QuotedStatusId).ToReactiveProperty();
-            this.QuotedStatusEntities = status.ObserveProperty(x => x.QuotedStatus).Select(x => x != null ? x.Entities : null).ToReactiveProperty();
+            // RetweetCounter
+            if (!status.HasRetweetInformation && status.RetweetCount > 0)
+            {
+                this.RetweetCounterVisibility = true;
+                this.RetweetCounterText = "Retweeted " + status.RetweetCount.ToString() + " times";
+            }
+            else
+            {
+                this.RetweetCounterVisibility = false;
+                this.RetweetCounterText = "";
+            }
 
-            this.Notice = new ReactiveProperty<Service.Notice>(Service.Notice.Instance);
+            // TriangleIcon
+            if (!status.IsRetweeted && status.IsFavorited)
+                this.FavoriteTriangleIconVisibility = true;
+            else
+                this.FavoriteTriangleIconVisibility = false;
+            if (status.IsRetweeted && !status.IsFavorited)
+                this.RetweetTriangleIconVisibility = true;
+            else
+                this.RetweetTriangleIconVisibility = false;
+            if (status.IsRetweeted && status.IsFavorited)
+                this.RetweetFavoriteTriangleIconVisibility = true;
+            else
+                this.RetweetFavoriteTriangleIconVisibility = false;
+            
+            this.QuotedStatusVisibility = status.QuotedStatusId != 0 ? true : false;
+            this.QuotedStatusId = status.QuotedStatusId;
+            if (status.QuotedStatus != null)
+            {
+                this.QuotedStatusName = status.QuotedStatus.User.Name;
+                this.QuotedStatusScreenName = status.QuotedStatus.User.ScreenName;
+                this.QuotedStatusText = status.QuotedStatus.Text;
+                this.QuotedStatusEntities = status.QuotedStatus.Entities;
+                this.QuotedStatusProfileImageUrl = string.IsNullOrWhiteSpace(status.QuotedStatus.User.ProfileImageUrl) ? "http://localhost/" : status.QuotedStatus.User.ProfileImageUrl;
+            }
+            else
+            {
+                this.QuotedStatusProfileImageUrl = "http://localhost/";
+            }
+
+            this.MentionStatusVisibility = (status.InReplyToStatusId != 0);
+            this.IsMentionStatusLoaded = (status.MentionStatus != null);
+            this.IsMentionStatusLoading = false;
+
+            this.RetweetCount = status.RetweetCount;
+            this.IsMyStatus = (status.User.Id == column.OwnerUserId);
+
+            this.Notice = Service.Notice.Instance;
         }
 
         public Status Model { get; private set; }
 
-        public ReactiveProperty<string> CreatedAt { get; set; }
+        public string CreatedAt { get; set; }
 
-        public ReactiveProperty<string> Source { get; set; }
+        public string Source { get; set; }
 
-        public ReactiveProperty<string> Text { get; set; }
+        public string Text { get; set; }
 
-        public ReactiveProperty<string> ScreenName { get; set; }
+        public string ScreenName { get; set; }
 
-        public ReactiveProperty<string> Name { get; set; }
+        public string Name { get; set; }
         
-        public ReactiveProperty<string> ProfileImageUrl { get; set; }
+        public string ProfileImageUrl { get; set; }
 
-        public ReactiveProperty<Entities> Entities { get; set; }
+        public Entities Entities { get; set; }
 
-        public ReactiveProperty<SolidColorBrush> BackgroundBrush { get; set; }
+        public bool IsFavorited { get; set; }
 
-        public ReactiveProperty<Visibility> RetweetInformationVisibility { get; set; }
+        public bool IsRetweeted { get; set; }
+
+        public string BackgroundBrush { get; set; }
+
+        public bool RetweetInformationVisibility { get; set; }
         
-        public ReactiveProperty<Visibility> MediaVisibility { get; set; }
+        public bool MediaVisibility { get; set; }
 
-        public ReadOnlyReactiveCollection<MediaEntityViewModel> MediaEntities { get; private set; }
+        public List<MediaEntityViewModel> MediaEntities { get; private set; }
 
-        public ReactiveProperty<string> RetweetInformationText { get; set; }
+        public List<UrlEntityViewModel> UrlEntities { get; private set; }
 
-        public ReactiveProperty<string> RetweetInformationProfileImageUrl { get; set; }
+        public string RetweetInformationText { get; set; }
 
-        public ReactiveProperty<string> RetweetInformationScreenName { get; set; }
+        public string RetweetInformationProfileImageUrl { get; set; }
 
-        public ReactiveProperty<Visibility> RetweetCounterVisibility { get; set; }
+        public string RetweetInformationScreenName { get; set; }
 
-        public ReactiveProperty<string> RetweetCounterText { get; set; }
 
-        public ReactiveProperty<Visibility> RetweetTriangleIconVisibility { get; set; }
+        public bool RetweetCounterVisibility { get; set; }
 
-        public ReactiveProperty<Visibility> FavoriteTriangleIconVisibility { get; set; }
+        public string RetweetCounterText { get; set; }
 
-        public ReactiveProperty<Visibility> RetweetFavoriteTriangleIconVisibility { get; set; }
 
-        public ReactiveProperty<Visibility> QuotedStatusVisibility { get; set; }
+        public bool RetweetTriangleIconVisibility { get; set; }
 
-        public ReactiveProperty<string> QuotedStatusScreenName { get; set; }
+        public bool FavoriteTriangleIconVisibility { get; set; }
 
-        public ReactiveProperty<string> QuotedStatusName { get; set; }
+        public bool RetweetFavoriteTriangleIconVisibility { get; set; }
 
-        public ReactiveProperty<string> QuotedStatusText { get; set; }
 
-        public ReactiveProperty<string> QuotedStatusProfileImageUrl { get; set; }
+        public bool QuotedStatusVisibility { get; set; }
 
-        public ReactiveProperty<long> QuotedStatusId { get; set; }
+        public string QuotedStatusScreenName { get; set; }
 
-        public ReactiveProperty<Entities> QuotedStatusEntities { get; set; }
+        public string QuotedStatusName { get; set; }
 
-        public ReactiveProperty<Service.Notice> Notice { get; set; }
+        public string QuotedStatusText { get; set; }
+
+        public string QuotedStatusProfileImageUrl { get; set; }
+
+        public long QuotedStatusId { get; set; }
+
+        public Entities QuotedStatusEntities { get; set; }
+
+
+        public bool MentionStatusVisibility { get; set; }
+
+        public bool IsMentionStatusLoaded { get; set; }
+
+        public bool IsMentionStatusLoading { get; set; }
+
+        public string MentionStatusScreenName { get; set; }
+
+        public string MentionStatusName { get; set; }
+
+        public string MentionStatusText { get; set; }
+
+        public string MentionStatusProfileImageUrl { get; set; }
+
+        public long MentionStatusId { get; set; }
+
+        public Entities MentionStatusEntities { get; set; }
+        
+        public int RetweetCount { get; set; }
+
+        public bool IsMyStatus { get; set; }
+
+        public Service.Notice Notice { get; set; }
     }
 }

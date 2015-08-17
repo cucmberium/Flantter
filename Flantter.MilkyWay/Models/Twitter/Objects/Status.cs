@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
-    public class Status : BindableBase, ITweet
+    public class Status : ITweet
     {
         private static readonly Regex SourceRegex = new Regex("<(\"[^\"]*\"|'[^']*'|[^'\">])*>", RegexOptions.Compiled);
 
@@ -40,97 +40,79 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region CreatedAt変更通知プロパティ
-        private DateTime _CreatedAt;
-        public DateTime CreatedAt { get { return this._CreatedAt; } set { this.SetProperty(ref this._CreatedAt, value); } }
+        public DateTime CreatedAt { get; set; }
         #endregion
 
         #region Entities変更通知プロパティ
-        private Entities _Entities;
-        public Entities Entities { get { return this._Entities; } set { this.SetProperty(ref this._Entities, value); } }
+        public Entities Entities { get; set; }
         #endregion
 
         #region FavoriteCount変更通知プロパティ
-        private int _FavoriteCount;
-        public int FavoriteCount { get { return this._FavoriteCount; } set { this.SetProperty(ref this._FavoriteCount, value); } }
+        public int FavoriteCount { get; set; }
         #endregion
 
         #region RetweetCount変更通知プロパティ
-        private int _RetweetCount;
-        public int RetweetCount { get { return this._RetweetCount; } set { this.SetProperty(ref this._RetweetCount, value); } }
+        public int RetweetCount { get; set; }
         #endregion
 
         #region InReplyToStatusId変更通知プロパティ
-        private long _InReplyToStatusId;
-        public long InReplyToStatusId { get { return this._InReplyToStatusId; } set { this.SetProperty(ref this._InReplyToStatusId, value); } }
+        public long InReplyToStatusId { get; set; }
         #endregion
 
         #region InReplyToScreenName変更通知プロパティ
-        private string _InReplyToScreenName;
-        public string InReplyToScreenName { get { return this._InReplyToScreenName; } set { this.SetProperty(ref this._InReplyToScreenName, value); } }
+        public string InReplyToScreenName { get; set; }
         #endregion
 
         #region InReplyToUserId変更通知プロパティ
-        private long _InReplyToUserId;
-        public long InReplyToUserId { get { return this._InReplyToUserId; } set { this.SetProperty(ref this._InReplyToUserId, value); } }
+        public long InReplyToUserId { get; set; }
         #endregion
 
         #region Id変更通知プロパティ
-        private long _Id;
-        public long Id { get { return this._Id; } set { this.SetProperty(ref this._Id, value); } }
+        public long Id { get; set; }
         #endregion
 
         #region Source変更通知プロパティ
-        private string _Source;
-        public string Source { get { return this._Source; } set { this.SetProperty(ref this._Source, value); } }
+        public string Source { get; set; }
         #endregion
 
         #region Text変更通知プロパティ
-        private string _Text;
-        public string Text { get { return this._Text; } set { this.SetProperty(ref this._Text, value); } }
+        public string Text { get; set; }
         #endregion
 
         #region User変更通知プロパティ
-        private User _User;
-        public User User { get { return this._User; } set { this.SetProperty(ref this._User, value); } }
+        public User User { get; set; }
         #endregion
 
         #region IsFavorited変更通知プロパティ
-        private bool _IsFavorited;
-        public bool IsFavorited { get { return this._IsFavorited; } set { this.SetProperty(ref this._IsFavorited, value); } }
+        public bool IsFavorited { get; set; }
         #endregion
 
         #region IsRetweeted変更通知プロパティ
-        private bool _IsRetweeted;
-        public bool IsRetweeted { get { return this._IsRetweeted; } set { this.SetProperty(ref this._IsRetweeted, value); } }
+        public bool IsRetweeted { get; set; }
         #endregion
 
         #region RetweetInformation変更通知プロパティ
-        private RetweetInformation _RetweetInformation;
-        public RetweetInformation RetweetInformation { get { return this._RetweetInformation; } set { this.SetProperty(ref this._RetweetInformation, value); } }
+        public RetweetInformation RetweetInformation { get; set; }
         #endregion
 
         #region HasRetweetInformation変更通知プロパティ
-        private bool _HasRetweetInformation;
-        public bool HasRetweetInformation { get { return this._HasRetweetInformation; } set { this.SetProperty(ref this._HasRetweetInformation, value); } }
+        public bool HasRetweetInformation { get; set; }
         #endregion
 
         #region MentionStatus変更通知プロパティ
-        private Status _MentionStatus;
-        public Status MentionStatus { get { return this._MentionStatus; } set { this.SetProperty(ref this._MentionStatus, value); } }
+        public Status MentionStatus { get; set; }
         #endregion
 
         #region QuotedStatus変更通知プロパティ
-        private Status _QuotedStatus;
-        public Status QuotedStatus { get { return this._QuotedStatus; } set { this.SetProperty(ref this._QuotedStatus, value); } }
+        public Status QuotedStatus { get; set; }
         #endregion
 
         #region QuotedStatusId変更通知プロパティ
-        private long _QuotedStatusId;
-        public long QuotedStatusId { get { return this._QuotedStatusId; } set { this.SetProperty(ref this._QuotedStatusId, value); } }
+        public long QuotedStatusId { get; set; }
         #endregion
     }
 
-    public class RetweetInformation : BindableBase
+    public class RetweetInformation
     {
         public RetweetInformation(CoreTweet.Status cOrigStatus)
         {
@@ -143,28 +125,13 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
         
         #region User変更通知プロパティ
-        private User _User;
-        public User User
-        {
-            get { return this._User; }
-            set { this.SetProperty(ref this._User, value); }
-        }
+        public User User { get; set; }
         #endregion
         #region Id変更通知プロパティ
-        private long _Id;
-        public long Id
-        {
-            get { return this._Id; }
-            set { this.SetProperty(ref this._Id, value); }
-        }
+        public long Id { get; set; }
         #endregion
         #region CreatedAt変更通知プロパティ
-        private DateTime _CreatedAt;
-        public DateTime CreatedAt
-        {
-            get { return this._CreatedAt; }
-            set { this.SetProperty(ref this._CreatedAt, value); }
-        }
+        public DateTime CreatedAt { get; set; }
         #endregion
     }
 }

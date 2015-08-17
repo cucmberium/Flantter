@@ -20,33 +20,27 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region CreatedAt変更通知プロパティ
-        private DateTime _CreatedAt;
-        public DateTime CreatedAt { get { return this._CreatedAt; } set { this.SetProperty(ref this._CreatedAt, value); } }
+        public DateTime CreatedAt { get; set; }
         #endregion
 
         #region Source変更通知プロパティ
-        private User _Source;
-        public User Source { get { return this._Source; } set { this.SetProperty(ref this._Source, value); } }
+        public User Source { get; set; }
         #endregion
 
         #region Target変更通知プロパティ
-        private User _Target;
-        public User Target { get { return this._Target; } set { this.SetProperty(ref this._Target, value); } }
+        public User Target { get; set; }
         #endregion
 
         #region TargetStatus変更通知プロパティ
-        private Status _TargetStatus;
-        public Status TargetStatus { get { return this._TargetStatus; } set { this.SetProperty(ref this._TargetStatus, value); } }
+        public Status TargetStatus { get; set; }
         #endregion
 
         #region Type変更通知プロパティ
-        private string _Type;
-        public string Type { get { return this._Type; } set { this.SetProperty(ref this._Type, value); } }
+        public string Type { get; set; }
         #endregion
 
         #region Id変更通知プロパティ
-        private long _Id;
-        public long Id { get { return this._Id; } set { this.SetProperty(ref this._Id, value); } }
+        public long Id { get; set; }
         #endregion
     }
 }

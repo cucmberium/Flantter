@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
-    public class User : BindableBase
+    public class User
     {
         public User(CoreTweet.User cUser)
         {
@@ -36,117 +36,95 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region CreateAt変更通知プロパティ
-        private DateTime _CreateAt;
-        public DateTime CreateAt { get { return this._CreateAt; } set { this.SetProperty(ref this._CreateAt, value); } }
+        public DateTime CreateAt { get; set; }
         #endregion
 
         #region Description変更通知プロパティ
-        private string _Description;
-        public string Description { get { return this._Description; } set { this.SetProperty(ref this._Description, value); } }
+        public string Description { get; set; }
         #endregion
 
         #region Entities変更通知プロパティ
-        private UserEntities _Entities;
-        public UserEntities Entities { get { return this._Entities; } set { this.SetProperty(ref this._Entities, value); } }
+        public UserEntities Entities { get; set; }
         #endregion
 
         #region FavouritesCount変更通知プロパティ
-        private int _FavouritesCount;
-        public int FavouritesCount { get { return this._FavouritesCount; } set { this.SetProperty(ref this._FavouritesCount, value); } }
+        public int FavouritesCount { get; set; }
         #endregion
 
         #region FollowersCount変更通知プロパティ
-        private int _FollowersCount;
-        public int FollowersCount { get { return this._FollowersCount; } set { this.SetProperty(ref this._FollowersCount, value); } }
+        public int FollowersCount { get; set; }
         #endregion
 
         #region FriendsCount変更通知プロパティ
-        private int _FriendsCount;
-        public int FriendsCount { get { return this._FriendsCount; } set { this.SetProperty(ref this._FriendsCount, value); } }
+        public int FriendsCount { get; set; }
         #endregion
 
         #region Id変更通知プロパティ
-        private long _Id;
-        public long Id { get { return this._Id; } set { this.SetProperty(ref this._Id, value); } }
+        public long Id { get; set; }
         #endregion
 
         #region IsFollowRequestSent変更通知プロパティ
-        private bool _IsFollowRequestSent;
-        public bool IsFollowRequestSent { get { return this._IsFollowRequestSent; } set { this.SetProperty(ref this._IsFollowRequestSent, value); } }
+        public bool IsFollowRequestSent { get; set; }
         #endregion
 
         #region IsMuting変更通知プロパティ
-        private bool _IsMuting;
-        public bool IsMuting { get { return this._IsMuting; } set { this.SetProperty(ref this._IsMuting, value); } }
+        public bool IsMuting { get; set; }
         #endregion
 
         #region IsProtected変更通知プロパティ
-        private bool _IsProtected;
-        public bool IsProtected { get { return this._IsProtected; } set { this.SetProperty(ref this._IsProtected, value); } }
+        public bool IsProtected { get; set; }
         #endregion
 
         #region IsVerified変更通知プロパティ
-        private bool _IsVerified;
-        public bool IsVerified { get { return this._IsVerified; } set { this.SetProperty(ref this._IsVerified, value); } }
+        public bool IsVerified { get; set; }
         #endregion
 
         #region Language変更通知プロパティ
-        private string _Language;
-        public string Language { get { return this._Language; } set { this.SetProperty(ref this._Language, value); } }
+        public string Language { get; set; }
         #endregion
 
         #region ListedCount変更通知プロパティ
-        private int _ListedCount;
-        public int ListedCount { get { return this._ListedCount; } set { this.SetProperty(ref this._ListedCount, value); } }
+        public int ListedCount { get; set; }
         #endregion
 
         #region Location変更通知プロパティ
-        private string _Location;
-        public string Location { get { return this._Location; } set { this.SetProperty(ref this._Location, value); } }
+        public string Location { get; set; }
         #endregion
 
         #region Name変更通知プロパティ
-        private string _Name;
-        public string Name { get { return this._Name; } set { this.SetProperty(ref this._Name, value); } }
+        public string Name { get; set; }
         #endregion
 
         #region ProfileBackgroundImageUrl変更通知プロパティ
-        private string _ProfileBackgroundImageUrl;
-        public string ProfileBackgroundImageUrl { get { return this._ProfileBackgroundImageUrl; } set { this.SetProperty(ref this._ProfileBackgroundImageUrl, value); } }
+        public string ProfileBackgroundImageUrl { get; set; }
         #endregion
 
         #region ProfileBannerUrl変更通知プロパティ
-        private string _ProfileBannerUrl;
-        public string ProfileBannerUrl { get { return this._ProfileBannerUrl; } set { this.SetProperty(ref this._ProfileBannerUrl, value); } }
+        public string ProfileBannerUrl { get; set; }
         #endregion
 
         #region ProfileImageUrl変更通知プロパティ
-        private string _ProfileImageUrl;
-        public string ProfileImageUrl { get { return this._ProfileImageUrl; } set { this.SetProperty(ref this._ProfileImageUrl, value); } }
+        public string ProfileImageUrl { get; set; }
         #endregion
 
         #region ScreenName変更通知プロパティ
-        private string _ScreenName;
-        public string ScreenName { get { return this._ScreenName; } set { this.SetProperty(ref this._ScreenName, value); } }
+        public string ScreenName { get; set; }
         #endregion
 
         #region StatusesCount変更通知プロパティ
-        private int _StatusesCount;
-        public int StatusesCount { get { return this._StatusesCount; } set { this.SetProperty(ref this._StatusesCount, value); } }
+        public int StatusesCount { get; set; }
         #endregion
 
         #region TimeZone変更通知プロパティ
-        private string _TimeZone;
-        public string TimeZone { get { return this._TimeZone; } set { this.SetProperty(ref this._TimeZone, value); } }
+        public string TimeZone { get; set; }
         #endregion
 
         #region Url変更通知プロパティ
-        private string _Url;
-        public string Url { get { return this._Url; } set { this.SetProperty(ref this._Url, value); } }
+        public string Url { get; set; }
         #endregion
     }
 
-    public class UserEntities : BindableBase
+    public class UserEntities
     {
         public UserEntities(CoreTweet.UserEntities cUserEntities)
         {
@@ -158,13 +136,11 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region Description変更通知プロパティ
-        private Entities _Description;
-        public Entities Description { get { return this._Description; } set { this.SetProperty(ref this._Description, value); } }
+        public Entities Description { get; set; }
         #endregion
 
         #region Url変更通知プロパティ
-        private Entities _Url;
-        public Entities Url { get { return this._Url; } set { this.SetProperty(ref this._Url, value); } }
+        public Entities Url { get; set; }
         #endregion
     }
 }

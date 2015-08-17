@@ -107,6 +107,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\AdvancedSettingBase.cs" />
+    <Compile Include="Common\ExtendedBindableBase.cs" />
     <Compile Include="Common\DataTypeTempleteSelector.cs" />
     <Compile Include="Common\ExtendedObservableCollection.cs" />
     <Compile Include="Common\FontServiceBase.cs" />
@@ -115,7 +116,6 @@
     <Compile Include="Common\SetterValueBindingHelper.cs" />
     <Compile Include="Common\SettingServiceBase.cs" />
     <Compile Include="Common\StringExtensions.cs" />
-    <Compile Include="Common\ThemeServiceBase.cs" />
     <Compile Include="Common\TweetRegexPatterns.cs" />
     <Compile Include="Common\TwitterConsumerKeyPatterns.cs" />
     <Compile Include="Common\VisualTreeHelperExtensions.cs" />
@@ -144,8 +144,11 @@
     <Compile Include="ViewModels\Service\Notice.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
+    <Compile Include="Views\Behaviors\SymbolIconForegroundBrushSwitchBehavior.cs" />
+    <Compile Include="Views\Behaviors\StatusMentionAnimationBehavior.cs" />
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
     <Compile Include="Views\Behaviors\TitlebarSwitchAction.cs" />
+    <Compile Include="Views\Behaviors\TweetCommandAnimationBehavior.cs" />
     <Compile Include="Views\Contents\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
     </Compile>
@@ -173,6 +176,7 @@
     <Compile Include="Views\Converters\EnumToIntConverter.cs" />
     <Compile Include="Views\Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\ObjectToVisibilityConverter.cs" />
+    <Compile Include="Views\Converters\StringToTweetBackgroundBrushConverter.cs" />
     <Compile Include="Views\InitializePage.xaml.cs">
       <DependentUpon>InitializePage.xaml</DependentUpon>
     </Compile>

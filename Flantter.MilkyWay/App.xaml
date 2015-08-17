@@ -19,6 +19,8 @@
 			<converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
 			<converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
 			<converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
+            <converters:StringToTweetBackgroundBrushConverter x:Key="StringToTweetBackgroundBrushConverter"/>
+            
             <setting:SettingProvider x:Key="Setting"/>
             <setting:AdvancedSettingProvider x:Key="AdvancedSetting"/>
         </ResourceDictionary>

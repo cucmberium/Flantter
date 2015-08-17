@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
-    public class Entities : BindableBase
+    public class Entities
     {
         public Entities(CoreTweet.Entities cEntities, CoreTweet.Entities cExtendedEntities)
         {
             var mediaList = MediaParser.Parse(cEntities, cExtendedEntities);
 
-            this.HashTags = new ObservableCollection<HashtagEntity>();
-            this.Media = new ObservableCollection<MediaEntity>();
-            this.Urls = new ObservableCollection<UrlEntity>();
-            this.UserMentions = new ObservableCollection<UserMentionEntity>();
+            this.HashTags = new List<HashtagEntity>();
+            this.Media = new List<MediaEntity>();
+            this.Urls = new List<UrlEntity>();
+            this.UserMentions = new List<UserMentionEntity>();
 
             foreach (var cHashTag in cEntities.HashTags)
                 this.HashTags.Add(new HashtagEntity(cHashTag));
@@ -30,14 +30,27 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
             foreach (var cUserMention in cEntities.UserMentions)
                 this.UserMentions.Add(new UserMentionEntity(cUserMention));
+
+            if (cEntities != null && cEntities.Media != null)
+            {
+                foreach (var cMedia in cEntities.Media)
+                    this.Urls.Add(new UrlEntity(cMedia));
+            }
+            else if (cExtendedEntities != null && cExtendedEntities.Media != null)
+            {
+                foreach (var cMedia in cExtendedEntities.Media)
+                    this.Urls.Add(new UrlEntity(cMedia));
+            }
+            
+            
         }
 
         public Entities(CoreTweet.Entities cEntities)
         {
-            this.HashTags = new ObservableCollection<HashtagEntity>();
-            this.Media = new ObservableCollection<MediaEntity>();
-            this.Urls = new ObservableCollection<UrlEntity>();
-            this.UserMentions = new ObservableCollection<UserMentionEntity>();
+            this.HashTags = new List<HashtagEntity>();
+            this.Media = new List<MediaEntity>();
+            this.Urls = new List<UrlEntity>();
+            this.UserMentions = new List<UserMentionEntity>();
 
             foreach (var cHashTag in cEntities.HashTags)
                 this.HashTags.Add(new HashtagEntity(cHashTag));
@@ -47,30 +60,32 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
             foreach (var cUserMention in cEntities.UserMentions)
                 this.UserMentions.Add(new UserMentionEntity(cUserMention));
+
+            if (cEntities != null && cEntities.Media != null)
+            {
+                foreach (var cMedia in cEntities.Media)
+                    this.Urls.Add(new UrlEntity(cMedia));
+            }
         }
 
         #region HashTags変更通知プロパティ
-        private ObservableCollection<HashtagEntity> _HashTags;
-        public ObservableCollection<HashtagEntity> HashTags { get { return this._HashTags; } set { this.SetProperty(ref this._HashTags, value); } }
+        public List<HashtagEntity> HashTags { get; set; }
         #endregion
 
         #region Media変更通知プロパティ
-        private ObservableCollection<MediaEntity> _Media;
-        public ObservableCollection<MediaEntity> Media { get { return this._Media; } set { this.SetProperty(ref this._Media, value); } }
+        public List<MediaEntity> Media { get; set; }
         #endregion
 
         #region Urls変更通知プロパティ
-        private ObservableCollection<UrlEntity> _Urls;
-        public ObservableCollection<UrlEntity> Urls { get { return this._Urls; } set { this.SetProperty(ref this._Urls, value); } }
+        public List<UrlEntity> Urls { get; set; }
         #endregion
 
         #region UserMentions変更通知プロパティ
-        private ObservableCollection<UserMentionEntity> _UserMentions;
-        public ObservableCollection<UserMentionEntity> UserMentions { get { return this._UserMentions; } set { this.SetProperty(ref this._UserMentions, value); } }
+        public List<UserMentionEntity> UserMentions { get; set; }
         #endregion
     }
 
-    public class HashtagEntity : BindableBase
+    public class HashtagEntity
     {
         public HashtagEntity(CoreTweet.HashtagEntity cHashTag)
         {
@@ -80,22 +95,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region Tag変更通知プロパティ
-        private string _Tag;
-        public string Tag { get { return this._Tag; } set { this.SetProperty(ref this._Tag, value); } }
+        public string Tag { get; set; }
         #endregion
 
         #region Start変更通知プロパティ
-        private int _Start;
-        public int Start { get { return this._Start; } set { this.SetProperty(ref this._Start, value); } }
+        public int Start { get; set; }
         #endregion
 
         #region End変更通知プロパティ
-        private int _End;
-        public int End { get { return this._End; } set { this.SetProperty(ref this._End, value); } }
+        public int End { get; set; }
         #endregion
     }
 
-    public class MediaEntity : BindableBase
+    public class MediaEntity
     {
         public MediaEntity(Media fMedia)
         {
@@ -108,33 +120,27 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region MediaUrl変更通知プロパティ
-        private string _MediaUrl;
-        public string MediaUrl { get { return this._MediaUrl; } set { this.SetProperty(ref this._MediaUrl, value); } }
+        public string MediaUrl { get; set; }
         #endregion
 
         #region MediaThumbnailUrl変更通知プロパティ
-        private string _MediaThumbnailUrl;
-        public string MediaThumbnailUrl { get { return this._MediaThumbnailUrl; } set { this.SetProperty(ref this._MediaThumbnailUrl, value); } }
+        public string MediaThumbnailUrl { get; set; }
         #endregion
 
         #region DisplayUrl変更通知プロパティ
-        private string _DisplayUrl;
-        public string DisplayUrl { get { return this._DisplayUrl; } set { this.SetProperty(ref this._DisplayUrl, value); } }
+        public string DisplayUrl { get; set; }
         #endregion
 
         #region ExpandedUrl変更通知プロパティ
-        private string _ExpandedUrl;
-        public string ExpandedUrl { get { return this._ExpandedUrl; } set { this.SetProperty(ref this._ExpandedUrl, value); } }
+        public string ExpandedUrl { get; set; }
         #endregion
 
         #region Type変更通知プロパティ
-        private string _Type;
-        public string Type { get { return this._Type; } set { this.SetProperty(ref this._Type, value); } }
+        public string Type { get; set; }
         #endregion
 
         #region VideoInfo変更通知プロパティ
-        private VideoInfo _VideoInfo;
-        public VideoInfo VideoInfo { get { return this._VideoInfo; } set { this.SetProperty(ref this._VideoInfo, value); } }
+        public VideoInfo VideoInfo { get; set; }
         #endregion
     }
 
@@ -153,7 +159,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         public string VideoId { get; set; }
     }
 
-    public class UrlEntity : BindableBase
+    public class UrlEntity
     {
         public UrlEntity(CoreTweet.UrlEntity cUrlEntity)
         {
@@ -165,48 +171,27 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region Url変更通知プロパティ
-        private string _Url;
-        public string Url { get { return this._Url; } set { this.SetProperty(ref this._Url, value); } }
+        public string Url { get; set; }
         #endregion
 
         #region DisplayUrl変更通知プロパティ
-        private string _DisplayUrl;
-        public string DisplayUrl
-        {
-            get { return this._DisplayUrl; }
-            set { this.SetProperty(ref this._DisplayUrl, value); }
-        }
+        public string DisplayUrl { get; set; }
         #endregion
 
         #region ExpandedUrl変更通知プロパティ
-        private string _ExpandedUrl;
-        public string ExpandedUrl
-        {
-            get { return this._ExpandedUrl; }
-            set { this.SetProperty(ref this._ExpandedUrl, value); }
-        }
+        public string ExpandedUrl { get; set; }
         #endregion
 
         #region Start変更通知プロパティ
-        private int _Start;
-        public int Start
-        {
-            get { return this._Start; }
-            set { this.SetProperty(ref this._Start, value); }
-        }
+        public int Start { get; set; }
         #endregion
 
         #region End変更通知プロパティ
-        private int _End;
-        public int End
-        {
-            get { return this._End; }
-            set { this.SetProperty(ref this._End, value); }
-        }
+        public int End { get; set; }
         #endregion
     }
 
-    public class UserMentionEntity : BindableBase
+    public class UserMentionEntity
     {
         public UserMentionEntity(CoreTweet.UserMentionEntity cUrlEntity)
         {
@@ -218,48 +203,23 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region Id変更通知プロパティ
-        private long _Id;
-        public long Id
-        {
-            get { return this._Id; }
-            set { this.SetProperty(ref this._Id, value); }
-        }
+        public long Id { get; set; }
         #endregion
 
         #region Name変更通知プロパティ
-        private string _Name;
-        public string Name
-        {
-            get { return this._Name; }
-            set { this.SetProperty(ref this._Name, value); }
-        }
+        public string Name { get; set; }
         #endregion
 
         #region ScreenName変更通知プロパティ
-        private string _ScreenName;
-        public string ScreenName
-        {
-            get { return this._ScreenName; }
-            set { this.SetProperty(ref this._ScreenName, value); }
-        }
+        public string ScreenName { get; set; }
         #endregion
 
         #region Start変更通知プロパティ
-        private int _Start;
-        public int Start
-        {
-            get { return this._Start; }
-            set { this.SetProperty(ref this._Start, value); }
-        }
+        public int Start { get; set; }
         #endregion
 
         #region End変更通知プロパティ
-        private int _End;
-        public int End
-        {
-            get { return this._End; }
-            set { this.SetProperty(ref this._End, value); }
-        }
+        public int End { get; set; }
         #endregion
     }
 }

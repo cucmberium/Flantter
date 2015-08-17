@@ -28,9 +28,33 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(StatusViewModel), typeof(Status), null);
 
+        public bool IsSelected
+        {
+            get { return (bool)GetValue(IsSelectedProperty); }
+            set { SetValue(IsSelectedProperty, value); }
+        }
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyProperty.Register("IsSelected", typeof(bool), typeof(Status), null);
+
         public Status()
         {
             this.InitializeComponent();
+            this.Loaded += (s, e) => 
+            {
+                SelectorItem selector = null;
+                DependencyObject dp = this;
+                while ((dp = VisualTreeHelper.GetParent(dp)) != null)
+                {
+                    var i = dp as SelectorItem;
+                    if (i != null) { selector = i; break; }
+                }
+
+                this.SetBinding(IsSelectedProperty, new Binding
+                {
+                    Path = new PropertyPath("IsSelected"),
+                    Source = selector
+                });
+            };
         }
     }
 }

@@ -7,12 +7,27 @@
     <SolidColorBrush x:Key="FlyoutBorderThemeBrush" Color="White"/>
     <SolidColorBrush x:Key="MenuFlyoutSeparatorBackgroundThemeBrush" Color="#66FFFFFF" />
     <SolidColorBrush x:Key="MenuFlyoutItemPointerOverBackgroundThemeBrush" Color="#19FFFFFF" />
-    <SolidColorBrush x:Key="MenuFlyoutItemDisabledBackgroundThemeBrush" Color="#33FFFFFF" />
+    <SolidColorBrush x:Key="MenuFlyoutItemDisabledTextblockForegroundThemeBrush" Color="#33FFFFFF" />
     <SolidColorBrush x:Key="MenuFlyoutItemPressedBackgroundThemeBrush" Color="#33FFFFFF" />
     <SolidColorBrush x:Key="MenuFlyoutItemFocusVisualWhiteStrokeThemeBrush" Color="White" />
     <SolidColorBrush x:Key="MenuFlyoutItemFocusVisualBlackStrokeThemeBrush" Color="#FF000000" />
     <SolidColorBrush x:Key="MenuFlyoutItemTextblockForegroundThemeBrush" Color="White" />
 
+    <SolidColorBrush x:Key="ScrollBarRepeatButtonPointerOverBackgroundBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ScrollBarArrowPointerOverForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ScrollBarRepeatButtonPressedBackgroundBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="ScrollBarArrowPressedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ScrollBarArrowDisabledForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ScrollBarArrowForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ScrollBarThumbFillBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ScrollBarThumbPointerOverFillBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ScrollBarThumbPressedFillBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="ScrollBarTrackRectDisabledStrokeBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="ScrollBarPanningThumbDisabledStrokeBrush" Color="#FF767676" />
+    <SolidColorBrush x:Key="ScrollBarTrackRectFillBrush" Color="#FF1F1F1F" />
+    <SolidColorBrush x:Key="ScrollBarTrackRectStrokeBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="ScrollBarPanningThumbBackgroundBrush" Color="#FF767676" />
+    
     <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FF202020" />
 
     <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#FF222233" />
@@ -58,10 +73,25 @@
     <SolidColorBrush x:Key="ColumnViewControlBarUnreadCountTextblockForegroundBrush" Color="White" />
     
 	<!-- Tweet -->
-	<SolidColorBrush x:Key="TweetFavoriteBackgroundBrush" Color="Yellow" />
+    <SolidColorBrush x:Key="TweetCheckBrush" Color="Gray" />
+    <SolidColorBrush x:Key="TweetCheckBoxBrush" Color="Gray" />
+    <SolidColorBrush x:Key="TweetDragBackgroundBrush" Color="#14808080" />
+    <SolidColorBrush x:Key="TweetDragForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="TweetFocusBorderBrush" Color="White" />
+    <SolidColorBrush x:Key="TweetFocusSecondaryBorderBrush" Color="White" />
+    <SolidColorBrush x:Key="TweetPlaceholderBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="TweetPointerOverBackgroundBrush" Color="#14808080" />
+    <SolidColorBrush x:Key="TweetPointerOverForegroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="TweetSelectedBackgroundBrush" Color="#18808080" />
+    <SolidColorBrush x:Key="TweetSelectedForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="TweetSelectedPointerOverBackgroundBrush" Color="#20808080" />
+    <SolidColorBrush x:Key="TweetPressedBackgroundBrush" Color="#24808080" />
+    <SolidColorBrush x:Key="TweetSelectedPressedBackgroundBrush" Color="#24808080" />
+
+    <SolidColorBrush x:Key="TweetFavoriteBackgroundBrush" Color="Yellow" />
     <SolidColorBrush x:Key="TweetRetweetBackgroundBrush" Color="Lime" />
     <SolidColorBrush x:Key="TweetMentionBackgroundBrush" Color="Red" />
-    <SolidColorBrush x:Key="TweetMyStatusBackgroundBrush" Color="Cyan" />
+    <SolidColorBrush x:Key="TweetMyTweetBackgroundBrush" Color="Cyan" />
     <SolidColorBrush x:Key="TweetDefaultBackgroundBrush" Color="#00FFFFFF" />
 
 	<SolidColorBrush x:Key="TweetRetweetSymbolIconForegroundBrush" Color="LightGreen" />
@@ -75,6 +105,7 @@
     <SolidColorBrush x:Key="TweetRetweetTextblockForegroundBrush" Color="#FFA6A6A6" />
 
     <SolidColorBrush x:Key="TweetQuotedStatusBackgroundBrush" Color="#80A6A6A6" />
+    <SolidColorBrush x:Key="TweetTargetStatusBackgroundBrush" Color="#40A6A6A6" />
 
     <SolidColorBrush x:Key="TweetCommandBarReplySymbolIconForegroundBrush" Color="Gray" />
     <SolidColorBrush x:Key="TweetCommandBarRetweetSymbolIconForegroundBrush" Color="Gray" />

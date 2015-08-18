@@ -196,23 +196,73 @@ namespace Flantter.MilkyWay.Models
                         switch (tweetEventArgs.Type)
                         {
                             case TweetEventArgs.TypeEnum.Status:
-                                this._Tweets.Add(tweetEventArgs.Status);
+                                switch (this.Action)
+                                {
+                                    case SettingSupport.ColumnTypeEnum.Home:
+                                        if (tweetEventArgs.Parameter.Contains("home://"))
+                                        {
+                                            if (tweetEventArgs.Streaming)
+                                                this._Tweets.Insert(0, tweetEventArgs.Status);
+                                        }
+                                        break;
+                                    case SettingSupport.ColumnTypeEnum.Mentions:
+                                        if (tweetEventArgs.Parameter.Contains("mention://"))
+                                        {
+                                            if (tweetEventArgs.Streaming)
+                                                this._Tweets.Insert(0, tweetEventArgs.Status);
+                                        }
+                                        break;
+                                    case SettingSupport.ColumnTypeEnum.Favorites:
+                                        if (tweetEventArgs.Parameter.Contains("favorite://"))
+                                        {
+                                            if (tweetEventArgs.Streaming)
+                                                this._Tweets.Insert(0, tweetEventArgs.Status);
+                                        }
+                                        break;
+                                    case SettingSupport.ColumnTypeEnum.List:
+                                        if (tweetEventArgs.Parameter.Contains("list://" + this.Parameter))
+                                        {
+                                            if (tweetEventArgs.Streaming)
+                                                this._Tweets.Insert(0, tweetEventArgs.Status);
+                                        }
+                                        break;
+                                    case SettingSupport.ColumnTypeEnum.Search:
+                                        if (tweetEventArgs.Parameter.Contains("search://" + this.Parameter))
+                                        {
+                                            if (tweetEventArgs.Streaming)
+                                                this._Tweets.Insert(0, tweetEventArgs.Status);
+                                        }
+                                        break;
+                                    case SettingSupport.ColumnTypeEnum.UserTimeline:
+                                        if (tweetEventArgs.Parameter.Contains("usertimeline://" + this.Parameter))
+                                        {
+                                            if (tweetEventArgs.Streaming)
+                                                this._Tweets.Insert(0, tweetEventArgs.Status);
+                                        }
+                                        break;
+                                }
                                 break;
                             case TweetEventArgs.TypeEnum.DirectMessage:
-                                this._Tweets.Add(tweetEventArgs.DirectMessage);
+                                if (this.Action == SettingSupport.ColumnTypeEnum.DirectMessages)
+                                {
+                                    if (tweetEventArgs.Streaming)
+                                        this._Tweets.Insert(0, tweetEventArgs.DirectMessage);
+                                }
                                 break;
                             case TweetEventArgs.TypeEnum.EventMessage:
-                                this._Tweets.Add(tweetEventArgs.EventMessage);
+                                if (this.Action == SettingSupport.ColumnTypeEnum.Events && tweetEventArgs.EventMessage.Source.Id != this.OwnerUserId)
+                                {
+                                    if (tweetEventArgs.Streaming)
+                                        this._Tweets.Insert(0, tweetEventArgs.EventMessage);
+                                }
                                 break;
                         }
                     }
                     else if (e is TweetDeleteEventArgs)
                     {
-
                     }
                 });
-
-
+            
 
             this.Action = this._ColumnSetting.Action;
             this.AutoRefresh = this._ColumnSetting.AutoRefresh;
@@ -254,13 +304,19 @@ namespace Flantter.MilkyWay.Models
                             var tweet = m as StatusMessage;
                             var paramList = new List<string>();
                             if (this._Action == SettingSupport.ColumnTypeEnum.Home)
+                            {
                                 paramList.Add("home://");
+                                if (tweet.Status.Entities.UserMentions != null && tweet.Status.Entities.UserMentions.Any(x => x.Id == this.OwnerUserId))
+                                    paramList.Add("mention://");
+                            }
                             else if (this._Action == SettingSupport.ColumnTypeEnum.Search)
+                            {
                                 paramList.Add("search://" + this._Parameter);
+                            }
                             else if (this._Action == SettingSupport.ColumnTypeEnum.List)
+                            {
                                 paramList.Add("list://" + this._Parameter);
-
-                            // Todo : Mention時の処理 (UserStream限定)
+                            }
 
                             Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(tweet.Status), this._OwnerUserId, paramList, true));
                             break;
@@ -280,10 +336,10 @@ namespace Flantter.MilkyWay.Models
                             var eventMessage = m as CoreTweet.Streaming.EventMessage;
                             Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.EventMessage(eventMessage), this._OwnerUserId, new List<string>() { "event://" }, true));
                             
-                            if (eventMessage.Event == EventCode.Favorite && eventMessage.TargetStatus != null && eventMessage.Source != null && eventMessage.Source.Id == this._OwnerUserId)
+                            if (eventMessage.Event == EventCode.Favorite && eventMessage.TargetStatus != null && eventMessage.Source.Id == this._OwnerUserId)
                             {
                                 eventMessage.TargetStatus.IsFavorited = true;
-                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this._OwnerUserId, new List<string>() { "favorite://" }, true));
+                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this._OwnerUserId, new List<string>() { "favorite://" }, false));
                             }
 
                             break;

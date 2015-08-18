@@ -18,6 +18,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
 {
     public class TexbblockNavigationServiceBehavior
     {
+        public static readonly Regex Regex_Status = new Regex(@"https?://twitter.com/(#!/)?([a-zA-Z0-9_])+/status(es)?/(?<Id>[0-9]+)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Regex_User = new Regex(@"https?://twitter.com/(#!/)?(?<ScreenName>([a-zA-Z0-9_])+)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
         public static string GetText(DependencyObject obj) { return obj.GetValue(TextProperty) as string; }
         public static void SetText(DependencyObject obj, string value) { obj.SetValue(TextProperty, value); }
 
@@ -67,21 +70,46 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         yield return GenerateText(token.Value as string);
                         break;
                     case TextToken.TextTokenId.HashTag:
-                        yield return GenerateLink((string)token.Value, "hashtag://" + (string)token.Value);
+                        if (entities != null)
+                        {
+                            var hashtags = entities.HashTags.Where(x => "#" + x.Tag == (string)token.Value);
+                            if (hashtags.Count() == 0)
+                                continue;
+
+                            yield return GenerateLink((string)token.Value, "hashtag://" + (string)token.Value);
+                        }
+                        else
+                        {
+                            yield return GenerateLink((string)token.Value, "hashtag://" + (string)token.Value);
+                        }
                         break;
                     case TextToken.TextTokenId.UserMention:
-                        yield return GenerateLink((string)token.Value, "usermention://" + (string)token.Value);
+                        if (entities != null)
+                        {
+                            var userMentions = entities.UserMentions.Where(x => "@" + x.ScreenName == (string)token.Value);
+                            if (userMentions.Count() == 0)
+                                continue;
+
+                            yield return GenerateLink((string)token.Value, "usermention://" + (string)token.Value);
+                        }
+                        else
+                        {
+                            yield return GenerateLink((string)token.Value, "usermention://" + (string)token.Value);
+                        }
                         break;
                     case TextToken.TextTokenId.Url:
-                        if (entities == null)
-                            continue;
+                        if (entities != null)
+                        {
+                            var urls = entities.Urls.Where(x => x.Url == (string)token.Value);
+                            if (urls.Count() == 0)
+                                continue;
 
-                        var urls = entities.Urls.Where(x => x.Url == (string)token.Value);
-                        if (urls.Count() == 0)
-                            continue;
-
-                        yield return GenerateLink(urls.First().DisplayUrl, !string.IsNullOrWhiteSpace(urls.First().ExpandedUrl) ? urls.First().ExpandedUrl : urls.First().Url);
-                        //yield return GenerateLink((string)token.Value, (string)token.Value);
+                            yield return GenerateLink(urls.First().DisplayUrl, !string.IsNullOrWhiteSpace(urls.First().ExpandedUrl) ? urls.First().ExpandedUrl : urls.First().Url);
+                        }
+                        else
+                        {
+                            yield return GenerateLink((string)token.Value, (string)token.Value);
+                        }
                         break;
                 }
             }
@@ -120,8 +148,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
         {
             if (string.IsNullOrEmpty(text))
                 yield break;
-
-            // var entitiesList = new List<EntityInfo>();
 
             var escapedText = text.ResolveEntity().EscapeEntity();
 
@@ -229,13 +255,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 var userMention = linkUrl.Replace("usermention://", "");
                 return;
             }
-
-            // Todo : 正規表現のCompile
-            var match = Regex.Match(linkUrl, @"https?://twitter.com/(#!/)?([a-zA-Z0-9_])+/status(es)?/(?<Id>[0-9]+)$", RegexOptions.IgnoreCase);
-            var match2 = Regex.Match(linkUrl, @"https?://twitter.com/(#!/)?(?<ScreenName>([a-zA-Z0-9_])+)$", RegexOptions.IgnoreCase);
-			if (match.Success)
+            
+            var statusMatch = Regex_Status.Match(linkUrl);
+            var userMatch = Regex_User.Match(linkUrl);
+			if (statusMatch.Success)
 			{ }
-			else if (match2.Success)
+			else if (userMatch.Success)
 			{ }
 			else
 			{

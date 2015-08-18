@@ -12,7 +12,7 @@ using System;
 using Windows.ApplicationModel.Core;
 using Windows.UI.ViewManagement;
 
-namespace Flantter.MilkyWay.Views.Behaviors
+namespace Flantter.MilkyWay.Views.Util
 {
     public class TitleBarSwitchAction : DependencyObject, IAction
     {

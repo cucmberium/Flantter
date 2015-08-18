@@ -22,16 +22,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
     {
         public StatusViewModel(Status status, ColumnModel column)
         {
-
             this.Model = status;
-
-            this.CreatedAt = status.CreatedAt.ToLocalTime().ToString();
-            this.Source = status.Source;
-            this.Text = status.Text;
-            this.ScreenName = status.User.ScreenName;
-            this.Name = status.User.Name;
-            this.ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl) ? "http://localhost/" : status.User.ProfileImageUrl;
-            this.Entities = status.Entities;
 
             // BackgroundBrush
             this.BackgroundBrush = "Default";
@@ -42,8 +33,16 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else if (status.IsFavorited)
                 this.BackgroundBrush = "Favorite";
             else if (status.User.Id == column.OwnerUserId)
-                this.BackgroundBrush = "MyStatus";
+                this.BackgroundBrush = "MyTweet";
 
+            this.CreatedAt = status.CreatedAt.ToLocalTime().ToString();
+            this.Source = status.Source;
+            this.Text = status.Text;
+            this.ScreenName = status.User.ScreenName;
+            this.Name = status.User.Name;
+            this.ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl) ? "http://localhost/" : status.User.ProfileImageUrl;
+            this.Entities = status.Entities;
+            
             this.RetweetInformationVisibility = status.HasRetweetInformation;
             this.MediaVisibility = status.Entities.Media.Count == 0 ? false : true;
             this.MediaEntities = new List<MediaEntityViewModel>();
@@ -78,7 +77,10 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             if (!status.HasRetweetInformation && status.RetweetCount > 0)
             {
                 this.RetweetCounterVisibility = true;
-                this.RetweetCounterText = "Retweeted " + status.RetweetCount.ToString() + " times";
+                this.RetweetCounterText = "Retweeted " + status.RetweetCount.ToString() + " time";
+
+                if (status.RetweetCount > 1)
+                    this.RetweetCounterText += "s";
             }
             else
             {
@@ -120,12 +122,16 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.IsMentionStatusLoading = false;
 
             this.RetweetCount = status.RetweetCount;
-            this.IsMyStatus = (status.User.Id == column.OwnerUserId);
 
+            this.IsMyTweet = (status.User.Id == column.OwnerUserId);
+            this.IsMyRetweet = (status.RetweetInformation != null && status.RetweetInformation.User.Id == column.OwnerUserId);
+            
             this.Notice = Service.Notice.Instance;
         }
 
         public Status Model { get; private set; }
+
+        public string BackgroundBrush { get; set; }
 
         public string CreatedAt { get; set; }
 
@@ -145,8 +151,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public bool IsRetweeted { get; set; }
 
-        public string BackgroundBrush { get; set; }
-
         public bool RetweetInformationVisibility { get; set; }
         
         public bool MediaVisibility { get; set; }
@@ -160,7 +164,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public string RetweetInformationProfileImageUrl { get; set; }
 
         public string RetweetInformationScreenName { get; set; }
-
+        
 
         public bool RetweetCounterVisibility { get; set; }
 
@@ -209,7 +213,9 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         
         public int RetweetCount { get; set; }
 
-        public bool IsMyStatus { get; set; }
+        public bool IsMyTweet { get; set; }
+
+        public bool IsMyRetweet { get; set; }
 
         public Service.Notice Notice { get; set; }
     }

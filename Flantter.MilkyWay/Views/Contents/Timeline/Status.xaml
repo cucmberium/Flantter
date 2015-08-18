@@ -57,7 +57,7 @@
             <RowDefinition Height="7"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1" x:Name="MentionStatusGrid" Height="0" Visibility="Collapsed" Margin="0,0,0,4" behaviors:StatusMentionAnimationBehavior.IsSelected="{Binding ElementName=StatusUserControl, Path=IsSelected}" behaviors:StatusMentionAnimationBehavior.MentionStatusVisibility="{x:Bind ViewModel.MentionStatusVisibility, Mode=OneWay}" behaviors:StatusMentionAnimationBehavior.IsMentionStatusLoaded="{x:Bind ViewModel.IsMentionStatusLoaded, Mode=OneWay}" behaviors:StatusMentionAnimationBehavior.IsMentionStatusLoading="{x:Bind ViewModel.IsMentionStatusLoading, Mode=OneWay}" behaviors:StatusMentionAnimationBehavior.Command="{x:Bind ViewModel.Notice.MentionLoadCommand, Mode=OneWay}" behaviors:StatusMentionAnimationBehavior.CommandParameter="{Binding ViewModel, Mode=OneWay}">
+        <Grid Grid.Row="1" x:Name="MentionStatusGrid" Height="0" Visibility="Collapsed" Margin="0,0,12,4" behaviors:StatusMentionAnimationBehavior.IsSelected="{Binding ElementName=StatusUserControl, Path=IsSelected}" behaviors:StatusMentionAnimationBehavior.MentionStatusVisibility="{x:Bind ViewModel.MentionStatusVisibility, Mode=OneWay}" behaviors:StatusMentionAnimationBehavior.IsMentionStatusLoaded="{x:Bind ViewModel.IsMentionStatusLoaded, Mode=OneWay}" behaviors:StatusMentionAnimationBehavior.IsMentionStatusLoading="{x:Bind ViewModel.IsMentionStatusLoading, Mode=OneWay}" behaviors:StatusMentionAnimationBehavior.Command="{x:Bind ViewModel.Notice.LoadMentionCommand, Mode=OneWay}" behaviors:StatusMentionAnimationBehavior.CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
             <Grid.Resources>
                 <Storyboard x:Name="MentionStatusOpenAnimation">
                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionStatusGrid" Storyboard.TargetProperty="Visibility">
@@ -125,10 +125,10 @@
                     
                 </Storyboard>
             </Grid.Resources>
-            
-            <ProgressBar Visibility="Collapsed" x:Name="MentionStatusProgressBar"/>
 
-            <Grid Margin="30,0,0,0" Visibility="Collapsed" x:Name="MentionStatusMainGrid">
+            <ProgressBar x:Name="MentionStatusProgressBar" x:DeferLoadStrategy="Lazy" Visibility="Collapsed"/>
+
+            <Grid x:Name="MentionStatusMainGrid" x:DeferLoadStrategy="Lazy" Margin="30,0,0,0" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="10"/>
@@ -149,7 +149,7 @@
             </Grid>
         </Grid>
         
-        <Grid Grid.Row="2" x:Name="StatusGrid">
+        <Grid Grid.Row="2" x:Name="StatusGrid" Margin="0,0,12,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="Auto"/>
@@ -165,7 +165,7 @@
 
                     <i:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.UserProfileShowCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                         </core:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Border>
@@ -191,8 +191,8 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="twitterObjectsViewModel:MediaEntityViewModel">
-                            <Button Foreground="Transparent" BorderBrush="{x:Null}" BorderThickness="0" Command="{x:Bind Notice.MediaShowCommand, Mode=OneWay}" CommandParameter="{x:Bind Model, Mode=OneWay}">
-                                <Image MinWidth="75" MaxWidth="150" Height="75" Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="Uniform"/>
+                            <Button Foreground="Transparent" Background="Transparent" BorderBrush="{x:Null}" BorderThickness="0" Command="{x:Bind Notice.ShowMediaCommand, Mode=OneWay}" CommandParameter="{x:Bind Model, Mode=OneWay}">
+                                <Image Height="{Binding Source={StaticResource Setting},Path=Setting.TweetMediaThumbnailSize}" MinWidth="{Binding RelativeSource={RelativeSource Self},Path=Height}" MaxWidth="150"  Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="Uniform"/>
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -202,7 +202,7 @@
 
                     <i:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.UserProfileShowCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.RetweetInformationScreenName, Mode=OneWay}"/>
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.RetweetInformationScreenName, Mode=OneWay}"/>
                         </core:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
 
@@ -226,11 +226,11 @@
             <ContentControl Style="{StaticResource RetweetFavoriteTriangleIcon}" Grid.Column="1" Visibility="{x:Bind ViewModel.RetweetFavoriteTriangleIconVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
         </Grid>
 
-        <Border Grid.Row="3" x:Name="QuotedStatusBorder" Margin="30,4,0,0" Visibility="{x:Bind ViewModel.QuotedStatusVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Background="{StaticResource TweetQuotedStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">
+        <Border Grid.Row="3" x:Name="QuotedStatusBorder" Margin="30,4,12,0" Visibility="{x:Bind ViewModel.QuotedStatusVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Background="{StaticResource TweetQuotedStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">
 
             <i:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="Tapped">
-                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.StatusDetailShowCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.QuotedStatusId, Mode=OneWay}"/>
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowStatusDetailCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.QuotedStatusId, Mode=OneWay}"/>
                 </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
 
@@ -256,7 +256,7 @@
 
         </Border>
 
-        <Grid Grid.Row="4" x:Name="CommandGrid" Height="0" Visibility="Collapsed" HorizontalAlignment="Right" Margin="0,0,18,0" behaviors:TweetCommandAnimationBehavior.IsSelected="{Binding ElementName=StatusUserControl, Path=IsSelected}">
+        <Grid Grid.Row="4" x:Name="CommandGrid" Height="0" Visibility="Collapsed" HorizontalAlignment="Right" Margin="0,0,12,0" behaviors:TweetCommandAnimationBehavior.IsSelected="{Binding ElementName=StatusUserControl, Path=IsSelected}">
 
             <Grid.Resources>
                 <Storyboard x:Name="TweetCommandBarOpenAnimation">
@@ -292,17 +292,17 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            
-            <Button Grid.Column="4" ToolTipService.ToolTip="Reply" BorderBrush="{x:Null}" Margin="0,0" Padding="10,4" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ReplyCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}">
+
+            <Button Grid.Column="4" ToolTipService.ToolTip="Reply" BorderBrush="{x:Null}" Background="{x:Null}" Margin="0,0" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ReplyCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarReplySymbolIconForegroundBrush}" Symbol="Message"/>
             </Button>
-            <Button Grid.Column="3" ToolTipService.ToolTip="Retweet" BorderBrush="{x:Null}" Margin="0,0" Padding="10,4" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
+            <Button Grid.Column="3" ToolTipService.ToolTip="Retweet" BorderBrush="{x:Null}" Background="{x:Null}" Margin="0,0" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarRetweetSymbolIconForegroundBrush}" Symbol="ReShare" behaviors:SymbolIconForegroundBrushSwitchBehavior.IsEnabled="{x:Bind ViewModel.IsRetweeted, Mode=OneWay}" behaviors:SymbolIconForegroundBrushSwitchBehavior.EnabledBrush="{StaticResource TweetCommandBarDestroyRetweetSymbolIconForegroundBrush}" behaviors:SymbolIconForegroundBrushSwitchBehavior.DisabledBrush="{StaticResource TweetCommandBarRetweetSymbolIconForegroundBrush}"/>
             </Button>
-            <Button Grid.Column="2" ToolTipService.ToolTip="Favorite" BorderBrush="{x:Null}" Margin="0,0" Padding="10,4" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.FavoriteCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
+            <Button Grid.Column="2" ToolTipService.ToolTip="Favorite" BorderBrush="{x:Null}" Background="{x:Null}" Margin="0,0" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.FavoriteCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarFavoriteSymbolIconForegroundBrush}" Symbol="Favorite" behaviors:SymbolIconForegroundBrushSwitchBehavior.IsEnabled="{x:Bind ViewModel.IsRetweeted, Mode=OneWay}" behaviors:SymbolIconForegroundBrushSwitchBehavior.EnabledBrush="{StaticResource TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush}" behaviors:SymbolIconForegroundBrushSwitchBehavior.DisabledBrush="{StaticResource TweetCommandBarFavoriteSymbolIconForegroundBrush}"/>
             </Button>
-            <Button Grid.Column="1" ToolTipService.ToolTip="Url" BorderBrush="{x:Null}" Margin="0,0" Padding="10,4" VerticalAlignment="Stretch">
+            <Button Grid.Column="1" ToolTipService.ToolTip="Url" BorderBrush="{x:Null}" Background="{x:Null}" Margin="0,0" Padding="15,6" VerticalAlignment="Stretch">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarUrlSymbolIconForegroundBrush}" Symbol="Link"/>
                 <Button.Flyout>
                     <Flyout>
@@ -316,33 +316,35 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <Button Grid.Column="0" x:Uid="TweetField_TweetList_TweetCommand_OtherCommandButton" ToolTipService.ToolTip="Menu" BorderBrush="{x:Null}" Margin="0,0" Padding="10,4" VerticalAlignment="Stretch">
+            <Button Grid.Column="0" ToolTipService.ToolTip="Menu" BorderBrush="{x:Null}" Background="{x:Null}" Margin="0,0" Padding="15,6" VerticalAlignment="Stretch">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="Add" />
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="&#xE136;    ユーザープロフィール" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UserProfileShowCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
-                        <MenuFlyoutItem Text="&#xE14C;    ツイートの詳細" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.TweetDetailShowCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UserProfile" Text="&#xE136;    ユーザープロフィール" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_TweetDetail" Text="&#xE14C;    ツイートの詳細" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowTweetDetailCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutSubItem Text="&#xE172;    リプライ関連" FontFamily="Segoe UI Symbol">
-                            <MenuFlyoutItem Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
-                            <MenuFlyoutItem Text="&#xE165;    全員に返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyToAllCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
-                            <MenuFlyoutItem Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.DirectMessageSendCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                        <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_ReplyMenu" Text="&#xE172;    リプライ関連" FontFamily="Segoe UI Symbol">
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Reply" Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_ReplyToAll" Text="&#xE165;    全員に返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyToAllCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>
-                        <MenuFlyoutSubItem Text="&#xE1CA;    RT関連" FontFamily="Segoe UI Symbol">
-                            <MenuFlyoutItem Text="&#xE1CA;    公式RT" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.RetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
-                            <MenuFlyoutItem Text="&#xE167;    引用RT" FontFamily="Segoe UI Symbol"/>
-                            <MenuFlyoutItem Text="&#xE172;    非公式RT" FontFamily="Segoe UI Symbol"/>
+                        <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_RetweetMenu" Text="&#xE1CA;    リツイート関連" FontFamily="Segoe UI Symbol">
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Retweet" Text="&#xE1CA;    リツイート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.RetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UrlQuoteRetweet" Text="&#xE167;    コメント付きリツイート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UrlQuoteRetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UnofficialRetweet" Text="&#xE172;    非公式RT" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UnofficialRetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>
-                        <MenuFlyoutSubItem Text="&#xE16F;    その他" FontFamily="Segoe UI Symbol">
-                            <MenuFlyoutItem Text="&#xE16F;    ツイートのコピー" FontFamily="Segoe UI Symbol"/>
-                            <MenuFlyoutItem Text="&#xE1CA;    リツイートした人" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.RetweetCount, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}"/>
-                            <MenuFlyoutSubItem Text="&#xE1E0;    ミュート関連" FontFamily="Segoe UI Symbol">
-                                <MenuFlyoutItem Text="&#xE1E0;    ユーザーミュート" FontFamily="Segoe UI Symbol"/>
-                                <MenuFlyoutItem Text="&#xE1E0;    クライアントミュート" FontFamily="Segoe UI Symbol"/>
-                            </MenuFlyoutSubItem>
+                        <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_OtherMenu" Text="&#xE16F;    その他" FontFamily="Segoe UI Symbol">
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_CopyTweet" Text="&#xE16F;    ツイートのコピー" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.CopyTweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Retweeter" Text="&#xE1CA;    リツイートした人" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.RetweetCount, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowRetweeterCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_MuteUser" Text="&#xE1E0;    ユーザーミュート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.MuteUserCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_MuteClient" Text="&#xE1E0;    クライアントミュート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.MuteClientCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>
-                        <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.IsMyStatus, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                        <MenuFlyoutItem Text="&#xE107;    削除" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.IsMyStatus, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_DeleteTweet" Text="&#xE107;    削除" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.DeleteTweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                        <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.IsMyRetweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_DeleteRetweet" Text="&#xE107;    リツイートの削除" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.IsMyRetweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.DeleteRetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

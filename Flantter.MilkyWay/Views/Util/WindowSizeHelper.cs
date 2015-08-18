@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Text;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -21,6 +22,7 @@ namespace Flantter.MilkyWay.Views.Util
 
         private WindowSizeHelper()
         {
+            /*
 #if WINDOWS_PHONE_APP
             this.WindowWidth = Window.Current.Bounds.Width;
             this.WindowHeight = Window.Current.Bounds.Height;
@@ -60,20 +62,21 @@ namespace Flantter.MilkyWay.Views.Util
                         this.ClientWidth = x.Size.Width;
                     });
 #endif
+            */
             this.WindowWidth = Window.Current.Bounds.Width;
             this.WindowHeight = Window.Current.Bounds.Height;
             this.ClientWidth = Window.Current.Bounds.Width;
             this.ClientHeight = Window.Current.Bounds.Height;
 
-            /*Observable.CombineLatest<WindowSizeChangedEventArgs, ApplicationViewTitleBar, bool>(
+            Observable.CombineLatest<WindowSizeChangedEventArgs, CoreApplicationViewTitleBar, bool>(
                 Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
                     h => (sender, e) => h(e),
                     h => Window.Current.SizeChanged += h,
                     h => Window.Current.SizeChanged -= h),
-                Observable.FromEvent<TypedEventHandler<ApplicationViewTitleBar, object>, ApplicationViewTitleBar>(
+                Observable.FromEvent<TypedEventHandler<CoreApplicationViewTitleBar, object>, CoreApplicationViewTitleBar>(
                     h => (sender, e) => h(sender),
-                    h => ApplicationView.GetForCurrentView().TitleBar.IsVisibleChanged += h,
-                    h => ApplicationView.GetForCurrentView().TitleBar.IsVisibleChanged -= h),
+                    h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += h,
+                    h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged -= h),
                 (size, titleBar) => titleBar.IsVisible).Subscribe(x =>
                 {
                     if (x)
@@ -82,7 +85,7 @@ namespace Flantter.MilkyWay.Views.Util
                         this.WindowWidth = Window.Current.Bounds.Width;
                         this.WindowHeight = Window.Current.Bounds.Height;
                         this.ClientWidth = Window.Current.Bounds.Width;
-                        this.ClientHeight = Window.Current.Bounds.Height - applicationView.TitleBar.Height;
+                        this.ClientHeight = Window.Current.Bounds.Height - CoreApplication.GetCurrentView().TitleBar.Height;
                     }
                     else
                     {
@@ -91,8 +94,8 @@ namespace Flantter.MilkyWay.Views.Util
                         this.ClientWidth = Window.Current.Bounds.Width;
                         this.ClientHeight = Window.Current.Bounds.Height;
                     }
-                });*/
-            Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
+                });
+            /*Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
                     h => (sender, e) => h(e),
                     h => Window.Current.SizeChanged += h,
                     h => Window.Current.SizeChanged -= h).Subscribe(x =>
@@ -101,7 +104,7 @@ namespace Flantter.MilkyWay.Views.Util
                         this.WindowHeight = Window.Current.Bounds.Height;
                         this.ClientWidth = Window.Current.Bounds.Width;
                         this.ClientHeight = Window.Current.Bounds.Height;
-                    });
+                    });*/
         }
 
         private double _ClientWidth;

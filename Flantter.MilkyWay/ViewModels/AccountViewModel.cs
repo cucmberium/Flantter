@@ -90,7 +90,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             #region Command
 
-            Service.Notice.Instance.UserProfileShowCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(_ =>
+            Service.Notice.Instance.ShowUserProfileCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(_ =>
             {
                 System.Diagnostics.Debug.WriteLine("UserProfile Showed!");
             });

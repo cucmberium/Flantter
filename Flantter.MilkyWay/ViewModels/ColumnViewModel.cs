@@ -125,11 +125,10 @@ namespace Flantter.MilkyWay.ViewModels
                     return (int)Math.Max(Math.Min(maxCount, (width - 5.0 * 2) / (minWidth + 5.0 * 2)), 1.0);
                 }).ToReactiveProperty();
 
-            this.Height = Observable.CombineLatest<double, double, bool, double>(
+            this.Height = Observable.CombineLatest<double, double, double>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
-                SettingService.Setting.ObserveProperty(x => x.TitleBarVisibility),
-                (width, height, titleBarVisibility) =>
+                (width, height) =>
                 {
                     var retheight = 0.0;
                     if (width < 352.0)
@@ -138,9 +137,6 @@ namespace Flantter.MilkyWay.ViewModels
                         retheight = height - 64.0 - 20.0;
                     else
                         retheight = height - 75.0 - 20.0;
-
-                    if (titleBarVisibility == true)
-                        retheight -= 32.0;
 
                     return retheight;
                 }).ToReactiveProperty();
@@ -172,12 +168,11 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 if (x is Status)
                     return (object)(new StatusViewModel((Status)x, this._ColumnModel));
-                /*else if (x is DirectMessage)
-                    return new DirectMessageViewModel((DirectMessage)x);
+                else if (x is DirectMessage)
+                    return (object)(new DirectMessageViewModel((DirectMessage)x, this._ColumnModel));
                 else if (x is EventMessage)
-                    return new EventMessageViewModel((EventMessage)x);*/
-
-                //return (object)(new StatusViewModel((Status)x, this._ColumnModel));
+                    return new EventMessageViewModel((EventMessage)x, this._ColumnModel);
+                
                 return null;
             });
         }

@@ -189,28 +189,28 @@ namespace Flantter.MilkyWay.Common
             new Regex(
                 "(^|[^&" + HashtagAlphaNumericChars + "])" +
                 "(#|\uFF03)(" + HashtagAlphaNumeric + "*" + HashtagAlpha +
-                HashtagAlphaNumeric + "*)", RegexOptions.IgnoreCase);
+                HashtagAlphaNumeric + "*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static readonly int ValidHashtagGroupBefore = 1;
         public static readonly int ValidHashtagGroupHash = 2;
         public static readonly int ValidHashtagGroupTag = 3;
 
-        public static readonly Regex InvalidHashtagMatchEnd = new Regex("^(?:[#＃]|://)");
-        public static readonly Regex RtlChars = new Regex("[\u0600-\u06FF\u0750-\u077F\u0590-\u05FF\uFE70-\uFEFF]");
+        public static readonly Regex InvalidHashtagMatchEnd = new Regex("^(?:[#＃]|://)", RegexOptions.Compiled);
+        public static readonly Regex RtlChars = new Regex("[\u0600-\u06FF\u0750-\u077F\u0590-\u05FF\uFE70-\uFEFF]", RegexOptions.Compiled);
 
-        public static readonly Regex AtSigns = new Regex("[" + AtSignsChars + "]");
-        public static readonly Regex ValidMentionOrList = new Regex("([^a-z0-9_!#$%&*" + AtSignsChars + "]|^|RT:?)(" + AtSigns + "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?", RegexOptions.IgnoreCase);
+        public static readonly Regex AtSigns = new Regex("[" + AtSignsChars + "]", RegexOptions.Compiled);
+        public static readonly Regex ValidMentionOrList = new Regex("([^a-z0-9_!#$%&*" + AtSignsChars + "]|^|RT:?)(" + AtSigns + "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         public static readonly int ValidMentionOrListGroupBefore = 1;
         public static readonly int ValidMentionOrListGroupAt = 2;
         public static readonly int ValidMentionOrListGroupUsername = 3;
         public static readonly int ValidMentionOrListGroupList = 4;
 
-        public static readonly Regex ValidReply = new Regex("^(?:" + UnicodeSpace + ")*" + AtSigns + "([a-z0-9_]{1,20})", RegexOptions.IgnoreCase);
+        public static readonly Regex ValidReply = new Regex("^(?:" + UnicodeSpace + ")*" + AtSigns + "([a-z0-9_]{1,20})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         public static readonly int ValidReplyGroupUsername = 1;
 
-        public static readonly Regex InvalidMentionMatchEnd = new Regex("^(?:[" + AtSignsChars + LatinAccentsChars + "]|://)");
+        public static readonly Regex InvalidMentionMatchEnd = new Regex("^(?:[" + AtSignsChars + LatinAccentsChars + "]|://)", RegexOptions.Compiled);
 
-        public static readonly Regex ValidUrl = new Regex(ValidUrlPatternString, RegexOptions.IgnoreCase);
+        public static readonly Regex ValidUrl = new Regex(ValidUrlPatternString, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         public static readonly int ValidUrlGroupBefore = 1;
         public static readonly int ValidUrlGroupUrl = 2;
         public static readonly int ValidUrlGroupProtocol = 3;
@@ -219,10 +219,10 @@ namespace Flantter.MilkyWay.Common
         public static readonly int ValidUrlGroupPath = 6;
         public static readonly int ValidUrlGroupQueryString = 7;
 
-        public static readonly Regex ValidTcoUrl = new Regex("^https?:\\/\\/t\\.co\\/[a-z0-9]+", RegexOptions.IgnoreCase);
-        public static readonly Regex InvalidUrlWithoutProtocolMatchBegin = new Regex("[-_./]$");
+        public static readonly Regex ValidTcoUrl = new Regex("^https?:\\/\\/t\\.co\\/[a-z0-9]+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex InvalidUrlWithoutProtocolMatchBegin = new Regex("[-_./]$", RegexOptions.Compiled);
 
-        public static readonly Regex ValidCashtag = new Regex("(^|" + UnicodeSpace + ")(" + DollarSignChar + ")(" + Cashtag + ")" + "(?=$|\\s|[" + PunctChars + "])", RegexOptions.IgnoreCase);
+        public static readonly Regex ValidCashtag = new Regex("(^|" + UnicodeSpace + ")(" + DollarSignChar + ")(" + Cashtag + ")" + "(?=$|\\s|[" + PunctChars + "])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         public static readonly int ValidCashtagGroupBefore = 1;
         public static readonly int ValidCashtagGroupDollar = 2;
         public static readonly int ValidCashtagGroupCashtag = 3;

@@ -142,12 +142,14 @@
     <Compile Include="ViewModels\ColumnViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Service\Notice.cs" />
+    <Compile Include="ViewModels\Twitter\Objects\EventMessageViewModel.cs" />
+    <Compile Include="ViewModels\Twitter\Objects\DirectMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
     <Compile Include="Views\Behaviors\SymbolIconForegroundBrushSwitchBehavior.cs" />
     <Compile Include="Views\Behaviors\StatusMentionAnimationBehavior.cs" />
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
-    <Compile Include="Views\Behaviors\TitlebarSwitchAction.cs" />
+    <Compile Include="Views\Util\TitlebarSwitchAction.cs" />
     <Compile Include="Views\Behaviors\TweetCommandAnimationBehavior.cs" />
     <Compile Include="Views\Contents\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
@@ -164,10 +166,15 @@
     <Compile Include="Views\Contents\TimelineArea.xaml.cs">
       <DependentUpon>TimelineArea.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contents\Timeline\DirectMessage.xaml.cs">
+      <DependentUpon>DirectMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\Timeline\EventMessage.xaml.cs">
+      <DependentUpon>EventMessage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\Timeline\Status.xaml.cs">
       <DependentUpon>Status.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\BindableFlyout.cs" />
     <Compile Include="Views\Controls\BindableMenuFlyout.cs" />
     <Compile Include="Views\Controls\ExtendedCanvas.cs" />
     <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
@@ -276,6 +283,14 @@
     <Page Include="Views\Contents\TimelineArea.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\Timeline\DirectMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\Timeline\EventMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\Timeline\Status.xaml">
       <SubType>Designer</SubType>

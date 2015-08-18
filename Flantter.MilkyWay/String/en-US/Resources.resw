@@ -159,4 +159,55 @@
   <data name="ColumnView_ControlBar_MenuFlyout_Refresh.Text" xml:space="preserve">
     <value>    Refresh</value>
   </data>
+  <data name="Tweet_Command_MenuFlyout_CopyTweet.Text" xml:space="preserve">
+    <value>    Copy Tweet</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_DeleteRetweet.Text" xml:space="preserve">
+    <value>    Delete Retweet</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_DeleteTweet.Text" xml:space="preserve">
+    <value>    Delete Tweet</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_MuteClient.Text" xml:space="preserve">
+    <value>    Mute Client</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_MuteUser.Text" xml:space="preserve">
+    <value>    Mute User</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_OtherMenu.Text" xml:space="preserve">
+    <value>    Other</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_Reply.Text" xml:space="preserve">
+    <value>    Reply</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_ReplyMenu.Text" xml:space="preserve">
+    <value>    Reply Menu</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_ReplyToAll.Text" xml:space="preserve">
+    <value>    Reply All</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_Retweet.Text" xml:space="preserve">
+    <value>    Retweet</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_Retweeter.Text" xml:space="preserve">
+    <value>    Show Retweeter</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_RetweetMenu.Text" xml:space="preserve">
+    <value>    Retweet Menu</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_SendDirectMessage.Text" xml:space="preserve">
+    <value>    Send DM</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_TweetDetail.Text" xml:space="preserve">
+    <value>    Tweet Detail</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_UnofficialRetweet.Text" xml:space="preserve">
+    <value>    Unofficial Retweet</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_UrlQuoteRetweet.Text" xml:space="preserve">
+    <value>    Retweet with comment</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_UserProfile.Text" xml:space="preserve">
+    <value>    User Profile</value>
+  </data>
 </root>

@@ -42,6 +42,8 @@ namespace Flantter.MilkyWay.Views
             applicationView.TitleBar.ButtonInactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
             applicationView.TitleBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
             applicationView.TitleBar.ForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
+            applicationView.TitleBar.InactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
+            applicationView.TitleBar.InactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
         }
 
         private void Theme_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -53,6 +55,8 @@ namespace Flantter.MilkyWay.Views
             applicationView.TitleBar.ButtonInactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
             applicationView.TitleBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
             applicationView.TitleBar.ForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
+            applicationView.TitleBar.InactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
+            applicationView.TitleBar.InactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

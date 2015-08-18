@@ -12,7 +12,7 @@
     d:DesignHeight="720"
     d:DesignWidth="400">
 
-    <ListView ItemsSource="{x:Bind ViewModel.Tweets}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value}" BorderThickness="0" BorderBrush="{x:Null}" Foreground="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,0" ShowsScrollingPlaceholders="True" SelectionMode="Extended">
+    <ListView ItemsSource="{x:Bind ViewModel.Tweets}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value}" BorderThickness="0" BorderBrush="{x:Null}" Foreground="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,0" ShowsScrollingPlaceholders="True" SelectionMode="Extended" IsSwipeEnabled="True" >
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <VirtualizingStackPanel Orientation="Vertical">
@@ -27,13 +27,13 @@
                 <DataTemplate x:Key="StatusViewModel" x:DataType="twitterObjectsViewModel:StatusViewModel">
                     <timeline:Status ViewModel="{x:Bind}"/>
                 </DataTemplate>
-                <!--<DataTemplate x:Key="DirectMessageViewModel">
-                    <timeline:DirectMessage DataContext="{Binding}"/>
+                <DataTemplate x:Key="DirectMessageViewModel" x:DataType="twitterObjectsViewModel:DirectMessageViewModel">
+                    <timeline:DirectMessage ViewModel="{x:Bind}"/>
                 </DataTemplate>
-                <DataTemplate x:Key="EventMessageViewModel">
-                    <timeline:Event DataContext="{Binding}"/>
+                <DataTemplate x:Key="EventMessageViewModel" x:DataType="twitterObjectsViewModel:EventMessageViewModel">
+                    <timeline:EventMessage ViewModel="{x:Bind}"/>
                 </DataTemplate>
-                <DataTemplate x:Key="GViewModel">
+                <!--<DataTemplate x:Key="GViewModel">
                     <timeline:Gap DataContext="{Binding}"/>
                 </DataTemplate>-->
             </common:DataTypeTemplateSelector>

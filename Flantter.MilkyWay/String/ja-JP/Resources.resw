@@ -159,4 +159,55 @@
   <data name="ColumnView_ControlBar_MenuFlyout_Refresh.Text" xml:space="preserve">
     <value>    更新</value>
   </data>
+  <data name="Tweet_Command_MenuFlyout_CopyTweet.Text" xml:space="preserve">
+    <value>    コピー</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_DeleteTweet.Text" xml:space="preserve">
+    <value>    削除</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_MuteClient.Text" xml:space="preserve">
+    <value>    クライアントをミュート</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_MuteUser.Text" xml:space="preserve">
+    <value>    ユーザーをミュート</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_OtherMenu.Text" xml:space="preserve">
+    <value>    その他</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_Reply.Text" xml:space="preserve">
+    <value>    リプライ</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_ReplyMenu.Text" xml:space="preserve">
+    <value>    リプライ関連</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_ReplyToAll.Text" xml:space="preserve">
+    <value>    全員にリプライ</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_Retweet.Text" xml:space="preserve">
+    <value>    リツイート</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_Retweeter.Text" xml:space="preserve">
+    <value>    リツイートした人</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_RetweetMenu.Text" xml:space="preserve">
+    <value>    リツイート関連</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_SendDirectMessage.Text" xml:space="preserve">
+    <value>    ダイレクトメッセージを送信</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_TweetDetail.Text" xml:space="preserve">
+    <value>    ツイートの詳細</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_UnofficialRetweet.Text" xml:space="preserve">
+    <value>    非公式リツイート</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_UrlQuoteRetweet.Text" xml:space="preserve">
+    <value>    コメント付きリツイート</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_UserProfile.Text" xml:space="preserve">
+    <value>    ユーザープロフィール</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_DeleteRetweet.Text" xml:space="preserve">
+    <value>    リツイートの削除</value>
+  </data>
 </root>

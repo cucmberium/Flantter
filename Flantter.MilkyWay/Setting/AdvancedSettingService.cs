@@ -1,5 +1,6 @@
 ﻿using Flantter.MilkyWay.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -63,14 +64,19 @@ namespace Flantter.MilkyWay.Setting
         public async Task LoadFromStream(StorageFile s)
         {
             string json = await Windows.Storage.FileIO.ReadTextAsync(s);
+
+            var jTokens = JToken.Parse(json);
+
             Dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
 
-            if (Dict.ContainsKey("Account"))
-                Dict["Account"] = JsonConvert.DeserializeObject<ObservableCollection<AccountSetting>>(JsonConvert.SerializeObject(Dict["Account"]));
-            if (Dict.ContainsKey("MuteUsers"))
-                Dict["MuteUsers"] = JsonConvert.DeserializeObject<ObservableCollection<string>>(JsonConvert.SerializeObject(Dict["MuteUsers"]));
-            if (Dict.ContainsKey("MuteClients"))
-                Dict["MuteClients"] = JsonConvert.DeserializeObject<ObservableCollection<string>>(JsonConvert.SerializeObject(Dict["MuteClients"]));
+            this.Dict = new Dictionary<string, object>();
+            foreach (JProperty jProperty in jTokens)
+            {
+                if (jProperty.Name == "Account")
+                    this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
+                else
+                    this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
+            }
         }
 
         // アカウント,カラム設定

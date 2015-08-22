@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
-    public class DirectMessageViewModel : ExtendedBindableBase
+    public class DirectMessageViewModel : ExtendedBindableBase, ITweetViewModel
     {
         public DirectMessageViewModel(DirectMessage directMessage, ColumnModel column)
         {
@@ -26,6 +26,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.ScreenName = directMessage.Sender.ScreenName;
             this.Name = directMessage.Sender.Name;
             this.ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileImageUrl) ? "http://localhost/" : directMessage.Sender.ProfileImageUrl;
+            this.Id = directMessage.Id;
             this.Entities = directMessage.Entities;
 
             this.MediaVisibility = directMessage.Entities.Media.Count == 0 ? false : true;
@@ -37,9 +38,13 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             foreach (var urlEntity in directMessage.Entities.Urls)
                 this.UrlEntities.Add(new UrlEntityViewModel(urlEntity));
 
+            this.RecipientName = directMessage.Recipient.Name;
+            this.RecipientProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Recipient.ProfileImageUrl) ? "http://localhost/" : directMessage.Recipient.ProfileImageUrl;
+            this.RecipientScreenName = directMessage.Recipient.ScreenName;
+
             this.IsMyTweet = (directMessage.Sender.Id == column.OwnerUserId);
 
-            this.Notice = Service.Notice.Instance;
+            this.Notice = Services.Notice.Instance;
         }
 
         public DirectMessage Model { get; private set; }
@@ -55,6 +60,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public string Name { get; set; }
 
         public string ProfileImageUrl { get; set; }
+
+        public long Id { get; set; }
 
         public Entities Entities { get; set; }
 
@@ -72,6 +79,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public bool IsMyTweet { get; set; }
 
-        public Service.Notice Notice { get; set; }
+        public Services.Notice Notice { get; set; }
     }
 }

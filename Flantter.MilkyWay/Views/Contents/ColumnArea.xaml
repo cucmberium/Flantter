@@ -238,16 +238,16 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    
-    <ListBox x:Name="ColumnArea_ColumnList" Grid.Row="0" Style="{StaticResource ExtendedListBox}" Margin="5,10" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding Columns}">
+
+    <ListBox x:Name="ColumnArea_ColumnList" Grid.Row="0" Style="{StaticResource ExtendedListBox}" Margin="5,10" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{x:Bind ViewModel.Columns, Mode=OneWay}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                <controls:ExtendedCanvas x:Name="ColumnListCanvas" Background="Transparent" Width="{Binding PanelWidth.Value}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value}" MaxSnapPoint="{Binding MaxSnapPoint.Value}" MinSnapPoint="{Binding MinSnapPoint.Value}"/>
+                <controls:ExtendedCanvas x:Name="ColumnListCanvas" Width="{Binding PanelWidth.Value, Mode=OneWay}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value, Mode=OneWay}" MaxSnapPoint="{Binding MaxSnapPoint.Value}" MinSnapPoint="{Binding MinSnapPoint.Value, Mode=OneWay}"/>
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <Grid Background="{StaticResource ColumnViewBackgroundBrush}" Width="{Binding Width.Value}" Height="{Binding Height.Value}">
+            <DataTemplate x:DataType="viewModels:ColumnViewModel">
+                <Grid Background="{StaticResource ColumnViewBackgroundBrush}" Width="{x:Bind Width.Value, Mode=OneWay}" Height="{x:Bind Height.Value, Mode=OneWay}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
@@ -275,12 +275,13 @@
                                 <TextBlock x:Uid="ColumnArea_PullToRefreshPanel_ReleaseToRefreshTextBlock" Grid.Column="1" Margin="0,10" VerticalAlignment="Bottom" Foreground="{StaticResource PullToRefreshCharacterBrush}" x:Name="ReleaseToRefresh" Text="指を離して更新" FontFamily="Yu Gothic" FontSize="20" />
                             </Grid>
                         </controls:PullToRefreshPanel.RefreshContent>
-						
-						<contents:TimelineArea ViewModel="{Binding}">
-							
-						</contents:TimelineArea>
+
+                        <contents:TimelineArea ViewModel="{Binding}"/>
+
                     </controls:PullToRefreshPanel>
 
+                    <Polygon Grid.Row="0" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Fill="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}" Points="10,10,20,0,30,10" Width="40" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                    
                     <Grid Grid.Row="1" Height="30" Background="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -290,35 +291,36 @@
                         </Grid.ColumnDefinitions>
                         
                         <Grid Grid.Column="0">
-                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="{Binding ActionSymbol.Value}" HorizontalAlignment="Left"/>
+                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="{x:Bind ActionSymbol.Value, Mode=OneWay}" HorizontalAlignment="Left"/>
                             <TextBlock Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Run Text="{Binding Name.Value}"/>
+                                <Run Text="{x:Bind Name.Value, Mode=OneWay}"/>
                                 <Run Text=" - "/>
-                                <Run Text="@"/><Run Text="{Binding OwnerScreenName.Value}"/>
+                                <Run Text="@"/><Run Text="{x:Bind OwnerScreenName.Value, Mode=OneWay}"/>
                             </TextBlock>
                         </Grid>
-                        <Grid Grid.Column="3" Visibility="Collapsed" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
-                            <Button Width="40" Height="30" Margin="0" Padding="0" BorderThickness="0">
-                                <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="{Binding TweetListUnreadCount}" FontSize="14" FontWeight="Bold"/>
+
+                        <Grid Grid.Column="3" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
+                            <Button Background="{x:Null}" BorderThickness="0" Width="40" Height="30" Padding="0" >
+                                <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="{x:Bind UnreadCount.Value, Mode=OneWay}" FontSize="14" FontWeight="Bold"/>
                             </Button>
                         </Grid>
-                        <Button Grid.Column="2" ToolTipService.ToolTip="Menu" VerticalAlignment="Stretch" Width="40" BorderThickness="0" BorderBrush="Transparent" Foreground="Transparent" Padding="0">
+                        <Button Grid.Column="2" ToolTipService.ToolTip="Menu" VerticalAlignment="Stretch" Width="40" BorderThickness="0" Padding="0">
                             <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Add"/>
                             <Button.Flyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol"/>
                                     <MenuFlyoutSeparator/>
                                     <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol"/>
-                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{Binding EnableCreateFilterColumn.Value,Converter={StaticResource BooleanToVisibilityConverter}}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
+                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>
-                        <Button Grid.Column="1" ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" Width="40" BorderBrush="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" Visibility="{Binding IsEnabledStreaming.Value,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding StreamingCommand, Mode=OneWay}">
-                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{Binding StreamingSymbol.Value}"/>
+                        <Button Grid.Column="1" ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" Width="40" BorderThickness="0" Padding="0" Visibility="{x:Bind IsEnabledStreaming.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Command="{x:Bind StreamingCommand, Mode=OneWay}">
+                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{x:Bind StreamingSymbol.Value, Mode=OneWay}"/>
                         </Button>
                     </Grid>
 
-                    <StackPanel x:Name="TweetMultipulActionStackPanel" Grid.Row="2" Visibility="Visible" Height="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <StackPanel x:Name="TweetMultipulActionStackPanel" Grid.Row="2" Height="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
                         <AppBarButton Command="{Binding MultipulRetweetClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare"/>
                         <AppBarButton Command="{Binding MultipulFavoriteClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite"/>
                         <AppBarButton Command="{Binding MultipulReplyClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message"/>

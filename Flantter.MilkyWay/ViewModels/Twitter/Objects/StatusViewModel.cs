@@ -2,7 +2,7 @@
 using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
-using Flantter.MilkyWay.ViewModels.Service;
+using Flantter.MilkyWay.ViewModels.Services;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
-    public class StatusViewModel : ExtendedBindableBase
+    public class StatusViewModel : ExtendedBindableBase, ITweetViewModel
     {
         public StatusViewModel(Status status, ColumnModel column)
         {
@@ -41,6 +41,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.ScreenName = status.User.ScreenName;
             this.Name = status.User.Name;
             this.ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl) ? "http://localhost/" : status.User.ProfileImageUrl;
+            this.Id = status.Id;
             this.Entities = status.Entities;
             
             this.RetweetInformationVisibility = status.HasRetweetInformation;
@@ -126,7 +127,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.IsMyTweet = (status.User.Id == column.OwnerUserId);
             this.IsMyRetweet = (status.RetweetInformation != null && status.RetweetInformation.User.Id == column.OwnerUserId);
             
-            this.Notice = Service.Notice.Instance;
+            this.Notice = Services.Notice.Instance;
         }
 
         public Status Model { get; private set; }
@@ -144,6 +145,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public string Name { get; set; }
         
         public string ProfileImageUrl { get; set; }
+
+        public long Id { get; set; }
 
         public Entities Entities { get; set; }
 
@@ -217,6 +220,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public bool IsMyRetweet { get; set; }
 
-        public Service.Notice Notice { get; set; }
+        public Services.Notice Notice { get; set; }
     }
 }

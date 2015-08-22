@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
-    public class EventMessageViewModel : ExtendedBindableBase
+    public class EventMessageViewModel : ExtendedBindableBase, ITweetViewModel
     {
         public EventMessageViewModel(EventMessage eventMessage, ColumnModel column)
         {
@@ -25,7 +25,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.ScreenName = eventMessage.Source.ScreenName;
             this.Name = eventMessage.Source.Name;
             this.ProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.Source.ProfileImageUrl) ? "http://localhost/" : eventMessage.Source.ProfileImageUrl;
-            
+            this.Id = 0;
+
             if (eventMessage.TargetStatus != null)
             {
                 this.TargetStatusVisibility = true;
@@ -42,7 +43,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 this.TargetStatusProfileImageUrl = "http://localhost/";
             }
 
-            this.Notice = Service.Notice.Instance;
+            this.Notice = Services.Notice.Instance;
         }
 
         public EventMessage Model { get; private set; }
@@ -58,7 +59,9 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public string Name { get; set; }
 
         public string ProfileImageUrl { get; set; }
-        
+
+        public long Id { get; set; }
+
         public bool TargetStatusVisibility { get; set;}
 
         public long TargetStatusId { get; set; }
@@ -75,6 +78,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         
         public Entities TargetStatusEntities { get; set; }
 
-        public Service.Notice Notice { get; set; }
+        public Services.Notice Notice { get; set; }
     }
 }

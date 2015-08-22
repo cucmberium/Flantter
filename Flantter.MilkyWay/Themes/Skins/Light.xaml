@@ -27,7 +27,52 @@
     <SolidColorBrush x:Key="ScrollBarTrackRectFillBrush" Color="#FFF2F2F2" />
     <SolidColorBrush x:Key="ScrollBarTrackRectStrokeBrush" Color="Transparent" />
     <SolidColorBrush x:Key="ScrollBarPanningThumbBackgroundBrush" Color="#FFCCCCCC" />
+
+    <SolidColorBrush x:Key="TextBoxForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="TextBoxBorderBrush" Color="#FF7A7A7A" />
+    <SolidColorBrush x:Key="TextBoxSelectionHighlightBrush" Color="#FF0078D7" />
+    <SolidColorBrush x:Key="TextBoxButtonBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="TextBoxButtonBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="TextBoxGlyphElementPointerOverForegroundBrush" Color="#FF0078D7" />
+    <SolidColorBrush x:Key="TextBoxButtonLayoutGridPressedForegroundBrush" Color="#FF0078D7" />
+    <SolidColorBrush x:Key="TextBoxGlyphElementPressedForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="TextBoxGlyphElementForegroundBrush" Color="#CC000000" />
+    <SolidColorBrush x:Key="TextBoxHeaderContentPresenterDisabledForegroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="TextBoxBackgroundElementDisabledBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="TextBoxBorderElementDisabledBackgroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="TextBoxBorderElementDisabledBorderBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="TextBoxContentElementDisabledForegroundBrush" Color="#FF7A7A7A" />
+    <SolidColorBrush x:Key="TextBoxPlaceholderTextContentPresenterDisabledForegroundBrush" Color="#FF7A7A7A" />
+    <SolidColorBrush x:Key="TextBoxBorderElementPointerOverBorderBrush" Color="#FF171717" />
+    <SolidColorBrush x:Key="TextBoxPlaceholderTextContentPresenterFocusedForegroundBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="TextBoxBackgroundElementFocusedBackgroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="TextBoxBorderElementFocusedBorderBrush" Color="#FF0078D7" />
+    <SolidColorBrush x:Key="TextBoxContentElementFocusedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="TextBoxHeaderContentPresenterForegroundBrush" Color="#99000000" />
+
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="ButtonContentPresenterPointerOverBorderBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ButtonContentPresenterPointerOverForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ButtonRootGridPressedBackgroundBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ButtonContentPresenterPressedBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="ButtonContentPresenterPressedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ButtonRootGridDisabledBackgroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ButtonContentPresenterDisabledForegroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ButtonContentPresenterDisabledBorderBrush" Color="Transparent" />
+
+    <SolidColorBrush x:Key="AppBarButtonItemBackgroundThemeBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="AppBarButtonItemDisabledForegroundThemeBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="AppBarButtonItemForegroundThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="AppBarButtonItemPointerOverBackgroundThemeBrush" Color="#3D000000" />
+    <SolidColorBrush x:Key="AppBarButtonItemPointerOverForegroundThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="AppBarButtonItemPressedForegroundThemeBrush" Color="#FFFFFFFF" />
     
+    <SolidColorBrush x:Key="AppBarBackgroundBrush" Color="LightBlue" />
+    <SolidColorBrush x:Key="AppBarBorderBrush" Color="Black" />
+
     <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FFEBEBEB" />
 
     <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#FF2387C1" />
@@ -36,8 +81,6 @@
     <SolidColorBrush x:Key="TitleBarButtonForegroundBrush" Color="White" />
     <SolidColorBrush x:Key="TitleBarButtonInactiveBackgroundBrush" Color="#FF2387C1" />
     <SolidColorBrush x:Key="TitleBarButtonInactiveForegroundBrush" Color="White" />
-    
-    <SolidColorBrush x:Key="BottomAppBarBackgroundBrush" Color="LightBlue" />
     
     <SolidColorBrush x:Key="BottomBarBackgroundBrush" Color="#FF2387C1" />
     <SolidColorBrush x:Key="BottomBarTextblockButtonSelectedBrush" Color="White" />

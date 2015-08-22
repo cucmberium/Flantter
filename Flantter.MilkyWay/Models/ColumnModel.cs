@@ -1,6 +1,8 @@
 ﻿using CoreTweet;
+using CoreTweet.Core;
 using CoreTweet.Streaming;
 using CoreTweet.Streaming.Reactive;
+using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
@@ -12,6 +14,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
@@ -56,20 +59,14 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region Filter変更通知プロパティ
+        private Delegate MuteFilterDelegate { get; set; }
+        private Delegate FilterDelegate { get; set; }
+
         private string _Filter;
         public string Filter
         {
             get { return this._Filter; }
             set { this.SetProperty(ref this._Filter, value); }
-        }
-        #endregion
-
-        #region Index変更通知プロパティ
-        private int _Index;
-        public int Index
-        {
-            get { return this._Index; }
-            set { this.SetProperty(ref this._Index, value); }
         }
         #endregion
 
@@ -82,6 +79,15 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region Index変更通知プロパティ
+        private int _Index;
+        public int Index
+        {
+            get { return this._Index; }
+            set { this.SetProperty(ref this._Index, value); }
+        }
+        #endregion
+        
         #region OwnerScreenName変更通知プロパティ
         private string _OwnerScreenName;
         public string OwnerScreenName
@@ -152,14 +158,76 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region Updating変更通知プロパティ
+        private bool _Updating;
+        public bool Updating
+        {
+            get { return this._Updating; }
+            set { this.SetProperty(ref this._Updating, value); }
+        }
+        #endregion
+
+        #region IsScrollControlEnabled変更通知プロパティ
+        private bool _IsScrollControlEnabled;
+        public bool IsScrollControlEnabled
+        {
+            get { return this._IsScrollControlEnabled; }
+            set { this.SetProperty(ref this._IsScrollControlEnabled, value); }
+        }
+        #endregion
+
+        #region IsScrollLockEnabled変更通知プロパティ
+        private bool _IsScrollLockEnabled;
+        public bool IsScrollLockEnabled
+        {
+            get { return this._IsScrollLockEnabled; }
+            set { this.SetProperty(ref this._IsScrollLockEnabled, value); }
+        }
+        #endregion
+
+        #region IsScrollLockToTopEnabled変更通知プロパティ
+        private bool _IsScrollLockToTopEnabled;
+        public bool IsScrollLockToTopEnabled
+        {
+            get { return this._IsScrollLockToTopEnabled; }
+            set { this.SetProperty(ref this._IsScrollLockToTopEnabled, value); }
+        }
+        #endregion
+
+        #region UnreadCount変更通知プロパティ
+        private int _UnreadCount;
+        public int UnreadCount
+        {
+            get { return this._UnreadCount; }
+            set { this.SetProperty(ref this._UnreadCount, value); }
+        }
+        #endregion
+
+        #region UnreadCountIncrementalTrigger変更通知プロパティ
+        private bool _UnreadCountIncrementalTrigger;
+        public bool UnreadCountIncrementalTrigger
+        {
+            get { return this._UnreadCountIncrementalTrigger; }
+            set { this.SetProperty(ref this._UnreadCountIncrementalTrigger, value); }
+        }
+        #endregion
+
+        #region DisableNotifyCollectionChanged変更通知プロパティ
+        private bool _DisableNotifyCollectionChanged;
+        public bool DisableNotifyCollectionChanged
+        {
+            get { return this._DisableNotifyCollectionChanged; }
+            set { this.SetProperty(ref this._DisableNotifyCollectionChanged, value); }
+        }
+        #endregion
+
         #region Columns
         private ObservableCollection<ITweet> _Tweets;
-        private ReadOnlyObservableCollection<ITweet> _ReadOnlyTweets;
-        public ReadOnlyObservableCollection<ITweet> ReadOnlyTweets
+        public ObservableCollection<ITweet> Tweets
         {
             get
             {
-                return _ReadOnlyTweets;
+                return _Tweets;
             }
         }
         #endregion
@@ -178,13 +246,13 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region Initialize
-        public async void Initialize()
+        public async Task Initialize()
         {
             Observable.Merge(
                 Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
                 h => (sender, e) => h(e),
                 h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetReceive_CommandExecute += h,
-                h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetReceive_CommandExecute -= h).Select(e => (object)e),
+                h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetReceive_CommandExecute -= h).Where(e => e.Streaming).Select(e => (object)e),
                 Observable.FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                 h => (sender, e) => h(e),
                 h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetDelete_CommandExecute += h,
@@ -193,67 +261,26 @@ namespace Flantter.MilkyWay.Models
                     if (e is TweetEventArgs)
                     {
                         var tweetEventArgs = (TweetEventArgs)e;
+
                         switch (tweetEventArgs.Type)
                         {
                             case TweetEventArgs.TypeEnum.Status:
-                                switch (this.Action)
-                                {
-                                    case SettingSupport.ColumnTypeEnum.Home:
-                                        if (tweetEventArgs.Parameter.Contains("home://"))
-                                        {
-                                            if (tweetEventArgs.Streaming)
-                                                this._Tweets.Insert(0, tweetEventArgs.Status);
-                                        }
-                                        break;
-                                    case SettingSupport.ColumnTypeEnum.Mentions:
-                                        if (tweetEventArgs.Parameter.Contains("mention://"))
-                                        {
-                                            if (tweetEventArgs.Streaming)
-                                                this._Tweets.Insert(0, tweetEventArgs.Status);
-                                        }
-                                        break;
-                                    case SettingSupport.ColumnTypeEnum.Favorites:
-                                        if (tweetEventArgs.Parameter.Contains("favorite://"))
-                                        {
-                                            if (tweetEventArgs.Streaming)
-                                                this._Tweets.Insert(0, tweetEventArgs.Status);
-                                        }
-                                        break;
-                                    case SettingSupport.ColumnTypeEnum.List:
-                                        if (tweetEventArgs.Parameter.Contains("list://" + this.Parameter))
-                                        {
-                                            if (tweetEventArgs.Streaming)
-                                                this._Tweets.Insert(0, tweetEventArgs.Status);
-                                        }
-                                        break;
-                                    case SettingSupport.ColumnTypeEnum.Search:
-                                        if (tweetEventArgs.Parameter.Contains("search://" + this.Parameter))
-                                        {
-                                            if (tweetEventArgs.Streaming)
-                                                this._Tweets.Insert(0, tweetEventArgs.Status);
-                                        }
-                                        break;
-                                    case SettingSupport.ColumnTypeEnum.UserTimeline:
-                                        if (tweetEventArgs.Parameter.Contains("usertimeline://" + this.Parameter))
-                                        {
-                                            if (tweetEventArgs.Streaming)
-                                                this._Tweets.Insert(0, tweetEventArgs.Status);
-                                        }
-                                        break;
-                                }
+                                
+                                if (!this.Check(tweetEventArgs.Status, tweetEventArgs.Parameter))
+                                    return;
+
+                                this.Add(tweetEventArgs.Status, tweetEventArgs.Streaming);
                                 break;
                             case TweetEventArgs.TypeEnum.DirectMessage:
                                 if (this.Action == SettingSupport.ColumnTypeEnum.DirectMessages)
                                 {
-                                    if (tweetEventArgs.Streaming)
-                                        this._Tweets.Insert(0, tweetEventArgs.DirectMessage);
+                                    this.Add(tweetEventArgs.DirectMessage, tweetEventArgs.Streaming);
                                 }
                                 break;
                             case TweetEventArgs.TypeEnum.EventMessage:
                                 if (this.Action == SettingSupport.ColumnTypeEnum.Events && tweetEventArgs.EventMessage.Source.Id != this.OwnerUserId)
                                 {
-                                    if (tweetEventArgs.Streaming)
-                                        this._Tweets.Insert(0, tweetEventArgs.EventMessage);
+                                    this.Add(tweetEventArgs.EventMessage, tweetEventArgs.Streaming);
                                 }
                                 break;
                         }
@@ -263,6 +290,7 @@ namespace Flantter.MilkyWay.Models
                     }
                 });
             
+
 
             this.Action = this._ColumnSetting.Action;
             this.AutoRefresh = this._ColumnSetting.AutoRefresh;
@@ -276,6 +304,20 @@ namespace Flantter.MilkyWay.Models
             this.FetchingNumberOfTweet = this._ColumnSetting.FetchingNumberOfTweet;
             this.OwnerScreenName = this._AccountSetting.ScreenName;
             this.OwnerUserId = this._AccountSetting.UserId;
+            
+            if (!this._ColumnSetting.DisableStartupRefresh)
+            {
+                this.DisableNotifyCollectionChanged = true;
+                this.IsScrollControlEnabled = false;
+
+                await Update();
+                //await Task.Delay(100);
+
+                this.IsScrollControlEnabled = true;
+                this.DisableNotifyCollectionChanged = false;
+            }
+                
+                
         }
         #endregion
 
@@ -283,7 +325,6 @@ namespace Flantter.MilkyWay.Models
         public ColumnModel(ColumnSetting column, AccountSetting account, AccountModel accountModel)
         {
             this._Tweets = new ObservableCollection<ITweet>();
-            this._ReadOnlyTweets = new ReadOnlyObservableCollection<ITweet>(this._Tweets);
             this.stream = new Subject<StreamingMessage>();
 
             this._SelectedIndex = -1;
@@ -307,7 +348,7 @@ namespace Flantter.MilkyWay.Models
                             {
                                 paramList.Add("home://");
                                 if (tweet.Status.Entities.UserMentions != null && tweet.Status.Entities.UserMentions.Any(x => x.Id == this.OwnerUserId))
-                                    paramList.Add("mention://");
+                                    paramList.Add("mentions://");
                             }
                             else if (this._Action == SettingSupport.ColumnTypeEnum.Search)
                             {
@@ -334,12 +375,12 @@ namespace Flantter.MilkyWay.Models
                             break;
                         case MessageType.Event:
                             var eventMessage = m as CoreTweet.Streaming.EventMessage;
-                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.EventMessage(eventMessage), this._OwnerUserId, new List<string>() { "event://" }, true));
+                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.EventMessage(eventMessage), this._OwnerUserId, new List<string>() { "events://" }, true));
                             
                             if (eventMessage.Event == EventCode.Favorite && eventMessage.TargetStatus != null && eventMessage.Source.Id == this._OwnerUserId)
                             {
                                 eventMessage.TargetStatus.IsFavorited = true;
-                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this._OwnerUserId, new List<string>() { "favorite://" }, false));
+                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this._OwnerUserId, new List<string>() { "favorites://" }, false));
                             }
 
                             break;
@@ -436,6 +477,471 @@ namespace Flantter.MilkyWay.Models
             catch
             {
             }
+        }
+
+        public async Task Update(long maxid = 0, long sinceid = 0)
+        {
+            if (this.Action == SettingSupport.ColumnTypeEnum.Events || this.Action == SettingSupport.ColumnTypeEnum.Filter)
+                return;
+
+            if (this.Updating)
+                return;
+
+            this.Updating = true;
+            
+            switch (this.Action)
+            {
+                case SettingSupport.ColumnTypeEnum.Home:
+                    await UpdateHome(maxid, sinceid);
+                    break;
+                case SettingSupport.ColumnTypeEnum.Mentions:
+                    await UpdateMentions(maxid, sinceid);
+                    break;
+                case SettingSupport.ColumnTypeEnum.DirectMessages:
+                    await UpdateDirectMessages(maxid, sinceid);
+                    break;
+                case SettingSupport.ColumnTypeEnum.Favorites:
+                    await UpdateFavorites(maxid, sinceid);
+                    break;
+                case SettingSupport.ColumnTypeEnum.List:
+                    await UpdateList(maxid, sinceid);
+                    break;
+                case SettingSupport.ColumnTypeEnum.Search:
+                    await UpdateSearch(maxid, sinceid);
+                    break;
+                case SettingSupport.ColumnTypeEnum.UserTimeline:
+                    await UpdateUserTimeline(maxid, sinceid);
+                    break;
+            }
+
+            this.Updating = false;
+        }
+
+        private async Task UpdateHome(long maxid = 0, long sinceid = 0)
+        {
+            try
+            {
+                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true } };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+                if (sinceid != 0)
+                    param.Add("since_id", sinceid);
+
+                var home = await this._Tokens.Statuses.HomeTimelineAsync(param);
+                
+                foreach (var status in home)
+                {
+                    var statusObject = new Twitter.Objects.Status(status);
+                    if (this.Check(statusObject))
+                        Add(statusObject);
+
+                    var paramList = new List<string>() { "home://" };
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this._OwnerUserId, paramList, false));
+                }
+            }
+            catch (TwitterException ex)
+            {
+                // Todo : 通知システムに渡す
+            }
+            catch
+            {
+                // Todo : 通知システムに渡す
+            }
+        }
+
+        private async Task UpdateMentions(long maxid = 0, long sinceid = 0)
+        {
+            try
+            {
+                var param = new Dictionary<string, object>() { { "count", 40 }, { "include_entities", true } };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+                if (sinceid != 0)
+                    param.Add("since_id", sinceid);
+
+                var mentions = await this._Tokens.Statuses.MentionsTimelineAsync(param);
+
+                foreach (var status in mentions)
+                {
+                    var statusObject = new Twitter.Objects.Status(status);
+                    if (this.Check(statusObject))
+                        Add(statusObject);
+
+                    var paramList = new List<string>() { "mentions://" };
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this._OwnerUserId, paramList, false));
+                }
+            }
+            catch (TwitterException ex)
+            {
+                // Todo : 通知システムに渡す
+            }
+            catch
+            {
+                // Todo : 通知システムに渡す
+            }
+        }
+
+        private async Task UpdateDirectMessages(long maxid = 0, long sinceid = 0)
+        {
+            try
+            {
+                var param = new Dictionary<string, object>() { { "count", 20 }, { "include_entities", true } };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+                if (sinceid != 0)
+                    param.Add("since_id", sinceid);
+
+                var receivedDirectMessages = await Task.Run(() => this._Tokens.DirectMessages.ReceivedAsync(param));
+                var sentDirectMessages = await Task.Run(() => this._Tokens.DirectMessages.SentAsync(param));
+                var directMessages = receivedDirectMessages.Concat(sentDirectMessages).OrderByDescending(x => x.Id);
+
+                foreach (var directMessage in directMessages)
+                {
+                    var directMessageObject = new Twitter.Objects.DirectMessage(directMessage);
+                    Add(directMessageObject);
+
+                    var paramList = new List<string>() { "directmessages://" };
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(directMessageObject, this._OwnerUserId, paramList, false));
+                }
+            }
+            catch (TwitterException ex)
+            {
+                // Todo : 通知システムに渡す
+            }
+            catch
+            {
+                // Todo : 通知システムに渡す
+            }
+        }
+
+        private async Task UpdateFavorites(long maxid = 0, long sinceid = 0)
+        {
+            try
+            {
+                var param = new Dictionary<string, object>() { { "count", 25 }, { "include_entities", true } };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+                if (sinceid != 0)
+                    param.Add("since_id", sinceid);
+
+                var favorites = await this._Tokens.Favorites.ListAsync(param);
+
+                foreach (var status in favorites)
+                {
+                    var statusObject = new Twitter.Objects.Status(status);
+                    if (this.Check(statusObject))
+                        Add(statusObject);
+
+                    var paramList = new List<string>() { "favorites://" };
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._OwnerUserId, paramList, false));
+                }
+            }
+            catch (TwitterException ex)
+            {
+                // Todo : 通知システムに渡す
+            }
+            catch
+            {
+                // Todo : 通知システムに渡す
+            }
+        }
+
+        private async Task UpdateList(long maxid = 0, long sinceid = 0)
+        {
+            try
+            {
+                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "list_id", long.Parse(this._Parameter) } };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+                if (sinceid != 0)
+                    param.Add("since_id", sinceid);
+
+                var lists = await this._Tokens.Lists.StatusesAsync(param);
+
+                foreach (var status in lists)
+                {
+                    var statusObject = new Twitter.Objects.Status(status);
+                    if (this.Check(statusObject))
+                        Add(statusObject);
+
+                    var paramList = new List<string>() { "list://" + this._Parameter };
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._OwnerUserId, paramList, false));
+                }
+            }
+            catch (TwitterException ex)
+            {
+                // Todo : 通知システムに渡す
+            }
+            catch
+            {
+                // Todo : 通知システムに渡す
+            }
+        }
+
+        private async Task UpdateSearch(long maxid = 0, long sinceid = 0, bool startup = false)
+        {
+            try
+            {
+                IEnumerable<CoreTweet.Status> search = null;
+
+                if (SettingService.Setting.UseOfficialApi && TwitterConsumerKeyPatterns.OfficialConsumerKeyList.Contains(this._Tokens.ConsumerKey))
+                {
+                    var param = new Dictionary<string, object>() { { "q", this._Parameter }, { "count", 100 }, { "result_type", "recent" }, { "modules", "status" } };
+                    if (maxid != 0)
+                        param["q"] = param["q"] + " max_id:" + maxid;
+                    if (sinceid != 0)
+                        param["q"] = param["q"] + " since_id:" + sinceid;
+
+                    var res = await this._Tokens.SendRequestAsync(MethodType.Get, "https://api.twitter.com/1.1/search/universal.json", param);
+                    var json = await res.Source.Content.ReadAsStringAsync();
+                    var jsonObject = Newtonsoft.Json.Linq.JObject.Parse(json);
+                    var modules = jsonObject["modules"].Children<Newtonsoft.Json.Linq.JObject>();
+
+                    var tweets = new List<CoreTweet.Status>();
+                    foreach (var status in modules)
+                    {
+                        foreach (Newtonsoft.Json.Linq.JProperty prop in status.Properties())
+                        {
+                            if (prop.Name == "status")
+                                tweets.Add(CoreBase.Convert<CoreTweet.Status>(Newtonsoft.Json.JsonConvert.SerializeObject(status["status"]["data"])));
+                        }
+                    }
+
+                    search = tweets;
+                }
+                else
+                {
+                    var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "q", this._Parameter } };
+                    if (maxid != 0)
+                        param.Add("max_id", maxid);
+                    if (sinceid != 0)
+                        param.Add("since_id", sinceid);
+
+                    search = await this._Tokens.Search.TweetsAsync(param);
+                }
+                
+                foreach (var status in search)
+                {
+                    var statusObject = new Twitter.Objects.Status(status);
+                    if (this.Check(statusObject))
+                        Add(statusObject);
+
+                    var paramList = new List<string>() { "search://" + this._Parameter };
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._OwnerUserId, paramList, false));
+                }
+            }
+            catch (TwitterException ex)
+            {
+                // Todo : 通知システムに渡す
+            }
+            catch
+            {
+                // Todo : 通知システムに渡す
+            }
+        }
+
+        private async Task UpdateUserTimeline(long maxid = 0, long sinceid = 0, bool startup = false)
+        {
+            try
+            {
+                var param = new Dictionary<string, object>() { { "count", 30 }, { "include_entities", true }, { "user_id", int.Parse(this._Parameter) } };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+                if (sinceid != 0)
+                    param.Add("since_id", sinceid);
+
+                var userTimeline = await this._Tokens.Lists.StatusesAsync(param);
+
+                foreach (var status in userTimeline)
+                {
+                    var statusObject = new Twitter.Objects.Status(status);
+                    if (this.Check(statusObject))
+                        Add(statusObject);
+
+                    var paramList = new List<string>() { "usertimeline://" + this._Parameter };
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._OwnerUserId, paramList, false));
+                }
+            }
+            catch (TwitterException ex)
+            {
+                // Todo : 通知システムに渡す
+            }
+            catch
+            {
+                // Todo : 通知システムに渡す
+            }
+        }
+
+        private bool Check(Twitter.Objects.Status status)
+        {
+            if (this.Action != SettingSupport.ColumnTypeEnum.Mentions && this.Action != SettingSupport.ColumnTypeEnum.Favorites)
+            {
+                if (AdvancedSettingService.AdvancedSetting.MuteClients != null)
+                {
+                    if (AdvancedSettingService.AdvancedSetting.MuteClients.Contains(status.Source))
+                        return false;
+                }
+                if (AdvancedSettingService.AdvancedSetting.MuteUsers != null)
+                {
+                    if (AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(status.User.ScreenName))
+                        return false;
+                    else if (status.HasRetweetInformation && AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(status.RetweetInformation.User.ScreenName))
+                        return false;
+                }
+
+                if (this.MuteFilterDelegate != null)
+                {
+                    try
+                    {
+                        if ((bool)this.MuteFilterDelegate.DynamicInvoke(status))
+                            return false;
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            if (this.Action == SettingSupport.ColumnTypeEnum.Filter || this.Action == SettingSupport.ColumnTypeEnum.List || this.Action == SettingSupport.ColumnTypeEnum.Search || this.Action == SettingSupport.ColumnTypeEnum.UserTimeline)
+            {
+                if (this.FilterDelegate != null)
+                {
+                    try
+                    {
+                        if (!(bool)this.FilterDelegate.DynamicInvoke(status))
+                            return false;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private bool Check(Twitter.Objects.Status status, List<string> param)
+        {
+            if (!param.Contains(this.Action.ToString("F").ToLower() + "://" + this._Parameter))
+                return false;
+
+            if (status.User.IsMuting)
+                return false;
+            else
+            {
+                /*using (await Connecter.Instance.TweetCollecter[this.OwnerUserId].NoRetweetIdsAsyncLock.LockAsync())
+                {
+                    if (Connecter.Instance.TweetCollecter[this.OwnerUserId].NoRetweetIds.Contains(status.User.Id))
+                        return false;
+                }*/
+            }
+
+            if (this.Action != SettingSupport.ColumnTypeEnum.Mentions && this.Action != SettingSupport.ColumnTypeEnum.Favorites)
+            {
+                if (AdvancedSettingService.AdvancedSetting.MuteClients != null)
+                {
+                    if (AdvancedSettingService.AdvancedSetting.MuteClients.Contains(status.Source))
+                        return false;
+                }
+                if (AdvancedSettingService.AdvancedSetting.MuteUsers != null)
+                {
+                    if (AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(status.User.ScreenName))
+                        return false;
+                    else if (status.HasRetweetInformation && AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(status.RetweetInformation.User.ScreenName))
+                        return false;
+                }
+
+                if (this.MuteFilterDelegate != null)
+                {
+                    try
+                    {
+                        if ((bool)this.MuteFilterDelegate.DynamicInvoke(status))
+                            return false;
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            if (this.Action == SettingSupport.ColumnTypeEnum.Filter || this.Action == SettingSupport.ColumnTypeEnum.List || this.Action == SettingSupport.ColumnTypeEnum.Search || this.Action == SettingSupport.ColumnTypeEnum.UserTimeline)
+            {
+                if (this.FilterDelegate != null)
+                {
+                    try
+                    {
+                        if (!(bool)this.FilterDelegate.DynamicInvoke(status))
+                            return false;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private void Add(Twitter.Objects.Status status, bool streaming = false)
+        {
+            if (streaming)
+            {
+                this._Tweets.Insert(0, status);
+                this.UnreadCountIncrementalTrigger = true;
+            }
+            else
+            {
+                var retindex = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => (x as ITweet)?.Id == status.Id));
+                if (retindex != -1 && SettingService.Setting.RemoveRetweetAlreadyReceive && status.HasRetweetInformation && status.RetweetInformation.User.ScreenName != this._OwnerScreenName)
+                    return;
+
+                var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
+                var index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
+                if (index == -1)
+                {
+                    index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
+                    if (index == -1)
+                        this._Tweets.Add(status);
+                    else
+                        this._Tweets.Insert(index, status);
+
+                    if (index <= this.UnreadCount && index != -1)
+                        this.UnreadCountIncrementalTrigger = true;
+                }
+            }
+        }
+
+        private void Add(Twitter.Objects.DirectMessage directMessage, bool streaming = false)
+        {
+            if (streaming)
+            {
+                this._Tweets.Insert(0, directMessage);
+                this.UnreadCountIncrementalTrigger = true;
+            }
+            else
+            {
+                var index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => x is Twitter.Objects.DirectMessage && (((Twitter.Objects.DirectMessage)x).Id == directMessage.Id)));
+                if (index == -1)
+                {
+                    index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => x is Twitter.Objects.DirectMessage && (((Twitter.Objects.DirectMessage)x).Id < directMessage.Id)));
+                    if (index == -1)
+                        this._Tweets.Add(directMessage);
+                    else
+                        this._Tweets.Insert(index, directMessage);
+
+                    if (index <= this.UnreadCount && index != -1)
+                        this.UnreadCountIncrementalTrigger = true;
+                }
+            }
+        }
+
+        private void Add(Twitter.Objects.EventMessage eventMessage, bool streaming = false)
+        {
+            this._Tweets.Insert(0, eventMessage);
+
+            this.UnreadCountIncrementalTrigger = true;
         }
     }
 }

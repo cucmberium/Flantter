@@ -26,9 +26,9 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.ListedCount = cUser.ListedCount.HasValue ? cUser.ListedCount.Value : 0;
             this.Location = cUser.Location;
             this.Name = cUser.Name;
-            this.ProfileBackgroundImageUrl = cUser.ProfileBackgroundImageUrl.AbsoluteUri;
-            this.ProfileBannerUrl = cUser.ProfileBannerUrl != null ? cUser.ProfileBannerUrl.AbsoluteUri : null;
-            this.ProfileImageUrl = cUser.ProfileImageUrl != null ? cUser.ProfileImageUrl.AbsoluteUri : null;
+            this.ProfileBackgroundImageUrl = cUser.ProfileBackgroundImageUrl;
+            this.ProfileBannerUrl = cUser.ProfileBannerUrl != null ? cUser.ProfileBannerUrl : null;
+            this.ProfileImageUrl = cUser.ProfileImageUrl != null ? cUser.ProfileImageUrl : null;
             this.ScreenName = cUser.ScreenName;
             this.StatusesCount = cUser.StatusesCount;
             this.TimeZone = cUser.TimeZone;

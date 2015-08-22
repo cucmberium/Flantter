@@ -1,0 +1,105 @@
+﻿<UserControl
+    x:Class="Flantter.MilkyWay.Views.Contents.TweetArea"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
+    xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
+    xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
+    xmlns:util="using:Flantter.MilkyWay.Views.Util"
+    mc:Ignorable="d"
+    d:DesignHeight="132"
+    d:DesignWidth="1280">
+
+    <Grid Background="{StaticResource AppBarBackgroundBrush}" BorderBrush="{StaticResource AppBarBorderBrush}" BorderThickness="0,2,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /><!-- Reply tweet and quoted tweet area -->
+            <RowDefinition Height="Auto" /><!-- Tweet area -->
+        </Grid.RowDefinitions>
+        
+        <Border Grid.Row="0" Visibility="Collapsed">
+            
+        </Border>
+
+        <Grid Grid.Row="1" Height="130">
+
+            <Button VerticalAlignment="Top" Width="60" Height="60" Margin="5,5,0,0" Padding="0" BorderThickness="0">
+                <Image Stretch="UniformToFill" Source="{Binding AccountButtonImageSource}"/>
+                <Button.Flyout>
+                    <Flyout Placement="Top">
+                        
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
+            <controls:ExtendedTextBox Style="{StaticResource ExtendedTextBoxStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{Binding Source={StaticResource Setting},Path=Setting.TweetPostFieldFontSize}">
+                <i:Interaction.Behaviors>
+                    <behaviors:TextBoxKeyTriggerBehavior>
+                        <util:KeyTrigger Key="Enter" Modifiers="Control">
+                            <core:InvokeCommandAction/>
+                        </util:KeyTrigger>
+                    </behaviors:TextBoxKeyTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </controls:ExtendedTextBox>
+
+            <AppBarButton Style="{StaticResource ExtendedAppBarButtonStyle}" Width="100" IsCompact="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,0,0" Label="Tweet" Height="90">
+                <AppBarButton.Icon>
+                    <PathIcon Data="M20.3599987030029,17.0200004577637L20.2982959747314,15.3165817260742 20.7248592376709,13.8618698120117 21.6109313964844,12.6718635559082 22.9277572631836,11.7625598907471 24.349178314209,11.3314666748047 25.7337284088135,11.3477125167847 27.0583534240723,11.8207426071167 28.2999992370605,12.7600002288818 31.2799987792969,11.6399993896484 30.5911140441895,13.0404796600342 29.2799987792969,14.1999998092651 31.9199981689453,13.5 29.5999984741211,15.8999996185303 29.3917999267578,18.8514404296875 28.6413745880127,21.4481601715088 27.5722007751465,23.5763988494873 25.5548362731934,26.1680793762207 23.3233985900879,27.9143581390381 20.9852809906006,29.036039352417 17.6354751586914,29.7396450042725 14.4869346618652,29.6789989471436 11.6279172897339,28.9678649902344 9.14667892456055,27.7199993133545 12.7489204406738,27.4371242523193 14.4411554336548,26.7908344268799 16.0533199310303,25.7733192443848 13.3364295959473,24.83811378479 11.7066783905029,22.5200004577637 13.7333202362061,22.4133186340332 12.1511697769165,21.7406959533691 11.0099296569824,20.7355556488037 10.3170547485352,19.4226360321045 10.0799999237061,17.8266792297363 12.1066799163818,18.3600006103516 10.8615303039551,17.0618438720703 10.2149152755737,15.5937051773071 10.1675119400024,13.9553833007813 10.7199993133545,12.1466808319092 12.8063335418701,14.1511659622192 15.1005001068115,15.6508445739746 17.6144161224365,16.616771697998 20.3599987030029,17.0200004577637z">
+                        <PathIcon.RenderTransform>
+                            <CompositeTransform ScaleX="1" ScaleY="1"/>
+                        </PathIcon.RenderTransform>
+                    </PathIcon>
+                </AppBarButton.Icon>
+            </AppBarButton>
+
+            <Grid Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="5" Text="140" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
+                <Button Grid.Column="4" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="NoticeMessage" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" BorderBrush="Transparent" Margin="3,0">
+                    <SymbolIcon Symbol="Accept"/>
+                </Button>
+                <Button Grid.Column="3" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" BorderBrush="Transparent" Margin="3,0">
+                    <SymbolIcon Symbol="UnPin"/>
+                </Button>
+                <Button Grid.Column="2" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" BorderBrush="Transparent" Margin="3,0">
+                    <SymbolIcon Symbol="Pictures"/>
+                </Button>
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding Picture}" VerticalAlignment="Center" Height="40">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Background="Transparent">
+                                <Button.Flyout>
+                                    <MenuFlyout Placement="Top">
+                                        <MenuFlyoutItem Command="{Binding PictureClickCommand}" Text="削除"/>
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                                <Image Source="{Binding Image}"/>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

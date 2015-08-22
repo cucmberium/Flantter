@@ -6,40 +6,51 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
 	xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
     xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
     mc:Ignorable="d"
     d:DesignHeight="720"
     d:DesignWidth="400">
 
-    <ListView ItemsSource="{x:Bind ViewModel.Tweets}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value}" BorderThickness="0" BorderBrush="{x:Null}" Foreground="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,0" ShowsScrollingPlaceholders="True" SelectionMode="Extended" IsSwipeEnabled="True" >
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <VirtualizingStackPanel Orientation="Vertical">
-                    <VirtualizingStackPanel.ChildrenTransitions>
-                        <TransitionCollection/>
-                    </VirtualizingStackPanel.ChildrenTransitions>
-                </VirtualizingStackPanel>
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplateSelector>
-            <common:DataTypeTemplateSelector>
-                <DataTemplate x:Key="StatusViewModel" x:DataType="twitterObjectsViewModel:StatusViewModel">
-                    <timeline:Status ViewModel="{x:Bind}"/>
-                </DataTemplate>
-                <DataTemplate x:Key="DirectMessageViewModel" x:DataType="twitterObjectsViewModel:DirectMessageViewModel">
-                    <timeline:DirectMessage ViewModel="{x:Bind}"/>
-                </DataTemplate>
-                <DataTemplate x:Key="EventMessageViewModel" x:DataType="twitterObjectsViewModel:EventMessageViewModel">
-                    <timeline:EventMessage ViewModel="{x:Bind}"/>
-                </DataTemplate>
-                <!--<DataTemplate x:Key="GViewModel">
+    <Grid>
+        <ProgressBar VerticalAlignment="Top" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" />
+        
+        <ListView DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=OneWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" >
+            <i:Interaction.Behaviors>
+                <behaviors:ListViewScrollControlBehavior IsScrollLockEnabled="{x:Bind ViewModel.IsScrollLockEnabled.Value, Mode=OneWay}" IsScrollLockToTopEnabled="{x:Bind ViewModel.IsScrollLockToTopEnabled.Value, Mode=OneWay}" IsScrollControlEnabled="{x:Bind ViewModel.IsScrollControlEnabled.Value, Mode=OneWay}" UnreadCount="{x:Bind ViewModel.UnreadCount.Value, Mode=TwoWay}" UnreadCountIncrementalTrigger="{x:Bind ViewModel.UnreadCountIncrementalTrigger.Value, Mode=TwoWay}" />
+            </i:Interaction.Behaviors>
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel>
+                        <VirtualizingStackPanel.ChildrenTransitions>
+                            <TransitionCollection/>
+                        </VirtualizingStackPanel.ChildrenTransitions>
+                    </VirtualizingStackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplateSelector>
+                <common:DataTypeTemplateSelector>
+                    <DataTemplate x:Key="StatusViewModel" x:DataType="twitterObjectsViewModel:StatusViewModel">
+                        <timeline:Status ViewModel="{x:Bind}"/>
+                    </DataTemplate>
+                    <DataTemplate x:Key="DirectMessageViewModel" x:DataType="twitterObjectsViewModel:DirectMessageViewModel">
+                        <timeline:DirectMessage ViewModel="{x:Bind}"/>
+                    </DataTemplate>
+                    <DataTemplate x:Key="EventMessageViewModel" x:DataType="twitterObjectsViewModel:EventMessageViewModel">
+                        <timeline:EventMessage ViewModel="{x:Bind}"/>
+                    </DataTemplate>
+                    <!--<DataTemplate x:Key="GViewModel">
                     <timeline:Gap DataContext="{Binding}"/>
                 </DataTemplate>-->
-            </common:DataTypeTemplateSelector>
-        </ItemsControl.ItemTemplateSelector>
-        <ItemsControl.ItemContainerStyle>
-            <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-        </ItemsControl.ItemContainerStyle>
-    </ListView>
+                </common:DataTypeTemplateSelector>
+            </ItemsControl.ItemTemplateSelector>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
+            </ItemsControl.ItemContainerStyle>
+        </ListView>
+    </Grid>
 </UserControl>

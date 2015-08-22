@@ -1,7 +1,7 @@
 ﻿{
   "dependencies": {
-    "CoreTweet": "0.5.2.200",
-    "CoreTweet.Streaming.Reactive": "0.5.1.191",
+    "CoreTweet": "0.5.3",
+    "CoreTweet.Streaming.Reactive": "0.5.3",
     "Microsoft.ApplicationInsights": "1.1.0",
     "Microsoft.ApplicationInsights.PersistenceChannel": "1.1.0",
     "Microsoft.ApplicationInsights.WindowsApps": "1.1.0",

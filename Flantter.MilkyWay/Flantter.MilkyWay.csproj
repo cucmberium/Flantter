@@ -141,16 +141,22 @@
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\ColumnViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\Service\Notice.cs" />
+    <Compile Include="ViewModels\Services\Notice.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EventMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\DirectMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />
+    <Compile Include="ViewModels\Twitter\Objects\ITweetViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
+    <Compile Include="Views\Behaviors\ListViewScrollControlBehavior.cs" />
     <Compile Include="Views\Behaviors\SymbolIconForegroundBrushSwitchBehavior.cs" />
-    <Compile Include="Views\Behaviors\StatusMentionAnimationBehavior.cs" />
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
-    <Compile Include="Views\Util\TitlebarSwitchAction.cs" />
-    <Compile Include="Views\Behaviors\TweetCommandAnimationBehavior.cs" />
+    <Compile Include="Views\Behaviors\TweetEventMessageBehavior.cs" />
+    <Compile Include="Views\Behaviors\TweetDirectMessageBehavior.cs" />
+    <Compile Include="Views\Behaviors\TweetStatusBehavior.cs" />
+    <Compile Include="Views\Contents\TweetArea.xaml.cs">
+      <DependentUpon>TweetArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Behaviors\TitlebarSwitchAction.cs" />
     <Compile Include="Views\Contents\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
     </Compile>
@@ -177,6 +183,7 @@
     </Compile>
     <Compile Include="Views\Controls\BindableMenuFlyout.cs" />
     <Compile Include="Views\Controls\ExtendedCanvas.cs" />
+    <Compile Include="Views\Controls\ExtendedTextBox.cs" />
     <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\DateTimeToStringConverter.cs" />
@@ -190,6 +197,8 @@
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Behaviors\TextBoxKeyTriggerBehavior.cs" />
+    <Compile Include="Views\Util\KeyTriggerBehavior.cs" />
     <Compile Include="Views\Util\ShowAttachedFlyoutAction.cs" />
     <Compile Include="Views\Util\WindowSizeHelper.cs" />
   </ItemGroup>
@@ -293,6 +302,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\Timeline\Status.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\TweetArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

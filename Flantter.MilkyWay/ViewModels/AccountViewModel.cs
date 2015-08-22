@@ -31,7 +31,7 @@ namespace Flantter.MilkyWay.ViewModels
 		public ReactiveProperty<double> MinSnapPoint { get; private set; }
 
         public ReactiveProperty<int> ColumnSelectedIndex { get; private set; }
-
+        
         #region Constructor
         /*public AccountViewModel()
         {
@@ -40,8 +40,8 @@ namespace Flantter.MilkyWay.ViewModels
         public AccountViewModel(AccountModel account)
         {
             this._AccountModel = account;
-            this.ProfileImageUrl = account.ObserveProperty(x => x.ProfileImageUrl).ToReactiveProperty();
-            this.ProfileBannerUrl = account.ObserveProperty(x => x.ProfileBannerUrl).ToReactiveProperty();
+            this.ProfileImageUrl = account.ObserveProperty(x => x.ProfileImageUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
+            this.ProfileBannerUrl = account.ObserveProperty(x => x.ProfileBannerUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
             this.IsEnabled = account.ObserveProperty(x => x.IsEnabled).ToReactiveProperty();
 
             this.Columns = this._AccountModel.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x));
@@ -90,7 +90,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             #region Command
 
-            Service.Notice.Instance.ShowUserProfileCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(_ =>
+            Services.Notice.Instance.ShowUserProfileCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(_ =>
             {
                 System.Diagnostics.Debug.WriteLine("UserProfile Showed!");
             });

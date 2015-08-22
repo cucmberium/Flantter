@@ -19,17 +19,29 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Urls = new List<UrlEntity>();
             this.UserMentions = new List<UserMentionEntity>();
 
-            foreach (var cHashTag in cEntities.HashTags)
-                this.HashTags.Add(new HashtagEntity(cHashTag));
+            if (cEntities == null)
+                return;
 
             foreach (var fMedia in mediaList)
                 this.Media.Add(new MediaEntity(fMedia));
 
-            foreach (var cUrl in cEntities.Urls)
-                this.Urls.Add(new UrlEntity(cUrl));
+            if (cEntities.HashTags != null)
+            {
+                foreach (var cHashTag in cEntities.HashTags)
+                    this.HashTags.Add(new HashtagEntity(cHashTag));
+            }
 
-            foreach (var cUserMention in cEntities.UserMentions)
-                this.UserMentions.Add(new UserMentionEntity(cUserMention));
+            if (cEntities.Urls != null)
+            {
+                foreach (var cUrl in cEntities.Urls)
+                    this.Urls.Add(new UrlEntity(cUrl));
+            }
+
+            if (cEntities.UserMentions != null)
+            {
+                foreach (var cUserMention in cEntities.UserMentions)
+                    this.UserMentions.Add(new UserMentionEntity(cUserMention));
+            }
 
             if (cEntities != null && cEntities.Media != null)
             {
@@ -52,14 +64,26 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Urls = new List<UrlEntity>();
             this.UserMentions = new List<UserMentionEntity>();
 
-            foreach (var cHashTag in cEntities.HashTags)
-                this.HashTags.Add(new HashtagEntity(cHashTag));
+            if (cEntities == null)
+                return;
 
-            foreach (var cUrl in cEntities.Urls)
-                this.Urls.Add(new UrlEntity(cUrl));
+            if (cEntities.HashTags != null)
+            {
+                foreach (var cHashTag in cEntities.HashTags)
+                    this.HashTags.Add(new HashtagEntity(cHashTag));
+            }
 
-            foreach (var cUserMention in cEntities.UserMentions)
-                this.UserMentions.Add(new UserMentionEntity(cUserMention));
+            if (cEntities.Urls != null)
+            {
+                foreach (var cUrl in cEntities.Urls)
+                    this.Urls.Add(new UrlEntity(cUrl));
+            }
+
+            if (cEntities.UserMentions != null)
+            {
+                foreach (var cUserMention in cEntities.UserMentions)
+                    this.UserMentions.Add(new UserMentionEntity(cUserMention));
+            }
 
             if (cEntities != null && cEntities.Media != null)
             {
@@ -163,7 +187,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
     {
         public UrlEntity(CoreTweet.UrlEntity cUrlEntity)
         {
-            this.Url = cUrlEntity.Url.AbsoluteUri;
+            this.Url = cUrlEntity.Url;
             this.DisplayUrl = cUrlEntity.DisplayUrl;
             this.ExpandedUrl = cUrlEntity.ExpandedUrl;
             this.Start = cUrlEntity.Indices.First();

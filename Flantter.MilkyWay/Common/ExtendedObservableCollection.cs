@@ -37,15 +37,18 @@ namespace Flantter.MilkyWay.Common
         public event NotifyCollectionChangedEventHandler CollectionChanged;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void FireCollectionChangedReset()
+        public void InvokeCollectionChanged(NotifyCollectionChangedAction action)
         {
             if (CollectionChanged == null)
                 return;
 
+            if (action != NotifyCollectionChangedAction.Reset)
+                throw new NotImplementedException();
+
             if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action));
             else
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset))).AsTask().Wait();
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CollectionChanged(this, new NotifyCollectionChangedEventArgs(action))).AsTask().Wait();
         }
 
         private void NotifyPropertyChanged(string propertyName)

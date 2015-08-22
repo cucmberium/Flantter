@@ -68,6 +68,8 @@ namespace Flantter.MilkyWay.Models.Services
         {
             // Todo : Transactionを使った軽量化
 
+            return;
+
             if (tweet.Type == TweetEventArgs.TypeEnum.Status)
             {
                 var sql = "insert into Data" + tweet.UserId.ToString() + " values(?,?,?,?,?);"; // string.Format(, "Status", tweet.Status.Id, tweet.Status.Text, tweet.Status.CreatedAt.DateTime.ToBinary(), string.Join(",", tweet.Parameter), JsonConvert.SerializeObject(tweet.Status));

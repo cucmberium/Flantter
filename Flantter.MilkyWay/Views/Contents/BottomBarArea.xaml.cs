@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flantter.MilkyWay.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -20,6 +21,14 @@ namespace Flantter.MilkyWay.Views.Contents
 {
     public sealed partial class BottomBarArea : UserControl
     {
+        public AccountViewModel ViewModel
+        {
+            get { return (AccountViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(AccountViewModel), typeof(BottomBarArea), null);
+
         public int SelectedIndex
         {
             get { return (int)GetValue(SelectedIndexProperty); }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Models
 {
@@ -103,7 +104,7 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region Initialize
-        public async void Initialize()
+        public void Initialize()
         {
             this.IsEnabled = this._AccountSetting.IsEnabled;
             this.IncludeFollowingsActivity = this._AccountSetting.IncludeFollowingsActivity;
@@ -116,7 +117,7 @@ namespace Flantter.MilkyWay.Models
 
             foreach (var columnModel in this._Columns)
             {
-                columnModel.Initialize();
+                Task.Run(async () => await columnModel.Initialize());
             }
 
             // Todo : ScreenNameの更新, 下部UserProfileImageの更新等

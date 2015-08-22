@@ -17,14 +17,14 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
             this.MediaThumbnailUrl = mediaEntity.MediaThumbnailUrl;
 
-            this.Notice = Service.Notice.Instance;
+            this.Notice = Services.Notice.Instance;
         }
 
         public MediaEntity Model { get; private set; }
 
         public string MediaThumbnailUrl { get; set; }
 
-        public Service.Notice Notice { get; set; }
+        public Services.Notice Notice { get; set; }
     }
 
     public class UrlEntityViewModel
@@ -36,7 +36,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.ExpandedUrl = urlEntity.ExpandedUrl;
             this.DisplayUrl = urlEntity.DisplayUrl;
 
-            this.Notice = Service.Notice.Instance;
+            this.Notice = Services.Notice.Instance;
         }
 
         public UrlEntity Model { get; private set; }
@@ -45,6 +45,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public string DisplayUrl { get; set; }
 
-        public Service.Notice Notice { get; set; }
+        public Services.Notice Notice { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.CreatedAt = cDirectMessage.CreatedAt.DateTime;
             this.Entities = new Entities(cDirectMessage.Entities);
             this.Id = cDirectMessage.Id;
+            this.Text = cDirectMessage.Text;
             this.Recipient = new User(cDirectMessage.Recipient);
             this.Sender = new User(cDirectMessage.Sender);
         }

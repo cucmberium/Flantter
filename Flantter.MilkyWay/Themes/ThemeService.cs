@@ -122,6 +122,51 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["ScrollBarTrackRectStrokeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ScrollBarTrackRectStrokeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ScrollBarPanningThumbBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ScrollBarPanningThumbBackgroundBrush"]).Color;
 
+                ((SolidColorBrush)Application.Current.Resources["TextBoxForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxSelectionHighlightBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxSelectionHighlightBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxButtonBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxButtonBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxButtonBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxButtonBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxGlyphElementPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxGlyphElementPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxButtonLayoutGridPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxButtonLayoutGridPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxGlyphElementPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxGlyphElementPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxGlyphElementForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxGlyphElementForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxHeaderContentPresenterDisabledForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxHeaderContentPresenterDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBackgroundElementDisabledBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxBackgroundElementDisabledBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBorderElementDisabledBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxBorderElementDisabledBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBorderElementDisabledBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxBorderElementDisabledBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxContentElementDisabledForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxContentElementDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxPlaceholderTextContentPresenterDisabledForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxPlaceholderTextContentPresenterDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBorderElementPointerOverBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxBorderElementPointerOverBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxPlaceholderTextContentPresenterFocusedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxPlaceholderTextContentPresenterFocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBackgroundElementFocusedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxBackgroundElementFocusedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBorderElementFocusedBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxBorderElementFocusedBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxContentElementFocusedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxContentElementFocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxHeaderContentPresenterForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TextBoxHeaderContentPresenterForegroundBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["ButtonBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterPointerOverBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonContentPresenterPointerOverBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonContentPresenterPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonRootGridPressedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonRootGridPressedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterPressedBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonContentPresenterPressedBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonContentPresenterPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonRootGridDisabledBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonRootGridDisabledBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterDisabledForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonContentPresenterDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterDisabledBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonContentPresenterDisabledBorderBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemDisabledForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemDisabledForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemPointerOverBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemPointerOverBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemPointerOverForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemPointerOverForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemPressedForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemPressedForegroundThemeBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["AppBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarBorderBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["PageBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PageBackgroundBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarBackgroundBrush"]).Color;
@@ -131,7 +176,8 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarButtonInactiveBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarButtonInactiveForegroundBrush"]).Color;
 
-                ((SolidColorBrush)Application.Current.Resources["BottomAppBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomAppBarBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarBorderBrush"]).Color;
 
 				((SolidColorBrush)Application.Current.Resources["BottomBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarBackgroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarTextblockButtonSelectedBrush"]).Color;
@@ -236,6 +282,51 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["ScrollBarTrackRectStrokeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ScrollBarTrackRectStrokeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ScrollBarPanningThumbBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ScrollBarPanningThumbBackgroundBrush"]).Color;
 
+                ((SolidColorBrush)Application.Current.Resources["TextBoxForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxSelectionHighlightBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxSelectionHighlightBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxButtonBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxButtonBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxButtonBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxButtonBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxGlyphElementPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxGlyphElementPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxButtonLayoutGridPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxButtonLayoutGridPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxGlyphElementPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxGlyphElementPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxGlyphElementForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxGlyphElementForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxHeaderContentPresenterDisabledForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxHeaderContentPresenterDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBackgroundElementDisabledBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxBackgroundElementDisabledBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBorderElementDisabledBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxBorderElementDisabledBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBorderElementDisabledBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxBorderElementDisabledBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxContentElementDisabledForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxContentElementDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxPlaceholderTextContentPresenterDisabledForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxPlaceholderTextContentPresenterDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBorderElementPointerOverBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxBorderElementPointerOverBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxPlaceholderTextContentPresenterFocusedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxPlaceholderTextContentPresenterFocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBackgroundElementFocusedBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxBackgroundElementFocusedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxBorderElementFocusedBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxBorderElementFocusedBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxContentElementFocusedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxContentElementFocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["TextBoxHeaderContentPresenterForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TextBoxHeaderContentPresenterForegroundBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["ButtonBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterPointerOverBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonContentPresenterPointerOverBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonContentPresenterPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonRootGridPressedBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonRootGridPressedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterPressedBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonContentPresenterPressedBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonContentPresenterPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonRootGridDisabledBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonRootGridDisabledBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterDisabledForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonContentPresenterDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterDisabledBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonContentPresenterDisabledBorderBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemDisabledForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemDisabledForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemPointerOverBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemPointerOverBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemPointerOverForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemPointerOverForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemPressedForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemPressedForegroundThemeBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["AppBarBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarBorderBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["PageBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PageBackgroundBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TitleBarBackgroundBrush"]).Color;
@@ -244,8 +335,6 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TitleBarButtonForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TitleBarButtonInactiveBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TitleBarButtonInactiveForegroundBrush"]).Color;
-
-                ((SolidColorBrush)Application.Current.Resources["BottomAppBarBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["BottomAppBarBackgroundBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["BottomBarBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["BottomBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["BottomBarTextblockButtonSelectedBrush"]).Color;

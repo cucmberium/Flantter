@@ -6,6 +6,7 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -19,6 +20,7 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; private set; }
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
+        public ReactiveProperty<bool> AppBarIsOpen { get; private set; }
 
         #region Constructor
         public MainPageViewModel()
@@ -28,6 +30,21 @@ namespace Flantter.MilkyWay.ViewModels
 
             // 設定によってTitlebarの表示を変える
             this.TitleBarVisivility = SettingService.Setting.ObserveProperty(x => x.TitleBarVisibility).ToReactiveProperty();
+
+            this.AppBarIsOpen = new ReactiveProperty<bool>(false);
+
+            #region Command
+
+            Services.Notice.Instance.TweetCommand.Subscribe(x => 
+            {
+                var accountViewModel = x as AccountViewModel;
+                if (accountViewModel == null)
+                    return;
+
+                this.AppBarIsOpen.Value = true;
+            });
+
+            #endregion
         }
         #endregion
 
@@ -42,7 +59,7 @@ namespace Flantter.MilkyWay.ViewModels
         {
             base.OnNavigatedTo(navigationParameter, navigationMode, viewModelState);
 
-            this._MainPageModel.Initialize();
+            Task.Run(() => this._MainPageModel.Initialize());
         }
         #endregion
     }

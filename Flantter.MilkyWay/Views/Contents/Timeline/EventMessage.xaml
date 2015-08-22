@@ -43,7 +43,8 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <Grid x:Name="TweetGrid" Background="{x:Bind ViewModel.BackgroundBrush, Mode=OneWay, Converter={StaticResource StringToTweetBackgroundBrushConverter}}" RenderTransformOrigin="0.5,0.5">
+    <Grid x:Name="TweetGrid" Background="{x:Bind ViewModel.BackgroundBrush, Mode=OneWay, Converter={StaticResource StringToTweetBackgroundBrushConverter}}" RenderTransformOrigin="0.5,0.5"
+          behaviors:TweetEventMessageBehavior.IsSelected="{Binding ElementName=EventMessageUserControl,Path=IsSelected}" behaviors:TweetEventMessageBehavior.TargetStatusVisibility="{x:Bind ViewModel.TargetStatusVisibility, Mode=OneWay}">
         <Grid.RenderTransform>
             <CompositeTransform/>
         </Grid.RenderTransform>
@@ -64,7 +65,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="1" BorderThickness="0" Height="{Binding Source={StaticResource Setting},Path=Setting.IconSize,Converter={StaticResource EnumToIntConverter}}" Width="{Binding RelativeSource={RelativeSource Self},Path=Height}" Margin="0,0,0,0" CornerRadius="4">
+            <Border Grid.Column="1" Height="{Binding Source={StaticResource Setting},Path=Setting.IconSize,Converter={StaticResource EnumToIntConverter}}" Width="{Binding RelativeSource={RelativeSource Self},Path=Height}" CornerRadius="4">
                 <Border.Background>
                     <ImageBrush ImageSource="{x:Bind ViewModel.ProfileImageUrl, Mode=OneWay}" />
                 </Border.Background>
@@ -76,7 +77,7 @@
                 </i:Interaction.Behaviors>
             </Border>
 
-            <StackPanel Grid.Column="3" x:Name="EventMessageBox" Orientation="Vertical">
+            <StackPanel Grid.Column="3" x:Name="EventMessageBox">
                 <TextBlock>
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
@@ -87,7 +88,7 @@
             </StackPanel>
         </Grid>
 
-        <Border Grid.Row="2" x:Name="TargetStatusBorder" Margin="30,4,12,0" Visibility="{x:Bind ViewModel.TargetStatusVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Background="{StaticResource TweetTargetStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">
+        <Border x:DeferLoadStrategy="Lazy" Grid.Row="2" x:Name="TargetStatusBorder" Margin="30,4,12,0" Visibility="Collapsed" Background="{StaticResource TweetTargetStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">
 
             <i:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="Tapped">
@@ -102,12 +103,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" BorderThickness="0" Height="28" Width="28" Margin="0,0,0,0" CornerRadius="4" HorizontalAlignment="Right">
+                <Border Grid.Column="0" Height="28" Width="28" CornerRadius="4" HorizontalAlignment="Right" VerticalAlignment="Top">
                     <Border.Background>
                         <ImageBrush ImageSource="{x:Bind ViewModel.TargetStatusProfileImageUrl, Mode=OneWay}" />
                     </Border.Background>
                 </Border>
-                <StackPanel Grid.Column="2" x:Name="TargetStatusBox" Orientation="Vertical">
+                <StackPanel Grid.Column="2" x:Name="TargetStatusBox">
                     <TextBlock>
                         <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.TargetStatusName, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.TargetStatusScreenName, Mode=OneWay}"/>
                     </TextBlock>
@@ -117,7 +118,7 @@
 
         </Border>
 
-        <Grid Grid.Row="3" x:Name="CommandGrid" Height="0" Visibility="Collapsed" HorizontalAlignment="Right" Margin="0,0,12,0" behaviors:TweetCommandAnimationBehavior.IsSelected="{Binding ElementName=DirectMessageUserControl, Path=IsSelected}">
+        <Grid x:DeferLoadStrategy="Lazy" Grid.Row="3" x:Name="CommandGrid" Height="0" Visibility="Collapsed" HorizontalAlignment="Right" Margin="0,0,12,0">
 
             <Grid.Resources>
                 <Storyboard x:Name="TweetCommandBarOpenAnimation">
@@ -150,7 +151,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             
-            <Button Grid.Column="0" x:Uid="TweetField_TweetList_TweetCommand_OtherCommandButton" ToolTipService.ToolTip="Menu" BorderBrush="{x:Null}" Background="{x:Null}" Margin="0,0" Padding="15,6" VerticalAlignment="Stretch">
+            <Button Grid.Column="0" x:Uid="TweetField_TweetList_TweetCommand_OtherCommandButton" ToolTipService.ToolTip="Menu" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="Add" />
                 <Button.Flyout>
                     <MenuFlyout>

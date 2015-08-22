@@ -1,4 +1,5 @@
-﻿using Flantter.MilkyWay.Models;
+﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
@@ -7,6 +8,7 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Reactive.Linq;
 using System.Text;
 using Windows.Graphics.Display;
@@ -33,12 +35,19 @@ namespace Flantter.MilkyWay.ViewModels
 		public ReactiveProperty<bool> EnableCreateFilterColumn { get; private set; }
 		public ReactiveProperty<Symbol> StreamingSymbol { get; private set; }
         public ReactiveProperty<bool> IsEnabledStreaming { get; private set; }
+        public ReactiveProperty<bool> Updating { get; private set; }
 
-		public ReadOnlyReactiveCollection<object> Tweets { get; private set; }
+        public ExtendedObservableCollection<object> Tweets { get; private set; }
 
         public ReactiveProperty<int> Index { get; private set; }
 
         public ReactiveProperty<int> SelectedIndex { get; private set; }
+
+        public ReactiveProperty<int> UnreadCount { get; private set; }
+        public ReactiveProperty<bool> UnreadCountIncrementalTrigger { get; private set; }
+        public ReactiveProperty<bool> IsScrollControlEnabled { get; private set; }
+        public ReactiveProperty<bool> IsScrollLockEnabled { get; private set; }
+        public ReactiveProperty<bool> IsScrollLockToTopEnabled { get; private set; }
 
         public ReactiveCommand StreamingCommand { get; private set; }
 
@@ -97,8 +106,15 @@ namespace Flantter.MilkyWay.ViewModels
                         return false;
                 }
             }).ToReactiveProperty();
+            this.Updating = column.ObserveProperty(x => x.Updating).ToReactiveProperty();
 
             this.SelectedIndex = column.ToReactivePropertyAsSynchronized(x => x.SelectedIndex);
+
+            this.UnreadCount = column.ToReactivePropertyAsSynchronized(x => x.UnreadCount);
+            this.UnreadCountIncrementalTrigger = column.ToReactivePropertyAsSynchronized(x => x.UnreadCountIncrementalTrigger);
+            this.IsScrollControlEnabled = column.ToReactivePropertyAsSynchronized(x => x.IsScrollControlEnabled);
+            this.IsScrollLockEnabled = column.ToReactivePropertyAsSynchronized(x => x.IsScrollLockEnabled);
+            this.IsScrollLockToTopEnabled = column.ToReactivePropertyAsSynchronized(x => x.IsScrollLockToTopEnabled);
 
             this.StreamingCommand = column.ObserveProperty(x => x.Action).Select(x =>
             {
@@ -164,16 +180,67 @@ namespace Flantter.MilkyWay.ViewModels
                         return 5.0 + index * (columnWidth + 10.0) + 352.0;
                 }).ToReactiveProperty();
 
-            this.Tweets = this._ColumnModel.ReadOnlyTweets.ToReadOnlyReactiveCollection(x => 
+            this.Tweets = new ExtendedObservableCollection<object>();
+            Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+                h => (sender, e) => h(e),
+                h => this._ColumnModel.Tweets.CollectionChanged += h,
+                h => this._ColumnModel.Tweets.CollectionChanged -= h).Subscribe(x => 
+                {
+                    var e = x as NotifyCollectionChangedEventArgs;
+
+                    if (e.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        if (e.NewItems.Count > 1)
+                            throw new NotImplementedException();
+
+                        var item = e.NewItems[0];
+
+                        if (item is Status)
+                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel));
+                        else if (item is DirectMessage)
+                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel));
+                        else if (item is EventMessage)
+                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel));
+                    }
+                    else if (e.Action == NotifyCollectionChangedAction.Remove)
+                    {
+                        if (e.OldItems.Count > 1)
+                            throw new NotImplementedException();
+
+                        var item = this.Tweets[e.OldStartingIndex] as IDisposable;
+                        if (item != null)
+                            item.Dispose();
+
+                        this.Tweets.RemoveAt(e.OldStartingIndex);
+                    }
+                    else if (e.Action == NotifyCollectionChangedAction.Replace)
+                    {
+                        if (e.OldItems.Count > 1 || e.NewItems.Count > 1)
+                            throw new NotImplementedException();
+
+                        var olditem = this.Tweets[e.OldStartingIndex] as IDisposable;
+                        if (olditem != null)
+                            olditem.Dispose();
+
+                        var item = e.NewItems[0];
+                        if (item is Status)
+                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel));
+                        else if (item is DirectMessage)
+                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel));
+                        else if (item is EventMessage)
+                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel));
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                });
+
+            this._ColumnModel.ObserveProperty(x => x.DisableNotifyCollectionChanged).Subscribe<bool>(x => 
             {
-                if (x is Status)
-                    return (object)(new StatusViewModel((Status)x, this._ColumnModel));
-                else if (x is DirectMessage)
-                    return (object)(new DirectMessageViewModel((DirectMessage)x, this._ColumnModel));
-                else if (x is EventMessage)
-                    return new EventMessageViewModel((EventMessage)x, this._ColumnModel);
-                
-                return null;
+                this.Tweets.DisableNotifyCollectionChanged = x;
+                if (!x)
+                    this.Tweets.InvokeCollectionChanged(NotifyCollectionChangedAction.Reset);
             });
         }
         #endregion

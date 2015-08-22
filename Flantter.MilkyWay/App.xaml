@@ -6,6 +6,7 @@
     xmlns:local="using:Flantter.MilkyWay"
     xmlns:converters="using:Flantter.MilkyWay.Views.Converters"
     xmlns:setting="using:Flantter.MilkyWay.Setting"
+    xmlns:notice="using:Flantter.MilkyWay.ViewModels.Services"
     RequestedTheme="Dark">
     <mvvm:MvvmAppBaseUniversal.Resources>
         <ResourceDictionary>
@@ -23,6 +24,7 @@
             
             <setting:SettingProvider x:Key="Setting"/>
             <setting:AdvancedSettingProvider x:Key="AdvancedSetting"/>
+            <notice:NoticeProvider x:Key="Notice"/>
         </ResourceDictionary>
     </mvvm:MvvmAppBaseUniversal.Resources>
 </mvvm:MvvmAppBaseUniversal>

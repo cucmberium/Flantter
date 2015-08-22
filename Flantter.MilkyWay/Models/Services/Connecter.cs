@@ -138,11 +138,17 @@ namespace Flantter.MilkyWay.Models.Services
 
             public long UserId { get; set; }
 
+            public AsyncLock NoRetweetIdsAsyncLock { get; set; }
+            public List<long> NoRetweetIds { get; set; }
+
             private IDisposable tweetReceiveDisposableObject = null;
             private IDisposable tweetDeleteDisposableObject = null;
             public TweetCollecterService(long userId)
             {
                 this.UserId = userId;
+
+                this.NoRetweetIds = new List<long>();
+                this.NoRetweetIdsAsyncLock = new AsyncLock();
                 
                 tweetDeleteDisposableObject = Observable.FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                     h => (sender, e) => h(e),

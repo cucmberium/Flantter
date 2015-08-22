@@ -392,9 +392,9 @@ namespace Flantter.MilkyWay.Models.Twitter
                 {
                     yield return new Media()
                     {
-                        MediaThumbnailUrl = media.MediaUrl.AbsoluteUri + ":thumb",
-                        MediaUrl = media.MediaUrl.AbsoluteUri + ":orig",
-                        ExpandedUrl = media.Url.AbsoluteUri,
+                        MediaThumbnailUrl = media.MediaUrl + ":thumb",
+                        MediaUrl = media.MediaUrl + ":orig",
+                        ExpandedUrl = media.Url,
                         DisplayUrl = media.DisplayUrl,
                         Type = "Image",
                     };
@@ -409,21 +409,21 @@ namespace Flantter.MilkyWay.Models.Twitter
                     {
                         yield return new Media()
                         {
-                            MediaThumbnailUrl = media.MediaUrl.AbsoluteUri + ":thumb",
-                            MediaUrl = media.MediaUrl.AbsoluteUri + ":orig",
-                            ExpandedUrl = media.Url.AbsoluteUri,
+                            MediaThumbnailUrl = media.MediaUrl + ":thumb",
+                            MediaUrl = media.MediaUrl + ":orig",
+                            ExpandedUrl = media.Url,
                             DisplayUrl = media.DisplayUrl,
                             Type = "Video",
-                            VideoInfo = new VideoInfo() { VideoId = media.VideoInfo.Variants.Last().Url.AbsoluteUri, VideoType = "NicoVideo", Size = new VideoInfo.MediaSize { Width = media.Sizes.Large.Width, Height = media.Sizes.Large.Height } }
+                            VideoInfo = new VideoInfo() { VideoId = media.VideoInfo.Variants.Last().Url, VideoType = "NicoVideo", Size = new VideoInfo.MediaSize { Width = media.Sizes.Large.Width, Height = media.Sizes.Large.Height } }
                         };
                     }
                     else
                     {
                         yield return new Media()
                         {
-                            MediaThumbnailUrl = media.MediaUrl.AbsoluteUri + ":thumb",
-                            MediaUrl = media.MediaUrl.AbsoluteUri + ":orig",
-                            ExpandedUrl = media.Url.AbsoluteUri,
+                            MediaThumbnailUrl = media.MediaUrl + ":thumb",
+                            MediaUrl = media.MediaUrl + ":orig",
+                            ExpandedUrl = media.Url,
                             DisplayUrl = media.DisplayUrl,
                             Type = "Images",
                         };

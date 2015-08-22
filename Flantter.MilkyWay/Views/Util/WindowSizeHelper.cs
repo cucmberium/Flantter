@@ -95,16 +95,6 @@ namespace Flantter.MilkyWay.Views.Util
                         this.ClientHeight = Window.Current.Bounds.Height;
                     }
                 });
-            /*Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
-                    h => (sender, e) => h(e),
-                    h => Window.Current.SizeChanged += h,
-                    h => Window.Current.SizeChanged -= h).Subscribe(x =>
-                    {
-                        this.WindowWidth = Window.Current.Bounds.Width;
-                        this.WindowHeight = Window.Current.Bounds.Height;
-                        this.ClientWidth = Window.Current.Bounds.Width;
-                        this.ClientHeight = Window.Current.Bounds.Height;
-                    });*/
         }
 
         private double _ClientWidth;

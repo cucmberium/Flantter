@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Views.Controls;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -22,6 +23,14 @@ namespace Flantter.MilkyWay.Views.Contents
 {
     public sealed partial class ColumnArea : UserControl
     {
+        public AccountViewModel ViewModel
+        {
+            get { return (AccountViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(AccountViewModel), typeof(ColumnArea), null);
+
         public int SelectedIndex
         {
             get { return (int)GetValue(SelectedIndexProperty); }
@@ -122,7 +131,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
             var extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
             var snapPointsList = extendedCanvas.GetIrregularSnapPoints(Orientation.Horizontal, SnapPointsAlignment.Near);
-            var selectedIndex = this.SelectedIndex;
+            // Todo : 禁忌 (Taboo)
+            var selectedIndex = this.ViewModel.Columns[this.SelectedIndex].Index.Value;
 
 
             if (selectedIndex < 0 || snapPointsList.Count == 0)

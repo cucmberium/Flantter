@@ -24,16 +24,22 @@
 
     <i:Interaction.Behaviors>
         <core:DataTriggerBehavior Binding="{Binding TitleBarVisivility.Value}" Value="True" >
-            <util:TitleBarSwitchAction TitleBarVisibility="True"/>
+            <behaviors:TitleBarSwitchAction TitleBarVisibility="True"/>
         </core:DataTriggerBehavior>
         <core:DataTriggerBehavior Binding="{Binding TitleBarVisivility.Value}" Value="False">
-            <util:TitleBarSwitchAction TitleBarVisibility="False"/>
+            <behaviors:TitleBarSwitchAction TitleBarVisibility="False"/>
         </core:DataTriggerBehavior>
         <core:EventTriggerBehavior EventName="Loaded">
-            <util:TitleBarSwitchAction TitleBarVisibility="{Binding TitleBarVisivility.Value}"/>
+            <behaviors:TitleBarSwitchAction TitleBarVisibility="{Binding TitleBarVisivility.Value}"/>
         </core:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
+    <Page.BottomAppBar>
+        <AppBar IsOpen="{Binding AppBarIsOpen.Value, Mode=TwoWay}" ClosedDisplayMode="Hidden" IsSticky="False">
+            <contents:TweetArea DataContext="{Binding}" />
+        </AppBar>
+    </Page.BottomAppBar>
+    
     <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}">
 
         <Grid.RowDefinitions>
@@ -53,7 +59,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <contents:MainArea Visibility="{Binding IsEnabled.Value,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <contents:MainArea ViewModel="{Binding}" Visibility="{Binding IsEnabled.Value,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <Style TargetType="ContentPresenter">

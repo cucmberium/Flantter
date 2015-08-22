@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flantter.MilkyWay.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,14 @@ namespace Flantter.MilkyWay.Views.Contents
 {
     public sealed partial class MainArea : UserControl
     {
+        public AccountViewModel ViewModel
+        {
+            get { return (AccountViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(AccountViewModel), typeof(MainArea), null);
+
         public MainArea()
         {
             this.InitializeComponent();

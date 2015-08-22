@@ -3,7 +3,7 @@
   "version": 1,
   "targets": {
     "UAP,Version=v10.0": {
-      "CoreTweet/0.5.2.200": {
+      "CoreTweet/0.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -14,9 +14,9 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "CoreTweet.Streaming.Reactive/0.5.1.191": {
+      "CoreTweet.Streaming.Reactive/0.5.3": {
         "dependencies": {
-          "CoreTweet": "[0.5.1, )",
+          "CoreTweet": "[0.5.3, )",
           "Rx-Core": "[2.2.5, )",
           "Rx-Interfaces": "[2.2.5, )",
           "Rx-Linq": "[2.2.5, )"
@@ -1711,7 +1711,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
-      "CoreTweet/0.5.2.200": {
+      "CoreTweet/0.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -1722,9 +1722,9 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "CoreTweet.Streaming.Reactive/0.5.1.191": {
+      "CoreTweet.Streaming.Reactive/0.5.3": {
         "dependencies": {
-          "CoreTweet": "[0.5.1, )",
+          "CoreTweet": "[0.5.3, )",
           "Rx-Core": "[2.2.5, )",
           "Rx-Interfaces": "[2.2.5, )",
           "Rx-Linq": "[2.2.5, )"
@@ -3509,7 +3509,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
-      "CoreTweet/0.5.2.200": {
+      "CoreTweet/0.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -3520,9 +3520,9 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "CoreTweet.Streaming.Reactive/0.5.1.191": {
+      "CoreTweet.Streaming.Reactive/0.5.3": {
         "dependencies": {
-          "CoreTweet": "[0.5.1, )",
+          "CoreTweet": "[0.5.3, )",
           "Rx-Core": "[2.2.5, )",
           "Rx-Interfaces": "[2.2.5, )",
           "Rx-Linq": "[2.2.5, )"
@@ -5279,7 +5279,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
-      "CoreTweet/0.5.2.200": {
+      "CoreTweet/0.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -5290,9 +5290,9 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "CoreTweet.Streaming.Reactive/0.5.1.191": {
+      "CoreTweet.Streaming.Reactive/0.5.3": {
         "dependencies": {
-          "CoreTweet": "[0.5.1, )",
+          "CoreTweet": "[0.5.3, )",
           "Rx-Core": "[2.2.5, )",
           "Rx-Interfaces": "[2.2.5, )",
           "Rx-Linq": "[2.2.5, )"
@@ -7082,7 +7082,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
-      "CoreTweet/0.5.2.200": {
+      "CoreTweet/0.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -7093,9 +7093,9 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "CoreTweet.Streaming.Reactive/0.5.1.191": {
+      "CoreTweet.Streaming.Reactive/0.5.3": {
         "dependencies": {
-          "CoreTweet": "[0.5.1, )",
+          "CoreTweet": "[0.5.3, )",
           "Rx-Core": "[2.2.5, )",
           "Rx-Interfaces": "[2.2.5, )",
           "Rx-Linq": "[2.2.5, )"
@@ -8852,7 +8852,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
-      "CoreTweet/0.5.2.200": {
+      "CoreTweet/0.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -8863,9 +8863,9 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "CoreTweet.Streaming.Reactive/0.5.1.191": {
+      "CoreTweet.Streaming.Reactive/0.5.3": {
         "dependencies": {
-          "CoreTweet": "[0.5.1, )",
+          "CoreTweet": "[0.5.3, )",
           "Rx-Core": "[2.2.5, )",
           "Rx-Interfaces": "[2.2.5, )",
           "Rx-Linq": "[2.2.5, )"
@@ -10655,7 +10655,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
-      "CoreTweet/0.5.2.200": {
+      "CoreTweet/0.5.3": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -10666,9 +10666,9 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "CoreTweet.Streaming.Reactive/0.5.1.191": {
+      "CoreTweet.Streaming.Reactive/0.5.3": {
         "dependencies": {
-          "CoreTweet": "[0.5.1, )",
+          "CoreTweet": "[0.5.3, )",
           "Rx-Core": "[2.2.5, )",
           "Rx-Interfaces": "[2.2.5, )",
           "Rx-Linq": "[2.2.5, )"
@@ -12426,8 +12426,8 @@
     }
   },
   "libraries": {
-    "CoreTweet/0.5.2.200": {
-      "sha512": "zFKctqKD0aXhNp+mUCuvgwGMPFk5Rhc1jj07Ieg11yiMLbZVliYc8ysqy9KvfjRpXmiiK37wAVSO6s+goYeWJg==",
+    "CoreTweet/0.5.3": {
+      "sha512": "DwMKGYdsW2CZFsW0HFtmpOWwO4wjgHhgFJLSUcmswzt9wLWG3gSBqYTbASGM2rHTskeeE0SYXtXn7eKK9Gd/bA==",
       "type": "Package",
       "files": [
         "_rels/.rels",
@@ -12446,12 +12446,12 @@
         "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.xml",
         "lib/portable-win81+wpa81/CoreTweet.dll",
         "lib/portable-win81+wpa81/CoreTweet.xml",
-        "package/services/metadata/core-properties/2a12215b20b84ab8bac23398ed838d65.psmdcp",
+        "package/services/metadata/core-properties/4ac2517680094db88afd8f7b1b66e3c3.psmdcp",
         "[Content_Types].xml"
       ]
     },
-    "CoreTweet.Streaming.Reactive/0.5.1.191": {
-      "sha512": "MO9V0+3Kqno/PZHKOkWHZy+n9ZD4QEUU1juzy9qqdpqGYOeF+2C7R9MDaoXcnSrL13yz0IfZEy6b1Cs6N9T6og==",
+    "CoreTweet.Streaming.Reactive/0.5.3": {
+      "sha512": "pRAD0guvBnxBR4KQ8EGFlrUMwBW6Br6c6rV8G7jrOjoznyZ8cSjYylARsJsggbs6d1nmtRafEH/IbWCCmfKObA==",
       "type": "Package",
       "files": [
         "_rels/.rels",
@@ -12460,7 +12460,7 @@
         "lib/net40/CoreTweet.Streaming.Reactive.xml",
         "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.dll",
         "lib/portable-net4+sl5+wp8+win8+wpa81+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.Streaming.Reactive.xml",
-        "package/services/metadata/core-properties/f4d80e887b5a4680a79fa4704f17e1b4.psmdcp",
+        "package/services/metadata/core-properties/c69b0861801940f0b73ce35cada21cee.psmdcp",
         "[Content_Types].xml"
       ]
     },
@@ -16212,8 +16212,8 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "CoreTweet >= 0.5.2.200",
-      "CoreTweet.Streaming.Reactive >= 0.5.1.191",
+      "CoreTweet >= 0.5.3",
+      "CoreTweet.Streaming.Reactive >= 0.5.3",
       "Microsoft.ApplicationInsights >= 1.1.0",
       "Microsoft.ApplicationInsights.PersistenceChannel >= 1.1.0",
       "Microsoft.ApplicationInsights.WindowsApps >= 1.1.0",

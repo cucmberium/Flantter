@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Flantter.MilkyWay.ViewModels.Service
+namespace Flantter.MilkyWay.ViewModels.Services
 {
     public class Notice
     {
         private static Notice _Instance = new Notice();
         private Notice()
         {
+            this.TweetCommand = new ReactiveCommand();
             this.ShowUserProfileCommand = new ReactiveCommand();
             this.ShowMediaCommand = new ReactiveCommand();
             this.ShowStatusDetailCommand = new ReactiveCommand();
@@ -38,6 +39,7 @@ namespace Flantter.MilkyWay.ViewModels.Service
             get { return _Instance; }
         }
 
+        public ReactiveCommand TweetCommand { get; private set; }
         public ReactiveCommand ShowUserProfileCommand { get; private set; }
         public ReactiveCommand ShowMediaCommand { get; private set; }
         public ReactiveCommand ShowStatusDetailCommand { get; private set; }
@@ -57,5 +59,10 @@ namespace Flantter.MilkyWay.ViewModels.Service
         public ReactiveCommand MuteClientCommand { get; private set; }
         public ReactiveCommand DeleteTweetCommand { get; private set; }
         public ReactiveCommand DeleteRetweetCommand { get; private set; }
+    }
+
+    public class NoticeProvider
+    {
+        public Notice Notice { get { return Notice.Instance; } }
     }
 }

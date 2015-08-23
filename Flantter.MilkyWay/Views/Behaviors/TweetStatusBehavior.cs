@@ -110,11 +110,30 @@ namespace Flantter.MilkyWay.Views.Behaviors
         }
         #endregion
 
-        #region QuotedStatus 関連
-        public static bool GetQuotedStatusVisibility(DependencyObject obj) { return (bool)obj.GetValue(GetQuotedStatusVisibilityProperty); }
-        public static void SetQuotedStatusVisibility(DependencyObject obj, bool value) { obj.SetValue(GetQuotedStatusVisibilityProperty, value); }
+        #region Media 関連
+        public static bool GetMediaVisibility(DependencyObject obj) { return (bool)obj.GetValue(MediaVisibilityProperty); }
+        public static void SetMediaVisibility(DependencyObject obj, bool value) { obj.SetValue(MediaVisibilityProperty, value); }
 
-        public static readonly DependencyProperty GetQuotedStatusVisibilityProperty =
+        public static readonly DependencyProperty MediaVisibilityProperty =
+            DependencyProperty.Register("MediaVisibility", typeof(bool), typeof(TweetStatusBehavior), new PropertyMetadata(false, MediaVisibility_PropertyChanged));
+
+        private static void MediaVisibility_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var status = obj as Grid;
+            var itemsControl = status.FindName("MediaItemsControl") as ItemsControl;
+
+            if (GetMediaVisibility(obj))
+                itemsControl.Visibility = Visibility.Visible;
+            else
+                itemsControl.Visibility = Visibility.Collapsed;
+        }
+        #endregion
+
+        #region QuotedStatus 関連
+        public static bool GetQuotedStatusVisibility(DependencyObject obj) { return (bool)obj.GetValue(QuotedStatusVisibilityProperty); }
+        public static void SetQuotedStatusVisibility(DependencyObject obj, bool value) { obj.SetValue(QuotedStatusVisibilityProperty, value); }
+
+        public static readonly DependencyProperty QuotedStatusVisibilityProperty =
             DependencyProperty.Register("QuotedStatusVisibility", typeof(bool), typeof(TweetStatusBehavior), new PropertyMetadata(false, QuotedStatus_PropertyChanged));
 
         private static void QuotedStatus_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

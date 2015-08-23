@@ -67,8 +67,6 @@ namespace Flantter.MilkyWay.Setting
 
             var jTokens = JToken.Parse(json);
 
-            Dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-
             this.Dict = new Dictionary<string, object>();
             foreach (JProperty jProperty in jTokens)
             {

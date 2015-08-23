@@ -7,6 +7,7 @@ using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Microsoft.Practices.Prism.Mvvm;
+using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -65,8 +66,26 @@ namespace Flantter.MilkyWay.Models
         private string _Filter;
         public string Filter
         {
-            get { return this._Filter; }
-            set { this.SetProperty(ref this._Filter, value); }
+            get
+            {
+                return this._Filter;
+            }
+            set
+            {
+                if (this._Filter != value)
+                {
+                    this._Filter = value;
+                    this.OnPropertyChanged("Filter");
+
+                    try
+                    {
+                        this.FilterDelegate = Models.Filter.Compiler.Compile(this._Filter);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
         }
         #endregion
 
@@ -289,8 +308,18 @@ namespace Flantter.MilkyWay.Models
                     {
                     }
                 });
-            
 
+            SettingService.Setting.ObserveProperty(x => x.MuteFilter).Subscribe(x => 
+            {
+                try
+                {
+                    this.MuteFilterDelegate = Models.Filter.Compiler.Compile(x);
+                }
+                catch
+                {
+                    this.MuteFilterDelegate = null;
+                }
+            });
 
             this.Action = this._ColumnSetting.Action;
             this.AutoRefresh = this._ColumnSetting.AutoRefresh;
@@ -591,8 +620,8 @@ namespace Flantter.MilkyWay.Models
                 if (sinceid != 0)
                     param.Add("since_id", sinceid);
 
-                var receivedDirectMessages = await Task.Run(() => this._Tokens.DirectMessages.ReceivedAsync(param));
-                var sentDirectMessages = await Task.Run(() => this._Tokens.DirectMessages.SentAsync(param));
+                var receivedDirectMessages = await this._Tokens.DirectMessages.ReceivedAsync(param);
+                var sentDirectMessages = await this._Tokens.DirectMessages.SentAsync(param);
                 var directMessages = receivedDirectMessages.Concat(sentDirectMessages).OrderByDescending(x => x.Id);
 
                 foreach (var directMessage in directMessages)

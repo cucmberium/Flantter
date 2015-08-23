@@ -46,7 +46,8 @@
     <Grid x:Name="TweetGrid" Background="{x:Bind ViewModel.BackgroundBrush, Mode=OneWay, Converter={StaticResource StringToTweetBackgroundBrushConverter}}" RenderTransformOrigin="0.5,0.5"
           behaviors:TweetStatusBehavior.IsSelected="{Binding ElementName=StatusUserControl, Path=IsSelected}" behaviors:TweetStatusBehavior.MentionStatusVisibility="{x:Bind ViewModel.MentionStatusVisibility, Mode=OneWay}" behaviors:TweetStatusBehavior.IsMentionStatusLoaded="{x:Bind ViewModel.IsMentionStatusLoaded, Mode=OneWay}"
           behaviors:TweetStatusBehavior.IsMentionStatusLoading="{x:Bind ViewModel.IsMentionStatusLoading, Mode=OneWay}" behaviors:TweetStatusBehavior.Command="{x:Bind ViewModel.Notice.LoadMentionCommand, Mode=OneWay}" behaviors:TweetStatusBehavior.CommandParameter="{x:Bind ViewModel, Mode=OneWay}"
-          behaviors:TweetStatusBehavior.QuotedStatusVisibility="{x:Bind ViewModel.QuotedStatusVisibility, Mode=OneWay}">
+          behaviors:TweetStatusBehavior.QuotedStatusVisibility="{x:Bind ViewModel.QuotedStatusVisibility, Mode=OneWay}"
+          behaviors:TweetStatusBehavior.MediaVisibility="{x:Bind ViewModel.MediaVisibility, Mode=OneWay}">
         
         <Grid.RenderTransform>
             <CompositeTransform/>
@@ -187,7 +188,7 @@
                     <Run Foreground="{StaticResource TweetOtherTextblockForegroundBrush}" Text="via "/><Run Foreground="{StaticResource TweetSourceTextblockForegroundBrush}" Text="{x:Bind ViewModel.Source, Mode=OneWay}"/>
                 </TextBlock>
 
-                <ItemsControl Visibility="{x:Bind ViewModel.MediaVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1" ItemsSource="{x:Bind ViewModel.MediaEntities, Mode=OneWay}">
+                <ItemsControl x:DeferLoadStrategy="Lazy" x:Name="MediaItemsControl" Visibility="Collapsed" Grid.Row="1" ItemsSource="{x:Bind ViewModel.MediaEntities, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <winRTXamlControls:WrapPanel Orientation="Horizontal"/>

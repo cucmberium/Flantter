@@ -23,6 +23,25 @@ namespace Flantter.MilkyWay.Views.Behaviors
             CommandGrid_PropertyChanged(obj, e);
         }
 
+        #region Media 関連
+        public static bool GetMediaVisibility(DependencyObject obj) { return (bool)obj.GetValue(MediaVisibilityProperty); }
+        public static void SetMediaVisibility(DependencyObject obj, bool value) { obj.SetValue(MediaVisibilityProperty, value); }
+
+        public static readonly DependencyProperty MediaVisibilityProperty =
+            DependencyProperty.Register("MediaVisibility", typeof(bool), typeof(TweetStatusBehavior), new PropertyMetadata(false, MediaVisibility_PropertyChanged));
+
+        private static void MediaVisibility_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var status = obj as Grid;
+            var itemsControl = status.FindName("MediaItemsControl") as ItemsControl;
+
+            if (GetMediaVisibility(obj))
+                itemsControl.Visibility = Visibility.Visible;
+            else
+                itemsControl.Visibility = Visibility.Collapsed;
+        }
+        #endregion
+
         #region CommandGrid 関連
         private static void CommandGrid_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {

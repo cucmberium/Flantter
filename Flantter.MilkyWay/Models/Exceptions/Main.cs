@@ -6,12 +6,34 @@ using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Models.Exceptions
 {
-    public class AppServiceConnectionException : Exception
+    public class FilterCompileException : Exception
     {
-        public AppServiceConnectionException(string msg, string status) : base(msg)
+        public FilterCompileException(ErrorCode errorCode, string message, Exception innerException, string param = "")
+            : base(message, innerException)
         {
+            this.Error = errorCode;
+            this.Param = param;
         }
 
-        public string Status { get; set; }
+        public ErrorCode Error { get; set; }
+        public string Param { get; set; }
+
+        public enum ErrorCode
+        {
+            InternalError,
+            EqualMustUseWithOtherTokens,
+            AndMustUseWithOtherTokens,
+            VerticalBarMustUseWithOtherTokens,
+            FilterEndWithBacksrash,
+            StringNotEnd,
+            CloseBracketPositionIsWrong,
+            CloseBracketCountAndOpenBracketCountIsDiffer,
+            CloseBracketNotExist,
+            LiteralCannotAccessDirectly,
+            LiteralEndWithPeriod,
+            WrongLiteral,
+            FailedToTokenize,
+            WrongOperation,
+        }
     }
 }

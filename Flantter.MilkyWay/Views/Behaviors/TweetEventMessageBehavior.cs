@@ -41,7 +41,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
         }
         #endregion
 
-
         #region CommandGrid 関連
         private static void CommandGrid_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {

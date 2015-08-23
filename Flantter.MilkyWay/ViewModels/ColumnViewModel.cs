@@ -28,7 +28,6 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<double> Left { get; private set; }
         public IObservable<int> ColumnCount { get; set; }
 
-        public ReactiveProperty<SettingSupport.ColumnTypeEnum> Action { get; private set; }
 		public ReactiveProperty<Symbol> ActionSymbol { get; private set; }
 		public ReactiveProperty<string> Name { get; private set; }
         public ReactiveProperty<string> OwnerScreenName { get; private set; }
@@ -59,8 +58,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ColumnViewModel(ColumnModel column)
         {
             this._ColumnModel = column;
-
-			this.Action = column.ObserveProperty(x => x.Action).ToReactiveProperty();
+            
 			this.ActionSymbol = column.ObserveProperty(x => x.Action).Select(x =>
 			{
 				switch (x)
@@ -112,9 +110,9 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.UnreadCount = column.ToReactivePropertyAsSynchronized(x => x.UnreadCount);
             this.UnreadCountIncrementalTrigger = column.ToReactivePropertyAsSynchronized(x => x.UnreadCountIncrementalTrigger);
-            this.IsScrollControlEnabled = column.ToReactivePropertyAsSynchronized(x => x.IsScrollControlEnabled);
-            this.IsScrollLockEnabled = column.ToReactivePropertyAsSynchronized(x => x.IsScrollLockEnabled);
-            this.IsScrollLockToTopEnabled = column.ToReactivePropertyAsSynchronized(x => x.IsScrollLockToTopEnabled);
+            this.IsScrollControlEnabled = column.ObserveProperty(x => x.IsScrollControlEnabled).ToReactiveProperty();
+            this.IsScrollLockEnabled = column.ObserveProperty(x => x.IsScrollLockEnabled).ToReactiveProperty();
+            this.IsScrollLockToTopEnabled = column.ObserveProperty(x => x.IsScrollLockToTopEnabled).ToReactiveProperty();
 
             this.StreamingCommand = column.ObserveProperty(x => x.Action).Select(x =>
             {

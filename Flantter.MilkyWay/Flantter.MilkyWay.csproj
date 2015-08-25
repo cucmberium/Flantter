@@ -155,6 +155,9 @@
     <Compile Include="Views\Behaviors\TweetEventMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetDirectMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetStatusBehavior.cs" />
+    <Compile Include="Views\Contents\ImagePreviewPopup.xaml.cs">
+      <DependentUpon>ImagePreviewPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\TweetArea.xaml.cs">
       <DependentUpon>TweetArea.xaml</DependentUpon>
     </Compile>
@@ -200,8 +203,11 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Behaviors\TextBoxKeyTriggerBehavior.cs" />
+    <Compile Include="Views\Util\FileOpenPickerAction.cs" />
     <Compile Include="Views\Util\KeyTriggerBehavior.cs" />
+    <Compile Include="Views\Util\MessengerTriggerBehavior.cs" />
     <Compile Include="Views\Util\ShowAttachedFlyoutAction.cs" />
+    <Compile Include="Views\Util\ShowImagePreviewAction.cs" />
     <Compile Include="Views\Util\WindowSizeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +292,10 @@
     <Page Include="Views\Contents\ColumnArea.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\ImagePreviewPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\MainArea.xaml">
       <Generator>MSBuild:Compile</Generator>

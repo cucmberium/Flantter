@@ -106,6 +106,8 @@ namespace Flantter.MilkyWay.Models
         #region Initialize
         public void Initialize()
         {
+            Connecter.Instance.AddAccount(this._AccountSetting);
+
             this.IsEnabled = this._AccountSetting.IsEnabled;
             this.IncludeFollowingsActivity = this._AccountSetting.IncludeFollowingsActivity;
             this.Name = this._AccountSetting.Name;
@@ -142,9 +144,7 @@ namespace Flantter.MilkyWay.Models
             this._Tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName);
 
             this._AccountSetting = account;
-
-            Connecter.Instance.AddAccount(account);
-
+            
             foreach (var column in account.Column)
                 this._Columns.Add(new ColumnModel(column, account, this));
         }

@@ -1,5 +1,6 @@
 ﻿using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.Views.Util;
 using Microsoft.Practices.Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -22,6 +23,8 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
         public ReactiveProperty<bool> AppBarIsOpen { get; private set; }
 
+        public Messenger ShowImagePreviewMessenger { get; private set; }
+
         #region Constructor
         public MainPageViewModel()
         {
@@ -33,6 +36,8 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.AppBarIsOpen = new ReactiveProperty<bool>(false);
 
+            this.ShowImagePreviewMessenger = new Messenger();
+
             #region Command
 
             Services.Notice.Instance.TweetCommand.Subscribe(x => 
@@ -42,6 +47,11 @@ namespace Flantter.MilkyWay.ViewModels
                     return;
 
                 this.AppBarIsOpen.Value = true;
+            });
+
+            Services.Notice.Instance.ShowMediaCommand.Subscribe(async x =>
+            {
+                await this.ShowImagePreviewMessenger.Raise(new Notification() { Title = "ImagePreview", Content = x });
             });
 
             #endregion

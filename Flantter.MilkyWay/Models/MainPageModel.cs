@@ -27,6 +27,8 @@ namespace Flantter.MilkyWay.Models
         #region Initialize
         public void Initialize()
         {
+            Connecter.Instance.Initialize();
+
             foreach (var accountModel in this._Accounts)
             {
                 accountModel.Initialize();
@@ -39,9 +41,7 @@ namespace Flantter.MilkyWay.Models
         {
             this._Accounts = new ObservableCollection<AccountModel>();
             this._ReadOnlyAccounts = new ReadOnlyObservableCollection<AccountModel>(this._Accounts);
-
-            Connecter.Instance.Initialize();
-
+            
             foreach (var account in AdvancedSettingService.AdvancedSetting.Account)
             {
                 this._Accounts.Add(new AccountModel(account));

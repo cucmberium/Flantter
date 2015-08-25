@@ -32,6 +32,11 @@
         <core:EventTriggerBehavior EventName="Loaded">
             <behaviors:TitleBarSwitchAction TitleBarVisibility="{Binding TitleBarVisivility.Value}"/>
         </core:EventTriggerBehavior>
+
+        <util:MessengerTriggerBehavior Messenger="{Binding ShowImagePreviewMessenger, Mode=OneWay}">
+            <util:ShowImagePreviewAction/>
+        </util:MessengerTriggerBehavior>
+        
     </i:Interaction.Behaviors>
 
     <Page.BottomAppBar>

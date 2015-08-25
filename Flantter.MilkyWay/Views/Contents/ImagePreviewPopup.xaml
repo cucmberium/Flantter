@@ -1,0 +1,45 @@
+﻿<UserControl
+    x:Class="Flantter.MilkyWay.Views.Contents.ImagePreviewPopup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:util="using:Flantter.MilkyWay.Views.Util"
+    mc:Ignorable="d"
+    d:DesignHeight="720"
+    d:DesignWidth="1280">
+
+    <Grid x:Name="ImagePreviewGrid" PointerWheelChanged="ImagePreviewGrid_PointerWheelChanged" Tapped="ImagePreviewGrid_Tapped" Background="#99000000">
+        <Canvas x:Name="ImagePreviewCanvas" ManipulationDelta="ImagePreviewCanvas_ManipulationDelta" ManipulationCompleted="ImagePreviewCanvas_ManipulationCompleted" ManipulationMode="Scale,TranslateX,TranslateY" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="Transparent">
+            <Image x:Name="ImagePreviewImage" Tapped="ImagePreviewImage_Tapped" Stretch="Uniform" ManipulationMode="Scale,TranslateX,TranslateY" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Canvas>
+        
+        <ProgressRing x:Name="ImagePreviewProgressRing" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="80"/>
+        <SymbolIcon x:Name="ImagePreviewSymbolIcon" Symbol="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+            <SymbolIcon.RenderTransform>
+                <CompositeTransform ScaleX="2" ScaleY="2"/>
+            </SymbolIcon.RenderTransform>
+        </SymbolIcon>
+
+        <Grid x:Name="ImagePreviewMenuGrid" Width="80" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Polygon x:Name="ImagePreviewPolygon" Tapped="ImagePreviewPolygon_Tapped" Stroke="Transparent" Points="0,0,80,0,0,80" Fill="#FFB01E00" Width="80" Height="80" />
+
+            <SymbolIcon Tapped="ImagePreviewPolygon_Tapped" VerticalAlignment="Top" HorizontalAlignment="Left" Symbol="ShowBcc" RenderTransformOrigin="0.5,0.5" >
+                <SymbolIcon.RenderTransform>
+                    <CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="10" TranslateY="10"/>
+                </SymbolIcon.RenderTransform>
+            </SymbolIcon>
+
+            <FlyoutBase.AttachedFlyout>
+                <MenuFlyout Placement="Top">
+                    <MenuFlyoutItem x:Uid="ImagePreview_SaveImage" Text="画像を保存" FontFamily="Segoe UI Symbol" Click="ImagePreviewMenu_SaveImage"/>
+                    <MenuFlyoutItem x:Uid="ImagePreview_ViewInWeb" Text="ブラウザで表示" FontFamily="Segoe UI Symbol" Click="ImagePreviewMenu_ShowinBrowser"/>
+                    <MenuFlyoutItem x:Uid="ImagePreview_SearchSimilarImage" Text="画像の詳細を検索" FontFamily="Segoe UI Symbol" Click="ImagePreviewMenu_SearchSimilarImage"/>
+                </MenuFlyout>
+            </FlyoutBase.AttachedFlyout>
+        </Grid>
+    </Grid>
+</UserControl>

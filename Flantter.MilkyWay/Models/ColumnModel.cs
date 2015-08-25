@@ -204,15 +204,6 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
-        #region IsScrollLockToTopEnabled変更通知プロパティ
-        private bool _IsScrollLockToTopEnabled;
-        public bool IsScrollLockToTopEnabled
-        {
-            get { return this._IsScrollLockToTopEnabled; }
-            set { this.SetProperty(ref this._IsScrollLockToTopEnabled, value); }
-        }
-        #endregion
-
         #region UnreadCount変更通知プロパティ
         private int _UnreadCount;
         public int UnreadCount

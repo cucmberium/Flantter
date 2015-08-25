@@ -163,7 +163,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="1">
-                <Border Height="{Binding Source={StaticResource Setting},Path=Setting.IconSize,Converter={StaticResource EnumToIntConverter}}" Width="{Binding RelativeSource={RelativeSource Self},Path=Height}" Margin="0,0,0,0" CornerRadius="4">
+                <Border Height="{Binding Source={StaticResource Setting},Path=Setting.IconSize,Converter={StaticResource EnumToIntConverter}}" Width="{Binding RelativeSource={RelativeSource Self},Path=Height}" CornerRadius="4">
                     <Border.Background>
                         <ImageBrush ImageSource="{x:Bind ViewModel.ProfileImageUrl, Mode=OneWay}" />
                     </Border.Background>

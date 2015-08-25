@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.Graphics.Display;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -49,6 +50,8 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> IsScrollLockToTopEnabled { get; private set; }
 
         public ReactiveCommand StreamingCommand { get; private set; }
+
+        public ReactiveCommand ScrollToTopCommand { get; private set; }
 
         #region Constructor
         /*public ColumnViewModel()
@@ -112,7 +115,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.UnreadCountIncrementalTrigger = column.ToReactivePropertyAsSynchronized(x => x.UnreadCountIncrementalTrigger);
             this.IsScrollControlEnabled = column.ObserveProperty(x => x.IsScrollControlEnabled).ToReactiveProperty();
             this.IsScrollLockEnabled = column.ObserveProperty(x => x.IsScrollLockEnabled).ToReactiveProperty();
-            this.IsScrollLockToTopEnabled = column.ObserveProperty(x => x.IsScrollLockToTopEnabled).ToReactiveProperty();
+            this.IsScrollLockToTopEnabled = new ReactiveProperty<bool>();
 
             this.StreamingCommand = column.ObserveProperty(x => x.Action).Select(x =>
             {
@@ -129,6 +132,14 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             }).ToReactiveCommand();
             this.StreamingCommand.Subscribe(_ => { this._ColumnModel.Streaming = !this._ColumnModel.Streaming; });
+
+            this.ScrollToTopCommand = column.ObserveProperty(x => x.UnreadCount).Select(x => x != 0).ToReactiveCommand();
+            this.ScrollToTopCommand.Subscribe(async _ => 
+            {
+                this.IsScrollLockToTopEnabled.Value = true;
+                await Task.Delay(100);
+                this.IsScrollLockToTopEnabled.Value = false;
+            });
 
             this.ColumnCount = Observable.CombineLatest<double, double, int, int>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),

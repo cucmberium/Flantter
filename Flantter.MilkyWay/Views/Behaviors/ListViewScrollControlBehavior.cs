@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,7 +83,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
         }
         public static readonly DependencyProperty IsScrollLockToTopEnabledProperty =
                         DependencyProperty.RegisterAttached("IsScrollLockToTopEnabled", typeof(bool),
-                        typeof(ListViewScrollControlBehavior), new PropertyMetadata(false));
+                        typeof(ListViewScrollControlBehavior), new PropertyMetadata(false, IsScrollLockToTopEnabledChanged));
 
         public int UnreadCount
         {
@@ -307,6 +308,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         private void ScrollViewerObject_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
         {
+            //Debug.WriteLine(e.NextView.VerticalOffset);
             //if (e.IsInertial)
             //    AnimationCooldown(200);
         }
@@ -387,6 +389,19 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 behavior.UnreadCount = unreadCount >= 0 ? unreadCount : 0;
 
                 behavior.UnreadCountIncrementalTrigger = false;
+            }
+        }
+
+        private static void IsScrollLockToTopEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var behavior = obj as ListViewScrollControlBehavior;
+            if (behavior == null)
+                return;
+
+            if ((bool)e.NewValue)
+            {
+                behavior.UnreadCount = 0;
+                behavior.ScrollViewerObject.ChangeView(null, 0.01, null, true);
             }
         }
     }

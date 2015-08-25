@@ -67,6 +67,7 @@ namespace Flantter.MilkyWay.Views.Util
             this.WindowHeight = Window.Current.Bounds.Height;
             this.ClientWidth = Window.Current.Bounds.Width;
             this.ClientHeight = Window.Current.Bounds.Height;
+            this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
 
             Observable.CombineLatest<WindowSizeChangedEventArgs, CoreApplicationViewTitleBar, bool>(
                 Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
@@ -86,6 +87,7 @@ namespace Flantter.MilkyWay.Views.Util
                         this.WindowHeight = Window.Current.Bounds.Height;
                         this.ClientWidth = Window.Current.Bounds.Width;
                         this.ClientHeight = Window.Current.Bounds.Height - CoreApplication.GetCurrentView().TitleBar.Height;
+                        this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
                     }
                     else
                     {
@@ -93,6 +95,7 @@ namespace Flantter.MilkyWay.Views.Util
                         this.WindowHeight = Window.Current.Bounds.Height;
                         this.ClientWidth = Window.Current.Bounds.Width;
                         this.ClientHeight = Window.Current.Bounds.Height;
+                        this._TitleBarHeight = 0.0;
                     }
                 });
         }
@@ -123,6 +126,13 @@ namespace Flantter.MilkyWay.Views.Util
         {
             get { return this._WindowHeight; }
             set { this.SetProperty(ref this._WindowHeight, value); }
+        }
+
+        private double _TitleBarHeight;
+        public double TitleBarHeight
+        {
+            get { return this._TitleBarHeight; }
+            set { this.SetProperty(ref this._TitleBarHeight, value); }
         }
     }
 }

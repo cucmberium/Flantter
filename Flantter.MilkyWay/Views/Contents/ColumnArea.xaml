@@ -254,7 +254,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <controls:PullToRefreshPanel Grid.Row="0">
+                    <!--<controls:PullToRefreshPanel Grid.Row="0">
                         <controls:PullToRefreshPanel.PullContent>
                             <Grid Height="250" Width="320" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                 <Grid.ColumnDefinitions>
@@ -278,7 +278,9 @@
 
                         <contents:TimelineArea ViewModel="{Binding}"/>
 
-                    </controls:PullToRefreshPanel>
+                    </controls:PullToRefreshPanel>-->
+
+                    <contents:TimelineArea ViewModel="{x:Bind Mode=OneWay}"/>
 
                     <Polygon Grid.Row="0" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Fill="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}" Points="10,10,20,0,30,10" Width="40" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                     
@@ -300,7 +302,7 @@
                         </Grid>
 
                         <Grid Grid.Column="3" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
-                            <Button Background="{x:Null}" BorderThickness="0" Width="40" Height="30" Padding="0" >
+                            <Button Background="{x:Null}" BorderThickness="0" Width="40" Height="30" Padding="0" Command="{x:Bind ScrollToTopCommand, Mode=OneWay}">
                                 <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="{x:Bind UnreadCount.Value, Mode=OneWay}" FontSize="14" FontWeight="Bold"/>
                             </Button>
                         </Grid>

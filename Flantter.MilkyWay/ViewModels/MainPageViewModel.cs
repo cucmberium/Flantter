@@ -1,4 +1,5 @@
 ﻿using Flantter.MilkyWay.Models;
+using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Util;
 using Microsoft.Practices.Prism.Mvvm;
@@ -25,6 +26,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public Messenger ShowImagePreviewMessenger { get; private set; }
 
+        public Messenger ShowVideoPreviewMessenger { get; private set; }
+
         #region Constructor
         public MainPageViewModel()
         {
@@ -37,6 +40,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.AppBarIsOpen = new ReactiveProperty<bool>(false);
 
             this.ShowImagePreviewMessenger = new Messenger();
+            this.ShowVideoPreviewMessenger = new Messenger();
 
             #region Command
 
@@ -51,7 +55,16 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.ShowMediaCommand.Subscribe(async x =>
             {
-                await this.ShowImagePreviewMessenger.Raise(new Notification() { Title = "ImagePreview", Content = x });
+                var media = x as MediaEntity;
+
+                if (media == null)
+                    return;
+
+                if (media.Type == "Image")
+                    await this.ShowImagePreviewMessenger.Raise(new Notification() { Content = x });
+                else if (media.Type == "Video")
+                    await this.ShowVideoPreviewMessenger.Raise(new Notification() { Content = x });
+
             });
 
             #endregion

@@ -1,12 +1,18 @@
-﻿using Flantter.MilkyWay.Views.Util;
+﻿using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.Views.Util;
+using NotificationsExtensions.Toasts;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -15,6 +21,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.Web.Http;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -27,23 +34,15 @@ namespace Flantter.MilkyWay.Views.Contents
 
         public string ImageWebUrl { get; set; }
 
-        private string _ImageUrl;
-        public string ImageUrl
-        {
-            get { return this._ImageUrl; }
-            set
-            {
-                if (this._ImageUrl != value)
-                {
-                    this._ImageUrl = value;
-                    this.ImageChanged();
-                }
-            }
-        }
+        public string ImageUrl { get; set; }
+
+        ResourceLoader _ResourceLoader;
 
         public ImagePreviewPopup()
         {
             this.InitializeComponent();
+
+            _ResourceLoader = new ResourceLoader();
 
             Window.Current.SizeChanged += ImagePreviewPopup_SizeChanged;
 
@@ -84,29 +83,23 @@ namespace Flantter.MilkyWay.Views.Contents
                 Rect = new Rect(0, 0, WindowSizeHelper.Instance.ClientWidth, WindowSizeHelper.Instance.ClientHeight)
             };
 
-            if (this.ImagePreview.Child != null)
-            {
-                (this.ImagePreview.Child as ImagePreviewPopup).Width = WindowSizeHelper.Instance.ClientWidth;
-                (this.ImagePreview.Child as ImagePreviewPopup).Height = WindowSizeHelper.Instance.ClientHeight;
+            var canvasTop = (WindowSizeHelper.Instance.ClientHeight - this.ImagePreviewImage.Height) / 2;
+            var canvasLeft = (WindowSizeHelper.Instance.ClientWidth - this.ImagePreviewImage.Width) / 2;
 
-                var canvasTop = (WindowSizeHelper.Instance.ClientHeight - this.ImagePreviewImage.Height) / 2;
-                var canvasLeft = (WindowSizeHelper.Instance.ClientWidth - this.ImagePreviewImage.Width) / 2;
-
-                Canvas.SetTop(this.ImagePreviewImage, canvasTop);
-                Canvas.SetLeft(this.ImagePreviewImage, canvasLeft);
-            }
+            Canvas.SetTop(this.ImagePreviewImage, canvasTop);
+            Canvas.SetLeft(this.ImagePreviewImage, canvasLeft);
         }
 
-        private void ImageChanged()
+        public void ImageChanged()
         {
             this.ImagePreviewProgressRing.Visibility = Visibility.Visible;
             this.ImagePreviewProgressRing.IsActive = true;
             this.ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
             this.ImagePreviewImage.Opacity = 0;
-            this.Bitmap.UriSource = new Uri(this._ImageUrl);
+            this.Bitmap.UriSource = new Uri(this.ImageUrl);
 
-            var imageWidth = this.Bitmap.PixelWidth;
-            var imageHeight = this.Bitmap.PixelHeight;
+            //var imageWidth = this.Bitmap.PixelWidth;
+            //var imageHeight = this.Bitmap.PixelHeight;
 
             // Todo : Pixivの拡張機能を使用した場合
         }
@@ -154,10 +147,6 @@ namespace Flantter.MilkyWay.Views.Contents
             var imageHeight = this.Bitmap.PixelHeight;
             var windowWidth = WindowSizeHelper.Instance.ClientWidth;
             var windowHeight = WindowSizeHelper.Instance.ClientHeight;
-
-            //this.ImagePreviewCanvas.Width = Window.Current.Bounds.Width;
-            //this.ImagePreviewCanvas.Height = Window.Current.Bounds.Height;
-            //this.ImagePreviewCanvas.UpdateLayout();
 
             double raito = 1.0;
 
@@ -306,24 +295,69 @@ namespace Flantter.MilkyWay.Views.Contents
             return;
         }
 
-        private void ImagePreviewMenu_SaveImage(object sender, RoutedEventArgs e)
+        private async void ImagePreviewMenu_SaveImage(object sender, RoutedEventArgs e)
         {
+            var toastContent = new ToastContent();
+            toastContent.Visual = new ToastVisual();
+            toastContent.Visual.TitleText = new ToastText() { Text = "Flantter" };
+            toastContent.Visual.BodyTextLine1 = new ToastText() { Text = _ResourceLoader.GetString("ImagePreviewPopup_ImageSavedSuccessfuly") };
 
+            if (!SettingService.Setting.NotificationSound)
+                toastContent.Audio = new ToastAudio() { Silent = true };
+
+            try
+            {
+                var imageFileName = DateTime.Now.ToString("yyyyMMddHHmmss");
+                var client = new HttpClient();
+                var response = await client.GetAsync(new Uri(this.ImageUrl));
+                switch (response.Content.Headers.ContentType.MediaType)
+                {
+                    case "image/jpeg":
+                        imageFileName += ".jpg";
+                        break;
+                    case "image/gif":
+                        imageFileName += ".gif";
+                        break;
+                    case "image/png":
+                        imageFileName += ".png";
+                        break;
+                    case "image/tiff":
+                        imageFileName += ".tiff";
+                        break;
+                    case "image/x-bmp":
+                        imageFileName += ".bmp";
+                        break;
+                }
+                var imageFile = await KnownFolders.PicturesLibrary.CreateFileAsync(imageFileName, CreationCollisionOption.GenerateUniqueName);
+                await Windows.Storage.FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
+            }
+            catch
+            {
+                toastContent.Visual.BodyTextLine1.Text = new ResourceLoader().GetString("ImagePreviewPopup_FailedtoImageSave");
+            }
+
+            var toast = new ToastNotification(toastContent.GetXml());
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
 
-        private void ImagePreviewMenu_ShowinBrowser(object sender, RoutedEventArgs e)
+        private async void ImagePreviewMenu_ShowinBrowser(object sender, RoutedEventArgs e)
         {
-
+            await Launcher.LaunchUriAsync(new Uri(this.ImageWebUrl));
         }
 
-        private void ImagePreviewMenu_SearchSimilarImage(object sender, RoutedEventArgs e)
+        private async void ImagePreviewMenu_SearchSimilarImage(object sender, RoutedEventArgs e)
         {
-
+            await Launcher.LaunchUriAsync(new Uri("http://www.google.co.jp/searchbyimage?image_url=" + this.ImageUrl));
         }
 
-        private void ImagePreviewPolygon_Tapped(object sender, TappedRoutedEventArgs e)
+        private void ImagePreviewMenu_Close(object sender, RoutedEventArgs e)
         {
-            FlyoutBase.ShowAttachedFlyout(this.ImagePreviewMenuGrid);
+            this.Hide();
+        }
+
+        private void ImagePreviewTriangleButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout(this.ImagePreviewTriangleButton);
 
             e.Handled = true;
             return;

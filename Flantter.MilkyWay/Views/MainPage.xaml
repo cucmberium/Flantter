@@ -36,6 +36,9 @@
         <util:MessengerTriggerBehavior Messenger="{Binding ShowImagePreviewMessenger, Mode=OneWay}">
             <util:ShowImagePreviewAction/>
         </util:MessengerTriggerBehavior>
+        <util:MessengerTriggerBehavior Messenger="{Binding ShowVideoPreviewMessenger, Mode=OneWay}">
+            <util:ShowVideoPreviewAction/>
+        </util:MessengerTriggerBehavior>
         
     </i:Interaction.Behaviors>
 

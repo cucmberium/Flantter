@@ -8,6 +8,7 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     mc:Ignorable="d"
     d:DesignHeight="720"
     d:DesignWidth="1280">
@@ -24,22 +25,21 @@
             </SymbolIcon.RenderTransform>
         </SymbolIcon>
 
-        <Grid x:Name="ImagePreviewMenuGrid" Width="80" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Polygon x:Name="ImagePreviewPolygon" Tapped="ImagePreviewPolygon_Tapped" Stroke="Transparent" Points="0,0,80,0,0,80" Fill="#FFB01E00" Width="80" Height="80" />
-
-            <SymbolIcon Tapped="ImagePreviewPolygon_Tapped" VerticalAlignment="Top" HorizontalAlignment="Left" Symbol="ShowBcc" RenderTransformOrigin="0.5,0.5" >
+        <controls:TriangleButton x:Name="ImagePreviewTriangleButton" Tapped="ImagePreviewTriangleButton_Tapped" Width="80" Height="80" Points="0,0,80,0,0,80" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <SymbolIcon Tapped="ImagePreviewTriangleButton_Tapped" VerticalAlignment="Top" HorizontalAlignment="Left" Symbol="ShowBcc" RenderTransformOrigin="0.5,0.5" >
                 <SymbolIcon.RenderTransform>
                     <CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="10" TranslateY="10"/>
                 </SymbolIcon.RenderTransform>
             </SymbolIcon>
 
             <FlyoutBase.AttachedFlyout>
-                <MenuFlyout Placement="Top">
-                    <MenuFlyoutItem x:Uid="ImagePreview_SaveImage" Text="画像を保存" FontFamily="Segoe UI Symbol" Click="ImagePreviewMenu_SaveImage"/>
-                    <MenuFlyoutItem x:Uid="ImagePreview_ViewInWeb" Text="ブラウザで表示" FontFamily="Segoe UI Symbol" Click="ImagePreviewMenu_ShowinBrowser"/>
-                    <MenuFlyoutItem x:Uid="ImagePreview_SearchSimilarImage" Text="画像の詳細を検索" FontFamily="Segoe UI Symbol" Click="ImagePreviewMenu_SearchSimilarImage"/>
+                <MenuFlyout Placement="Bottom">
+                    <MenuFlyoutItem x:Uid="ImagePreviewPopup_SaveImage" Text="画像を保存" FontFamily="Segoe UI Symbol" Click="ImagePreviewMenu_SaveImage"/>
+                    <MenuFlyoutItem x:Uid="ImagePreviewPopup_ShowinBrowser" Text="ブラウザで表示" FontFamily="Segoe UI Symbol" Click="ImagePreviewMenu_ShowinBrowser"/>
+                    <MenuFlyoutItem x:Uid="ImagePreviewPopup_SearchSimilarImage" Text="画像の詳細を検索" FontFamily="Segoe UI Symbol" Click="ImagePreviewMenu_SearchSimilarImage"/>
+                    <MenuFlyoutItem x:Uid="ImagePreviewPopup_Close" Text="閉じる" FontFamily="Segoe UI Symbol" Click="ImagePreviewMenu_Close"/>
                 </MenuFlyout>
             </FlyoutBase.AttachedFlyout>
-        </Grid>
+        </controls:TriangleButton>
     </Grid>
 </UserControl>

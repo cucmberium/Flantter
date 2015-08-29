@@ -7,6 +7,7 @@
     "Microsoft.ApplicationInsights.WindowsApps": "1.1.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "Newtonsoft.Json": "7.0.1",
+    "NotificationsExtensions.Win10": "10240.0.3",
     "Prism.Mvvm": "1.1.1",
     "ReactiveProperty": "2.2.2",
     "Rx-Core": "2.2.5",

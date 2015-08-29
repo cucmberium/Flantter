@@ -210,4 +210,28 @@
   <data name="Tweet_Command_MenuFlyout_UserProfile.Text" xml:space="preserve">
     <value>    User Profile</value>
   </data>
+  <data name="ImagePreviewPopup_FailedtoImageSave" xml:space="preserve">
+    <value>Failed to save image</value>
+  </data>
+  <data name="ImagePreviewPopup_ImageSavedSuccessfuly" xml:space="preserve">
+    <value>Image saved successfuly</value>
+  </data>
+  <data name="ImagePreviewPopup_SaveImage.Text" xml:space="preserve">
+    <value>    Save image</value>
+  </data>
+  <data name="ImagePreviewPopup_SearchSimilarImage.Text" xml:space="preserve">
+    <value>    Search similar Image</value>
+  </data>
+  <data name="ImagePreviewPopup_ShowinBrowser.Text" xml:space="preserve">
+    <value>    Open in web</value>
+  </data>
+  <data name="VideoPreviewPopup_ShowinBrowser.Text" xml:space="preserve">
+    <value>    Open in web</value>
+  </data>
+  <data name="ImagePreviewPopup_Close.Text" xml:space="preserve">
+    <value>    Close</value>
+  </data>
+  <data name="VideoPreviewPopup_Close.Text" xml:space="preserve">
+    <value>    Close</value>
+  </data>
 </root>

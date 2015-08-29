@@ -47,6 +47,8 @@ namespace Flantter.MilkyWay.Views.Contents
 			System.Diagnostics.Debug.WriteLine("SelectedIndex : " + e.NewValue);
 		}
 
+        private ScrollViewer _ScrollViewer = null;
+
         public ColumnArea()
         {
             this.InitializeComponent();
@@ -54,6 +56,26 @@ namespace Flantter.MilkyWay.Views.Contents
             this.Loaded += (s, e) =>
             {
                 var scrollViewer = this.ColumnArea_ColumnList.GetVisualChild<ScrollViewer>();
+                if (scrollViewer == null)
+                    return;
+
+                _ScrollViewer = scrollViewer;
+
+                scrollViewer.ViewChanging += ScrollViewer_ViewChanging;
+                scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+            };
+
+            this.LayoutUpdated += (s, e) =>
+            {
+                if (_ScrollViewer != null)
+                    return;
+
+                var scrollViewer = this.ColumnArea_ColumnList.GetVisualChild<ScrollViewer>();
+                if (scrollViewer == null)
+                    return;
+
+                _ScrollViewer = scrollViewer;
+
                 scrollViewer.ViewChanging += ScrollViewer_ViewChanging;
                 scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             };

@@ -26,6 +26,7 @@ namespace Flantter.MilkyWay.Views.Util
 
             this._ImagePreviewPopup.ImageUrl = mediaEntity.MediaUrl;
             this._ImagePreviewPopup.ImageWebUrl = mediaEntity.ExpandedUrl;
+            this._ImagePreviewPopup.ImageChanged();
 
             this._ImagePreviewPopup.Show();
 

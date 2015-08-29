@@ -1,0 +1,52 @@
+﻿<UserControl
+    x:Class="Flantter.MilkyWay.Views.Contents.VideoPreviewPopup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:util="using:Flantter.MilkyWay.Views.Util"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="720"
+    d:DesignWidth="1280">
+
+    <Grid x:Name="VideoPreviewGrid" Tapped="VideoPreviewGrid_Tapped" Background="#99000000">
+
+        <WebView x:Name="VideoPreviewWebView" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <controls:TriangleButton x:Name="VideoPreviewTriangleButton" Tapped="VideoPreviewTriangleButton_Tapped" Width="80" Height="80" Points="0,0,80,0,0,80" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <SymbolIcon VerticalAlignment="Top" HorizontalAlignment="Left" Symbol="ShowBcc" RenderTransformOrigin="0.5,0.5" >
+                <SymbolIcon.RenderTransform>
+                    <CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="10" TranslateY="10"/>
+                </SymbolIcon.RenderTransform>
+            </SymbolIcon>
+
+            <FlyoutBase.AttachedFlyout>
+                <MenuFlyout Placement="Bottom">
+                    <MenuFlyoutItem x:Uid="VideoPreviewPopup_ShowinBrowser" Text="ブラウザで表示" FontFamily="Segoe UI Symbol" Click="VideoPreviewMenu_ShowinBrowser"/>
+                    <MenuFlyoutItem x:Uid="VideoPreviewPopup_Close" Text="閉じる" FontFamily="Segoe UI Symbol" Click="VideoPreviewMenu_Close"/>
+                </MenuFlyout>
+            </FlyoutBase.AttachedFlyout>
+        </controls:TriangleButton>
+
+        <controls:TriangleButton x:Name="VideoPreviewSmallViewTriangleButton" Tapped="VideoPreviewSmallViewTriangleButton_Tapped" Width="90" Height="90" Points="90,90,90,0,0,90" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <SymbolIcon HorizontalAlignment="Right" VerticalAlignment="Bottom" Symbol="Go" RenderTransformOrigin="0.5,0.5" >
+                <SymbolIcon.RenderTransform>
+                    <CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="-15" TranslateY="-15" Rotation="90"/>
+                </SymbolIcon.RenderTransform>
+            </SymbolIcon>
+        </controls:TriangleButton>
+
+        <controls:TriangleButton x:Name="VideoPreviewLargeViewTriangleButton" Visibility="Collapsed" Tapped="VideoPreviewLargeViewTriangleButton_Tapped" Width="80" Height="80" Points="80,80,80,0,0,80" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <SymbolIcon HorizontalAlignment="Right" VerticalAlignment="Bottom" Symbol="Go" RenderTransformOrigin="0.5,0.5" >
+                <SymbolIcon.RenderTransform>
+                    <CompositeTransform ScaleX="1.25" ScaleY="1.25" TranslateX="-10" TranslateY="-10" Rotation="-90"/>
+                </SymbolIcon.RenderTransform>
+            </SymbolIcon>
+        </controls:TriangleButton>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,249 @@
+﻿using Flantter.MilkyWay.Models.Twitter;
+using Flantter.MilkyWay.Views.Util;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
+
+// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
+
+namespace Flantter.MilkyWay.Views.Contents
+{
+    public sealed partial class VideoPreviewPopup : UserControl
+    {
+        private Popup VideoPreview;
+
+        private bool _IsSmallView { get; set; }
+
+        public string VideoWebUrl { get; set; }
+        public string VideoThumbnailUrl { get; set; }
+        public string VideoType { get; set; }
+        public string VideoContentType { get; set; }
+        public string Id { get; set; }
+
+
+        public VideoPreviewPopup()
+        {
+            this.InitializeComponent();
+
+            Window.Current.SizeChanged += VideoPreviewPopup_SizeChanged;
+
+            this.Width = WindowSizeHelper.Instance.ClientWidth;
+            this.Height = WindowSizeHelper.Instance.ClientHeight;
+
+            this.VideoPreview = new Popup
+            {
+                Child = this,
+                IsLightDismissEnabled = false,
+                Opacity = 1
+            };
+
+            Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.TitleBarHeight);
+            Canvas.SetLeft(this.VideoPreview, 0);
+        }
+        
+        ~VideoPreviewPopup()
+        {
+            Window.Current.SizeChanged -= VideoPreviewPopup_SizeChanged;
+        }
+
+        private void VideoPreviewPopup_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            if (_IsSmallView)
+            {
+                var videoWidth = WindowSizeHelper.Instance.ClientWidth / 2;
+                if (videoWidth > 640)
+                    videoWidth = 640;
+                else if (videoWidth < 480)
+                    videoWidth = 480;
+
+                if (WindowSizeHelper.Instance.ClientWidth < videoWidth)
+                    videoWidth = WindowSizeHelper.Instance.ClientWidth;
+                var videoHeight = videoWidth * 9 / 16;
+
+                var bottomMargin = 0.0;
+                if (WindowSizeHelper.Instance.ClientWidth < 352.0)
+                    bottomMargin = 64.0 + 30.0;
+                else if (WindowSizeHelper.Instance.ClientWidth < 500.0)
+                    bottomMargin = 64.0 + 10.0 + 30.0;
+                else
+                    bottomMargin = 75.0 + 10.0 + 30.0;
+
+                Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.TitleBarHeight + WindowSizeHelper.Instance.ClientHeight - videoHeight - bottomMargin);
+                Canvas.SetLeft(this.VideoPreview, WindowSizeHelper.Instance.ClientWidth - videoWidth);
+
+                this.Width = videoWidth;
+                this.Height = videoHeight;
+
+                this.VideoPreviewWebView.Width = videoWidth;
+                this.VideoPreviewWebView.Height = videoHeight;
+            }
+            else
+            {
+                Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.TitleBarHeight);
+                Canvas.SetLeft(this.VideoPreview, 0);
+
+                this.Width = WindowSizeHelper.Instance.ClientWidth;
+                this.Height = WindowSizeHelper.Instance.ClientHeight;
+
+                var videoWidth = WindowSizeHelper.Instance.ClientWidth;
+                if (WindowSizeHelper.Instance.ClientWidth - 20 > 960)
+                    videoWidth = 960;
+                else if (WindowSizeHelper.Instance.ClientWidth - 20 > 400)
+                    videoWidth = WindowSizeHelper.Instance.ClientWidth - 20;
+
+                var videoHeight = videoWidth * 9 / 16;
+
+                if (this.VideoType == "Vine")
+                {
+                    if (videoWidth > 600)
+                        videoWidth = 600;
+
+                    videoHeight = videoWidth;
+                }
+                else if (this.VideoType == "Twitter")
+                {
+                    if (videoWidth > 600)
+                        videoWidth = 600;
+
+                    videoHeight = videoWidth * 9 / 16;
+                }
+
+                this.VideoPreviewWebView.Width = videoWidth;
+                this.VideoPreviewWebView.Height = videoHeight;
+            }
+        }
+
+        public async void VideoChanged()
+        {
+            this.VideoPreviewWebView.NavigateToString("<html></html>");
+
+
+
+            _IsSmallView = false;
+
+            VideoPreviewPopup_SizeChanged(null, null);
+
+
+            if (this.VideoType == "Vine")
+            {
+                this.VideoPreviewSmallViewTriangleButton.Visibility = Visibility.Collapsed;
+
+                this.VideoPreviewWebView.Navigate(new Uri("https://vine.co/v/" + this.Id + "/embed/simple?audio=1"));
+                //var html = "<html><head><style type=\"text/css\"> \n body {{ margin: 0; }} \n</style></head>";
+                //html += "<body><iframe class=\"vine-embed\" src=\"https://vine.co/v/{0}/embed/simple?audio=1\" width=\"{1}\" height=\"{2}\" frameborder=\"0\"></iframe><script async src=\"https://platform.vine.co/static/scripts/embed.js\" charset=\"utf-8\"></script></body></html>";
+                //this.VideoPreviewWebView.NavigateToString(string.Format(html, this.Id, videoWidth, videoHeight));
+            }
+            else if (this.VideoType == "Twitter")
+            {
+                this.VideoPreviewSmallViewTriangleButton.Visibility = Visibility.Collapsed;
+
+                var html = "<html><head><link href=\"http://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} .video-js {{ padding-top: 56.25%; }} \n</style></head>";
+                html += "<body><script src=\"https://code.jquery.com/jquery-2.1.3.min.js\"></script><script src=\"http://vjs.zencdn.net/4.12/video.js\"></script>";
+                html += "<video id=\"twitter\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls autoplay loop preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type='{2}'></video>";
+                html += "</body></html>";
+                this.VideoPreviewWebView.NavigateToString(string.Format(html, this.VideoThumbnailUrl, this.Id, this.VideoContentType));
+            }
+            else if (this.VideoType == "Youtube")
+            {
+                var html = "<html><head><style type=\"text/css\"> \n body {{ margin: 0; }} .video-container {{ position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0; overflow: hidden; }} .video-container iframe {{ position: absolute; top: 0; left: 0; width: 100%; height: 100%; }} \n </style></head>";
+                html += "<body><div class=\"video-container\"><iframe width=\"960\" height=\"540\" src=\"http://www.youtube.com/embed/{0}?html5=1\" frameborder=\"0\" allowfullscreen></iframe></div></body></html>";
+                this.VideoPreviewWebView.NavigateToString(string.Format(html, this.Id));
+            }
+            else
+            {
+                var nicoVideo = new NicoVideo();
+                await nicoVideo.GetNicoVideoInfo(this.Id);
+
+                if (string.IsNullOrWhiteSpace(nicoVideo.VideoUrl) || string.IsNullOrWhiteSpace(nicoVideo.VideoCookieUrl))
+                    return;
+
+                var html = "<html><head><link href=\"http://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} \n .video-js {{ padding-top: 56.25%; }} \n </style></head>";
+                html += "<body><script src=\"http://vjs.zencdn.net/4.12/video.js\"></script><div id=\"video\"><video id=\"nicovideo\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type='{2}'></video></div></body></html>";
+
+                this.VideoPreviewWebView.NavigateToString(string.Format(html, this.VideoThumbnailUrl, nicoVideo.VideoUrl, nicoVideo.VideoContentType));
+            }
+        }
+
+        public void Show()
+        {
+            this.VideoPreview.IsOpen = true;
+        }
+
+        public void Hide()
+        {
+            this.VideoPreview.IsOpen = false;
+            this.VideoPreviewWebView.NavigateToString("<html></html>");
+
+            _IsSmallView = false;
+
+            this.VideoPreviewSmallViewTriangleButton.Visibility = Visibility.Visible;
+            this.VideoPreviewLargeViewTriangleButton.Visibility = Visibility.Collapsed;
+
+            VideoPreviewPopup_SizeChanged(null, null);
+        }
+
+        private async void VideoPreviewMenu_ShowinBrowser(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri(this.VideoWebUrl));
+        }
+
+        private void VideoPreviewTriangleButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout(this.VideoPreviewTriangleButton);
+
+            e.Handled = true;
+            return;
+        }
+
+        private void VideoPreviewGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.Hide();
+            e.Handled = true;
+        }
+
+        private void VideoPreviewSmallViewTriangleButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            _IsSmallView = true;
+
+            this.VideoPreviewSmallViewTriangleButton.Visibility = Visibility.Collapsed;
+            this.VideoPreviewLargeViewTriangleButton.Visibility = Visibility.Visible;
+
+            VideoPreviewPopup_SizeChanged(null, null);
+
+            e.Handled = true;
+            return;
+        }
+
+        private void VideoPreviewLargeViewTriangleButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            _IsSmallView = false;
+
+            this.VideoPreviewSmallViewTriangleButton.Visibility = Visibility.Visible;
+            this.VideoPreviewLargeViewTriangleButton.Visibility = Visibility.Collapsed;
+
+            VideoPreviewPopup_SizeChanged(null, null);
+
+            e.Handled = true;
+            return;
+        }
+
+        private void VideoPreviewMenu_Close(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+        }
+    }
+}

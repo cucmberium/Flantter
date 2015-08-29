@@ -414,7 +414,7 @@ namespace Flantter.MilkyWay.Models.Twitter
                             ExpandedUrl = media.Url,
                             DisplayUrl = media.DisplayUrl,
                             Type = "Video",
-                            VideoInfo = new VideoInfo() { VideoId = media.VideoInfo.Variants.Last().Url, VideoType = "NicoVideo", Size = new VideoInfo.MediaSize { Width = media.Sizes.Large.Width, Height = media.Sizes.Large.Height } }
+                            VideoInfo = new VideoInfo() { VideoId = media.VideoInfo.Variants.Last().Url, VideoType = "Twitter", Size = new VideoInfo.MediaSize { Width = media.Sizes.Large.Width, Height = media.Sizes.Large.Height }, VideoContentType = media.VideoInfo.Variants.Last().ContentType }
                         };
                     }
                     else
@@ -425,7 +425,7 @@ namespace Flantter.MilkyWay.Models.Twitter
                             MediaUrl = media.MediaUrl + ":orig",
                             ExpandedUrl = media.Url,
                             DisplayUrl = media.DisplayUrl,
-                            Type = "Images",
+                            Type = "Image",
                         };
                     }
                 }
@@ -455,5 +455,6 @@ namespace Flantter.MilkyWay.Models.Twitter
         public MediaSize Size { get; set; }
         public string VideoId { get; set; }
         public string VideoType { get; set; }
+        public string VideoContentType { get; set; }
     }
 }

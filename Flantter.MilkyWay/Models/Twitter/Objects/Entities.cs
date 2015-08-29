@@ -181,6 +181,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
         public string VideoType { get; set; }
         public string VideoId { get; set; }
+        public string VideoContentType { get; set; }
     }
 
     public class UrlEntity

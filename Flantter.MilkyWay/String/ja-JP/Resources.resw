@@ -210,4 +210,28 @@
   <data name="Tweet_Command_MenuFlyout_DeleteRetweet.Text" xml:space="preserve">
     <value>    リツイートの削除</value>
   </data>
+  <data name="ImagePreviewPopup_FailedtoImageSave" xml:space="preserve">
+    <value>画像の保存に失敗しました</value>
+  </data>
+  <data name="ImagePreviewPopup_ImageSavedSuccessfuly" xml:space="preserve">
+    <value>画像の保存に成功しました</value>
+  </data>
+  <data name="ImagePreviewPopup_SaveImage.Text" xml:space="preserve">
+    <value>    画像を保存</value>
+  </data>
+  <data name="ImagePreviewPopup_SearchSimilarImage.Text" xml:space="preserve">
+    <value>    似ている画像を検索</value>
+  </data>
+  <data name="ImagePreviewPopup_ShowinBrowser.Text" xml:space="preserve">
+    <value>    ブラウザで開く</value>
+  </data>
+  <data name="VideoPreviewPopup_Close.Text" xml:space="preserve">
+    <value>    閉じる</value>
+  </data>
+  <data name="VideoPreviewPopup_ShowinBrowser.Text" xml:space="preserve">
+    <value>    ブラウザで開く</value>
+  </data>
+  <data name="ImagePreviewPopup_Close.Text" xml:space="preserve">
+    <value>    閉じる</value>
+  </data>
 </root>

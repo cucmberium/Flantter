@@ -59,4 +59,46 @@
         </Setter>
     </Style>
 
+    <Style TargetType="controls:TriangleButton">
+        <Setter Property="Background" Value="#7F808080" />
+        <Setter Property="Points" Value="60,60,60,0,0,60" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:TriangleButton">
+                    <Grid x:Name="TriangleButtonGrid" Background="{x:Null}" BorderBrush="{x:Null}">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TriangleButtonPolygon"
+                                                         Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#BF808080" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TriangleButtonPolygon"
+                                                         Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#3F808080" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Polygon x:Name="TriangleButtonPolygon" Fill="{TemplateBinding Background}" Stroke="{x:Null}" Points="{TemplateBinding Points}" FillRule="Nonzero"/>
+
+                        <ContentPresenter />
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
 </ResourceDictionary>

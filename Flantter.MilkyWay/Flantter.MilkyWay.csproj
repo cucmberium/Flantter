@@ -129,6 +129,7 @@
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\Twitter\NicoVideo.cs" />
     <Compile Include="Models\Twitter\Objects\DirectMessage.cs" />
     <Compile Include="Models\Twitter\Objects\Entities.cs" />
     <Compile Include="Models\Twitter\Objects\EventMessage.cs" />
@@ -155,6 +156,9 @@
     <Compile Include="Views\Behaviors\TweetEventMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetDirectMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetStatusBehavior.cs" />
+    <Compile Include="Views\Contents\VideoPreviewPopup.xaml.cs">
+      <DependentUpon>VideoPreviewPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\ImagePreviewPopup.xaml.cs">
       <DependentUpon>ImagePreviewPopup.xaml</DependentUpon>
     </Compile>
@@ -190,6 +194,7 @@
     <Compile Include="Views\Controls\ExtendedCanvas.cs" />
     <Compile Include="Views\Controls\ExtendedTextBox.cs" />
     <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
+    <Compile Include="Views\Controls\TriangleButton.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\DateTimeToStringConverter.cs" />
     <Compile Include="Views\Converters\EnumToIntConverter.cs" />
@@ -207,6 +212,7 @@
     <Compile Include="Views\Util\KeyTriggerBehavior.cs" />
     <Compile Include="Views\Util\MessengerTriggerBehavior.cs" />
     <Compile Include="Views\Util\ShowAttachedFlyoutAction.cs" />
+    <Compile Include="Views\Util\ShowVideoPreviewAction.cs" />
     <Compile Include="Views\Util\ShowImagePreviewAction.cs" />
     <Compile Include="Views\Util\WindowSizeHelper.cs" />
   </ItemGroup>
@@ -290,6 +296,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\ColumnArea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\VideoPreviewPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

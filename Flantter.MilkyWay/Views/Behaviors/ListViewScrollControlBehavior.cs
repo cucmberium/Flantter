@@ -34,7 +34,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
             ((ListView)this.AssociatedObject).Loaded += ListView_Loaded;
             ((ListView)this.AssociatedObject).LayoutUpdated += ListView_LayoutUpdated;
             ((ListView)this.AssociatedObject).DataContextChanged += ListView_DataContextChanged;
-            ((ListView)this.AssociatedObject).KeyDown += ListView_KeyDown;
         }
 
         public void Detach()
@@ -47,7 +46,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 ((ListView)this.AssociatedObject).Loaded -= ListView_Loaded;
                 ((ListView)this.AssociatedObject).LayoutUpdated -= ListView_LayoutUpdated;
                 ((ListView)this.AssociatedObject).DataContextChanged -= ListView_DataContextChanged;
-                ((ListView)this.AssociatedObject).KeyDown -= ListView_KeyDown;
             }
         }
         
@@ -103,20 +101,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         DependencyProperty.RegisterAttached("UnreadCountIncrementalTrigger", typeof(bool),
                         typeof(ListViewScrollControlBehavior), new PropertyMetadata(false, UnreadCountIncrementalTriggerChanged));
         
-        private void ListView_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case VirtualKey.Down:
-                case VirtualKey.Up:
-                case VirtualKey.Home:
-                case VirtualKey.End:
-                case VirtualKey.PageDown:
-                case VirtualKey.PageUp:
-                    e.Handled = true;
-                    break;
-            }
-        }
 
         private void ListView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
@@ -241,28 +225,24 @@ namespace Flantter.MilkyWay.Views.Behaviors
         }
         public void RunAnimationTask()
         {
-            bool animationEnd = false;
             for (; tickCount > 0; tickCount--)
             {
                 var dx = remainHeight / tickCount;
                 remainHeight -= dx;
                 currentOffset -= dx;
-                this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                if (isAnimationCooldown)
                 {
-                    if (isAnimationCooldown)
-                    {
-                        remainHeight = 0.0;
-                        isAnimationRunning = false;
-                        animationEnd = true;
-                    }
-                    else
+                    remainHeight = 0.0;
+                    isAnimationRunning = false;
+                    return;
+                }
+                else
+                {
+                    this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
                         this.ScrollViewerObject.ChangeView(null, currentOffset, null, true);
-                    }
-                }).AsTask().Wait();
-
-                if (animationEnd)
-                    return;
+                    }).AsTask().Wait();
+                }
 
                 new Task(() => { }).Wait(10);
             }

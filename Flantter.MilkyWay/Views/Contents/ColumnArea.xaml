@@ -254,7 +254,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!--<controls:PullToRefreshPanel Grid.Row="0">
+                    <controls:PullToRefreshPanel Grid.Row="0">
                         <controls:PullToRefreshPanel.PullContent>
                             <Grid Height="250" Width="320" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                 <Grid.ColumnDefinitions>
@@ -276,11 +276,11 @@
                             </Grid>
                         </controls:PullToRefreshPanel.RefreshContent>
 
-                        <contents:TimelineArea ViewModel="{Binding}"/>
+                        <contents:TimelineArea ViewModel="{x:Bind Mode=OneWay}"/>
 
-                    </controls:PullToRefreshPanel>-->
+                    </controls:PullToRefreshPanel>
 
-                    <contents:TimelineArea ViewModel="{x:Bind Mode=OneWay}"/>
+                    <!--<contents:TimelineArea ViewModel="{x:Bind Mode=OneWay}"/>-->
 
                     <Polygon Grid.Row="0" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Fill="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}" Points="10,10,20,0,30,10" Width="40" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                     

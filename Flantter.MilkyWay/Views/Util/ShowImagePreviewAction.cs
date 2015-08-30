@@ -12,7 +12,7 @@ namespace Flantter.MilkyWay.Views.Util
 {
     public class ShowImagePreviewAction : DependencyObject, IAction
     {
-        ImagePreviewPopup _ImagePreviewPopup;
+        ImagePreviewPopup _ImagePreviewPopup = null;
 
         public ShowImagePreviewAction()
         {
@@ -23,6 +23,9 @@ namespace Flantter.MilkyWay.Views.Util
         {
             var notification = parameter as Notification;
             var mediaEntity = notification.Content as MediaEntity;
+
+            if (_ImagePreviewPopup == null)
+                _ImagePreviewPopup = new ImagePreviewPopup();
 
             this._ImagePreviewPopup.ImageUrl = mediaEntity.MediaUrl;
             this._ImagePreviewPopup.ImageWebUrl = mediaEntity.ExpandedUrl;

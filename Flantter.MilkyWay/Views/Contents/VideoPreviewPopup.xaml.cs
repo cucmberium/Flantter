@@ -1,10 +1,12 @@
-﻿using Flantter.MilkyWay.Models.Twitter;
+﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Views.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -25,8 +27,11 @@ namespace Flantter.MilkyWay.Views.Contents
     public sealed partial class VideoPreviewPopup : UserControl
     {
         private Popup VideoPreview;
+        private AppBar _BottomAppBar;
+
 
         private bool _IsSmallView { get; set; }
+        private bool _IsBottomBarOpen { get; set; }
 
         public string VideoWebUrl { get; set; }
         public string VideoThumbnailUrl { get; set; }
@@ -39,22 +44,28 @@ namespace Flantter.MilkyWay.Views.Contents
         {
             this.InitializeComponent();
 
-            Window.Current.SizeChanged += VideoPreviewPopup_SizeChanged;
-
-            this.Width = WindowSizeHelper.Instance.ClientWidth;
-            this.Height = WindowSizeHelper.Instance.ClientHeight;
-
             this.VideoPreview = new Popup
             {
                 Child = this,
                 IsLightDismissEnabled = false,
-                Opacity = 1
+                Opacity = 1,
             };
 
-            Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.TitleBarHeight);
-            Canvas.SetLeft(this.VideoPreview, 0);
+            this.VideoPreview.Loaded += (_, __) =>
+            {
+                var page = (Window.Current.Content as Frame).Content as Page;
+                _BottomAppBar = page.BottomAppBar;
+                this._IsBottomBarOpen = _BottomAppBar.IsOpen;
+                _BottomAppBar.Opened += (s, e) => { this._IsBottomBarOpen = true; VideoPreviewPopup_SizeChanged(null, null); };
+                _BottomAppBar.Closed += (s, e) => { this._IsBottomBarOpen = false; VideoPreviewPopup_SizeChanged(null, null); };
+            };
+
+
+            Window.Current.SizeChanged += VideoPreviewPopup_SizeChanged;
+            
+            VideoPreviewPopup_SizeChanged(null, null);
         }
-        
+
         ~VideoPreviewPopup()
         {
             Window.Current.SizeChanged -= VideoPreviewPopup_SizeChanged;
@@ -64,26 +75,40 @@ namespace Flantter.MilkyWay.Views.Contents
         {
             if (_IsSmallView)
             {
-                var videoWidth = WindowSizeHelper.Instance.ClientWidth / 2;
-                if (videoWidth > 640)
-                    videoWidth = 640;
-                else if (videoWidth < 480)
-                    videoWidth = 480;
+                var videoWidth = WindowSizeHelper.Instance.ClientWidth;
+                
+                var bottomMargin = 0.0;
+                var rightMargin = 0.0;
+                if (WindowSizeHelper.Instance.ClientWidth < 352.0)
+                {
+                    bottomMargin = 64.0 + 30.0;
+                    rightMargin = 0.0;
 
-                if (WindowSizeHelper.Instance.ClientWidth < videoWidth)
                     videoWidth = WindowSizeHelper.Instance.ClientWidth;
+                }
+                else if (WindowSizeHelper.Instance.ClientWidth < 500.0)
+                {
+                    bottomMargin = 64.0 + 10.0 + 30.0;
+                    rightMargin = 10.0;
+
+                    videoWidth = (WindowSizeHelper.Instance.ClientWidth - 5.0 * 2) - 10.0;
+                }
+                else
+                {
+                    bottomMargin = 75.0 + 10.0 + 30.0;
+                    rightMargin = 10.0;
+
+                    videoWidth = Math.Max((WindowSizeHelper.Instance.ClientWidth - 5.0 * 2) / 2.0 - 10.0, 480.0);
+                    if (videoWidth > 640)
+                        videoWidth = 640;
+                }
                 var videoHeight = videoWidth * 9 / 16;
 
-                var bottomMargin = 0.0;
-                if (WindowSizeHelper.Instance.ClientWidth < 352.0)
-                    bottomMargin = 64.0 + 30.0;
-                else if (WindowSizeHelper.Instance.ClientWidth < 500.0)
-                    bottomMargin = 64.0 + 10.0 + 30.0;
-                else
-                    bottomMargin = 75.0 + 10.0 + 30.0;
+                if (_IsBottomBarOpen)
+                    bottomMargin = (_BottomAppBar.Content as FrameworkElement).ActualHeight;
 
                 Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.TitleBarHeight + WindowSizeHelper.Instance.ClientHeight - videoHeight - bottomMargin);
-                Canvas.SetLeft(this.VideoPreview, WindowSizeHelper.Instance.ClientWidth - videoWidth);
+                Canvas.SetLeft(this.VideoPreview, WindowSizeHelper.Instance.ClientWidth - videoWidth - rightMargin);
 
                 this.Width = videoWidth;
                 this.Height = videoHeight;
@@ -106,6 +131,11 @@ namespace Flantter.MilkyWay.Views.Contents
                     videoWidth = WindowSizeHelper.Instance.ClientWidth - 20;
 
                 var videoHeight = videoWidth * 9 / 16;
+                if (videoHeight > WindowSizeHelper.Instance.ClientHeight)
+                {
+                    videoHeight = WindowSizeHelper.Instance.ClientHeight;
+                    videoWidth = videoHeight * 16 / 9;
+                }
 
                 if (this.VideoType == "Vine")
                 {
@@ -130,13 +160,10 @@ namespace Flantter.MilkyWay.Views.Contents
         public async void VideoChanged()
         {
             this.VideoPreviewWebView.NavigateToString("<html></html>");
-
-
-
+            
             _IsSmallView = false;
 
             VideoPreviewPopup_SizeChanged(null, null);
-
 
             if (this.VideoType == "Vine")
             {
@@ -153,7 +180,7 @@ namespace Flantter.MilkyWay.Views.Contents
 
                 var html = "<html><head><link href=\"http://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} .video-js {{ padding-top: 56.25%; }} \n</style></head>";
                 html += "<body><script src=\"https://code.jquery.com/jquery-2.1.3.min.js\"></script><script src=\"http://vjs.zencdn.net/4.12/video.js\"></script>";
-                html += "<video id=\"twitter\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls autoplay loop preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type='{2}'></video>";
+                html += "<video id=\"twitter\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls autoplay loop preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type=\"{2}\"></video>";
                 html += "</body></html>";
                 this.VideoPreviewWebView.NavigateToString(string.Format(html, this.VideoThumbnailUrl, this.Id, this.VideoContentType));
             }
@@ -172,7 +199,7 @@ namespace Flantter.MilkyWay.Views.Contents
                     return;
 
                 var html = "<html><head><link href=\"http://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} \n .video-js {{ padding-top: 56.25%; }} \n </style></head>";
-                html += "<body><script src=\"http://vjs.zencdn.net/4.12/video.js\"></script><div id=\"video\"><video id=\"nicovideo\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type='{2}'></video></div></body></html>";
+                html += "<body><script src=\"http://vjs.zencdn.net/4.12/video.js\"></script><div id=\"video\"><video id=\"nicovideo\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type=\"{2}\"></video></div></body></html>";
 
                 this.VideoPreviewWebView.NavigateToString(string.Format(html, this.VideoThumbnailUrl, nicoVideo.VideoUrl, nicoVideo.VideoContentType));
             }

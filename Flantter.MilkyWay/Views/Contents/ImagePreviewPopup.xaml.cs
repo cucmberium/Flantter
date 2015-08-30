@@ -60,6 +60,7 @@ namespace Flantter.MilkyWay.Views.Contents
             Canvas.SetLeft(this.ImagePreview, 0);
 
             this.Bitmap = new BitmapImage();
+            this.Bitmap.UriSource = new Uri("http://localhost");
             this.Bitmap.ImageFailed += Bitmap_ImageFailed;
             this.Bitmap.ImageOpened += Bitmap_ImageOpened;
             this.ImagePreviewImage.Source = this.Bitmap;
@@ -92,16 +93,15 @@ namespace Flantter.MilkyWay.Views.Contents
 
         public void ImageChanged()
         {
-            this.ImagePreviewProgressRing.Visibility = Visibility.Visible;
-            this.ImagePreviewProgressRing.IsActive = true;
-            this.ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
-            this.ImagePreviewImage.Opacity = 0;
-            this.Bitmap.UriSource = new Uri(this.ImageUrl);
+            if (this.Bitmap.UriSource.AbsoluteUri != this.ImageUrl)
+            {
+                this.ImagePreviewProgressRing.Visibility = Visibility.Visible;
+                this.ImagePreviewProgressRing.IsActive = true;
+                this.ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
+                this.ImagePreviewImage.Opacity = 0;
 
-            //var imageWidth = this.Bitmap.PixelWidth;
-            //var imageHeight = this.Bitmap.PixelHeight;
-
-            // Todo : Pixivの拡張機能を使用した場合
+                this.Bitmap.UriSource = new Uri(this.ImageUrl);
+            }
         }
 
         public void Show()

@@ -169,16 +169,17 @@ namespace Flantter.MilkyWay.Themes
 
                 ((SolidColorBrush)Application.Current.Resources["PageBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PageBackgroundBrush"]).Color;
 
+                ((SolidColorBrush)Application.Current.Resources["AppBarTweetButtonBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarTweetButtonBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarTweetButtonForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarTweetButtonForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarCharacterCountForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarCharacterCountForegroundBrush"]).Color;
+                
                 ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarButtonBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarButtonBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarButtonForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarButtonInactiveBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarButtonInactiveForegroundBrush"]).Color;
-
-                ((SolidColorBrush)Application.Current.Resources["AppBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarBackgroundBrush"]).Color;
-                ((SolidColorBrush)Application.Current.Resources["AppBarBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarBorderBrush"]).Color;
-
+                
 				((SolidColorBrush)Application.Current.Resources["BottomBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarBackgroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonSelectedBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarTextblockButtonSelectedBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["BottomBarTextblockButtonUnselectedBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["BottomBarTextblockButtonUnselectedBrush"]).Color;
@@ -328,6 +329,10 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["AppBarBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarBorderBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["PageBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PageBackgroundBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["AppBarTweetButtonBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarTweetButtonBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarTweetButtonForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarTweetButtonForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarCharacterCountForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarCharacterCountForegroundBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TitleBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TitleBarForegroundBrush"]).Color;

@@ -320,7 +320,6 @@ namespace Flantter.MilkyWay.Models
             this.Index = this._ColumnSetting.Index;
             this.Name = this._ColumnSetting.Name;
             this.Parameter = this._ColumnSetting.Parameter;
-            this.Streaming = this._ColumnSetting.Streaming;
             this.FetchingNumberOfTweet = this._ColumnSetting.FetchingNumberOfTweet;
             this.OwnerScreenName = this._AccountSetting.ScreenName;
             this.OwnerUserId = this._AccountSetting.UserId;
@@ -331,13 +330,13 @@ namespace Flantter.MilkyWay.Models
                 this.IsScrollControlEnabled = false;
 
                 await Update();
-                //await Task.Delay(100);
 
                 this.IsScrollControlEnabled = true;
                 this.DisableNotifyCollectionChanged = false;
             }
-                
-                
+            
+            //await Task.Delay(100);
+            this.Streaming = this._ColumnSetting.Streaming;
         }
         #endregion
 

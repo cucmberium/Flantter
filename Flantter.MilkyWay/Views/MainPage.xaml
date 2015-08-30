@@ -44,7 +44,7 @@
 
     <Page.BottomAppBar>
         <AppBar IsOpen="{Binding AppBarIsOpen.Value, Mode=TwoWay}" ClosedDisplayMode="Hidden" IsSticky="False">
-            <contents:TweetArea DataContext="{Binding}" />
+            <contents:TweetArea ViewModel="{Binding TweetArea.Value, Mode=OneWay}" />
         </AppBar>
     </Page.BottomAppBar>
     

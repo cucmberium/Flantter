@@ -75,6 +75,10 @@
 
     <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FFEBEBEB" />
 
+    <SolidColorBrush x:Key="AppBarTweetButtonBackgroundBrush" Color="#22000000" />
+    <SolidColorBrush x:Key="AppBarTweetButtonForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="AppBarCharacterCountForegroundBrush" Color="Black" />
+    
     <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#FF2387C1" />
     <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="White" />
     <SolidColorBrush x:Key="TitleBarButtonBackgroundBrush" Color="#FF2387C1" />

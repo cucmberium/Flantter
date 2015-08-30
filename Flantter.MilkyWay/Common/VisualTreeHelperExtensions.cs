@@ -31,5 +31,19 @@ namespace Flantter.MilkyWay.Common
             }
             return child;
         }
+
+        public static FrameworkElement GetVisualParent(this FrameworkElement node)
+        {
+            return VisualTreeHelper.GetParent(node) as FrameworkElement;
+        }
+        public static IEnumerable<FrameworkElement> GetVisualAncestors(this FrameworkElement node)
+        {
+            FrameworkElement parent = node.GetVisualParent();
+            while (parent != null)
+            {
+                yield return parent;
+                parent = parent.GetVisualParent();
+            }
+        }
     }
 }

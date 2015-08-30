@@ -12,11 +12,10 @@ namespace Flantter.MilkyWay.Views.Util
 {
     public class ShowVideoPreviewAction : DependencyObject, IAction
     {
-        VideoPreviewPopup _VideoPreviewPopup;
+        VideoPreviewPopup _VideoPreviewPopup = null;
 
         public ShowVideoPreviewAction()
         {
-            this._VideoPreviewPopup = new VideoPreviewPopup();
         }
 
         public object Execute(object sender, object parameter)
@@ -24,6 +23,9 @@ namespace Flantter.MilkyWay.Views.Util
             var notification = parameter as Notification;
             var mediaEntity = notification.Content as MediaEntity;
 
+            if (_VideoPreviewPopup == null)
+                _VideoPreviewPopup = new VideoPreviewPopup();
+            
             this._VideoPreviewPopup.Id = mediaEntity.VideoInfo.VideoId;
             this._VideoPreviewPopup.VideoWebUrl = mediaEntity.ExpandedUrl;
             this._VideoPreviewPopup.VideoThumbnailUrl = mediaEntity.MediaThumbnailUrl;

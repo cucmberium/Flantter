@@ -129,6 +129,7 @@
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\TweetAreaModel.cs" />
     <Compile Include="Models\Twitter\NicoVideo.cs" />
     <Compile Include="Models\Twitter\Objects\DirectMessage.cs" />
     <Compile Include="Models\Twitter\Objects\Entities.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="ViewModels\ColumnViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
+    <Compile Include="ViewModels\TweetAreaViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EventMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\DirectMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />

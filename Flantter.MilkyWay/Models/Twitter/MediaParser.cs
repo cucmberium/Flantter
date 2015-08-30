@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flantter.MilkyWay.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -407,6 +408,14 @@ namespace Flantter.MilkyWay.Models.Twitter
                 {
                     if (media.Type == "animated_gif" || media.Type == "video")
                     {
+                        CoreTweet.VideoVariant variant;
+
+                        var variants = media.VideoInfo.Variants.Where(x => x.ContentType == "video/mp4" || x.ContentType == "video/webm");
+                        if (variants.Count() == 0)
+                            variant = media.VideoInfo.Variants.First();
+                        else
+                            variant = variants.FindMax(x => x.Bitrate.HasValue ? x.Bitrate.Value : 0);
+
                         yield return new Media()
                         {
                             MediaThumbnailUrl = media.MediaUrl + ":thumb",
@@ -414,7 +423,7 @@ namespace Flantter.MilkyWay.Models.Twitter
                             ExpandedUrl = media.Url,
                             DisplayUrl = media.DisplayUrl,
                             Type = "Video",
-                            VideoInfo = new VideoInfo() { VideoId = media.VideoInfo.Variants.Last().Url, VideoType = "Twitter", Size = new VideoInfo.MediaSize { Width = media.Sizes.Large.Width, Height = media.Sizes.Large.Height }, VideoContentType = media.VideoInfo.Variants.Last().ContentType }
+                            VideoInfo = new VideoInfo() { VideoId = variant.Url, VideoType = "Twitter", Size = new VideoInfo.MediaSize { Width = media.Sizes.Large.Width, Height = media.Sizes.Large.Height }, VideoContentType = variant.ContentType }
                         };
                     }
                     else

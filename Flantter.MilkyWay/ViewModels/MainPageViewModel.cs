@@ -23,6 +23,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; private set; }
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
         public ReactiveProperty<bool> AppBarIsOpen { get; private set; }
+        public ReactiveProperty<TweetAreaViewModel> TweetArea { get; private set; }
 
         public Messenger ShowImagePreviewMessenger { get; private set; }
 
@@ -38,6 +39,8 @@ namespace Flantter.MilkyWay.ViewModels
             this.TitleBarVisivility = SettingService.Setting.ObserveProperty(x => x.TitleBarVisibility).ToReactiveProperty();
 
             this.AppBarIsOpen = new ReactiveProperty<bool>(false);
+
+            this.TweetArea = new ReactiveProperty<TweetAreaViewModel>(new TweetAreaViewModel(this.Accounts));
 
             this.ShowImagePreviewMessenger = new Messenger();
             this.ShowVideoPreviewMessenger = new Messenger();

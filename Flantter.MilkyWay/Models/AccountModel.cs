@@ -122,7 +122,15 @@ namespace Flantter.MilkyWay.Models
                 Task.Run(async () => await columnModel.Initialize());
             }
 
-            // Todo : ScreenNameの更新, 下部UserProfileImageの更新等
+            Task.Run(async () => 
+            {
+                var user = await this._Tokens.Users.ShowAsync(user_id => this.UserId);
+                this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
+                this.ProfileBannerUrl = user.ProfileBannerUrl;
+
+                this._AccountSetting.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
+                this._AccountSetting.ProfileBannerUrl = user.ProfileBannerUrl;
+            });
         }
         #endregion
 
@@ -132,7 +140,7 @@ namespace Flantter.MilkyWay.Models
             this._Columns = new ObservableCollection<ColumnModel>();
             this._ReadOnlyColumns = new ReadOnlyObservableCollection<ColumnModel>(this._Columns);
 
-            this.ProfileImageUrl = "https://pbs.twimg.com/profile_images/3077279905/11e31fda9b6648ea0a362820ed4d7d0f.png";
+            this.ProfileImageUrl = "";
             this.IsEnabled = true;
         }
 

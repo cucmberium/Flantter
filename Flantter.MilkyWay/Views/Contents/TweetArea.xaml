@@ -31,8 +31,8 @@
 
         <Grid Grid.Row="1" Height="130">
 
-            <Button VerticalAlignment="Top" Width="60" Height="60" Margin="5,5,0,0" Padding="0" BorderThickness="0">
-                <Image Stretch="UniformToFill" Source="{Binding AccountButtonImageSource}"/>
+            <Button x:Name="BottomAppBar_AccountButton" VerticalAlignment="Top" Width="60" Height="60" Margin="5,5,0,0" Padding="0" BorderThickness="0">
+                <Image Stretch="UniformToFill" Source="{x:Bind ViewModel.SelectedAccount.Value.ProfileImageUrl.Value, Mode=OneWay}"/>
                 <Button.Flyout>
                     <Flyout Placement="Top">
                         
@@ -40,7 +40,7 @@
                 </Button.Flyout>
             </Button>
 
-            <controls:ExtendedTextBox Style="{StaticResource ExtendedTextBoxStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{Binding Source={StaticResource Setting},Path=Setting.TweetPostFieldFontSize}">
+            <controls:ExtendedTextBox x:Name="BottomAppBar_TextBox" Text="{Binding TweetArea.Value.Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ExtendedTextBoxStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{Binding Source={StaticResource Setting},Path=Setting.TweetPostFieldFontSize}">
                 <i:Interaction.Behaviors>
                     <behaviors:TextBoxKeyTriggerBehavior>
                         <util:KeyTrigger Key="Enter" Modifiers="Control">
@@ -50,7 +50,7 @@
                 </i:Interaction.Behaviors>
             </controls:ExtendedTextBox>
 
-            <AppBarButton Style="{StaticResource ExtendedAppBarButtonStyle}" Width="100" IsCompact="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,0,0" Label="Tweet" Height="90">
+            <AppBarButton x:Name="BottomAppBar_TweetButton" Style="{StaticResource ExtendedAppBarButtonStyle}" Width="100" IsCompact="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,0,0" Label="Tweet" Height="90">
                 <AppBarButton.Icon>
                     <PathIcon Data="M20.3599987030029,17.0200004577637L20.2982959747314,15.3165817260742 20.7248592376709,13.8618698120117 21.6109313964844,12.6718635559082 22.9277572631836,11.7625598907471 24.349178314209,11.3314666748047 25.7337284088135,11.3477125167847 27.0583534240723,11.8207426071167 28.2999992370605,12.7600002288818 31.2799987792969,11.6399993896484 30.5911140441895,13.0404796600342 29.2799987792969,14.1999998092651 31.9199981689453,13.5 29.5999984741211,15.8999996185303 29.3917999267578,18.8514404296875 28.6413745880127,21.4481601715088 27.5722007751465,23.5763988494873 25.5548362731934,26.1680793762207 23.3233985900879,27.9143581390381 20.9852809906006,29.036039352417 17.6354751586914,29.7396450042725 14.4869346618652,29.6789989471436 11.6279172897339,28.9678649902344 9.14667892456055,27.7199993133545 12.7489204406738,27.4371242523193 14.4411554336548,26.7908344268799 16.0533199310303,25.7733192443848 13.3364295959473,24.83811378479 11.7066783905029,22.5200004577637 13.7333202362061,22.4133186340332 12.1511697769165,21.7406959533691 11.0099296569824,20.7355556488037 10.3170547485352,19.4226360321045 10.0799999237061,17.8266792297363 12.1066799163818,18.3600006103516 10.8615303039551,17.0618438720703 10.2149152755737,15.5937051773071 10.1675119400024,13.9553833007813 10.7199993133545,12.1466808319092 12.8063335418701,14.1511659622192 15.1005001068115,15.6508445739746 17.6144161224365,16.616771697998 20.3599987030029,17.0200004577637z">
                         <PathIcon.RenderTransform>
@@ -59,8 +59,15 @@
                     </PathIcon>
                 </AppBarButton.Icon>
             </AppBarButton>
+            <Button x:Name="BottomAppBar_TweetSmallButton" Visibility="Collapsed" Background="{StaticResource AppBarTweetButtonBackgroundBrush}" Height="40" Width="60" VerticalAlignment="Bottom" BorderThickness="0" Padding="0" BorderBrush="Transparent" Margin="0,0,5,0" HorizontalAlignment="Right">
+                <PathIcon Foreground="{StaticResource AppBarTweetButtonForegroundBrush}" Data="M20.3599987030029,17.0200004577637L20.2982959747314,15.3165817260742 20.7248592376709,13.8618698120117 21.6109313964844,12.6718635559082 22.9277572631836,11.7625598907471 24.349178314209,11.3314666748047 25.7337284088135,11.3477125167847 27.0583534240723,11.8207426071167 28.2999992370605,12.7600002288818 31.2799987792969,11.6399993896484 30.5911140441895,13.0404796600342 29.2799987792969,14.1999998092651 31.9199981689453,13.5 29.5999984741211,15.8999996185303 29.3917999267578,18.8514404296875 28.6413745880127,21.4481601715088 27.5722007751465,23.5763988494873 25.5548362731934,26.1680793762207 23.3233985900879,27.9143581390381 20.9852809906006,29.036039352417 17.6354751586914,29.7396450042725 14.4869346618652,29.6789989471436 11.6279172897339,28.9678649902344 9.14667892456055,27.7199993133545 12.7489204406738,27.4371242523193 14.4411554336548,26.7908344268799 16.0533199310303,25.7733192443848 13.3364295959473,24.83811378479 11.7066783905029,22.5200004577637 13.7333202362061,22.4133186340332 12.1511697769165,21.7406959533691 11.0099296569824,20.7355556488037 10.3170547485352,19.4226360321045 10.0799999237061,17.8266792297363 12.1066799163818,18.3600006103516 10.8615303039551,17.0618438720703 10.2149152755737,15.5937051773071 10.1675119400024,13.9553833007813 10.7199993133545,12.1466808319092 12.8063335418701,14.1511659622192 15.1005001068115,15.6508445739746 17.6144161224365,16.616771697998 20.3599987030029,17.0200004577637z">
+                    <PathIcon.RenderTransform>
+                        <CompositeTransform ScaleX="1" ScaleY="1" TranslateX="-4" TranslateY="-5"/>
+                    </PathIcon.RenderTransform>
+                </PathIcon>
+            </Button>
 
-            <Grid Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Grid x:Name="BottomAppBar_CommandGrid" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -70,7 +77,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="5" Text="140" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
+                <TextBlock x:Name="BottomAppBar_CounterTextBlock" Grid.Column="5" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
                 <Button Grid.Column="4" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="NoticeMessage" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" BorderBrush="Transparent" Margin="3,0">
                     <SymbolIcon Symbol="Accept"/>
                 </Button>
@@ -101,5 +108,117 @@
                 </ItemsControl>
             </Grid>
         </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SizeStateGroup">
+                <VisualState x:Name="Minimal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Width">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Height">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,0,0,0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="VerticalAlignment">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TextBox" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,5,5,40"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetButton" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetSmallButton" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CommandGrid" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,72.5,0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CounterTextBlock" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Min">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="384" />
+                    </VisualState.StateTriggers>
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Width">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Height">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,0,0,0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="VerticalAlignment">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TextBox" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,5,5,40"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetButton" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetSmallButton" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CommandGrid" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,72.5,0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CounterTextBlock" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Width">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Height">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,0,0,0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="VerticalAlignment">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TextBox" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,5,5,40"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetButton" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetSmallButton" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CommandGrid" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,72.5,0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CounterTextBlock" Storyboard.TargetProperty="Margin">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="700" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

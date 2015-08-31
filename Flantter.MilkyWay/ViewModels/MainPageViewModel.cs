@@ -18,7 +18,7 @@ namespace Flantter.MilkyWay.ViewModels
 {
     public class MainPageViewModel : ViewModel
     {
-        private MainPageModel _MainPageModel { get; set; }
+        public MainPageModel _MainPageModel { get; set; }
 
         public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; private set; }
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
@@ -68,6 +68,12 @@ namespace Flantter.MilkyWay.ViewModels
                 else if (media.Type == "Video")
                     await this.ShowVideoPreviewMessenger.Raise(new Notification() { Content = x });
 
+            });
+
+            Services.Notice.Instance.TweetAreaOpenCommand.Subscribe(x =>
+            {
+                var isOpen = (bool)x;
+                this.AppBarIsOpen.Value = isOpen;
             });
 
             #endregion

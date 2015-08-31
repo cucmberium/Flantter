@@ -9,7 +9,7 @@
     "Newtonsoft.Json": "7.0.1",
     "NotificationsExtensions.Win10": "10240.0.3",
     "Prism.Mvvm": "1.1.1",
-    "ReactiveProperty": "2.2.2",
+    "ReactiveProperty": "2.2.3.1",
     "Rx-Core": "2.2.5",
     "Rx-Interfaces": "2.2.5",
     "Rx-Linq": "2.2.5",

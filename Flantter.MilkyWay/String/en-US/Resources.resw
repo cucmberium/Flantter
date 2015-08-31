@@ -234,4 +234,28 @@
   <data name="VideoPreviewPopup_Close.Text" xml:space="preserve">
     <value>    Close</value>
   </data>
+  <data name="TweetArea_Message_Over140Character" xml:space="preserve">
+    <value>Character count over 140.</value>
+  </data>
+  <data name="TweetArea_Message_TextIsEmptyOrWhiteSpace" xml:space="preserve">
+    <value>Text is empty or whitespace.</value>
+  </data>
+  <data name="TweetArea_Message_TwitterMediaOverCapacity" xml:space="preserve">
+    <value>Uploading picture to twitter requires making the picture count less than 4 and the movie count less than 1.</value>
+  </data>
+  <data name="TweetArea_Message_UpdatingStatus" xml:space="preserve">
+    <value>Updating status</value>
+  </data>
+  <data name="TweetArea_Message_UploadingImage" xml:space="preserve">
+    <value>Uploading image</value>
+  </data>
+  <data name="TweetArea_LockingHashTagsButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Lock/Unlock Hashtags</value>
+  </data>
+  <data name="TweetArea_PictureButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Picture</value>
+  </data>
+  <data name="TweetArea_PictureDelete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>

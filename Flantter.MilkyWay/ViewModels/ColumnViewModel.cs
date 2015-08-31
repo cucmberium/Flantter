@@ -22,7 +22,7 @@ namespace Flantter.MilkyWay.ViewModels
 {
     public class ColumnViewModel
     {
-        private ColumnModel _ColumnModel { get; set; }
+        public ColumnModel _ColumnModel { get; set; }
 
         public ReactiveProperty<double> Height { get; private set; }
         public ReactiveProperty<double> Width { get; private set; }

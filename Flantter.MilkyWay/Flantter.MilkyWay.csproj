@@ -197,6 +197,8 @@
     <Compile Include="Views\Controls\ExtendedTextBox.cs" />
     <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
     <Compile Include="Views\Controls\TriangleButton.cs" />
+    <Compile Include="Views\Converters\BooleanNegationConverter.cs" />
+    <Compile Include="Views\Converters\BooleanNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\DateTimeToStringConverter.cs" />
     <Compile Include="Views\Converters\EnumToIntConverter.cs" />

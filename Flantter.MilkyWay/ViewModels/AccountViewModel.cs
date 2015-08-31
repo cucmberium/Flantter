@@ -15,13 +15,15 @@ namespace Flantter.MilkyWay.ViewModels
 {
     public class AccountViewModel
     {
-        private AccountModel _AccountModel { get; set; }
+        public AccountModel _AccountModel { get; set; }
+        public Services.Notice Notice { get; set; }
 
         public ReadOnlyReactiveCollection<ColumnViewModel> Columns { get; private set; }
         public ReadOnlyReactiveCollection<string> AdditionalColumnsName { get; private set; }
 
         public ReactiveProperty<string> ProfileImageUrl { get; private set; }
         public ReactiveProperty<string> ProfileBannerUrl { get; private set; }
+        public ReactiveProperty<string> ScreenName { get; private set; }
         public ReactiveProperty<bool> IsEnabled { get; private set; }
         public ReactiveProperty<double> PanelWidth { get; private set; }
         public ReactiveProperty<int> ColumnCount { get; private set; }
@@ -40,6 +42,7 @@ namespace Flantter.MilkyWay.ViewModels
         public AccountViewModel(AccountModel account)
         {
             this._AccountModel = account;
+            this.ScreenName = account.ObserveProperty(x => x.ScreenName).ToReactiveProperty();
             this.ProfileImageUrl = account.ObserveProperty(x => x.ProfileImageUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
             this.ProfileBannerUrl = account.ObserveProperty(x => x.ProfileBannerUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
             this.IsEnabled = account.ObserveProperty(x => x.IsEnabled).ToReactiveProperty();
@@ -87,6 +90,8 @@ namespace Flantter.MilkyWay.ViewModels
 			this.MinSnapPoint = new ReactiveProperty<double>(352.0);
 
             this.ColumnSelectedIndex = new ReactiveProperty<int>(0);
+
+            this.Notice = Services.Notice.Instance;
 
             #region Command
 

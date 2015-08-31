@@ -30,7 +30,7 @@ namespace Flantter.MilkyWay.Views.Util
 
             // 表示場所・表示モードの設定
             picker.SuggestedStartLocation = fileOpenPickerNotification.SuggestedStartLocation;
-            picker.ViewMode = fileOpenPickerNotification.ViewModel;
+            picker.ViewMode = fileOpenPickerNotification.ViewMode;
 
             // 複数選択かどうかを見て表示方法を変える
             if (fileOpenPickerNotification.IsMultiple)
@@ -67,7 +67,7 @@ namespace Flantter.MilkyWay.Views.Util
         /// <summary>
         /// 表示モード
         /// </summary>
-        public PickerViewMode ViewModel { get; set; }
+        public PickerViewMode ViewMode { get; set; }
 
         /// <summary>
         /// 複数選択可能かどうか

@@ -21,6 +21,8 @@
 			<converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
 			<converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
             <converters:StringToTweetBackgroundBrushConverter x:Key="StringToTweetBackgroundBrushConverter"/>
+            <converters:BooleanNegationToVisibilityConverter x:Key="BooleanNegationToVisibilityConverter"/>
+            <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
             
             <setting:SettingProvider x:Key="Setting"/>
             <setting:AdvancedSettingProvider x:Key="AdvancedSetting"/>

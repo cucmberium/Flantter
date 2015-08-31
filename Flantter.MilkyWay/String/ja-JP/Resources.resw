@@ -234,4 +234,37 @@
   <data name="ImagePreviewPopup_Close.Text" xml:space="preserve">
     <value>    閉じる</value>
   </data>
+  <data name="TweetArea_Message_Over140Character" xml:space="preserve">
+    <value>140字を超えています</value>
+  </data>
+  <data name="TweetArea_Message_TextIsEmptyOrWhiteSpace" xml:space="preserve">
+    <value>投稿欄が空になっています</value>
+  </data>
+  <data name="TweetArea_Message_TwitterMediaOverCapacity" xml:space="preserve">
+    <value>Twitterに投稿する場合画像は4枚以下、動画は1つ以下にする必要があります</value>
+  </data>
+  <data name="TweetArea_Message_UpdatingStatus" xml:space="preserve">
+    <value>投稿中・・・</value>
+  </data>
+  <data name="TweetArea_Message_UploadingImage" xml:space="preserve">
+    <value>画像のアップロード中・・・</value>
+  </data>
+  <data name="TweetArea_Message_VideoIsNotSupported" xml:space="preserve">
+    <value>動画は選択されたサービスではアップロードできません</value>
+  </data>
+  <data name="TweetArea_LockingHashTagsButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>ハッシュタグの固定/解除</value>
+  </data>
+  <data name="TweetArea_Message_AllSet" xml:space="preserve">
+    <value>準備完了</value>
+  </data>
+  <data name="TweetArea_Message_Error" xml:space="preserve">
+    <value>エラー</value>
+  </data>
+  <data name="TweetArea_PictureButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="TweetArea_PictureDelete.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
 </root>

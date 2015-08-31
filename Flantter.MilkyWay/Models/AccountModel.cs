@@ -97,7 +97,7 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region Tokens
-        private Tokens _Tokens;
+        public Tokens _Tokens;
         #endregion
         #region AccountSetting
         private AccountSetting _AccountSetting;

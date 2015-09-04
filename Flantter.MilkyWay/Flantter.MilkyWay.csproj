@@ -158,6 +158,9 @@
     <Compile Include="Views\Behaviors\TweetEventMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetDirectMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetStatusBehavior.cs" />
+    <Compile Include="Views\Contents\TweetAreaSuggestionPopup.xaml.cs">
+      <DependentUpon>TweetAreaSuggestionPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\VideoPreviewPopup.xaml.cs">
       <DependentUpon>VideoPreviewPopup.xaml</DependentUpon>
     </Compile>
@@ -302,6 +305,10 @@
     <Page Include="Views\Contents\ColumnArea.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\TweetAreaSuggestionPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\VideoPreviewPopup.xaml">
       <Generator>MSBuild:Compile</Generator>

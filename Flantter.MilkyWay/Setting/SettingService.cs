@@ -152,7 +152,7 @@ namespace Flantter.MilkyWay.Setting
         public string CustomThemePath { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
 
         // その他
-        public bool FixedTypo { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public string AdvancedSettingData { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); } }
     }
 
     public class SettingProvider

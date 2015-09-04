@@ -83,8 +83,7 @@ namespace Flantter.MilkyWay.Views
 
                 try
                 {
-                    var advancedSetting = await ApplicationData.Current.RoamingFolder.CreateFileAsync("account.json", CreationCollisionOption.ReplaceExisting);
-                    await AdvancedSettingService.AdvancedSetting.SaveToStream(advancedSetting);
+                    AdvancedSettingService.AdvancedSetting.SaveToStream();
                 }
                 catch (Exception ex)
                 {

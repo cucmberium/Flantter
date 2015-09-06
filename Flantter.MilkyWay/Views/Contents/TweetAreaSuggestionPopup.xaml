@@ -5,11 +5,30 @@
     xmlns:local="using:Flantter.MilkyWay.Views.Contents"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="200">
 
-    <Grid>
-
-    </Grid>
+    <ListBox x:Name="ListBox" KeyDown="ListBox_KeyDown" MinHeight="44" MaxHeight="164" Width="204" Background="White" BorderBrush="Black" BorderThickness="2" ItemsSource="{x:Bind Items, Mode=OneWay}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <VirtualizingStackPanel/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemContainerStyle>
+            <Style TargetType="ListBoxItem">
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+        </ItemsControl.ItemContainerStyle>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="contents:SuggestionItem">
+                <TextBlock Foreground="Black" Padding="15,10,10,10" Height="40">
+                    <Run Text="{x:Bind Text, Mode=OneWay}"/>
+                </TextBlock>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ListBox>
 </UserControl>

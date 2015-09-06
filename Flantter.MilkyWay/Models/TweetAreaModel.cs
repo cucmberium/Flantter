@@ -15,6 +15,9 @@ using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
+using Flantter.MilkyWay.Views.Util;
+using Flantter.MilkyWay.Models.Twitter;
+using Flantter.MilkyWay.Views.Behaviors;
 
 namespace Flantter.MilkyWay.Models
 {
@@ -34,6 +37,8 @@ namespace Flantter.MilkyWay.Models
             this.Message = _ResourceLoader.GetString("TweetArea_Message_AllSet");
         }
 
+        private bool _TextChanged = false;
+
         #region Text変更通知プロパティ
         private string _Text;
         public string Text
@@ -45,7 +50,35 @@ namespace Flantter.MilkyWay.Models
                 {
                     this._Text = value;
                     this.OnPropertyChanged("Text");
+
+                    this._TextChanged = true;
+
                     this.CharacterCountChanged();
+                    this.SuggestionTokenize();
+
+                    if (tokens != null)
+                        this.SuggestionCheck();
+                }
+            }
+        }
+        #endregion
+
+        #region SelectionStart変更通知プロパティ
+        private int _SelectionStart;
+        public int SelectionStart
+        {
+            get { return this._SelectionStart; }
+            set
+            {
+                if (this._SelectionStart != value)
+                {
+                    this._SelectionStart = value;
+                    this.OnPropertyChanged("SelectionStart");
+
+                    if (!this._TextChanged)
+                        this.SuggestionHide();
+
+                    this._TextChanged = false;
                 }
             }
         }
@@ -107,6 +140,23 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region SuggestionMessenger変更通知プロパティ
+        private Messenger _SuggestionMessenger;
+        public Messenger SuggestionMessenger
+        {
+            get { return this._SuggestionMessenger; }
+            set { this.SetProperty(ref this._SuggestionMessenger, value); }
+        }
+        #endregion
+
+        #region SelectedAccountUserId変更通知プロパティ
+        private long _SelectedAccountUserId;
+        public long SelectedAccountUserId
+        {
+            get { return this._SelectedAccountUserId; }
+            set { this.SetProperty(ref this._SelectedAccountUserId, value); }
+        }
+        #endregion
 
         public void CharacterCountChanged()
         {
@@ -238,6 +288,57 @@ namespace Flantter.MilkyWay.Models
             this.Message = _ResourceLoader.GetString("TweetArea_Message_AllSet");
 
             // Todo : フォーカスをテキストボックスに戻す or ツイート部分を閉じる (設定によって変える)
+        }
+
+        private IEnumerable<SuggestionService.SuggestionToken> tokens;
+        private void SuggestionTokenize()
+        {
+            try
+            {
+                tokens = SuggestionService.Tokenize(this._Text);
+            }
+            catch
+            {
+                tokens = null;
+            }
+        }
+        private void SuggestionCheck()
+        {
+            if (!Services.Connecter.Instance.TweetCollecter.ContainsKey(this.SelectedAccountUserId))
+                return;
+
+            try
+            {
+                var token = SuggestionService.GetTokenFromPosition(tokens, this._SelectionStart);
+                IEnumerable<string> words = null;
+                switch (token.Type)
+                {
+                    case SuggestionService.SuggestionToken.SuggestionTokenId.HashTag:
+                        lock (Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].EntitiesObjectsLock)
+                        {
+                            words = Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].HashTagObjects.Where(x => x.StartsWith(token.Value));
+                        }
+                        break;
+                    case SuggestionService.SuggestionToken.SuggestionTokenId.ScreenName:
+                        lock (Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].EntitiesObjectsLock)
+                        {
+                            words = Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].ScreenNameObjects.Where(x => x.StartsWith(token.Value));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                SuggestionMessenger.Raise(new SuggestionNotification() { SuggestWords = words, IsOpen = (words != null && words.Count() != 0) });
+            }
+            catch
+            {
+                SuggestionMessenger.Raise(new SuggestionNotification() { SuggestWords = null, IsOpen = false });
+            }
+        }
+        private void SuggestionHide()
+        {
+            SuggestionMessenger.Raise(new SuggestionNotification() { SuggestWords = null, IsOpen = false });
         }
     }
 

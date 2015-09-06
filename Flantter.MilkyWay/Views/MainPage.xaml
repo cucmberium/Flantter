@@ -34,10 +34,10 @@
         </core:EventTriggerBehavior>
 
         <util:MessengerTriggerBehavior Messenger="{Binding ShowImagePreviewMessenger, Mode=OneWay}">
-            <util:ShowImagePreviewAction/>
+            <behaviors:ShowImagePreviewAction/>
         </util:MessengerTriggerBehavior>
         <util:MessengerTriggerBehavior Messenger="{Binding ShowVideoPreviewMessenger, Mode=OneWay}">
-            <util:ShowVideoPreviewAction/>
+            <behaviors:ShowVideoPreviewAction/>
         </util:MessengerTriggerBehavior>
         
     </i:Interaction.Behaviors>

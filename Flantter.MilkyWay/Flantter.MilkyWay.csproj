@@ -138,6 +138,7 @@
     <Compile Include="Models\Twitter\Objects\Status.cs" />
     <Compile Include="Models\Twitter\MediaParser.cs" />
     <Compile Include="Models\Twitter\Objects\User.cs" />
+    <Compile Include="Models\Twitter\SuggestionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setting\AdvancedSettingService.cs" />
     <Compile Include="Setting\SettingService.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Views\Behaviors\ListViewScrollControlBehavior.cs" />
     <Compile Include="Views\Behaviors\SymbolIconForegroundBrushSwitchBehavior.cs" />
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
+    <Compile Include="Views\Behaviors\TweetAreaSuggestionBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetEventMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetDirectMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetStatusBehavior.cs" />
@@ -219,8 +221,8 @@
     <Compile Include="Views\Util\KeyTriggerBehavior.cs" />
     <Compile Include="Views\Util\MessengerTriggerBehavior.cs" />
     <Compile Include="Views\Util\ShowAttachedFlyoutAction.cs" />
-    <Compile Include="Views\Util\ShowVideoPreviewAction.cs" />
-    <Compile Include="Views\Util\ShowImagePreviewAction.cs" />
+    <Compile Include="Views\Behaviors\ShowVideoPreviewAction.cs" />
+    <Compile Include="Views\Behaviors\ShowImagePreviewAction.cs" />
     <Compile Include="Views\Util\WindowSizeHelper.cs" />
   </ItemGroup>
   <ItemGroup>

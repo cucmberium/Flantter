@@ -29,6 +29,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<AccountViewModel> SelectedAccount { get; set; }
 
         public ReactiveProperty<string> Text { get; set; }
+        public ReactiveProperty<int> SelectionStart { get; set; }
         public ReactiveProperty<string> CharacterCount { get; set; }
 
         public ReactiveProperty<string> Message { get; set; }
@@ -45,6 +46,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public Messenger ShowFilePickerMessenger { get; private set; }
 
+        public Messenger SuggestionMessenger { get; private set; }
+
         public TweetAreaViewModel(ReadOnlyReactiveCollection<AccountViewModel> accounts)
         {
             this._MainPageModel = MainPageModel.Instance;
@@ -53,6 +56,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.Accounts = accounts;
             this.SelectedAccount = new ReactiveProperty<AccountViewModel>(Accounts.First());
 
+            this.SelectionStart = this._TweetAreaModel.ToReactivePropertyAsSynchronized(x => x.SelectionStart);
             this.Text = this._TweetAreaModel.ToReactivePropertyAsSynchronized(x => x.Text);
             this.CharacterCount = this._TweetAreaModel.ObserveProperty(x => x.CharacterCount).Select(x => x.ToString()).ToReactiveProperty();
 
@@ -78,6 +82,8 @@ namespace Flantter.MilkyWay.ViewModels
             this.Notice = Services.Notice.Instance;
 
             this.ShowFilePickerMessenger = new Messenger();
+            this.SuggestionMessenger = new Messenger();
+            this._TweetAreaModel.SuggestionMessenger = this.SuggestionMessenger;
 
             this.Pictures = this._TweetAreaModel.ReadonlyPictures.ToReadOnlyReactiveCollection(x => new PictureViewModel(x));
 

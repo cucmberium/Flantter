@@ -249,9 +249,6 @@
   <data name="TweetArea_Message_UploadingImage" xml:space="preserve">
     <value>画像のアップロード中・・・</value>
   </data>
-  <data name="TweetArea_Message_VideoIsNotSupported" xml:space="preserve">
-    <value>動画は選択されたサービスではアップロードできません</value>
-  </data>
   <data name="TweetArea_LockingHashTagsButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>ハッシュタグの固定/解除</value>
   </data>

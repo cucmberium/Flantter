@@ -36,4 +36,13 @@ namespace Flantter.MilkyWay.Models.Exceptions
             WrongOperation,
         }
     }
+
+    public class SuggestionTokenNotFoundException : Exception
+    {
+        public SuggestionTokenNotFoundException() { }
+
+        public SuggestionTokenNotFoundException(string message) : base(message) { }
+
+        public SuggestionTokenNotFoundException(string message, Exception inner) : base(message) { }
+    }
 }

@@ -258,4 +258,10 @@
   <data name="TweetArea_PictureDelete.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="TweetArea_Message_AllSet" xml:space="preserve">
+    <value>All set</value>
+  </data>
+  <data name="TweetArea_Message_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

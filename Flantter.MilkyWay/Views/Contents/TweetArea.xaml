@@ -52,13 +52,14 @@
                 </Button.Flyout>
             </Button>
 
-            <controls:ExtendedTextBox x:Name="BottomAppBar_TextBox" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Text="{Binding TweetArea.Value.Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ExtendedTextBoxStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{Binding Source={StaticResource Setting},Path=Setting.TweetPostFieldFontSize}">
+            <controls:ExtendedTextBox x:Name="BottomAppBar_TextBox" Style="{StaticResource ExtendedTextBoxStyle}" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" CursorPosition="{Binding TweetArea.Value.SelectionStart.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Text="{Binding TweetArea.Value.Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{Binding Source={StaticResource Setting},Path=Setting.TweetPostFieldFontSize}">
                 <i:Interaction.Behaviors>
                     <behaviors:TextBoxKeyTriggerBehavior>
                         <util:KeyTrigger Key="Enter" Modifiers="Control">
-                            <core:InvokeCommandAction  Command="{x:Bind ViewModel.TweetCommand,Mode=OneWay}"/>
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.TweetCommand,Mode=OneWay}"/>
                         </util:KeyTrigger>
                     </behaviors:TextBoxKeyTriggerBehavior>
+                    <behaviors:TweetAreaSuggestionBehavior Messenger="{x:Bind ViewModel.SuggestionMessenger, Mode=OneWay}"/>
                 </i:Interaction.Behaviors>
             </controls:ExtendedTextBox>
 

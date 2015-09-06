@@ -410,7 +410,7 @@ namespace Flantter.MilkyWay.Models.Twitter
                     {
                         CoreTweet.VideoVariant variant;
 
-                        var variants = media.VideoInfo.Variants.Where(x => x.ContentType == "video/mp4" || x.ContentType == "video/webm");
+                        var variants = media.VideoInfo.Variants.Where(x => x.ContentType == "video/mp4");
                         if (variants.Count() == 0)
                             variant = media.VideoInfo.Variants.First();
                         else

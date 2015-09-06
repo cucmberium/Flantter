@@ -1,5 +1,6 @@
 ﻿using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Views.Contents;
+using Flantter.MilkyWay.Views.Util;
 using Microsoft.Xaml.Interactivity;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Flantter.MilkyWay.Views.Util
+namespace Flantter.MilkyWay.Views.Behaviors
 {
     public class ShowImagePreviewAction : DependencyObject, IAction
     {

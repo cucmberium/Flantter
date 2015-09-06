@@ -138,8 +138,13 @@ namespace Flantter.MilkyWay.Models.Services
 
             public long UserId { get; set; }
 
-            public AsyncLock NoRetweetIdsAsyncLock { get; set; }
+            //public AsyncLock NoRetweetIdsAsyncLock { get; set; }
+            public object NoRetweetIdsLock = new object();
             public List<long> NoRetweetIds { get; set; }
+
+            public object EntitiesObjectsLock = new object();
+            public List<string> ScreenNameObjects { get; set; }
+            public List<string> HashTagObjects { get; set; }
 
             private IDisposable tweetReceiveDisposableObject = null;
             private IDisposable tweetDeleteDisposableObject = null;
@@ -148,7 +153,10 @@ namespace Flantter.MilkyWay.Models.Services
                 this.UserId = userId;
 
                 this.NoRetweetIds = new List<long>();
-                this.NoRetweetIdsAsyncLock = new AsyncLock();
+                //this.NoRetweetIdsAsyncLock = new AsyncLock();
+                
+                this.ScreenNameObjects = new List<string>();
+                this.HashTagObjects = new List<string>();
                 
                 tweetDeleteDisposableObject = Observable.FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                     h => (sender, e) => h(e),
@@ -183,6 +191,29 @@ namespace Flantter.MilkyWay.Models.Services
 
                         if (SettingService.Setting.EnableDatabase)
                             Databases.Instance.StoreTweet(e);
+
+                        // Todo : 起動時の軽量化必須？
+
+                        if (e.Type != TweetEventArgs.TypeEnum.Status)
+                            return;
+
+                        lock (this.EntitiesObjectsLock)
+                        {
+                            if (!this.ScreenNameObjects.Contains(e.Status.User.ScreenName))
+                                this.ScreenNameObjects.Add(e.Status.User.ScreenName);
+
+                            foreach (var screenName in e.Status.Entities.UserMentions)
+                            {
+                                if (!this.ScreenNameObjects.Contains(screenName.ScreenName))
+                                    this.ScreenNameObjects.Add(screenName.ScreenName);
+                            }
+
+                            foreach (var hashTag in e.Status.Entities.HashTags)
+                            {
+                                if (!this.HashTagObjects.Contains(hashTag.Tag))
+                                    this.ScreenNameObjects.Add(hashTag.Tag);
+                            }
+                        }
                     },
                     ex => Debug.WriteLine(ex.ToString() + "\nMessage:" + ex.Message),
                     () => Debug.WriteLine("TweetServiceProvider.TweetCollecterService.OnCompleted"));

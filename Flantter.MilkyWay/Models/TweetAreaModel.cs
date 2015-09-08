@@ -54,6 +54,7 @@ namespace Flantter.MilkyWay.Models
                     this._TextChanged = true;
 
                     this.CharacterCountChanged();
+
                     this.SuggestionTokenize();
 
                     if (tokens != null)
@@ -311,18 +312,22 @@ namespace Flantter.MilkyWay.Models
             {
                 var token = SuggestionService.GetTokenFromPosition(tokens, this._SelectionStart);
                 IEnumerable<string> words = null;
+
                 switch (token.Type)
                 {
                     case SuggestionService.SuggestionToken.SuggestionTokenId.HashTag:
                         lock (Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].EntitiesObjectsLock)
                         {
-                            words = Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].HashTagObjects.Where(x => x.StartsWith(token.Value));
+                            words = Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].HashTagObjects.Where(x => x.StartsWith(token.Value)).OrderBy(x => x);
                         }
                         break;
                     case SuggestionService.SuggestionToken.SuggestionTokenId.ScreenName:
-                        lock (Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].EntitiesObjectsLock)
+                        if (!string.IsNullOrEmpty(token.Value))
                         {
-                            words = Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].ScreenNameObjects.Where(x => x.StartsWith(token.Value));
+                            lock (Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].EntitiesObjectsLock)
+                            {
+                                words = Services.Connecter.Instance.TweetCollecter[this.SelectedAccountUserId].ScreenNameObjects.Where(x => x.StartsWith(token.Value)).OrderBy(x => x);
+                            }
                         }
                         break;
                     default:
@@ -339,6 +344,18 @@ namespace Flantter.MilkyWay.Models
         private void SuggestionHide()
         {
             SuggestionMessenger.Raise(new SuggestionNotification() { SuggestWords = null, IsOpen = false });
+        }
+        public void SuggestionSelected(string word)
+        {
+            var token = SuggestionService.GetTokenFromPosition(tokens, this._SelectionStart);
+            var text = Text.Replace("\r\n", "\n");
+
+            var startText = text.Replace("\r\n", "\n").Substring(0, token.Pos);
+            var endText = text.Replace("\r\n", "\n").Substring(token.Pos + token.Length, text.Replace("\r\n", "\n").Length - (token.Pos + token.Length));
+            text = (startText + (token.Type == SuggestionService.SuggestionToken.SuggestionTokenId.HashTag ? "#" : "@") + word + " " + endText).Replace("\n", "\r\n");
+
+            this.Text = text;
+            this.SelectionStart = text.Replace("\r\n", "\n").Length - endText.Replace("\r\n", "\n").Length;
         }
     }
 

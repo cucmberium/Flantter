@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -39,6 +40,13 @@ namespace Flantter.MilkyWay.ViewModels
             this.TitleBarVisivility = SettingService.Setting.ObserveProperty(x => x.TitleBarVisibility).ToReactiveProperty();
 
             this.AppBarIsOpen = new ReactiveProperty<bool>(false);
+            this.AppBarIsOpen.Subscribe<bool>(isOpen => 
+            {
+                if (isOpen && this.Accounts.Any(x => x.IsEnabled.Value))
+                {
+                    Services.Notice.Instance.TweetAreaAccountChangeCommand.Execute(this.Accounts.First(x => x.IsEnabled.Value));
+                }
+            });
 
             this.TweetArea = new ReactiveProperty<TweetAreaViewModel>(new TweetAreaViewModel(this.Accounts));
 

@@ -7,6 +7,7 @@ using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Reactive.Linq;
@@ -20,14 +21,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace Flantter.MilkyWay.ViewModels
 {
-    public class ColumnViewModel
+    public class ColumnViewModel : IDisposable
     {
         public ColumnModel _ColumnModel { get; set; }
 
         public ReactiveProperty<double> Height { get; private set; }
         public ReactiveProperty<double> Width { get; private set; }
         public ReactiveProperty<double> Left { get; private set; }
-        public IObservable<int> ColumnCount { get; set; }
+        public ReactiveProperty<int> ColumnCount { get; set; }
 
 		public ReactiveProperty<Symbol> ActionSymbol { get; private set; }
 		public ReactiveProperty<string> Name { get; private set; }
@@ -52,6 +53,10 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand StreamingCommand { get; private set; }
 
         public ReactiveCommand ScrollToTopCommand { get; private set; }
+
+        public ReactiveCommand IncrementalLoadCommand { get; private set; }
+
+        public IDisposable TweetsCollectionChangedDisposable { get; private set; }
 
         #region Constructor
         /*public ColumnViewModel()
@@ -141,6 +146,12 @@ namespace Flantter.MilkyWay.ViewModels
                 this.IsScrollLockToTopEnabled.Value = false;
             });
 
+            this.IncrementalLoadCommand = new ReactiveCommand();
+            this.IncrementalLoadCommand.Subscribe(async _ => 
+            {
+                await this._ColumnModel.Update(this._ColumnModel.Tweets.Last().Id);
+            });
+
             this.ColumnCount = Observable.CombineLatest<double, double, int, int>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
                 SettingService.Setting.ObserveProperty(x => x.MinColumnSize),
@@ -190,7 +201,7 @@ namespace Flantter.MilkyWay.ViewModels
                 }).ToReactiveProperty();
 
             this.Tweets = new ExtendedObservableCollection<object>();
-            Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+            this.TweetsCollectionChangedDisposable = Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                 h => (sender, e) => h(e),
                 h => this._ColumnModel.Tweets.CollectionChanged += h,
                 h => this._ColumnModel.Tweets.CollectionChanged -= h).Subscribe(x => 
@@ -259,5 +270,32 @@ namespace Flantter.MilkyWay.ViewModels
         {
         }
         #endregion
+
+        public void Dispose()
+        {
+            this.ActionSymbol.Dispose();
+            this.EnableCreateFilterColumn.Dispose();
+            this.Name.Dispose();
+            this.OwnerScreenName.Dispose();
+            this.StreamingSymbol.Dispose();
+            this.Index.Dispose();
+            this.IsEnabledStreaming.Dispose();
+            this.Updating.Dispose();
+            this.SelectedIndex.Dispose();
+            this.UnreadCount.Dispose();
+            this.UnreadCountIncrementalTrigger.Dispose();
+            this.IsScrollControlEnabled.Dispose();
+            this.IsScrollLockEnabled.Dispose();
+            this.IsScrollLockToTopEnabled.Dispose();
+            this.StreamingCommand.Dispose();
+            this.ScrollToTopCommand.Dispose();
+
+            this.ColumnCount.Dispose();
+            this.Height.Dispose();
+            this.Width.Dispose();
+            this.Left.Dispose();
+
+            this.TweetsCollectionChangedDisposable.Dispose();
+        }
     }
 }

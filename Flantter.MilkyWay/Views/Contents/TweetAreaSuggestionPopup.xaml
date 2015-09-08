@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="200">
 
-    <ListBox x:Name="ListBox" KeyDown="ListBox_KeyDown" MinHeight="44" MaxHeight="164" Width="204" Background="White" BorderBrush="Black" BorderThickness="2" ItemsSource="{x:Bind Items, Mode=OneWay}">
+    <ListBox x:Name="ListBox" Tapped="ListBox_Tapped" MinHeight="44" MaxHeight="164" Width="204" Background="White" BorderBrush="Black" BorderThickness="2" ItemsSource="{x:Bind Items, Mode=OneWay}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <VirtualizingStackPanel/>

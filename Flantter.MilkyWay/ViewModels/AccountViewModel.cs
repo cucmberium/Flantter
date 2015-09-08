@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Flantter.MilkyWay.ViewModels
 {
-    public class AccountViewModel
+    public class AccountViewModel : IDisposable
     {
         public AccountModel _AccountModel { get; set; }
         public Services.Notice Notice { get; set; }
@@ -109,5 +109,22 @@ namespace Flantter.MilkyWay.ViewModels
         {
         }
         #endregion
+
+        public void Dispose()
+        {
+            this.ScreenName.Dispose();
+            this.ProfileImageUrl.Dispose();
+            this.ProfileBannerUrl.Dispose();
+            this.IsEnabled.Dispose();
+            this.Columns.Dispose();
+            this.AdditionalColumnsName.Dispose();
+            this.ColumnCount.Dispose();
+            this.ColumnWidth.Dispose();
+            this.PanelWidth.Dispose();
+            this.SnapPointsSpaceing.Dispose();
+            this.MaxSnapPoint.Dispose();
+            this.MinSnapPoint.Dispose();
+            this.ColumnSelectedIndex.Dispose();
+        }
     }
 }

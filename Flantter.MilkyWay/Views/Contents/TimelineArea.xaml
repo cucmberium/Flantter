@@ -20,7 +20,7 @@
         
         <ListView DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=OneWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" >
             <i:Interaction.Behaviors>
-                <behaviors:ListViewScrollControlBehavior IsScrollLockEnabled="{x:Bind ViewModel.IsScrollLockEnabled.Value, Mode=OneWay}" IsScrollLockToTopEnabled="{x:Bind ViewModel.IsScrollLockToTopEnabled.Value, Mode=OneWay}" IsScrollControlEnabled="{x:Bind ViewModel.IsScrollControlEnabled.Value, Mode=OneWay}" UnreadCount="{x:Bind ViewModel.UnreadCount.Value, Mode=TwoWay}" UnreadCountIncrementalTrigger="{x:Bind ViewModel.UnreadCountIncrementalTrigger.Value, Mode=TwoWay}" />
+                <behaviors:ListViewScrollControlBehavior IsScrollLockEnabled="{x:Bind ViewModel.IsScrollLockEnabled.Value, Mode=OneWay}" IsScrollLockToTopEnabled="{x:Bind ViewModel.IsScrollLockToTopEnabled.Value, Mode=OneWay}" IsScrollControlEnabled="{x:Bind ViewModel.IsScrollControlEnabled.Value, Mode=OneWay}" UnreadCount="{x:Bind ViewModel.UnreadCount.Value, Mode=TwoWay}" UnreadCountIncrementalTrigger="{x:Bind ViewModel.UnreadCountIncrementalTrigger.Value, Mode=TwoWay}" Command="{x:Bind ViewModel.IncrementalLoadCommand, Mode=OneWay}" />
             </i:Interaction.Behaviors>
 
             <ItemsControl.ItemsPanel>

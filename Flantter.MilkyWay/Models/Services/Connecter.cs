@@ -211,7 +211,7 @@ namespace Flantter.MilkyWay.Models.Services
                             foreach (var hashTag in e.Status.Entities.HashTags)
                             {
                                 if (!this.HashTagObjects.Contains(hashTag.Tag))
-                                    this.ScreenNameObjects.Add(hashTag.Tag);
+                                    this.HashTagObjects.Add(hashTag.Tag);
                             }
                         }
                     },

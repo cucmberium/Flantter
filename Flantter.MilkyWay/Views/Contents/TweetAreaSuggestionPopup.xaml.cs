@@ -33,6 +33,8 @@ namespace Flantter.MilkyWay.Views.Contents
                 IsLightDismissEnabled = true,
                 Opacity = 1
             };
+
+            this.ListBox.AddHandler(ListBox.KeyDownEvent, new KeyEventHandler(ListBox_KeyDown), true);
         }
 
         public Popup _Popup;
@@ -103,10 +105,11 @@ namespace Flantter.MilkyWay.Views.Contents
         {
             if (ListBox.SelectedIndex != -1 && Command != null)
             {
-                if (CommandParameter == null)
+                this.Command.Execute(Items[ListBox.SelectedIndex].Text);
+                /*if (this.CommandParameter == null)
                     this.Command.Execute(Items[ListBox.SelectedIndex].Text);
                 else
-                    this.Command.Execute(CommandParameter);
+                    this.Command.Execute(CommandParameter);*/
             }
 
             this.Hide();
@@ -123,6 +126,11 @@ namespace Flantter.MilkyWay.Views.Contents
                     this.ListBoxItemSelect();
                     break;
             }
+        }
+
+        private void ListBox_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.ListBoxItemSelect();
         }
     }
 

@@ -56,10 +56,10 @@
                 <i:Interaction.Behaviors>
                     <behaviors:TextBoxKeyTriggerBehavior>
                         <util:KeyTrigger Key="Enter" Modifiers="Control">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.TweetCommand,Mode=OneWay}"/>
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.TweetCommand, Mode=OneWay}"/>
                         </util:KeyTrigger>
                     </behaviors:TextBoxKeyTriggerBehavior>
-                    <behaviors:TweetAreaSuggestionBehavior Messenger="{x:Bind ViewModel.SuggestionMessenger, Mode=OneWay}"/>
+                    <behaviors:TweetAreaSuggestionBehavior Messenger="{x:Bind ViewModel.SuggestionMessenger, Mode=OneWay}" Command="{x:Bind ViewModel.SuggestSelectedCommand, Mode=OneWay}"/>
                 </i:Interaction.Behaviors>
             </controls:ExtendedTextBox>
 

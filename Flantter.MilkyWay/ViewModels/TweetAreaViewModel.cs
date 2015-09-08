@@ -43,6 +43,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand ChangeLockHashTagsCommand { get; set; }
         public ReactiveCommand AddPictureCommand { get; set; }
         public ReactiveCommand TweetCommand { get; set; }
+        public ReactiveCommand SuggestSelectedCommand { get; set; }
 
         public Messenger ShowFilePickerMessenger { get; private set; }
 
@@ -114,9 +115,17 @@ namespace Flantter.MilkyWay.ViewModels
                 this._TweetAreaModel.Tweet(this.SelectedAccount.Value._AccountModel);
             });
 
+            this.SuggestSelectedCommand = new ReactiveCommand();
+            this.SuggestSelectedCommand.Subscribe(x => 
+            {
+                this._TweetAreaModel.SuggestionSelected((string)x);
+            });
+            
             Services.Notice.Instance.TweetAreaAccountChangeCommand.Subscribe(x => 
             {
-                this.SelectedAccount.Value = x as AccountViewModel;
+                var accountVM = x as AccountViewModel;
+                this.SelectedAccount.Value = accountVM;
+                this._TweetAreaModel.SelectedAccountUserId = accountVM._AccountModel.UserId;
             });
 
             Services.Notice.Instance.TweetAreaDeletePictureCommand.Subscribe(x =>

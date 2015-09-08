@@ -16,9 +16,15 @@ namespace Flantter.MilkyWay.Views.Controls
             this.SelectionChanged += ExtendedTextBox_SelectionChanged;
         }
 
+        private bool changeFromUI = false;
         private void ExtendedTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            this.CursorPosition = this.SelectionStart;
+            if (this.CursorPosition != this.SelectionStart)
+            {
+                changeFromUI = true;
+                this.CursorPosition = this.SelectionStart;
+            }
+
         }
 
         public event KeyEventHandler PreKeyDown;
@@ -45,6 +51,13 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private static void CursorPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var textBox = d as ExtendedTextBox;
+
+            if (!textBox.changeFromUI)
+                textBox.SelectionStart = (int)e.NewValue;
+            else
+                textBox.changeFromUI = false;
+
         }
     }
 }

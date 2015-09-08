@@ -118,6 +118,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 this.QuotedStatusProfileImageUrl = "http://localhost/";
             }
 
+            this.MentionStatusProfileImageUrl = "http://localhost/";
+
             this.MentionStatusVisibility = (status.InReplyToStatusId != 0);
             this.IsMentionStatusLoaded = (status.MentionStatus != null);
             this.IsMentionStatusLoading = false;

@@ -166,5 +166,22 @@ namespace Flantter.MilkyWay.Models
                     column.Streaming = false;
             }
         }
+
+        public async Task GetMentionStatus(Twitter.Objects.Status status)
+        {
+            Status mentionStatus = null;
+
+            try
+            {
+                mentionStatus = await this._Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
+                
+            }
+            catch
+            {
+            }
+
+            if (mentionStatus != null)
+                status.MentionStatus = new Twitter.Objects.Status(mentionStatus);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -94,6 +95,48 @@ namespace Flantter.MilkyWay.ViewModels
             this.Notice = Services.Notice.Instance;
 
             #region Command
+
+            Services.Notice.Instance.LoadMentionCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+
+                if (statusViewModel.Model.InReplyToStatusId == 0)
+                    return;
+
+                statusViewModel.IsMentionStatusLoading = true;
+
+                await this._AccountModel.GetMentionStatus(statusViewModel.Model);
+
+                if (statusViewModel.Model.MentionStatus == null)
+                {
+                    statusViewModel.IsMentionStatusLoading = false;
+                    return;
+                }
+
+                // この設計はメモリ使用量削減に貢献しているのだろうか・・・？
+
+                statusViewModel.MentionStatusEntities = statusViewModel.Model.MentionStatus.Entities;
+                statusViewModel.MentionStatusId = statusViewModel.Model.MentionStatus.Id;
+                statusViewModel.MentionStatusName = statusViewModel.Model.MentionStatus.User.Name;
+                statusViewModel.MentionStatusProfileImageUrl = string.IsNullOrWhiteSpace(statusViewModel.Model.MentionStatus.User.ProfileImageUrl) ? "http://localhost/" : statusViewModel.Model.MentionStatus.User.ProfileImageUrl;
+                statusViewModel.MentionStatusScreenName = statusViewModel.Model.MentionStatus.User.ScreenName;
+                statusViewModel.MentionStatusText = statusViewModel.Model.MentionStatus.Text;
+
+                statusViewModel.OnPropertyChanged("MentionStatusEntities");
+                statusViewModel.OnPropertyChanged("MentionStatusId");
+                statusViewModel.OnPropertyChanged("MentionStatusName");
+                statusViewModel.OnPropertyChanged("MentionStatusProfileImageUrl");
+                statusViewModel.OnPropertyChanged("MentionStatusScreenName");
+                statusViewModel.OnPropertyChanged("MentionStatusText");
+
+                statusViewModel.IsMentionStatusLoading = false;
+                statusViewModel.IsMentionStatusLoaded = true;
+
+                statusViewModel.OnPropertyChanged("IsMentionStatusLoading");
+                statusViewModel.OnPropertyChanged("IsMentionStatusLoaded");
+            });
 
             Services.Notice.Instance.ShowUserProfileCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(_ =>
             {

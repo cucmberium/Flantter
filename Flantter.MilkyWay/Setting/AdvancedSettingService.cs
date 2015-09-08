@@ -55,13 +55,12 @@ namespace Flantter.MilkyWay.Setting
 
     public class AdvancedSettingService : AdvancedSettingServiceBase<AdvancedSettingService>
     {
-        private readonly List<Type> knownTypes = new List<Type> { typeof(ObservableCollection<AccountSetting>), typeof(ObservableCollection<string>), typeof(SettingSupport.DoubleTappedEventEnum), typeof(SettingSupport.TrendsPlaceEnum), typeof(SettingSupport.SizeEnum), typeof(SettingSupport.TileNotificationEnum), typeof(SettingSupport.TweetAnimationEnum) };
-        public void SaveToStream()
+        public void SaveToAppSettings()
         {
             string json = JsonConvert.SerializeObject(Dict);
             SettingService.Setting.AdvancedSettingData = json;
         }
-        public void LoadFromStream()
+        public void LoadFromAppSettings()
         {
             string json = SettingService.Setting.AdvancedSettingData;
 

@@ -28,8 +28,7 @@ namespace Flantter.MilkyWay.Views.Contents
     {
         private Popup VideoPreview;
         private AppBar _BottomAppBar;
-
-
+        
         private bool _IsSmallView { get; set; }
         private bool _IsBottomBarOpen { get; set; }
 
@@ -139,15 +138,19 @@ namespace Flantter.MilkyWay.Views.Contents
 
                 if (this.VideoType == "Vine")
                 {
-                    if (videoWidth > 600)
-                        videoWidth = 600;
-
-                    videoHeight = videoWidth;
+                    var size = videoWidth;
+                    if (size > 600)
+                        size = 600;
+                    if (size > WindowSizeHelper.Instance.ClientHeight)
+                        size = WindowSizeHelper.Instance.ClientHeight;
+                    
+                    videoHeight = size;
+                    videoWidth = size;
                 }
                 else if (this.VideoType == "Twitter")
                 {
-                    if (videoWidth > 600)
-                        videoWidth = 600;
+                    if (videoWidth > 720)
+                        videoWidth = 720;
 
                     videoHeight = videoWidth * 9 / 16;
                 }

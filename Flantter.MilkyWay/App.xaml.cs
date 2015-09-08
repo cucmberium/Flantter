@@ -46,7 +46,7 @@ namespace Flantter.MilkyWay
 
             try
             {
-                AdvancedSettingService.AdvancedSetting.LoadFromStream();
+                AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
             }
             catch
             {

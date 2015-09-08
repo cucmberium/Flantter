@@ -78,7 +78,7 @@
                         <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                     </ObjectAnimationUsingKeyFrames>
                     <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="MentionStatusGrid">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="36">
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
                             <EasingDoubleKeyFrame.EasingFunction>
                                 <SineEase EasingMode="EaseInOut"/>
                             </EasingDoubleKeyFrame.EasingFunction>

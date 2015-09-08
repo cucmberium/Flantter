@@ -174,14 +174,14 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 mentionStatus = await this._Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
-                
+                status.MentionStatus = new Twitter.Objects.Status(mentionStatus);
+
+                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status.MentionStatus, this._UserId, new List<string>() { "none://" }, false));
             }
             catch
             {
             }
-
-            if (mentionStatus != null)
-                status.MentionStatus = new Twitter.Objects.Status(mentionStatus);
+                
         }
     }
 }

@@ -69,11 +69,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
         private static void MentionStatus_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var status = obj as Grid;
-            var grid = status.FindName("MentionStatusGrid") as Grid;
-
-            if (grid == null)
-                return;
-
+            
             if (!GetMentionStatusVisibility(obj))
                 return;
 
@@ -81,6 +77,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
             {
                 if (GetIsSelected(status))
                 {
+                    var grid = status.FindName("MentionStatusGrid") as Grid;
+
+                    if (grid == null)
+                        return;
+
                     if (GetIsMentionStatusLoaded(obj))
                     {
                         (grid.Resources["MentionStatusOpenAnimation"] as Storyboard).Begin();
@@ -99,8 +100,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         (grid.Resources["MentionStatusLoadingOpenAnimation"] as Storyboard).Begin();
                     }
                 }
-                else
+                else if (e.Property == IsSelectedProperty)
                 {
+                    var grid = status.FindName("MentionStatusGrid") as Grid;
+
+                    if (grid == null)
+                        return;
+
                     (grid.Resources["MentionStatusCloseAnimation"] as Storyboard).Begin();
                 }
             }

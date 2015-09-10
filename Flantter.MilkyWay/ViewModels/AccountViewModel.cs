@@ -1,4 +1,6 @@
-﻿using Flantter.MilkyWay.Models;
+﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models;
+using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Util;
@@ -8,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Text;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -136,6 +140,152 @@ namespace Flantter.MilkyWay.ViewModels
 
                 statusViewModel.OnPropertyChanged("IsMentionStatusLoading");
                 statusViewModel.OnPropertyChanged("IsMentionStatusLoaded");
+            });
+
+            Services.Notice.Instance.RetweetCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+
+                if (!statusViewModel.Model.IsRetweeted)
+                    await this._AccountModel.Retweet(statusViewModel.Model);
+                else
+                    await this._AccountModel.DestroyRetweet(statusViewModel.Model);
+
+                statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
+                statusViewModel.OnPropertyChanged("IsRetweeted");
+
+                if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.FavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.FavoriteTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
+
+                statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
+            });
+
+            Services.Notice.Instance.FavoriteCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+
+                if (!statusViewModel.Model.IsFavorited)
+                    await this._AccountModel.Favorite(statusViewModel.Model);
+                else
+                    await this._AccountModel.DestroyFavorite(statusViewModel.Model);
+
+                statusViewModel.IsFavorited = statusViewModel.Model.IsFavorited;
+                statusViewModel.OnPropertyChanged("IsFavorited");
+
+                if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.FavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.FavoriteTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
+
+                statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
+            });
+
+            Services.Notice.Instance.DeleteRetweetCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+                
+                await this._AccountModel.DestroyRetweet(statusViewModel.Model);
+
+                statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
+                statusViewModel.OnPropertyChanged("IsRetweeted");
+
+                if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.FavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.FavoriteTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
+
+                statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
+            });
+
+            Services.Notice.Instance.UrlClickCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            {
+                var linkUrl = x as string;
+                if (string.IsNullOrWhiteSpace(linkUrl))
+                    return;
+
+                var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
+                var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
+                if (statusMatch.Success)
+                { }
+                else if (userMatch.Success)
+                { }
+                else
+                {
+                    await Launcher.LaunchUriAsync(new Uri(linkUrl));
+                }
+            });
+
+            Services.Notice.Instance.CopyTweetCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            {
+                var status = x as Status;
+                if (status != null)
+                {
+                    try
+                    {
+                        var textPackage = new DataPackage();
+                        textPackage.SetText(status.Text);
+                        Clipboard.SetContent(textPackage);
+                    }
+                    catch
+                    {
+                    }
+
+                    return;
+                }
+
+                var directMessage = x as DirectMessage;
+                if (directMessage != null)
+                {
+                    try
+                    {
+                        var textPackage = new DataPackage();
+                        textPackage.SetText(directMessage.Text);
+                        Clipboard.SetContent(textPackage);
+                    }
+                    catch
+                    {
+                    }
+
+                    return;
+                }
             });
 
             Services.Notice.Instance.ShowUserProfileCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(_ =>

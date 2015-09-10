@@ -17,8 +17,8 @@
         <Canvas x:Name="ImagePreviewCanvas" ManipulationDelta="ImagePreviewCanvas_ManipulationDelta" ManipulationCompleted="ImagePreviewCanvas_ManipulationCompleted" ManipulationMode="Scale,TranslateX,TranslateY" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="Transparent">
             <Image x:Name="ImagePreviewImage" Tapped="ImagePreviewImage_Tapped" Stretch="Uniform" ManipulationMode="Scale,TranslateX,TranslateY" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Canvas>
-        
-        <ProgressRing x:Name="ImagePreviewProgressRing" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="80"/>
+
+        <ProgressRing x:Name="ImagePreviewProgressRing" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="80" Foreground="{StaticResource ProgressRingForegroundBrush}"/>
         <SymbolIcon x:Name="ImagePreviewSymbolIcon" Symbol="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
             <SymbolIcon.RenderTransform>
                 <CompositeTransform ScaleX="2" ScaleY="2"/>

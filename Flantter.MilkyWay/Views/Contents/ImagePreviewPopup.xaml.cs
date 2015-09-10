@@ -32,6 +32,7 @@ namespace Flantter.MilkyWay.Views.Contents
         private Popup ImagePreview;
         private BitmapImage Bitmap;
 
+        private bool imageOpened = false; 
         public string ImageWebUrl { get; set; }
 
         public string ImageUrl { get; set; }
@@ -101,6 +102,7 @@ namespace Flantter.MilkyWay.Views.Contents
                 this.ImagePreviewImage.Opacity = 0;
 
                 this.Bitmap.UriSource = new Uri(this.ImageUrl);
+                imageOpened = false;
             }
         }
 
@@ -128,6 +130,44 @@ namespace Flantter.MilkyWay.Views.Contents
 
             element.RenderTransform = transform;
 
+            if (imageOpened)
+            {
+                var imageWidth = this.Bitmap.PixelWidth;
+                var imageHeight = this.Bitmap.PixelHeight;
+                var windowWidth = WindowSizeHelper.Instance.ClientWidth;
+                var windowHeight = WindowSizeHelper.Instance.ClientHeight;
+
+                double raito = 1.0;
+
+                if (imageWidth > windowWidth * 0.95 && imageHeight > windowHeight * 0.95)
+                {
+                    var imageWindowWidthRaito = windowWidth / imageWidth;
+                    var imageWindowHeightRaito = windowHeight / imageHeight;
+                    raito = (imageWindowHeightRaito < imageWindowWidthRaito ? imageWindowHeightRaito : imageWindowWidthRaito) * 0.95;
+                }
+                else if (imageWidth <= windowWidth * 0.95 && imageHeight <= windowHeight * 0.95)
+                {
+                    raito = 1.0;
+                }
+                else if (imageWidth > windowWidth * 0.95 && imageHeight <= windowHeight * 0.95)
+                {
+                    raito = windowWidth / imageWidth * 0.95;
+                }
+                else if (imageWidth <= windowWidth * 0.95 && imageHeight > windowHeight * 0.95)
+                {
+                    raito = windowHeight / imageHeight * 0.95;
+                }
+
+                this.ImagePreviewImage.Width = imageWidth * raito;
+                this.ImagePreviewImage.Height = imageHeight * raito;
+
+                var canvasTop = (windowHeight - this.ImagePreviewImage.Height) / 2;
+                var canvasLeft = (windowWidth - this.ImagePreviewImage.Width) / 2;
+
+                Canvas.SetTop(this.ImagePreviewImage, canvasTop);
+                Canvas.SetLeft(this.ImagePreviewImage, canvasLeft);
+            }
+
             this.ImagePreview.IsOpen = true;
         }
 
@@ -138,6 +178,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private void Bitmap_ImageOpened(object sender, RoutedEventArgs e)
         {
+            imageOpened = true;
+
             this.ImagePreviewProgressRing.Visibility = Visibility.Collapsed;
             this.ImagePreviewProgressRing.IsActive = false;
             this.ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;

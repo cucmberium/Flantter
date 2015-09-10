@@ -127,7 +127,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.RetweetCount = status.RetweetCount;
 
             this.IsMyTweet = (status.User.Id == column.OwnerUserId);
-            this.IsMyRetweet = (status.RetweetInformation != null && status.RetweetInformation.User.Id == column.OwnerUserId);
+            this.IsMyRetweet = (status.RetweetInformation != null && status.RetweetInformation.User.Id == column.OwnerUserId) || status.IsRetweeted;
             
             this.Notice = Services.Notice.Instance;
         }

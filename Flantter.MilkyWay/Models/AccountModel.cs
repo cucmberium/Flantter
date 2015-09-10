@@ -169,19 +169,83 @@ namespace Flantter.MilkyWay.Models
 
         public async Task GetMentionStatus(Twitter.Objects.Status status)
         {
-            Status mentionStatus = null;
-
             try
             {
-                mentionStatus = await this._Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
+                var mentionStatus = await this._Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
                 status.MentionStatus = new Twitter.Objects.Status(mentionStatus);
 
                 Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status.MentionStatus, this._UserId, new List<string>() { "none://" }, false));
             }
             catch
             {
+                // Todo : 通知
+            } 
+        }
+
+        public async Task Retweet(Twitter.Objects.Status status)
+        {
+            try
+            {
+                var retweetedResponse = await this._Tokens.Statuses.RetweetAsync(id => status.Id);
+                status.IsRetweeted = true;
             }
-                
+            catch
+            {
+                // Todo : 通知
+            }
+        }
+
+        public async Task DestroyRetweet(Twitter.Objects.Status status)
+        {
+            try
+            {
+                long currentUserRetweet = 0;
+                if (status.HasRetweetInformation)
+                {
+                    currentUserRetweet = status.RetweetInformation.Id;
+                }
+                else
+                {
+                    var retweetedStatus = await this._Tokens.Statuses.ShowAsync(id => status.Id, include_my_retweet => true);
+                    if (!retweetedStatus.CurrentUserRetweet.HasValue)
+                        return;
+
+                    currentUserRetweet = retweetedStatus.CurrentUserRetweet.Value;
+                }
+
+                var retweetedResponse = await this._Tokens.Statuses.RetweetAsync(id => currentUserRetweet);
+                status.IsRetweeted = false;
+            }
+            catch
+            {
+                // Todo : 通知
+            }
+        }
+
+        public async Task Favorite(Twitter.Objects.Status status)
+        {
+            try
+            {
+                var retweetedResponse = await this._Tokens.Favorites.CreateAsync(id => status.Id);
+                status.IsFavorited = true;
+            }
+            catch
+            {
+                // Todo : 通知
+            }
+        }
+
+        public async Task DestroyFavorite(Twitter.Objects.Status status)
+        {
+            try
+            {
+                var retweetedResponse = await this._Tokens.Favorites.DestroyAsync(id => status.Id);
+                status.IsFavorited = false;
+            }
+            catch
+            {
+                // Todo : 通知
+            }
         }
     }
 }

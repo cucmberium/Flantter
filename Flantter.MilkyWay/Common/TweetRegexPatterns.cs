@@ -227,6 +227,8 @@ namespace Flantter.MilkyWay.Common
         public static readonly int ValidCashtagGroupDollar = 2;
         public static readonly int ValidCashtagGroupCashtag = 3;
 
+        public static readonly Regex StatusUrl = new Regex(@"https?://twitter.com/(#!/)?([a-zA-Z0-9_])+/status(es)?/(?<Id>[0-9]+)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex UserUrl = new Regex(@"https?://twitter.com/(#!/)?(?<ScreenName>([a-zA-Z0-9_])+)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /*public static readonly string UTFChar = @"a-z0-9_\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff";
         

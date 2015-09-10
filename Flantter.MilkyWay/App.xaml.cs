@@ -40,7 +40,7 @@ namespace Flantter.MilkyWay
         {
         }
 
-        protected async override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
+        protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 720 });
 
@@ -57,7 +57,7 @@ namespace Flantter.MilkyWay
             else
                 this.NavigationService.Navigate("Main", args.Arguments);
 
-            return;
+            return Task.FromResult<object>(null);
         }
 
         protected override Task OnInitializeAsync(IActivatedEventArgs args)

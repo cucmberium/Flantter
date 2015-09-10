@@ -39,13 +39,15 @@ namespace Flantter.MilkyWay.Views.Contents
         public static readonly DependencyProperty SelectedIndexProperty =
             DependencyProperty.Register("SelectedIndex", typeof(int), typeof(ColumnArea), new PropertyMetadata(0, SelectedIndex_Changed));
 
+        public volatile int tempSelectedIndex = 0;
         public volatile bool isManualOperation = true;
         private static void SelectedIndex_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var columnArea = d as ColumnArea;
             columnArea.ColumnArea_UpdateView(false);
 			System.Diagnostics.Debug.WriteLine("SelectedIndex : " + e.NewValue);
-		}
+            columnArea.tempSelectedIndex = (int)e.NewValue;
+        }
 
         private ScrollViewer _ScrollViewer = null;
 
@@ -126,8 +128,13 @@ namespace Flantter.MilkyWay.Views.Contents
             try
             {
                 var index = snapPointsList.ToList().IndexOf(snapPointsList.Reverse().FirstOrDefault(x => x <= scrollViewer.HorizontalOffset));
+                if (tempSelectedIndex != 0)
+                    index = tempSelectedIndex;
+
+                tempSelectedIndex = 0;
+
                 this.isManualOperation = false;
-                this.SelectedIndex = index;
+                this.SelectedIndex = this.ViewModel.Columns.IndexOf(this.ViewModel.Columns.First(x => x.Index.Value == index));
                 this.isManualOperation = true;
             }
             catch
@@ -137,7 +144,7 @@ namespace Flantter.MilkyWay.Views.Contents
         }
 
         bool scrollViewerControlDisabled = false;
-        public void ColumnArea_UpdateView(bool disableAnimation = true)
+        public async void ColumnArea_UpdateView(bool disableAnimation = true)
         {
             scrollViewerControlDisabled = true;
 
@@ -150,6 +157,9 @@ namespace Flantter.MilkyWay.Views.Contents
                 scrollViewer.HorizontalSnapPointsType = SnapPointsType.Mandatory;
                 this.AnimationCooldown(500);
             }
+
+            // GetIrregularSnapPointsの更新に少し時間がいる
+            await Task.Delay(10);
 
             var extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
             var snapPointsList = extendedCanvas.GetIrregularSnapPoints(Orientation.Horizontal, SnapPointsAlignment.Near);

@@ -409,6 +409,7 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        private List<long> listStreamUserIdList = null;
         private Subject<StreamingMessage> stream = null;
         private IDisposable twitterStreamDisposableObject = null;
         private IObservable<StreamingMessage> Stream
@@ -452,23 +453,26 @@ namespace Flantter.MilkyWay.Models
             {
                 this._AccountModel.DisconnectAllFilterStreaming();
 
-                List<long> userIdList = new List<long>();
+                listStreamUserIdList = new List<long>();
                 try
                 {
+                    // 最大5000人まで (5000人だとたまにエラー出る？)
                     var userList = await this._Tokens.Lists.Members.ListAsync(list_id => long.Parse(this.Parameter), count => 4999);
-                    userIdList = userList.Select(x => x.Id.HasValue ? x.Id.Value : 0).ToList();
+                    listStreamUserIdList = userList.Select(x => x.Id.HasValue ? x.Id.Value : 0).ToList();
                 }
                 catch (TwitterException ex)
                 {
                     // Todo : Notifications の通知システムに渡す
+                    return;
                 }
                 catch (Exception ex)
                 {
                     // Todo : Notifications の通知システムに渡す
+                    return;
                 }
 
                 var param = new Dictionary<string, object>();
-                param.Add("follow", string.Join(",", userIdList));
+                param.Add("follow", string.Join(",", listStreamUserIdList));
 
                 iObservable = this._Tokens.Streaming.FilterAsObservable(param);
                 this.twitterStreamDisposableObject = iObservable.Catch((Exception ex) =>
@@ -843,17 +847,28 @@ namespace Flantter.MilkyWay.Models
         private bool Check(Twitter.Objects.Status status, List<string> param)
         {
             if (!param.Contains(this.Action.ToString("F").ToLower() + "://" + this._Parameter))
-                return false;
+            {
+                if (this.Action != SettingSupport.ColumnTypeEnum.List || !param.Contains("home://") || !status.User.IsProtected)
+                    return false;
+            }
 
             if (status.User.IsMuting)
                 return false;
             else
             {
+                // Todo : NoRetweetIdsの読み込み
+
                 /*using (await Connecter.Instance.TweetCollecter[this.OwnerUserId].NoRetweetIdsAsyncLock.LockAsync())
                 {
                     if (Connecter.Instance.TweetCollecter[this.OwnerUserId].NoRetweetIds.Contains(status.User.Id))
                         return false;
                 }*/
+            }
+
+            if (this.Action == SettingSupport.ColumnTypeEnum.Mentions && !SettingService.Setting.ShowRetweetToMentionColumn)
+            {
+                if (status.HasRetweetInformation)
+                    return false;
             }
 
             if (this.Action != SettingSupport.ColumnTypeEnum.Mentions && this.Action != SettingSupport.ColumnTypeEnum.Favorites)

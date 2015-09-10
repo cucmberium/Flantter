@@ -18,9 +18,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
 {
     public class TexbblockNavigationServiceBehavior
     {
-        public static readonly Regex Regex_Status = new Regex(@"https?://twitter.com/(#!/)?([a-zA-Z0-9_])+/status(es)?/(?<Id>[0-9]+)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static readonly Regex Regex_User = new Regex(@"https?://twitter.com/(#!/)?(?<ScreenName>([a-zA-Z0-9_])+)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        
         public static string GetText(DependencyObject obj) { return obj.GetValue(TextProperty) as string; }
         public static void SetText(DependencyObject obj, string value) { obj.SetValue(TextProperty, value); }
 
@@ -256,8 +253,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 return;
             }
             
-            var statusMatch = Regex_Status.Match(linkUrl);
-            var userMatch = Regex_User.Match(linkUrl);
+            var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
+            var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
 			if (statusMatch.Success)
 			{ }
 			else if (userMatch.Success)

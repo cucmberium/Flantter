@@ -16,7 +16,7 @@
     d:DesignWidth="400">
 
     <Grid>
-        <ProgressBar VerticalAlignment="Top" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" />
+        <ProgressBar Foreground="{StaticResource ProgressBarForegroundBrush}" VerticalAlignment="Top" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" />
         
         <ListView DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=OneWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" >
             <i:Interaction.Behaviors>

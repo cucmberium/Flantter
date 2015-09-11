@@ -63,6 +63,9 @@
     <SolidColorBrush x:Key="ButtonContentPresenterDisabledForegroundBrush" Color="#33000000" />
     <SolidColorBrush x:Key="ButtonContentPresenterDisabledBorderBrush" Color="Transparent" />
 
+    <SolidColorBrush x:Key="ProgressBarForegroundBrush" Color="#FF0078D7" />
+    <SolidColorBrush x:Key="ProgressRingForegroundBrush" Color="#FF0078D7" />
+    
     <SolidColorBrush x:Key="AppBarButtonItemBackgroundThemeBrush" Color="Transparent" />
     <SolidColorBrush x:Key="AppBarButtonItemDisabledForegroundThemeBrush" Color="#66000000" />
     <SolidColorBrush x:Key="AppBarButtonItemForegroundThemeBrush" Color="#FF000000" />
@@ -78,7 +81,11 @@
     <SolidColorBrush x:Key="AppBarTweetButtonBackgroundBrush" Color="#22000000" />
     <SolidColorBrush x:Key="AppBarTweetButtonForegroundBrush" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="AppBarCharacterCountForegroundBrush" Color="Black" />
-    
+    <SolidColorBrush x:Key="AppBarReplyOrQuotedStatusAreaBackgroundBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="AppBarReplyOrQuotedStatusAreaTextBackgroundBrush" Color="Black" />
+    <SolidColorBrush x:Key="AppBarReplyOrQuotedStatusAreaNameBackgroundBrush" Color="Black" />
+    <SolidColorBrush x:Key="AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush" Color="#FFA6A6A6" />
+
     <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#FF2387C1" />
     <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="White" />
     <SolidColorBrush x:Key="TitleBarButtonBackgroundBrush" Color="#FF2387C1" />

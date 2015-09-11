@@ -56,9 +56,8 @@ namespace Flantter.MilkyWay.Models
                     this.CharacterCountChanged();
 
                     this.SuggestionTokenize();
-
-                    if (tokens != null)
-                        this.SuggestionCheck();
+                    
+                    this.SuggestionCheck();
                 }
             }
         }
@@ -159,6 +158,42 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region ReplyOrQuotedStatus変更通知プロパティ
+        private Twitter.Objects.Status _ReplyOrQuotedStatus;
+        public Twitter.Objects.Status ReplyOrQuotedStatus
+        {
+            get { return this._ReplyOrQuotedStatus; }
+            set { this.SetProperty(ref this._ReplyOrQuotedStatus, value); }
+        }
+        #endregion
+
+        #region IsQuotedRetweet変更通知プロパティ
+        private bool _IsQuotedRetweet;
+        public bool IsQuotedRetweet
+        {
+            get { return this._IsQuotedRetweet; }
+            set
+            {
+                if (this._IsQuotedRetweet != value)
+                {
+                    this._IsQuotedRetweet = value;
+                    this.OnPropertyChanged("IsQuotedRetweet");
+
+                    this.CharacterCountChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region IsReply変更通知プロパティ
+        private bool _IsReply;
+        public bool IsReply
+        {
+            get { return this._IsReply; }
+            set { this.SetProperty(ref this._IsReply, value); }
+        }
+        #endregion
+
         public void CharacterCountChanged()
         {
             StringInfo textInfo = new StringInfo(this._Text.Replace("\r\n", "\n"));
@@ -168,6 +203,9 @@ namespace Flantter.MilkyWay.Models
                 count += m.Value.Length - (m.Value.ToLower().StartsWith("https://") ? 23 : 22);
 
             if (this._Pictures.Count > 0)
+                count -= 23;
+
+            if (this._IsQuotedRetweet)
                 count -= 23;
 
             this.CharacterCount = count;
@@ -223,8 +261,10 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 var param = new Dictionary<string, object>() { };
-                //if (this.ReplyTweet != null)
-                //    parameter.Add("in_reply_to_status_id", this.ReplyTweet.Id);
+                if (this.ReplyOrQuotedStatus != null)
+                    param.Add("in_reply_to_status_id", this.ReplyOrQuotedStatus.Id);
+                if (this._IsQuotedRetweet)
+                    text += " https://twitter.com/" + this.ReplyOrQuotedStatus.User.ScreenName + "/status/" + this.ReplyOrQuotedStatus.Id;
 
                 // Upload Media
 
@@ -285,6 +325,10 @@ namespace Flantter.MilkyWay.Models
 
             this.Text = string.Empty;
 
+            this.ReplyOrQuotedStatus = null;
+            this.IsQuotedRetweet = false;
+            this.IsReply = false;
+
             this.State = "Accept";
             this.Message = _ResourceLoader.GetString("TweetArea_Message_AllSet");
 
@@ -294,6 +338,12 @@ namespace Flantter.MilkyWay.Models
         private IEnumerable<SuggestionService.SuggestionToken> tokens;
         private void SuggestionTokenize()
         {
+            if (string.IsNullOrWhiteSpace(this._Text))
+            {
+                tokens = null;
+                return;
+            }
+
             try
             {
                 tokens = SuggestionService.Tokenize(this._Text);
@@ -305,6 +355,9 @@ namespace Flantter.MilkyWay.Models
         }
         private void SuggestionCheck()
         {
+            if (tokens == null)
+                return;
+
             if (!Services.Connecter.Instance.TweetCollecter.ContainsKey(this.SelectedAccountUserId))
                 return;
 

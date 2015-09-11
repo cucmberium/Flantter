@@ -13,7 +13,6 @@ namespace Flantter.MilkyWay.ViewModels.Services
         private static Notice _Instance = new Notice();
         private Notice()
         {
-            this.TweetCommand = new ReactiveCommand();
             this.ShowUserProfileCommand = new ReactiveCommand();
             this.ShowMediaCommand = new ReactiveCommand();
             this.ShowStatusDetailCommand = new ReactiveCommand();
@@ -43,8 +42,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         {
             get { return _Instance; }
         }
-
-        public ReactiveCommand TweetCommand { get; private set; }
+        
         public ReactiveCommand ShowUserProfileCommand { get; private set; }
         public ReactiveCommand ShowMediaCommand { get; private set; }
         public ReactiveCommand ShowStatusDetailCommand { get; private set; }

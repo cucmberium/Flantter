@@ -28,11 +28,52 @@
     <Grid Background="{StaticResource AppBarBackgroundBrush}" BorderBrush="{StaticResource AppBarBorderBrush}" BorderThickness="0,2,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" /><!-- Reply tweet and quoted tweet area -->
-            <RowDefinition Height="Auto" /><!-- Tweet area -->
+            <RowDefinition Height="130" /><!-- Tweet area -->
         </Grid.RowDefinitions>
-        
-        <Border Grid.Row="0" Visibility="Collapsed">
-            
+
+        <Border Grid.Row="0" Visibility="{x:Bind ViewModel.ReplyOrQuotedStatus.Value, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" Margin="6,6,6,2" Background="{StaticResource AppBarReplyOrQuotedStatusAreaBackgroundBrush}" Padding="4,2" CornerRadius="5">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Visibility="{x:Bind ViewModel.IsReply.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="0" FontSize="11" Margin="42,0,0,2">
+                    <Run FontFamily="Segoe UI Symbol" Foreground="Red" Text="&#xE168;"/><Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush}" Text=" Reply"/>
+                </TextBlock>
+                <TextBlock Visibility="{x:Bind ViewModel.IsQuotedRetweet.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="0" FontSize="11" Margin="42,0,0,2">
+                    <Run FontFamily="Segoe UI Symbol" Foreground="#FF0FD386" Text="&#xE201;"/><Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush}" Text=" Quoted Retweet"/>
+                </TextBlock>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Height="32" Width="32" CornerRadius="4" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{x:Bind ViewModel.ReplyOrQuotedStatus.Value.ProfileImageUrl, Mode=OneWay}" />
+                        </Border.Background>
+                    </Border>
+                    <StackPanel Grid.Column="2" x:Name="StatusBox">
+                        <TextBlock>
+                            <Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaNameBackgroundBrush}" FontSize="12" Text="{x:Bind ViewModel.ReplyOrQuotedStatus.Value.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ReplyOrQuotedStatus.Value.ScreenName, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaTextBackgroundBrush}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.ReplyOrQuotedStatus.Value.QuotedStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.ReplyOrQuotedStatus.Value.Text, Mode=OneWay}"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="3" Foreground="Black" Background="Transparent" Width="40" Height="40" BorderThickness="0" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{x:Bind ViewModel.DeleteReplyOrQuotedStatusCommand, Mode=OneWay}">
+                        <SymbolIcon Symbol="Cancel"/>
+                    </Button>
+                </Grid>
+                
+            </Grid>
+
         </Border>
 
         <Grid Grid.Row="1" Height="130">
@@ -60,6 +101,7 @@
                         </util:KeyTrigger>
                     </behaviors:TextBoxKeyTriggerBehavior>
                     <behaviors:TweetAreaSuggestionBehavior Messenger="{x:Bind ViewModel.SuggestionMessenger, Mode=OneWay}" Command="{x:Bind ViewModel.SuggestSelectedCommand, Mode=OneWay}"/>
+                    <behaviors:TextBoxFocusBehavior Messenger="{x:Bind ViewModel.TextBoxFocusMessenger, Mode=OneWay}"/>
                 </i:Interaction.Behaviors>
             </controls:ExtendedTextBox>
 

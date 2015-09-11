@@ -51,6 +51,9 @@ namespace Flantter.MilkyWay.Views.Util
 
         private KeysEventArgs keysEventArgs;
 
+        private KeyEventHandler keyupEventHandler;
+        private KeyEventHandler keydownEventHandler;
+
         public void Attach(DependencyObject AssociatedObject)
         {
             this.AssociatedObject = AssociatedObject;
@@ -58,12 +61,29 @@ namespace Flantter.MilkyWay.Views.Util
             keysEventArgs = new KeysEventArgs();
 
             var uiElement = this.AssociatedObject as UIElement;
-            uiElement.AddHandler(UIElement.KeyDownEvent, new KeyEventHandler(UIElement_KeyDown), true);
-            uiElement.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(UIElement_KeyUp), true);
+            keyupEventHandler = new KeyEventHandler(UIElement_KeyUp);
+            keydownEventHandler = new KeyEventHandler(UIElement_KeyDown);
+            uiElement.AddHandler(UIElement.KeyDownEvent, keydownEventHandler, true);
+            uiElement.AddHandler(UIElement.KeyUpEvent, keyupEventHandler, true);
+            
+            var control = this.AssociatedObject as Control;
+            if (control != null)
+            {
+                control.IsEnabledChanged += Control_IsEnabledChanged;
+            }
         }
-        
+
         public void Detach()
         {
+            var uiElement = this.AssociatedObject as UIElement;
+            uiElement.RemoveHandler(UIElement.KeyDownEvent, keydownEventHandler);
+            uiElement.RemoveHandler(UIElement.KeyUpEvent, keyupEventHandler);
+
+            var control = this.AssociatedObject as Control;
+            if (control != null)
+            {
+                control.IsEnabledChanged -= Control_IsEnabledChanged;
+            }
         }
         
         private void UIElement_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -90,6 +110,13 @@ namespace Flantter.MilkyWay.Views.Util
         {
             if (keysEventArgs.KeyCollection.Any(x => x == e.Key))
                 keysEventArgs.KeyCollection.Remove(e.Key);
+        }
+
+
+
+        private void Control_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            keysEventArgs.KeyCollection.Clear();
         }
     }
 

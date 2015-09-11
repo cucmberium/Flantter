@@ -43,6 +43,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         private KeysEventArgs keysEventArgs;
 
+        private KeyEventHandler keyupEventHandler;
+
         public void Attach(DependencyObject AssociatedObject)
         {
             this.AssociatedObject = AssociatedObject;
@@ -51,11 +53,17 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             var uiElement = this.AssociatedObject as ExtendedTextBox;
             uiElement.PreKeyDown += UIElement_KeyDown;
-            uiElement.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(UIElement_KeyUp), true);
+            keyupEventHandler = new KeyEventHandler(UIElement_KeyUp);
+            uiElement.AddHandler(UIElement.KeyUpEvent, keyupEventHandler, true);
+            uiElement.IsEnabledChanged += UIElement_IsEnabledChanged;
         }
-        
+
         public void Detach()
         {
+            var uiElement = this.AssociatedObject as ExtendedTextBox;
+            uiElement.PreKeyDown -= UIElement_KeyDown;
+            uiElement.RemoveHandler(UIElement.KeyUpEvent, keyupEventHandler);
+            uiElement.IsEnabledChanged -= UIElement_IsEnabledChanged;
         }
         
         private void UIElement_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -70,6 +78,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
         {
             if (keysEventArgs.KeyCollection.Any(x => x == e.Key))
                 keysEventArgs.KeyCollection.Remove(e.Key);
+        }
+
+        private void UIElement_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            keysEventArgs.KeyCollection.Clear();
         }
     }
 }

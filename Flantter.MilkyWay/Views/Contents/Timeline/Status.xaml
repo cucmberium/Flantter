@@ -297,7 +297,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="4" ToolTipService.ToolTip="Reply" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ReplyCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}">
+            <Button Grid.Column="4" ToolTipService.ToolTip="Reply" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ReplyCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarReplySymbolIconForegroundBrush}" Symbol="Message"/>
             </Button>
             <Button Grid.Column="3" ToolTipService.ToolTip="Retweet" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
@@ -328,13 +328,13 @@
                         <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_TweetDetail" Text="&#xE14C;    ツイートの詳細" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowTweetDetailCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_ReplyMenu" Text="&#xE172;    リプライ関連" FontFamily="Segoe UI Symbol">
-                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Reply" Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Reply" Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_ReplyToAll" Text="&#xE165;    全員に返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyToAllCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_RetweetMenu" Text="&#xE1CA;    リツイート関連" FontFamily="Segoe UI Symbol">
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Retweet" Text="&#xE1CA;    リツイート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.RetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
-                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UrlQuoteRetweet" Text="&#xE167;    コメント付きリツイート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UrlQuoteRetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UrlQuoteRetweet" Text="&#xE167;    コメント付きリツイート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UrlQuoteRetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
                             <MenuFlyoutSeparator />
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UnofficialRetweet" Text="&#xE172;    非公式RT" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UnofficialRetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>

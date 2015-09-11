@@ -156,6 +156,7 @@
     <Compile Include="Views\Behaviors\ListViewScrollControlBehavior.cs" />
     <Compile Include="Views\Behaviors\SymbolIconForegroundBrushSwitchBehavior.cs" />
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
+    <Compile Include="Views\Behaviors\TextBoxFocusBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetAreaSuggestionBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetEventMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetDirectMessageBehavior.cs" />

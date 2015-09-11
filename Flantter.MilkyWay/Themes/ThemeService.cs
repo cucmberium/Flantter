@@ -157,6 +157,9 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterDisabledForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonContentPresenterDisabledForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterDisabledBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ButtonContentPresenterDisabledBorderBrush"]).Color;
 
+                ((SolidColorBrush)Application.Current.Resources["ProgressBarForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ProgressBarForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ProgressRingForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ProgressRingForegroundBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemBackgroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemDisabledForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemDisabledForegroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemForegroundThemeBrush"]).Color;
@@ -172,7 +175,11 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["AppBarTweetButtonBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarTweetButtonBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarTweetButtonForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarTweetButtonForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarCharacterCountForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarCharacterCountForegroundBrush"]).Color;
-                
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarReplyOrQuotedStatusAreaBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaTextBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarReplyOrQuotedStatusAreaTextBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaNameBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarReplyOrQuotedStatusAreaNameBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarButtonBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarButtonBackgroundBrush"]).Color;
@@ -318,6 +325,9 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterDisabledForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonContentPresenterDisabledForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ButtonContentPresenterDisabledBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ButtonContentPresenterDisabledBorderBrush"]).Color;
 
+                ((SolidColorBrush)Application.Current.Resources["ProgressBarForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ProgressBarForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ProgressRingForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ProgressRingForegroundBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemBackgroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemDisabledForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemDisabledForegroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemForegroundThemeBrush"]).Color;
@@ -333,6 +343,10 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["AppBarTweetButtonBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarTweetButtonBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarTweetButtonForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarTweetButtonForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarCharacterCountForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarCharacterCountForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarReplyOrQuotedStatusAreaBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaTextBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarReplyOrQuotedStatusAreaTextBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaNameBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarReplyOrQuotedStatusAreaNameBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TitleBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TitleBarForegroundBrush"]).Color;

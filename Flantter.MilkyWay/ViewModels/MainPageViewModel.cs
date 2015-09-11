@@ -14,6 +14,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -40,11 +41,14 @@ namespace Flantter.MilkyWay.ViewModels
             this.TitleBarVisivility = SettingService.Setting.ObserveProperty(x => x.TitleBarVisibility).ToReactiveProperty();
 
             this.AppBarIsOpen = new ReactiveProperty<bool>(false);
-            this.AppBarIsOpen.Subscribe<bool>(isOpen => 
+            this.AppBarIsOpen.Subscribe<bool>(async isOpen => 
             {
                 if (isOpen && this.Accounts.Any(x => x.IsEnabled.Value))
                 {
                     Services.Notice.Instance.TweetAreaAccountChangeCommand.Execute(this.Accounts.First(x => x.IsEnabled.Value));
+
+                    await Task.Delay(50);
+                    await this.TweetArea.Value.TextBoxFocusMessenger.Raise(new Notification());
                 }
             });
 
@@ -54,15 +58,6 @@ namespace Flantter.MilkyWay.ViewModels
             this.ShowVideoPreviewMessenger = new Messenger();
 
             #region Command
-
-            Services.Notice.Instance.TweetCommand.Subscribe(x => 
-            {
-                var accountViewModel = x as AccountViewModel;
-                if (accountViewModel == null)
-                    return;
-
-                this.AppBarIsOpen.Value = true;
-            });
 
             Services.Notice.Instance.ShowMediaCommand.Subscribe(async x =>
             {
@@ -80,7 +75,12 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.TweetAreaOpenCommand.Subscribe(x =>
             {
-                var isOpen = (bool)x;
+                var isOpen = false;
+                if (x == null)
+                    isOpen = true;
+                else
+                    isOpen = (bool)x;
+
                 this.AppBarIsOpen.Value = isOpen;
             });
 

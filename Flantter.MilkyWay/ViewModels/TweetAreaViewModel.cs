@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml.Media;
 using Windows.Storage.Streams;
+using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Objects;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -27,6 +29,10 @@ namespace Flantter.MilkyWay.ViewModels
         public ReadOnlyReactiveCollection<PictureViewModel> Pictures { get; private set; }
 
         public ReactiveProperty<AccountViewModel> SelectedAccount { get; set; }
+
+        public ReactiveProperty<StatusViewModel> ReplyOrQuotedStatus { get; set; }
+        public ReactiveProperty<bool> IsQuotedRetweet { get; set; }
+        public ReactiveProperty<bool> IsReply { get; set; }
 
         public ReactiveProperty<string> Text { get; set; }
         public ReactiveProperty<int> SelectionStart { get; set; }
@@ -45,9 +51,13 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand TweetCommand { get; set; }
         public ReactiveCommand SuggestSelectedCommand { get; set; }
 
+        public ReactiveCommand DeleteReplyOrQuotedStatusCommand { get; set; }
+
         public Messenger ShowFilePickerMessenger { get; private set; }
 
         public Messenger SuggestionMessenger { get; private set; }
+
+        public Messenger TextBoxFocusMessenger { get; private set; }
 
         public TweetAreaViewModel(ReadOnlyReactiveCollection<AccountViewModel> accounts)
         {
@@ -80,13 +90,25 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.Updating = this._TweetAreaModel.ObserveProperty(x => x.Updating).ToReactiveProperty();
 
+            this.ReplyOrQuotedStatus = new ReactiveProperty<StatusViewModel>();
+            this.IsQuotedRetweet = this._TweetAreaModel.ObserveProperty(x => x.IsQuotedRetweet).ToReactiveProperty();
+            this.IsReply = this._TweetAreaModel.ObserveProperty(x => x.IsReply).ToReactiveProperty();
+
             this.Notice = Services.Notice.Instance;
 
             this.ShowFilePickerMessenger = new Messenger();
             this.SuggestionMessenger = new Messenger();
             this._TweetAreaModel.SuggestionMessenger = this.SuggestionMessenger;
+            this.TextBoxFocusMessenger = new Messenger();
 
             this.Pictures = this._TweetAreaModel.ReadonlyPictures.ToReadOnlyReactiveCollection(x => new PictureViewModel(x));
+
+            this._TweetAreaModel.ObserveProperty(x => x.ReplyOrQuotedStatus).Subscribe(x => 
+            {
+                var status = x as Status;
+                if (status == null)
+                    this.ReplyOrQuotedStatus.Value = null;
+            });
 
             this.ChangeLockHashTagsCommand = new ReactiveCommand();
             this.ChangeLockHashTagsCommand.Subscribe(x => 
@@ -120,7 +142,19 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 this._TweetAreaModel.SuggestionSelected((string)x);
             });
-            
+
+            this.DeleteReplyOrQuotedStatusCommand = new ReactiveCommand();
+            this.DeleteReplyOrQuotedStatusCommand.Subscribe(x => 
+            {
+                this.ReplyOrQuotedStatus.Value = null;
+
+                this._TweetAreaModel.IsQuotedRetweet = false;
+                this._TweetAreaModel.IsReply = false;
+                this._TweetAreaModel.ReplyOrQuotedStatus = null;
+
+                this._TweetAreaModel.Text = string.Empty;
+            });
+
             Services.Notice.Instance.TweetAreaAccountChangeCommand.Subscribe(x => 
             {
                 var accountVM = x as AccountViewModel;
@@ -132,6 +166,46 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 var pictureViewModel = x as PictureViewModel;
                 this._TweetAreaModel.DeletePicture(pictureViewModel._PictureModel);
+            });
+
+            Services.Notice.Instance.ReplyCommand.Subscribe(async x => 
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+
+                this.ReplyOrQuotedStatus.Value = statusViewModel;
+
+                this._TweetAreaModel.IsQuotedRetweet = false;
+                this._TweetAreaModel.IsReply = true;
+                this._TweetAreaModel.ReplyOrQuotedStatus = statusViewModel.Model;
+
+                this._TweetAreaModel.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
+                this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
+
+                await Task.Delay(50);
+
+                Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
+            });
+
+            Services.Notice.Instance.UrlQuoteRetweetCommand.Subscribe(async x => 
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+
+                this.ReplyOrQuotedStatus.Value = statusViewModel;
+
+                this._TweetAreaModel.IsQuotedRetweet = true;
+                this._TweetAreaModel.IsReply = false;
+                this._TweetAreaModel.ReplyOrQuotedStatus = statusViewModel.Model;
+
+                this._TweetAreaModel.Text = "";
+                this._TweetAreaModel.SelectionStart = 0;
+
+                await Task.Delay(50);
+
+                Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
             });
         }
     }

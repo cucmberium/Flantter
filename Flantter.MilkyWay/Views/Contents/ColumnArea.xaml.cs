@@ -44,9 +44,10 @@ namespace Flantter.MilkyWay.Views.Contents
         private static void SelectedIndex_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var columnArea = d as ColumnArea;
+            if (columnArea.isManualOperation)
+                columnArea.tempSelectedIndex = (int)e.NewValue;
             columnArea.ColumnArea_UpdateView(false);
 			System.Diagnostics.Debug.WriteLine("SelectedIndex : " + e.NewValue);
-            columnArea.tempSelectedIndex = (int)e.NewValue;
         }
 
         private ScrollViewer _ScrollViewer = null;

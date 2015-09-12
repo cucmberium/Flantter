@@ -27,8 +27,7 @@ namespace Flantter.MilkyWay.Models.Twitter
         private static readonly Regex Regex_PhotoZou = new Regex(@"^https?://photozou\.jp/photo/show/(?<UserId>[0-9]+)/(?<Id>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex Regex_flickr = new Regex(@"^https?://(?:www\.)?(?:flickr\.com/photos/(?:[\w\-_@]+)/(\d+)(?:/in/[\w\-]*)?|flic\.kr/p/(\w+))/?(?:\?.*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex Regex_Dropbox = new Regex(@"^https?://(?:(?:www\\.|dl\\.)?dropbox\\.com/s/(\\w+)/([\\w\\-\\.%]+\\.(?:jpeg?|jpg|png|gif|bmp|dib|tiff?))|(?:www\\.)?db\\.tt/(\\w+))/?(?:\\?.*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex Regex_NicoVideo = new Regex(@"^https?://(?:(?:www\.)?nicovideo\.jp/watch|nico\.(?:ms|sc))/(?<VideoId>[sn]m\d+)?(?:\?.*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled); // Old ver
-        private static readonly Regex Regex_NicoVideoPlus = new Regex(@"^https?://(?:(?:www\.)?nicovideo\.jp/watch|nico\.(?:ms|sc))/(?<VideoId>\d+)?(?:\?.*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex Regex_NicoVideo = new Regex(@"^https?://(?:(?:www\.)?nicovideo\.jp/watch|nico\.(?:ms|sc))/(?<VideoId>(?:sm|nm)?\d+)?(?:\?.*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex Regex_Youtube = new Regex(@"^https?://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<VideoId>([\w\-]+))", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex Regex_Vine = new Regex(@"^https?://(?:www\.)?vine\.co/v/(?<VideoId>\w+)(?:\?.*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex Regex_DirectLink = new Regex(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -337,25 +336,10 @@ namespace Flantter.MilkyWay.Models.Twitter
                     match = Regex_NicoVideo.Match(url.ExpandedUrl);
                     if (match.Success)
                     {
-                        yield return new Media()
-                        {
-                            MediaThumbnailUrl = "http://tn-skr2.smilevideo.jp/smile?i=" + match.Groups["VideoId"].Value.Replace("sm", "").Replace("nm", ""),
-                            MediaUrl = string.Empty,
-                            ExpandedUrl = match.Value,
-                            DisplayUrl = url.DisplayUrl,
-                            Type = "Video",
-                            VideoInfo = new VideoInfo() { VideoId = match.Groups["VideoId"].Value, VideoType = "NicoVideo" }
-                        };
-                        continue;
-                    }
-                    else
-                    {
-                        match = Regex_NicoVideoPlus.Match(url.ExpandedUrl);
-                        if (match.Success)
+                        if (match.Groups["VideoId"].Value.StartsWith("sm") || match.Groups["VideoId"].Value.StartsWith("nm"))
                         {
                             yield return new Media()
                             {
-                                // Todo : サムネ独自取得
                                 MediaThumbnailUrl = "http://tn-skr2.smilevideo.jp/smile?i=" + match.Groups["VideoId"].Value.Replace("sm", "").Replace("nm", ""),
                                 MediaUrl = string.Empty,
                                 ExpandedUrl = match.Value,
@@ -365,6 +349,19 @@ namespace Flantter.MilkyWay.Models.Twitter
                             };
                             continue;
                         }
+                        else
+                        {
+                            Thumbnail.NicoVideo.GetThumbnail(match.Groups["VideoId"].Value);
+                            yield return new Media()
+                            {
+                                MediaThumbnailUrl = "ms-appdata:///temp/" + match.Groups["VideoId"].Value,
+                                MediaUrl = string.Empty,
+                                ExpandedUrl = match.Value,
+                                DisplayUrl = url.DisplayUrl,
+                                Type = "Video",
+                                VideoInfo = new VideoInfo() { VideoId = match.Groups["VideoId"].Value, VideoType = "NicoVideo" }
+                            };
+                        }                        
                     }
                     #endregion
 

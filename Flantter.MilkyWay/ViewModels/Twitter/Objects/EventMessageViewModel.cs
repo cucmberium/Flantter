@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
@@ -26,6 +27,26 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.Name = eventMessage.Source.Name;
             this.ProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.Source.ProfileImageUrl) ? "http://localhost/" : eventMessage.Source.ProfileImageUrl;
             this.Id = 0;
+
+            var resourceLoader = new ResourceLoader();
+            var sourceUser = "@" + eventMessage.Source.ScreenName + " (" + eventMessage.Source.Name + ") ";
+            var targetUser = "@" + eventMessage.Target.ScreenName + " (" + eventMessage.Target.Name + ") ";
+
+            switch (eventMessage.Type)
+            {
+                case "Favorite":
+                    this.Text = string.Format(resourceLoader.GetString("Event_Favorite"), eventMessage.Source, targetUser);
+                    break;
+                case "Follow":
+                    this.Text = string.Format(resourceLoader.GetString("Event_Follow"), eventMessage.Source, targetUser);
+                    break;
+                case "Unfavorite":
+                    this.Text = string.Format(resourceLoader.GetString("Event_Unfavorite"), eventMessage.Source, targetUser);
+                    break;
+                case "UserUpdate":
+                    this.Text = string.Format(resourceLoader.GetString("Event_UserUpdate"), eventMessage.Source, targetUser);
+                    break;
+            }
 
             if (eventMessage.TargetStatus != null)
             {

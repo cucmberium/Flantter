@@ -1,5 +1,5 @@
 ﻿using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Twitter;
+using Flantter.MilkyWay.Models.Twitter.Video;
 using Flantter.MilkyWay.Views.Util;
 using System;
 using System.Collections.Generic;

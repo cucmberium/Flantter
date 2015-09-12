@@ -264,4 +264,20 @@
   <data name="TweetArea_Message_Error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="Event_Favorite" xml:space="preserve">
+    <value>{0} favorited {1} tweet.</value>
+    <comment>(user) favorited your tweet.</comment>
+  </data>
+  <data name="Event_Follow" xml:space="preserve">
+    <value>{0} followed {1}.</value>
+    <comment>(user) followed you.</comment>
+  </data>
+  <data name="Event_Unfavorite" xml:space="preserve">
+    <value>{0} unfavorited {1} tweet.</value>
+    <comment>(user) unfavorited your tweet.</comment>
+  </data>
+  <data name="Event_UserUpdate" xml:space="preserve">
+    <value>{0} updated bio.</value>
+    <comment>(user) updated bio.</comment>
+  </data>
 </root>

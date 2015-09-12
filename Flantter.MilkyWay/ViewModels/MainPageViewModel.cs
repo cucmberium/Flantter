@@ -5,6 +5,7 @@ using Flantter.MilkyWay.Views.Util;
 using Microsoft.Practices.Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using System.Reactive.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,7 +39,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.Accounts = this._MainPageModel.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
 
             // 設定によってTitlebarの表示を変える
-            this.TitleBarVisivility = SettingService.Setting.ObserveProperty(x => x.TitleBarVisibility).ToReactiveProperty();
+            this.TitleBarVisivility = SettingService.Setting.ObserveProperty(x => x.TitleBarVisibility).Select(x => x && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile").ToReactiveProperty();
 
             this.AppBarIsOpen = new ReactiveProperty<bool>(false);
             this.AppBarIsOpen.Subscribe<bool>(async isOpen => 

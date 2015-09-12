@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Text;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
+using Windows.System.Profile;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -63,13 +64,17 @@ namespace Flantter.MilkyWay.Views.Util
                     });
 #endif
             */
-            this.WindowWidth = Window.Current.Bounds.Width;
-            this.WindowHeight = Window.Current.Bounds.Height;
-            this.ClientWidth = Window.Current.Bounds.Width;
-            this.ClientHeight = Window.Current.Bounds.Height;
-            this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
 
-            Observable.CombineLatest<WindowSizeChangedEventArgs, CoreApplicationViewTitleBar, bool>(
+
+            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
+            {
+                this.WindowWidth = Window.Current.Bounds.Width;
+                this.WindowHeight = Window.Current.Bounds.Height;
+                this.ClientWidth = Window.Current.Bounds.Width;
+                this.ClientHeight = Window.Current.Bounds.Height;
+                this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
+
+                Observable.CombineLatest<WindowSizeChangedEventArgs, CoreApplicationViewTitleBar, bool>(
                 Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
                     h => (sender, e) => h(e),
                     h => Window.Current.SizeChanged += h,
@@ -98,6 +103,31 @@ namespace Flantter.MilkyWay.Views.Util
                         this._TitleBarHeight = 0.0;
                     }
                 });
+            }
+            else if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+            {
+                // Todo : 電話での動作の修正
+
+                var statusBarHeight = StatusBar.GetForCurrentView().OccludedRect.Height;
+
+                this.WindowWidth = Window.Current.Bounds.Width;
+                this.WindowHeight = Window.Current.Bounds.Height;
+                this.ClientWidth = Window.Current.Bounds.Width;
+                this.ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
+                this.TitleBarHeight = statusBarHeight;
+
+                Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
+                    h => (sender, e) => h(e),
+                    h => Window.Current.SizeChanged += h,
+                    h => Window.Current.SizeChanged -= h).Subscribe(x =>
+                    {
+                        this.WindowHeight = x.Size.Height;
+                        this.WindowWidth = x.Size.Width;
+                        this.ClientWidth = Window.Current.Bounds.Width;
+                        this.ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
+                        this.TitleBarHeight = statusBarHeight;
+                    });
+            }
         }
 
         private double _ClientWidth;

@@ -41,10 +41,10 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Visibility="{x:Bind ViewModel.IsReply.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="0" FontSize="11" Margin="42,0,0,2">
-                    <Run FontFamily="Segoe UI Symbol" Foreground="Red" Text="&#xE168;"/><Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush}" Text=" Reply"/>
+                    <Run FontFamily="Segoe UI Symbol" Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaReplySymbolBackgroundBrush}" Text="&#xE168;"/><Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaNoticeBackgroundBrush}" Text=" Reply"/>
                 </TextBlock>
                 <TextBlock Visibility="{x:Bind ViewModel.IsQuotedRetweet.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="0" FontSize="11" Margin="42,0,0,2">
-                    <Run FontFamily="Segoe UI Symbol" Foreground="#FF0FD386" Text="&#xE201;"/><Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush}" Text=" Quoted Retweet"/>
+                    <Run FontFamily="Segoe UI Symbol" Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaQuotedRetweetSymbolBackgroundBrush}" Text="&#xE201;"/><Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaNoticeBackgroundBrush}" Text=" Quoted Retweet"/>
                 </TextBlock>
 
                 <Grid Grid.Row="1">

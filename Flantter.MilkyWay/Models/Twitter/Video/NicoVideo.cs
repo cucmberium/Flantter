@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Flantter.MilkyWay.Models.Twitter
+namespace Flantter.MilkyWay.Models.Twitter.Video
 {
     public class NicoVideo
     {
@@ -35,6 +35,10 @@ namespace Flantter.MilkyWay.Models.Twitter
             client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Mozilla", "5.0"));
             client.DefaultRequestHeaders.AcceptCharset.Add(new StringWithQualityHeaderValue("utf-8", 0.7));
             HttpResponseMessage response = await client.GetAsync(new Uri(thumbWatchUrl + "/" + videoId));
+
+            if (!response.IsSuccessStatusCode)
+                return;
+
             response.Content.Headers.ContentType.CharSet = "utf-8";
             string contents = await response.Content.ReadAsStringAsync();
 
@@ -60,7 +64,9 @@ namespace Flantter.MilkyWay.Models.Twitter
             var cookieClient = new Windows.Web.Http.HttpClient();
             this.VideoCookieUrl = thumbWatchUrl + "?as3=1&v=" + videoId + "&k=" + thumbPlayKey;
             var cookieResponse = await cookieClient.GetAsync(new Uri(this.VideoCookieUrl));
-            cookieResponse.EnsureSuccessStatusCode();
+            if (!cookieResponse.IsSuccessStatusCode)
+                return;
+            
             contents = await cookieResponse.Content.ReadAsStringAsync();
 
             if (string.IsNullOrWhiteSpace(contents))

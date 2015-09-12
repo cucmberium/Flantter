@@ -179,6 +179,9 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaTextBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarReplyOrQuotedStatusAreaTextBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaNameBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarReplyOrQuotedStatusAreaNameBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaQuotedRetweetSymbolBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarReplyOrQuotedStatusAreaQuotedRetweetSymbolBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaReplySymbolBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarReplyOrQuotedStatusAreaReplySymbolBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaNoticeBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarReplyOrQuotedStatusAreaNoticeBackgroundBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TitleBarForegroundBrush"]).Color;
@@ -347,6 +350,9 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaTextBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarReplyOrQuotedStatusAreaTextBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaNameBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarReplyOrQuotedStatusAreaNameBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaQuotedRetweetSymbolBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarReplyOrQuotedStatusAreaQuotedRetweetSymbolBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaReplySymbolBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarReplyOrQuotedStatusAreaReplySymbolBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["AppBarReplyOrQuotedStatusAreaNoticeBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarReplyOrQuotedStatusAreaNoticeBackgroundBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TitleBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TitleBarForegroundBrush"]).Color;

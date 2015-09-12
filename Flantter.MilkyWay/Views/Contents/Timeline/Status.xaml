@@ -197,7 +197,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="twitterObjectsViewModel:MediaEntityViewModel">
                             <Button Background="Transparent" BorderThickness="0" Command="{x:Bind Notice.ShowMediaCommand, Mode=OneWay}" CommandParameter="{x:Bind Model, Mode=OneWay}">
-                                <Image Height="{Binding Source={StaticResource Setting},Path=Setting.TweetMediaThumbnailSize}" MinWidth="{Binding RelativeSource={RelativeSource Self},Path=Height}" MaxWidth="150"  Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="Uniform"/>
+                                <Image Height="{Binding Source={StaticResource Setting},Path=Setting.TweetMediaThumbnailSize}" MinWidth="{Binding RelativeSource={RelativeSource Self},Path=Height}" MaxWidth="150" Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="Uniform"/>
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

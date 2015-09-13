@@ -140,7 +140,7 @@
                     </Grid>
                     <Button.Flyout>
                         <Flyout>
-                            <TextBlock Text="{x:Bind ViewModel.Message.Value, Mode=OneWay}"/>
+                            <TextBlock Foreground="{StaticResource AppBarMessageForegroundBrush}" Text="{x:Bind ViewModel.Message.Value, Mode=OneWay}"/>
                         </Flyout>
                     </Button.Flyout>
                 </Button>

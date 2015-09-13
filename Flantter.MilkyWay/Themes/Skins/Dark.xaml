@@ -81,6 +81,7 @@
     <SolidColorBrush x:Key="AppBarTweetButtonBackgroundBrush" Color="#22000000" />
     <SolidColorBrush x:Key="AppBarTweetButtonForegroundBrush" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="AppBarCharacterCountForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="AppBarMessageForegroundBrush" Color="White" />
     <SolidColorBrush x:Key="AppBarReplyOrQuotedStatusAreaBackgroundBrush" Color="#99000000" />
     <SolidColorBrush x:Key="AppBarReplyOrQuotedStatusAreaTextBackgroundBrush" Color="White" />
     <SolidColorBrush x:Key="AppBarReplyOrQuotedStatusAreaNameBackgroundBrush" Color="White" />

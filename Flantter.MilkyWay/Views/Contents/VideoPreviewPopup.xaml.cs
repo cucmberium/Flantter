@@ -53,12 +53,15 @@ namespace Flantter.MilkyWay.Views.Contents
             this.VideoPreview.Loaded += (_, __) =>
             {
                 var page = (Window.Current.Content as Frame).Content as Page;
-                _BottomAppBar = page.BottomAppBar;
+                _BottomAppBar = page.Tag as AppBar;
+
+                if (_BottomAppBar == null)
+                    return;
+
                 this._IsBottomBarOpen = _BottomAppBar.IsOpen;
-                _BottomAppBar.Opened += (s, e) => { this._IsBottomBarOpen = true; VideoPreviewPopup_SizeChanged(null, null); };
+                _BottomAppBar.Opening += (s, e) => { this._IsBottomBarOpen = true; VideoPreviewPopup_SizeChanged(null, null); };
                 _BottomAppBar.Closed += (s, e) => { this._IsBottomBarOpen = false; VideoPreviewPopup_SizeChanged(null, null); };
             };
-
 
             Window.Current.SizeChanged += VideoPreviewPopup_SizeChanged;
             

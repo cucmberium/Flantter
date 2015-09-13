@@ -144,7 +144,7 @@ namespace Flantter.MilkyWay.ViewModels
             });
 
             this.DeleteReplyOrQuotedStatusCommand = new ReactiveCommand();
-            this.DeleteReplyOrQuotedStatusCommand.Subscribe(x => 
+            this.DeleteReplyOrQuotedStatusCommand.Subscribe(async x => 
             {
                 this.ReplyOrQuotedStatus.Value = null;
 
@@ -153,6 +153,9 @@ namespace Flantter.MilkyWay.ViewModels
                 this._TweetAreaModel.ReplyOrQuotedStatus = null;
 
                 this._TweetAreaModel.Text = string.Empty;
+
+                await Task.Delay(50);
+                await this.TextBoxFocusMessenger.Raise(new Notification());
             });
 
             Services.Notice.Instance.TweetAreaAccountChangeCommand.Subscribe(x => 
@@ -168,7 +171,7 @@ namespace Flantter.MilkyWay.ViewModels
                 this._TweetAreaModel.DeletePicture(pictureViewModel._PictureModel);
             });
 
-            Services.Notice.Instance.ReplyCommand.Subscribe(async x => 
+            Services.Notice.Instance.ReplyCommand.Subscribe(x => 
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
@@ -183,12 +186,10 @@ namespace Flantter.MilkyWay.ViewModels
                 this._TweetAreaModel.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
                 this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
 
-                await Task.Delay(50);
-
                 Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
             });
 
-            Services.Notice.Instance.UrlQuoteRetweetCommand.Subscribe(async x => 
+            Services.Notice.Instance.UrlQuoteRetweetCommand.Subscribe(x => 
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
@@ -202,8 +203,6 @@ namespace Flantter.MilkyWay.ViewModels
 
                 this._TweetAreaModel.Text = "";
                 this._TweetAreaModel.SelectionStart = 0;
-
-                await Task.Delay(50);
 
                 Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
             });

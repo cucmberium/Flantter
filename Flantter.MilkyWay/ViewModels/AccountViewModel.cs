@@ -290,6 +290,8 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.ShowUserProfileCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(_ =>
             {
+                var t = new Views.Controls.ExtendedSettingsFlyout() { IsLightDismissEnabled = false };
+                t.Show();
                 System.Diagnostics.Debug.WriteLine("UserProfile Showed!");
             });
 

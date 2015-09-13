@@ -41,8 +41,16 @@ namespace Flantter.MilkyWay.Models.Twitter.Thumbnail
             var thumbnailUrl = responseXml.Element("thumb").Element("thumbnail_url").Value;
 
             response = await client.GetAsync(new Uri(thumbnailUrl));
-            var imageFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(videoId, CreationCollisionOption.OpenIfExists);
-            await FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
+
+            try
+            {
+                var imageFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(videoId, CreationCollisionOption.OpenIfExists);
+                await FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
+            }
+            catch
+            {
+
+            }
         }
     }
 }

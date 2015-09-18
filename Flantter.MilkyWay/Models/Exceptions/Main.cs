@@ -25,15 +25,19 @@ namespace Flantter.MilkyWay.Models.Exceptions
             AndMustUseWithOtherTokens,
             VerticalBarMustUseWithOtherTokens,
             FilterEndWithBacksrash,
-            StringNotEnd,
+            StringTokenIncomplete,
             CloseBracketPositionIsWrong,
-            CloseBracketCountAndOpenBracketCountIsDiffer,
+            CloseBracketCountAndOpenBracketCountDiffer,
             CloseBracketNotExist,
+            OpenBracketNotExist,
             LiteralCannotAccessDirectly,
             LiteralEndWithPeriod,
             WrongLiteral,
             FailedToTokenize,
             WrongOperation,
+            ArrayIncomplete,
+            WrongArray,
+            ArrayPositionIsWrong,
         }
     }
 

@@ -42,6 +42,14 @@ namespace Flantter.MilkyWay
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
+#if _DEBUG
+            // デバッグ用コードをここに突っ込む
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            Models.Filter.Compiler.Compile("(!(User.ScreenName In [\"cucmberium\", \"cucmberium_sub\"] || User.Id !In [10, 20, 30]) && RetweetCount >= FavoriteCount * 10 + 10 / (2 + 3))");
+            sw.Stop();
+            System.Diagnostics.Debug.WriteLine(sw.Elapsed);
+#endif
+
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 720 });
 
             try

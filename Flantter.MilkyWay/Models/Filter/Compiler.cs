@@ -14,16 +14,72 @@ namespace Flantter.MilkyWay.Models.Filter
 {
     struct Token
     {
+        #region Priority List
+        public static readonly List<TokenId> Priority_1 = new List<TokenId> {
+                                                                                TokenId.Multiplication, // *
+                                                                                TokenId.Division, // /
+                                                                            };
+        public static readonly List<TokenId> Priority_2 = new List<TokenId> {
+                                                                                TokenId.Plus, // +
+                                                                                TokenId.Minus, // -
+                                                                            };
+        public static readonly List<TokenId> Priority_3 = new List<TokenId> {
+                                                                                TokenId.Equal, // ==
+                                                                                TokenId.NotEqual, // !=
+                                                                                TokenId.LessThanEqual, // <=
+                                                                                TokenId.GreaterThanEqual, // >=
+                                                                                TokenId.LessThan, // <
+                                                                                TokenId.GreaterThan, // >
+                                                                                TokenId.Contains, // Contains
+                                                                                TokenId.StartsWith, // StartsWith
+                                                                                TokenId.EndsWith, // EndsWith
+                                                                                TokenId.RegexMatch, // RegexMatch
+                                                                                TokenId.In, // In
+                                                                                TokenId.NotContains, // !Contains
+                                                                                TokenId.NotStartsWith, // !StartsWith
+                                                                                TokenId.NotEndsWith, // !EndsWith
+                                                                                TokenId.NotRegexMatch, // !RegexMatch
+                                                                                TokenId.NotIn, // !In 
+                                                                            };
+        public static readonly List<TokenId> Priority_4 = new List<TokenId> {
+                                                                                TokenId.And, // &&
+                                                                                TokenId.Or, // ||
+                                                                                TokenId.Exclamation, // !
+                                                                            };
+
+        public static readonly List<TokenId> Priority_Other = new List<TokenId> {
+                                                                                TokenId.String, // "こ↑こ↓のぶぶん"
+                                                                                TokenId.Numeric, // 数字(整数)
+                                                                                TokenId.Space, // 空白
+                                                                                TokenId.Boolean, // ブール代数
+                                                                                TokenId.Literal, // いろいろ
+                                                                                TokenId.Null, // Null
+                                                                                TokenId.LiteralExpression, // いろいろ変換した後のリテラル
+                                                                                TokenId.NumericArrayExpression, // 数字配列のリテラル
+                                                                                TokenId.StringArrayExpression, // 文字列配列のリテラル
+                                                                                TokenId.ExpressionParam // Expressionのパラメータ
+                                                                            };
+        #endregion
+
         public enum TokenId
         {
             // 優先度 0
             Period, // .
             OpenBracket, // (
             CloseBracket, // )
-            // OpenSquareBracket, // [
-            // CloseSquareBracket, // ]
+            OpenSquareBracket, // [
+            CloseSquareBracket, // ]
+            Comma, // ,
 
             // 優先度 1
+            Multiplication, // *
+            Division, // /
+
+            // 優先度 2
+            Plus, // +
+            Minus, // -
+
+            // 優先度 3
             Equal, // ==
             NotEqual, // !=
             LessThanEqual, // <=
@@ -34,17 +90,19 @@ namespace Flantter.MilkyWay.Models.Filter
             StartsWith, // StartsWith
             EndsWith, // EndsWith
             RegexMatch, // RegexMatch
+            In, // In
             NotContains, // !Contains
             NotStartsWith, // !StartsWith
             NotEndsWith, // !EndsWith
             NotRegexMatch, // !RegexMatch
+            NotIn, // !In
 
-            // 優先度 2
+            // 優先度 4
             And, // &&
             Or, // ||
             Exclamation, // !
 
-            // 優先度3
+            // いろいろ
             String, // "こ↑こ↓のぶぶん"
             Numeric, // 数字(整数)
             Space, // 空白
@@ -53,7 +111,9 @@ namespace Flantter.MilkyWay.Models.Filter
             Null, // Null
 
             // ???
-            LiteralParam, // いろいろ変換した後のリテラル
+            LiteralExpression, // いろいろ変換した後のリテラル
+            NumericArrayExpression, // 数字配列のリテラル
+            StringArrayExpression, // 文字列配列のリテラル
             ExpressionParam // Expressionのパラメータ
         }
 
@@ -83,8 +143,8 @@ namespace Flantter.MilkyWay.Models.Filter
         public static Delegate Compile(string filterString)
         {
             System.Diagnostics.Debug.WriteLine("\n-- Compile Filter --\n");
-
             var paramExpr = Expression.Parameter(typeof(Status));
+
 
             #region Check FilterString
             System.Diagnostics.Debug.WriteLine("\n-- String Check --\n");
@@ -95,7 +155,7 @@ namespace Flantter.MilkyWay.Models.Filter
             #region Tokenize
             System.Diagnostics.Debug.WriteLine("\n-- Tokenize --\n");
             var tokenQueue = new List<Token>(Tokenizer.Tokenize(filterString));
-#if DEBUG
+
             foreach (var t in tokenQueue)
             {
                 if (t.Value != null)
@@ -103,30 +163,29 @@ namespace Flantter.MilkyWay.Models.Filter
                 else
                     System.Diagnostics.Debug.WriteLine(t.Type.ToString());
             }
-#endif
             #endregion
 
             #region TokenAnalyze
             System.Diagnostics.Debug.WriteLine("\n-- Token Analyze --\n");
-            var tokenAnalyze = new TokenAnalyzer(tokenQueue, paramExpr);
-            tokenAnalyze.TokenQueueToPolandQueue();
-
-#if DEBUG
-            foreach (var t in tokenAnalyze.PolandQueue)
+            var tokenAnalyzer = new TokenAnalyzer(tokenQueue, paramExpr);
+            tokenAnalyzer.TokenAnalyze();
+            
+            foreach (var t in tokenAnalyzer.PolandQueue)
             {
                 if (t.Value != null)
                     System.Diagnostics.Debug.WriteLine(t.Type.ToString() + " : " + t.Value.ToString());
                 else
                     System.Diagnostics.Debug.WriteLine(t.Type.ToString());
             }
-#endif
             #endregion
 
             #region PolandTokenCompile
             System.Diagnostics.Debug.WriteLine("\n-- Poland Token Compile --\n");
-            var PolandTokenCompile = new PolandTokenCompiler(tokenAnalyze.PolandQueue);
+            var PolandTokenCompile = new PolandTokenCompiler(tokenAnalyzer.PolandQueue);
             PolandTokenCompile.PolandTokenCompile();
             var filter = Expression.Lambda<Func<Status, bool>>(PolandTokenCompile.CompiledExpression, paramExpr);
+            
+            System.Diagnostics.Debug.WriteLine("\n-- Poland Token Compile --\n");
             System.Diagnostics.Debug.WriteLine(PolandTokenCompile.CompiledExpression.ToString());
             return filter.Compile();
             #endregion
@@ -141,216 +200,145 @@ namespace Flantter.MilkyWay.Models.Filter
             private const string BooleanTrueString = "True";
             private const string BooleanFalseString = "False";
             private const string NullString = "Null";
+            private const string InString = "In";
+
+            private const string Tokens = ".,[]=<>!&|()\" \t\r\n+-*/";
+            private const string NumericToken = "1234567890";
 
             public static IEnumerable<Token> Tokenize(string filter)
             {
                 int strPos = 0;
+                int begin = 0;
+                Token.TokenId keywordToken = Token.TokenId.And;
+                object value = null;
 
                 do
                 {
                     switch (filter[strPos])
                     {
                         case '.':
-                            yield return new Token(Token.TokenId.Period, strPos);
-                            strPos++;
+                            yield return new Token(Token.TokenId.Period, strPos++);
                             break;
-                        /*case ',':
-                            yield return new Token(Token.TokenId.Comma, StrPos);
-                            StrPos++;
-                            break;*/
+
+                        case ',':
+                            yield return new Token(Token.TokenId.Comma, strPos++);
+                            break;
+
                         case '=':
-                            strPos++;
-                            if (strPos < filter.Length && filter[strPos] == '=')
-                            {
-                                yield return new Token(Token.TokenId.Equal, strPos);
-                                strPos++;
-                                break;
-                            }
-                            else
-                            {
-                                strPos--;
-                                throw new FilterCompileException(FilterCompileException.ErrorCode.EqualMustUseWithOtherTokens, "「=」単体では使用できません", null, "");
-                            }
+                            if (++strPos >= filter.Length || filter[strPos] != '=')
+                                throw new FilterCompileException(FilterCompileException.ErrorCode.EqualMustUseWithOtherTokens, "'=' must use with other tokens", null, "");
+
+                            yield return new Token(Token.TokenId.Equal, (strPos++ - 1));
+                            break;
+
                         case '<':
-                            strPos++;
-                            if (strPos < filter.Length && filter[strPos] == '=')
-                            {
-                                yield return new Token(Token.TokenId.LessThanEqual, strPos);
-                                strPos++;
-                                break;
-                            }
+                            if (++strPos < filter.Length && filter[strPos] == '=')
+                                yield return new Token(Token.TokenId.LessThanEqual, (strPos++ - 1));
                             else
-                            {
-                                yield return new Token(Token.TokenId.LessThan, strPos);
-                                break;
-                            }
+                                yield return new Token(Token.TokenId.LessThan, strPos - 1);
+
+                            break;
+
                         case '>':
-                            strPos++;
-                            if (strPos < filter.Length && filter[strPos] == '=')
-                            {
-                                yield return new Token(Token.TokenId.GreaterThanEqual, strPos);
-                                strPos++;
-                                break;
-                            }
+                            if (++strPos < filter.Length && filter[strPos] == '=')
+                                yield return new Token(Token.TokenId.GreaterThanEqual, (strPos++ - 1));
                             else
-                            {
-                                yield return new Token(Token.TokenId.GreaterThan, strPos);
-                                break;
-                            }
+                                yield return new Token(Token.TokenId.GreaterThan, strPos - 1);
+
+                            break;
+
                         case '!':
-                            strPos++;
-                            if (strPos < filter.Length && filter[strPos] == '=')
+                            begin = strPos;
+
+                            if (++strPos < filter.Length && filter[strPos] == '=')
                             {
-                                yield return new Token(Token.TokenId.NotEqual, strPos);
+                                yield return new Token(Token.TokenId.NotEqual, begin);
                                 strPos++;
-                                break;
+                            }
+                            else if (TryGetKeyword(filter, ref strPos, ref keywordToken, ref value) && keywordToken != Token.TokenId.Null && keywordToken != Token.TokenId.Boolean)
+                            {
+                                yield return new Token(keywordToken + 5, begin);
+                                strPos++;
                             }
                             else
                             {
-                                if (strPos + ContainsString.Length < filter.Length && filter.Substring(strPos, ContainsString.Length).Contains(ContainsString))
-                                {
-                                    yield return new Token(Token.TokenId.NotContains, strPos);
-                                    strPos += ContainsString.Length;
-                                    break;
-                                }
-                                else if (strPos + StartsWithString.Length < filter.Length && filter.Substring(strPos, StartsWithString.Length).Contains(StartsWithString))
-                                {
-                                    yield return new Token(Token.TokenId.NotStartsWith, strPos);
-                                    strPos += ContainsString.Length;
-                                    break;
-                                }
-                                else if (strPos + EndsWithString.Length < filter.Length && filter.Substring(strPos, EndsWithString.Length).Contains(EndsWithString))
-                                {
-                                    yield return new Token(Token.TokenId.NotEndsWith, strPos);
-                                    strPos += EndsWithString.Length;
-                                    break;
-                                }
-                                else if (strPos + RegexMatchString.Length < filter.Length && filter.Substring(strPos, RegexMatchString.Length).Contains(RegexMatchString))
-                                {
-                                    yield return new Token(Token.TokenId.NotRegexMatch, strPos);
-                                    strPos += RegexMatchString.Length;
-                                    break;
-                                }
-                                else
-                                {
-                                    yield return new Token(Token.TokenId.Exclamation, strPos);
-                                    break;
-                                }
+                                yield return new Token(Token.TokenId.Exclamation, begin);
+                                strPos = ++begin;
                             }
+                            break;
+
                         case 'C':
-                            if (strPos + ContainsString.Length < filter.Length && filter.Substring(strPos, ContainsString.Length).Contains(ContainsString))
-                            {
-                                yield return new Token(Token.TokenId.Contains, strPos);
-                                strPos += ContainsString.Length;
-                                break;
-                            }
-                            else
-                            {
-                                goto default;
-                            }
                         case 'S':
-                            if (strPos + StartsWithString.Length < filter.Length && filter.Substring(strPos, StartsWithString.Length).Contains(StartsWithString))
-                            {
-                                yield return new Token(Token.TokenId.StartsWith, strPos);
-                                strPos += StartsWithString.Length;
-                                break;
-                            }
-                            else
-                            {
-                                goto default;
-                            }
                         case 'E':
-                            if (strPos + EndsWithString.Length < filter.Length && filter.Substring(strPos, EndsWithString.Length).Contains(EndsWithString))
-                            {
-                                yield return new Token(Token.TokenId.EndsWith, strPos);
-                                strPos += EndsWithString.Length;
-                                break;
-                            }
-                            else
-                            {
-                                goto default;
-                            }
                         case 'R':
-                            if (strPos + RegexMatchString.Length < filter.Length && filter.Substring(strPos, RegexMatchString.Length).Contains(RegexMatchString))
-                            {
-                                yield return new Token(Token.TokenId.RegexMatch, strPos);
-                                strPos += RegexMatchString.Length;
-                                break;
-                            }
-                            else
-                            {
-                                goto default;
-                            }
                         case 'F':
-                            if (strPos + BooleanFalseString.Length < filter.Length && filter.Substring(strPos, BooleanFalseString.Length).Contains(BooleanFalseString))
-                            {
-                                yield return new Token(Token.TokenId.Boolean, false, strPos);
-                                strPos += BooleanFalseString.Length;
-                                break;
-                            }
-                            else
-                            {
-                                goto default;
-                            }
                         case 'T':
-                            if (strPos + BooleanTrueString.Length < filter.Length && filter.Substring(strPos, BooleanTrueString.Length).Contains(BooleanTrueString))
-                            {
-                                yield return new Token(Token.TokenId.Boolean, true, strPos);
-                                strPos += BooleanTrueString.Length;
-                                break;
-                            }
-                            else
-                            {
-                                goto default;
-                            }
                         case 'N':
-                            if (strPos + NullString.Length < filter.Length && filter.Substring(strPos, NullString.Length).Contains(NullString))
+                        case 'I':
+                            begin = strPos;
+
+                            if (TryGetKeyword(filter, ref strPos, ref keywordToken, ref value))
                             {
-                                yield return new Token(Token.TokenId.Null, true, strPos);
-                                strPos += NullString.Length;
-                                break;
+                                yield return new Token(keywordToken, value, begin);
+                                strPos++;
                             }
                             else
                             {
+                                strPos = begin;
                                 goto default;
                             }
+
+                            break;
+
                         case '&':
-                            strPos++;
-                            if (strPos < filter.Length && filter[strPos] == '&')
-                            {
-                                yield return new Token(Token.TokenId.And, strPos);
-                                strPos++;
-                                break;
-                            }
+                            if (++strPos >= filter.Length || filter[strPos] != '&')
+                                throw new FilterCompileException(FilterCompileException.ErrorCode.AndMustUseWithOtherTokens, "'&' must use with other tokens", null, "");
                             else
-                            {
-                                strPos--;
-                                throw new FilterCompileException(FilterCompileException.ErrorCode.AndMustUseWithOtherTokens, "「&」単体では使用できません", null, "");
-                            }
+                                yield return new Token(Token.TokenId.And, (strPos++ - 1));
+
+                            break;
+
                         case '|':
-                            strPos++;
-                            if (strPos < filter.Length && filter[strPos] == '|')
-                            {
-                                yield return new Token(Token.TokenId.Or, strPos);
-                                strPos++;
-                                break;
-                            }
+                            if (++strPos >= filter.Length || filter[strPos] != '|')
+                                throw new FilterCompileException(FilterCompileException.ErrorCode.VerticalBarMustUseWithOtherTokens, "'|' must use with other tokens", null, "");
                             else
-                            {
-                                strPos--;
-                                throw new FilterCompileException(FilterCompileException.ErrorCode.VerticalBarMustUseWithOtherTokens, "「|」単体では使用できません", null, "");
-                            }
+                                yield return new Token(Token.TokenId.Or, (strPos++ - 1));
+
+                            break;
+
                         case '(':
-                            yield return new Token(Token.TokenId.OpenBracket, strPos);
-                            strPos++;
+                            yield return new Token(Token.TokenId.OpenBracket, strPos++);
                             break;
                         case ')':
-                            yield return new Token(Token.TokenId.CloseBracket, strPos);
+                            yield return new Token(Token.TokenId.CloseBracket, strPos++);
+                            break;
+
+                        case '"':
+                            begin = strPos;
+                            yield return new Token(Token.TokenId.String, GetFilterString(filter, ref strPos), begin);
                             strPos++;
                             break;
-                        case '"':
-                            yield return new Token(Token.TokenId.String, GetFilterString(filter, ref strPos), strPos);
+
+                        case '[':
+                            yield return new Token(Token.TokenId.OpenSquareBracket, strPos++);
                             break;
+                        case ']':
+                            yield return new Token(Token.TokenId.CloseSquareBracket, strPos++);
+                            break;
+
+                        case '+':
+                            yield return new Token(Token.TokenId.Plus, strPos++);
+                            break;
+                        case '-':
+                            yield return new Token(Token.TokenId.Minus, strPos++);
+                            break;
+                        case '*':
+                            yield return new Token(Token.TokenId.Multiplication, strPos++);
+                            break;
+                        case '/':
+                            yield return new Token(Token.TokenId.Division, strPos++);
+                            break;
+
                         case '1':
                         case '2':
                         case '3':
@@ -361,18 +349,18 @@ namespace Flantter.MilkyWay.Models.Filter
                         case '8':
                         case '9':
                         case '0':
-                            yield return new Token(Token.TokenId.Numeric, long.Parse(GetFilterNumeric(filter, ref strPos)), strPos);
+                            begin = strPos;
+                            yield return new Token(Token.TokenId.Numeric, long.Parse(GetFilterNumeric(filter, ref strPos)), begin);
+                            strPos++;
                             break;
                         case ' ':
                         case '\t':
                         case '\r':
                         case '\n':
-                            yield return new Token(Token.TokenId.Space, strPos);
-                            strPos++;
+                            yield return new Token(Token.TokenId.Space, strPos++);
                             break;
                         default:
-                            int begin = strPos;
-                            var Tokens = ".=<>!&|()\" \t\r\n";
+                            begin = strPos;
                             do
                             {
                                 if (Tokens.Contains(filter[strPos].ToString()))
@@ -395,28 +383,23 @@ namespace Flantter.MilkyWay.Models.Filter
                     if (filter[cursor] == '\\')
                     {
                         if (cursor + 1 == filter.Length)
-                        {
-                            throw new FilterCompileException(FilterCompileException.ErrorCode.FilterEndWithBacksrash, "バックスラッシュでクエリが終了しています", null, "");
-                        }
+                            throw new FilterCompileException(FilterCompileException.ErrorCode.FilterEndWithBacksrash, "Filter ends with backsrash", null, "");
                         else if (filter[cursor + 1] == '"' || filter[cursor + 1] == '\\')
-                        {
                             cursor++;
-                        }
                     }
                     else if (filter[cursor] == '"')
                     {
-                        cursor++;
-                        return filter.Substring(begin + 1, cursor - begin - 2).Replace("\\\"", "\"").Replace("\\\\", "\\");
+                        return filter.Substring(begin + 1, cursor - begin - 1).Replace("\\\"", "\"").Replace("\\\\", "\\");
                     }
                     cursor++;
                 }
-                throw new FilterCompileException(FilterCompileException.ErrorCode.StringNotEnd, "文字列が終了していません", null, "");
+                throw new FilterCompileException(FilterCompileException.ErrorCode.StringTokenIncomplete, "string token is incomplete", null, "");
             }
 
             private static string GetFilterNumeric(string filter, ref int cursor)
             {
                 int begin = cursor;
-                var NumericToken = "1234567890";
+                
                 while (cursor < filter.Length)
                 {
                     if (NumericToken.Contains(filter[cursor].ToString()))
@@ -424,55 +407,109 @@ namespace Flantter.MilkyWay.Models.Filter
                         cursor++;
                         continue;
                     }
-                    else
-                    {
-                        return filter.Substring(begin, cursor - begin);
-                    }
+                    
+                    return filter.Substring(begin, cursor-- - begin);
                 }
-                return filter.Substring(begin, cursor - begin);
+                return filter.Substring(begin, cursor-- - begin);
+            }
+
+            private static bool TryGetKeyword(string filter, ref int cursor, ref Token.TokenId token, ref object value)
+            {
+                if (cursor + ContainsString.Length < filter.Length && filter.Substring(cursor, ContainsString.Length).Contains(ContainsString))
+                {
+                    token = Token.TokenId.Contains;
+                    cursor += ContainsString.Length - 1;
+                    return true;
+                }
+                else if (cursor + StartsWithString.Length < filter.Length && filter.Substring(cursor, StartsWithString.Length).Contains(StartsWithString))
+                {
+                    token = Token.TokenId.StartsWith;
+                    cursor += StartsWithString.Length - 1;
+                    return true;
+                }
+                else if (cursor + EndsWithString.Length < filter.Length && filter.Substring(cursor, EndsWithString.Length).Contains(EndsWithString))
+                {
+                    token = Token.TokenId.EndsWith;
+                    cursor += EndsWithString.Length - 1;
+                    return true;
+                }
+                else if (cursor + RegexMatchString.Length < filter.Length && filter.Substring(cursor, RegexMatchString.Length).Contains(RegexMatchString))
+                {
+                    token = Token.TokenId.RegexMatch;
+                    cursor += RegexMatchString.Length - 1;
+                    return true;
+                }
+                else if (cursor + BooleanTrueString.Length < filter.Length && filter.Substring(cursor, BooleanTrueString.Length).Contains(BooleanTrueString))
+                {
+                    token = Token.TokenId.Boolean;
+                    value = true;
+                    cursor += BooleanTrueString.Length - 1;
+                    return true;
+                }
+                else if (cursor + BooleanFalseString.Length < filter.Length && filter.Substring(cursor, BooleanFalseString.Length).Contains(BooleanFalseString))
+                {
+                    token = Token.TokenId.Boolean;
+                    value = false;
+                    cursor += BooleanFalseString.Length - 1;
+                    return true;
+                }
+                else if (cursor + NullString.Length < filter.Length && filter.Substring(cursor, NullString.Length).Contains(NullString))
+                {
+                    token = Token.TokenId.Null;
+                    value = null;
+                    cursor += NullString.Length - 1;
+                    return true;
+                }
+                else if (cursor + InString.Length < filter.Length && filter.Substring(cursor, InString.Length).Contains(InString))
+                {
+                    token = Token.TokenId.In;
+                    value = null;
+                    cursor += InString.Length - 1;
+                    return true;
+                }
+
+                return false;
             }
         }
 
         internal class TokenAnalyzer
         {
-            public List<Token> TokenQueue { get; set; }
             public List<Token> PolandQueue { get; set; }
 
+            private List<Token> tokenQueue;
             private List<Token> tempQueue;
-
             private int openBracketCount;
             private int closeBracketCount;
 
-            private ParameterExpression ParamExpr;
+            private ParameterExpression paramExpr;
 
-            public TokenAnalyzer(IEnumerable<Token> tokens, ParameterExpression ParamExpr)
+            public TokenAnalyzer(IEnumerable<Token> tokens, ParameterExpression paramExpr)
             {
-                this.ParamExpr = ParamExpr;
+                this.paramExpr = paramExpr;
 
                 PolandQueue = new List<Token>();
-                TokenQueue = new List<Token>();
-
+                tokenQueue = new List<Token>();
                 tempQueue = new List<Token>();
 
                 openBracketCount = 0;
                 closeBracketCount = 0;
 
-                foreach (var t in tokens)
+                foreach (var token in tokens)
                 {
-                    if (t.Type == Token.TokenId.Space)
+                    if (token.Type == Token.TokenId.Space)
                         continue;
 
-                    TokenQueue.Add(t);
+                    tokenQueue.Add(token);
                 }
             }
 
-            public void TokenQueueToPolandQueue()
+            public void TokenAnalyze()
             {
                 int cursor;
 
-                for (cursor = 0; cursor < TokenQueue.Count; cursor++)
+                for (cursor = 0; cursor < tokenQueue.Count; cursor++)
                 {
-                    var cursorToken = TokenQueue[cursor];
+                    var cursorToken = tokenQueue[cursor];
 
                     switch (cursorToken.Type)
                     {
@@ -483,8 +520,22 @@ namespace Flantter.MilkyWay.Models.Filter
                             PolandQueue.Add(cursorToken);
                             break;
                         case Token.TokenId.Literal:
-                            PolandQueue.Add(new Token { Type = Token.TokenId.LiteralParam, Pos = -1, Value = LiteralParam(ref cursor) });
+                            PolandQueue.Add(new Token { Type = Token.TokenId.LiteralExpression, Pos = -1, Value = LiteralExpression(ref cursor) });
                             break;
+                        case Token.TokenId.OpenSquareBracket:
+                            string type = string.Empty;
+                            var value = ArrayExpression(ref cursor, ref type);
+                            
+                            if (type == "Numeric")
+                                PolandQueue.Add(new Token { Type = Token.TokenId.NumericArrayExpression, Pos = -1, Value = value });
+                            else if (type == "String")
+                                PolandQueue.Add(new Token { Type = Token.TokenId.StringArrayExpression, Pos = -1, Value = value });
+
+                            break;
+                        case Token.TokenId.Plus:
+                        case Token.TokenId.Minus:
+                        case Token.TokenId.Multiplication:
+                        case Token.TokenId.Division:
                         case Token.TokenId.Equal:
                         case Token.TokenId.NotEqual:
                         case Token.TokenId.LessThanEqual:
@@ -495,12 +546,12 @@ namespace Flantter.MilkyWay.Models.Filter
                         case Token.TokenId.StartsWith:
                         case Token.TokenId.EndsWith:
                         case Token.TokenId.RegexMatch:
+                        case Token.TokenId.In:
                         case Token.TokenId.NotContains:
                         case Token.TokenId.NotStartsWith:
                         case Token.TokenId.NotEndsWith:
                         case Token.TokenId.NotRegexMatch:
-                            tempQueue.Add(cursorToken);
-                            break;
+                        case Token.TokenId.NotIn:
                         case Token.TokenId.And:
                         case Token.TokenId.Or:
                         case Token.TokenId.Exclamation:
@@ -515,7 +566,7 @@ namespace Flantter.MilkyWay.Models.Filter
                             tempQueue.Add(cursorToken);
                             closeBracketCount++;
                             if (closeBracketCount > openBracketCount)
-                                throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketPositionIsWrong, "不正な位置に閉じ括弧「)」が存在します", null);
+                                throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketPositionIsWrong, "Close backet position is wrong", null);
                             else
                                 TempQueueAnnihilationBracket();
                             break;
@@ -523,12 +574,12 @@ namespace Flantter.MilkyWay.Models.Filter
                 }
 
                 if (openBracketCount != closeBracketCount)
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketCountAndOpenBracketCountIsDiffer, "開き括弧と閉じ括弧の数が一致しません", null);
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketCountAndOpenBracketCountDiffer, "Close bracket count and open bracket count differ", null);
 
                 for (int tempQueueCursor = tempQueue.Count - 1; tempQueueCursor >= 0; tempQueueCursor--)
                 {
                     if (tempQueue[tempQueueCursor].Type == Token.TokenId.OpenBracket || tempQueue[tempQueueCursor].Type == Token.TokenId.CloseBracket)
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketCountAndOpenBracketCountIsDiffer, "開き括弧と閉じ括弧の数が一致しません", null);
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketCountAndOpenBracketCountDiffer, "Close bracket count and open bracket count differ", null);
 
                     PolandQueue.Add(tempQueue[tempQueueCursor]);
                 }
@@ -537,31 +588,46 @@ namespace Flantter.MilkyWay.Models.Filter
 
             private void TempQueueCheckPriority()
             {
-                if (tempQueue.Count <= 2)
+                if (tempQueue.Count < 2)
                     return;
 
                 int cursor = tempQueue.Count - 2;
+                int previousPriority = SearchPriority(tempQueue[cursor].Type);
+                int nextPriority = SearchPriority(tempQueue[cursor + 1].Type);
 
-                if (tempQueue[cursor].Type == Token.TokenId.CloseBracket || tempQueue[cursor].Type == Token.TokenId.OpenBracket)
+                if (previousPriority == 0)
                     return;
-                else if (tempQueue[cursor].Type == Token.TokenId.And || tempQueue[cursor].Type == Token.TokenId.Or || tempQueue[cursor].Type == Token.TokenId.Exclamation)
+
+                if (previousPriority > nextPriority)
                     return;
-                else if (tempQueue[cursor].Type == Token.TokenId.String || tempQueue[cursor].Type == Token.TokenId.Numeric || tempQueue[cursor].Type == Token.TokenId.Literal || tempQueue[cursor].Type == Token.TokenId.LiteralParam || tempQueue[cursor].Type == Token.TokenId.Null)
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "内部エラー", null);
-                else
-                {
-                    PolandQueue.Add(tempQueue[cursor]);
-                    tempQueue.RemoveAt(cursor);
-                }
+
+                PolandQueue.Add(tempQueue[cursor]);
+                tempQueue.RemoveAt(cursor);
+            }
+
+            private int SearchPriority(Token.TokenId token)
+            {
+                if (token == Token.TokenId.OpenBracket || token == Token.TokenId.CloseBracket)
+                    return 0;
+                else if (Token.Priority_1.Contains(token))
+                    return 1;
+                else if (Token.Priority_2.Contains(token))
+                    return 2;
+                else if (Token.Priority_3.Contains(token))
+                    return 3;
+                else if (Token.Priority_4.Contains(token))
+                    return 4;
+
+                throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Internal error", null);
             }
 
             private void TempQueueAnnihilationBracket()
             {
                 if (tempQueue.Count <= 1)
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "内部エラー", null);
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Internal error", null);
 
                 if (tempQueue[tempQueue.Count - 1].Type != Token.TokenId.CloseBracket)
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketNotExist, "開き括弧が存在しません", null);
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketNotExist, "Close bracket doesnt exist", null);
 
                 bool existOpenBracket = false;
                 int cursor;
@@ -574,12 +640,12 @@ namespace Flantter.MilkyWay.Models.Filter
                     }
                     else if (tempQueue[cursor].Type == Token.TokenId.CloseBracket)
                     {
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketPositionIsWrong, "不正な位置に閉じ括弧「)」が存在します", null);
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketPositionIsWrong, "Close backet position is wrong", null);
                     }
-                    else if (tempQueue[cursor].Type == Token.TokenId.String || tempQueue[cursor].Type == Token.TokenId.Numeric || tempQueue[cursor].Type == Token.TokenId.Literal || tempQueue[cursor].Type == Token.TokenId.LiteralParam || tempQueue[cursor].Type == Token.TokenId.Null)
+                    /*else if (Token.Priority_Other.Contains(tempQueue[cursor].Type))
                     {
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "内部エラー", null);
-                    }
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Internal error", null);
+                    }*/
                     else
                     {
                         PolandQueue.Add(tempQueue[cursor]);
@@ -589,7 +655,7 @@ namespace Flantter.MilkyWay.Models.Filter
                 }
 
                 if (existOpenBracket == false)
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.CloseBracketNotExist, "開き括弧が存在しません", null);
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.OpenBracketNotExist, "Open bracket doesnt exist", null);
 
                 int openBracketPosition = cursor;
                 int closeBracketPosition = tempQueue.Count - 1;
@@ -598,1097 +664,102 @@ namespace Flantter.MilkyWay.Models.Filter
                 tempQueue.RemoveAt(openBracketPosition);
             }
 
-            private object LiteralParam(ref int cursor)
+            private object LiteralExpression(ref int cursor)
             {
-                if (TokenQueue[cursor].Type != Token.TokenId.Literal)
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "内部エラー", null);
+                Expression literal = paramExpr;
+                do
+                {
+                    var literalString = tokenQueue[cursor].Value as string;
+
+                    if (literalString == "CreateAt")
+                        literal = Expression.Convert(Expression.Property(literal, literalString), typeof(string));
+                    else if (literalString == "Count")
+                        literal = Expression.Convert(Expression.Property(literal, literalString), typeof(long));
+                    else if (literalString == "FavoriteCount")
+                        literal = Expression.Convert(Expression.Property(literal, literalString), typeof(long));
+                    else if (literalString == "RetweetCount")
+                        literal = Expression.Convert(Expression.Property(literal, literalString), typeof(long));
+                    else if (literalString == "FavouritesCount")
+                        literal = Expression.Convert(Expression.Property(literal, literalString), typeof(long));
+                    else if (literalString == "FollowersCount")
+                        literal = Expression.Convert(Expression.Property(literal, literalString), typeof(long));
+                    else if (literalString == "FriendsCount")
+                        literal = Expression.Convert(Expression.Property(literal, literalString), typeof(long));
+                    else if (literalString == "ListedCount")
+                        literal = Expression.Convert(Expression.Property(literal, literalString), typeof(long));
+                    else if (literalString == "StatusesCount")
+                        literal = Expression.Convert(Expression.Property(literal, literalString), typeof(long));
+                    else
+                        literal = Expression.Property(literal, literalString);
+
+                    if (tokenQueue.Count > cursor + 2 && tokenQueue[cursor + 1].Type == Token.TokenId.Period && tokenQueue[cursor + 2].Type == Token.TokenId.Literal)
+                    {
+                        cursor += 2;
+                        continue;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    
+                } while (true);
+
+                return literal;
+            }
+
+            private object ArrayExpression(ref int cursor, ref string type)
+            {
+                var arrayType = string.Empty;
+
+                if (tokenQueue.Count <= cursor + 1)
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.ArrayIncomplete, "Array token is incomplete", null);
+
+                cursor++;
+
+                if (tokenQueue[cursor].Type == Token.TokenId.Numeric)
+                    arrayType = "Numeric";
+                else if (tokenQueue[cursor].Type == Token.TokenId.String)
+                    arrayType = "String";
+
+                var tempCursor = cursor;
+                var arrayExpressionList = new List<Expression>();
                 
-                var startCursorPosition = cursor;
+                do
+                {
+                    if (arrayType == "Numeric" && tokenQueue[cursor].Type == Token.TokenId.Numeric)
+                        arrayExpressionList.Add(Expression.Constant(tokenQueue[cursor].Value));
+                    else if (arrayType == "String" && tokenQueue[cursor].Type == Token.TokenId.String)
+                        arrayExpressionList.Add(Expression.Constant(tokenQueue[cursor].Value));
+                    else
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongArray, "Wrong array", null);
 
-                var literalString = TokenQueue[startCursorPosition].Value as string;
+                    if (tokenQueue.Count <= cursor + 1)
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.ArrayIncomplete, "Array token is incomplete", null);
 
-                #region CreateAt
-                if (literalString == "CreateAt")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Convert(Expression.Property(this.ParamExpr, "CreateAt"), typeof(string));
-                }
-                #endregion
-                #region Entities
-                else if (literalString == "Entities")
-                {
-                    startCursorPosition++;
-                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
+                    if (tokenQueue[cursor + 1].Type == Token.TokenId.CloseSquareBracket)
                     {
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalString + "\"に直接アクセスすることは出来ません", null, literalString);
+                        cursor++;
+                        break;
+                    }
+                    else if (tokenQueue.Count > cursor + 2 && tokenQueue[cursor + 1].Type == Token.TokenId.Comma)
+                    {
+                        cursor += 2;
+                        continue;
                     }
                     else
                     {
-                        startCursorPosition++;
-                        if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                        {
-                            throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                        }
-                        else
-                        {
-                            var literalEntitiesString = TokenQueue[startCursorPosition].Value as string;
-                            #region HashTags
-                            if (literalEntitiesString == "HashTags")
-                            {
-                                startCursorPosition++;
-                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                {
-                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalEntitiesString + "\"に直接アクセスすることは出来ません", null, literalEntitiesString);
-                                }
-                                else
-                                {
-                                    startCursorPosition++;
-                                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                    {
-                                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                    }
-                                    else
-                                    {
-                                        var literalHashTagEntitiesString = TokenQueue[startCursorPosition].Value as string;
-                                        if (literalHashTagEntitiesString == "Count")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "Entities"), "HashTags"), "Count"), typeof(long));
-                                        }
-                                        else
-                                        {
-                                            throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalHashTagEntitiesString, null, literalHashTagEntitiesString);
-                                        }
-                                    }
-                                }
-                            }
-                            #endregion
-                            #region Urls
-                            else if (literalEntitiesString == "Urls")
-                            {
-                                startCursorPosition++;
-                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                {
-                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalEntitiesString + "\"に直接アクセスすることは出来ません", null, literalEntitiesString);
-                                }
-                                else
-                                {
-                                    startCursorPosition++;
-                                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                    {
-                                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                    }
-                                    else
-                                    {
-                                        var literalUrlEntitiesString = TokenQueue[startCursorPosition].Value as string;
-                                        if (literalUrlEntitiesString == "Count")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "Entities"), "Urls"), "Count"), typeof(long));
-                                        }
-                                        else
-                                        {
-                                            throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalUrlEntitiesString, null, literalUrlEntitiesString);
-                                        }
-                                    }
-                                }
-                            }
-                            #endregion
-                            #region Medias
-                            else if (literalEntitiesString == "Medias")
-                            {
-                                startCursorPosition++;
-                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                {
-                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalEntitiesString + "\"に直接アクセスすることは出来ません", null, literalEntitiesString);
-                                }
-                                else
-                                {
-                                    startCursorPosition++;
-                                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                    {
-                                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                    }
-                                    else
-                                    {
-                                        var literalMediaEntitiesString = TokenQueue[startCursorPosition].Value as string;
-                                        if (literalMediaEntitiesString == "Count")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "Entities"), "Medias"), "Count"), typeof(long));
-                                        }
-                                        else
-                                        {
-                                            throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalMediaEntitiesString, null, literalMediaEntitiesString);
-                                        }
-                                    }
-                                }
-                            }
-                            #endregion
-                            #region UserMentions
-                            else if (literalEntitiesString == "UserMentions")
-                            {
-                                startCursorPosition++;
-                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                {
-                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalEntitiesString + "\"に直接アクセスすることは出来ません", null, literalEntitiesString);
-                                }
-                                else
-                                {
-                                    startCursorPosition++;
-                                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                    {
-                                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                    }
-                                    else
-                                    {
-                                        var literalUserMentionEntitiesString = TokenQueue[startCursorPosition].Value as string;
-                                        if (literalUserMentionEntitiesString == "Count")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "Entities"), "UserMentions"), "Count"), typeof(long));
-                                        }
-                                        else
-                                        {
-                                            throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalUserMentionEntitiesString, null, literalUserMentionEntitiesString);
-                                        }
-                                    }
-                                }
-                            }
-                            #endregion
-                            #region Other
-                            else
-                            {
-                                throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalEntitiesString, null, literalEntitiesString);
-                            }
-                            #endregion
-                        }
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongArray, "Wrong array", null);
                     }
-                }
-                #endregion
-                #region FavoriteCount
-                else if (literalString == "FavoriteCount")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Convert(Expression.Property(this.ParamExpr, "FavoriteCount"), typeof(long));
-                }
-                #endregion
-                #region RetweetCount
-                else if (literalString == "RetweetCount")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Convert(Expression.Property(this.ParamExpr, "RetweetCount"), typeof(long));
-                }
-                #endregion
-                #region InReplyToStatusId
-                else if (literalString == "InReplyToStatusId")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Property(this.ParamExpr, "InReplyToStatusId");
-                }
-                #endregion
-                #region InReplyToScreenName
-                else if (literalString == "InReplyToScreenName")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Property(this.ParamExpr, "InReplyToScreenName");
-                }
-                #endregion
-                #region InReplyToUserId
-                else if (literalString == "InReplyToUserId")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Property(this.ParamExpr, "InReplyToUserId");
-                }
-                #endregion
-                #region Id
-                else if (literalString == "Id")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Property(this.ParamExpr, "Id");
-                }
-                #endregion
-                #region Source
-                else if (literalString == "Source")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Property(this.ParamExpr, "Source");
-                }
-                #endregion
-                #region Text
-                else if (literalString == "Text")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Property(this.ParamExpr, "Text");
-                }
-                #endregion
-                #region User
-                else if (literalString == "User")
-                {
-                    startCursorPosition++;
-                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                    {
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalString + "\"に直接アクセスすることは出来ません", null, literalString);
-                    }
-                    else
-                    {
-                        startCursorPosition++;
-                        if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                        {
-                            throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                        }
-                        else
-                        {
-                            var literalUserString = TokenQueue[startCursorPosition].Value as string;
-                            #region CreateAt
-                            if (literalString == "CreateAt")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Convert(Expression.Property(Expression.Property(this.ParamExpr, "User"), "CreateAt"), typeof(string));
-                            }
-                            #endregion
-                            #region Description
-                            if (literalUserString == "Description")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "Description");
-                            }
-                            #endregion
-                            #region FavoritesCount
-                            else if (literalUserString == "FavouritesCount")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Convert(Expression.Property(Expression.Property(this.ParamExpr, "User"), "FavouritesCount"), typeof(long));
-                            }
-                            #endregion
-                            #region FollowersCount
-                            else if (literalUserString == "FollowersCount")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Convert(Expression.Property(Expression.Property(this.ParamExpr, "User"), "FollowersCount"), typeof(long));
-                            }
-                            #endregion
-                            #region FriendsCount
-                            else if (literalUserString == "FriendsCount")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Convert(Expression.Property(Expression.Property(this.ParamExpr, "User"), "FriendsCount"), typeof(long));
-                            }
-                            #endregion
-                            #region Id
-                            else if (literalUserString == "Id")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "Id");
-                            }
-                            #endregion
-                            #region IsFollowRequestSent
-                            else if (literalUserString == "IsFollowRequestSent")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "IsFollowRequestSent");
-                            }
-                            #endregion
-                            #region IsMuting
-                            else if (literalUserString == "IsMuting")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "IsMuting");
-                            }
-                            #endregion
-                            #region IsProtected
-                            else if (literalUserString == "IsProtected")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "IsProtected");
-                            }
-                            #endregion
-                            #region IsVerified
-                            else if (literalUserString == "IsVerified")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "IsVerified");
-                            }
-                            #endregion
-                            #region IsVerified
-                            else if (literalUserString == "IsVerified")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "IsVerified");
-                            }
-                            #endregion
-                            #region Lang
-                            else if (literalUserString == "Language")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "Language");
-                            }
-                            #endregion
-                            #region ListedCount
-                            else if (literalUserString == "ListedCount")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Convert(Expression.Property(Expression.Property(this.ParamExpr, "User"), "ListedCount"), typeof(long));
-                            }
-                            #endregion
-                            #region Location
-                            else if (literalUserString == "Location")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "Location");
-                            }
-                            #endregion
-                            #region Name
-                            else if (literalUserString == "Name")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "Name");
-                            }
-                            #endregion
-                            #region ProfileBackgroundImageUrl
-                            else if (literalUserString == "ProfileBackgroundImageUrl")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "ProfileBackgroundImageUrl");
-                            }
-                            #endregion
-                            #region ProfileBannerUrl
-                            else if (literalUserString == "ProfileBannerUrl")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "ProfileBannerUrl");
-                            }
-                            #endregion
-                            #region ProfileImageUrl
-                            else if (literalUserString == "ProfileImageUrl")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "ProfileImageUrl");
-                            }
-                            #endregion
-                            #region ScreenName
-                            else if (literalUserString == "ScreenName")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "ScreenName");
-                            }
-                            #endregion
-                            #region StatusesCount
-                            else if (literalUserString == "StatusesCount")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Convert(Expression.Property(Expression.Property(this.ParamExpr, "User"), "StatusesCount"), typeof(long));
-                            }
-                            #endregion
-                            #region TimeZone
-                            else if (literalUserString == "TimeZone")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "TimeZone");
-                            }
-                            #endregion
-                            #region Url
-                            else if (literalUserString == "Url")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "User"), "Url");
-                            }
-                            #endregion
-                            #region Other
-                            else
-                            {
-                                throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalUserString, null, literalUserString);
-                            }
-                            #endregion
-                        }
-                    }
-                }
-                #endregion
-                #region IsFavorited
-                else if (literalString == "IsFavorited")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Property(this.ParamExpr, "IsFavorited");
-                }
-                #endregion
-                #region IsRetweeted
-                else if (literalString == "IsRetweeted")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Property(this.ParamExpr, "IsRetweeted");
-                }
-                #endregion
-                #region RetweetInformation
-                else if (literalString == "RetweetInformation")
-                {
-                    startCursorPosition++;
-                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                    {
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalString + "\"に直接アクセスすることは出来ません", null, literalString);
-                    }
-                    else
-                    {
-                        startCursorPosition++;
-                        if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                        {
-                            throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                        }
-                        else
-                        {
-                            var literalRetweetInformationString = TokenQueue[startCursorPosition].Value as string;
-                            #region User
-                            if (literalRetweetInformationString == "User")
-                            {
-                                startCursorPosition++;
-                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                {
-                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalRetweetInformationString + "\"に直接アクセスすることは出来ません", null, literalRetweetInformationString);
-                                }
-                                else
-                                {
-                                    startCursorPosition++;
-                                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                    {
-                                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                    }
-                                    else
-                                    {
-                                        var literalUserString = TokenQueue[startCursorPosition].Value as string;
-                                        #region CreateAt
-                                        if (literalString == "CreateAt")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "CreateAt"), typeof(string));
-                                        }
-                                        #endregion
-                                        #region Description
-                                        if (literalUserString == "Description")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "Description");
-                                        }
-                                        #endregion
-                                        #region FavoritesCount
-                                        else if (literalUserString == "FavouritesCount")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "FavouritesCount"), typeof(long));
-                                        }
-                                        #endregion
-                                        #region FollowersCount
-                                        else if (literalUserString == "FollowersCount")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "FollowersCount"), typeof(long));
-                                        }
-                                        #endregion
-                                        #region FriendsCount
-                                        else if (literalUserString == "FriendsCount")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "FriendsCount"), typeof(long));
-                                        }
-                                        #endregion
-                                        #region Id
-                                        else if (literalUserString == "Id")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "Id");
-                                        }
-                                        #endregion
-                                        #region IsFollowRequestSent
-                                        else if (literalUserString == "IsFollowRequestSent")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "IsFollowRequestSent");
-                                        }
-                                        #endregion
-                                        #region IsMuting
-                                        else if (literalUserString == "IsMuting")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "IsMuting");
-                                        }
-                                        #endregion
-                                        #region IsProtected
-                                        else if (literalUserString == "IsProtected")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "IsProtected");
-                                        }
-                                        #endregion
-                                        #region IsVerified
-                                        else if (literalUserString == "IsVerified")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "IsVerified");
-                                        }
-                                        #endregion
-                                        #region Language
-                                        else if (literalUserString == "Language")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "Language");
-                                        }
-                                        #endregion
-                                        #region ListedCount
-                                        else if (literalUserString == "ListedCount")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "ListedCount"), typeof(long));
-                                        }
-                                        #endregion
-                                        #region Location
-                                        else if (literalUserString == "Location")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "Location");
-                                        }
-                                        #endregion
-                                        #region Name
-                                        else if (literalUserString == "Name")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "Name");
-                                        }
-                                        #endregion
-                                        #region ProfileBackgroundImageUrl
-                                        else if (literalUserString == "ProfileBackgroundImageUrl")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "ProfileBackgroundImageUrl");
-                                        }
-                                        #endregion
-                                        #region ProfileBannerUrl
-                                        else if (literalUserString == "ProfileBannerUrl")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "ProfileBannerUrl");
-                                        }
-                                        #endregion
-                                        #region ProfileImageUrl
-                                        else if (literalUserString == "ProfileImageUrl")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "ProfileImageUrl");
-                                        }
-                                        #endregion
-                                        #region ScreenName
-                                        else if (literalUserString == "ScreenName")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "ScreenName");
-                                        }
-                                        #endregion
-                                        #region StatusesCount
-                                        else if (literalUserString == "StatusesCount")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "StatusesCount"), typeof(long));
-                                        }
-                                        #endregion
-                                        #region TimeZone
-                                        else if (literalUserString == "TimeZone")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "TimeZone");
-                                        }
-                                        #endregion
-                                        #region Url
-                                        else if (literalUserString == "Url")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "User"), "Url");
-                                        }
-                                        #endregion
-                                        #region Other
-                                        else
-                                        {
-                                            throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalUserString, null, literalUserString);
-                                        }
-                                        #endregion
-                                    }
-                                }
-                            }
-                            #endregion
-                            #region Id
-                            if (literalRetweetInformationString == "Id")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "Id");
-                            }
-                            #endregion
-                            #region CreatedAt
-                            if (literalRetweetInformationString == "CreatedAt")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Convert(Expression.Property(Expression.Property(this.ParamExpr, "RetweetInformation"), "CreatedAt"), typeof(string));
-                            }
-                            #endregion
-                            #region Other
-                            else
-                            {
-                                throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalRetweetInformationString, null, literalRetweetInformationString);
-                            }
-                            #endregion
-                        }
-                    }
-                }
-                #endregion
-                #region HasRetweetInformation
-                else if (literalString == "HasRetweetInformation")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Property(this.ParamExpr, "HasRetweetInformation");
-                }
-                #endregion
-                #region QuotedStatusId
-                else if (literalString == "QuotedStatusId")
-                {
-                    cursor = startCursorPosition;
-                    return Expression.Property(this.ParamExpr, "QuotedStatusId");
-                }
-                #endregion
-                #region QuotedStatus
-                else if (literalString == "QuotedStatus")
-                {
-                    startCursorPosition++;
-                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                    {
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalString + "\"に直接アクセスすることは出来ません", null, literalString);
-                    }
-                    else
-                    {
-                        startCursorPosition++;
-                        if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                        {
-                            throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                        }
-                        else
-                        {
-                            var literalQuotedStatusString = TokenQueue[startCursorPosition].Value as string;
-                            #region CreatedAt
-                            if (literalQuotedStatusString == "CreatedAt")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Convert(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "CreatedAt"), typeof(string));
-                            }
-                            #endregion
-                            #region Entities
-                            else if (literalQuotedStatusString == "Entities")
-                            {
-                                startCursorPosition++;
-                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                {
-                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalString + "\"に直接アクセスすることは出来ません", null, literalQuotedStatusString);
-                                }
-                                else
-                                {
-                                    startCursorPosition++;
-                                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                    {
-                                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                    }
-                                    else
-                                    {
-                                        var literalEntitiesString = TokenQueue[startCursorPosition].Value as string;
-                                        #region HashTags
-                                        if (literalEntitiesString == "HashTags")
-                                        {
-                                            startCursorPosition++;
-                                            if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                            {
-                                                throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalEntitiesString + "\"に直接アクセスすることは出来ません", null, literalEntitiesString);
-                                            }
-                                            else
-                                            {
-                                                startCursorPosition++;
-                                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                                {
-                                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                                }
-                                                else
-                                                {
-                                                    var literalHashTagEntitiesString = TokenQueue[startCursorPosition].Value as string;
-                                                    if (literalHashTagEntitiesString == "Count")
-                                                    {
-                                                        cursor = startCursorPosition;
-                                                        return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "Entities"), "HashTags"), "Count"), typeof(long));
-                                                    }
-                                                    else
-                                                    {
-                                                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalHashTagEntitiesString, null, literalHashTagEntitiesString);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        #endregion
-                                        #region Urls
-                                        else if (literalEntitiesString == "Urls")
-                                        {
-                                            startCursorPosition++;
-                                            if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                            {
-                                                throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalEntitiesString + "\"に直接アクセスすることは出来ません", null, literalEntitiesString);
-                                            }
-                                            else
-                                            {
-                                                startCursorPosition++;
-                                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                                {
-                                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                                }
-                                                else
-                                                {
-                                                    var literalUrlEntitiesString = TokenQueue[startCursorPosition].Value as string;
-                                                    if (literalUrlEntitiesString == "Count")
-                                                    {
-                                                        cursor = startCursorPosition;
-                                                        return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "Entities"), "Urls"), "Count"), typeof(long));
-                                                    }
-                                                    else
-                                                    {
-                                                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalUrlEntitiesString, null, literalUrlEntitiesString);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        #endregion
-                                        #region Medias
-                                        else if (literalEntitiesString == "Medias")
-                                        {
-                                            startCursorPosition++;
-                                            if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                            {
-                                                throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalEntitiesString + "\"に直接アクセスすることは出来ません", null, literalEntitiesString);
-                                            }
-                                            else
-                                            {
-                                                startCursorPosition++;
-                                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                                {
-                                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                                }
-                                                else
-                                                {
-                                                    var literalMediaEntitiesString = TokenQueue[startCursorPosition].Value as string;
-                                                    if (literalMediaEntitiesString == "Count")
-                                                    {
-                                                        cursor = startCursorPosition;
-                                                        return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "Entities"), "Medias"), "Count"), typeof(long));
-                                                    }
-                                                    else
-                                                    {
-                                                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalMediaEntitiesString, null, literalMediaEntitiesString);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        #endregion
-                                        #region UserMentions
-                                        else if (literalEntitiesString == "UserMentions")
-                                        {
-                                            startCursorPosition++;
-                                            if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                            {
-                                                throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalEntitiesString + "\"に直接アクセスすることは出来ません", null, literalEntitiesString);
-                                            }
-                                            else
-                                            {
-                                                startCursorPosition++;
-                                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                                {
-                                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                                }
-                                                else
-                                                {
-                                                    var literalUserMentionEntitiesString = TokenQueue[startCursorPosition].Value as string;
-                                                    if (literalUserMentionEntitiesString == "Count")
-                                                    {
-                                                        cursor = startCursorPosition;
-                                                        return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "Entities"), "UserMentions"), "Count"), typeof(long));
-                                                    }
-                                                    else
-                                                    {
-                                                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalUserMentionEntitiesString, null, literalUserMentionEntitiesString);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        #endregion
-                                        #region Other
-                                        else
-                                        {
-                                            throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalEntitiesString, null, literalEntitiesString);
-                                        }
-                                        #endregion
-                                    }
-                                }
-                            }
-                            #endregion
-                            #region FavoriteCount
-                            if (literalQuotedStatusString == "FavoriteCount")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "FavoriteCount");
-                            }
-                            #endregion
-                            #region RetweetCount
-                            if (literalQuotedStatusString == "RetweetCount")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "RetweetCount");
-                            }
-                            #endregion
-                            #region InReplyToStatusId
-                            if (literalQuotedStatusString == "InReplyToStatusId")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "InReplyToStatusId");
-                            }
-                            #endregion
-                            #region InReplyToScreenName
-                            if (literalQuotedStatusString == "InReplyToScreenName")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "InReplyToScreenName");
-                            }
-                            #endregion
-                            #region InReplyToUserId
-                            if (literalQuotedStatusString == "InReplyToUserId")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "InReplyToUserId");
-                            }
-                            #endregion
-                            #region Id
-                            if (literalQuotedStatusString == "Id")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "Id");
-                            }
-                            #endregion
-                            #region Source
-                            if (literalQuotedStatusString == "Source")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "Source");
-                            }
-                            #endregion
-                            #region Text
-                            if (literalQuotedStatusString == "Text")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "Text");
-                            }
-                            #endregion
-                            #region User
-                            if (literalQuotedStatusString == "User")
-                            {
-                                startCursorPosition++;
-                                if (TokenQueue[startCursorPosition].Type != Token.TokenId.Period)
-                                {
-                                    throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralCannotAccessDirectly, "リテラル\"" + literalQuotedStatusString + "\"に直接アクセスすることは出来ません", null, literalQuotedStatusString);
-                                }
-                                else
-                                {
-                                    startCursorPosition++;
-                                    if (TokenQueue[startCursorPosition].Type != Token.TokenId.Literal)
-                                    {
-                                        throw new FilterCompileException(FilterCompileException.ErrorCode.LiteralEndWithPeriod, "リテラルがピリオドで終了しています", null);
-                                    }
-                                    else
-                                    {
-                                        var literalUserString = TokenQueue[startCursorPosition].Value as string;
-                                        #region CreateAt
-                                        if (literalString == "CreateAt")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "CreateAt"), typeof(string));
-                                        }
-                                        #endregion
-                                        #region Description
-                                        if (literalUserString == "Description")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "Description");
-                                        }
-                                        #endregion
-                                        #region FavoritesCount
-                                        else if (literalUserString == "FavouritesCount")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "FavouritesCount"), typeof(long));
-                                        }
-                                        #endregion
-                                        #region FollowersCount
-                                        else if (literalUserString == "FollowersCount")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "FollowersCount"), typeof(long));
-                                        }
-                                        #endregion
-                                        #region FriendsCount
-                                        else if (literalUserString == "FriendsCount")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "FriendsCount"), typeof(long));
-                                        }
-                                        #endregion
-                                        #region Id
-                                        else if (literalUserString == "Id")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "Id");
-                                        }
-                                        #endregion
-                                        #region IsFollowRequestSent
-                                        else if (literalUserString == "IsFollowRequestSent")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "IsFollowRequestSent");
-                                        }
-                                        #endregion
-                                        #region IsMuting
-                                        else if (literalUserString == "IsMuting")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "IsMuting");
-                                        }
-                                        #endregion
-                                        #region IsProtected
-                                        else if (literalUserString == "IsProtected")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "IsProtected");
-                                        }
-                                        #endregion
-                                        #region IsVerified
-                                        else if (literalUserString == "IsVerified")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "IsVerified");
-                                        }
-                                        #endregion
-                                        #region Language
-                                        else if (literalUserString == "Language")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "Language");
-                                        }
-                                        #endregion
-                                        #region ListedCount
-                                        else if (literalUserString == "ListedCount")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "ListedCount"), typeof(long));
-                                        }
-                                        #endregion
-                                        #region Location
-                                        else if (literalUserString == "Location")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "Location");
-                                        }
-                                        #endregion
-                                        #region Name
-                                        else if (literalUserString == "Name")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "Name");
-                                        }
-                                        #endregion
-                                        #region ProfileBackgroundImageUrl
-                                        else if (literalUserString == "ProfileBackgroundImageUrl")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "ProfileBackgroundImageUrl");
-                                        }
-                                        #endregion
-                                        #region ProfileBannerUrl
-                                        else if (literalUserString == "ProfileBannerUrl")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "ProfileBannerUrl");
-                                        }
-                                        #endregion
-                                        #region ProfileImageUrl
-                                        else if (literalUserString == "ProfileImageUrl")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "ProfileImageUrl");
-                                        }
-                                        #endregion
-                                        #region ScreenName
-                                        else if (literalUserString == "ScreenName")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "ScreenName");
-                                        }
-                                        #endregion
-                                        #region StatusesCount
-                                        else if (literalUserString == "StatusesCount")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Convert(Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "StatusesCount"), typeof(long));
-                                        }
-                                        #endregion
-                                        #region TimeZone
-                                        else if (literalUserString == "TimeZone")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "TimeZone");
-                                        }
-                                        #endregion
-                                        #region Url
-                                        else if (literalUserString == "Url")
-                                        {
-                                            cursor = startCursorPosition;
-                                            return Expression.Property(Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "User"), "Url");
-                                        }
-                                        #endregion
-                                        #region Other
-                                        else
-                                        {
-                                            throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalUserString, null, literalUserString);
-                                        }
-                                        #endregion
-                                    }
-                                }
-                            }
-                            #endregion
-                            #region IsFavorited
-                            if (literalQuotedStatusString == "IsFavorited")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "IsFavorited");
-                            }
-                            #endregion
-                            #region IsRetweeted
-                            if (literalQuotedStatusString == "IsRetweeted")
-                            {
-                                cursor = startCursorPosition;
-                                return Expression.Property(Expression.Property(this.ParamExpr, "QuotedStatus"), "IsRetweeted");
-                            }
-                            #endregion
-                            #region Other
-                            else
-                            {
-                                throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalQuotedStatusString, null, literalQuotedStatusString);
-                            }
-                            #endregion
-                        }
-                    }
-                }
-                #endregion
-                #region Other
-                else
-                {
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongLiteral, "不正なリテラル:" + literalString, null, literalString);
-                }
-                #endregion
+                } while (true);
 
-                throw new FilterCompileException(FilterCompileException.ErrorCode.FailedToTokenize, "リテラルの解析に失敗しました" + literalString, null, literalString);
+                type = arrayType;
+
+                if (arrayType == "Numeric")
+                    return Expression.NewArrayInit(typeof(long), arrayExpressionList);
+                else if (arrayType == "String")
+                    return Expression.NewArrayInit(typeof(string), arrayExpressionList);
+
+                throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Internal error", null);
             }
         }
 
@@ -1699,9 +770,9 @@ namespace Flantter.MilkyWay.Models.Filter
 
             public Expression CompiledExpression;
 
-            private readonly MethodInfo ContainsMethod = typeof(string).GetMethods("Contains").First();
-            private readonly MethodInfo StartsWithMethod = typeof(string).GetMethods("StartsWith").First();
-            private readonly MethodInfo EndsWithMethod = typeof(string).GetMethods("EndsWith").First();
+            private static readonly MethodInfo ContainsMethod = typeof(string).GetMethods("Contains").First();
+            private static readonly MethodInfo StartsWithMethod = typeof(string).GetMethods("StartsWith").First();
+            private static readonly MethodInfo EndsWithMethod = typeof(string).GetMethods("EndsWith").First();
 
             public PolandTokenCompiler(IEnumerable<Token> tokens)
             {
@@ -1721,24 +792,33 @@ namespace Flantter.MilkyWay.Models.Filter
                         case Token.TokenId.Numeric:
                         case Token.TokenId.String:
                         case Token.TokenId.Boolean:
-                        case Token.TokenId.LiteralParam:
+                        case Token.TokenId.LiteralExpression:
+                        case Token.TokenId.NumericArrayExpression:
+                        case Token.TokenId.StringArrayExpression:
+                        case Token.TokenId.ExpressionParam:
                         case Token.TokenId.Null:
                             tempQueue.Add(token);
                             break;
+                        case Token.TokenId.Plus:
+                        case Token.TokenId.Minus:
+                        case Token.TokenId.Multiplication:
+                        case Token.TokenId.Division:
                         case Token.TokenId.Equal:
                         case Token.TokenId.NotEqual:
-                        case Token.TokenId.GreaterThan:
+                        case Token.TokenId.LessThanEqual:
                         case Token.TokenId.GreaterThanEqual:
                         case Token.TokenId.LessThan:
-                        case Token.TokenId.LessThanEqual:
+                        case Token.TokenId.GreaterThan:
                         case Token.TokenId.Contains:
                         case Token.TokenId.StartsWith:
                         case Token.TokenId.EndsWith:
                         case Token.TokenId.RegexMatch:
+                        case Token.TokenId.In:
                         case Token.TokenId.NotContains:
                         case Token.TokenId.NotStartsWith:
                         case Token.TokenId.NotEndsWith:
                         case Token.TokenId.NotRegexMatch:
+                        case Token.TokenId.NotIn:
                         case Token.TokenId.And:
                         case Token.TokenId.Or:
                             PolandTokenOperate(token.Type);
@@ -1747,7 +827,7 @@ namespace Flantter.MilkyWay.Models.Filter
                             PolandTokenOperateExclamation(token.Type);
                             break;
                         default:
-                            throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "内部エラー", null);
+                            throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Internal error", null);
                     }
                 }
                 if (tempQueue.Count == 0)
@@ -1756,7 +836,7 @@ namespace Flantter.MilkyWay.Models.Filter
                 }
                 else if (tempQueue.Count > 1)
                 {
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "内部エラー", null);
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Internal error", null);
                 }
                 else
                 {
@@ -1770,15 +850,14 @@ namespace Flantter.MilkyWay.Models.Filter
                 }
             }
 
-
             public void PolandTokenOperateExclamation(Token.TokenId tokenId)
             {
                 if (tempQueue.Count < 1)
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "不正な演算", null);
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
 
                 var frontToken = tempQueue[tempQueue.Count - 1];
-                if (!(frontToken.Type == Token.TokenId.Boolean || frontToken.Type == Token.TokenId.Numeric || frontToken.Type == Token.TokenId.String || frontToken.Type == Token.TokenId.LiteralParam || frontToken.Type == Token.TokenId.ExpressionParam))
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "不正な演算", null);
+                if (!Token.Priority_Other.Contains(frontToken.Type))
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
 
                 Expression expressionResult = null;
                 Expression frontExpression = null;
@@ -1788,23 +867,14 @@ namespace Flantter.MilkyWay.Models.Filter
                     case Token.TokenId.Boolean:
                         frontExpression = Expression.Constant((bool)frontToken.Value);
                         break;
-                    case Token.TokenId.Numeric:
-                        frontExpression = Expression.Constant((long)frontToken.Value);
-                        break;
-                    case Token.TokenId.String:
-                        frontExpression = Expression.Constant((string)frontToken.Value);
-                        break;
-                    case Token.TokenId.LiteralParam:
+                    case Token.TokenId.LiteralExpression:
                         frontExpression = frontToken.Value as MemberExpression;
                         break;
                     case Token.TokenId.ExpressionParam:
                         frontExpression = frontToken.Value as Expression;
                         break;
-                    case Token.TokenId.Null:
-                        frontExpression = Expression.Constant(null, typeof(object));
-                        break;
                     default:
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "不正な演算", null);
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
                 }
 
                 switch (tokenId)
@@ -1813,7 +883,7 @@ namespace Flantter.MilkyWay.Models.Filter
                         expressionResult = Expression.Equal(frontExpression, Expression.Constant(false, typeof(bool)));
                         break;
                     default:
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "不正な演算", null);
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
                 }
 
                 tempQueue.Remove(frontToken);
@@ -1823,14 +893,14 @@ namespace Flantter.MilkyWay.Models.Filter
             public void PolandTokenOperate(Token.TokenId tokenId)
             {
                 if (tempQueue.Count < 2)
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "不正な演算", null);
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
 
                 var backToken = tempQueue[tempQueue.Count - 2];
                 var frontToken = tempQueue[tempQueue.Count - 1];
-                if (!(backToken.Type == Token.TokenId.Boolean || backToken.Type == Token.TokenId.Numeric || backToken.Type == Token.TokenId.String || backToken.Type == Token.TokenId.LiteralParam || backToken.Type == Token.TokenId.ExpressionParam || backToken.Type == Token.TokenId.Null))
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "不正な演算", null);
-                if (!(frontToken.Type == Token.TokenId.Boolean || frontToken.Type == Token.TokenId.Numeric || frontToken.Type == Token.TokenId.String || frontToken.Type == Token.TokenId.LiteralParam || frontToken.Type == Token.TokenId.ExpressionParam || frontToken.Type == Token.TokenId.Null))
-                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "不正な演算", null);
+                if (!Token.Priority_Other.Contains(backToken.Type))
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
+                if (!Token.Priority_Other.Contains(frontToken.Type))
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
 
                 Expression expressionResult = null;
                 Expression backExpression = null;
@@ -1847,17 +917,18 @@ namespace Flantter.MilkyWay.Models.Filter
                     case Token.TokenId.String:
                         backExpression = Expression.Constant((string)backToken.Value);
                         break;
-                    case Token.TokenId.LiteralParam:
-                        backExpression = backToken.Value as Expression;
-                        break;
+                    case Token.TokenId.LiteralExpression:
                     case Token.TokenId.ExpressionParam:
                         backExpression = backToken.Value as Expression;
                         break;
                     case Token.TokenId.Null:
                         backExpression = Expression.Constant(null, typeof(object));
                         break;
+                    case Token.TokenId.StringArrayExpression:
+                    case Token.TokenId.NumericArrayExpression:
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.ArrayPositionIsWrong, "Array position is wrong", null);
                     default:
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "不正な演算", null);
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
                 }
                 switch (frontToken.Type)
                 {
@@ -1870,26 +941,38 @@ namespace Flantter.MilkyWay.Models.Filter
                     case Token.TokenId.String:
                         frontExpression = Expression.Constant((string)frontToken.Value);
                         break;
-                    case Token.TokenId.LiteralParam:
-                        frontExpression = frontToken.Value as Expression;
-                        break;
+                    case Token.TokenId.LiteralExpression:
                     case Token.TokenId.ExpressionParam:
+                    case Token.TokenId.NumericArrayExpression:
+                    case Token.TokenId.StringArrayExpression:
                         frontExpression = frontToken.Value as Expression;
                         break;
                     case Token.TokenId.Null:
                         frontExpression = Expression.Constant(null, typeof(object));
                         break;
                     default:
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "不正な演算", null);
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
                 }
 
                 switch (tokenId)
                 {
+                    case Token.TokenId.Plus:
+                        expressionResult = Expression.Add(backExpression, frontExpression);
+                        break;
+                    case Token.TokenId.Minus:
+                        expressionResult = Expression.Subtract(backExpression, frontExpression);
+                        break;
+                    case Token.TokenId.Multiplication:
+                        expressionResult = Expression.Multiply(backExpression, frontExpression);
+                        break;
+                    case Token.TokenId.Division:
+                        expressionResult = Expression.Divide(backExpression, frontExpression);
+                        break;
                     case Token.TokenId.Equal:
                         expressionResult = Expression.Equal(backExpression, frontExpression);
                         break;
                     case Token.TokenId.NotEqual:
-                        expressionResult = Expression.Equal(Expression.Equal(backExpression, frontExpression), Expression.Constant(false));
+                        expressionResult = Expression.NotEqual(backExpression, frontExpression);
                         break;
                     case Token.TokenId.LessThanEqual:
                         expressionResult = Expression.LessThanOrEqual(backExpression, frontExpression);
@@ -1915,6 +998,13 @@ namespace Flantter.MilkyWay.Models.Filter
                     case Token.TokenId.RegexMatch:
                         expressionResult = Expression.Call(typeof(Regex), "IsMatch", null, backExpression, frontExpression);
                         break;
+                    case Token.TokenId.In:
+                        if (frontToken.Type == Token.TokenId.NumericArrayExpression)
+                            expressionResult = Expression.Call(typeof(Enumerable), "Contains", new[] { typeof(long) }, frontExpression, backExpression);
+                        else if (frontToken.Type == Token.TokenId.StringArrayExpression)
+                            expressionResult = Expression.Call(typeof(Enumerable), "Contains", new[] { typeof(string) }, frontExpression, backExpression);
+
+                        break;
                     case Token.TokenId.NotContains:
                         expressionResult = Expression.Equal(Expression.Call(backExpression, ContainsMethod, frontExpression), Expression.Constant(false));
                         break;
@@ -1927,6 +1017,13 @@ namespace Flantter.MilkyWay.Models.Filter
                     case Token.TokenId.NotRegexMatch:
                         expressionResult = Expression.Equal(Expression.Call(typeof(Regex), "IsMatch", null, backExpression, frontExpression), Expression.Constant(false));
                         break;
+                    case Token.TokenId.NotIn:
+                        if (frontToken.Type == Token.TokenId.NumericArrayExpression)
+                            expressionResult = Expression.Equal(Expression.Call(typeof(Enumerable), "Contains", new[] { typeof(long) }, frontExpression, backExpression), Expression.Constant(false));
+                        else if (frontToken.Type == Token.TokenId.StringArrayExpression)
+                            expressionResult = Expression.Equal(Expression.Call(typeof(Enumerable), "Contains", new[] { typeof(string) }, frontExpression, backExpression), Expression.Constant(false));
+
+                        break;
                     case Token.TokenId.And:
                         expressionResult = Expression.AndAlso(backExpression, frontExpression);
                         break;
@@ -1934,7 +1031,7 @@ namespace Flantter.MilkyWay.Models.Filter
                         expressionResult = Expression.OrElse(backExpression, frontExpression);
                         break;
                     default:
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "不正な演算", null);
+                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
                 }
 
                 tempQueue.Remove(frontToken);

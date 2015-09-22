@@ -3,6 +3,7 @@ using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Flantter.MilkyWay.Views.Behaviors;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -288,11 +289,10 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             });
 
-            Services.Notice.Instance.ShowUserProfileCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(_ =>
+            Services.Notice.Instance.ShowUserProfileCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
             {
-                var t = new Views.Controls.ExtendedSettingsFlyout() { IsLightDismissEnabled = false };
-                t.Show();
-                System.Diagnostics.Debug.WriteLine("UserProfile Showed!");
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this._AccountModel._Tokens, Content = x };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
             #endregion

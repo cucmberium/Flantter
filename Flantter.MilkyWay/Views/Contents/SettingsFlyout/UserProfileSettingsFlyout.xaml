@@ -15,19 +15,25 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
+	xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
+    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
     mc:Ignorable="d"
     Title="UserProfile"
     HorizontalContentAlignment="Stretch"
     VerticalContentAlignment="Stretch"
     Padding="0"
     IconSource="https://pbs.twimg.com/profile_images/3077279905/11e31fda9b6648ea0a362820ed4d7d0f.png"
+    MinWidth="320"
     d:DesignHeight="720"
     d:DesignWidth="320">
 
     <ScrollViewer x:Name="UserProfileScrollViewer" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" ZoomMode="Disabled">
-        <StackPanel x:Name="UserProfileStackPanel" Orientation="Vertical">
+        <StackPanel x:Name="UserProfileStackPanel" Orientation="Vertical" Background="#FF2B2B2B">
             <Grid x:Name="UserProfileInformationGrid">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -68,7 +74,12 @@
                     </StackPanel>
                 </Grid>
 
-                <ListBox Grid.Row="1" SelectedIndex="{Binding SelectedTab,Mode=TwoWay}">
+                <StackPanel Grid.Row="1">
+                    <Rectangle Fill="#19000000" Height="1"/>
+                    <Rectangle Fill="#19FFFFFF" Height="1"/>
+                </StackPanel>
+                
+                <ListBox Grid.Row="2" SelectedIndex="{Binding SelectedTab,Mode=TwoWay}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
@@ -95,6 +106,84 @@
                         </TextBlock>
                     </ListBoxItem>
                 </ListBox>
+
+                <StackPanel Grid.Row="3">
+                    <Rectangle Fill="#19000000" Height="1"/>
+                    <Rectangle Fill="#19FFFFFF" Height="1"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Row="4" Orientation="Horizontal" FlowDirection="RightToLeft" Background="#FF2B2B2B">
+                    <Button FlowDirection="LeftToRight" Width="100" Content="Follow" Background="#FF21A4E4" Foreground="White"  Margin="1,1">
+                    </Button>
+                    <Button FlowDirection="LeftToRight" Width="100" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1"/>
+                    <Button FlowDirection="LeftToRight" HorizontalAlignment="Right" Background="#FF21A4E4" Foreground="White" Margin="1,1">
+                        <SymbolIcon Symbol="Add" Foreground="White"/>
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_PlusButton_Flyout_OpenWithBrowser" Text="ブラウザで開く" Command="{Binding OpenWithBrowserClickCommand}"/>
+                                <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_PlusButton_Flyout_OpenUserLists" Text="ユーザーのリストを開く" Command="{Binding OpenUserListsClickCommand}"/>
+                                <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_PlusButton_Flyout_OpenUserAclog" Text="ユーザーのAclogを開く" Command="{Binding OpenUserAclogClickCommand}"/>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_PlusButton_Flyout_Block" Text="ブロック" Command="{Binding BlockClickCommand}"/>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_PlusButton_Flyout_UserMute" Text="ユーザーをミュート" Command="{Binding UserMuteClickCommand}"/>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Row="5">
+                    <Rectangle Fill="#19000000" Height="1"/>
+                    <Rectangle Fill="#19FFFFFF" Height="1"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid x:Name="UserProfileTweetGrid">
+                <ListView x:Name="UserProfileStatusGrid" Foreground="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single">
+                    <i:Interaction.Behaviors>
+                        <behaviors:ListViewIncrementalLoadBehavior />
+                    </i:Interaction.Behaviors>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel>
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection/>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
+                            <timeline:Status ViewModel="{x:Bind}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
+                    </ItemsControl.ItemContainerStyle>
+                </ListView>
+
+                <ListView x:Name="UserProfileFavoritesGrid" Foreground="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single">
+                    <i:Interaction.Behaviors>
+                        <behaviors:ListViewIncrementalLoadBehavior />
+                    </i:Interaction.Behaviors>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel>
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection/>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
+                            <timeline:Status ViewModel="{x:Bind}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
+                    </ItemsControl.ItemContainerStyle>
+                </ListView>
             </Grid>
         </StackPanel>
     </ScrollViewer>

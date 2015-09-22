@@ -32,6 +32,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public Messenger ShowVideoPreviewMessenger { get; private set; }
 
+        public Messenger ShowSettingsFlyoutMessenger { get; private set; }
+
         #region Constructor
         public MainPageViewModel()
         {
@@ -57,6 +59,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.ShowImagePreviewMessenger = new Messenger();
             this.ShowVideoPreviewMessenger = new Messenger();
+            this.ShowSettingsFlyoutMessenger = new Messenger();
 
             #region Command
 
@@ -85,6 +88,10 @@ namespace Flantter.MilkyWay.ViewModels
                 this.AppBarIsOpen.Value = isOpen;
             });
 
+            Services.Notice.Instance.ShowSettingsFlyoutCommand.Subscribe(async x =>
+            {
+                await this.ShowSettingsFlyoutMessenger.Raise(x as Notification);
+            });
             #endregion
         }
         #endregion

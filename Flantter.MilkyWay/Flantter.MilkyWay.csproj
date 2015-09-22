@@ -154,7 +154,9 @@
     <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\ITweetViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
+    <Compile Include="Views\Behaviors\ListViewIncrementalLoadBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewScrollControlBehavior.cs" />
+    <Compile Include="Views\Behaviors\ShowSettingsFlyoutAction.cs" />
     <Compile Include="Views\Behaviors\SymbolIconForegroundBrushSwitchBehavior.cs" />
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
     <Compile Include="Views\Behaviors\BottomAppBarShowBehavior.cs" />

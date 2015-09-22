@@ -13,7 +13,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 {
     public class ShowVideoPreviewAction : DependencyObject, IAction
     {
-        VideoPreviewPopup _VideoPreviewPopup = null;
+        private VideoPreviewPopup _VideoPreviewPopup = null;
 
         public ShowVideoPreviewAction()
         {

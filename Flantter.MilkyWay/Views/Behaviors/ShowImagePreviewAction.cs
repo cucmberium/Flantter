@@ -13,11 +13,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
 {
     public class ShowImagePreviewAction : DependencyObject, IAction
     {
-        ImagePreviewPopup _ImagePreviewPopup = null;
+        private ImagePreviewPopup _ImagePreviewPopup = null;
 
         public ShowImagePreviewAction()
         {
-            this._ImagePreviewPopup = new ImagePreviewPopup();
         }
 
         public object Execute(object sender, object parameter)

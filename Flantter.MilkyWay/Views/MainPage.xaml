@@ -41,6 +41,9 @@
         <util:MessengerTriggerBehavior Messenger="{Binding ShowVideoPreviewMessenger, Mode=OneWay}">
             <behaviors:ShowVideoPreviewAction/>
         </util:MessengerTriggerBehavior>
+        <util:MessengerTriggerBehavior Messenger="{Binding ShowSettingsFlyoutMessenger, Mode=OneWay}">
+            <behaviors:ShowSettingsFlyoutAction/>
+        </util:MessengerTriggerBehavior>
 
         <behaviors:BottomAppBarShowBehavior IsOpen="{Binding AppBarIsOpen.Value, Mode=TwoWay}">
             <behaviors:BottomAppBarShowBehavior.BottomAppBar>

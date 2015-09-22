@@ -102,22 +102,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         DependencyProperty.RegisterAttached("UnreadCountIncrementalTrigger", typeof(bool),
                         typeof(ListViewScrollControlBehavior), new PropertyMetadata(false, UnreadCountIncrementalTriggerChanged));
 
-        public ICommand Command
-        {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
-        }
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(ListViewScrollControlBehavior), new PropertyMetadata(null));
-
-        public object CommandParameter
-        {
-            get { return (object)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
-        }
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(ListViewScrollControlBehavior), new PropertyMetadata(null));
-
         private void ListView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             var itemsSource = ((ListView)this.AssociatedObject).ItemsSource as INotifyCollectionChanged;
@@ -316,14 +300,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             var verticalOffset = this.ScrollViewerObject.VerticalOffset;
             var maxVerticalOffset = this.ScrollViewerObject.ExtentHeight - this.ScrollViewerObject.ViewportHeight;
-            if (verticalOffset == maxVerticalOffset)
-            {
-                if (this.Command != null && this.Command.CanExecute(this.CommandParameter))
-                {
-                    this.Command.Execute(this.CommandParameter);
-                }
-            }
-            else
+            if (verticalOffset != maxVerticalOffset)
             {
                 var unreadCount = this.UnreadCount > verticalOffset - 2 ? (int)verticalOffset - 2 : this.UnreadCount;
                 this.UnreadCount = unreadCount >= 0 ? unreadCount : 0;

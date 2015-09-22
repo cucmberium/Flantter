@@ -23,6 +23,29 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyout
         public UserProfileSettingsFlyout()
         {
             this.InitializeComponent();
+            this.SizeChanged += UserProfileSettingsFlyout_SizeChanged;
+        }
+
+        private void UserProfileSettingsFlyout_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var width = Window.Current.Bounds.Width - 1;
+
+            if (width <= 320)
+                width = 321;
+            else if (width >= 400 && width < 800)
+                width = 400;
+            else if (width >= 800)
+                width = 800;
+
+            this.Width = width;
+
+            this.UserProfileStackPanel.Orientation = width >= 800 ? Orientation.Horizontal : Orientation.Vertical;
+
+            if (width >= 800)
+                this.UserProfileTweetGrid.Height = Window.Current.Bounds.Height - 54;
+            else
+                this.UserProfileTweetGrid.Height = double.NaN;
+
         }
     }
 }

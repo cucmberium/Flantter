@@ -50,14 +50,6 @@ namespace Flantter.MilkyWay.Views.Controls
         public static readonly DependencyProperty IconSourceProperty =
             DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(ExtendedSettingsFlyout), new PropertyMetadata(null));
 
-        public bool IsLightDismissEnabled
-        {
-            get { return (bool)GetValue(IsLightDismissEnabledProperty); }
-            set { SetValue(IsLightDismissEnabledProperty, value); }
-        }
-        public static readonly DependencyProperty IsLightDismissEnabledProperty =
-            DependencyProperty.Register("IsLightDismissEnabled", typeof(bool), typeof(ExtendedSettingsFlyout), new PropertyMetadata(false));
-
         public bool IsOpenFromLeftEnabled
         {
             get { return (bool)GetValue(IsOpenFromLeftEnabledProperty); }
@@ -66,12 +58,29 @@ namespace Flantter.MilkyWay.Views.Controls
         public static readonly DependencyProperty IsOpenFromLeftEnabledProperty =
             DependencyProperty.Register("IsOpenFromLeftEnabled", typeof(bool), typeof(ExtendedSettingsFlyout), new PropertyMetadata(false));
 
+        public event EventHandler Showed;
+        public event EventHandler Hided;
         public event BackClickEventHandler BackClick;
         new public event SizeChangedEventHandler SizeChanged;
         
         public ExtendedSettingsFlyout()
         {
             this.DefaultStyleKey = typeof(ExtendedSettingsFlyout);
+            this.contentPopup = new Popup();
+            this.contentPopup.Opened += ContentPopup_Opened;
+            this.contentPopup.Closed += ContentPopup_Closed;
+        }
+
+        private void ContentPopup_Opened(object sender, object e)
+        {
+            if (this.Showed != null)
+                this.Showed(this, EventArgs.Empty);
+        }
+
+        private void ContentPopup_Closed(object sender, object e)
+        {
+            if (this.Hided != null)
+                this.Hided(this, EventArgs.Empty);
         }
 
         private Grid rootGrid;
@@ -97,15 +106,12 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void Window_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
-            if (isLightDismissEnabled)
-                return;
-
             this.Height = Window.Current.Bounds.Height;
 
             if (SizeChanged != null)
                 SizeChanged(this, null);
 
-            if (contentPopup == null)
+            if (!contentPopup.IsOpen)
                 return;
 
             contentPopup.HorizontalOffset = 0;
@@ -130,7 +136,6 @@ namespace Flantter.MilkyWay.Views.Controls
 
         public bool IsOpen { get { return (contentPopup != null && contentPopup.IsOpen); } }
         private Popup contentPopup = null;
-        private bool isLightDismissEnabled;
         public void Show()
         {
             if (rootGrid != null)
@@ -148,78 +153,52 @@ namespace Flantter.MilkyWay.Views.Controls
                 }
             }
 
-            if (IsLightDismissEnabled)
-            {
-                isLightDismissEnabled = true;
-                this.Visibility = Visibility.Visible;
-                this.Height = Window.Current.Bounds.Height;
-                this.HorizontalAlignment = HorizontalAlignment.Right;
-                this.contentPopup = new Popup
-                {
-                    Child = this,
-                    IsLightDismissEnabled = true,
-                    Opacity = 1,
-                };
+            this.Visibility = Visibility.Visible;
+            this.Height = Window.Current.Bounds.Height;
 
-                if (!IsOpenFromLeftEnabled)
-                    this.contentPopup.HorizontalOffset = Window.Current.Bounds.Width - this.Width;
-                else
-                    this.contentPopup.HorizontalOffset = 0;
-                this.contentPopup.VerticalOffset = 0;
-                this.contentPopup.IsOpen = true;
+            var popupGrid = new Grid() { Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 255, 255, 255)), Width = Window.Current.Bounds.Width, Height = Window.Current.Bounds.Height };
+            var popupTappedGrid = new Grid() { Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 255, 255, 255)), Width = (Window.Current.Bounds.Width - this.Width) < 0 ? 0 : (Window.Current.Bounds.Width - this.Width), Height = Window.Current.Bounds.Height };
+
+            if (!IsOpenFromLeftEnabled)
+            {
+                this.HorizontalAlignment = HorizontalAlignment.Right;
+                popupGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                popupGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0, GridUnitType.Auto) });
+                popupTappedGrid.SetValue(Grid.ColumnProperty, 0);
+                this.SetValue(Grid.ColumnProperty, 1);
             }
             else
             {
-                this.Visibility = Visibility.Visible;
-                this.Height = Window.Current.Bounds.Height;
-                
-                var popupGrid = new Grid() { Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0)), Width = Window.Current.Bounds.Width, Height = Window.Current.Bounds.Height };
-                var popupTappedGrid = new Grid() { Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0)), Width = Window.Current.Bounds.Width - this.Width, Height = Window.Current.Bounds.Height };
-
-                if (!IsOpenFromLeftEnabled)
-                {
-                    this.HorizontalAlignment = HorizontalAlignment.Right;
-                    popupGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-                    popupGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0, GridUnitType.Auto) });
-                    popupTappedGrid.SetValue(Grid.ColumnProperty, 0);
-                    this.SetValue(Grid.ColumnProperty, 1);
-                }
-                else
-                {
-                    this.HorizontalAlignment = HorizontalAlignment.Left;
-                    popupGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0, GridUnitType.Auto) });
-                    popupGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-                    popupTappedGrid.SetValue(Grid.ColumnProperty, 1);
-                    this.SetValue(Grid.ColumnProperty, 0);
-                }
-
-                popupGrid.Children.Add(popupTappedGrid);
-                popupGrid.Children.Add(this);
-                this.contentPopup = new Popup
-                {
-                    Child = popupGrid,
-                    IsLightDismissEnabled = false,
-                    Opacity = 1,
-                };
-
-                this.contentPopup.HorizontalOffset = 0;
-                this.contentPopup.VerticalOffset = 0;
-                popupTappedGrid.Tapped += (s, e) => { this.Hide(); e.Handled = true; };
-                popupTappedGrid.RightTapped += (s, e) => { this.Hide(); e.Handled = true; };
-                this.contentPopup.IsOpen = true;
-
-                // 影付けたかったらこれ
-                //var gradient = new LinearGradientBrush();
-                //gradient.StartPoint = new Point(1, 0.5);
-                //gradient.EndPoint = new Point(0, 0.5);
-                //gradient.GradientStops.Add(new GradientStop() { Color = Windows.UI.Color.FromArgb(72, 0, 0, 0), Offset = 0 });
-                //gradient.GradientStops.Add(new GradientStop() { Color = Windows.UI.Color.FromArgb(36, 0, 0, 0), Offset = 0.01 });
-                //gradient.GradientStops.Add(new GradientStop() { Color = Windows.UI.Color.FromArgb(0, 0, 0, 0), Offset = 0.02 });
-                //gradient.GradientStops.Add(new GradientStop() { Color = Windows.UI.Color.FromArgb(0, 0, 0, 0), Offset = 1 });
-                //popupTappedGrid.Background = gradient;
-                //popupTappedGrid.Transitions = new TransitionCollection();
-                //popupTappedGrid.Transitions.Add(new EdgeUIThemeTransition() { Edge = EdgeTransitionLocation.Right });
+                this.HorizontalAlignment = HorizontalAlignment.Left;
+                popupGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0, GridUnitType.Auto) });
+                popupGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+                popupTappedGrid.SetValue(Grid.ColumnProperty, 1);
+                this.SetValue(Grid.ColumnProperty, 0);
             }
+
+            popupGrid.Children.Add(popupTappedGrid);
+            popupGrid.Children.Add(this);
+
+            this.contentPopup.Child = popupGrid;
+            this.contentPopup.Opacity = 1;
+
+            this.contentPopup.HorizontalOffset = 0;
+            this.contentPopup.VerticalOffset = 0;
+            popupTappedGrid.Tapped += (s, e) => { this.Hide(); e.Handled = true; };
+            popupTappedGrid.RightTapped += (s, e) => { this.Hide(); e.Handled = true; };
+            this.contentPopup.IsOpen = true;
+
+            // 影付けたかったらこれ
+            //var gradient = new LinearGradientBrush();
+            //gradient.StartPoint = new Point(1, 0.5);
+            //gradient.EndPoint = new Point(0, 0.5);
+            //gradient.GradientStops.Add(new GradientStop() { Color = Windows.UI.Color.FromArgb(72, 0, 0, 0), Offset = 0 });
+            //gradient.GradientStops.Add(new GradientStop() { Color = Windows.UI.Color.FromArgb(36, 0, 0, 0), Offset = 0.01 });
+            //gradient.GradientStops.Add(new GradientStop() { Color = Windows.UI.Color.FromArgb(0, 0, 0, 0), Offset = 0.02 });
+            //gradient.GradientStops.Add(new GradientStop() { Color = Windows.UI.Color.FromArgb(0, 0, 0, 0), Offset = 1 });
+            //popupTappedGrid.Background = gradient;
+            //popupTappedGrid.Transitions = new TransitionCollection();
+            //popupTappedGrid.Transitions.Add(new EdgeUIThemeTransition() { Edge = EdgeTransitionLocation.Right });
         }
         public void Hide()
         {
@@ -233,10 +212,7 @@ namespace Flantter.MilkyWay.Views.Controls
                 this.contentPopup.Child = null;
             }
                 
-
             this.Visibility = Visibility.Collapsed;
-
-            this.contentPopup = null;
         }
     }
 }

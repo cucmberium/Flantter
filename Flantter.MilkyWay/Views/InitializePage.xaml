@@ -1,16 +1,15 @@
-﻿<prism:VisualStateAwarePage
+﻿<mvvm:VisualStateAwarePage
     x:Class="Flantter.MilkyWay.Views.InitializePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Flantter.MilkyWay.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
-    xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
-    mvvm:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:prism="using:Prism.Windows"
+    xmlns:mvvm="using:Prism.Windows.Mvvm"
     mc:Ignorable="d">
 
-    <prism:VisualStateAwarePage.Resources>
+    <mvvm:VisualStateAwarePage.Resources>
         <Storyboard x:Name="InitialAnimation">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="FirstInitializePage_LogoImage">
                 <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
@@ -29,7 +28,7 @@
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
-    </prism:VisualStateAwarePage.Resources>
+    </mvvm:VisualStateAwarePage.Resources>
 
     <Grid x:Name="FirstInitializePage_Grid" Background="#FFB01E00">
         <Image x:Name="FirstInitializePage_LogoImage" Source="ms-appx:///Assets/Logo.scale-100.png" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" RenderTransformOrigin="0.5,0.5">
@@ -38,4 +37,4 @@
             </Image.RenderTransform>
         </Image>
     </Grid>
-</prism:VisualStateAwarePage>
+</mvvm:VisualStateAwarePage>

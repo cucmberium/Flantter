@@ -5,8 +5,6 @@
     xmlns:local="using:Flantter.MilkyWay.Views.Contents.SettingsFlyout"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
-    xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
@@ -40,7 +38,7 @@
                 </Grid.RowDefinitions>
                 
                 <Grid Grid.Row="0">
-                    <Border x:Name="UserProfileBackgroundImageBorder" Margin="0,0,0,0" Background="#00000000" Height="269">
+                    <Border x:Name="UserProfileBackgroundImageBorder" Margin="0,0,0,0" Background="#00000000" Height="274" VerticalAlignment="Top">
                         <Image Source="https://pbs.twimg.com/profile_banners/122940776/1424580460/1500x500" Margin="0,0,0,0" Stretch="UniformToFill" HorizontalAlignment="Center" />
                     </Border>
 
@@ -74,10 +72,7 @@
                     </StackPanel>
                 </Grid>
 
-                <StackPanel Grid.Row="1">
-                    <Rectangle Fill="#19000000" Height="1"/>
-                    <Rectangle Fill="#19FFFFFF" Height="1"/>
-                </StackPanel>
+                <controls:HorizontalBar Grid.Row="1" Height="2"/>
                 
                 <ListBox Grid.Row="2" SelectedIndex="{Binding SelectedTab,Mode=TwoWay}">
                     <ItemsControl.ItemsPanel>
@@ -85,32 +80,29 @@
                             <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    <ListBoxItem Padding="20,5,4,5">
+                    <ListBoxItem Padding="20,4,4,4">
                         <TextBlock>
                             <Run Text="{Binding UserProfileInformation.StatusesCount}"/><Run Text=" Tweets"/>
                         </TextBlock>
                     </ListBoxItem>
-                    <ListBoxItem Padding="20,5,4,5">
+                    <ListBoxItem Padding="20,4,4,4">
                         <TextBlock>
                             <Run Text="{Binding UserProfileInformation.FriendsCount}"/><Run Text=" Following"/>
                         </TextBlock>
                     </ListBoxItem>
-                    <ListBoxItem Padding="20,5,4,5">
+                    <ListBoxItem Padding="20,4,4,4">
                         <TextBlock>
                             <Run Text="{Binding UserProfileInformation.FollowersCount}"/><Run Text=" Followers"/>
                         </TextBlock>
                     </ListBoxItem>
-                    <ListBoxItem Padding="20,5,4,5">
+                    <ListBoxItem Padding="20,4,4,4">
                         <TextBlock>
                             <Run Text="{Binding UserProfileInformation.FavoritesCount}"/><Run Text=" Favorites"/>
                         </TextBlock>
                     </ListBoxItem>
                 </ListBox>
 
-                <StackPanel Grid.Row="3">
-                    <Rectangle Fill="#19000000" Height="1"/>
-                    <Rectangle Fill="#19FFFFFF" Height="1"/>
-                </StackPanel>
+                <controls:HorizontalBar Grid.Row="3" Height="2"/>
                 
                 <StackPanel Grid.Row="4" Orientation="Horizontal" FlowDirection="RightToLeft" Background="#FF2B2B2B">
                     <Button FlowDirection="LeftToRight" Width="100" Content="Follow" Background="#FF21A4E4" Foreground="White"  Margin="1,1">
@@ -132,11 +124,10 @@
                     </Button>
                 </StackPanel>
 
-                <StackPanel Grid.Row="5">
-                    <Rectangle Fill="#19000000" Height="1"/>
-                    <Rectangle Fill="#19FFFFFF" Height="1"/>
-                </StackPanel>
+                <controls:HorizontalBar Grid.Row="5" Height="2"/>
             </Grid>
+
+            <controls:VerticalBar x:Name="UserProfileVerticalBar" Width="2" Visibility="Collapsed"/>
 
             <Grid x:Name="UserProfileTweetGrid">
                 <ListView x:Name="UserProfileStatusGrid" Foreground="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single">

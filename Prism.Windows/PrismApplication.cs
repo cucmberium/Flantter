@@ -1,35 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Activation;
-using Windows.UI.ApplicationSettings;
+using Prism.Mvvm;
+using Prism.Windows.AppModel;
+using Prism.Windows.Mvvm;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.ApplicationModel.Resources;
-using Microsoft.Practices.Prism.StoreApps;
-using Microsoft.Practices.Prism.Mvvm.Interfaces;
-using Windows.Phone.UI.Input;
-using Windows.Foundation.Metadata;
+using Windows.UI.Xaml.Navigation;
+using Prism.Windows.Navigation;
 
-namespace Microsoft.Practices.Prism.Mvvm
+namespace Prism.Windows
 {
-    public abstract class MvvmAppBaseUniversal : Application
+    public abstract class PrismApplication : Application
     {
+
         private bool _isRestoringFromTermination;
 
         /// <summary>
         /// Initializes the singleton application object. This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
-        protected MvvmAppBaseUniversal()
+        protected PrismApplication()
         {
             this.Suspending += OnSuspending;
         }
+
+        /// <summary>
+        /// Gets the shell user interface
+        /// </summary>
+        /// <value>The shell user interface.</value>
+        protected UIElement Shell { get; set; }
 
         /// <summary>
         /// Gets or sets the session state service.
@@ -46,6 +51,14 @@ namespace Microsoft.Practices.Prism.Mvvm
         /// The navigation service.
         /// </value>
         protected INavigationService NavigationService { get; set; }
+
+        /// <summary>
+        /// Gets or sets the device gesture service.
+        /// </summary>
+        /// <value>
+        /// The device gesture service.
+        /// </value>
+        protected IDeviceGestureService DeviceGestureService { get; set; }
 
         /// <summary>
         /// Factory for creating the ExtendedSplashScreen instance.
@@ -77,7 +90,7 @@ namespace Microsoft.Practices.Prism.Mvvm
         /// <returns>The type of the page which corresponds to the specified token.</returns>
         protected virtual Type GetPageType(string pageToken)
         {
-            var assemblyQualifiedAppType = this.GetType().GetTypeInfo().AssemblyQualifiedName;
+            var assemblyQualifiedAppType = this.GetType().AssemblyQualifiedName;
 
             var pageNameWithParameter = assemblyQualifiedAppType.Replace(this.GetType().FullName, this.GetType().Namespace + ".Views.{0}Page");
 
@@ -86,7 +99,7 @@ namespace Microsoft.Practices.Prism.Mvvm
 
             if (viewType == null)
             {
-                var resourceLoader = ResourceLoader.GetForCurrentView(PrismConstants.StoreAppsInfrastructureResourceMapId);
+                var resourceLoader = ResourceLoader.GetForCurrentView(Constants.InfrastructureResourceMapId);
                 throw new ArgumentException(
                     string.Format(CultureInfo.InvariantCulture, resourceLoader.GetString("DefaultPageTypeLookupErrorMessage"), pageToken, this.GetType().Namespace + ".Views"),
                     "pageToken");
@@ -127,14 +140,24 @@ namespace Microsoft.Practices.Prism.Mvvm
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            var rootFrame = await InitializeFrameAsync(args);
+            if (Window.Current.Content == null)
+            {
+                Frame rootFrame = await InitializeFrameAsync(args);
+
+                Shell = CreateShell(rootFrame);
+
+                if (Shell != null)
+                    Window.Current.Content = Shell;
+                else
+                    Window.Current.Content = rootFrame;
+            }
 
             // If the app is launched via the app's primary tile, the args.TileId property
             // will have the same value as the AppUserModelId, which is set in the Package.appxmanifest.
             // See http://go.microsoft.com/fwlink/?LinkID=288842
             string tileId = AppManifestHelper.GetApplicationId();
 
-            if (rootFrame != null && (!_isRestoringFromTermination || (args != null && args.TileId != tileId)))
+            if (Window.Current.Content != null && (!_isRestoringFromTermination || (args != null && args.TileId != tileId)))
             {
                 await OnLaunchApplicationAsync(args);
             }
@@ -150,68 +173,119 @@ namespace Microsoft.Practices.Prism.Mvvm
         /// <returns>A task of a Frame that holds the app content.</returns>
         protected async Task<Frame> InitializeFrameAsync(IActivatedEventArgs args)
         {
-            var rootFrame = Window.Current.Content as Frame;
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (rootFrame == null)
+            // Create a Frame to act as the navigation context and navigate to the first page
+            var rootFrame = new Frame();
+
+            if (ExtendedSplashScreenFactory != null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                Page extendedSplashScreen = this.ExtendedSplashScreenFactory.Invoke(args.SplashScreen);
+                rootFrame.Content = extendedSplashScreen;
+            }
 
-                if (ExtendedSplashScreenFactory != null)
+            rootFrame.Navigated += OnNavigated;
+
+            var frameFacade = new FrameFacadeAdapter(rootFrame);
+
+            //Initialize PrismApplication common services
+            SessionStateService = new SessionStateService();
+
+            //Configure VisualStateAwarePage with the ability to get the session state for its frame
+            VisualStateAwarePage.GetSessionStateForFrame =
+                frame => SessionStateService.GetSessionStateForFrame(frameFacade);
+
+            //Associate the frame with a key
+            SessionStateService.RegisterFrame(frameFacade, "AppFrame");
+
+            NavigationService = CreateNavigationService(frameFacade, SessionStateService);
+
+            DeviceGestureService = CreateDeviceGestureService();
+            DeviceGestureService.GoBackRequested += OnGoBackRequested;
+            DeviceGestureService.GoForwardRequested += OnGoForwardRequested;
+
+            // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
+            ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
+
+            OnRegisterKnownTypesForSerialization();
+            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            {
+                await SessionStateService.RestoreSessionStateAsync();
+            }
+
+            await OnInitializeAsync(args);
+
+            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            {
+                // Restore the saved session state and navigate to the last page visited
+                try
                 {
-                    Page extendedSplashScreen = this.ExtendedSplashScreenFactory.Invoke(args.SplashScreen);
-                    rootFrame.Content = extendedSplashScreen;
+                    SessionStateService.RestoreFrameState();
+                    NavigationService.RestoreSavedNavigation();
+                    _isRestoringFromTermination = true;
                 }
-                var frameFacade = new FrameFacadeAdapter(rootFrame);
-
-                //Initialize MvvmAppBase common services
-                SessionStateService = new SessionStateService();
-
-                //Configure VisualStateAwarePage with the ability to get the session state for its frame
-                VisualStateAwarePage.GetSessionStateForFrame =
-                    frame => SessionStateService.GetSessionStateForFrame(frameFacade);
-
-                //Associate the frame with a key
-                SessionStateService.RegisterFrame(frameFacade, "AppFrame");
-
-                NavigationService = CreateNavigationService(frameFacade, SessionStateService);
-                
-                if (ApiInformation.IsTypePresent("Windows.UI.ApplicationSettings.SettingsPane"))
-                    SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
-                if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-                    HardwareButtons.BackPressed += OnHardwareButtonsBackPressed;
-
-                    // Set a factory for the ViewModelLocator to use the default resolution mechanism to construct view models
-                    ViewModelLocationProvider.SetDefaultViewModelFactory(Resolve);
-
-                OnRegisterKnownTypesForSerialization();
-                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                catch (SessionStateServiceException)
                 {
-                    await SessionStateService.RestoreSessionStateAsync();
+                    // Something went wrong restoring state.
+                    // Assume there is no state and continue
                 }
-
-                await OnInitializeAsync(args);
-                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // Restore the saved session state and navigate to the last page visited
-                    try
-                    {
-                        SessionStateService.RestoreFrameState();
-                        NavigationService.RestoreSavedNavigation();
-                        _isRestoringFromTermination = true;
-                    }
-                    catch (SessionStateServiceException)
-                    {
-                        // Something went wrong restoring state.
-                        // Assume there is no state and continue
-                    }
-                }
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
             }
 
             return rootFrame;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnGoForwardRequested(object sender, DeviceGestureEventArgs e)
+        {
+            if (NavigationService.CanGoForward())
+            {
+                NavigationService.GoForward();
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnGoBackRequested(object sender, DeviceGestureEventArgs e)
+        {
+            if (NavigationService.CanGoBack())
+            {
+                NavigationService.GoBack();
+                e.Handled = true;
+            }
+            else if (DeviceGestureService.IsHardwareBackButtonPresent && e.IsHardwareButton)
+            {
+                Exit();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnNavigated(object sender, NavigationEventArgs e)
+        {
+            if (DeviceGestureService.UseTitleBarBackButton)
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    NavigationService.CanGoBack() ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected virtual IDeviceGestureService CreateDeviceGestureService()
+        {
+            DeviceGestureService deviceGestureService = new DeviceGestureService();
+            deviceGestureService.UseTitleBarBackButton = true;
+
+            return deviceGestureService;
         }
 
         /// <summary>
@@ -225,6 +299,17 @@ namespace Microsoft.Practices.Prism.Mvvm
             var navigationService = new FrameNavigationService(rootFrame, GetPageType, sessionStateService);
             return navigationService;
         }
+
+        /// <summary>
+        /// Creates the shell of the app.
+        /// </summary>
+        /// <param name="rootFrame"></param>
+        /// <returns>The shell of the app.</returns>
+        protected virtual UIElement CreateShell(Frame rootFrame)
+        {
+            return rootFrame;
+        }
+
         /// <summary>
         /// Invoked when application execution is being suspended. Application state is saved
         /// without knowing whether the application will be terminated or resumed with the contents
@@ -250,44 +335,6 @@ namespace Microsoft.Practices.Prism.Mvvm
             finally
             {
                 IsSuspending = false;
-            }
-        }
-        /// <summary>
-        /// Gets the Settings charm action items.
-        /// </summary>
-        /// <returns>The list of Setting charm action items that will populate the Settings pane.</returns>
-        protected virtual IList<SettingsCommand> GetSettingsCommands()
-        {
-            return new List<SettingsCommand>();
-        }
-        protected virtual void OnHardwareButtonsBackPressed(object sender, BackPressedEventArgs e)
-        {
-            if (NavigationService.CanGoBack())
-            {
-                NavigationService.GoBack();
-                e.Handled = true;
-            }
-            else this.Exit();
-        }
-
-        /// <summary>
-        /// Called when the Settings charm is invoked, this handler populates the Settings charm with the charm items returned by the GetSettingsCommands function.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="SettingsPaneCommandsRequestedEventArgs"/> instance containing the event data.</param>
-        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
-        {
-            if (args == null || args.Request == null || args.Request.ApplicationCommands == null)
-            {
-                return;
-            }
-
-            var applicationCommands = args.Request.ApplicationCommands;
-            var settingsCommands = GetSettingsCommands();
-
-            foreach (var settingsCommand in settingsCommands)
-            {
-                applicationCommands.Add(settingsCommand);
             }
         }
     }

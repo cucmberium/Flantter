@@ -1,12 +1,11 @@
 ﻿using CoreTweet;
 using CoreTweet.Core;
 using CoreTweet.Streaming;
-using CoreTweet.Streaming.Reactive;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;

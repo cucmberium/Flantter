@@ -254,9 +254,7 @@
                         </Grid>
                         <Grid Grid.Row="1"
                               Background="{TemplateBinding Background}">
-                            <ContentPresenter x:Name="ContentPresenter"
-                                            Grid.Row="1"
-                                            
+                            <ContentPresenter x:Name="ContentPresenter"                                            
                                             Content="{TemplateBinding Content}"
                                             ContentTemplate="{TemplateBinding ContentTemplate}"
                                             ContentTransitions="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContentTransitions}"
@@ -274,4 +272,39 @@
         </Setter>
     </Style>
 
+    <Style TargetType="controls:HorizontalBar">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:HorizontalBar">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1"/>
+                        </Grid.RowDefinitions>
+
+                        <Rectangle Grid.Row="0" Fill="#19000000" Height="1"/>
+                        <Rectangle Grid.Row="1" Fill="#19FFFFFF" Height="1"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="controls:VerticalBar">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:VerticalBar">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="1"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Rectangle Grid.Column="0" Fill="#19000000" Width="1"/>
+                        <Rectangle Grid.Column="1" Fill="#19FFFFFF" Width="1"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

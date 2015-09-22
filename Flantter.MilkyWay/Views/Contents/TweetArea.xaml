@@ -5,8 +5,6 @@
     xmlns:local="using:Flantter.MilkyWay.Views.Contents"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
-    xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"

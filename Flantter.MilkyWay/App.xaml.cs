@@ -1,5 +1,5 @@
 ﻿using Flantter.MilkyWay.Setting;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Windows;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,7 +25,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Flantter.MilkyWay
 {
-    sealed partial class App : MvvmAppBaseUniversal
+    sealed partial class App : PrismApplication
     {
         public App()
         {
@@ -50,7 +50,7 @@ namespace Flantter.MilkyWay
             System.Diagnostics.Debug.WriteLine(sw.Elapsed);
 #endif
 
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 720 });
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 500 });
 
             try
             {

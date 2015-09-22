@@ -2,7 +2,6 @@
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Util;
-using Microsoft.Practices.Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Reactive.Linq;
@@ -16,10 +15,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 
 namespace Flantter.MilkyWay.ViewModels
 {
-    public class MainPageViewModel : ViewModel
+    public class MainPageViewModel : ViewModelBase
     {
         public MainPageModel _MainPageModel { get; set; }
 
@@ -103,9 +104,9 @@ namespace Flantter.MilkyWay.ViewModels
         #endregion
 
         #region Others
-        public override void OnNavigatedTo(object navigationParameter, NavigationMode navigationMode, Dictionary<string, object> viewModelState)
+        public override void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
-            base.OnNavigatedTo(navigationParameter, navigationMode, viewModelState);
+            base.OnNavigatedTo(e, viewModelState);
 
             Task.Run(() => this._MainPageModel.Initialize());
         }

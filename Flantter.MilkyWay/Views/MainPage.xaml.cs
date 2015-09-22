@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.Prism.StoreApps;
+﻿using Prism.Windows.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.IO;

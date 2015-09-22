@@ -1,7 +1,6 @@
 ﻿using CoreTweet;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Setting;
-using Microsoft.Practices.Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +17,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Flantter.MilkyWay.Views.Util;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Views.Behaviors;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models
 {

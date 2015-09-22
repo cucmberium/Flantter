@@ -4,38 +4,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E2AACE63-5D8C-4B68-96D0-BC5ED8194AA2}</ProjectGuid>
-    <OutputType>winmdobj</OutputType>
+    <ProjectGuid>{3B7C3599-A336-4DB2-8678-710E3B36203B}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Flantter.MilkyWay.Service</RootNamespace>
-    <AssemblyName>Flantter.MilkyWay.Service</AssemblyName>
-    <DefaultLanguage>ja-JP</DefaultLanguage>
+    <RootNamespace>Prism.Windows</RootNamespace>
+    <AssemblyName>Prism.Windows</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <PlatformTarget>ARM</PlatformTarget>
@@ -110,32 +90,56 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AppModel\AppManifestHelper.cs" />
+    <Compile Include="AppModel\DeviceGestureEventArgs.cs" />
+    <Compile Include="AppModel\DeviceGestureService.cs" />
+    <Compile Include="Navigation\FrameNavigationService.cs" />
+    <Compile Include="AppModel\ResourceLoaderAdapter.cs" />
+    <Compile Include="AppModel\RestorableStateAttribute.cs" />
+    <Compile Include="AppModel\SessionStateService.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="AppModel\IDeviceGestureService.cs" />
+    <Compile Include="Navigation\IFrameFacade.cs" />
+    <Compile Include="Navigation\INavigationAware.cs" />
+    <Compile Include="Navigation\INavigationService.cs" />
+    <Compile Include="AppModel\IResourceLoader.cs" />
+    <Compile Include="AppModel\ISessionStateService.cs" />
+    <Compile Include="Navigation\FrameFacadeAdapter.cs" />
+    <Compile Include="Navigation\NavigatedToEventArgs.cs" />
+    <Compile Include="Navigation\NavigatingFromEventArgs.cs" />
+    <Compile Include="Mvvm\ViewModelLocator.cs" />
+    <Compile Include="Mvvm\VisualStateAwarePage.cs" />
+    <Compile Include="PrismApplication.cs" />
+    <Compile Include="Mvvm\ViewModelBase.cs" />
+    <Compile Include="Validation\BindableValidator.cs" />
+    <Compile Include="Validation\IValidatableBindableBase.cs" />
+    <Compile Include="Validation\ValidatableBindableBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppServiceTask.cs" />
-    <Compile Include="Database\Data.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Twitter\Account.cs" />
+    <Content Include="Properties\Prism.Windows.rd.xml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
-      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    <PRIResource Include="Strings\en-US\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10240.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
-    <SDKReference Include="SQLite.UAP.2015, Version=3.8.11.1">
-      <Name>SQLite for Universal App Platform</Name>
-    </SDKReference>
-    <SDKReference Include="WindowsTeam, Version=10.0.10240.0">
-      <Name>Windows Team Extensions for the UWP</Name>
+    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

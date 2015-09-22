@@ -209,8 +209,10 @@
     <Compile Include="Views\Controls\ExtendedCanvas.cs" />
     <Compile Include="Views\Controls\ExtendedSettingsFlyout.cs" />
     <Compile Include="Views\Controls\ExtendedTextBox.cs" />
+    <Compile Include="Views\Controls\HorizontalBar.cs" />
     <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
     <Compile Include="Views\Controls\TriangleButton.cs" />
+    <Compile Include="Views\Controls\VerticalBar.cs" />
     <Compile Include="Views\Converters\BooleanNegationConverter.cs" />
     <Compile Include="Views\Converters\BooleanNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
@@ -257,7 +259,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Prism.Windows\Prism.Windows.csproj">
+      <Project>{3b7c3599-a336-4db2-8678-710e3b36203b}</Project>
+      <Name>Prism.Windows</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
       <Name>Behaviors SDK %28XAML%29</Name>
@@ -277,12 +284,6 @@
     <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Practices.Prism.StoreApps.Universal\Microsoft.Practices.Prism.StoreApps.Universal.csproj">
-      <Project>{a403211c-861f-4baf-a08a-88972f0ce539}</Project>
-      <Name>Microsoft.Practices.Prism.StoreApps.Universal</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">

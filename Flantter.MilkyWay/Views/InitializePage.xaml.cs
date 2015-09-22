@@ -1,6 +1,6 @@
 ﻿using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Contents;
-using Microsoft.Practices.Prism.StoreApps;
+using Prism.Windows.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

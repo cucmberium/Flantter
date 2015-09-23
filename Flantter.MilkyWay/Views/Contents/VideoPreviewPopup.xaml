@@ -40,6 +40,12 @@
             </SymbolIcon>
         </controls:TriangleButton>
 
+        <SymbolIcon x:Name="VideoPreviewSymbolIcon" Symbol="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+            <SymbolIcon.RenderTransform>
+                <CompositeTransform ScaleX="2" ScaleY="2"/>
+            </SymbolIcon.RenderTransform>
+        </SymbolIcon>
+        
         <controls:TriangleButton x:Name="VideoPreviewLargeViewTriangleButton" Visibility="Collapsed" Tapped="VideoPreviewLargeViewTriangleButton_Tapped" Width="80" Height="80" Points="80,80,80,0,0,80" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <SymbolIcon HorizontalAlignment="Right" VerticalAlignment="Bottom" Symbol="Go" RenderTransformOrigin="0.5,0.5" >
                 <SymbolIcon.RenderTransform>

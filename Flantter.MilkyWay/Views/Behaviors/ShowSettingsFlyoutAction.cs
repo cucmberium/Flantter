@@ -1,7 +1,7 @@
 ﻿using CoreTweet;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Views.Contents;
-using Flantter.MilkyWay.Views.Contents.SettingsFlyout;
+using Flantter.MilkyWay.Views.Contents.SettingsFlyouts;
 using Flantter.MilkyWay.Views.Controls;
 using Flantter.MilkyWay.Views.Util;
 using Microsoft.Xaml.Interactivity;
@@ -43,8 +43,16 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     else
                     {
                         settingsFlyout = new UserProfileSettingsFlyout();
+                        ((UserProfileSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.UserProfileSettingsFlyoutViewModel();
                         this._SettingsFlyoutList.Add(settingsFlyout);
                     }
+                    ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+                    ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value = notification.Content as string;
+
+                    ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
 
                     settingsFlyout.Show();
                     break;
@@ -64,6 +72,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
         /// CoreTweetのTokens
         /// </summary>
         public Tokens Tokens { get; set; }
+
+        /// <summary>
+        /// ユーザーのアイコン
+        /// </summary>
+        public string UserIcon { get; set; }
     }
 
 }

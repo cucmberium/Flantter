@@ -129,6 +129,7 @@
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\SettingsFlyouts\UserProfileSettingsFlyoutModel.cs" />
     <Compile Include="Models\TweetAreaModel.cs" />
     <Compile Include="Models\Twitter\Video\NicoVideo.cs" />
     <Compile Include="Models\Twitter\Objects\DirectMessage.cs" />
@@ -148,11 +149,13 @@
     <Compile Include="ViewModels\ColumnViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\UserProfileSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\TweetAreaViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EventMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\DirectMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\ITweetViewModel.cs" />
+    <Compile Include="ViewModels\Twitter\Objects\UserViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
     <Compile Include="Views\Behaviors\ListViewIncrementalLoadBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewScrollControlBehavior.cs" />
@@ -165,7 +168,7 @@
     <Compile Include="Views\Behaviors\TweetEventMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetDirectMessageBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetStatusBehavior.cs" />
-    <Compile Include="Views\Contents\SettingsFlyout\UserProfileSettingsFlyout.xaml.cs">
+    <Compile Include="Views\Contents\SettingsFlyouts\UserProfileSettingsFlyout.xaml.cs">
       <DependentUpon>UserProfileSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\TweetAreaSuggestionPopup.xaml.cs">
@@ -318,7 +321,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Contents\SettingsFlyout\UserProfileSettingsFlyout.xaml">
+    <Page Include="Views\Contents\SettingsFlyouts\UserProfileSettingsFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -367,6 +370,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

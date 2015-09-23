@@ -12,15 +12,66 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
     public class EventMessageViewModel : ExtendedBindableBase, ITweetViewModel
     {
-        public EventMessageViewModel(EventMessage eventMessage, ColumnModel column)
+        public EventMessageViewModel(EventMessage eventMessage, long userId)
         {
             this.Model = eventMessage;
 
             this.BackgroundBrush = "Default";
-            if (eventMessage.Source.Id == column.OwnerUserId)
+            if (eventMessage.Source.Id == userId)
                 this.BackgroundBrush = "MyTweet";
-            else if (eventMessage.Target != null && eventMessage.Target.Id == column.OwnerUserId)
+            else if (eventMessage.Target != null && eventMessage.Target.Id == userId)
                 this.BackgroundBrush = "Mention";
+
+            this.CreatedAt = eventMessage.CreatedAt.ToLocalTime().ToString();
+            this.ScreenName = eventMessage.Source.ScreenName;
+            this.Name = eventMessage.Source.Name;
+            this.ProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.Source.ProfileImageUrl) ? "http://localhost/" : eventMessage.Source.ProfileImageUrl;
+            this.Id = 0;
+
+            var resourceLoader = new ResourceLoader();
+            var sourceUser = "@" + eventMessage.Source.ScreenName + " (" + eventMessage.Source.Name + ") ";
+            var targetUser = "@" + eventMessage.Target.ScreenName + " (" + eventMessage.Target.Name + ") ";
+
+            switch (eventMessage.Type)
+            {
+                case "Favorite":
+                    this.Text = string.Format(resourceLoader.GetString("Event_Favorite"), eventMessage.Source, targetUser);
+                    break;
+                case "Follow":
+                    this.Text = string.Format(resourceLoader.GetString("Event_Follow"), eventMessage.Source, targetUser);
+                    break;
+                case "Unfavorite":
+                    this.Text = string.Format(resourceLoader.GetString("Event_Unfavorite"), eventMessage.Source, targetUser);
+                    break;
+                case "UserUpdate":
+                    this.Text = string.Format(resourceLoader.GetString("Event_UserUpdate"), eventMessage.Source, targetUser);
+                    break;
+            }
+
+            if (eventMessage.TargetStatus != null)
+            {
+                this.TargetStatusVisibility = true;
+                this.TargetStatusId = eventMessage.TargetStatus.Id;
+                this.TargetStatusName = eventMessage.TargetStatus.User.Name;
+                this.TargetStatusScreenName = eventMessage.TargetStatus.User.ScreenName;
+                this.TargetStatusText = eventMessage.TargetStatus.Text;
+                this.TargetStatusEntities = eventMessage.TargetStatus.Entities;
+                this.TargetStatusProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.TargetStatus.User.ProfileImageUrl) ? "http://localhost/" : eventMessage.TargetStatus.User.ProfileImageUrl;
+            }
+            else
+            {
+                this.TargetStatusVisibility = false;
+                this.TargetStatusProfileImageUrl = "http://localhost/";
+            }
+
+            this.Notice = Services.Notice.Instance;
+        }
+
+        public EventMessageViewModel(EventMessage eventMessage)
+        {
+            this.Model = eventMessage;
+
+            this.BackgroundBrush = "Default";
 
             this.CreatedAt = eventMessage.CreatedAt.ToLocalTime().ToString();
             this.ScreenName = eventMessage.Source.ScreenName;

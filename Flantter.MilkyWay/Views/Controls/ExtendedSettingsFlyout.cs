@@ -48,7 +48,7 @@ namespace Flantter.MilkyWay.Views.Controls
             set { SetValue(IconSourceProperty, value); }
         }
         public static readonly DependencyProperty IconSourceProperty =
-            DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(ExtendedSettingsFlyout), new PropertyMetadata(null));
+            DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(ExtendedSettingsFlyout), new PropertyMetadata("http://localhost"));
 
         public bool IsOpenFromLeftEnabled
         {

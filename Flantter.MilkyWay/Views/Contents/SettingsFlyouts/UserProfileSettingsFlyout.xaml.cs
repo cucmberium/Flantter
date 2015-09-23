@@ -1,4 +1,5 @@
-﻿using Flantter.MilkyWay.Views.Controls;
+﻿using Flantter.MilkyWay.ViewModels.SettingsFlyouts;
+using Flantter.MilkyWay.Views.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,10 +17,18 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Flantter.MilkyWay.Views.Contents.SettingsFlyout
+namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
 {
     public sealed partial class UserProfileSettingsFlyout : ExtendedSettingsFlyout
     {
+        public UserProfileSettingsFlyoutViewModel ViewModel
+        {
+            get { return (UserProfileSettingsFlyoutViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(UserProfileSettingsFlyoutViewModel), typeof(UserProfileSettingsFlyout), null);
+
         public UserProfileSettingsFlyout()
         {
             this.InitializeComponent();
@@ -44,7 +53,7 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyout
 
             if (width >= 802)
             {
-                this.UserProfileTweetGrid.Height = double.NaN;
+                this.UserProfileTweetGrid.Height = Window.Current.Bounds.Height - 70;
                 this.UserProfileTweetGrid.Width = 400;
                 this.UserProfileInformationGrid.Width = 400;
                 this.UserProfileVerticalBar.Visibility = Visibility.Visible;

@@ -11,14 +11,14 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
     public class DirectMessageViewModel : ExtendedBindableBase, ITweetViewModel
     {
-        public DirectMessageViewModel(DirectMessage directMessage, ColumnModel column)
+        public DirectMessageViewModel(DirectMessage directMessage, long userId)
         {
             this.Model = directMessage;
 
             this.BackgroundBrush = "Default";
-            if (directMessage.Recipient.Id == column.OwnerUserId)
+            if (directMessage.Recipient.Id == userId)
                 this.BackgroundBrush = "Mention";
-            else if (directMessage.Sender.Id == column.OwnerUserId)
+            else if (directMessage.Sender.Id == userId)
                 this.BackgroundBrush = "MyTweet";
 
             this.CreatedAt = directMessage.CreatedAt.ToLocalTime().ToString();
@@ -42,7 +42,39 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.RecipientProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Recipient.ProfileImageUrl) ? "http://localhost/" : directMessage.Recipient.ProfileImageUrl;
             this.RecipientScreenName = directMessage.Recipient.ScreenName;
 
-            this.IsMyTweet = (directMessage.Sender.Id == column.OwnerUserId);
+            this.IsMyTweet = (directMessage.Sender.Id == userId);
+
+            this.Notice = Services.Notice.Instance;
+        }
+
+        public DirectMessageViewModel(DirectMessage directMessage)
+        {
+            this.Model = directMessage;
+
+            this.BackgroundBrush = "Default";
+
+            this.CreatedAt = directMessage.CreatedAt.ToLocalTime().ToString();
+            this.Text = directMessage.Text;
+            this.ScreenName = directMessage.Sender.ScreenName;
+            this.Name = directMessage.Sender.Name;
+            this.ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileImageUrl) ? "http://localhost/" : directMessage.Sender.ProfileImageUrl;
+            this.Id = directMessage.Id;
+            this.Entities = directMessage.Entities;
+
+            this.MediaVisibility = directMessage.Entities.Media.Count == 0 ? false : true;
+            this.MediaEntities = new List<MediaEntityViewModel>();
+            foreach (var mediaEntity in directMessage.Entities.Media)
+                this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+
+            this.UrlEntities = new List<UrlEntityViewModel>();
+            foreach (var urlEntity in directMessage.Entities.Urls)
+                this.UrlEntities.Add(new UrlEntityViewModel(urlEntity));
+
+            this.RecipientName = directMessage.Recipient.Name;
+            this.RecipientProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Recipient.ProfileImageUrl) ? "http://localhost/" : directMessage.Recipient.ProfileImageUrl;
+            this.RecipientScreenName = directMessage.Recipient.ScreenName;
+
+            this.IsMyTweet = false;
 
             this.Notice = Services.Notice.Instance;
         }

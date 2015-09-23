@@ -202,7 +202,11 @@ namespace Flantter.MilkyWay.Views.Contents
                 await nicoVideo.GetNicoVideoInfo(this.Id);
 
                 if (string.IsNullOrWhiteSpace(nicoVideo.VideoUrl) || string.IsNullOrWhiteSpace(nicoVideo.VideoCookieUrl))
+                {
+                    this.VideoPreviewWebView.Visibility = Visibility.Collapsed;
+                    this.VideoPreviewSymbolIcon.Visibility = Visibility.Visible;
                     return;
+                }
 
                 var html = "<html><head><link href=\"http://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} \n .video-js {{ padding-top: 56.25%; }} \n </style></head>";
                 html += "<body><script src=\"http://vjs.zencdn.net/4.12/video.js\"></script><div id=\"video\"><video id=\"nicovideo\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type=\"{2}\"></video></div></body></html>";
@@ -213,6 +217,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
         public void Show()
         {
+            this.VideoPreviewWebView.Visibility = Visibility.Visible;
+            this.VideoPreviewSymbolIcon.Visibility = Visibility.Collapsed;
             this.VideoPreview.IsOpen = true;
         }
 

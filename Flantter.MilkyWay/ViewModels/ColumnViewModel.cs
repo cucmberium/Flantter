@@ -216,11 +216,11 @@ namespace Flantter.MilkyWay.ViewModels
                         var item = e.NewItems[0];
 
                         if (item is Status)
-                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel));
+                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel.OwnerUserId));
                         else if (item is DirectMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel));
+                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel.OwnerUserId));
                         else if (item is EventMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel));
+                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel.OwnerUserId));
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Remove)
                     {
@@ -244,11 +244,22 @@ namespace Flantter.MilkyWay.ViewModels
 
                         var item = e.NewItems[0];
                         if (item is Status)
-                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel));
+                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel.OwnerUserId));
                         else if (item is DirectMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel));
+                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel.OwnerUserId));
                         else if (item is EventMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel));
+                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel.OwnerUserId));
+                    }
+                    else if (e.Action == NotifyCollectionChangedAction.Reset)
+                    {
+                        foreach (var tweet in this.Tweets)
+                        {
+                            var item = tweet as IDisposable;
+                            if (item != null)
+                                item.Dispose();
+                        }
+
+                        this.Tweets.Clear();
                     }
                     else
                     {

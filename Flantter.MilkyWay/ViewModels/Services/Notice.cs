@@ -32,6 +32,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.MuteClientCommand = new ReactiveCommand();
             this.DeleteTweetCommand = new ReactiveCommand();
             this.DeleteRetweetCommand = new ReactiveCommand();
+            this.ShowUserListsCommand = new ReactiveCommand();
 
             this.TweetAreaAccountChangeCommand = new ReactiveCommand();
             this.TweetAreaDeletePictureCommand = new ReactiveCommand();
@@ -64,7 +65,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand MuteClientCommand { get; private set; }
         public ReactiveCommand DeleteTweetCommand { get; private set; }
         public ReactiveCommand DeleteRetweetCommand { get; private set; }
-
+        public ReactiveCommand ShowUserListsCommand { get; private set; }
 
         public ReactiveCommand TweetAreaAccountChangeCommand { get; private set; }
         public ReactiveCommand TweetAreaDeletePictureCommand { get; private set; }

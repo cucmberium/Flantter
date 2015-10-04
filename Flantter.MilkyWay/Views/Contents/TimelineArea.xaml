@@ -36,13 +36,17 @@
             <ItemsControl.ItemTemplateSelector>
                 <common:DataTypeTemplateSelector>
                     <DataTemplate x:Key="StatusViewModel" x:DataType="twitterObjectsViewModel:StatusViewModel">
-                        <timeline:Status ViewModel="{x:Bind}"/>
+                        <timeline:Status ViewModel="{x:Bind}" 
+                            MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
+                            IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
+                            QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
+                            MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}"/>
                     </DataTemplate>
                     <DataTemplate x:Key="DirectMessageViewModel" x:DataType="twitterObjectsViewModel:DirectMessageViewModel">
-                        <timeline:DirectMessage ViewModel="{x:Bind}"/>
+                        <timeline:DirectMessage ViewModel="{x:Bind}" MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}"/>
                     </DataTemplate>
                     <DataTemplate x:Key="EventMessageViewModel" x:DataType="twitterObjectsViewModel:EventMessageViewModel">
-                        <timeline:EventMessage ViewModel="{x:Bind}"/>
+                        <timeline:EventMessage ViewModel="{x:Bind}" TargetStatusVisibility="{x:Bind TargetStatusVisibility, Mode=OneWay}"/>
                     </DataTemplate>
                     <!--<DataTemplate x:Key="GViewModel">
                     <timeline:Gap DataContext="{Binding}"/>

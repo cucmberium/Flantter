@@ -117,6 +117,9 @@ namespace Flantter.MilkyWay.ViewModels
                 if (statusViewModel.Model.MentionStatus == null)
                 {
                     statusViewModel.IsMentionStatusLoading = false;
+                    statusViewModel.MentionStatusVisibility = false;
+                    statusViewModel.OnPropertyChanged("IsMentionStatusLoading");
+                    statusViewModel.OnPropertyChanged("MentionStatusVisibility");
                     return;
                 }
 

@@ -36,6 +36,16 @@ namespace Flantter.MilkyWay.Views.Behaviors
         public static readonly DependencyProperty LinkProperty =
             DependencyProperty.RegisterAttached("Link", typeof(string), typeof(TexbblockNavigationServiceBehavior), new PropertyMetadata(null));
 
+        public static SolidColorBrush GetTextForeground(DependencyObject obj) { return obj.GetValue(TextForegroundProperty) as SolidColorBrush; }
+        public static void SetTextForeground(DependencyObject obj, SolidColorBrush value) { obj.SetValue(TextForegroundProperty, value); }
+        public static readonly DependencyProperty TextForegroundProperty =
+            DependencyProperty.RegisterAttached("TextForeground", typeof(object), typeof(TexbblockNavigationServiceBehavior), new PropertyMetadata(null));
+
+        public static SolidColorBrush GetLinkForeground(DependencyObject obj) { return obj.GetValue(LinkForegroundProperty) as SolidColorBrush; }
+        public static void SetLinkForeground(DependencyObject obj, SolidColorBrush value) { obj.SetValue(LinkForegroundProperty, value); }
+        public static readonly DependencyProperty LinkForegroundProperty =
+            DependencyProperty.RegisterAttached("LinkForeground", typeof(object), typeof(TexbblockNavigationServiceBehavior), new PropertyMetadata(null));
+
         private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var textBlock = obj as TextBlock;
@@ -51,20 +61,20 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (string.IsNullOrEmpty(text))
                 return;
 
-            foreach (var inline in GenerateInlines(text, entities))
+            foreach (var inline in GenerateInlines(obj, text, entities))
                 textBlock.Inlines.Add(inline);
 
             textBlock.Inlines.Add(new Run() { Text = " " });
         }
 
-        private static IEnumerable<Inline> GenerateInlines(string text, Entities entities = null)
+        private static IEnumerable<Inline> GenerateInlines(DependencyObject obj, string text, Entities entities = null)
         {
             foreach (var token in Tokenize(text))
             {
                 switch (token.Type)
                 {
                     case TextToken.TextTokenId.Text:
-                        yield return GenerateText(token.Value as string);
+                        yield return GenerateText(obj, token.Value as string);
                         break;
                     case TextToken.TextTokenId.HashTag:
                         if (entities != null)
@@ -73,11 +83,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
                             if (hashtags.Count() == 0)
                                 continue;
 
-                            yield return GenerateLink((string)token.Value, "hashtag://" + (string)token.Value);
+                            yield return GenerateLink(obj, (string)token.Value, "hashtag://" + (string)token.Value);
                         }
                         else
                         {
-                            yield return GenerateLink((string)token.Value, "hashtag://" + (string)token.Value);
+                            yield return GenerateLink(obj, (string)token.Value, "hashtag://" + (string)token.Value);
                         }
                         break;
                     case TextToken.TextTokenId.UserMention:
@@ -87,11 +97,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
                             if (userMentions.Count() == 0)
                                 continue;
 
-                            yield return GenerateLink((string)token.Value, "usermention://" + (string)token.Value);
+                            yield return GenerateLink(obj, (string)token.Value, "usermention://" + (string)token.Value);
                         }
                         else
                         {
-                            yield return GenerateLink((string)token.Value, "usermention://" + (string)token.Value);
+                            yield return GenerateLink(obj, (string)token.Value, "usermention://" + (string)token.Value);
                         }
                         break;
                     case TextToken.TextTokenId.Url:
@@ -101,30 +111,30 @@ namespace Flantter.MilkyWay.Views.Behaviors
                             if (urls.Count() == 0)
                                 continue;
 
-                            yield return GenerateLink(urls.First().DisplayUrl, !string.IsNullOrWhiteSpace(urls.First().ExpandedUrl) ? urls.First().ExpandedUrl : urls.First().Url);
+                            yield return GenerateLink(obj, urls.First().DisplayUrl, !string.IsNullOrWhiteSpace(urls.First().ExpandedUrl) ? urls.First().ExpandedUrl : urls.First().Url);
                         }
                         else
                         {
-                            yield return GenerateLink((string)token.Value, (string)token.Value);
+                            yield return GenerateLink(obj, (string)token.Value, (string)token.Value);
                         }
                         break;
                 }
             }
         }
 
-        private static Inline GenerateText(string text)
+        private static Inline GenerateText(DependencyObject obj, string text)
         {
             if (string.IsNullOrEmpty(text))
                 text = "";
 
             var run = new Run() { Text = text };
             
-            run.Foreground = (Brush)Application.Current.Resources["TweetTextTextblockForegroundBrush"];
+            run.Foreground = (Brush)GetTextForeground(obj);
 
             return run;
         }
 
-        private static Inline GenerateLink(string text, string linkUrl)
+        private static Inline GenerateLink(DependencyObject obj, string text, string linkUrl)
         {
             if (string.IsNullOrEmpty(text))
                 text = "";
@@ -136,7 +146,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             hyperLink.Click += HyperLink_Click;
             hyperLink.SetValue(LinkProperty, linkUrl);
 
-            hyperLink.Foreground = (Brush)Application.Current.Resources["TweetTextHyperlinkTextblockForegroundBrush"];
+            hyperLink.Foreground = (Brush)GetLinkForeground(obj);
 
             return hyperLink;
         }

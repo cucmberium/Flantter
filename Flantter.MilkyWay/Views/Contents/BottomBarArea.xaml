@@ -199,7 +199,7 @@
             </TransitionCollection>
         </Grid.Transitions>
 
-        <Button x:Name="BottomBarArea_ProfileImageButton" Grid.Column="0" Width="75" Height="75" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <Button x:Name="BottomBarArea_ProfileImageButton" Click="BottomBarArea_ProfileImageButton_Click" Grid.Column="0" Width="75" Height="75" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
             <Image x:Name="BottomBarArea_ProfileImage" Source="{x:Bind ViewModel.ProfileImageUrl.Value, Mode=OneWay}"/>
             <Button.Flyout>
                 <MenuFlyout>

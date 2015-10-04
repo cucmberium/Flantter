@@ -101,7 +101,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
         {
             var verticalOffset = this.ScrollViewerObject.VerticalOffset;
             var maxVerticalOffset = this.ScrollViewerObject.ExtentHeight - this.ScrollViewerObject.ViewportHeight;
-            if (verticalOffset == maxVerticalOffset)
+            if (verticalOffset == maxVerticalOffset && this.ScrollViewerObject.ExtentHeight != this.ScrollViewerObject.ViewportHeight)
             {
                 if (this.Command != null && this.Command.CanExecute(this.CommandParameter))
                 {

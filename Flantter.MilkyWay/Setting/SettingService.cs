@@ -97,7 +97,7 @@ namespace Flantter.MilkyWay.Setting
         public string Theme { get { return GetValue("Dark"); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
         public double FontSize { get { return GetValue(12.0); } set { SetValue(value); OnPropertyChanged(); } }
         public double ColumnBackgroundBrushAlpha { get { return GetValue(255.0); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeBackgroundAlpha(); } }
-        public double TweetBackgroundBrushAlpha { get { return GetValue(15.0); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeBackgroundAlpha(); } }
+        public double TweetBackgroundBrushAlpha { get { return GetValue(10.0); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeBackgroundAlpha(); } }
         public double MinColumnSize { get { return GetValue(384.0); } set { SetValue(value); OnPropertyChanged(); } }
         public int MaxColumnCount { get { return GetValue(2); } set { SetValue(value); OnPropertyChanged(); } }
         public double TweetPostFieldFontSize { get { return GetValue(14.5); } set { SetValue(value); OnPropertyChanged(); } }

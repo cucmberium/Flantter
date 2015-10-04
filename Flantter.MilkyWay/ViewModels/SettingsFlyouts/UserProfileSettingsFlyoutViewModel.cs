@@ -11,11 +11,13 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
     public class UserProfileSettingsFlyoutViewModel
     {
+        private ResourceLoader resourceLoader = new ResourceLoader();
         public UserProfileSettingsFlyoutViewModel()
         {
             this.Model = new UserProfileSettingsFlyoutModel();
@@ -27,7 +29,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.SelectedTab = this.Model.ToReactivePropertyAsSynchronized(x => x.SelectedTab);
             this.StatusesVisibility = this.Model.ObserveProperty(x => x.SelectedTab).Select(x => x == 0).ToReactiveProperty();
             this.FollowingVisibility = this.Model.ObserveProperty(x => x.SelectedTab).Select(x => x == 1).ToReactiveProperty();
-            this.FollowerVisibility = this.Model.ObserveProperty(x => x.SelectedTab).Select(x => x == 2).ToReactiveProperty();
+            this.FollowersVisibility = this.Model.ObserveProperty(x => x.SelectedTab).Select(x => x == 2).ToReactiveProperty();
             this.FavoritesVisibility = this.Model.ObserveProperty(x => x.SelectedTab).Select(x => x == 3).ToReactiveProperty();
 
             this.Description = new ReactiveProperty<string>();
@@ -46,7 +48,12 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.Url = new ReactiveProperty<string>();
             this.Name = new ReactiveProperty<string>();
 
+            this.FollowButtonText = new ReactiveProperty<string>("Follow");
+            this.FollowButtonPointerOverText = new ReactiveProperty<string>("Follow");
+
             this.FollowedByText = new ReactiveProperty<string>();
+
+            this.UserProfileUrl = new ReactiveProperty<string>();
 
             this.ClearCommand = new ReactiveCommand();
             this.ClearCommand.Subscribe(x => 
@@ -54,11 +61,13 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.SelectedTab.Value = 0;
 
                 this.Model.OpenFavorite = false;
-                this.Model.OpenFollower = false;
+                this.Model.OpenFollowers = false;
                 this.Model.OpenFollowing = false;
 
                 this.Model.Statuses.Clear();
                 this.Model.Favorites.Clear();
+                this.Model.Following.Clear();
+                this.Model.Followers.Clear();
 
                 this.DescriptionEntities.Value = null;
                 this.UrlEntities.Value = null;
@@ -77,6 +86,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.Name.Value = "";
 
                 this.FollowedByText.Value = "";
+
+                this.FollowButtonText.Value = "Follow";
+                this.FollowButtonPointerOverText.Value = "Follow";
             });
 
             this.UpdateCommand = new ReactiveCommand();
@@ -95,20 +107,91 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.IsVerified.Value = this.Model.UserInformation.IsVerified ? "" : "";
                 this.Location.Value = this.Model.UserInformation.Location;
                 this.ProfileBannerUrl.Value = string.IsNullOrWhiteSpace(this.Model.UserInformation.ProfileBannerUrl) ? "http://localhost/" : this.Model.UserInformation.ProfileBannerUrl;
-                this.ProfileImageUrl.Value = string.IsNullOrWhiteSpace(this.Model.UserInformation.ProfileImageUrl) ? "http://localhost/" : this.Model.UserInformation.ProfileImageUrl;
+                this.ProfileImageUrl.Value = string.IsNullOrWhiteSpace(this.Model.UserInformation.ProfileImageUrl) ? "http://localhost/" : this.Model.UserInformation.ProfileImageUrl.Replace("_normal", "");
                 this.StatusesCount.Value = this.Model.UserInformation.StatusesCount;
                 this.Url.Value = this.Model.UserInformation.Url;
                 this.Name.Value = this.Model.UserInformation.Name;
 
+                this.UserProfileUrl.Value = "http://twitter.com/" + this.Model.ScreenName;
+
                 await this.Model.UpdateRelationShip();
 
-                this.FollowedByText.Value = this.Model.IsFollowedBy ? "フォローされています" : "";
+                this.FollowedByText.Value = this.Model.IsFollowedBy ? resourceLoader.GetString("SettingsFlyout_UserProfile_FollowBacked") : "";
+                if (this.Model.IsBlocking)
+                {
+                    this.FollowButtonText.Value = "Blocking";
+                    this.FollowButtonPointerOverText.Value = "Unblock";
+                }
+                else if (this.Model.IsFollowing)
+                {
+                    this.FollowButtonText.Value = "Following";
+                    this.FollowButtonPointerOverText.Value = "Unfollow";
+                }
+                else if (this.Model.UserInformation.IsFollowRequestSent)
+                {
+                    this.FollowButtonText.Value = "Reqest Sent";
+                    this.FollowButtonPointerOverText.Value = "Cancel Request";
+                }
+                else
+                {
+                    this.FollowButtonText.Value = "Follow";
+                    this.FollowButtonPointerOverText.Value = "Follow";
+                }
 
                 await this.Model.UpdateStatuses();
             });
 
+            this.BlockUserCommand = new ReactiveCommand();
+            this.MuteUserCommand = new ReactiveCommand();
+
+            this.StatusesIncrementalLoadCommand = new ReactiveCommand();
+            this.StatusesIncrementalLoadCommand.Subscribe(async x => await this.Model.UpdateStatuses(this.Model.Statuses.LastOrDefault().Id));
+
+            this.FavoritesIncrementalLoadCommand = new ReactiveCommand();
+            this.FavoritesIncrementalLoadCommand.Subscribe(async x => await this.Model.UpdateFavorites(this.Model.Favorites.LastOrDefault().Id));
+
+            this.FollowersIncrementalLoadCommand = new ReactiveCommand();
+            this.FollowersIncrementalLoadCommand.Subscribe(async x => await this.Model.UpdateFollowers(true));
+
+            this.FollowingIncrementalLoadCommand = new ReactiveCommand();
+            this.FollowingIncrementalLoadCommand.Subscribe(async x => await this.Model.UpdateFollowing(true));
+
+            this.ScrollViewerIncrementalLoadCommand = new ReactiveCommand();
+            this.ScrollViewerIncrementalLoadCommand.Subscribe(async x => 
+            {
+                switch (this.SelectedTab.Value)
+                {
+                    case 0:
+                        await this.Model.UpdateStatuses(this.Model.Statuses.LastOrDefault().Id);
+                        break;
+                    case 1:
+                        await this.Model.UpdateFollowing(true);
+                        break;
+                    case 2:
+                        await this.Model.UpdateFollowers(true);
+                        break;
+                    case 3:
+                        await this.Model.UpdateStatuses(this.Model.Statuses.LastOrDefault().Id);
+                        break;
+                }
+            });
+
             this.Statuses = this.Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x));
             this.Favorites = this.Model.Favorites.ToReadOnlyReactiveCollection(x => new StatusViewModel(x));
+            this.Followers = this.Model.Followers.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+            this.Following = this.Model.Following.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+
+            this.Updating = Observable.CombineLatest(
+                                this.Model.ObserveProperty(x => x.UpdatingFavorites),
+                                this.Model.ObserveProperty(x => x.UpdatingFollowers),
+                                this.Model.ObserveProperty(x => x.UpdatingFavorites),
+                                this.Model.ObserveProperty(x => x.UpdatingStatuses),
+                                this.Model.ObserveProperty(x => x.UpdatingUserInformation),
+                                this.Model.ObserveProperty(x => x.UpdatingRelationShip),
+                                (updatingFavorite, updatingFollowers, updatingFavorites, updatingStatuses, updatingUserInformation, updatingRelationShip) =>
+                                {
+                                    return (updatingFavorite || updatingFollowers || updatingFavorites || updatingStatuses || updatingUserInformation || updatingRelationShip);
+                                }).ToReactiveProperty();
 
             this.Notice = Services.Notice.Instance;
         }
@@ -122,16 +205,26 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveProperty<int> SelectedTab { get; set; }
         public ReactiveProperty<bool> StatusesVisibility { get; set; }
         public ReactiveProperty<bool> FollowingVisibility { get; set; }
-        public ReactiveProperty<bool> FollowerVisibility { get; set; }
+        public ReactiveProperty<bool> FollowersVisibility { get; set; }
         public ReactiveProperty<bool> FavoritesVisibility { get; set; }
         
         public ReadOnlyReactiveCollection<StatusViewModel> Statuses { get; private set; }
         
         public ReadOnlyReactiveCollection<StatusViewModel> Favorites { get; private set; }
 
+        public ReadOnlyReactiveCollection<UserViewModel> Following { get; private set; }
+
+        public ReadOnlyReactiveCollection<UserViewModel> Followers { get; private set; }
+
         public ReactiveProperty<bool> Updating { get; set; }
 
         public ReactiveProperty<string> FollowedByText { get; set; }
+
+        public ReactiveProperty<string> FollowButtonText { get; set; }
+
+        public ReactiveProperty<string> FollowButtonPointerOverText { get; set; }
+
+        public ReactiveProperty<string> UserProfileUrl { get; set; }
 
         #region Description変更通知プロパティ
         public ReactiveProperty<string> Description { get; set; }
@@ -197,6 +290,16 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveCommand UpdateCommand { get; set; }
 
         public ReactiveCommand ClearCommand { get; set; }
+
+        public ReactiveCommand MuteUserCommand { get; set; }
+
+        public ReactiveCommand BlockUserCommand { get; set; }
+
+        public ReactiveCommand StatusesIncrementalLoadCommand { get; set; }
+        public ReactiveCommand FavoritesIncrementalLoadCommand { get; set; }
+        public ReactiveCommand FollowersIncrementalLoadCommand { get; set; }
+        public ReactiveCommand FollowingIncrementalLoadCommand { get; set; }
+        public ReactiveCommand ScrollViewerIncrementalLoadCommand { get; set; }
 
         public Services.Notice Notice { get; set; }
     }

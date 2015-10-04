@@ -43,8 +43,7 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <Grid x:Name="TweetGrid" Background="{x:Bind ViewModel.BackgroundBrush, Mode=OneWay, Converter={StaticResource StringToTweetBackgroundBrushConverter}}" RenderTransformOrigin="0.5,0.5"
-          behaviors:TweetEventMessageBehavior.IsSelected="{Binding ElementName=EventMessageUserControl,Path=IsSelected}" behaviors:TweetEventMessageBehavior.TargetStatusVisibility="{x:Bind ViewModel.TargetStatusVisibility, Mode=OneWay}">
+    <Grid x:Name="TweetGrid" Background="{x:Bind ViewModel.BackgroundBrush, Mode=OneWay, Converter={StaticResource StringToTweetBackgroundBrushConverter}}" RenderTransformOrigin="0.5,0.5">
         <Grid.RenderTransform>
             <CompositeTransform/>
         </Grid.RenderTransform>
@@ -81,7 +80,7 @@
                 <TextBlock>
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock Foreground="{StaticResource TweetTextTextblockForegroundBrush}" TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
+                <TextBlock Foreground="{StaticResource TweetTextTextblockForegroundBrush}" TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.TextForeground="{StaticResource TweetTextTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.LinkForeground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
                     <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{x:Bind ViewModel.CreatedAt, Mode=OneWay}"/>
                 </TextBlock>
@@ -112,7 +111,7 @@
                     <TextBlock>
                         <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.TargetStatusName, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.TargetStatusScreenName, Mode=OneWay}"/>
                     </TextBlock>
-                    <TextBlock Foreground="{StaticResource TweetTextTextblockForegroundBrush}" TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.TargetStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.TargetStatusText, Mode=OneWay}"/>
+                    <TextBlock Foreground="{StaticResource TweetTextTextblockForegroundBrush}" TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.TextForeground="{StaticResource TweetTextTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.LinkForeground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.TargetStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.TargetStatusText, Mode=OneWay}"/>
                 </StackPanel>
             </Grid>
 
@@ -151,7 +150,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             
-            <Button Grid.Column="0" x:Uid="TweetField_TweetList_TweetCommand_OtherCommandButton" ToolTipService.ToolTip="Menu" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch">
+            <Button Grid.Column="0" ToolTipService.ToolTip="Menu" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="Add" />
                 <Button.Flyout>
                     <MenuFlyout>

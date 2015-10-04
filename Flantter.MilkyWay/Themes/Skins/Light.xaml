@@ -174,5 +174,10 @@
     <SolidColorBrush x:Key="TweetCommandBarMenuSymbolIconForegroundBrush" Color="Gray" />
 	
 	<SolidColorBrush x:Key="TweetGetGapTextblockForegroundBrush" Color="#FFA6A6A6" />
-	
+
+    <!-- SettingsFlyout -->
+    <SolidColorBrush x:Key="SettingsFlyoutHeaderForegroundBrush" Color="SkyBlue" />
+    <SolidColorBrush x:Key="SettingsFlyoutBackgroundBrush" Color="White" />
+    <SolidColorBrush x:Key="SettingsFlyoutTextblockForegroundBrush" Color="Black" />
+
 </ResourceDictionary>

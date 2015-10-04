@@ -280,4 +280,25 @@
     <value>{0} さんがBioをアップデートしました.</value>
     <comment>(user) update bio.</comment>
   </data>
+  <data name="SettingsFlyout_UserProfile_AddColumnButton.Content" xml:space="preserve">
+    <value>カラムを追加</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_Block.Text" xml:space="preserve">
+    <value>    ブロック</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserAclog.Text" xml:space="preserve">
+    <value>★    Aclogを表示</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserLists.Text" xml:space="preserve">
+    <value>    ユーザーのリストを表示</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenInWeb.Text" xml:space="preserve">
+    <value>    Webで表示</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_UserMute.Text" xml:space="preserve">
+    <value>    ユーザーをミュート</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_FollowBacked" xml:space="preserve">
+    <value>フォローされています</value>
+  </data>
 </root>

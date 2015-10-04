@@ -24,14 +24,26 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         {
             this.Model = user;
 
+            this.BackgroundBrush = "Default";
+
             this.Description = user.Description;
             this.Entities = user.Entities;
+
+            this.IsMuting = user.IsMuting;
+            this.IsProtected = user.IsProtected;
+            this.IsVerified = user.IsVerified;
+            this.Name = user.Name;
+            this.ProfileImageUrl = string.IsNullOrWhiteSpace(user.ProfileImageUrl) ? "http://localhost/" : user.ProfileImageUrl;
+            this.ScreenName = user.ScreenName;
+            this.Url = user.Url;
 
             this.Notice = Services.Notice.Instance;
         }
 
         public User Model { get; private set; }
-        
+
+        public string BackgroundBrush { get; set; }
+
         #region Description変更通知プロパティ
         public string Description { get; set; }
         #endregion

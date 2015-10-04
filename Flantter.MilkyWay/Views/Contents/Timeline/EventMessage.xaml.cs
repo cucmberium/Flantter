@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -33,12 +34,70 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
             get { return (bool)GetValue(IsSelectedProperty); }
             set { SetValue(IsSelectedProperty, value); }
         }
+        public static bool GetIsSelected(DependencyObject obj) { return (bool)obj.GetValue(IsSelectedProperty); }
+        public static void SetIsSelected(DependencyObject obj, bool value) { obj.SetValue(IsSelectedProperty, value); }
+
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register("IsSelected", typeof(bool), typeof(EventMessage), null);
+            DependencyProperty.Register("IsSelected", typeof(bool), typeof(EventMessage), new PropertyMetadata(false, IsSelectedPropertyChanged));
+
+        private static void IsSelectedPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            CommandGrid_PropertyChanged(obj, e);
+        }
+
+        #region TargetStatus 関連
+        public static bool GetTargetStatusVisibility(DependencyObject obj) { return (bool)obj.GetValue(GetTargetStatusVisibilityProperty); }
+        public static void SetTargetStatusVisibility(DependencyObject obj, bool value) { obj.SetValue(GetTargetStatusVisibilityProperty, value); }
+
+        public static readonly DependencyProperty GetTargetStatusVisibilityProperty =
+            DependencyProperty.Register("TargetStatusVisibility", typeof(bool), typeof(EventMessage), new PropertyMetadata(false, TargetStatus_PropertyChanged));
+
+        private static void TargetStatus_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var status = obj as EventMessage;
+            var border = status.FindName("TargetStatusBorder") as Border;
+            if (GetTargetStatusVisibility(obj))
+                border.Visibility = Visibility.Visible;
+            else
+                border.Visibility = Visibility.Collapsed;
+        }
+        #endregion
+
+        #region CommandGrid 関連
+        private static void CommandGrid_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var status = obj as EventMessage;
+            var grid = status.FindName("CommandGrid") as Grid;
+
+            if (grid == null)
+                return;
+
+            if ((bool)e.NewValue)
+                (grid.Resources["TweetCommandBarOpenAnimation"] as Storyboard).Begin();
+            else
+                (grid.Resources["TweetCommandBarCloseAnimation"] as Storyboard).Begin();
+        }
+        #endregion
 
         public EventMessage()
         {
             this.InitializeComponent();
+            this.Loaded += (s, e) =>
+            {
+                SelectorItem selector = null;
+                DependencyObject dp = this;
+                while ((dp = VisualTreeHelper.GetParent(dp)) != null)
+                {
+                    var i = dp as SelectorItem;
+                    if (i != null) { selector = i; break; }
+                }
+
+                this.SetBinding(IsSelectedProperty, new Binding
+                {
+                    Path = new PropertyPath("IsSelected"),
+                    Source = selector
+                });
+            };
         }
     }
 }

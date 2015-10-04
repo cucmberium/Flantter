@@ -157,6 +157,7 @@
     <Compile Include="ViewModels\Twitter\Objects\ITweetViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\UserViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
+    <Compile Include="Views\Behaviors\ScrollViewerIncrementalLoadBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewIncrementalLoadBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewScrollControlBehavior.cs" />
     <Compile Include="Views\Behaviors\ShowSettingsFlyoutAction.cs" />
@@ -165,11 +166,14 @@
     <Compile Include="Views\Behaviors\BottomAppBarShowBehavior.cs" />
     <Compile Include="Views\Behaviors\TextBoxFocusBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetAreaSuggestionBehavior.cs" />
-    <Compile Include="Views\Behaviors\TweetEventMessageBehavior.cs" />
-    <Compile Include="Views\Behaviors\TweetDirectMessageBehavior.cs" />
-    <Compile Include="Views\Behaviors\TweetStatusBehavior.cs" />
+    <Compile Include="Views\Contents\FollowButon.xaml.cs">
+      <DependentUpon>FollowButon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\UserProfileSettingsFlyout.xaml.cs">
       <DependentUpon>UserProfileSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\Timeline\User.xaml.cs">
+      <DependentUpon>User.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\TweetAreaSuggestionPopup.xaml.cs">
       <DependentUpon>TweetAreaSuggestionPopup.xaml</DependentUpon>
@@ -321,9 +325,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Contents\FollowButon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Contents\SettingsFlyouts\UserProfileSettingsFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\Timeline\User.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\TweetAreaSuggestionPopup.xaml">
       <SubType>Designer</SubType>

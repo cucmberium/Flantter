@@ -132,9 +132,14 @@ namespace Flantter.MilkyWay.ViewModels
             });
 
             this.TweetCommand = this._TweetAreaModel.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand();
-            this.TweetCommand.Subscribe(x => 
+            this.TweetCommand.Subscribe(async x => 
             {
-                this._TweetAreaModel.Tweet(this.SelectedAccount.Value._AccountModel);
+                await this._TweetAreaModel.Tweet(this.SelectedAccount.Value._AccountModel);
+                
+                if (Setting.SettingService.Setting.CloseBottomAppBarAfterTweet)
+                    Services.Notice.Instance.TweetAreaOpenCommand.Execute(false);
+                else
+                    await this.TextBoxFocusMessenger.Raise(new Notification());
             });
 
             this.SuggestSelectedCommand = new ReactiveCommand();

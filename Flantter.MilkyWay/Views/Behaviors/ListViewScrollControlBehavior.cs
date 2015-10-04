@@ -170,13 +170,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 case SettingSupport.TweetAnimationEnum.ScrollToTop:
                     if (isAnimationRunning && !isAnimationCooldown)
                         this.RunAnimation(offset, changedVerticalOffset);
-                    else if (oldVerticalOffset <= 3 && !isAnimationCooldown)
+                    else if (oldVerticalOffset <= 2 && !isAnimationCooldown)
                         this.RunAnimation(offset, changedVerticalOffset + oldVerticalOffset - 2.0);
 
                     break;
                 case SettingSupport.TweetAnimationEnum.Expand:
                 case SettingSupport.TweetAnimationEnum.Slide:
-                    if (oldVerticalOffset > 3 || isAnimationCooldown)
+                    if (oldVerticalOffset > 2 || isAnimationCooldown)
                         return;
 
                     var lvItem = ((ListView)this.AssociatedObject).ContainerFromIndex(0) as ListViewItem;

@@ -26,6 +26,6 @@
     <!-- Add your application specific runtime directives here. -->
 
     <Namespace Name="Windows.UI.Xaml.Controls" Dynamic="Required All" />
-
+    
   </Application>
 </Directives>

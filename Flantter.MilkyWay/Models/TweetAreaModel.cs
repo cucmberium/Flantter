@@ -224,7 +224,7 @@ namespace Flantter.MilkyWay.Models
             CharacterCountChanged();
         }
 
-        public async void Tweet(AccountModel account)
+        public async Task Tweet(AccountModel account)
         {
             if (this.Updating)
                 return;
@@ -331,8 +331,6 @@ namespace Flantter.MilkyWay.Models
 
             this.State = "Accept";
             this.Message = _ResourceLoader.GetString("TweetArea_Message_AllSet");
-
-            // Todo : フォーカスをテキストボックスに戻す or ツイート部分を閉じる (設定によって変える)
         }
 
         private IEnumerable<SuggestionService.SuggestionToken> tokens;

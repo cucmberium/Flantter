@@ -280,4 +280,25 @@
     <value>{0} updated bio.</value>
     <comment>(user) updated bio.</comment>
   </data>
+  <data name="SettingsFlyout_UserProfile_AddColumnButton.Content" xml:space="preserve">
+    <value>Add column</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_Block.Text" xml:space="preserve">
+    <value>    Block</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenInWeb.Text" xml:space="preserve">
+    <value>    Open in web</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserAclog.Text" xml:space="preserve">
+    <value>★    Open user aclog</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserLists.Text" xml:space="preserve">
+    <value>    Open user lists</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_UserMute.Text" xml:space="preserve">
+    <value>    User mute</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_FollowBacked" xml:space="preserve">
+    <value>Follow backed</value>
+  </data>
 </root>

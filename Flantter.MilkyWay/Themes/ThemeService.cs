@@ -265,6 +265,10 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["TweetCommandBarUrlSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCommandBarUrlSymbolIconForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TweetCommandBarMenuSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetGetGapTextblockForegroundBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["SettingsFlyoutHeaderForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SettingsFlyoutHeaderForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SettingsFlyoutBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SettingsFlyoutBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SettingsFlyoutTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SettingsFlyoutTextblockForegroundBrush"]).Color;
             }
             catch
             {
@@ -438,6 +442,9 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TweetCommandBarMenuSymbolIconForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TweetGetGapTextblockForegroundBrush"]).Color;
 
+                ((SolidColorBrush)Application.Current.Resources["SettingsFlyoutHeaderForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SettingsFlyoutHeaderForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SettingsFlyoutBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SettingsFlyoutBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SettingsFlyoutTextblockForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SettingsFlyoutTextblockForegroundBrush"]).Color;
             }
 
             this.OnPropertyChanged(string.Empty);

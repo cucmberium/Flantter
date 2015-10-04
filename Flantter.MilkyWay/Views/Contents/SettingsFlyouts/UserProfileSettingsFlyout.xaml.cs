@@ -34,6 +34,8 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
             this.InitializeComponent();
             this.SizeChanged += UserProfileSettingsFlyout_SizeChanged;
             UserProfileSettingsFlyout_SizeChanged(null, null);
+
+            this.UserProfileScrollViewer.ViewChanged += UserProfileScrollViewer_ViewChanged;
         }
 
         private void UserProfileSettingsFlyout_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -65,7 +67,27 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
                 this.UserProfileInformationGrid.Width = double.NaN;
                 this.UserProfileVerticalBar.Visibility = Visibility.Collapsed;
             }
+        }
 
+        private void UserProfileScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            var transform = this.UserProfileProgressBar.RenderTransform as CompositeTransform;
+            if (transform == null)
+                transform = new CompositeTransform();
+
+            if (this.UserProfileStackPanel.Orientation == Orientation.Horizontal)
+            {
+                transform.TranslateY = 0;
+            }
+            else
+            {
+                if (this.UserProfileScrollViewer.VerticalOffset - 426 > 0)
+                    transform.TranslateY = this.UserProfileScrollViewer.VerticalOffset - 426;
+                else
+                    transform.TranslateY = 0;
+            }
+
+            this.UserProfileProgressBar.RenderTransform = transform;
         }
     }
 }

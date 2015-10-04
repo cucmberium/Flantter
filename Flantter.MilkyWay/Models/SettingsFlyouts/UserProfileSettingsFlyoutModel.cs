@@ -17,6 +17,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         {
             this.Statuses = new ObservableCollection<Twitter.Objects.Status>();
             this.Favorites = new ObservableCollection<Twitter.Objects.Status>();
+            this.Followers = new ObservableCollection<Twitter.Objects.User>();
+            this.Following = new ObservableCollection<Twitter.Objects.User>();
         }
 
         #region Tokens変更通知プロパティ
@@ -41,7 +43,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         public long UserFollowerCursor { get; set; }
 
         public bool OpenFollowing { get; set; }
-        public bool OpenFollower { get; set; }
+        public bool OpenFollowers { get; set; }
         public bool OpenFavorite { get; set; }
 
         #region SelectedTab変更通知プロパティ
@@ -63,15 +65,15 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         case 1:
                             if (!this.OpenFollowing)
                             {
-                                //this.UpdateFollowing();
+                                this.UpdateFollowing();
                                 this.OpenFollowing = true;
                             }
                             break;
                         case 2:
-                            if (!this.OpenFollower)
+                            if (!this.OpenFollowers)
                             {
-                                //this.UpdateFollower();
-                                this.OpenFollower = true;
+                                this.UpdateFollowers();
+                                this.OpenFollowers = true;
                             }
                             break;
                         case 3:
@@ -90,6 +92,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         public ObservableCollection<Twitter.Objects.Status> Statuses { get; set; }
         public ObservableCollection<Twitter.Objects.Status> Favorites { get; set; }
+        public ObservableCollection<Twitter.Objects.User> Followers { get; set; }
+        public ObservableCollection<Twitter.Objects.User> Following { get; set; }
+
 
         #region UserInformation変更通知プロパティ
         private Twitter.Objects.User _UserInformation;
@@ -160,6 +165,24 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         {
             get { return this._UpdatingFavorites; }
             set { this.SetProperty(ref this._UpdatingFavorites, value); }
+        }
+        #endregion
+
+        #region UpdatingFollowers変更通知プロパティ
+        private bool _UpdatingFollowers;
+        public bool UpdatingFollowers
+        {
+            get { return this._UpdatingFollowers; }
+            set { this.SetProperty(ref this._UpdatingFollowers, value); }
+        }
+        #endregion
+
+        #region UpdatingFollowing変更通知プロパティ
+        private bool _UpdatingFollowing;
+        public bool UpdatingFollowing
+        {
+            get { return this._UpdatingFollowing; }
+            set { this.SetProperty(ref this._UpdatingFollowing, value); }
         }
         #endregion
 
@@ -309,6 +332,84 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             }
 
             this.UpdatingFavorites = false;
+        }
+
+        private long followerCursor = 0;
+        public async Task UpdateFollowers(bool useCursor = false)
+        {
+            if (this.UpdatingFollowers)
+                return;
+
+            if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
+                return;
+
+            Cursored<CoreTweet.User> follower;
+            try
+            {
+                if (useCursor && followerCursor != 0)
+                    follower = await Tokens.Followers.ListAsync(screen_name => this._ScreenName, count => 20, cursor => followerCursor);
+                else
+                    follower = await Tokens.Followers.ListAsync(screen_name => this._ScreenName, count => 20);
+            }
+            catch
+            {
+                if (!useCursor || followerCursor == 0)
+                    this.Followers.Clear();
+
+                this.UpdatingFollowers = false;
+                return;
+            }
+
+            if (!useCursor || followerCursor == 0)
+                this.Followers.Clear();
+
+            foreach (var item in follower)
+            {
+                var user = new Twitter.Objects.User(item);
+                this.Followers.Add(user);
+            }
+
+            followerCursor = follower.NextCursor;
+            this.UpdatingFollowers = false;
+        }
+
+        private long followingCursor = 0;
+        public async Task UpdateFollowing(bool useCursor = false)
+        {
+            if (this.UpdatingFollowing)
+                return;
+
+            if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
+                return;
+
+            Cursored<CoreTweet.User> following;
+            try
+            {
+                if (useCursor && followingCursor != 0)
+                    following = await Tokens.Friends.ListAsync(screen_name => this._ScreenName, count => 20, cursor => followingCursor);
+                else
+                    following = await Tokens.Friends.ListAsync(screen_name => this._ScreenName, count => 20);
+            }
+            catch
+            {
+                if (!useCursor || followingCursor == 0)
+                    this.Following.Clear();
+
+                this.UpdatingFollowing = false;
+                return;
+            }
+
+            if (!useCursor || followingCursor == 0)
+                this.Following.Clear();
+
+            foreach (var item in following)
+            {
+                var user = new Twitter.Objects.User(item);
+                this.Following.Add(user);
+            }
+
+            followingCursor = following.NextCursor;
+            this.UpdatingFollowing = false;
         }
     }
 }

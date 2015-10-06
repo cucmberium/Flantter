@@ -34,6 +34,14 @@ namespace Flantter.MilkyWay
             this.UnhandledException += App_UnhandledException;
             
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(Microsoft.ApplicationInsights.WindowsCollectors.Metadata | Microsoft.ApplicationInsights.WindowsCollectors.Session);
+
+            try
+            {
+                AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
+            }
+            catch
+            {
+            }
         }
 
         void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -46,19 +54,16 @@ namespace Flantter.MilkyWay
             // デバッグ用コードをここに突っ込む
             var sw = System.Diagnostics.Stopwatch.StartNew();
             Models.Filter.Compiler.Compile("(!(User.ScreenName In [\"cucmberium\", \"cucmberium_sub\"] || User.Id !In [10, 20, 30]) && RetweetCount >= FavoriteCount * 10 + 10 / (2 + 3))");
+
+            Models.Filter.Compiler.Compile("(Text RegexMatch \"(ふらん|フラン)ちゃんかわいい\" || Text Contains \"Flantter\")");
+
+            Models.Filter.Compiler.Compile("(Text StartsWith \"島風\" || Text EndsWith \"天津風\")");
+
             sw.Stop();
             System.Diagnostics.Debug.WriteLine(sw.Elapsed);
 #endif
 
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 500 });
-
-            try
-            {
-                AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
-            }
-            catch
-            {
-            }
 
             if (AdvancedSettingService.AdvancedSetting.Account == null || AdvancedSettingService.AdvancedSetting.Account.Count == 0)
                 this.NavigationService.Navigate("Initialize", args.Arguments);

@@ -53,6 +53,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveCommand DeleteReplyOrQuotedStatusCommand { get; set; }
 
+        public ReactiveCommand ParseClipbordPictureCommand { get; set; }
+
         public Messenger ShowFilePickerMessenger { get; private set; }
 
         public Messenger SuggestionMessenger { get; private set; }
@@ -128,7 +130,7 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
 
                 foreach (var pic in result.Result)
-                    this._TweetAreaModel.AddPicture(pic);
+                    await this._TweetAreaModel.AddPicture(pic);
             });
 
             this.TweetCommand = this._TweetAreaModel.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand();
@@ -137,9 +139,14 @@ namespace Flantter.MilkyWay.ViewModels
                 await this._TweetAreaModel.Tweet(this.SelectedAccount.Value._AccountModel);
                 
                 if (Setting.SettingService.Setting.CloseBottomAppBarAfterTweet)
+                {
                     Services.Notice.Instance.TweetAreaOpenCommand.Execute(false);
+                }
                 else
+                {
+                    await Task.Delay(50);
                     await this.TextBoxFocusMessenger.Raise(new Notification());
+                }
             });
 
             this.SuggestSelectedCommand = new ReactiveCommand();
@@ -161,6 +168,12 @@ namespace Flantter.MilkyWay.ViewModels
 
                 await Task.Delay(50);
                 await this.TextBoxFocusMessenger.Raise(new Notification());
+            });
+
+            this.ParseClipbordPictureCommand = new ReactiveCommand();
+            this.ParseClipbordPictureCommand.Subscribe(async x => 
+            {
+                await this._TweetAreaModel.AddPictureFromClipboard();
             });
 
             Services.Notice.Instance.TweetAreaAccountChangeCommand.Subscribe(x => 

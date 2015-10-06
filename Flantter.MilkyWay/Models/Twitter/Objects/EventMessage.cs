@@ -15,7 +15,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Source = new User(cEventMessage.Source);
             this.Target = new User(cEventMessage.Target);
             this.TargetStatus = (cEventMessage.TargetStatus != null) ? new Status(cEventMessage.TargetStatus) : null;
-            this.Type = cEventMessage.Type.ToString();
+            this.Type = cEventMessage.Event.ToString();
         }
 
         #region CreatedAt変更通知プロパティ

@@ -18,6 +18,8 @@ using Flantter.MilkyWay.Views.Util;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Views.Behaviors;
 using Prism.Mvvm;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Graphics.Imaging;
 
 namespace Flantter.MilkyWay.Models
 {
@@ -211,9 +213,55 @@ namespace Flantter.MilkyWay.Models
             this.CharacterCount = count;
         }
 
-        public async void AddPicture(StorageFile picture)
+        public async Task AddPicture(StorageFile picture)
         {
             this._Pictures.Add(new PictureModel() { Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(), IsVideo = (picture.FileType == ".mp4" || picture.FileType == ".mov") });
+            CharacterCountChanged();
+        }
+
+        public async Task AddPictureFromClipboard()
+        {
+            // Todo : UIスレッド上で走っているかの確認
+
+            try
+            {
+                var clipboardContent = Clipboard.GetContent();
+
+                foreach (var t in clipboardContent.AvailableFormats)
+                    System.Diagnostics.Debug.WriteLine(t);
+
+                if (!clipboardContent.AvailableFormats.Contains("Bitmap"))
+                    return;
+            }
+            catch
+            {
+                return;
+            }
+
+            var bitmap = await Clipboard.GetContent().GetBitmapAsync();
+
+            BitmapImage bImage;
+            using (IRandomAccessStream fileStream = await bitmap.OpenReadAsync())
+            {
+                bImage = new BitmapImage();
+                await bImage.SetSourceAsync(fileStream);
+            }
+
+            RandomAccessStreamReference newBitmap;
+            InMemoryRandomAccessStream memoryStream = new InMemoryRandomAccessStream();
+
+            using (IRandomAccessStream fileStream = await bitmap.OpenReadAsync())
+            {
+                var picDecoder = await BitmapDecoder.CreateAsync(fileStream);
+                var picDecoderPixels = await picDecoder.GetPixelDataAsync();
+                var picEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memoryStream);
+                picEncoder.SetPixelData(picDecoder.BitmapPixelFormat, BitmapAlphaMode.Ignore, picDecoder.PixelWidth, picDecoder.PixelHeight, picDecoder.DpiX, picDecoder.DpiY, picDecoderPixels.DetachPixelData());
+                await picEncoder.FlushAsync();
+
+                newBitmap = RandomAccessStreamReference.CreateFromStream(memoryStream);
+            }
+
+            this._Pictures.Add(new PictureModel() { Stream = await newBitmap.OpenReadAsync(), IsVideo = false, SourceStream = memoryStream });
             CharacterCountChanged();
         }
 
@@ -434,16 +482,31 @@ namespace Flantter.MilkyWay.Models
             set { this.SetProperty(ref this._IsVideo, value); }
         }
         #endregion
+        
+        #region SourceStream変更通知プロパティ
+        private IRandomAccessStream _SourceStream;
+        public IRandomAccessStream SourceStream
+        {
+            get { return this._SourceStream; }
+            set { this.SetProperty(ref this._SourceStream, value); }
+        }
+        #endregion
 
         public void Dispose()
         {
             if (this._Stream != null)
             {
-                var stream = this._Stream;
+                this._Stream.Dispose();
                 this._Stream = null;
-                stream.Dispose();
             }
-                
+
+            if (this._SourceStream != null)
+            {
+
+                this._SourceStream.Dispose();
+                this._SourceStream = null;
+            }
+
         }
     }
 }

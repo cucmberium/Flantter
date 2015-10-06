@@ -260,15 +260,20 @@ namespace Flantter.MilkyWay.Views.Behaviors
             else if (linkUrl.StartsWith("usermention://"))
             {
                 var userMention = linkUrl.Replace("usermention://", "");
+                ViewModels.Services.Notice.Instance.ShowUserProfileCommand.Execute(userMention.Replace("@", ""));
                 return;
             }
             
             var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
             var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
 			if (statusMatch.Success)
-			{ }
+			{
+
+            }
 			else if (userMatch.Success)
-			{ }
+			{
+                ViewModels.Services.Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"]);
+            }
 			else
 			{
 				await Launcher.LaunchUriAsync(new Uri(linkUrl));

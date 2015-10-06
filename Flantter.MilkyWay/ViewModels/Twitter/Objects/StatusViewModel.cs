@@ -50,9 +50,13 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             foreach (var mediaEntity in status.Entities.Media)
                 this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
 
-            this.UrlEntities = new List<UrlEntityViewModel>();
+            this.EntitiesList = new List<EntityViewModel>();
             foreach (var urlEntity in status.Entities.Urls)
-                this.UrlEntities.Add(new UrlEntityViewModel(urlEntity));
+                this.EntitiesList.Add(new EntityViewModel(urlEntity));
+            foreach (var hashTagEntity in status.Entities.HashTags)
+                this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
+            foreach (var userMentionEntity in status.Entities.UserMentions)
+                this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
 
             this.IsFavorited = status.IsFavorited;
             this.IsRetweeted = status.IsRetweeted;
@@ -158,9 +162,13 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             foreach (var mediaEntity in status.Entities.Media)
                 this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
 
-            this.UrlEntities = new List<UrlEntityViewModel>();
+            this.EntitiesList = new List<EntityViewModel>();
             foreach (var urlEntity in status.Entities.Urls)
-                this.UrlEntities.Add(new UrlEntityViewModel(urlEntity));
+                this.EntitiesList.Add(new EntityViewModel(urlEntity));
+            foreach (var hashTagEntity in status.Entities.HashTags)
+                this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
+            foreach (var userMentionEntity in status.Entities.UserMentions)
+                this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
 
             this.IsFavorited = status.IsFavorited;
             this.IsRetweeted = status.IsRetweeted;
@@ -270,7 +278,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public List<MediaEntityViewModel> MediaEntities { get; private set; }
 
-        public List<UrlEntityViewModel> UrlEntities { get; private set; }
+        public List<EntityViewModel> EntitiesList { get; private set; }
 
         public string RetweetInformationText { get; set; }
 

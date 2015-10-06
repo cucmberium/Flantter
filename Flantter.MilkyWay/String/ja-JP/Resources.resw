@@ -301,4 +301,16 @@
   <data name="SettingsFlyout_UserProfile_FollowBacked" xml:space="preserve">
     <value>フォローされています</value>
   </data>
+  <data name="Event_FavoritedRetweet" xml:space="preserve">
+    <value>{0} が {1} のリツイートをお気に入りに登録しました.</value>
+    <comment>(user) favorited your retweet.</comment>
+  </data>
+  <data name="Event_QuotedTweet" xml:space="preserve">
+    <value>{0} が {1} のツイートをコメント付きでリツイートしました.</value>
+    <comment>(user) quoted your tweet.</comment>
+  </data>
+  <data name="Event_RetweetedRetweet" xml:space="preserve">
+    <value>{0} が {1} のリツイートをリツイートしました.</value>
+    <comment>(user) retweeted your retweet.</comment>
+  </data>
 </root>

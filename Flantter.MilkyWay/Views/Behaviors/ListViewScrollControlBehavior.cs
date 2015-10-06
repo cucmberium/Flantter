@@ -265,7 +265,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             this.ScrollViewerObject = listViewScroll;
             this.ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
-            this.ScrollViewerObject.ViewChanging += ScrollViewerObject_ViewChanging;
+            //this.ScrollViewerObject.ViewChanging += ScrollViewerObject_ViewChanging;
         }
 
         private void ListView_Loaded(object sender, RoutedEventArgs e)
@@ -283,7 +283,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             this.ScrollViewerObject = listViewScroll;
             this.ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
-            this.ScrollViewerObject.ViewChanging += ScrollViewerObject_ViewChanging;
+            //this.ScrollViewerObject.ViewChanging += ScrollViewerObject_ViewChanging;
         }
 
         private void ScrollViewerObject_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
@@ -311,8 +311,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
         private async void AnimationCooldown(int time)
         {
             cooltime += time;
-            if (cooltime > 500)
-                cooltime = 500;
+            if (cooltime > 400)
+                cooltime = 400;
 
             if (isAnimationCooldown)
                 return;
@@ -353,7 +353,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 var selectedItemIndex = ((ListView)behavior.AssociatedObject).SelectedIndex;
 
                 var unreadCount = 0;
-                if (behavior.isAnimationRunning)
+                if (behavior.ScrollViewerObject.ExtentHeight == behavior.ScrollViewerObject.ViewportHeight)
+                    unreadCount = 0;
+                else if (behavior.isAnimationRunning)
                     unreadCount = 0;
                 else if (!behavior.IsScrollControlEnabled)
                     unreadCount = 0;

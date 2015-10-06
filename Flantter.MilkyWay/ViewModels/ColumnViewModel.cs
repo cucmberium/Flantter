@@ -56,6 +56,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveCommand IncrementalLoadCommand { get; private set; }
 
+        public ReactiveCommand RefreshCommand { get; private set; }
+
         public IDisposable TweetsCollectionChangedDisposable { get; private set; }
 
         #region Constructor
@@ -150,6 +152,12 @@ namespace Flantter.MilkyWay.ViewModels
             this.IncrementalLoadCommand.Subscribe(async _ => 
             {
                 await this._ColumnModel.Update(this._ColumnModel.Tweets.Last().Id);
+            });
+
+            this.RefreshCommand = new ReactiveCommand();
+            this.RefreshCommand.Subscribe(async _ =>
+            {
+                await this._ColumnModel.Update();
             });
 
             this.ColumnCount = Observable.CombineLatest<double, double, int, int>(

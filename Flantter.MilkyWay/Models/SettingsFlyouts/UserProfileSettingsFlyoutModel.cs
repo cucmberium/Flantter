@@ -39,9 +39,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
         #endregion
 
-        public long UserFollowingCursor { get; set; }
-        public long UserFollowerCursor { get; set; }
-
         public bool OpenFollowing { get; set; }
         public bool OpenFollowers { get; set; }
         public bool OpenFavorite { get; set; }

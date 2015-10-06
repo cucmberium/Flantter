@@ -252,7 +252,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <controls:PullToRefreshPanel Grid.Row="0">
+                    <controls:PullToRefreshPanel Grid.Row="0" Command="{x:Bind RefreshCommand, Mode=OneWay}">
                         <controls:PullToRefreshPanel.PullContent>
                             <Grid Height="250" Width="320" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                 <Grid.ColumnDefinitions>
@@ -308,7 +308,7 @@
                             <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Add"/>
                             <Button.Flyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol"/>
+                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol" Command="{x:Bind RefreshCommand, Mode=OneWay}"/>
                                     <MenuFlyoutSeparator/>
                                     <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol"/>
                                     <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>

@@ -306,9 +306,9 @@
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarUrlSymbolIconForegroundBrush}" Symbol="Link"/>
                 <Button.Flyout>
                     <Flyout>
-                        <ItemsControl ItemsSource="{x:Bind ViewModel.UrlEntities, Mode=OneWay}">
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.EntitiesList, Mode=OneWay}">
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="twitterObjectsViewModel:UrlEntityViewModel">
+                                <DataTemplate x:DataType="twitterObjectsViewModel:EntityViewModel">
                                     <MenuFlyoutItem ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind ExpandedUrl, Mode=OneWay}" Text="{x:Bind DisplayUrl, Mode=OneWay}" Command="{x:Bind Notice.UrlClickCommand, Mode=OneWay}" CommandParameter="{x:Bind ExpandedUrl, Mode=OneWay}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

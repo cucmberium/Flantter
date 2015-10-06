@@ -27,9 +27,9 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public Services.Notice Notice { get; set; }
     }
 
-    public class UrlEntityViewModel
+    public class EntityViewModel
     {
-        public UrlEntityViewModel(UrlEntity urlEntity)
+        public EntityViewModel(UrlEntity urlEntity)
         {
             this.Model = urlEntity;
 
@@ -39,7 +39,27 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.Notice = Services.Notice.Instance;
         }
 
-        public UrlEntity Model { get; private set; }
+        public EntityViewModel(HashtagEntity hashtagEntity)
+        {
+            this.Model = hashtagEntity;
+
+            this.ExpandedUrl = "#" + hashtagEntity.Tag;
+            this.DisplayUrl = "#" + hashtagEntity.Tag;
+
+            this.Notice = Services.Notice.Instance;
+        }
+
+        public EntityViewModel(UserMentionEntity userMentionEntity)
+        {
+            this.Model = userMentionEntity;
+
+            this.ExpandedUrl = "@" + userMentionEntity.ScreenName;
+            this.DisplayUrl = "@" + userMentionEntity.ScreenName;
+
+            this.Notice = Services.Notice.Instance;
+        }
+
+        public object Model { get; private set; }
 
         public string ExpandedUrl { get; set; }
 

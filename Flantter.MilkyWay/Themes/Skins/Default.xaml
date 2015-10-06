@@ -162,8 +162,8 @@
     <SolidColorBrush x:Key="TweetOtherTextblockForegroundBrush" Color="#FFA6A6A6" />
     <SolidColorBrush x:Key="TweetRetweetTextblockForegroundBrush" Color="#FFA6A6A6" />
 
-    <SolidColorBrush x:Key="TweetQuotedStatusBackgroundBrush" Color="#10A6A6A6" />
-    <SolidColorBrush x:Key="TweetTargetStatusBackgroundBrush" Color="#10A6A6A6" />
+    <SolidColorBrush x:Key="TweetQuotedStatusBackgroundBrush" Color="#20808080" />
+    <SolidColorBrush x:Key="TweetTargetStatusBackgroundBrush" Color="#20808080" />
 
     <SolidColorBrush x:Key="TweetCommandBarReplySymbolIconForegroundBrush" Color="Gray" />
     <SolidColorBrush x:Key="TweetCommandBarRetweetSymbolIconForegroundBrush" Color="Gray" />

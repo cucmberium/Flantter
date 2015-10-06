@@ -35,16 +35,25 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             switch (eventMessage.Type)
             {
                 case "Favorite":
-                    this.Text = string.Format(resourceLoader.GetString("Event_Favorite"), eventMessage.Source, targetUser);
+                    this.Text = string.Format(resourceLoader.GetString("Event_Favorite"), sourceUser, targetUser);
                     break;
                 case "Follow":
-                    this.Text = string.Format(resourceLoader.GetString("Event_Follow"), eventMessage.Source, targetUser);
+                    this.Text = string.Format(resourceLoader.GetString("Event_Follow"), sourceUser, targetUser);
                     break;
                 case "Unfavorite":
-                    this.Text = string.Format(resourceLoader.GetString("Event_Unfavorite"), eventMessage.Source, targetUser);
+                    this.Text = string.Format(resourceLoader.GetString("Event_Unfavorite"), sourceUser, targetUser);
                     break;
                 case "UserUpdate":
-                    this.Text = string.Format(resourceLoader.GetString("Event_UserUpdate"), eventMessage.Source, targetUser);
+                    this.Text = string.Format(resourceLoader.GetString("Event_UserUpdate"), sourceUser);
+                    break;
+                case "FavoritedRetweet":
+                    this.Text = string.Format(resourceLoader.GetString("Event_FavoritedRetweet"), sourceUser, targetUser);
+                    break;
+                case "RetweetedRetweet":
+                    this.Text = string.Format(resourceLoader.GetString("Event_RetweetedRetweet"), sourceUser, targetUser);
+                    break;
+                case "QuotedTweet":
+                    this.Text = string.Format(resourceLoader.GetString("Event_QuotedTweet"), sourceUser, targetUser);
                     break;
             }
 

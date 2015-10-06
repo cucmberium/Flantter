@@ -301,4 +301,16 @@
   <data name="SettingsFlyout_UserProfile_FollowBacked" xml:space="preserve">
     <value>Follow backed</value>
   </data>
+  <data name="Event_FavoritedRetweet" xml:space="preserve">
+    <value>{0} favorited {1} retweet.</value>
+    <comment>(user) favorited your retweet.</comment>
+  </data>
+  <data name="Event_QuotedTweet" xml:space="preserve">
+    <value>{0} quoted {1} tweet.</value>
+    <comment>(user) quoted your tweet.</comment>
+  </data>
+  <data name="Event_RetweetedRetweet" xml:space="preserve">
+    <value>{0} retweeted {1} retweet.</value>
+    <comment>(user) retweeted your retweet.</comment>
+  </data>
 </root>

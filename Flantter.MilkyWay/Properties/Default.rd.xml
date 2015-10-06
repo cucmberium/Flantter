@@ -25,7 +25,8 @@
     
     <!-- Add your application specific runtime directives here. -->
 
-    <Namespace Name="Windows.UI.Xaml.Controls" Dynamic="Required All" />
+    <!-- <Namespace Name="Windows.UI.Xaml.Controls.Primitives" Dynamic="Excluded" /> -->
+    <Type Name="Windows.UI.Xaml.Controls.Canvas" Dynamic="Required All" />
     
   </Application>
 </Directives>

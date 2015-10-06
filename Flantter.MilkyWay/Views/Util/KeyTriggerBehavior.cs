@@ -102,8 +102,6 @@ namespace Flantter.MilkyWay.Views.Util
 
                 e.Handled = Interaction.ExecuteActions(AssociatedObject, this.Triggers, keysEventArgs).Any(x => (bool)x == true);
             }
-
-            e.Handled = true;
         }
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)

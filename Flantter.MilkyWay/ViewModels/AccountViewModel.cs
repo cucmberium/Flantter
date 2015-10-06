@@ -245,6 +245,19 @@ namespace Flantter.MilkyWay.ViewModels
                 if (string.IsNullOrWhiteSpace(linkUrl))
                     return;
 
+
+                if (linkUrl.StartsWith("@"))
+                {
+                    var userMention = linkUrl.Replace("@", "");
+                    ViewModels.Services.Notice.Instance.ShowUserProfileCommand.Execute(userMention.Replace("@", ""));
+                    return;
+                }
+                else if (linkUrl.StartsWith("#"))
+                {
+                    var hashTag = linkUrl.Replace("#", "");
+                    return;
+                }
+
                 var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
                 var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
                 if (statusMatch.Success)

@@ -22,8 +22,9 @@
             <util:FileOpenPickerAction/>
         </util:MessengerTriggerBehavior>
     </i:Interaction.Behaviors>
-    
+
     <Grid Background="{StaticResource AppBarBackgroundBrush}" BorderBrush="{StaticResource AppBarBorderBrush}" BorderThickness="0,2,0,0">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" /><!-- Reply tweet and quoted tweet area -->
             <RowDefinition Height="130" /><!-- Tweet area -->
@@ -96,6 +97,9 @@
                     <behaviors:TextBoxKeyTriggerBehavior>
                         <util:KeyTrigger Key="Enter" Modifiers="Control">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.TweetCommand, Mode=OneWay}"/>
+                        </util:KeyTrigger>
+                        <util:KeyTrigger Key="V" Modifiers="Control">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.ParseClipbordPictureCommand, Mode=OneWay}"/>
                         </util:KeyTrigger>
                     </behaviors:TextBoxKeyTriggerBehavior>
                     <behaviors:TweetAreaSuggestionBehavior Messenger="{x:Bind ViewModel.SuggestionMessenger, Mode=OneWay}" Command="{x:Bind ViewModel.SuggestSelectedCommand, Mode=OneWay}"/>

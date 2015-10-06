@@ -534,6 +534,9 @@ namespace Flantter.MilkyWay.Models
                 case SettingSupport.ColumnTypeEnum.UserTimeline:
                     await UpdateUserTimeline(maxid, sinceid);
                     break;
+                case SettingSupport.ColumnTypeEnum.Events:
+                    await UpdateEvents(maxid, sinceid);
+                    break;
             }
 
             this.Updating = false;
@@ -700,7 +703,7 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
-        private async Task UpdateSearch(long maxid = 0, long sinceid = 0, bool startup = false)
+        private async Task UpdateSearch(long maxid = 0, long sinceid = 0)
         {
             try
             {
@@ -762,7 +765,7 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
-        private async Task UpdateUserTimeline(long maxid = 0, long sinceid = 0, bool startup = false)
+        private async Task UpdateUserTimeline(long maxid = 0, long sinceid = 0)
         {
             try
             {
@@ -792,6 +795,11 @@ namespace Flantter.MilkyWay.Models
             {
                 // Todo : 通知システムに渡す
             }
+        }
+
+        private async Task UpdateEvents(long maxid = 0, long sinceid = 0)
+        {
+            // http://api.twitter.com/i/activity/about_me.json
         }
 
         private bool Check(Twitter.Objects.Status status)
@@ -972,6 +980,20 @@ namespace Flantter.MilkyWay.Models
 
         private void Add(Twitter.Objects.EventMessage eventMessage, bool streaming = false)
         {
+            switch (eventMessage.Type)
+            {
+                case "Favorite":
+                case "Unfavorite":
+                case "Follow":
+                case "UserUpdate":
+                case "FavoritedRetweet":
+                case "RetweetedRetweet":
+                case "QuotedTweet":
+                    break;
+                default:
+                    return;
+            }
+
             this._Tweets.Insert(0, eventMessage);
 
             this.UnreadCountIncrementalTrigger = true;

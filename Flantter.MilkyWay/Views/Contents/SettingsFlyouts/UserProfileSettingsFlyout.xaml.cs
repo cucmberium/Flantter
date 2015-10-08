@@ -42,7 +42,7 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
         {
             var width = Window.Current.Bounds.Width;
 
-            if (width < 320)
+            if (width <= 320)
                 width = 320;
             else if (width >= 400 && width < 802)
                 width = 400;

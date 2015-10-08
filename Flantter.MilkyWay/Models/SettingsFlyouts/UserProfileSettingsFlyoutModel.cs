@@ -281,6 +281,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 }
             }
 
+            // Todo : 受信したツイートをデータベースに登録
+
             this.UpdatingStatuses = false;
         }
 
@@ -327,6 +329,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         this.Favorites.Insert(index, status);
                 }
             }
+
+            // Todo : 受信したツイートをデータベースに登録
 
             this.UpdatingFavorites = false;
         }

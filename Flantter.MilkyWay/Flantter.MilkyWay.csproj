@@ -129,6 +129,7 @@
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\SettingsFlyouts\ConversationSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\UserProfileSettingsFlyoutModel.cs" />
     <Compile Include="Models\TweetAreaModel.cs" />
     <Compile Include="Models\Twitter\Video\NicoVideo.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="ViewModels\ColumnViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\ConversationSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserProfileSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\TweetAreaViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EventMessageViewModel.cs" />
@@ -168,6 +170,9 @@
     <Compile Include="Views\Behaviors\TweetAreaSuggestionBehavior.cs" />
     <Compile Include="Views\Contents\FollowButon.xaml.cs">
       <DependentUpon>FollowButon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\ConversationSettingsFlyout.xaml.cs">
+      <DependentUpon>ConversationSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\UserProfileSettingsFlyout.xaml.cs">
       <DependentUpon>UserProfileSettingsFlyout.xaml</DependentUpon>
@@ -220,6 +225,8 @@
     <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
     <Compile Include="Views\Controls\TriangleButton.cs" />
     <Compile Include="Views\Controls\VerticalBar.cs" />
+    <Compile Include="Views\Converters\DoublePlus3Converter.cs" />
+    <Compile Include="Views\Converters\DoublePlus25Converter.cs" />
     <Compile Include="Views\Converters\BooleanNegationConverter.cs" />
     <Compile Include="Views\Converters\BooleanNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
@@ -326,6 +333,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\FollowButon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\ConversationSettingsFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

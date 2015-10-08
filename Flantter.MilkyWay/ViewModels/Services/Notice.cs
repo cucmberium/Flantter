@@ -14,6 +14,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         private Notice()
         {
             this.ShowUserProfileCommand = new ReactiveCommand();
+            this.ShowConversationCommand = new ReactiveCommand();
             this.ShowMediaCommand = new ReactiveCommand();
             this.ShowStatusDetailCommand = new ReactiveCommand();
             this.LoadMentionCommand = new ReactiveCommand();
@@ -47,6 +48,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         }
         
         public ReactiveCommand ShowUserProfileCommand { get; private set; }
+        public ReactiveCommand ShowConversationCommand { get; private set; }
         public ReactiveCommand ShowMediaCommand { get; private set; }
         public ReactiveCommand ShowStatusDetailCommand { get; private set; }
         public ReactiveCommand LoadMentionCommand { get; private set; }

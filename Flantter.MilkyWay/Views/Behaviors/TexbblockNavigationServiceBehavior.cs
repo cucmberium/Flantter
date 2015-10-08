@@ -128,8 +128,14 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 text = "";
 
             var run = new Run() { Text = text };
-            
-            run.Foreground = (Brush)GetTextForeground(obj);
+
+            // ベタ書きなのは軽量化とバグを減らすため
+            // 仮想化したListViewだとItemを使い回すときにPropertyがたまにnullになってしまうことがある。なんで？
+            var foreground = GetTextForeground(obj);
+            if (foreground == null)
+                run.Foreground = (Brush)Application.Current.Resources["TweetTextTextblockForegroundBrush"];
+            else
+                run.Foreground = foreground;
 
             return run;
         }
@@ -146,7 +152,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
             hyperLink.Click += HyperLink_Click;
             hyperLink.SetValue(LinkProperty, linkUrl);
 
-            hyperLink.Foreground = (Brush)GetLinkForeground(obj);
+            var foreground = GetLinkForeground(obj);
+            if (foreground == null)
+                hyperLink.Foreground = (Brush)Application.Current.Resources["TweetTextHyperlinkTextblockForegroundBrush"];
+            else
+                hyperLink.Foreground = foreground;
 
             return hyperLink;
         }

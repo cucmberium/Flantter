@@ -59,6 +59,12 @@
         </Grid.RowDefinitions>
 
         <Grid x:DeferLoadStrategy="Lazy" Grid.Row="1" x:Name="MentionStatusGrid" Visibility="Collapsed" Height="0" Margin="0,0,0,5">
+            <i:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="Tapped">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowConversationCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                </core:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+            
             <Grid.Resources>
                 <Storyboard x:Name="MentionStatusOpenAnimation">
                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MentionStatusGrid" Storyboard.TargetProperty="Visibility">
@@ -74,7 +80,7 @@
                         <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                     </ObjectAnimationUsingKeyFrames>
                     <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="MentionStatusGrid">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="{Binding Source={StaticResource Setting},Path=Setting.FontSize,Converter={StaticResource DoublePlus25Converter}}">
                             <EasingDoubleKeyFrame.EasingFunction>
                                 <SineEase EasingMode="EaseInOut"/>
                             </EasingDoubleKeyFrame.EasingFunction>
@@ -145,7 +151,7 @@
                     <TextBlock>
                         <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.MentionStatusName, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.MentionStatusScreenName, Mode=OneWay}"/>
                     </TextBlock>
-                    <TextBlock Foreground="{StaticResource TweetTextTextblockForegroundBrush}" TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.TextForeground="{StaticResource TweetTextTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.LinkForeground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.MentionStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.MentionStatusText, Mode=OneWay}"/>
+                    <TextBlock Height="{Binding Source={StaticResource Setting},Path=Setting.FontSize, Converter={StaticResource DoublePlus3Converter}}" TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.MentionStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.MentionStatusText, Mode=OneWay}"/>
                 </StackPanel>
             </Grid>
         </Grid>
@@ -177,7 +183,7 @@
                 <TextBlock>
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock Foreground="{StaticResource TweetTextTextblockForegroundBrush}" TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.TextForeground="{StaticResource TweetTextTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.LinkForeground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
                     <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{x:Bind ViewModel.CreatedAt, Mode=OneWay}"/>
                     <Run Foreground="{StaticResource TweetOtherTextblockForegroundBrush}" Text="  -  "/>
@@ -250,7 +256,7 @@
                     <TextBlock>
                         <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.QuotedStatusName, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.QuotedStatusScreenName, Mode=OneWay}"/>
                     </TextBlock>
-                    <TextBlock Foreground="{StaticResource TweetTextTextblockForegroundBrush}" TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.TextForeground="{StaticResource TweetTextTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.LinkForeground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.QuotedStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.QuotedStatusText, Mode=OneWay}"/>
+                    <TextBlock TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.QuotedStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.QuotedStatusText, Mode=OneWay}"/>
                 </StackPanel>
             </Grid>
 

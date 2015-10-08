@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,15 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Target = new User(cEventMessage.Target);
             this.TargetStatus = (cEventMessage.TargetStatus != null) ? new Status(cEventMessage.TargetStatus) : null;
             this.Type = cEventMessage.Event.ToString();
+
+            if (this.Type == "QuotedTweet" && this.TargetStatus == null)
+            {
+                var jToken = JToken.Parse(cEventMessage.Json);
+                if (!jToken.Any(x => ((JProperty)x).Name == "target_object"))
+                    return;
+
+                this.TargetStatus = new Status(jToken.Select(x => (JProperty)x).First(x => ((JProperty)x).Name == "target_object").Value.ToObject<CoreTweet.Status>());
+            }
         }
 
         #region CreatedAt変更通知プロパティ

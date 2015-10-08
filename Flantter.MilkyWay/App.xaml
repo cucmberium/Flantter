@@ -24,6 +24,8 @@
             <converters:StringToTweetBackgroundBrushConverter x:Key="StringToTweetBackgroundBrushConverter"/>
             <converters:BooleanNegationToVisibilityConverter x:Key="BooleanNegationToVisibilityConverter"/>
             <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
+            <converters:DoublePlus25Converter x:Key="DoublePlus25Converter"/>
+            <converters:DoublePlus3Converter x:Key="DoublePlus3Converter"/>
             
             <setting:SettingProvider x:Key="Setting"/>
             <setting:AdvancedSettingProvider x:Key="AdvancedSetting"/>

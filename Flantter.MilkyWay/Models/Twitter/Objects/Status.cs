@@ -28,13 +28,13 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Id = cStatus.Id;
             this.Source = SourceRegex.Replace(cStatus.Source, "");
             this.Text = cStatus.Text;
-            this.User = new User(cStatus.User);
+            this.User = (cStatus.User != null) ? new User(cStatus.User) : null;
             this.IsFavorited = cStatus.IsFavorited.HasValue ? cStatus.IsFavorited.Value : false;
             this.IsRetweeted = cStatus.IsRetweeted.HasValue ? cStatus.IsRetweeted.Value : false;
             this.RetweetInformation = (cOrigStatus.RetweetedStatus != null) ? new RetweetInformation(cOrigStatus) : null;
             this.HasRetweetInformation = (cOrigStatus.RetweetedStatus != null);
             this.MentionStatus = null;
-            this.QuotedStatus = cStatus.QuotedStatus != null ? new Status(cStatus.QuotedStatus) : null;
+            this.QuotedStatus = cStatus.QuotedStatus != null && cStatus.QuotedStatus.User != null ? new Status(cStatus.QuotedStatus) : null;
             this.QuotedStatusId = cStatus.QuotedStatusId.HasValue ? cStatus.QuotedStatusId.Value : 0;
         }
 

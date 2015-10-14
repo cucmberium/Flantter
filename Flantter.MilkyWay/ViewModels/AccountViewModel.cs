@@ -317,6 +317,12 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
+            Services.Notice.Instance.ShowSearchCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Search", Tokens = this._AccountModel._Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
             #endregion
         }
         #endregion

@@ -9,9 +9,21 @@
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
     xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
+    xmlns:util="using:Flantter.MilkyWay.Views.Util"
     mc:Ignorable="d">
     
-    <Grid Visibility="{Binding IsEnabled.Value,Converter={StaticResource BooleanToVisibilityConverter}}">
+    <Grid>
+        <i:Interaction.Behaviors>
+            <util:GlobalKeyTriggerBehavior>
+                <util:KeyTrigger Key="F" Modifiers="Control">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowSearchCommand, Mode=OneWay}"/>
+                </util:KeyTrigger>
+            </util:GlobalKeyTriggerBehavior>
+        </i:Interaction.Behaviors>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>

@@ -53,7 +53,7 @@
             </ItemsControl.ItemContainerStyle>
         </ListView>
 
-        <ProgressBar Background="Transparent" Visibility="{Binding Updating,Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{Binding Updating}" VerticalAlignment="Top" />
+        <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" VerticalAlignment="Top" />
 
     </Grid>
 </controls:ExtendedSettingsFlyout>

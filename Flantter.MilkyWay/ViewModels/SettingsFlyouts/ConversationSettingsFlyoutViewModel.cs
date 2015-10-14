@@ -41,9 +41,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.Notice = Services.Notice.Instance;
         }
 
-        public ReactiveProperty<bool> Updating { get; set; }
-
         public ConversationSettingsFlyoutModel Model { get; set; }
+
+        public ReactiveProperty<bool> Updating { get; set; }
 
         public ReactiveProperty<CoreTweet.Tokens> Tokens { get; set; }
 

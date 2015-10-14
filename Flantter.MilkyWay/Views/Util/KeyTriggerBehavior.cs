@@ -118,6 +118,76 @@ namespace Flantter.MilkyWay.Views.Util
         }
     }
 
+    [ContentProperty(Name = "Triggers")]
+    public class GlobalKeyTriggerBehavior : DependencyObject, IBehavior
+    {
+        public static readonly DependencyProperty TriggersProperty =
+            DependencyProperty.Register("Triggers", typeof(ActionCollection), typeof(KeyTriggerBehavior), new PropertyMetadata(null));
+
+        public ActionCollection Triggers
+        {
+            get
+            {
+                ActionCollection triggers = (ActionCollection)base.GetValue(TriggersProperty);
+                if (triggers == null)
+                {
+                    triggers = new ActionCollection();
+                    base.SetValue(TriggersProperty, triggers);
+                }
+                return triggers;
+            }
+        }
+
+        private DependencyObject _AssociatedObject;
+        public DependencyObject AssociatedObject
+        {
+            get { return this._AssociatedObject; }
+            set { this._AssociatedObject = value; }
+        }
+
+        private KeysEventArgs keysEventArgs;
+
+        public void Attach(DependencyObject AssociatedObject)
+        {
+            this.AssociatedObject = AssociatedObject;
+
+            keysEventArgs = new KeysEventArgs();
+
+            Window.Current.Content.KeyDown += UIElement_KeyDown;
+            Window.Current.Content.KeyUp += UIElement_KeyUp;
+        }
+
+        public void Detach()
+        {
+            Window.Current.Content.KeyDown -= UIElement_KeyDown;
+            Window.Current.Content.KeyUp -= UIElement_KeyUp;
+        }
+
+        private void UIElement_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter && e.KeyStatus.RepeatCount == 1)
+            {
+                if (!keysEventArgs.KeyCollection.Any(x => x == e.Key))
+                    keysEventArgs.KeyCollection.Add(e.Key);
+
+                e.Handled = Interaction.ExecuteActions(AssociatedObject, this.Triggers, keysEventArgs).Any(x => (bool)x == true);
+            }
+            else
+            {
+                if (!keysEventArgs.KeyCollection.Any(x => x == e.Key))
+                    keysEventArgs.KeyCollection.Add(e.Key);
+
+                e.Handled = Interaction.ExecuteActions(AssociatedObject, this.Triggers, keysEventArgs).Any(x => (bool)x == true);
+            }
+        }
+
+        private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (keysEventArgs.KeyCollection.Any(x => x == e.Key))
+                keysEventArgs.KeyCollection.Remove(e.Key);
+        }
+    }
+
     [ContentProperty(Name = "Actions")]
     public sealed class KeyTrigger : DependencyObject, IAction
     {

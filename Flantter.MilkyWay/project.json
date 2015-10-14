@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "CoreTweet": "0.5.4-beta",
+    "CoreTweet": "0.5.4-beta2",
     "Microsoft.ApplicationInsights": "1.1.0",
     "Microsoft.ApplicationInsights.PersistenceChannel": "1.1.0",
     "Microsoft.ApplicationInsights.WindowsApps": "1.1.0",
@@ -8,7 +8,7 @@
     "Newtonsoft.Json": "7.0.1",
     "NotificationsExtensions.Win10": "10240.0.7",
     "Prism.Core": "6.0.1",
-    "ReactiveProperty": "2.2.5",
+    "ReactiveProperty": "2.2.6.1",
     "Rx-Core": "2.2.5",
     "Rx-Interfaces": "2.2.5",
     "Rx-Linq": "2.2.5",

@@ -135,7 +135,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock x:Name="BottomAppBar_CounterTextBlock" Grid.Column="5" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
-                <Button Grid.Column="4" ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind ViewModel.Message.Value, Mode=OneWay}" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
+                <Button Grid.Column="4" ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind ViewModel.Message.Value, Mode=OneWay}" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
                     <Grid>
                         <SymbolIcon Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Symbol="{x:Bind ViewModel.StateSymbol.Value, Mode=OneWay}"/>
                         <ProgressRing Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsActive="True"/>
@@ -146,7 +146,7 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button x:Uid="TweetArea_LockingHashTagsButton" Grid.Column="3" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.ChangeLockHashTagsCommand, Mode=OneWay}">
+                <Button x:Uid="TweetArea_LockingHashTagsButton" Grid.Column="3" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.ChangeLockHashTagsCommand, Mode=OneWay}">
                     <SymbolIcon Symbol="{x:Bind ViewModel.LockingHashTagsSymbol.Value, Mode=OneWay}"/>
                 </Button>
                 <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBar_PictureButton" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Grid.Column="2" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand, Mode=OneWay}">

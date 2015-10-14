@@ -36,6 +36,7 @@ namespace Flantter.MilkyWay.Common
         {
             return VisualTreeHelper.GetParent(node) as FrameworkElement;
         }
+
         public static IEnumerable<FrameworkElement> GetVisualAncestors(this FrameworkElement node)
         {
             FrameworkElement parent = node.GetVisualParent();
@@ -43,6 +44,26 @@ namespace Flantter.MilkyWay.Common
             {
                 yield return parent;
                 parent = parent.GetVisualParent();
+            }
+        }
+
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
             }
         }
     }

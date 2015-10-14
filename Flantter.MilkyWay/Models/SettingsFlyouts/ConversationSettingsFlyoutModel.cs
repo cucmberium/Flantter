@@ -56,6 +56,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (this.ConversationStatus == null || this.Tokens == null)
                 return;
 
+            this.Updating = true;
+
             this.Conversation.Clear();
 
             long nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;

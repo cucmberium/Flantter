@@ -3,6 +3,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Flantter.MilkyWay.Themes">
 
+    <SolidColorBrush x:Key="SearchBoxBackgroundThemeBrush" Color="#CCFFFFFF" />
+    <SolidColorBrush x:Key="SearchBoxBorderThemeBrush" Color="#FF2A2A2A" />
+    <SolidColorBrush x:Key="SearchBoxDisabledBackgroundThemeBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="SearchBoxDisabledTextThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="SearchBoxDisabledBorderThemeBrush" Color="#FF666666" />
+    <SolidColorBrush x:Key="SearchBoxPointerOverBackgroundThemeBrush" Color="#DDFFFFFF" />
+    <SolidColorBrush x:Key="SearchBoxPointerOverTextThemeBrush" Color="#99000000" />
+    <SolidColorBrush x:Key="SearchBoxPointerOverBorderThemeBrush" Color="#FFDDDDDD" />
+    <SolidColorBrush x:Key="SearchBoxFocusedBackgroundThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="SearchBoxFocusedTextThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="SearchBoxFocusedBorderThemeBrush" Color="#FF2A2A2A" />
+    <SolidColorBrush x:Key="SearchBoxButtonForegroundThemeBrush" Color="White" />
+    <SolidColorBrush x:Key="SearchBoxButtonPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="SearchBoxSeparatorSuggestionForegroundThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="SearchBoxIMECandidateListSeparatorThemeBrush" Color="#FF2A2A2A"/>
+    <SolidColorBrush x:Key="SearchBoxForegroundThemeBrush" Color="#FF000000" />
+    
     <SolidColorBrush x:Key="FlyoutBackgroundThemeBrush" Color="#FF2B2B2B"/>
     <SolidColorBrush x:Key="FlyoutBorderThemeBrush" Color="White"/>
     <SolidColorBrush x:Key="MenuFlyoutSeparatorBackgroundThemeBrush" Color="#66FFFFFF" />
@@ -73,6 +90,29 @@
     <SolidColorBrush x:Key="AppBarButtonItemPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="AppBarButtonItemPressedForegroundThemeBrush" Color="#FF000000" />
 
+    <SolidColorBrush x:Key="PivotButtonBorderBackgroundBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="PivotButtonBorderBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="PivotButtonBorderPointerOverBackgroundBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="PivotButtonArrowPointerOverForegroundBrush" Color="#CC000000" />
+    <SolidColorBrush x:Key="PivotButtonArrowPressedForegroundBrush" Color="#CC000000" />
+    <SolidColorBrush x:Key="PivotButtonBorderPressedBackgroundBrush" Color="#CCFFFFFF" />
+    <SolidColorBrush x:Key="PivotButtonArrowForegroundBrush" Color="#CC000000" />
+    <SolidColorBrush x:Key="PivotHeaderBorderBachgroundBrush" Color="#FF1F1F1F" />
+    <SolidColorBrush x:Key="PivotHeaderBorderBorderBrush" Color="#FF1F1F1F" />
+
+    <SolidColorBrush x:Key="PivotHeaderItemForegroundBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="PivotHeaderItemDisabledForegroundBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="PivotHeaderItemSelectedForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="PivotHeaderItemSelectedBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="PivotHeaderItemUnselectedPointerOverBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="PivotHeaderItemSelectedPointerOverBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="PivotHeaderItemUnselectedPressedBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="PivotHeaderItemSelectedPressedBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="PivotHeaderItemUnselectedPointerOverForegroundBrush" Color="#CCFFFFFF" />
+    <SolidColorBrush x:Key="PivotHeaderItemSelectedPointerOverForegroundBrush" Color="#CCFFFFFF" />
+    <SolidColorBrush x:Key="PivotHeaderItemUnselectedPressedForegroundBrush" Color="#CCFFFFFF" />
+    <SolidColorBrush x:Key="PivotHeaderItemSelectedPressedForegroundBrush" Color="#CCFFFFFF" />
+
     <SolidColorBrush x:Key="AppBarBackgroundBrush" Color="#FF282836" />
     <SolidColorBrush x:Key="AppBarBorderBrush" Color="Black" />
 
@@ -129,8 +169,10 @@
     <SolidColorBrush x:Key="ColumnViewControlBarTextblockForegroundBrush" Color="White" />
     <SolidColorBrush x:Key="ColumnViewControlBarUnreadCountGridBackgroundBrush" Color="Tomato" />
     <SolidColorBrush x:Key="ColumnViewControlBarUnreadCountTextblockForegroundBrush" Color="White" />
-    
-	<!-- Tweet -->
+
+    <SolidColorBrush x:Key="SearchSettingsFlyoutTrendsTextblockForegroundBrush" Color="White" />
+
+    <!-- Tweet -->
     <SolidColorBrush x:Key="TweetCheckBrush" Color="Gray" />
     <SolidColorBrush x:Key="TweetCheckBoxBrush" Color="Gray" />
     <SolidColorBrush x:Key="TweetDragBackgroundBrush" Color="#14808080" />

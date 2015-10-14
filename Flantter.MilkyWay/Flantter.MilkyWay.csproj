@@ -129,6 +129,7 @@
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\SettingsFlyouts\SearchSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ConversationSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\UserProfileSettingsFlyoutModel.cs" />
     <Compile Include="Models\TweetAreaModel.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ConversationSettingsFlyoutViewModel.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\SearchSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserProfileSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\TweetAreaViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EventMessageViewModel.cs" />
@@ -171,11 +173,17 @@
     <Compile Include="Views\Contents\FollowButon.xaml.cs">
       <DependentUpon>FollowButon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\SearchSettingsFlyout.xaml.cs">
+      <DependentUpon>SearchSettingsFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\ConversationSettingsFlyout.xaml.cs">
       <DependentUpon>ConversationSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\UserProfileSettingsFlyout.xaml.cs">
       <DependentUpon>UserProfileSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\TabHeader.xaml.cs">
+      <DependentUpon>TabHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\Timeline\User.xaml.cs">
       <DependentUpon>User.xaml</DependentUpon>
@@ -336,6 +344,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\SearchSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Contents\SettingsFlyouts\ConversationSettingsFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -343,6 +355,10 @@
     <Page Include="Views\Contents\SettingsFlyouts\UserProfileSettingsFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\TabHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\Timeline\User.xaml">
       <Generator>MSBuild:Compile</Generator>

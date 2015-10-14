@@ -30,11 +30,11 @@ namespace Flantter.MilkyWay.Views.Contents
     public sealed partial class ImagePreviewPopup : UserControl
     {
         private Popup ImagePreview;
-        private BitmapImage Bitmap;
 
         private bool imageOpened = false; 
         public string ImageWebUrl { get; set; }
 
+        private string oldUrl;
         public string ImageUrl { get; set; }
 
         ResourceLoader _ResourceLoader;
@@ -60,11 +60,7 @@ namespace Flantter.MilkyWay.Views.Contents
             Canvas.SetTop(this.ImagePreview, WindowSizeHelper.Instance.TitleBarHeight);
             Canvas.SetLeft(this.ImagePreview, 0);
 
-            this.Bitmap = new BitmapImage();
-            this.Bitmap.UriSource = new Uri("http://localhost");
-            this.Bitmap.ImageFailed += Bitmap_ImageFailed;
-            this.Bitmap.ImageOpened += Bitmap_ImageOpened;
-            this.ImagePreviewImage.Source = this.Bitmap;
+            //this.ImagePreviewImage.Source = new BitmapImage(new Uri("http://localhost"));
         }
         
         ~ImagePreviewPopup()
@@ -94,15 +90,16 @@ namespace Flantter.MilkyWay.Views.Contents
 
         public void ImageChanged()
         {
-            if (this.Bitmap.UriSource.AbsoluteUri != this.ImageUrl)
+            if (oldUrl != this.ImageUrl)
             {
                 this.ImagePreviewProgressRing.Visibility = Visibility.Visible;
                 this.ImagePreviewProgressRing.IsActive = true;
                 this.ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
                 this.ImagePreviewImage.Opacity = 0;
-
-                this.Bitmap.UriSource = new Uri(this.ImageUrl);
+                // こっちのほうが画像がキャッシュされるような気がする(気のせい)
+                this.ImagePreviewImage.Source = (ImageSource)Windows.UI.Xaml.Markup.XamlBindingHelper.ConvertValue(typeof(ImageSource), this.ImageUrl);
                 imageOpened = false;
+                oldUrl = this.ImageUrl;
             }
         }
 
@@ -132,8 +129,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
             if (imageOpened)
             {
-                var imageWidth = this.Bitmap.PixelWidth;
-                var imageHeight = this.Bitmap.PixelHeight;
+                var imageWidth = ((BitmapImage)this.ImagePreviewImage.Source).PixelWidth;
+                var imageHeight = ((BitmapImage)this.ImagePreviewImage.Source).PixelHeight;
                 var windowWidth = WindowSizeHelper.Instance.ClientWidth;
                 var windowHeight = WindowSizeHelper.Instance.ClientHeight;
 
@@ -176,7 +173,7 @@ namespace Flantter.MilkyWay.Views.Contents
             this.ImagePreview.IsOpen = false;
         }
 
-        private void Bitmap_ImageOpened(object sender, RoutedEventArgs e)
+        private void ImagePreviewImage_ImageOpened(object sender, RoutedEventArgs e)
         {
             imageOpened = true;
 
@@ -185,8 +182,8 @@ namespace Flantter.MilkyWay.Views.Contents
             this.ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
             this.ImagePreviewImage.Opacity = 0;
 
-            var imageWidth = this.Bitmap.PixelWidth;
-            var imageHeight = this.Bitmap.PixelHeight;
+            var imageWidth = ((BitmapImage)this.ImagePreviewImage.Source).PixelWidth;
+            var imageHeight = ((BitmapImage)this.ImagePreviewImage.Source).PixelHeight;
             var windowWidth = WindowSizeHelper.Instance.ClientWidth;
             var windowHeight = WindowSizeHelper.Instance.ClientHeight;
 
@@ -223,7 +220,7 @@ namespace Flantter.MilkyWay.Views.Contents
             this.ImagePreviewImage.Opacity = 1;
         }
 
-        private void Bitmap_ImageFailed(object sender, ExceptionRoutedEventArgs e)
+        private void ImagePreviewImage_ImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
             this.ImagePreviewProgressRing.Visibility = Visibility.Collapsed;
             this.ImagePreviewProgressRing.IsActive = false;

@@ -219,7 +219,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else
                 this.RetweetFavoriteTriangleIconVisibility = false;
 
-            this.QuotedStatusVisibility = status.QuotedStatusId != 0 ? true : false;
+            this.QuotedStatusVisibility = status.QuotedStatusId != 0 && status.QuotedStatus != null ? true : false;
             this.QuotedStatusId = status.QuotedStatusId;
             if (status.QuotedStatus != null)
             {

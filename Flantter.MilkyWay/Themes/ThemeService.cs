@@ -97,7 +97,24 @@ namespace Flantter.MilkyWay.Themes
 
             try
             {
-				((SolidColorBrush)Application.Current.Resources["FlyoutBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["FlyoutBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxBorderThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxBorderThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxDisabledBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxDisabledBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxDisabledTextThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxDisabledTextThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxDisabledBorderThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxDisabledBorderThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxPointerOverBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxPointerOverBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxPointerOverTextThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxPointerOverTextThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxPointerOverBorderThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxPointerOverBorderThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxFocusedBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxFocusedBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxFocusedTextThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxFocusedTextThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxFocusedBorderThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxFocusedBorderThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxButtonForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxButtonForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxButtonPointerOverForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxButtonPointerOverForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxSeparatorSuggestionForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxSeparatorSuggestionForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxIMECandidateListSeparatorThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxIMECandidateListSeparatorThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxForegroundThemeBrush"]).Color;
+                
+                ((SolidColorBrush)Application.Current.Resources["FlyoutBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["FlyoutBackgroundThemeBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["FlyoutBorderThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["FlyoutBorderThemeBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["MenuFlyoutSeparatorBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["MenuFlyoutSeparatorBackgroundThemeBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["MenuFlyoutItemPointerOverBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["MenuFlyoutItemPointerOverBackgroundThemeBrush"]).Color;
@@ -167,6 +184,29 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemPointerOverForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemPointerOverForegroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemPressedForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarButtonItemPressedForegroundThemeBrush"]).Color;
 
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonBorderBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotButtonBorderBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonBorderBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotButtonBorderBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonBorderPointerOverBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotButtonBorderPointerOverBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonArrowPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotButtonArrowPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonArrowPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotButtonArrowPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonBorderPressedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotButtonBorderPressedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonArrowForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotButtonArrowForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderBorderBachgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderBorderBachgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderBorderBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderBorderBorderBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemDisabledForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemSelectedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemSelectedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemUnselectedPointerOverBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemUnselectedPointerOverBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedPointerOverBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemSelectedPointerOverBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemUnselectedPressedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemUnselectedPressedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedPressedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemSelectedPressedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemUnselectedPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemUnselectedPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemSelectedPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemUnselectedPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemUnselectedPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemSelectedPressedForegroundBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["AppBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarBorderBrush"]).Color;
 
@@ -223,6 +263,8 @@ namespace Flantter.MilkyWay.Themes
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarTextblockForegroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnreadCountGridBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarUnreadCountGridBackgroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnreadCountTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarUnreadCountTextblockForegroundBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["SearchSettingsFlyoutTrendsTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchSettingsFlyoutTrendsTextblockForegroundBrush"]).Color;
                 
                 ((SolidColorBrush)Application.Current.Resources["TweetCheckBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCheckBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TweetCheckBoxBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCheckBoxBrush"]).Color;
@@ -272,6 +314,22 @@ namespace Flantter.MilkyWay.Themes
             }
             catch
             {
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxBorderThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxBorderThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxDisabledBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxDisabledBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxDisabledTextThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxDisabledTextThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxDisabledBorderThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxDisabledBorderThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxPointerOverBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxPointerOverBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxPointerOverTextThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxPointerOverTextThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxPointerOverBorderThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxPointerOverBorderThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxFocusedBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxFocusedBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxFocusedTextThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxFocusedTextThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxFocusedBorderThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxFocusedBorderThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxButtonForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxButtonForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxButtonPointerOverForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxButtonPointerOverForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxSeparatorSuggestionForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxSeparatorSuggestionForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxIMECandidateListSeparatorThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxIMECandidateListSeparatorThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SearchBoxForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxForegroundThemeBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["FlyoutBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["FlyoutBackgroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["FlyoutBorderThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["FlyoutBorderThemeBrush"]).Color;
@@ -343,6 +401,29 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemPointerOverForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemPointerOverForegroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarButtonItemPressedForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarButtonItemPressedForegroundThemeBrush"]).Color;
 
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonBorderBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotButtonBorderBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonBorderBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotButtonBorderBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonBorderPointerOverBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotButtonBorderPointerOverBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonArrowPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotButtonArrowPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonArrowPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotButtonArrowPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonBorderPressedBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotButtonBorderPressedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotButtonArrowForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotButtonArrowForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderBorderBachgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderBorderBachgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderBorderBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderBorderBorderBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemDisabledForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemSelectedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemSelectedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemUnselectedPointerOverBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemUnselectedPointerOverBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedPointerOverBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemSelectedPointerOverBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemUnselectedPressedBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemUnselectedPressedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedPressedBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemSelectedPressedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemUnselectedPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemUnselectedPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemSelectedPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemUnselectedPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemUnselectedPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemSelectedPressedForegroundBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["AppBarBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarBorderBrush"]).Color;
 
@@ -399,7 +480,9 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarTextblockForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ColumnViewControlBarTextblockForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnreadCountGridBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ColumnViewControlBarUnreadCountGridBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnreadCountTextblockForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ColumnViewControlBarUnreadCountTextblockForegroundBrush"]).Color;
-                
+
+                ((SolidColorBrush)Application.Current.Resources["SearchSettingsFlyoutTrendsTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchSettingsFlyoutTrendsTextblockForegroundBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["TweetCheckBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TweetCheckBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TweetCheckBoxBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TweetCheckBoxBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TweetDragBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TweetDragBackgroundBrush"]).Color;

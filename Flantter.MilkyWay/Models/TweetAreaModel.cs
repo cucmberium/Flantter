@@ -201,14 +201,15 @@ namespace Flantter.MilkyWay.Models
             StringInfo textInfo = new StringInfo(this._Text.Replace("\r\n", "\n"));
             int count = 140 - textInfo.LengthInTextElements;
 
+            // Twitterの仕様が変わって全部 "https://t.co" になったので全部-23文字
             foreach (Match m in TweetRegexPatterns.ValidUrl.Matches(this._Text))
-                count += m.Value.Length - (m.Value.ToLower().StartsWith("https://") ? 23 : 22);
+                count += m.Value.Length - 23;
 
             if (this._Pictures.Count > 0)
-                count -= 23;
+                count -= 24;
 
             if (this._IsQuotedRetweet)
-                count -= 23;
+                count -= 24;
 
             this.CharacterCount = count;
         }
@@ -310,9 +311,13 @@ namespace Flantter.MilkyWay.Models
             {
                 var param = new Dictionary<string, object>() { };
                 if (this.ReplyOrQuotedStatus != null)
-                    param.Add("in_reply_to_status_id", this.ReplyOrQuotedStatus.Id);
-                if (this._IsQuotedRetweet)
-                    text += " https://twitter.com/" + this.ReplyOrQuotedStatus.User.ScreenName + "/status/" + this.ReplyOrQuotedStatus.Id;
+                {
+                    if (!this._IsQuotedRetweet)
+                        param.Add("in_reply_to_status_id", this.ReplyOrQuotedStatus.Id);
+                    else
+                        text += " https://twitter.com/" + this.ReplyOrQuotedStatus.User.ScreenName + "/status/" + this.ReplyOrQuotedStatus.Id;
+                }
+                    
 
                 // Upload Media
 
@@ -401,11 +406,11 @@ namespace Flantter.MilkyWay.Models
         }
         private void SuggestionCheck()
         {
-            if (tokens == null)
+            if (tokens == null || !Services.Connecter.Instance.TweetCollecter.ContainsKey(this.SelectedAccountUserId))
+            {
+                SuggestionMessenger.Raise(new SuggestionNotification() { SuggestWords = null, IsOpen = false });
                 return;
-
-            if (!Services.Connecter.Instance.TweetCollecter.ContainsKey(this.SelectedAccountUserId))
-                return;
+            }
 
             try
             {

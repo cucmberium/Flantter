@@ -245,6 +245,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
                 return;
 
+            this.UpdatingStatuses = true;
+
             ListedResponse<CoreTweet.Status> userTweets;
             try
             {
@@ -293,6 +295,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
                 return;
+
+            this.UpdatingFavorites = true;
 
             ListedResponse<CoreTweet.Status> favorites;
             try
@@ -344,6 +348,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
                 return;
 
+            this.UpdatingFollowers = true;
+
             Cursored<CoreTweet.User> follower;
             try
             {
@@ -382,6 +388,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
                 return;
+
+            this.UpdatingFollowing = true;
 
             Cursored<CoreTweet.User> following;
             try

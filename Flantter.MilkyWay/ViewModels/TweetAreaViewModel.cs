@@ -189,7 +189,7 @@ namespace Flantter.MilkyWay.ViewModels
                 this._TweetAreaModel.DeletePicture(pictureViewModel._PictureModel);
             });
 
-            Services.Notice.Instance.ReplyCommand.Subscribe(x => 
+            Services.Notice.Instance.ReplyCommand.Subscribe(async x => 
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
@@ -202,12 +202,15 @@ namespace Flantter.MilkyWay.ViewModels
                 this._TweetAreaModel.ReplyOrQuotedStatus = statusViewModel.Model;
 
                 this._TweetAreaModel.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
-                this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
 
                 Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                await Task.Delay(50);
+
+                this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
             });
 
-            Services.Notice.Instance.UrlQuoteRetweetCommand.Subscribe(x => 
+            Services.Notice.Instance.UrlQuoteRetweetCommand.Subscribe(async x => 
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
@@ -220,9 +223,12 @@ namespace Flantter.MilkyWay.ViewModels
                 this._TweetAreaModel.ReplyOrQuotedStatus = statusViewModel.Model;
 
                 this._TweetAreaModel.Text = "";
-                this._TweetAreaModel.SelectionStart = 0;
 
                 Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                await Task.Delay(50);
+
+                this._TweetAreaModel.SelectionStart = 0;
             });
         }
     }

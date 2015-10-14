@@ -34,6 +34,30 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             switch (notification.SettingsFlyoutType)
             {
+                case "Search":
+                    if (_SettingsFlyoutList.Where(x => x.IsOpen).Count() > 0)
+                        break;
+
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is SearchSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new SearchSettingsFlyout();
+                        ((SearchSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.SearchSettingsFlyoutViewModel();
+                        ((SearchSettingsFlyout)settingsFlyout).DataContext = ((SearchSettingsFlyout)settingsFlyout).ViewModel;
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+                    ((SearchSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((SearchSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((SearchSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+                    ((SearchSettingsFlyout)settingsFlyout).ViewModel.StatusSearchWords.Value = notification.Content as string;
+
+                    settingsFlyout.Show();
+                    break;
                 case "UserProfile":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is UserProfileSettingsFlyout && !x.IsOpen);
                     if (settingsFlyoutList.Count() > 0)

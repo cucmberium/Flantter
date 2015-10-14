@@ -54,7 +54,7 @@ namespace Flantter.MilkyWay.Models.Twitter
         {
             for (var i = tokens.Count() - 1; i >= 0; i--)
             {
-                if (tokens.ElementAt(i).Pos < pos)
+                if (tokens.ElementAt(i).Pos <= pos)
                     return tokens.ElementAt(i);
             }
 

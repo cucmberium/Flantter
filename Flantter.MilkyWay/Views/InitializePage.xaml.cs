@@ -29,7 +29,7 @@ namespace Flantter.MilkyWay.Views
     /// <summary>
     /// それ自体で使用できる空白ページまたはフレーム内に移動できる空白ページ。
     /// </summary>
-    public sealed partial class InitializePage : VisualStateAwarePage
+    public sealed partial class InitializePage : SessionStateAwarePage
     {
         private ResourceLoader resourceLoader;
 

@@ -277,7 +277,7 @@ namespace Flantter.MilkyWay.Models
                                 
                                 if (!this.Check(tweetEventArgs.Status, tweetEventArgs.Parameter))
                                     return;
-
+                                
                                 this.Add(tweetEventArgs.Status, tweetEventArgs.Streaming);
                                 break;
                             case TweetEventArgs.TypeEnum.DirectMessage:
@@ -436,7 +436,7 @@ namespace Flantter.MilkyWay.Models
             }
             else if (this._Action == SettingSupport.ColumnTypeEnum.Search)
             {
-                this._AccountModel.DisconnectAllFilterStreaming();
+                this._AccountModel.DisconnectAllFilterStreaming(this);
 
                 var param = new Dictionary<string, object>();
                 param.Add("track", this._ColumnSetting.Parameter.ToLower());
@@ -450,7 +450,7 @@ namespace Flantter.MilkyWay.Models
             }
             else if (this.Action == SettingSupport.ColumnTypeEnum.List)
             {
-                this._AccountModel.DisconnectAllFilterStreaming();
+                this._AccountModel.DisconnectAllFilterStreaming(this);
 
                 listStreamUserIdList = new List<long>();
                 try

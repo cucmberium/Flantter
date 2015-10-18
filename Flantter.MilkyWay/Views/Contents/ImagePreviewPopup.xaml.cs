@@ -90,7 +90,7 @@ namespace Flantter.MilkyWay.Views.Contents
 
         public void ImageChanged()
         {
-            if (oldUrl != this.ImageUrl)
+            if (oldUrl != this.ImageUrl || !imageOpened)
             {
                 this.ImagePreviewProgressRing.Visibility = Visibility.Visible;
                 this.ImagePreviewProgressRing.IsActive = true;

@@ -18,6 +18,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System.Reactive.Concurrency;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -138,10 +139,10 @@ namespace Flantter.MilkyWay.ViewModels
                         return false;
                 }
             }).ToReactiveCommand();
-            this.StreamingCommand.Subscribe(_ => { this._ColumnModel.Streaming = !this._ColumnModel.Streaming; });
+            this.StreamingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ => { this._ColumnModel.Streaming = !this._ColumnModel.Streaming; });
 
             this.ScrollToTopCommand = column.ObserveProperty(x => x.UnreadCount).Select(x => x != 0).ToReactiveCommand();
-            this.ScrollToTopCommand.Subscribe(async _ => 
+            this.ScrollToTopCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ => 
             {
                 this.IsScrollLockToTopEnabled.Value = true;
                 await Task.Delay(100);
@@ -149,13 +150,13 @@ namespace Flantter.MilkyWay.ViewModels
             });
 
             this.IncrementalLoadCommand = new ReactiveCommand();
-            this.IncrementalLoadCommand.Subscribe(async _ => 
+            this.IncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ => 
             {
                 await this._ColumnModel.Update(this._ColumnModel.Tweets.Last().Id);
             });
 
             this.RefreshCommand = new ReactiveCommand();
-            this.RefreshCommand.Subscribe(async _ =>
+            this.RefreshCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ =>
             {
                 await this._ColumnModel.Update();
             });
@@ -212,7 +213,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.TweetsCollectionChangedDisposable = Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                 h => (sender, e) => h(e),
                 h => this._ColumnModel.Tweets.CollectionChanged += h,
-                h => this._ColumnModel.Tweets.CollectionChanged -= h).Subscribe(x => 
+                h => this._ColumnModel.Tweets.CollectionChanged -= h).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
                 {
                     var e = x as NotifyCollectionChangedEventArgs;
 
@@ -275,7 +276,7 @@ namespace Flantter.MilkyWay.ViewModels
                     }
                 });
 
-            this._ColumnModel.ObserveProperty(x => x.DisableNotifyCollectionChanged).Subscribe<bool>(x => 
+            this._ColumnModel.ObserveProperty(x => x.DisableNotifyCollectionChanged).SubscribeOn(ThreadPoolScheduler.Default).Subscribe<bool>(x => 
             {
                 this.Tweets.DisableNotifyCollectionChanged = x;
                 if (!x)

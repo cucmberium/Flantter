@@ -50,13 +50,18 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         ((SearchSettingsFlyout)settingsFlyout).DataContext = ((SearchSettingsFlyout)settingsFlyout).ViewModel;
                         this._SettingsFlyoutList.Add(settingsFlyout);
                     }
-                    ((SearchSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
 
                     ((SearchSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
                     ((SearchSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((SearchSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
                     ((SearchSettingsFlyout)settingsFlyout).ViewModel.StatusSearchWords.Value = notification.Content as string;
 
                     settingsFlyout.Show();
+
+                    ((SearchSettingsFlyout)settingsFlyout).FocusToStatusSearchBox();
+
                     break;
                 case "UserProfile":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is UserProfileSettingsFlyout && !x.IsOpen);
@@ -70,10 +75,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         ((UserProfileSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.UserProfileSettingsFlyoutViewModel();
                         this._SettingsFlyoutList.Add(settingsFlyout);
                     }
-                    ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
 
                     ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
                     ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+                    
                     ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value = notification.Content as string;
 
                     ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
@@ -92,10 +99,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         ((ConversationSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.ConversationSettingsFlyoutViewModel();
                         this._SettingsFlyoutList.Add(settingsFlyout);
                     }
-                    ((ConversationSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
 
                     ((ConversationSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
                     ((ConversationSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((ConversationSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+                    
                     ((ConversationSettingsFlyout)settingsFlyout).ViewModel.ConversationStatus.Value = notification.Content as Models.Twitter.Objects.Status;
 
                     ((ConversationSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();

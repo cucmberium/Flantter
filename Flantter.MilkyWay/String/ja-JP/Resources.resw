@@ -313,4 +313,67 @@
     <value>{0} が {1} のリツイートをリツイートしました.</value>
     <comment>(user) retweeted your retweet.</comment>
   </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_ContentTextblock.Text" xml:space="preserve">
+    <value>    Content</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_RetweetsTextblock.Text" xml:space="preserve">
+    <value>リツイート : </value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Retweets_ExcludedComboBoxItem.Content" xml:space="preserve">
+    <value>除く</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Retweets_IncludedComboBoxItem.Content" xml:space="preserve">
+    <value>含む</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_ShowingTextblock.Text" xml:space="preserve">
+    <value>種類 : </value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_AllTweetsComboBoxItem.Content" xml:space="preserve">
+    <value>すべてのツイート</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithAnyMediasComboBoxItem.Content" xml:space="preserve">
+    <value>メディアを含むツイート</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithImagesComboBoxItem.Content" xml:space="preserve">
+    <value>画像を含むツイート</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithLinksComboBoxItem.Content" xml:space="preserve">
+    <value>URLを含むツイート</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithVideosComboBoxItem.Content" xml:space="preserve">
+    <value>動画を含むツイート</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithVinesComboBoxItem.Content" xml:space="preserve">
+    <value>Vine を含むツイート</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_WrittenInTextblock.Text" xml:space="preserve">
+    <value>言語 : </value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_WrittenIn_AllLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>すべての言語</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_EngagementTextblock.Text" xml:space="preserve">
+    <value>★    Engagement</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_FirstTextblock.Text" xml:space="preserve">
+    <value>お気に入り数が </value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_SecondTextblock.Text" xml:space="preserve">
+    <value> 以上</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_FirstTextblock.Text" xml:space="preserve">
+    <value>リツイート数が </value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_SecondTextblock.Text" xml:space="preserve">
+    <value> 以上</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Menu_AddColumnButton.Content" xml:space="preserve">
+    <value>カラムを追加</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Menu_DeleteHistoryButton.Content" xml:space="preserve">
+    <value>履歴を削除</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Menu_SaveThisSearchButton.Content" xml:space="preserve">
+    <value>検索メモに保存</value>
+  </data>
 </root>

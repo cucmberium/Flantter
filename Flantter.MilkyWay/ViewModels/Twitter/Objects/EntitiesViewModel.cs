@@ -1,4 +1,5 @@
 ﻿using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Setting;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -18,6 +19,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.MediaThumbnailUrl = mediaEntity.MediaThumbnailUrl;
 
             this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
         }
 
         public MediaEntity Model { get; private set; }
@@ -25,6 +27,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public string MediaThumbnailUrl { get; set; }
 
         public Services.Notice Notice { get; set; }
+
+        public Setting.SettingService Setting { get; set; }
     }
 
     public class EntityViewModel

@@ -77,6 +77,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                     foreach (var item in statuses)
                     {
+                        item.InReplyToStatusId = 0;
                         this.Conversation.Add(new Twitter.Objects.Status(item));
                     }
                 }
@@ -128,12 +129,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         return;
                     }
 
+                    nextId = item.InReplyToStatusId.HasValue ? item.InReplyToStatusId.Value : 0;
+
                     var status = new Twitter.Objects.Status(item);
+                    status.InReplyToStatusId = 0;
+
                     this.Conversation.Add(status);
 
-                    if (status.InReplyToStatusId != 0)
-                        nextId = status.InReplyToStatusId;
-                    else
+                    if (nextId == 0)
                         break;
                 }
             }

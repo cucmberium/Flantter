@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Data;
 
 namespace Flantter.MilkyWay.Common
@@ -12,7 +14,6 @@ namespace Flantter.MilkyWay.Common
     [Windows.Foundation.Metadata.WebHostHidden]
     public abstract class ExtendedBindableBase : INotifyPropertyChanged
     {
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
@@ -23,7 +24,7 @@ namespace Flantter.MilkyWay.Common
                 if (CoreApplication.MainView.Dispatcher.HasThreadAccess)
                     eventHandler(this, new PropertyChangedEventArgs(propertyName));
                 else
-                    CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => eventHandler(this, new PropertyChangedEventArgs(propertyName))).AsTask().Wait();
+                    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => eventHandler(this, new PropertyChangedEventArgs(propertyName)));
             }
         }
     }

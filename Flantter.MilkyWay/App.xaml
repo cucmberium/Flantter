@@ -17,19 +17,21 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-			<converters:EnumToIntConverter x:Key="EnumToIntConverter"/>
-			<converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
+            <converters:EnumToIntConverter x:Key="EnumToIntConverter"/>
+            <converters:EnumToDoubleConverter x:Key="EnumToDoubleConverter"/>
+            <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
 			<converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
 			<converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
             <converters:StringToTweetBackgroundBrushConverter x:Key="StringToTweetBackgroundBrushConverter"/>
             <converters:BooleanNegationToVisibilityConverter x:Key="BooleanNegationToVisibilityConverter"/>
             <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
-            <converters:DoublePlus25Converter x:Key="DoublePlus25Converter"/>
-            <converters:DoublePlus3Converter x:Key="DoublePlus3Converter"/>
+            <converters:DoublePlusConverter x:Key="DoublePlusConverter"/>
+            <converters:IntToStringConverter x:Key="IntToStringConverter"/>
             
             <setting:SettingProvider x:Key="Setting"/>
             <setting:AdvancedSettingProvider x:Key="AdvancedSetting"/>
             <notice:NoticeProvider x:Key="Notice"/>
+            
         </ResourceDictionary>
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>

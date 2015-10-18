@@ -40,7 +40,11 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.TweetAreaDeletePictureCommand = new ReactiveCommand();
             this.TweetAreaOpenCommand = new ReactiveCommand();
 
+            this.SearchSettingsFlyoutDeleteSearchQueryCommand = new ReactiveCommand();
+
             this.ShowSettingsFlyoutCommand = new ReactiveCommand();
+
+            this.AddColumnCommand = new ReactiveCommand();
         }
 
         public static Notice Instance
@@ -76,7 +80,11 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand TweetAreaDeletePictureCommand { get; private set; }
         public ReactiveCommand TweetAreaOpenCommand { get; private set; }
 
+        public ReactiveCommand SearchSettingsFlyoutDeleteSearchQueryCommand { get; private set; }
+
         public ReactiveCommand ShowSettingsFlyoutCommand { get; private set; }
+
+        public ReactiveCommand AddColumnCommand { get; private set; }
     }
 
     public class NoticeProvider

@@ -158,10 +158,26 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
-        public void DisconnectAllFilterStreaming()
+        public void AddColumn(ColumnSetting column)
+        {
+            if (column.Index == -1)
+                column.Index = this._Columns.Count;
+
+            //this._AccountSetting.Column.Add(column);
+
+            var columnModel = new ColumnModel(column, this._AccountSetting, this);
+            this._Columns.Add(columnModel);
+
+            Task.Run(async () => await columnModel.Initialize());
+        }
+
+        public void DisconnectAllFilterStreaming(object sender = null)
         {
             foreach (var column in this._Columns)
             {
+                if (column == sender)
+                    continue;
+
                 if (column.Action == SettingSupport.ColumnTypeEnum.Search || column.Action == SettingSupport.ColumnTypeEnum.List)
                     column.Streaming = false;
             }

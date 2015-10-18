@@ -6,6 +6,7 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,13 +24,13 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.IconSource = new ReactiveProperty<string>("http://localhost/");
 
             this.ClearCommand = new ReactiveCommand();
-            this.ClearCommand.Subscribe(x =>
+            this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 this.Model.Conversation.Clear();
             });
 
             this.UpdateCommand = new ReactiveCommand();
-            this.UpdateCommand.Subscribe(async x =>
+            this.UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 await this.Model.UpdateConversation();
             });

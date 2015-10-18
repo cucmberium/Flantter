@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Themes;
+using Windows.Globalization;
 
 namespace Flantter.MilkyWay.Setting
 {
@@ -75,6 +76,36 @@ namespace Flantter.MilkyWay.Setting
             UserTimeline = 6,
             List = 7,
             Filter = 8,
+        }
+
+        public static long GetTrendsWoeId(TrendsPlaceEnum place)
+        {
+            switch (place)
+            {
+                case TrendsPlaceEnum.Default:
+                    switch (ApplicationLanguages.Languages.First())
+                    {
+                        case "ja":
+                            return 23424856;
+                        default:
+                            return 1;
+                    }
+                case TrendsPlaceEnum.Global:
+                    return 1;
+                case TrendsPlaceEnum.Japan:
+                    return 23424856;
+                case TrendsPlaceEnum.UnitedStates:
+                    return 23424977;
+                case TrendsPlaceEnum.UnitedKingdom:
+                    return 23424975;
+                case TrendsPlaceEnum.Canada:
+                    return 23424775;
+                case TrendsPlaceEnum.Australia:
+                    return 23424748;
+
+            }
+
+            return 1;
         }
     }
 

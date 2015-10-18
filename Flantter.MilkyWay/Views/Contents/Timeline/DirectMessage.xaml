@@ -64,7 +64,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="1" Height="{Binding Source={StaticResource Setting},Path=Setting.IconSize,Converter={StaticResource EnumToIntConverter}}" Width="{Binding RelativeSource={RelativeSource Self},Path=Height}" CornerRadius="4" VerticalAlignment="Top">
+            <Border Grid.Column="1" Height="{x:Bind ViewModel.Setting.IconSize, Mode=OneWay, Converter={StaticResource EnumToDoubleConverter}}" Width="{x:Bind ViewModel.Setting.IconSize, Mode=OneWay, Converter={StaticResource EnumToDoubleConverter}}" CornerRadius="4" VerticalAlignment="Top">
                 <Border.Background>
                     <ImageBrush ImageSource="{x:Bind ViewModel.ProfileImageUrl, Mode=OneWay}" />
                 </Border.Background>
@@ -80,7 +80,7 @@
                 <TextBlock>
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock TextWrapping="Wrap" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,2" FontFamily="{x:Bind ViewModel.Setting.CustomFontName,Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
                     <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{x:Bind ViewModel.CreatedAt, Mode=OneWay}"/>
                 </TextBlock>
@@ -94,7 +94,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="twitterObjectsViewModel:MediaEntityViewModel">
                             <Button Background="Transparent" BorderThickness="0" Command="{x:Bind Notice.ShowMediaCommand, Mode=OneWay}" CommandParameter="{x:Bind Model, Mode=OneWay}">
-                                <Image Height="{Binding Source={StaticResource Setting},Path=Setting.TweetMediaThumbnailSize}" MinWidth="{Binding RelativeSource={RelativeSource Self},Path=Height}" MaxWidth="150"  Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="Uniform"/>
+                                <Image Height="{x:Bind Setting.TweetMediaThumbnailSize, Mode=OneWay}" MinWidth="{x:Bind Setting.TweetMediaThumbnailSize, Mode=OneWay}" MaxWidth="150"  Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="Uniform"/>
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -132,7 +132,7 @@
                         <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                     </ObjectAnimationUsingKeyFrames>
                     <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CommandGrid">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="{Binding Source={StaticResource Setting},Path=Setting.TweetCommandBarHeight}">
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="{x:Bind ViewModel.Setting.TweetCommandBarHeight, Mode=OneWay}">
                             <EasingDoubleKeyFrame.EasingFunction>
                                 <SineEase EasingMode="EaseInOut"/>
                             </EasingDoubleKeyFrame.EasingFunction>

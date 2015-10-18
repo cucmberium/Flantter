@@ -313,4 +313,67 @@
     <value>{0} retweeted {1} retweet.</value>
     <comment>(user) retweeted your retweet.</comment>
   </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_ContentTextblock.Text" xml:space="preserve">
+    <value>    Content</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_RetweetsTextblock.Text" xml:space="preserve">
+    <value>Retweets : </value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Retweets_ExcludedComboBoxItem.Content" xml:space="preserve">
+    <value>excluded</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Retweets_IncludedComboBoxItem.Content" xml:space="preserve">
+    <value>included</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_ShowingTextblock.Text" xml:space="preserve">
+    <value>Showing : </value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_AllTweetsComboBoxItem.Content" xml:space="preserve">
+    <value>all Tweets</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithAnyMediasComboBoxItem.Content" xml:space="preserve">
+    <value>Tweets with any medias</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithImagesComboBoxItem.Content" xml:space="preserve">
+    <value>Tweets with images</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithLinksComboBoxItem.Content" xml:space="preserve">
+    <value>Tweets with links</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithVideosComboBoxItem.Content" xml:space="preserve">
+    <value>Tweets with videos</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithVinesComboBoxItem.Content" xml:space="preserve">
+    <value>Tweets with Vines</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_WrittenInTextblock.Text" xml:space="preserve">
+    <value>Written in : </value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Content_WrittenIn_AllLanguageComboBoxItem.Content" xml:space="preserve">
+    <value>all Language</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_EngagementTextblock.Text" xml:space="preserve">
+    <value>★    Engagement</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_FirstTextblock.Text" xml:space="preserve">
+    <value>At least </value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_SecondTextblock.Text" xml:space="preserve">
+    <value> favorites</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_FirstTextblock.Text" xml:space="preserve">
+    <value>At least </value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_SecondTextblock.Text" xml:space="preserve">
+    <value> retweets</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Menu_AddColumnButton.Content" xml:space="preserve">
+    <value>Add column</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Menu_DeleteHistoryButton.Content" xml:space="preserve">
+    <value>Delete history</value>
+  </data>
+  <data name="SettingsFlyout_Search_AdvancedSearch_Menu_SaveThisSearchButton.Content" xml:space="preserve">
+    <value>Save this search</value>
+  </data>
 </root>

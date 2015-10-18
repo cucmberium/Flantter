@@ -120,7 +120,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
         #endregion
 
-        #region IsFollowing変更通知プロパティ
+        #region IsBlocking変更通知プロパティ
         private bool _IsBlocking;
         public bool IsBlocking
         {
@@ -419,6 +419,20 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             followingCursor = following.NextCursor;
             this.UpdatingFollowing = false;
+        }
+
+        public async Task CreateBlock()
+        {
+            try
+            {
+                await this.Tokens.Blocks.CreateAsync(screen_name => this._ScreenName);
+            }
+            catch
+            {
+                // Todo : 通知
+            }
+
+            this.IsBlocking = true;
         }
     }
 }

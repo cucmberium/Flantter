@@ -116,7 +116,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             if (IsScrollLockToTopEnabled)
             {
-                this.ScrollViewerObject.ChangeView(null, 0.01, null, true);
+                this.ScrollViewerObject.ChangeView(null, 0, null, true);
                 return;
             }
 
@@ -170,13 +170,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 case SettingSupport.TweetAnimationEnum.ScrollToTop:
                     if (isAnimationRunning && !isAnimationCooldown)
                         this.RunAnimation(offset, changedVerticalOffset);
-                    else if (oldVerticalOffset <= 2 && !isAnimationCooldown)
-                        this.RunAnimation(offset, changedVerticalOffset + oldVerticalOffset - 2.0);
+                    else if (oldVerticalOffset <= 2.5 && !isAnimationCooldown)
+                        this.RunAnimation(offset, changedVerticalOffset + oldVerticalOffset - 2.5);
 
                     break;
                 case SettingSupport.TweetAnimationEnum.Expand:
                 case SettingSupport.TweetAnimationEnum.Slide:
-                    if (oldVerticalOffset > 2 || isAnimationCooldown)
+                    if (oldVerticalOffset > 2.5 || isAnimationCooldown)
                         return;
 
                     var lvItem = ((ListView)this.AssociatedObject).ContainerFromIndex(0) as ListViewItem;
@@ -247,7 +247,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 new Task(() => { }).Wait(10);
             }
             isAnimationRunning = false;
-            this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0.01, null, true)).AsTask().Wait();
+            this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0, null, true)).AsTask().Wait();
         }
 
         private void ListView_LayoutUpdated(object sender, object e)
@@ -353,7 +353,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 var selectedItemIndex = ((ListView)behavior.AssociatedObject).SelectedIndex;
 
                 var unreadCount = 0;
-                if (behavior.ScrollViewerObject.ExtentHeight == behavior.ScrollViewerObject.ViewportHeight)
+                if (behavior.ScrollViewerObject.ExtentHeight <= behavior.ScrollViewerObject.ViewportHeight)
                     unreadCount = 0;
                 else if (behavior.isAnimationRunning)
                     unreadCount = 0;

@@ -206,6 +206,25 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         }
         #endregion
 
+        #region RetweetInformation 関連
+        public static bool GetRetweetInformationVisibility(DependencyObject obj) { return (bool)obj.GetValue(RetweetInformationVisibilityProperty); }
+        public static void SetRetweetInformationVisibility(DependencyObject obj, bool value) { obj.SetValue(RetweetInformationVisibilityProperty, value); }
+
+        public static readonly DependencyProperty RetweetInformationVisibilityProperty =
+            DependencyProperty.Register("RetweetInformationVisibility", typeof(bool), typeof(Status), new PropertyMetadata(false, RetweetInformationVisibility_PropertyChanged));
+
+        private static void RetweetInformationVisibility_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var status = obj as Status;
+            var itemsControl = status.FindName("RetweetInformationGrid") as Grid;
+
+            if (GetRetweetInformationVisibility(obj))
+                itemsControl.Visibility = Visibility.Visible;
+            else
+                itemsControl.Visibility = Visibility.Collapsed;
+        }
+        #endregion
+
         #region CommandGrid 関連
         private static void CommandGrid_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {

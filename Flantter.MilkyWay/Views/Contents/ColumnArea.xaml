@@ -237,7 +237,7 @@
         </Style>
     </UserControl.Resources>
 
-    <ListBox x:Name="ColumnArea_ColumnList" Grid.Row="0" Style="{StaticResource ExtendedListBox}" Margin="5,10" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{x:Bind ViewModel.Columns, Mode=OneWay}">
+    <contents:ColumnAreaListBox x:Name="ColumnArea_ColumnList" Grid.Row="0" Style="{StaticResource ExtendedListBox}" Margin="5,10" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{x:Bind ViewModel.Columns, Mode=OneWay}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <controls:ExtendedCanvas x:Name="ColumnListCanvas" Width="{Binding PanelWidth.Value, Mode=OneWay}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value, Mode=OneWay}" MaxSnapPoint="{Binding MaxSnapPoint.Value}" MinSnapPoint="{Binding MinSnapPoint.Value, Mode=OneWay}"/>
@@ -277,8 +277,6 @@
                         <contents:TimelineArea ViewModel="{x:Bind Mode=OneWay}"/>
 
                     </controls:PullToRefreshPanel>
-
-                    <!--<contents:TimelineArea ViewModel="{x:Bind Mode=OneWay}"/>-->
 
                     <Polygon Grid.Row="0" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Fill="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}" Points="10,10,20,0,30,10" Width="40" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                     
@@ -320,7 +318,7 @@
                         </Button>
                     </Grid>
 
-                    <StackPanel x:Name="TweetMultipulActionStackPanel" Grid.Row="2" Height="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <StackPanel x:Name="TweetMultipulActionStackPanel" Grid.Row="2" Height="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="Collapsed">
                         <AppBarButton Command="{Binding MultipulRetweetClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare"/>
                         <AppBarButton Command="{Binding MultipulFavoriteClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite"/>
                         <AppBarButton Command="{Binding MultipulReplyClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message"/>
@@ -335,16 +333,6 @@
                 <Setter Property="TabNavigation" Value="Local" />
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="HorizontalContentAlignment" Value="Left" />
-                <Setter Property="common:SetterValueBindingHelper.PropertyBinding">
-                    <Setter.Value>
-                        <common:SetterValueBindingHelper>
-                            <common:SetterValueBindingHelper
-                                                     Type="Windows.UI.Xaml.Controls.Canvas, Windows.UI.Xaml, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime"
-                                                     Property="Left"
-                                                     Binding="{Binding Left.Value, Mode=OneWay}" />
-                        </common:SetterValueBindingHelper>
-                    </Setter.Value>
-                </Setter>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBoxItem">
@@ -395,6 +383,6 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-    </ListBox>
+    </contents:ColumnAreaListBox>
 
 </UserControl>

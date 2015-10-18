@@ -1,6 +1,7 @@
 ﻿using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Setting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.IsMyTweet = (directMessage.Sender.Id == userId);
 
             this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
         }
 
         public DirectMessageViewModel(DirectMessage directMessage)
@@ -85,6 +87,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.IsMyTweet = false;
 
             this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
         }
 
         public DirectMessage Model { get; private set; }
@@ -120,5 +123,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public bool IsMyTweet { get; set; }
 
         public Services.Notice Notice { get; set; }
+
+        public Setting.SettingService Setting { get; set; }
     }
 }

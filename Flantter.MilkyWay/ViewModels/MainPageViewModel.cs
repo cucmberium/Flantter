@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
+using System.Reactive.Concurrency;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -64,7 +65,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             #region Command
 
-            Services.Notice.Instance.ShowMediaCommand.Subscribe(async x =>
+            Services.Notice.Instance.ShowMediaCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 var media = x as MediaEntity;
 
@@ -78,7 +79,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             });
 
-            Services.Notice.Instance.TweetAreaOpenCommand.Subscribe(x =>
+            Services.Notice.Instance.TweetAreaOpenCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var isOpen = false;
                 if (x == null)
@@ -89,7 +90,7 @@ namespace Flantter.MilkyWay.ViewModels
                 this.AppBarIsOpen.Value = isOpen;
             });
 
-            Services.Notice.Instance.ShowSettingsFlyoutCommand.Subscribe(async x =>
+            Services.Notice.Instance.ShowSettingsFlyoutCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 await this.ShowSettingsFlyoutMessenger.Raise(x as Notification);
             });

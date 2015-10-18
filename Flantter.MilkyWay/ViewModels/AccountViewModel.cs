@@ -9,6 +9,7 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using Windows.ApplicationModel.DataTransfer;
@@ -101,7 +102,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             #region Command
 
-            Services.Notice.Instance.LoadMentionCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            Services.Notice.Instance.LoadMentionCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
@@ -146,7 +147,7 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.OnPropertyChanged("IsMentionStatusLoaded");
             });
 
-            Services.Notice.Instance.RetweetCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            Services.Notice.Instance.RetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
@@ -178,7 +179,7 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
             });
 
-            Services.Notice.Instance.FavoriteCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            Services.Notice.Instance.FavoriteCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
@@ -210,7 +211,7 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
             });
 
-            Services.Notice.Instance.DeleteRetweetCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            Services.Notice.Instance.DeleteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
@@ -239,7 +240,7 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
             });
 
-            Services.Notice.Instance.UrlClickCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            Services.Notice.Instance.UrlClickCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
             {
                 var linkUrl = x as string;
                 if (string.IsNullOrWhiteSpace(linkUrl))
@@ -270,7 +271,7 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             });
 
-            Services.Notice.Instance.CopyTweetCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.CopyTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
             {
                 var status = x as Status;
                 if (status != null)
@@ -305,22 +306,31 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             });
 
-            Services.Notice.Instance.ShowUserProfileCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this._AccountModel._Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
-            Services.Notice.Instance.ShowConversationCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowConversationCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Conversation", Tokens = this._AccountModel._Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
-            Services.Notice.Instance.ShowSearchCommand.Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Search", Tokens = this._AccountModel._Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+            Services.Notice.Instance.AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            {
+                var setting = x as ColumnSetting;
+                if (setting == null)
+                    return;
+
+                this._AccountModel.AddColumn(setting);
             });
 
             #endregion

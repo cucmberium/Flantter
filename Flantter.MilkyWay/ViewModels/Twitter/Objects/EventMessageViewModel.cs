@@ -1,6 +1,7 @@
 ﻿using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Setting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +75,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             }
 
             this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
         }
 
         public EventMessageViewModel(EventMessage eventMessage)
@@ -125,6 +127,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             }
 
             this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
         }
 
         public EventMessage Model { get; private set; }
@@ -160,5 +163,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public Entities TargetStatusEntities { get; set; }
 
         public Services.Notice Notice { get; set; }
+
+        public Setting.SettingService Setting { get; set; }
     }
 }

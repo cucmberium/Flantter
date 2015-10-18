@@ -134,6 +134,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.IsMyRetweet = (status.RetweetInformation != null && status.RetweetInformation.User.Id == userId) || status.IsRetweeted;
             
             this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
         }
 
         public StatusViewModel(Status status)
@@ -246,6 +247,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.IsMyRetweet = false;
 
             this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
         }
 
         public Status Model { get; private set; }
@@ -339,5 +341,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public bool IsMyRetweet { get; set; }
 
         public Services.Notice Notice { get; set; }
+
+        public Setting.SettingService Setting { get; set; }
     }
 }

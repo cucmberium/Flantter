@@ -114,7 +114,6 @@
     <Compile Include="Common\FontServiceBase.cs" />
     <Compile Include="Common\GetMethodHelper.cs" />
     <Compile Include="Common\IEnumerableExtensions.cs" />
-    <Compile Include="Common\SetterValueBindingHelper.cs" />
     <Compile Include="Common\SettingServiceBase.cs" />
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Common\TweetRegexPatterns.cs" />
@@ -133,6 +132,8 @@
     <Compile Include="Models\SettingsFlyouts\ConversationSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\UserProfileSettingsFlyoutModel.cs" />
     <Compile Include="Models\TweetAreaModel.cs" />
+    <Compile Include="Models\Twitter\Objects\SearchQuery.cs" />
+    <Compile Include="Models\Twitter\Objects\Trend.cs" />
     <Compile Include="Models\Twitter\Video\NicoVideo.cs" />
     <Compile Include="Models\Twitter\Objects\DirectMessage.cs" />
     <Compile Include="Models\Twitter\Objects\Entities.cs" />
@@ -159,6 +160,8 @@
     <Compile Include="ViewModels\Twitter\Objects\DirectMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\ITweetViewModel.cs" />
+    <Compile Include="ViewModels\Twitter\Objects\SearchQueryViewModel.cs" />
+    <Compile Include="ViewModels\Twitter\Objects\TrendViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\UserViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
     <Compile Include="Views\Behaviors\ScrollViewerIncrementalLoadBehavior.cs" />
@@ -170,6 +173,7 @@
     <Compile Include="Views\Behaviors\BottomAppBarShowBehavior.cs" />
     <Compile Include="Views\Behaviors\TextBoxFocusBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetAreaSuggestionBehavior.cs" />
+    <Compile Include="Views\Contents\ColumnAreaListBox.cs" />
     <Compile Include="Views\Contents\FollowButon.xaml.cs">
       <DependentUpon>FollowButon.xaml</DependentUpon>
     </Compile>
@@ -228,13 +232,15 @@
     <Compile Include="Views\Controls\BindableMenuFlyout.cs" />
     <Compile Include="Views\Controls\ExtendedCanvas.cs" />
     <Compile Include="Views\Controls\ExtendedSettingsFlyout.cs" />
+    <Compile Include="Views\Controls\NumericTextBox.cs" />
     <Compile Include="Views\Controls\ExtendedTextBox.cs" />
     <Compile Include="Views\Controls\HorizontalBar.cs" />
     <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
     <Compile Include="Views\Controls\TriangleButton.cs" />
     <Compile Include="Views\Controls\VerticalBar.cs" />
-    <Compile Include="Views\Converters\DoublePlus3Converter.cs" />
-    <Compile Include="Views\Converters\DoublePlus25Converter.cs" />
+    <Compile Include="Views\Converters\EnumToDoubleConverter.cs" />
+    <Compile Include="Views\Converters\IntToStringConverter.cs" />
+    <Compile Include="Views\Converters\DoublePlusConverter.cs" />
     <Compile Include="Views\Converters\BooleanNegationConverter.cs" />
     <Compile Include="Views\Converters\BooleanNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
@@ -253,6 +259,7 @@
     <Compile Include="Views\Util\FileOpenPickerAction.cs" />
     <Compile Include="Views\Util\KeyTriggerBehavior.cs" />
     <Compile Include="Views\Util\MessengerTriggerBehavior.cs" />
+    <Compile Include="Views\Util\StoryboardBeginAction.cs" />
     <Compile Include="Views\Util\ShowAttachedFlyoutAction.cs" />
     <Compile Include="Views\Behaviors\ShowVideoPreviewAction.cs" />
     <Compile Include="Views\Behaviors\ShowImagePreviewAction.cs" />
@@ -280,12 +287,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Prism.Windows\Prism.Windows.csproj">
-      <Project>{3b7c3599-a336-4db2-8678-710e3b36203b}</Project>
-      <Name>Prism.Windows</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">

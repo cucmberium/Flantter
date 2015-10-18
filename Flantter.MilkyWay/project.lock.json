@@ -259,12 +259,40 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.0.1": {
+      "Prism.Core/6.1.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
         "runtime": {
           "lib/wpa81/Prism.dll": {}
+        }
+      },
+      "Prism.Windows/6.0.0": {
+        "dependencies": {
+          "Prism.Core": "[6.1.0, )",
+          "System.Collections": "[4.0.10, )",
+          "System.ComponentModel": "[4.0.0, )",
+          "System.ComponentModel.Annotations": "[4.0.10, )",
+          "System.Diagnostics.Debug": "[4.0.10, )",
+          "System.Globalization": "[4.0.10, )",
+          "System.IO": "[4.0.10, )",
+          "System.Linq": "[4.0.0, )",
+          "System.ObjectModel": "[4.0.10, )",
+          "System.Reflection": "[4.0.10, )",
+          "System.Reflection.Extensions": "[4.0.0, )",
+          "System.Runtime": "[4.0.20, )",
+          "System.Runtime.InteropServices.WindowsRuntime": "[4.0.0, )",
+          "System.Runtime.Serialization.Xml": "[4.0.10, )",
+          "System.Runtime.WindowsRuntime": "[4.0.10, )",
+          "System.Threading": "[4.0.10, )",
+          "System.Threading.Tasks": "[4.0.10, )",
+          "System.Xml.XDocument": "[4.0.10, )"
+        },
+        "compile": {
+          "lib/uap10.0/Prism.Windows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
       "ReactiveProperty/2.2.6.1": {
@@ -1987,12 +2015,40 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.0.1": {
+      "Prism.Core/6.1.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
         "runtime": {
           "lib/wpa81/Prism.dll": {}
+        }
+      },
+      "Prism.Windows/6.0.0": {
+        "dependencies": {
+          "Prism.Core": "[6.1.0, )",
+          "System.Collections": "[4.0.10, )",
+          "System.ComponentModel": "[4.0.0, )",
+          "System.ComponentModel.Annotations": "[4.0.10, )",
+          "System.Diagnostics.Debug": "[4.0.10, )",
+          "System.Globalization": "[4.0.10, )",
+          "System.IO": "[4.0.10, )",
+          "System.Linq": "[4.0.0, )",
+          "System.ObjectModel": "[4.0.10, )",
+          "System.Reflection": "[4.0.10, )",
+          "System.Reflection.Extensions": "[4.0.0, )",
+          "System.Runtime": "[4.0.20, )",
+          "System.Runtime.InteropServices.WindowsRuntime": "[4.0.0, )",
+          "System.Runtime.Serialization.Xml": "[4.0.10, )",
+          "System.Runtime.WindowsRuntime": "[4.0.10, )",
+          "System.Threading": "[4.0.10, )",
+          "System.Threading.Tasks": "[4.0.10, )",
+          "System.Xml.XDocument": "[4.0.10, )"
+        },
+        "compile": {
+          "lib/uap10.0/Prism.Windows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
       "ReactiveProperty/2.2.6.1": {
@@ -3748,12 +3804,40 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.0.1": {
+      "Prism.Core/6.1.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
         "runtime": {
           "lib/wpa81/Prism.dll": {}
+        }
+      },
+      "Prism.Windows/6.0.0": {
+        "dependencies": {
+          "Prism.Core": "[6.1.0, )",
+          "System.Collections": "[4.0.10, )",
+          "System.ComponentModel": "[4.0.0, )",
+          "System.ComponentModel.Annotations": "[4.0.10, )",
+          "System.Diagnostics.Debug": "[4.0.10, )",
+          "System.Globalization": "[4.0.10, )",
+          "System.IO": "[4.0.10, )",
+          "System.Linq": "[4.0.0, )",
+          "System.ObjectModel": "[4.0.10, )",
+          "System.Reflection": "[4.0.10, )",
+          "System.Reflection.Extensions": "[4.0.0, )",
+          "System.Runtime": "[4.0.20, )",
+          "System.Runtime.InteropServices.WindowsRuntime": "[4.0.0, )",
+          "System.Runtime.Serialization.Xml": "[4.0.10, )",
+          "System.Runtime.WindowsRuntime": "[4.0.10, )",
+          "System.Threading": "[4.0.10, )",
+          "System.Threading.Tasks": "[4.0.10, )",
+          "System.Xml.XDocument": "[4.0.10, )"
+        },
+        "compile": {
+          "lib/uap10.0/Prism.Windows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
       "ReactiveProperty/2.2.6.1": {
@@ -5514,12 +5598,40 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.0.1": {
+      "Prism.Core/6.1.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
         "runtime": {
           "lib/wpa81/Prism.dll": {}
+        }
+      },
+      "Prism.Windows/6.0.0": {
+        "dependencies": {
+          "Prism.Core": "[6.1.0, )",
+          "System.Collections": "[4.0.10, )",
+          "System.ComponentModel": "[4.0.0, )",
+          "System.ComponentModel.Annotations": "[4.0.10, )",
+          "System.Diagnostics.Debug": "[4.0.10, )",
+          "System.Globalization": "[4.0.10, )",
+          "System.IO": "[4.0.10, )",
+          "System.Linq": "[4.0.0, )",
+          "System.ObjectModel": "[4.0.10, )",
+          "System.Reflection": "[4.0.10, )",
+          "System.Reflection.Extensions": "[4.0.0, )",
+          "System.Runtime": "[4.0.20, )",
+          "System.Runtime.InteropServices.WindowsRuntime": "[4.0.0, )",
+          "System.Runtime.Serialization.Xml": "[4.0.10, )",
+          "System.Runtime.WindowsRuntime": "[4.0.10, )",
+          "System.Threading": "[4.0.10, )",
+          "System.Threading.Tasks": "[4.0.10, )",
+          "System.Xml.XDocument": "[4.0.10, )"
+        },
+        "compile": {
+          "lib/uap10.0/Prism.Windows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
       "ReactiveProperty/2.2.6.1": {
@@ -7275,12 +7387,40 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.0.1": {
+      "Prism.Core/6.1.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
         "runtime": {
           "lib/wpa81/Prism.dll": {}
+        }
+      },
+      "Prism.Windows/6.0.0": {
+        "dependencies": {
+          "Prism.Core": "[6.1.0, )",
+          "System.Collections": "[4.0.10, )",
+          "System.ComponentModel": "[4.0.0, )",
+          "System.ComponentModel.Annotations": "[4.0.10, )",
+          "System.Diagnostics.Debug": "[4.0.10, )",
+          "System.Globalization": "[4.0.10, )",
+          "System.IO": "[4.0.10, )",
+          "System.Linq": "[4.0.0, )",
+          "System.ObjectModel": "[4.0.10, )",
+          "System.Reflection": "[4.0.10, )",
+          "System.Reflection.Extensions": "[4.0.0, )",
+          "System.Runtime": "[4.0.20, )",
+          "System.Runtime.InteropServices.WindowsRuntime": "[4.0.0, )",
+          "System.Runtime.Serialization.Xml": "[4.0.10, )",
+          "System.Runtime.WindowsRuntime": "[4.0.10, )",
+          "System.Threading": "[4.0.10, )",
+          "System.Threading.Tasks": "[4.0.10, )",
+          "System.Xml.XDocument": "[4.0.10, )"
+        },
+        "compile": {
+          "lib/uap10.0/Prism.Windows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
       "ReactiveProperty/2.2.6.1": {
@@ -9041,12 +9181,40 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.0.1": {
+      "Prism.Core/6.1.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
         "runtime": {
           "lib/wpa81/Prism.dll": {}
+        }
+      },
+      "Prism.Windows/6.0.0": {
+        "dependencies": {
+          "Prism.Core": "[6.1.0, )",
+          "System.Collections": "[4.0.10, )",
+          "System.ComponentModel": "[4.0.0, )",
+          "System.ComponentModel.Annotations": "[4.0.10, )",
+          "System.Diagnostics.Debug": "[4.0.10, )",
+          "System.Globalization": "[4.0.10, )",
+          "System.IO": "[4.0.10, )",
+          "System.Linq": "[4.0.0, )",
+          "System.ObjectModel": "[4.0.10, )",
+          "System.Reflection": "[4.0.10, )",
+          "System.Reflection.Extensions": "[4.0.0, )",
+          "System.Runtime": "[4.0.20, )",
+          "System.Runtime.InteropServices.WindowsRuntime": "[4.0.0, )",
+          "System.Runtime.Serialization.Xml": "[4.0.10, )",
+          "System.Runtime.WindowsRuntime": "[4.0.10, )",
+          "System.Threading": "[4.0.10, )",
+          "System.Threading.Tasks": "[4.0.10, )",
+          "System.Xml.XDocument": "[4.0.10, )"
+        },
+        "compile": {
+          "lib/uap10.0/Prism.Windows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
       "ReactiveProperty/2.2.6.1": {
@@ -10802,12 +10970,40 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.0.1": {
+      "Prism.Core/6.1.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
         "runtime": {
           "lib/wpa81/Prism.dll": {}
+        }
+      },
+      "Prism.Windows/6.0.0": {
+        "dependencies": {
+          "Prism.Core": "[6.1.0, )",
+          "System.Collections": "[4.0.10, )",
+          "System.ComponentModel": "[4.0.0, )",
+          "System.ComponentModel.Annotations": "[4.0.10, )",
+          "System.Diagnostics.Debug": "[4.0.10, )",
+          "System.Globalization": "[4.0.10, )",
+          "System.IO": "[4.0.10, )",
+          "System.Linq": "[4.0.0, )",
+          "System.ObjectModel": "[4.0.10, )",
+          "System.Reflection": "[4.0.10, )",
+          "System.Reflection.Extensions": "[4.0.0, )",
+          "System.Runtime": "[4.0.20, )",
+          "System.Runtime.InteropServices.WindowsRuntime": "[4.0.0, )",
+          "System.Runtime.Serialization.Xml": "[4.0.10, )",
+          "System.Runtime.WindowsRuntime": "[4.0.10, )",
+          "System.Threading": "[4.0.10, )",
+          "System.Threading.Tasks": "[4.0.10, )",
+          "System.Xml.XDocument": "[4.0.10, )"
+        },
+        "compile": {
+          "lib/uap10.0/Prism.Windows.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
       "ReactiveProperty/2.2.6.1": {
@@ -13036,8 +13232,8 @@
         "package/services/metadata/core-properties/eaf4fa10e90244a2b35d1c6781809563.psmdcp"
       ]
     },
-    "Prism.Core/6.0.1": {
-      "sha512": "oT5bX2CzCRx/jXo9L9wiTipAQ2EdVWd3L2KSoTEayUHk8A14nGJqvCpPhF+5zXb11/PFNw1+Qth1iHWX5YjSGg==",
+    "Prism.Core/6.1.0": {
+      "sha512": "JDUhYt+w3cawTVgLR1Hsbf59sytjsyFIdTmrbJKkKtHW7CCWAHFM9DGesWSU7cmUgbHm7MYZx5hQA+xiBTQeVg==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -13058,8 +13254,21 @@
         "lib/wpa81/Prism.xml",
         "lib/Xamarin.iOS10/Prism.dll",
         "lib/Xamarin.iOS10/Prism.xml",
-        "package/services/metadata/core-properties/9470bdd9d7614142b87e5fd093238441.psmdcp",
+        "package/services/metadata/core-properties/0435939d80aa4e7a8aa2f9784faad02c.psmdcp",
         "Prism.Core.nuspec"
+      ]
+    },
+    "Prism.Windows/6.0.0": {
+      "sha512": "mp92mD1N8WlAuWMPiEw2L3xIvUugmtBbBv8W58ypnG8ZomJGF5vpTun6OYka3hEGjoJs/WNFIsdMcvwMCRh2yg==",
+      "type": "Package",
+      "files": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "lib/uap10.0/Prism.Windows.dll",
+        "lib/uap10.0/Prism.Windows.pri",
+        "lib/uap10.0/Prism.Windows.xml",
+        "package/services/metadata/core-properties/6c695df5ded5441b84081e105baa4548.psmdcp",
+        "Prism.Windows.nuspec"
       ]
     },
     "ReactiveProperty/2.2.6.1": {
@@ -16035,7 +16244,8 @@
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0",
       "Newtonsoft.Json >= 7.0.1",
       "NotificationsExtensions.Win10 >= 10240.0.7",
-      "Prism.Core >= 6.0.1",
+      "Prism.Core >= 6.1.0",
+      "Prism.Windows >= 6.0.0",
       "ReactiveProperty >= 2.2.6.1",
       "Rx-Core >= 2.2.5",
       "Rx-Interfaces >= 2.2.5",

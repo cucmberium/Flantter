@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Globalization;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
@@ -19,6 +20,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         {
             this.Statuses = new ObservableCollection<Twitter.Objects.Status>();
             this.Users = new ObservableCollection<Twitter.Objects.User>();
+
+            this.Trends = new ObservableCollection<Twitter.Objects.Trend>();
+            this.SavedSearches = new ObservableCollection<Twitter.Objects.SearchQuery>();
         }
 
         #region Tokens変更通知プロパティ
@@ -66,9 +70,31 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
         #endregion
 
+        #region SavedSearchesScreenName変更通知プロパティ
+        private string _SavedSearchesScreenName;
+        public string SavedSearchesScreenName
+        {
+            get { return this._SavedSearchesScreenName; }
+            set { this.SetProperty(ref this._SavedSearchesScreenName, value); }
+        }
+        #endregion
+
+        #region TrendsPlace変更通知プロパティ
+        private string _TrendsPlace;
+        public string TrendsPlace
+        {
+            get { return this._TrendsPlace; }
+            set { this.SetProperty(ref this._TrendsPlace, value); }
+        }
+        #endregion
+
         public ObservableCollection<Twitter.Objects.Status> Statuses { get; set; }
 
         public ObservableCollection<Twitter.Objects.User> Users { get; set; }
+
+        public ObservableCollection<Twitter.Objects.Trend> Trends { get; set; }
+
+        public ObservableCollection<Twitter.Objects.SearchQuery> SavedSearches { get; set; }
 
         public async Task UpdateStatuses(long maxid = 0)
         {
@@ -136,9 +162,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             try
             {
                 if (useCursor && usersCursor != 0)
-                    following = await Tokens.Users.SearchAsync(screen_name => this._UserSearchWords, count => 20, page => usersCursor);
+                    following = await Tokens.Users.SearchAsync(q => this._UserSearchWords, count => 20, page => usersCursor);
                 else
-                    following = await Tokens.Users.SearchAsync(screen_name => this._UserSearchWords, count => 20);
+                    following = await Tokens.Users.SearchAsync(q => this._UserSearchWords, count => 20);
             }
             catch
             {
@@ -161,9 +187,128 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (useCursor)
                 usersCursor += 1;
             else
-                usersCursor = 1;
+                usersCursor = 2;
 
             this.UpdatingUserSearch = false;
+        }
+
+        public async Task CreateSavedSearches(string word)
+        {
+            try
+            {
+                await this.Tokens.SavedSearches.CreateAsync(query => word);
+            }
+            catch
+            {
+                // Todo : 通知
+                return;
+            }
+
+            // Todo : 通知
+
+            await this.UpdateSavedSearches(true);
+        }
+
+        public async Task DestroySavedSearches(long savedSearchId)
+        {
+            try
+            {
+                await this.Tokens.SavedSearches.DestroyAsync(id => savedSearchId);
+            }
+            catch
+            {
+                // Todo : 通知
+                return;
+            }
+
+            // Todo : 通知
+
+            await this.UpdateSavedSearches(true);
+        }
+
+        public bool UpdatingTrends { get; set; } = false;
+        private long trendsLastWoeId = 0;
+        private DateTime trendsLastUpdate = DateTime.Now - TimeSpan.FromDays(1.0);
+        public async Task UpdateTrends(bool forceUpdate = false)
+        {
+            if (this.UpdatingTrends)
+                return;
+
+            if (!forceUpdate && trendsLastUpdate + TimeSpan.FromMinutes(15) > DateTime.Now && trendsLastWoeId == SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsPlace))
+                return;
+
+            this.UpdatingTrends = true;
+            
+            this.TrendsPlace = (SettingService.Setting.TrendsPlace == SettingSupport.TrendsPlaceEnum.Default) ? ((ApplicationLanguages.Languages.First() == "ja") ? "Japan" : "Global") : SettingService.Setting.TrendsPlace.ToString();
+
+            this.Trends.Clear();
+            try
+            {
+                var trends = await this.Tokens.Trends.PlaceAsync(id => SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsPlace));
+
+                if (trends.Count == 0)
+                {
+                    this.UpdatingTrends = false;
+                    return;
+                }
+
+                this.Trends.Clear();
+                foreach (var trend in trends.First().Trends)
+                    this.Trends.Add(new Twitter.Objects.Trend(trend));
+
+                trendsLastUpdate = trends.First().CreatedAt.DateTime.ToLocalTime();
+
+                trendsLastWoeId = SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsPlace);
+            }
+            catch
+            {
+                this.UpdatingTrends = false;
+                return;
+            }
+
+            this.UpdatingTrends = false;
+        }
+
+        public bool UpdatingSavedSearches { get; set; } = false;
+        private DateTime savedSearchesLastUpdate = DateTime.Now - TimeSpan.FromDays(1.0);
+        private string savedSearchesLastScreenName = "";
+        public async Task UpdateSavedSearches(bool forceUpdate = false)
+        {
+            if (this.UpdatingSavedSearches)
+                return;
+
+            if (!forceUpdate && savedSearchesLastUpdate + TimeSpan.FromMinutes(15) > DateTime.Now && savedSearchesLastScreenName == this.Tokens.ScreenName)
+                return;
+
+            this.UpdatingSavedSearches = true;
+
+            this.SavedSearchesScreenName = this.Tokens.ScreenName;
+            
+            this.SavedSearches.Clear();
+            try
+            {
+                var savedSearches = await this.Tokens.SavedSearches.ListAsync();
+
+                if (savedSearches.Count == 0)
+                {
+                    this.UpdatingSavedSearches = false;
+                    return;
+                }
+
+                this.SavedSearches.Clear();
+                foreach (var savedSearch in savedSearches)
+                    this.SavedSearches.Add(new Twitter.Objects.SearchQuery(savedSearch));
+
+                savedSearchesLastUpdate = DateTime.Now;
+                savedSearchesLastScreenName = this.Tokens.ScreenName;
+            }
+            catch
+            {
+                this.UpdatingSavedSearches = false;
+                return;
+            }
+
+            this.UpdatingSavedSearches = false;
         }
     }
 }

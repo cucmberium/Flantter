@@ -233,133 +233,128 @@
                 </Setter.Value>
             </Setter>
         </Style>
-    </controls:ExtendedSettingsFlyout.Resources>
 
-    <Grid x:Name="SearchSettingsFlyoutGrid">
-        <Pivot x:Name="SearchSettingsFlyoutPivot" Style="{StaticResource PivotStyleDynamicHeader}" Background="{StaticResource SettingsFlyoutBackgroundBrush}" SelectedIndex="{x:Bind ViewModel.PivotSelectedIndex.Value, Mode=OneWay}">
-
-            <Pivot.Resources>
-                <Style TargetType="PivotHeaderItem">
-                    <Setter Property="FontSize" Value="{ThemeResource PivotHeaderItemFontSize}" />
-                    <Setter Property="FontFamily" Value="{ThemeResource PivotHeaderItemFontFamily}" />
-                    <Setter Property="FontWeight" Value="{ThemeResource PivotHeaderItemThemeFontWeight}" />
-                    <Setter Property="CharacterSpacing" Value="{ThemeResource PivotHeaderItemCharacterSpacing}" />
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Foreground" Value="{StaticResource PivotHeaderItemForegroundBrush}" />
-                    <Setter Property="Padding" Value="{ThemeResource PivotHeaderItemMargin}" />
-                    <Setter Property="Height" Value="48" />
-                    <Setter Property="VerticalContentAlignment" Value="Center" />
-                    <Setter Property="IsTabStop" Value="False" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="PivotHeaderItem">
-                                <Grid 
+        <Style TargetType="PivotHeaderItem">
+            <Setter Property="FontSize" Value="{ThemeResource PivotHeaderItemFontSize}" />
+            <Setter Property="FontFamily" Value="{ThemeResource PivotHeaderItemFontFamily}" />
+            <Setter Property="FontWeight" Value="{ThemeResource PivotHeaderItemThemeFontWeight}" />
+            <Setter Property="CharacterSpacing" Value="{ThemeResource PivotHeaderItemCharacterSpacing}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource PivotHeaderItemForegroundBrush}" />
+            <Setter Property="Padding" Value="{ThemeResource PivotHeaderItemMargin}" />
+            <Setter Property="Height" Value="Auto" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PivotHeaderItem">
+                        <Grid 
                         x:Name="Grid"
                         Background="{TemplateBinding Background}">
-                                    <Grid.Resources>
-                                        <Style x:Key="BaseContentPresenterStyle" TargetType="ContentPresenter">
-                                            <Setter Property="FontFamily" Value="Segoe UI"/>
-                                            <Setter Property="FontWeight" Value="SemiBold"/>
-                                            <Setter Property="FontSize" Value="15"/>
-                                            <Setter Property="TextWrapping" Value="Wrap"/>
-                                            <Setter Property="LineStackingStrategy" Value="MaxHeight"/>
-                                            <Setter Property="TextLineBounds" Value="Full"/>
-                                            <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings"/>
-                                        </Style>
-                                        <Style x:Key="BodyContentPresenterStyle" TargetType="ContentPresenter" BasedOn="{StaticResource BaseContentPresenterStyle}">
-                                            <Setter Property="FontFamily" Value="{ThemeResource PivotHeaderItemFontFamily}" />
-                                            <Setter Property="FontWeight" Value="{ThemeResource PivotHeaderItemThemeFontWeight}"/>
-                                            <Setter Property="FontSize" Value="{ThemeResource PivotHeaderItemFontSize}"/>
-                                        </Style>
-                                    </Grid.Resources>
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup x:Name="SelectionStates">
-                                            <VisualStateGroup.Transitions>
-                                                <VisualTransition From="Unselected" To="UnselectedLocked" GeneratedDuration="0:0:0.33" />
-                                                <VisualTransition From="UnselectedLocked" To="Unselected" GeneratedDuration="0:0:0.33" />
-                                            </VisualStateGroup.Transitions>
-                                            <VisualState x:Name="Disabled">
-                                                <Storyboard>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                            <Grid.Resources>
+                                <Style x:Key="BaseContentPresenterStyle" TargetType="ContentPresenter">
+                                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="FontSize" Value="15"/>
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                    <Setter Property="LineStackingStrategy" Value="MaxHeight"/>
+                                    <Setter Property="TextLineBounds" Value="Full"/>
+                                    <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings"/>
+                                </Style>
+                                <Style x:Key="BodyContentPresenterStyle" TargetType="ContentPresenter" BasedOn="{StaticResource BaseContentPresenterStyle}">
+                                    <Setter Property="FontFamily" Value="{ThemeResource PivotHeaderItemFontFamily}" />
+                                    <Setter Property="FontWeight" Value="{ThemeResource PivotHeaderItemThemeFontWeight}"/>
+                                    <Setter Property="FontSize" Value="{ThemeResource PivotHeaderItemFontSize}"/>
+                                </Style>
+                            </Grid.Resources>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition From="Unselected" To="UnselectedLocked" GeneratedDuration="0:0:0.33" />
+                                        <VisualTransition From="UnselectedLocked" To="Unselected" GeneratedDuration="0:0:0.33" />
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemDisabledForegroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </VisualState>
-                                            <VisualState x:Name="Unselected" />
-                                            <VisualState x:Name="UnselectedLocked">
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetName="ContentPresenterTranslateTransform"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemDisabledForegroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="UnselectedLocked">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentPresenterTranslateTransform"
                                                          Storyboard.TargetProperty="X"
                                                          Duration="0" To="{ThemeResource PivotHeaderItemLockedTranslation}" />
-                                                    <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                            <DoubleAnimation Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)"
                                                          Duration="0" To="0" />
-                                                </Storyboard>
-                                            </VisualState>
-                                            <VisualState x:Name="Selected">
-                                                <Storyboard>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedForegroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedForegroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
                                                                        Storyboard.TargetProperty="Background" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedBackgroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </VisualState>
-                                            <VisualState x:Name="UnselectedPointerOver">
-                                                <Storyboard>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedBackgroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="UnselectedPointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemUnselectedPointerOverForegroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemUnselectedPointerOverForegroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
                                                                        Storyboard.TargetProperty="Background" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemUnselectedPointerOverBackgroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </VisualState>
-                                            <VisualState x:Name="SelectedPointerOver">
-                                                <Storyboard>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemUnselectedPointerOverBackgroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedPointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                         Storyboard.TargetProperty="Foreground" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedPointerOverForegroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedPointerOverForegroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
                                                                        Storyboard.TargetProperty="Background" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedPointerOverBackgroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </VisualState>
-                                            <VisualState x:Name="UnselectedPressed">
-                                                <Storyboard>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedPointerOverBackgroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="UnselectedPressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemUnselectedPressedForegroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemUnselectedPressedForegroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
                                                                        Storyboard.TargetProperty="Background" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemUnselectedPressedBackgroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </VisualState>
-                                            <VisualState x:Name="SelectedPressed">
-                                                <Storyboard>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemUnselectedPressedBackgroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedPressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedPressedForegroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedPressedForegroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
                                                                        Storyboard.TargetProperty="Background" >
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedPressedBackgroundBrush}" />
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-                                    <ContentPresenter
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PivotHeaderItemSelectedPressedBackgroundBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter
                             x:Name="ContentPresenter"
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -369,16 +364,19 @@
                             FontWeight="{TemplateBinding FontWeight}"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                        <ContentPresenter.RenderTransform>
-                                            <TranslateTransform x:Name="ContentPresenterTranslateTransform" />
-                                        </ContentPresenter.RenderTransform>
-                                    </ContentPresenter>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Pivot.Resources>
+                                <ContentPresenter.RenderTransform>
+                                    <TranslateTransform x:Name="ContentPresenterTranslateTransform" />
+                                </ContentPresenter.RenderTransform>
+                            </ContentPresenter>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </controls:ExtendedSettingsFlyout.Resources>
+
+    <Grid x:Name="SearchSettingsFlyoutGrid">
+        <Pivot x:Name="SearchSettingsFlyoutPivot" Style="{StaticResource PivotStyleDynamicHeader}" Background="{StaticResource SettingsFlyoutBackgroundBrush}" SelectedIndex="{x:Bind ViewModel.PivotSelectedIndex.Value, Mode=TwoWay}">
 
             <PivotItem Margin="0">
                 <PivotItem.Header>
@@ -387,23 +385,309 @@
 
                 <Grid>
 
+                    <i:Interaction.Behaviors>
+
+                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchContentOpen.Value, Mode=OneWay}" Value="True">
+                            <util:StoryboardBeginAction Key="AdvancedSearchContentOpenAnimation"/>
+                        </core:DataTriggerBehavior>
+                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchContentOpen.Value, Mode=OneWay}" Value="False">
+                            <util:StoryboardBeginAction Key="AdvancedSearchContentCloseAnimation"/>
+                        </core:DataTriggerBehavior>
+
+                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchEngagementOpen.Value, Mode=OneWay}" Value="True">
+                            <util:StoryboardBeginAction Key="AdvancedSearchEngagementOpenAnimation"/>
+                        </core:DataTriggerBehavior>
+                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchEngagementOpen.Value, Mode=OneWay}" Value="False">
+                            <util:StoryboardBeginAction Key="AdvancedSearchEngagementCloseAnimation"/>
+                        </core:DataTriggerBehavior>
+                        
+                        
+                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchOpen.Value, Mode=OneWay}" Value="True">
+                            <util:StoryboardBeginAction Key="AdvancedSearchOpenAnimation"/>
+                        </core:DataTriggerBehavior>
+                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchOpen.Value, Mode=OneWay}" Value="False">
+                            <util:StoryboardBeginAction Key="AdvancedSearchCloseAnimation"/>
+                        </core:DataTriggerBehavior>
+                        
+                    </i:Interaction.Behaviors>
+                    
+                    <Grid.Resources>
+                        <Storyboard x:Name="AdvancedSearchOpenAnimation">
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="36">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Name="AdvancedSearchCloseAnimation">
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            
+                        </Storyboard>
+
+                        <Storyboard x:Name="AdvancedSearchContentOpenAnimation">
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="162">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentFontIcon">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Name="AdvancedSearchContentCloseAnimation">
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentFontIcon">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard> 
+
+                        <Storyboard x:Name="AdvancedSearchEngagementOpenAnimation">
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="122">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Name="AdvancedSearchEngagementCloseAnimation">
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+
+                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </Grid.Resources>
+                    
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <SearchBox x:Name="SearchSettingsFlyoutStatusSearchBox" RequestedTheme="Light" Grid.Row="0" QueryText="{Binding StatusSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        <i:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="SuggestionsRequested">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedStatusSearchCommand, Mode=OneWay}" />
-                            </core:EventTriggerBehavior>
-                            <core:EventTriggerBehavior EventName="QuerySubmitted">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateStatusSearchCommand, Mode=OneWay}" />
-                            </core:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                    </SearchBox>
+                    <Grid Grid.Row="0">
 
-                    <ListView Grid.Row="1" x:Name="SearchSettingsFlyoutStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <SearchBox x:Name="SearchSettingsFlyoutStatusSearchBox" Grid.Column="0" RequestedTheme="Light" QueryText="{Binding StatusSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SearchHistoryEnabled="False">
+                            <i:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="SuggestionsRequested">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedStatusSearchCommand, Mode=OneWay}" />
+                                </core:EventTriggerBehavior>
+                                <core:EventTriggerBehavior EventName="QuerySubmitted">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateStatusSearchCommand, Mode=OneWay}" />
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                        </SearchBox>
+
+                        <Button Grid.Column="1" FlowDirection="LeftToRight" Width="48" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AdvancedSearchCommand, Mode=OneWay}">
+                            <SymbolIcon Symbol="Add" Foreground="White"/>
+                        </Button>
+                    </Grid>
+
+                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Grid.Row="1" Height="0">
+                        <Grid Background="Transparent" Height="36">
+                            <i:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Tapped">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.AdvancedSearchContentCommand, Mode=OneWay}" />
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+
+                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_ContentTextblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Margin="20,0" FontFamily="Segoe UI Symbol" Text="&#xE115;    Content" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                            <FontIcon x:Name="SearchSettingsFlyoutAdvancedSearchContentFontIcon" Margin="20,0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Glyph="&#xE0E5;" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <FontIcon.RenderTransform>
+                                    <CompositeTransform/>
+                                </FontIcon.RenderTransform>
+                            </FontIcon>
+
+                        </Grid>
+
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_ShowingTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="Showing : " VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            <ComboBox Grid.Column="1" Margin="10,0" HorizontalAlignment="Stretch" SelectedIndex="{x:Bind ViewModel.AdvancedSearchContentShowingOption.Value, Mode=TwoWay}">
+                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_AllTweetsComboBoxItem" Content="all Tweets"/>
+                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithImagesComboBoxItem" Content="Tweets with images"/>
+                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithVideosComboBoxItem" Content="Tweets with videos"/>
+                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithVinesComboBoxItem" Content="Tweets with Vines"/>
+                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithAnyMediasComboBoxItem" Content="Tweets with any media"/>
+                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithLinksComboBoxItem" Content="Tweets with links"/>
+                            </ComboBox>
+                        </Grid>
+
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_WrittenInTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="Written in : " VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            <ComboBox Grid.Column="1" Margin="10,0" HorizontalAlignment="Stretch" SelectedIndex="{x:Bind ViewModel.AdvancedSearchContentWrittenInOption.Value, Mode=TwoWay}">
+                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_WrittenIn_AllLanguageComboBoxItem" Content="any Language"/>
+                                <ComboBoxItem Content="English (English)"/>
+                                <ComboBoxItem Content="Japanese (日本語)"/>
+                            </ComboBox>
+                        </Grid>
+
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_RetweetsTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="Retweets : " VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            <ComboBox Grid.Column="1" Margin="10,0" HorizontalAlignment="Stretch"  SelectedIndex="{x:Bind ViewModel.AdvancedSearchContentRetweetsOption.Value, Mode=TwoWay}">
+                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Retweets_IncludedComboBoxItem" Content="included"/>
+                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Retweets_ExcludedComboBoxItem" Content="excluded"/>
+                            </ComboBox>
+                        </Grid>
+                    </StackPanel>
+
+                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Grid.Row="2" Height="0">
+
+                        <controls:HorizontalBar/>
+
+                        <Grid Background="Transparent" Height="36">
+                            <i:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Tapped">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.AdvancedSearchEngagementCommand, Mode=OneWay}" />
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+
+                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_EngagementTextblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Margin="20,0" FontFamily="Segoe UI Symbol" Text="&#xE113;    Engagement" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <FontIcon x:Name="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon" Margin="20,0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Glyph="&#xE0E5;" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <FontIcon.RenderTransform>
+                                    <CompositeTransform/>
+                                </FontIcon.RenderTransform>
+                            </FontIcon>
+                        </Grid>
+
+                        <Grid Margin="5" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_FirstTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="At least " VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            <controls:NumericTextBox Grid.Column="1" Style="{StaticResource ExtendedTextBoxStyle}" Margin="15,0" Width="50" InputScope="Number" Text="{x:Bind ViewModel.AdvancedSearchEngagementRetweetsCount.Value, Mode=TwoWay, Converter={StaticResource IntToStringConverter}}"/>
+                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_SecondTextblock" Grid.Column="2" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text=" retweets" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        </Grid>
+
+                        <Grid Margin="5" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_FirstTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="At least " VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            <controls:NumericTextBox Grid.Column="1" Style="{StaticResource ExtendedTextBoxStyle}" Margin="15,0" Width="50" InputScope="Number" Text="{x:Bind ViewModel.AdvancedSearchEngagementFavoritesCount.Value, Mode=TwoWay, Converter={StaticResource IntToStringConverter}}"/>
+                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_SecondTextblock" Grid.Column="2" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text=" favorites" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Grid.Row="3" Height="0">
+                        <controls:HorizontalBar/>
+
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+
+                            <Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_SaveThisSearchButton" Height="34" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="検索メモに保存" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.SaveSearchCommand, Mode=OneWay}"/>
+                            <Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_AddColumnButton" Height="34" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AddColumnCommand, Mode=OneWay}"/>
+                            <!--<Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_DeleteHistoryButton" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="履歴を削除" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.DeleteHistoryCommand, Mode=OneWay}"/>-->
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <ListView Grid.Row="4" x:Name="SearchSettingsFlyoutStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses, Mode=OneWay}">
+                        <i:Interaction.Behaviors>
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand, Mode=OneWay}" />
+                        </i:Interaction.Behaviors>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel>
@@ -419,7 +703,7 @@
                                 MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
                                 IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
                                 QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
-                                MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}"/>
+                                MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemContainerStyle>
@@ -427,11 +711,12 @@
                         </ItemsControl.ItemContainerStyle>
                     </ListView>
 
-                    <ProgressBar Grid.Row="1" Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingStatusSearch.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingStatusSearch.Value, Mode=OneWay}" VerticalAlignment="Top" />
+                    <ProgressBar Grid.Row="4" Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingStatusSearch.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingStatusSearch.Value, Mode=OneWay}" VerticalAlignment="Top" />
 
                 </Grid>
 
             </PivotItem>
+            
             <PivotItem Margin="0">
                 <PivotItem.Header>
                     <contents:TabHeader Label="Users" Glyph="&#xE125;" />
@@ -444,9 +729,21 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <SearchBox x:Name="SearchSettingsFlyoutUserSearchBox" Grid.Row="0" />
+                    <SearchBox x:Name="SearchSettingsFlyoutUserSearchBox" Grid.Row="0" RequestedTheme="Light" QueryText="{Binding UserSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SearchHistoryEnabled="False">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="SuggestionsRequested">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedUserSearchCommand, Mode=OneWay}" />
+                            </core:EventTriggerBehavior>
+                            <core:EventTriggerBehavior EventName="QuerySubmitted">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateUserSearchCommand, Mode=OneWay}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </SearchBox>
 
                     <ListView Grid.Row="1" x:Name="SearchSettingsFlyoutUsersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Users, Mode=OneWay}">
+                        <i:Interaction.Behaviors>
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.UsersIncrementalLoadCommand, Mode=OneWay}" />
+                        </i:Interaction.Behaviors>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel>
@@ -471,21 +768,80 @@
                 </Grid>
 
             </PivotItem>
+            
             <PivotItem Margin="0">
                 <PivotItem.Header>
                     <contents:TabHeader Label="Trends" Glyph="&#xE1C3;" />
                 </PivotItem.Header>
 
                 <StackPanel>
-                    <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SearchSettingsFlyoutTrendsTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
-                    <Run Text="Trends : "/><Run Text="{Binding TrendsPlace}"/>
-                    </TextBlock>
+                    <controls:HorizontalBar/>
 
-                    <TextBlock Grid.Row="0" Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SearchSettingsFlyoutTrendsTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
-                    <Run Text="SavedSearches : @"/><Run Text="{Binding SavedSearchesScreenName}"/>
+                    <TextBlock Grid.Row="0" Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
+                        <Run Text="SavedSearches : @"/><Run Text="{x:Bind ViewModel.SavedSearchesScreenName.Value, Mode=OneWay}"/>
                     </TextBlock>
+                    <controls:HorizontalBar/>
+                    <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.SavedSearches, Mode=OneWay}" SelectionMode="None">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="ItemClick">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.SavedSearchesSelectCommand, Mode=OneWay}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                        
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel>
+                                    <VirtualizingStackPanel.ChildrenTransitions>
+                                        <TransitionCollection/>
+                                    </VirtualizingStackPanel.ChildrenTransitions>
+                                </VirtualizingStackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="twitterObjectsViewModel:SearchQueryViewModel">
+                                <Grid>
+                                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,10,0,10" FontFamily="Yu Gothic UI" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
+                                    <Button Background="Transparent" Height="30" Width="30" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" BorderThickness="0" Padding="0" Command="{x:Bind Notice.SearchSettingsFlyoutDeleteSearchQueryCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}">
+                                        <SymbolIcon Symbol="Cancel"/>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
+                        </ItemsControl.ItemContainerStyle>
+                    </ListView>
+
+                    <controls:HorizontalBar/>
+
+                    <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
+                        <Run Text="Trends : "/><Run Text="{x:Bind ViewModel.TrendPlace.Value, Mode=OneWay}"/>
+                    </TextBlock>
+                    <controls:HorizontalBar/>
+                    <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.Trends, Mode=OneWay}" SelectionMode="None">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="ItemClick">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.TrendsSelectCommand, Mode=OneWay}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel>
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection/>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="twitterObjectsViewModel:TrendViewModel">
+                                <TextBlock FontFamily="Yu Gothic UI" Margin="20,10,0,10" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
+                        </ItemsControl.ItemContainerStyle>
+                    </ListView>
+                    <controls:HorizontalBar/>
                 </StackPanel>
-
             </PivotItem>
         </Pivot>
     </Grid>

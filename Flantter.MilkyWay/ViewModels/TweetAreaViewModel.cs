@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.Storage.Streams;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Models.Twitter.Objects;
+using System.Reactive.Concurrency;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -113,13 +114,13 @@ namespace Flantter.MilkyWay.ViewModels
             });
 
             this.ChangeLockHashTagsCommand = new ReactiveCommand();
-            this.ChangeLockHashTagsCommand.Subscribe(x => 
+            this.ChangeLockHashTagsCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
             {
                 this._TweetAreaModel.LockingHashTags = !this._TweetAreaModel.LockingHashTags;
             });
 
             this.AddPictureCommand = new ReactiveCommand();
-            this.AddPictureCommand.Subscribe(async x =>
+            this.AddPictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 var result = await this.ShowFilePickerMessenger.Raise(new FileOpenPickerNotification
                 {
@@ -134,7 +135,7 @@ namespace Flantter.MilkyWay.ViewModels
             });
 
             this.TweetCommand = this._TweetAreaModel.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand();
-            this.TweetCommand.Subscribe(async x => 
+            this.TweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
                 await this._TweetAreaModel.Tweet(this.SelectedAccount.Value._AccountModel);
                 
@@ -150,13 +151,13 @@ namespace Flantter.MilkyWay.ViewModels
             });
 
             this.SuggestSelectedCommand = new ReactiveCommand();
-            this.SuggestSelectedCommand.Subscribe(x => 
+            this.SuggestSelectedCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
             {
                 this._TweetAreaModel.SuggestionSelected((string)x);
             });
 
             this.DeleteReplyOrQuotedStatusCommand = new ReactiveCommand();
-            this.DeleteReplyOrQuotedStatusCommand.Subscribe(async x => 
+            this.DeleteReplyOrQuotedStatusCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
                 this.ReplyOrQuotedStatus.Value = null;
 
@@ -171,25 +172,25 @@ namespace Flantter.MilkyWay.ViewModels
             });
 
             this.ParseClipbordPictureCommand = new ReactiveCommand();
-            this.ParseClipbordPictureCommand.Subscribe(async x => 
+            this.ParseClipbordPictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
                 await this._TweetAreaModel.AddPictureFromClipboard();
             });
 
-            Services.Notice.Instance.TweetAreaAccountChangeCommand.Subscribe(x => 
+            Services.Notice.Instance.TweetAreaAccountChangeCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
             {
                 var accountVM = x as AccountViewModel;
                 this.SelectedAccount.Value = accountVM;
                 this._TweetAreaModel.SelectedAccountUserId = accountVM._AccountModel.UserId;
             });
 
-            Services.Notice.Instance.TweetAreaDeletePictureCommand.Subscribe(x =>
+            Services.Notice.Instance.TweetAreaDeletePictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var pictureViewModel = x as PictureViewModel;
                 this._TweetAreaModel.DeletePicture(pictureViewModel._PictureModel);
             });
 
-            Services.Notice.Instance.ReplyCommand.Subscribe(async x => 
+            Services.Notice.Instance.ReplyCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
@@ -210,7 +211,7 @@ namespace Flantter.MilkyWay.ViewModels
                 this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
             });
 
-            Services.Notice.Instance.UrlQuoteRetweetCommand.Subscribe(async x => 
+            Services.Notice.Instance.UrlQuoteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -142,22 +143,55 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             });
 
             this.BlockUserCommand = new ReactiveCommand();
+            this.BlockUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
+            {
+                await this.Model.CreateBlock();
+                if (this.Model.IsBlocking)
+                {
+                    this.FollowButtonText.Value = "Blocking";
+                    this.FollowButtonPointerOverText.Value = "Unblock";
+                }
+                else if (this.Model.IsFollowing)
+                {
+                    this.FollowButtonText.Value = "Following";
+                    this.FollowButtonPointerOverText.Value = "Unfollow";
+                }
+                else if (this.Model.UserInformation.IsFollowRequestSent)
+                {
+                    this.FollowButtonText.Value = "Reqest Sent";
+                    this.FollowButtonPointerOverText.Value = "Cancel Request";
+                }
+                else
+                {
+                    this.FollowButtonText.Value = "Follow";
+                    this.FollowButtonPointerOverText.Value = "Follow";
+                }
+            });
+
             this.MuteUserCommand = new ReactiveCommand();
 
             this.StatusesIncrementalLoadCommand = new ReactiveCommand();
-            this.StatusesIncrementalLoadCommand.Subscribe(async x => await this.Model.UpdateStatuses(this.Model.Statuses.LastOrDefault().Id));
+            this.StatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                if (this.Model.Statuses.Count > 0)
+                    await this.Model.UpdateStatuses(this.Model.Statuses.LastOrDefault().Id);
+            });
 
             this.FavoritesIncrementalLoadCommand = new ReactiveCommand();
-            this.FavoritesIncrementalLoadCommand.Subscribe(async x => await this.Model.UpdateFavorites(this.Model.Favorites.LastOrDefault().Id));
+            this.FavoritesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                if (this.Model.Favorites.Count > 0)
+                    await this.Model.UpdateFavorites(this.Model.Favorites.LastOrDefault().Id);
+            });
 
             this.FollowersIncrementalLoadCommand = new ReactiveCommand();
-            this.FollowersIncrementalLoadCommand.Subscribe(async x => await this.Model.UpdateFollowers(true));
+            this.FollowersIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => await this.Model.UpdateFollowers(true));
 
             this.FollowingIncrementalLoadCommand = new ReactiveCommand();
-            this.FollowingIncrementalLoadCommand.Subscribe(async x => await this.Model.UpdateFollowing(true));
+            this.FollowingIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => await this.Model.UpdateFollowing(true));
 
             this.ScrollViewerIncrementalLoadCommand = new ReactiveCommand();
-            this.ScrollViewerIncrementalLoadCommand.Subscribe(async x => 
+            this.ScrollViewerIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
                 switch (this.SelectedTab.Value)
                 {

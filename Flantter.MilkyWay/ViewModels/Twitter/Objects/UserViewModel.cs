@@ -38,6 +38,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.Url = user.Url;
 
             this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
         }
 
         public User Model { get; private set; }
@@ -81,5 +82,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         #endregion
 
         public Services.Notice Notice { get; set; }
+
+        public Setting.SettingService Setting { get; set; }
     }
 }

@@ -207,6 +207,43 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemUnselectedPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemUnselectedPressedForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["PivotHeaderItemSelectedPressedForegroundBrush"]).Color;
 
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxItemForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemLayoutRootPointerOverBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxItemLayoutRootPointerOverBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxItemContentPresenterPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxItemContentPresenterPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterSelectedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxItemContentPresenterSelectedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterSelectedUnfocusedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxItemContentPresenterSelectedUnfocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterSelectedPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxItemContentPresenterSelectedPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterSelectedPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxItemContentPresenterSelectedPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterSelectedDisabledForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxItemContentPresenterSelectedDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemLayoutRootPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxItemLayoutRootPressedForegroundBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundPointerOverBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxBackgroundPointerOverBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundPointerOverBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxBackgroundPointerOverBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundPressedBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxBackgroundPressedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundPressedBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxBackgroundPressedBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxHighlightBackgroundBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxHighlightBackgroundBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundDisabledBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxBackgroundDisabledBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundDisabledBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxBackgroundDisabledBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxContentPresenterDisabledForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxContentPresenterDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPlaceholderTextBlockDisabledForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxPlaceholderTextBlockDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxDropDownGlyphDisabledForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxDropDownGlyphDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxHighlightBackgroundFocusedBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxHighlightBackgroundFocusedBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxContentPresenterFocusedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxContentPresenterFocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPlaceholderTextBlockFocusedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxPlaceholderTextBlockFocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxContentPresenterFocusedPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxContentPresenterFocusedPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPlaceholderTextBlockFocusedPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxPlaceholderTextBlockFocusedPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxDropDownGlyphFocusedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxDropDownGlyphFocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxDropDownGlyphFocusedPressedForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxDropDownGlyphFocusedPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPlaceholderTextBlockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxPlaceholderTextBlockForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxDropDownGlyphForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxDropDownGlyphForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPopupBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxPopupBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPopupBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxPopupBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxScrollViewerForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ComboBoxScrollViewerForegroundBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["AppBarBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarBorderBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["AppBarBorderBrush"]).Color;
 
@@ -263,8 +300,6 @@ namespace Flantter.MilkyWay.Themes
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarTextblockForegroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnreadCountGridBackgroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarUnreadCountGridBackgroundBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnreadCountTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ColumnViewControlBarUnreadCountTextblockForegroundBrush"]).Color;
-
-                ((SolidColorBrush)Application.Current.Resources["SearchSettingsFlyoutTrendsTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchSettingsFlyoutTrendsTextblockForegroundBrush"]).Color;
                 
                 ((SolidColorBrush)Application.Current.Resources["TweetCheckBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCheckBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TweetCheckBoxBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["TweetCheckBoxBrush"]).Color;
@@ -424,6 +459,43 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemUnselectedPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemUnselectedPressedForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["PivotHeaderItemSelectedPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["PivotHeaderItemSelectedPressedForegroundBrush"]).Color;
 
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxItemForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemLayoutRootPointerOverBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxItemLayoutRootPointerOverBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxItemContentPresenterPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxItemContentPresenterPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterSelectedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxItemContentPresenterSelectedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterSelectedUnfocusedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxItemContentPresenterSelectedUnfocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterSelectedPointerOverForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxItemContentPresenterSelectedPointerOverForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterSelectedPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxItemContentPresenterSelectedPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemContentPresenterSelectedDisabledForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxItemContentPresenterSelectedDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxItemLayoutRootPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxItemLayoutRootPressedForegroundBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundPointerOverBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxBackgroundPointerOverBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundPointerOverBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxBackgroundPointerOverBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundPressedBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxBackgroundPressedBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundPressedBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxBackgroundPressedBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxHighlightBackgroundBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxHighlightBackgroundBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundDisabledBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxBackgroundDisabledBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxBackgroundDisabledBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxBackgroundDisabledBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxContentPresenterDisabledForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxContentPresenterDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPlaceholderTextBlockDisabledForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxPlaceholderTextBlockDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxDropDownGlyphDisabledForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxDropDownGlyphDisabledForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxHighlightBackgroundFocusedBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxHighlightBackgroundFocusedBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxContentPresenterFocusedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxContentPresenterFocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPlaceholderTextBlockFocusedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxPlaceholderTextBlockFocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxContentPresenterFocusedPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxContentPresenterFocusedPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPlaceholderTextBlockFocusedPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxPlaceholderTextBlockFocusedPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxDropDownGlyphFocusedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxDropDownGlyphFocusedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxDropDownGlyphFocusedPressedForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxDropDownGlyphFocusedPressedForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPlaceholderTextBlockForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxPlaceholderTextBlockForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxDropDownGlyphForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxDropDownGlyphForegroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPopupBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxPopupBorderBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxPopupBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxPopupBackgroundBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ComboBoxScrollViewerForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ComboBoxScrollViewerForegroundBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["AppBarBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["AppBarBorderBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["AppBarBorderBrush"]).Color;
 
@@ -480,9 +552,7 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarTextblockForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ColumnViewControlBarTextblockForegroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnreadCountGridBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ColumnViewControlBarUnreadCountGridBackgroundBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ColumnViewControlBarUnreadCountTextblockForegroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ColumnViewControlBarUnreadCountTextblockForegroundBrush"]).Color;
-
-                ((SolidColorBrush)Application.Current.Resources["SearchSettingsFlyoutTrendsTextblockForegroundBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchSettingsFlyoutTrendsTextblockForegroundBrush"]).Color;
-
+                
                 ((SolidColorBrush)Application.Current.Resources["TweetCheckBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TweetCheckBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TweetCheckBoxBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TweetCheckBoxBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["TweetDragBackgroundBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["TweetDragBackgroundBrush"]).Color;

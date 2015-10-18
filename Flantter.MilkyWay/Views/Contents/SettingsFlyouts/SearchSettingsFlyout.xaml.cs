@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -35,30 +36,6 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
             this.InitializeComponent();
             this.SizeChanged += SearchSettingsFlyout_SizeChanged;
             SearchSettingsFlyout_SizeChanged(null, null);
-
-            this.SearchSettingsFlyoutPivot.SelectionChanged += SearchSettingsFlyoutPivot_SelectionChanged;
-
-            this.SearchSettingsFlyoutStatusSearchBox.FocusOnKeyboardInput = true;
-        }
-
-        private void SearchSettingsFlyoutPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (this.SearchSettingsFlyoutPivot.SelectedIndex == 0)
-            {
-
-                this.SearchSettingsFlyoutUserSearchBox.FocusOnKeyboardInput = false;
-                this.SearchSettingsFlyoutStatusSearchBox.FocusOnKeyboardInput = true;
-            }
-            else if (this.SearchSettingsFlyoutPivot.SelectedIndex == 1)
-            {
-                this.SearchSettingsFlyoutStatusSearchBox.FocusOnKeyboardInput = false;
-                this.SearchSettingsFlyoutUserSearchBox.FocusOnKeyboardInput = true;
-            }
-            else
-            {
-                this.SearchSettingsFlyoutStatusSearchBox.FocusOnKeyboardInput = false;
-                this.SearchSettingsFlyoutUserSearchBox.FocusOnKeyboardInput = false;
-            }
         }
 
         private void SearchSettingsFlyout_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -74,6 +51,12 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
 
             this.SearchSettingsFlyoutGrid.Width = width;
             this.SearchSettingsFlyoutGrid.Height = Window.Current.Bounds.Height - 70;
+        }
+
+        public async void FocusToStatusSearchBox()
+        {
+            await Task.Delay(50);
+            this.SearchSettingsFlyoutStatusSearchBox.Focus(FocusState.Keyboard);
         }
     }
 }

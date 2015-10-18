@@ -112,6 +112,44 @@
     <SolidColorBrush x:Key="PivotHeaderItemSelectedPointerOverForegroundBrush" Color="#CC000000" />
     <SolidColorBrush x:Key="PivotHeaderItemUnselectedPressedForegroundBrush" Color="#CC000000" />
     <SolidColorBrush x:Key="PivotHeaderItemSelectedPressedForegroundBrush" Color="#CC000000" />
+
+    <SolidColorBrush x:Key="ComboBoxItemForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxItemLayoutRootPointerOverBackgroundBrush" Color="#19000000" />
+    <SolidColorBrush x:Key="ComboBoxItemContentPresenterPointerOverForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxItemContentPresenterPressedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxItemContentPresenterSelectedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxItemContentPresenterSelectedUnfocusedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxItemContentPresenterSelectedPointerOverForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxItemContentPresenterSelectedPressedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxItemContentPresenterSelectedDisabledForegroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ComboBoxItemLayoutRootPressedForegroundBrush" Color="#33000000" />
+
+    <SolidColorBrush x:Key="ComboBoxForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxBackgroundBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ComboBoxBackgroundPointerOverBackgroundBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="ComboBoxBackgroundPointerOverBorderBrush" Color="#99000000" />
+    <SolidColorBrush x:Key="ComboBoxBackgroundPressedBackgroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ComboBoxBackgroundPressedBorderBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ComboBoxHighlightBackgroundBorderBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ComboBoxBackgroundDisabledBackgroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ComboBoxBackgroundDisabledBorderBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ComboBoxContentPresenterDisabledForegroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ComboBoxPlaceholderTextBlockDisabledForegroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ComboBoxDropDownGlyphDisabledForegroundBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ComboBoxHighlightBackgroundFocusedBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBoxContentPresenterFocusedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxPlaceholderTextBlockFocusedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxContentPresenterFocusedPressedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxPlaceholderTextBlockFocusedPressedForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxDropDownGlyphFocusedForegroundBrush" Color="#CC000000" />
+    <SolidColorBrush x:Key="ComboBoxDropDownGlyphFocusedPressedForegroundBrush" Color="#CC000000" />
+    <SolidColorBrush x:Key="ComboBoxPlaceholderTextBlockForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundBrush" Color="#CC000000" />
+    <SolidColorBrush x:Key="ComboBoxPopupBorderBrush" Color="#CC000000" />
+    <SolidColorBrush x:Key="ComboBoxPopupBackgroundBrush" Color="#FFF2F2F2" />
+    <SolidColorBrush x:Key="ComboBoxScrollViewerForegroundBrush" Color="#FF000000" />
+    
     
     <SolidColorBrush x:Key="AppBarBackgroundBrush" Color="LightBlue" />
     <SolidColorBrush x:Key="AppBarBorderBrush" Color="Black" />
@@ -169,8 +207,6 @@
     <SolidColorBrush x:Key="ColumnViewControlBarTextblockForegroundBrush" Color="Black" />
     <SolidColorBrush x:Key="ColumnViewControlBarUnreadCountGridBackgroundBrush" Color="Tomato" />
     <SolidColorBrush x:Key="ColumnViewControlBarUnreadCountTextblockForegroundBrush" Color="White" />
-
-    <SolidColorBrush x:Key="SearchSettingsFlyoutTrendsTextblockForegroundBrush" Color="Black" />
     
 	<!-- Tweet -->
     <SolidColorBrush x:Key="TweetCheckBrush" Color="Gray" />

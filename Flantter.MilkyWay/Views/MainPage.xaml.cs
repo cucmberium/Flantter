@@ -1,4 +1,5 @@
-﻿using Prism.Windows.Mvvm;
+﻿using Flantter.MilkyWay.ViewModels;
+using Prism.Windows.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,8 +27,16 @@ namespace Flantter.MilkyWay.Views
     /// <summary>
     /// それ自体で使用できる空白ページまたはフレーム内に移動できる空白ページ。
     /// </summary>
-    public sealed partial class MainPage : VisualStateAwarePage
+    public sealed partial class MainPage : SessionStateAwarePage
     {
+        public MainPageViewModel ViewModel
+        {
+            get { return (MainPageViewModel)this.DataContext; }
+            set { this.DataContext = value; }
+        }
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(MainPageViewModel), typeof(MainPage), null);
+
         public MainPage()
         {
             this.InitializeComponent();

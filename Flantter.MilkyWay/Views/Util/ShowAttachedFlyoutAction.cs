@@ -14,7 +14,6 @@ namespace Flantter.MilkyWay.Views.Util
 		public object Execute(object sender, object parameter)
 		{
 			FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
-
 			return null;
 		}
 	}

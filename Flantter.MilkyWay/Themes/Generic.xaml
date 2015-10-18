@@ -4,56 +4,114 @@
     xmlns:local="using:Flantter.MilkyWay"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls">
 
-    <Style TargetType="controls:PullToRefreshPanel">
-        <Setter Property="FontSize" Value="20"/>
+    <Style TargetType="controls:PullToRefreshListView">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="IsSwipeEnabled" Value="True" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+        <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
+        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True" />
+        <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+        <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition />
+                    <ReorderThemeTransition />
+                    <EntranceThemeTransition IsStaggeringEnabled="False" />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:PullToRefreshPanel">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
-
+                <ControlTemplate TargetType="controls:PullToRefreshListView">
+                    <Grid x:Name="ContainerGrid" BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="VisualStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="Pull">
+                            <VisualStateGroup x:Name="VisualStateGroup">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="ReadyToRefresh">
                                     <Storyboard>
-                                        <FadeInThemeAnimation TargetName="PullContent" />
-                                        <FadeOutThemeAnimation TargetName="RefreshContent" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PullPart">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ReleasePart">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="Arrow" />
                                     </Storyboard>
                                 </VisualState>
-								<VisualState x:Name="Refresh">
-									<Storyboard>
-										<FadeInThemeAnimation TargetName="RefreshContent" />
-										<FadeOutThemeAnimation TargetName="PullContent" />
-									</Storyboard>
-								</VisualState>
-							</VisualStateGroup>
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
                         <ScrollViewer x:Name="ScrollViewer"
-                                      BringIntoViewOnFocusChange="False"
-                                      IsScrollInertiaEnabled="False"
-                                      HorizontalScrollMode="Disabled"
-                                      VerticalScrollBarVisibility="Hidden"
-                                      ZoomMode="Disabled">
-                            <StackPanel x:Name="StackPanel">
-                                <Grid Name="PullGrid"
-                                      Width="{Binding Width,ElementName=ScrollViewer}"
-                                      Height="4096">
-                                    <ContentControl x:Name="RefreshContent"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Bottom"
-                                                    Content="{TemplateBinding RefreshContent}" />
-                                    <ContentControl x:Name="PullContent"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Bottom"
-                                                    Content="{TemplateBinding PullContent}" />
-                                </Grid>
-                                <Grid x:Name="ContentGrid" Background="Transparent">
-                                    <ContentPresenter />
-                                </Grid>
-                            </StackPanel>
+                                      TabNavigation="{TemplateBinding TabNavigation}"
+                                      HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                      IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                      VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                      IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                      IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                      IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                      ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+                                      IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                      BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                      AutomationProperties.AccessibilityView="Raw">
+                            <ItemsPresenter x:Name="ItemsPresenter"
+                                Header="{TemplateBinding Header}"
+                                HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                HeaderTransitions="{TemplateBinding HeaderTransitions}"
+                                Footer="{TemplateBinding Footer}"
+                                FooterTemplate="{TemplateBinding FooterTemplate}"
+                                FooterTransitions="{TemplateBinding FooterTransitions}"
+                                Padding="{TemplateBinding Padding}"/>
                         </ScrollViewer>
-                    </Border>
+
+                        <Border Height="{TemplateBinding RefreshHeaderHeight}" Margin="0,-30,0,0" x:Name="PullToRefreshIndicator" Background="Transparent" RenderTransformOrigin="0.5,0.5" Opacity="1" VerticalAlignment="Top">
+                            <Border.RenderTransform>
+                                <CompositeTransform TranslateY="0" />
+                            </Border.RenderTransform>
+
+                            <Grid HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="200" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Width="40">
+                                    <Viewbox x:Name="Arrow" Height="15" VerticalAlignment="Top" Margin="0,4,0,0" RenderTransformOrigin="0.5,0.5">
+                                        <Viewbox.RenderTransform>
+                                            <CompositeTransform Rotation="180" />
+                                        </Viewbox.RenderTransform>
+                                        <Path Width="12" Height="12.9999" Stretch="Fill" Fill="{TemplateBinding ArrowColor}"
+                                                    Data="M 20.4289,10.4376L 25,15.0087L 23.571,16.4376L 20.0291,12.8957L 20.0291,21.9999L 18.0083,21.9999L 18.0083,12.8583L 14.4289,16.4377L 13,15.0087L 17.5624,10.429L 19.0087,9" />
+                                    </Viewbox>
+                                </Grid>
+                                <TextBlock Grid.Column="1" x:Name="PullPart" Foreground="{TemplateBinding IndicatorForegroundBrush}" Text="{TemplateBinding PullPartTemplate}" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Visibility="Collapsed" x:Name="ReleasePart" Foreground="{TemplateBinding IndicatorForegroundBrush}" Text="{TemplateBinding ReleasePartTemplate}" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

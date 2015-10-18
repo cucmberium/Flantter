@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
@@ -17,11 +18,14 @@
 
     <Grid>
         <ProgressBar Foreground="{StaticResource ProgressBarForegroundBrush}" VerticalAlignment="Top" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" />
-        
-        <ListView DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=OneWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" >
+
+        <controls:PullToRefreshListView x:Uid="TimelineArea_PullToRefreshListView" DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=OneWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" PullPartTemplate="Pull to Refresh" ReleasePartTemplate="Release to Refresh" IndicatorForegroundBrush="{StaticResource PullToRefreshCharacterBrush}">
             <i:Interaction.Behaviors>
                 <behaviors:ListViewScrollControlBehavior IsScrollLockEnabled="{x:Bind ViewModel.IsScrollLockEnabled.Value, Mode=OneWay}" IsScrollLockToTopEnabled="{x:Bind ViewModel.IsScrollLockToTopEnabled.Value, Mode=OneWay}" IsScrollControlEnabled="{x:Bind ViewModel.IsScrollControlEnabled.Value, Mode=OneWay}" UnreadCount="{x:Bind ViewModel.UnreadCount.Value, Mode=TwoWay}" UnreadCountIncrementalTrigger="{x:Bind ViewModel.UnreadCountIncrementalTrigger.Value, Mode=TwoWay}" />
-                <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.IncrementalLoadCommand, Mode=OneWay}" />
+                <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.IncrementalLoadCommand, Mode=OneWay}"/>
+                <core:EventTriggerBehavior EventName="RefreshContent">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}" />
+                </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
 
             <ItemsControl.ItemsPanel>
@@ -56,6 +60,6 @@
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
             </ItemsControl.ItemContainerStyle>
-        </ListView>
+        </controls:PullToRefreshListView>
     </Grid>
 </UserControl>

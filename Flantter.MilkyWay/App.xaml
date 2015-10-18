@@ -17,7 +17,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <converters:EnumToIntConverter x:Key="EnumToIntConverter"/>
             <converters:EnumToDoubleConverter x:Key="EnumToDoubleConverter"/>
             <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
 			<converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
@@ -29,7 +28,6 @@
             <converters:IntToStringConverter x:Key="IntToStringConverter"/>
             
             <setting:SettingProvider x:Key="Setting"/>
-            <setting:AdvancedSettingProvider x:Key="AdvancedSetting"/>
             <notice:NoticeProvider x:Key="Notice"/>
             
         </ResourceDictionary>

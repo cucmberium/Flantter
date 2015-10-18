@@ -235,7 +235,7 @@
     <Compile Include="Views\Controls\NumericTextBox.cs" />
     <Compile Include="Views\Controls\ExtendedTextBox.cs" />
     <Compile Include="Views\Controls\HorizontalBar.cs" />
-    <Compile Include="Views\Controls\PullToRefreshPanel.cs" />
+    <Compile Include="Views\Controls\PullToRefreshListView.cs" />
     <Compile Include="Views\Controls\TriangleButton.cs" />
     <Compile Include="Views\Controls\VerticalBar.cs" />
     <Compile Include="Views\Converters\EnumToDoubleConverter.cs" />
@@ -245,7 +245,6 @@
     <Compile Include="Views\Converters\BooleanNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\DateTimeToStringConverter.cs" />
-    <Compile Include="Views\Converters\EnumToIntConverter.cs" />
     <Compile Include="Views\Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\ObjectToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\StringToTweetBackgroundBrushConverter.cs" />

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
@@ -265,7 +266,7 @@ namespace Flantter.MilkyWay.Models
                 Observable.FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                 h => (sender, e) => h(e),
                 h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetDelete_CommandExecute += h,
-                h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetDelete_CommandExecute -= h).Select(e => (object)e)).Subscribe(e =>
+                h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetDelete_CommandExecute -= h).Select(e => (object)e)).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(e =>
                 {
                     if (e is TweetEventArgs)
                     {
@@ -354,7 +355,7 @@ namespace Flantter.MilkyWay.Models
 
             this._AccountModel = accountModel;
             
-            this.Stream.Subscribe(
+            this.Stream.SubscribeOn(NewThreadScheduler.Default).Subscribe(
                 (StreamingMessage m) =>
                 {
                     switch (m.Type)

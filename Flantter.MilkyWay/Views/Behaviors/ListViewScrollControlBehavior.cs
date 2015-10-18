@@ -116,7 +116,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             if (IsScrollLockToTopEnabled)
             {
-                this.ScrollViewerObject.ChangeView(null, 0, null, true);
+                this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
                 return;
             }
 
@@ -171,7 +171,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     if (isAnimationRunning && !isAnimationCooldown)
                         this.RunAnimation(offset, changedVerticalOffset);
                     else if (oldVerticalOffset <= 2.5 && !isAnimationCooldown)
-                        this.RunAnimation(offset, changedVerticalOffset + oldVerticalOffset - 2.5);
+                        this.RunAnimation(offset, changedVerticalOffset + oldVerticalOffset);
 
                     break;
                 case SettingSupport.TweetAnimationEnum.Expand:
@@ -247,7 +247,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 new Task(() => { }).Wait(10);
             }
             isAnimationRunning = false;
-            this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0, null, true)).AsTask().Wait();
+            this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0.02, null, true)).AsTask().Wait();
         }
 
         private void ListView_LayoutUpdated(object sender, object e)
@@ -255,11 +255,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (this.ScrollViewerObject != null)
                 return;
 
-            var border = VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0) as Border;
-            if (border == null)
-                return;
-
-            var listViewScroll = border.Child as ScrollViewer;
+            var listViewScroll = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0), 0) as ScrollViewer;
             if (listViewScroll == null)
                 return;
 
@@ -273,11 +269,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (this.ScrollViewerObject != null)
                 return;
 
-            var border = VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0) as Border;
-            if (border == null)
-                return;
-
-            var listViewScroll = border.Child as ScrollViewer;
+            var listViewScroll = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0), 0) as ScrollViewer;
             if (listViewScroll == null)
                 return;
 

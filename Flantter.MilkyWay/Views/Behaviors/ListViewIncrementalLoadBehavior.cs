@@ -68,11 +68,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (this.ScrollViewerObject != null)
                 return;
 
-            var border = VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0) as Border;
-            if (border == null)
-                return;
-
-            var listViewScroll = border.Child as ScrollViewer;
+            var listViewScroll = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0), 0) as ScrollViewer;
             if (listViewScroll == null)
                 return;
 
@@ -85,11 +81,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (this.ScrollViewerObject != null)
                 return;
 
-            var border = VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0) as Border;
-            if (border == null)
-                return;
-
-            var listViewScroll = border.Child as ScrollViewer;
+            var listViewScroll = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0), 0) as ScrollViewer;
             if (listViewScroll == null)
                 return;
 

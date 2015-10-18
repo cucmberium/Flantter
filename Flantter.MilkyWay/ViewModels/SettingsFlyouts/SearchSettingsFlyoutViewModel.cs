@@ -29,6 +29,14 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.UserSearchWords = new ReactiveProperty<string>();
 
             this.PivotSelectedIndex = new ReactiveProperty<int>(0);
+            this.PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                if (x == 2)
+                {
+                    await this.Model.UpdateSavedSearches();
+                    await this.Model.UpdateTrends();
+                }
+            });
 
             this.SavedSearchesScreenName = this.Model.ObserveProperty(x => x.SavedSearchesScreenName).ToReactiveProperty();
             this.TrendPlace = this.Model.ObserveProperty(x => x.TrendsPlace).ToReactiveProperty();
@@ -47,7 +55,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.UpdatingUserSearch = this.Model.ObserveProperty(x => x.UpdatingUserSearch).ToReactiveProperty();
 
             this.ClearCommand = new ReactiveCommand();
-            this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 if (this.AdvancedSearchOpen.Value)
                 {
@@ -62,9 +70,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.PivotSelectedIndex.Value = 0;
                 this.Model.Statuses.Clear();
                 this.Model.Users.Clear();
-
-                await this.Model.UpdateTrends();
-                await this.Model.UpdateSavedSearches();
             });
 
             this.UpdateStatusSearchCommand = new ReactiveCommand();

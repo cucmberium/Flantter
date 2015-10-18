@@ -22,7 +22,9 @@
         <controls:PullToRefreshListView x:Uid="TimelineArea_PullToRefreshListView" DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=OneWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" PullPartTemplate="Pull to Refresh" ReleasePartTemplate="Release to Refresh" IndicatorForegroundBrush="{StaticResource PullToRefreshCharacterBrush}">
             <i:Interaction.Behaviors>
                 <behaviors:ListViewScrollControlBehavior IsScrollLockEnabled="{x:Bind ViewModel.IsScrollLockEnabled.Value, Mode=OneWay}" IsScrollLockToTopEnabled="{x:Bind ViewModel.IsScrollLockToTopEnabled.Value, Mode=OneWay}" IsScrollControlEnabled="{x:Bind ViewModel.IsScrollControlEnabled.Value, Mode=OneWay}" UnreadCount="{x:Bind ViewModel.UnreadCount.Value, Mode=TwoWay}" UnreadCountIncrementalTrigger="{x:Bind ViewModel.UnreadCountIncrementalTrigger.Value, Mode=TwoWay}" />
-                <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.IncrementalLoadCommand, Mode=OneWay}"/>
+                <core:EventTriggerBehavior EventName="MoreContent">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.IncrementalLoadCommand, Mode=OneWay}" />
+                </core:EventTriggerBehavior>
                 <core:EventTriggerBehavior EventName="RefreshContent">
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}" />
                 </core:EventTriggerBehavior>

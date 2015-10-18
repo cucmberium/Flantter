@@ -68,7 +68,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (this.ScrollViewerObject != null)
                 return;
 
-            var listViewScroll = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0), 0) as ScrollViewer;
+            var border = VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0) as Border;
+            if (border == null)
+                return;
+
+            var listViewScroll = border.Child as ScrollViewer;
             if (listViewScroll == null)
                 return;
 
@@ -81,7 +85,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (this.ScrollViewerObject != null)
                 return;
 
-            var listViewScroll = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0), 0) as ScrollViewer;
+            var border = VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0) as Border;
+            if (border == null)
+                return;
+
+            var listViewScroll = border.Child as ScrollViewer;
             if (listViewScroll == null)
                 return;
 
@@ -91,9 +99,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         private void ScrollViewerObject_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            var verticalOffset = this.ScrollViewerObject.VerticalOffset;
-            var maxVerticalOffset = this.ScrollViewerObject.ExtentHeight - this.ScrollViewerObject.ViewportHeight;
-            if (verticalOffset == maxVerticalOffset && this.ScrollViewerObject.ExtentHeight != this.ScrollViewerObject.ViewportHeight)
+            if (this.ScrollViewerObject.VerticalOffset == this.ScrollViewerObject.ScrollableHeight && this.ScrollViewerObject.ViewportHeight != 0)
             {
                 if (this.Command != null && this.Command.CanExecute(this.CommandParameter))
                 {

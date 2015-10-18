@@ -127,6 +127,7 @@ namespace Flantter.MilkyWay.Views.Controls
 
             _RootScrollViewer = GetTemplateChild("ScrollViewer") as ScrollViewer;
             _RootScrollViewer.ViewChanging += ScrollViewer_ViewChanging;
+            _RootScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             _RootScrollViewer.RenderTransform = new CompositeTransform() { TranslateY = 0 };
             _RootScrollViewer.DirectManipulationStarted += Viewer_DirectManipulationStarted;
             _RootScrollViewer.DirectManipulationCompleted += Viewer_DirectManipulationCompleted;
@@ -214,6 +215,14 @@ namespace Flantter.MilkyWay.Views.Controls
             }
         }
 
+        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (_RootScrollViewer.VerticalOffset == _RootScrollViewer.ScrollableHeight && _RootScrollViewer.ViewportHeight != 0)
+            {
+                InvokeMore();
+            }
+        }
+
         private void RenderTimer_Tick(object sender, object e)
         {
             var elementBounds = _ListViewItemsPresenter.TransformToVisual(_ContainerGrid).TransformBounds(new Rect(0.0, 0.0, 0.0, 0.0));
@@ -222,25 +231,22 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void Timer_Tick(object sender, object e)
         {
-            if (_ContainerGrid != null)
-            {
-                var elementBounds = _ListViewItemsPresenter.TransformToVisual(_ContainerGrid).TransformBounds(new Rect(0.0, 0.0, 0.0, 0.0));
-                var compressionOffset = elementBounds.Bottom;
+            var elementBounds = _ListViewItemsPresenter.TransformToVisual(_ContainerGrid).TransformBounds(new Rect(0.0, 0.0, 0.0, 0.0));
+            var compressionOffset = elementBounds.Bottom;
 
-                if (compressionOffset > _OffsetTreshhold)
-                {
-                    VisualStateManager.GoToState(this, "ReadyToRefresh", true);
-                    _IsReadyToRefresh = true;
-                }
-                else if (compressionOffset == 0 && _IsReadyToRefresh == true)
-                {
-                    InvokeRefresh();
-                }
-                else
-                {
-                    //_IsCompressedEnough = false;
-                    //_IsCompressionTimerRunning = false;
-                }
+            if (compressionOffset > _OffsetTreshhold)
+            {
+                VisualStateManager.GoToState(this, "ReadyToRefresh", true);
+                _IsReadyToRefresh = true;
+            }
+            else if (compressionOffset == 0 && _IsReadyToRefresh == true)
+            {
+                InvokeRefresh();
+            }
+            else
+            {
+                //_IsCompressedEnough = false;
+                //_IsCompressionTimerRunning = false;
             }
         }
 
@@ -253,6 +259,14 @@ namespace Flantter.MilkyWay.Views.Controls
             if (RefreshContent != null)
             {
                 RefreshContent(this, EventArgs.Empty);
+            }
+        }
+
+        private void InvokeMore()
+        {
+            if (MoreContent != null)
+            {
+                MoreContent(this, EventArgs.Empty);
             }
         }
         #endregion

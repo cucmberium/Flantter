@@ -436,6 +436,16 @@
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
+
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                            </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                         <Storyboard x:Name="AdvancedSearchCloseAnimation">
                             <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
@@ -461,7 +471,16 @@
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
-                            
+
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                            </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
 
                         <Storyboard x:Name="AdvancedSearchContentOpenAnimation">
@@ -566,7 +585,7 @@
                         </Button>
                     </Grid>
 
-                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Grid.Row="1" Height="0">
+                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Grid.Row="1" Height="0" Visibility="Collapsed">
                         <Grid Background="Transparent" Height="36">
                             <i:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Tapped">
@@ -629,7 +648,7 @@
                         </Grid>
                     </StackPanel>
 
-                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Grid.Row="2" Height="0">
+                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Grid.Row="2" Height="0" Visibility="Collapsed">
 
                         <controls:HorizontalBar/>
 
@@ -673,7 +692,7 @@
                         </Grid>
                     </StackPanel>
 
-                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Grid.Row="3" Height="0">
+                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Grid.Row="3" Height="0" Visibility="Collapsed">
                         <controls:HorizontalBar/>
 
                         <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
@@ -774,21 +793,57 @@
                     <contents:TabHeader Label="Trends" Glyph="&#xE1C3;" />
                 </PivotItem.Header>
 
-                <StackPanel>
-                    <controls:HorizontalBar/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel>
+                        <controls:HorizontalBar/>
 
-                    <TextBlock Grid.Row="0" Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
+                        <TextBlock Grid.Row="0" Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
                         <Run Text="SavedSearches : @"/><Run Text="{x:Bind ViewModel.SavedSearchesScreenName.Value, Mode=OneWay}"/>
-                    </TextBlock>
-                    <controls:HorizontalBar/>
-                    <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.SavedSearches, Mode=OneWay}" SelectionMode="None">
-                        <i:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="ItemClick">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.SavedSearchesSelectCommand, Mode=OneWay}" />
-                            </core:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                        
-                        <ItemsControl.ItemsPanel>
+                        </TextBlock>
+                        <controls:HorizontalBar/>
+                        <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.SavedSearches, Mode=OneWay}" SelectionMode="None">
+                            <i:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="ItemClick">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.SavedSearchesSelectCommand, Mode=OneWay}" />
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel>
+                                        <VirtualizingStackPanel.ChildrenTransitions>
+                                            <TransitionCollection/>
+                                        </VirtualizingStackPanel.ChildrenTransitions>
+                                    </VirtualizingStackPanel>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="twitterObjectsViewModel:SearchQueryViewModel">
+                                    <Grid>
+                                        <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,10,0,10" FontFamily="Yu Gothic UI" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
+                                        <Button Background="Transparent" Height="30" Width="30" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" BorderThickness="0" Padding="0" Command="{x:Bind Notice.SearchSettingsFlyoutDeleteSearchQueryCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}">
+                                            <SymbolIcon Symbol="Cancel"/>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
+                            </ItemsControl.ItemContainerStyle>
+                        </ListView>
+
+                        <controls:HorizontalBar/>
+
+                        <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
+                        <Run Text="Trends : "/><Run Text="{x:Bind ViewModel.TrendPlace.Value, Mode=OneWay}"/>
+                        </TextBlock>
+                        <controls:HorizontalBar/>
+                        <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.Trends, Mode=OneWay}" SelectionMode="None">
+                            <i:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="ItemClick">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.TrendsSelectCommand, Mode=OneWay}" />
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel>
                                     <VirtualizingStackPanel.ChildrenTransitions>
@@ -796,52 +851,18 @@
                                     </VirtualizingStackPanel.ChildrenTransitions>
                                 </VirtualizingStackPanel>
                             </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="twitterObjectsViewModel:SearchQueryViewModel">
-                                <Grid>
-                                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,10,0,10" FontFamily="Yu Gothic UI" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
-                                    <Button Background="Transparent" Height="30" Width="30" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" BorderThickness="0" Padding="0" Command="{x:Bind Notice.SearchSettingsFlyoutDeleteSearchQueryCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}">
-                                        <SymbolIcon Symbol="Cancel"/>
-                                    </Button>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemContainerStyle>
-                            <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-                        </ItemsControl.ItemContainerStyle>
-                    </ListView>
-
-                    <controls:HorizontalBar/>
-
-                    <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
-                        <Run Text="Trends : "/><Run Text="{x:Bind ViewModel.TrendPlace.Value, Mode=OneWay}"/>
-                    </TextBlock>
-                    <controls:HorizontalBar/>
-                    <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.Trends, Mode=OneWay}" SelectionMode="None">
-                        <i:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="ItemClick">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.TrendsSelectCommand, Mode=OneWay}" />
-                            </core:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel>
-                                <VirtualizingStackPanel.ChildrenTransitions>
-                                    <TransitionCollection/>
-                                </VirtualizingStackPanel.ChildrenTransitions>
-                            </VirtualizingStackPanel>
-                        </ItemsPanelTemplate>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="twitterObjectsViewModel:TrendViewModel">
-                                <TextBlock FontFamily="Yu Gothic UI" Margin="20,10,0,10" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemContainerStyle>
-                            <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-                        </ItemsControl.ItemContainerStyle>
-                    </ListView>
-                    <controls:HorizontalBar/>
-                </StackPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="twitterObjectsViewModel:TrendViewModel">
+                                    <TextBlock FontFamily="Yu Gothic UI" Margin="20,10,0,10" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
+                            </ItemsControl.ItemContainerStyle>
+                        </ListView>
+                        <controls:HorizontalBar/>
+                    </StackPanel>
+                </ScrollViewer>
             </PivotItem>
         </Pivot>
     </Grid>

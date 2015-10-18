@@ -244,7 +244,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }).AsTask().Wait();
                 }
 
-                new Task(() => { }).Wait(10);
+                new Task(() => { }).Wait(12);
             }
             isAnimationRunning = false;
             this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0.02, null, true)).AsTask().Wait();
@@ -255,7 +255,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (this.ScrollViewerObject != null)
                 return;
 
-            var listViewScroll = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0), 0) as ScrollViewer;
+            var grid = VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0) as Grid;
+            if (grid == null)
+                return;
+
+            var listViewScroll = VisualTreeHelper.GetChild(grid, 0) as ScrollViewer;
             if (listViewScroll == null)
                 return;
 
@@ -269,7 +273,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (this.ScrollViewerObject != null)
                 return;
 
-            var listViewScroll = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0), 0) as ScrollViewer;
+            var grid = VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0) as Grid;
+            if (grid == null)
+                return;
+
+            var listViewScroll = VisualTreeHelper.GetChild(grid, 0) as ScrollViewer;
             if (listViewScroll == null)
                 return;
 
@@ -345,7 +353,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 var selectedItemIndex = ((ListView)behavior.AssociatedObject).SelectedIndex;
 
                 var unreadCount = 0;
-                if (behavior.ScrollViewerObject.ExtentHeight <= behavior.ScrollViewerObject.ViewportHeight)
+                if (behavior.ScrollViewerObject.ScrollableHeight <= 2)
                     unreadCount = 0;
                 else if (behavior.isAnimationRunning)
                     unreadCount = 0;

@@ -210,8 +210,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 }
             });
 
-            this.Statuses = this.Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x));
-            this.Favorites = this.Model.Favorites.ToReadOnlyReactiveCollection(x => new StatusViewModel(x));
+            this.Statuses = this.Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
+            this.Favorites = this.Model.Favorites.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
             this.Followers = this.Model.Followers.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
             this.Following = this.Model.Following.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
 

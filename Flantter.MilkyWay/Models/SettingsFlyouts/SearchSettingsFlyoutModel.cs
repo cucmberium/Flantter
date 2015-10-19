@@ -106,6 +106,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             this.UpdatingStatusSearch = true;
 
+            if (maxid == 0)
+                this.Statuses.Clear();
+
             SearchResult search;
             try
             {
@@ -157,6 +160,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
 
             this.UpdatingUserSearch = true;
+
+            if (!useCursor || usersCursor == 0)
+                this.Users.Clear();
 
             ListedResponse<CoreTweet.User> following;
             try

@@ -291,7 +291,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 Services.Notice.Instance.AddColumnCommand.Execute(columnSetting);
             });
 
-            this.Statuses = this.Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x));
+            this.Statuses = this.Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
             this.Users = this.Model.Users.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
             this.Trends = this.Model.Trends.ToReadOnlyReactiveCollection(x => new TrendViewModel(x));
             this.SavedSearches = this.Model.SavedSearches.ToReadOnlyReactiveCollection(x => new SearchQueryViewModel(x));

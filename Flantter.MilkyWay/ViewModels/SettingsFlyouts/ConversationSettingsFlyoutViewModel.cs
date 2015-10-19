@@ -35,7 +35,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 await this.Model.UpdateConversation();
             });
 
-            this.Conversation = this.Model.Conversation.ToReadOnlyReactiveCollection(x => new StatusViewModel(x));
+            this.Conversation = this.Model.Conversation.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
 
             this.Updating = this.Model.ObserveProperty(x => x.Updating).ToReactiveProperty();
 

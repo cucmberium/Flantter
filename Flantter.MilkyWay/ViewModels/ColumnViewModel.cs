@@ -19,6 +19,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Reactive.Concurrency;
+using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -29,7 +30,6 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<double> Height { get; private set; }
         public ReactiveProperty<double> Width { get; private set; }
         public ReactiveProperty<double> Left { get; private set; }
-        public ReactiveProperty<int> ColumnCount { get; set; }
 
 		public ReactiveProperty<Symbol> ActionSymbol { get; private set; }
 		public ReactiveProperty<string> Name { get; private set; }
@@ -60,6 +60,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand RefreshCommand { get; private set; }
 
         public IDisposable TweetsCollectionChangedDisposable { get; private set; }
+        public IDisposable DisableNotifyCollectionChangedDisposable { get; private set; }
 
         #region Constructor
         /*public ColumnViewModel()
@@ -161,46 +162,14 @@ namespace Flantter.MilkyWay.ViewModels
                 await this._ColumnModel.Update();
             });
 
-            this.ColumnCount = Observable.CombineLatest<double, double, int, int>(
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
-                SettingService.Setting.ObserveProperty(x => x.MinColumnSize),
-                SettingService.Setting.ObserveProperty(x => x.MaxColumnCount),
-                (width, minWidth, maxCount) =>
-                {
-                    return (int)Math.Max(Math.Min(maxCount, (width - 5.0 * 2) / (minWidth + 5.0 * 2)), 1.0);
-                }).ToReactiveProperty();
+            this.Height = LayoutHelper.Instance.ColumnHeight;
 
-            this.Height = Observable.CombineLatest<double, double, double>(
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
-                (width, height) =>
-                {
-                    var retheight = 0.0;
-                    if (width < 352.0)
-                        retheight = height - 64.0;
-                    else if (width < 500.0)
-                        retheight = height - 64.0 - 20.0;
-                    else
-                        retheight = height - 75.0 - 20.0;
-
-                    return retheight;
-                }).ToReactiveProperty();
-
-            this.Width = Observable.CombineLatest<double, int, double>(
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
-                this.ColumnCount,
-                (width, count) =>
-                {
-                    if (width < 352.0)
-                        return width;
-                    else
-                        return (width - 5.0 * 2) / count - 10.0;
-                }).ToReactiveProperty();
+            this.Width = LayoutHelper.Instance.ColumnWidth;
 
             this.Left = Observable.CombineLatest<double, int, double, double>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
                 this.Index,
-                this.Width,
+                LayoutHelper.Instance.ColumnWidth,
                 (width, index, columnWidth) =>
                 {
                     if (width < 352.0)
@@ -276,7 +245,7 @@ namespace Flantter.MilkyWay.ViewModels
                     }
                 });
 
-            this._ColumnModel.ObserveProperty(x => x.DisableNotifyCollectionChanged).SubscribeOn(ThreadPoolScheduler.Default).Subscribe<bool>(x => 
+            this.DisableNotifyCollectionChangedDisposable = this._ColumnModel.ObserveProperty(x => x.DisableNotifyCollectionChanged).SubscribeOn(ThreadPoolScheduler.Default).Subscribe<bool>(x => 
             {
                 this.Tweets.DisableNotifyCollectionChanged = x;
                 if (!x)
@@ -309,13 +278,13 @@ namespace Flantter.MilkyWay.ViewModels
             this.IsScrollLockToTopEnabled.Dispose();
             this.StreamingCommand.Dispose();
             this.ScrollToTopCommand.Dispose();
-
-            this.ColumnCount.Dispose();
+            
             this.Height.Dispose();
             this.Width.Dispose();
             this.Left.Dispose();
 
             this.TweetsCollectionChangedDisposable.Dispose();
+            this.DisableNotifyCollectionChangedDisposable.Dispose();
         }
     }
 }

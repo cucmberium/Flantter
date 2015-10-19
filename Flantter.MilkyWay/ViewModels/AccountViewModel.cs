@@ -2,6 +2,7 @@
 using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Services;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Behaviors;
 using Flantter.MilkyWay.Views.Util;
@@ -33,8 +34,6 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<string> ScreenName { get; private set; }
         public ReactiveProperty<bool> IsEnabled { get; private set; }
         public ReactiveProperty<double> PanelWidth { get; private set; }
-        public ReactiveProperty<int> ColumnCount { get; private set; }
-        public ReactiveProperty<double> ColumnWidth { get; private set; }
         public ReactiveProperty<double> SnapPointsSpaceing { get; private set; }
         public ReactiveProperty<double> MaxSnapPoint { get; private set; }
 		public ReactiveProperty<double> MinSnapPoint { get; private set; }
@@ -56,29 +55,9 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.Columns = this._AccountModel.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x));
             this.AdditionalColumnsName = this._AccountModel.ReadOnlyColumns.ToObservable().Where(x => x.Name != "Home" && x.Name != "Mentions" && x.Name != "DirectMessages").Select(x => x.Name).ToReadOnlyReactiveCollection();
-            
-            this.ColumnCount = Observable.CombineLatest<double, double, int, int>(
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
-                SettingService.Setting.ObserveProperty(x => x.MinColumnSize),
-                SettingService.Setting.ObserveProperty(x => x.MaxColumnCount),
-                (width, minWidth, maxCount) =>
-                {
-                    return (int)Math.Max(Math.Min(maxCount, (width - 5.0 * 2) / (minWidth + 5.0 * 2)), 1.0);
-                }).ToReactiveProperty();
-
-            this.ColumnWidth = Observable.CombineLatest<double, int, double>(
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
-                this.ColumnCount,
-                (width, count) =>
-                {
-                    if (width < 352.0)
-                        return width;
-                    else
-                        return (width - 5.0 * 2) / count - 10.0;
-                }).ToReactiveProperty();
 
             this.PanelWidth = Observable.CombineLatest<double, int, double>(
-                this.ColumnWidth,
+                LayoutHelper.Instance.ColumnWidth,
                 this.Columns.ObserveProperty(x => x.Count),
                 (width, count) =>
                 {
@@ -88,7 +67,8 @@ namespace Flantter.MilkyWay.ViewModels
                         return (width + 10.0) * count + 352.0 * 2;
                 }).ToReactiveProperty();
 
-            this.SnapPointsSpaceing = this.ColumnWidth.Select(x => {
+            this.SnapPointsSpaceing = LayoutHelper.Instance.ColumnWidth.Select(x => 
+            {
                 return x + 10.0;
             }).ToReactiveProperty();
 
@@ -351,8 +331,6 @@ namespace Flantter.MilkyWay.ViewModels
             this.IsEnabled.Dispose();
             this.Columns.Dispose();
             this.AdditionalColumnsName.Dispose();
-            this.ColumnCount.Dispose();
-            this.ColumnWidth.Dispose();
             this.PanelWidth.Dispose();
             this.SnapPointsSpaceing.Dispose();
             this.MaxSnapPoint.Dispose();

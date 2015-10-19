@@ -190,6 +190,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     story.Begin();
                     break;
                 case SettingSupport.TweetAnimationEnum.None:
+                    this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
                     break;
             }
         }

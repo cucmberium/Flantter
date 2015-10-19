@@ -178,35 +178,41 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ExtendedSettingsFlyout">
-                    <Grid x:Name="RootGrid"
+                    <Border x:Name="RootBorder">
+                        <Border.ChildTransitions>
+                            <TransitionCollection>
+                            </TransitionCollection>
+                        </Border.ChildTransitions>
+                        
+                        <Grid x:Name="RootGrid"
                           BorderThickness="0"
                           BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}">
-                        <Grid.Resources>
-                            <Style x:Key="BaseContentPresenterStyle" TargetType="ContentPresenter">
-                                <Setter Property="FontFamily" Value="Segoe UI" />
-                                <Setter Property="FontWeight" Value="SemiBold" />
-                                <Setter Property="FontSize" Value="15" />
-                                <Setter Property="TextWrapping" Value="Wrap" />
-                                <Setter Property="LineStackingStrategy" Value="MaxHeight" />
-                                <Setter Property="TextLineBounds" Value="Full" />
-                                <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings" />
-                            </Style>
-                            <Style x:Key="BodyContentPresenterStyle" TargetType="ContentPresenter" BasedOn="{StaticResource BaseContentPresenterStyle}">
-                                <Setter Property="FontWeight" Value="Normal" />
-                                <Setter Property="FontSize" Value="15" />
-                            </Style>
-                            <Style x:Key="BackButtonStyle" TargetType="Button">
-                                <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
-                                <Setter Property="FontSize" Value="20" />
-                                <Setter Property="UseSystemFocusVisuals" Value="True" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Grid 
+                            <Grid.Resources>
+                                <Style x:Key="BaseContentPresenterStyle" TargetType="ContentPresenter">
+                                    <Setter Property="FontFamily" Value="Segoe UI" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="FontSize" Value="15" />
+                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                    <Setter Property="LineStackingStrategy" Value="MaxHeight" />
+                                    <Setter Property="TextLineBounds" Value="Full" />
+                                    <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings" />
+                                </Style>
+                                <Style x:Key="BodyContentPresenterStyle" TargetType="ContentPresenter" BasedOn="{StaticResource BaseContentPresenterStyle}">
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Setter Property="FontSize" Value="15" />
+                                </Style>
+                                <Style x:Key="BackButtonStyle" TargetType="Button">
+                                    <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
+                                    <Setter Property="FontSize" Value="20" />
+                                    <Setter Property="UseSystemFocusVisuals" Value="True" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid 
                                                 x:Name="RootGrid"
                                                 Height="32"
                                                 Width="32">
-                                                <TextBlock x:Name="NormalGlyph"
+                                                    <TextBlock x:Name="NormalGlyph"
                                                         FontWeight="SemiLight"
                                                         FontFamily="{TemplateBinding FontFamily}"
                                                         FontSize="{TemplateBinding FontSize}"
@@ -214,105 +220,104 @@
                                                         Margin="6,6,6,6"
                                                         Foreground="{TemplateBinding Foreground}"
                                                         AutomationProperties.AccessibilityView="Raw" />
-                                                <VisualStateManager.VisualStateGroups>
-                                                    <VisualStateGroup x:Name="CommonStates">
-                                                        <VisualState x:Name="Normal" />
-                                                        <VisualState x:Name="PointerOver">
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="CommonStates">
+                                                            <VisualState x:Name="Normal" />
+                                                            <VisualState x:Name="PointerOver">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                                                                                                Storyboard.TargetProperty="Background">
-                                                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightListLowBrush}"
+                                                                        <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightListLowBrush}"
                                                                                         KeyTime="0" />
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalGlyph"
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalGlyph"
                                                                                                Storyboard.TargetProperty="Foreground">
-                                                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+                                                                        <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
                                                                                         KeyTime="0" />
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                        <VisualState x:Name="Pressed">
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Pressed">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                                                                                                Storyboard.TargetProperty="Background">
-                                                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightListMediumBrush}"
+                                                                        <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightListMediumBrush}"
                                                                                             KeyTime="0" />
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalGlyph"
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalGlyph"
                                                                                                Storyboard.TargetProperty="Foreground">
-                                                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+                                                                        <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
                                                                                             KeyTime="0" />
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                        <VisualState x:Name="Disabled">
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalGlyph"
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Disabled">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalGlyph"
                                                                                             Storyboard.TargetProperty="Foreground">
-                                                                    <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"
+                                                                        <DiscreteObjectKeyFrame Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"
                                                                                         KeyTime="0" />
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                    </VisualStateGroup>
-                                                    <VisualStateGroup x:Name="SettingsEdgeLocationStates">
-                                                        <VisualState x:Name="Right" />
-                                                        <VisualState x:Name="Left">
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalGlyph"
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                        <VisualStateGroup x:Name="SettingsEdgeLocationStates">
+                                                            <VisualState x:Name="Right" />
+                                                            <VisualState x:Name="Left">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalGlyph"
                                                                                             Storyboard.TargetProperty="Text">
-                                                                    <DiscreteObjectKeyFrame Value="&#xE0AE;" KeyTime="0" />
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                    </VisualStateGroup>
-                                                </VisualStateManager.VisualStateGroups>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Grid.Resources>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.Transitions>
-                            <TransitionCollection>
-                                <EdgeUIThemeTransition Edge="Right" />
-                            </TransitionCollection>
-                        </Grid.Transitions>
-                        <Grid x:Name="Header" Background="{TemplateBinding HeaderBackground}" Padding="0,22,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Button x:Name="BackButton"
+                                                                        <DiscreteObjectKeyFrame Value="&#xE0AE;" KeyTime="0" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.Transitions>
+                                <TransitionCollection>
+                                </TransitionCollection>
+                            </Grid.Transitions>
+                            <Grid x:Name="Header" Background="{TemplateBinding HeaderBackground}" Padding="0,22,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="BackButton"
                                 Foreground="{TemplateBinding Foreground}"
                                 Margin="12,8,8,8"
                                 Height="32"
                                 Width="32"
                                 Style="{StaticResource BackButtonStyle}"
                                 VerticalAlignment="Top" />
-                            <TextBlock Text="{TemplateBinding Title}"
+                                <TextBlock Text="{TemplateBinding Title}"
                                     Foreground="{TemplateBinding HeaderForeground}"
                                     Style="{StaticResource TitleTextBlockStyle}"
                                     TextWrapping="NoWrap"
                                     Grid.Column="1"
                                     VerticalAlignment="Top"
                                     Margin="0,6,0,10" />
-                            <Image Height="24"
+                                <Image Height="24"
                                 Width="24"
                                 Source="{TemplateBinding IconSource}"
                                 Grid.Column="2"
                                 Margin="0,12,12,12"
                                 VerticalAlignment="Top" />
-                        </Grid>
-                        <Grid Grid.Row="1"
+                            </Grid>
+                            <Grid Grid.Row="1"
                               Background="{TemplateBinding Background}">
-                            <ContentPresenter x:Name="ContentPresenter"                                            
+                                <ContentPresenter x:Name="ContentPresenter"                                            
                                             Content="{TemplateBinding Content}"
                                             ContentTemplate="{TemplateBinding ContentTemplate}"
                                             ContentTransitions="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContentTransitions}"
@@ -321,10 +326,11 @@
                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
                                             TextWrapping="Wrap" />
-                            
+
+                            </Grid>
+                            <Rectangle x:Name="InputPanePlaceholder" Grid.Row="2" />
                         </Grid>
-                        <Rectangle x:Name="InputPanePlaceholder" Grid.Row="2" />
-                    </Grid>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

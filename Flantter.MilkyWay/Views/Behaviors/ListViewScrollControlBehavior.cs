@@ -220,14 +220,14 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (isAnimationRunning)
             {
                 remainHeight = this.ScrollViewerObject.VerticalOffset;
-                tickCount += 12;
+                tickCount += 14;
 
-                if (tickCount > 75)
-                    tickCount = 75;
+                if (tickCount > 70)
+                    tickCount = 70;
             }
             else
             {
-                tickCount = 25;
+                tickCount = 22;
                 remainHeight = changedOffset;
 
                 isAnimationRunning = true;
@@ -255,7 +255,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }).AsTask().Wait();
                 }
 
-                new Task(() => { }).Wait(14);
+                new Task(() => { }).Wait(15);
             }
             isAnimationRunning = false;
             this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0.02, null, true)).AsTask().Wait();

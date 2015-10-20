@@ -107,21 +107,12 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
         
-        #region OwnerScreenName変更通知プロパティ
-        private string _OwnerScreenName;
-        public string OwnerScreenName
+        #region ScreenName変更通知プロパティ
+        private string _ScreenName;
+        public string ScreenName
         {
-            get { return this._OwnerScreenName; }
-            set { this.SetProperty(ref this._OwnerScreenName, value); }
-        }
-        #endregion
-
-        #region OwnerUserId変更通知プロパティ
-        private long _OwnerUserId;
-        public long OwnerUserId
-        {
-            get { return this._OwnerUserId; }
-            set { this.SetProperty(ref this._OwnerUserId, value); }
+            get { return this._ScreenName; }
+            set { this.SetProperty(ref this._ScreenName, value); }
         }
         #endregion
 
@@ -288,7 +279,7 @@ namespace Flantter.MilkyWay.Models
                                 }
                                 break;
                             case TweetEventArgs.TypeEnum.EventMessage:
-                                if (this.Action == SettingSupport.ColumnTypeEnum.Events && tweetEventArgs.EventMessage.Source.Id != this.OwnerUserId)
+                                if (this.Action == SettingSupport.ColumnTypeEnum.Events && tweetEventArgs.EventMessage.Source.Id != this._Tokens.UserId)
                                 {
                                     this.Add(tweetEventArgs.EventMessage, tweetEventArgs.Streaming);
                                 }
@@ -321,8 +312,7 @@ namespace Flantter.MilkyWay.Models
             this.Name = this._ColumnSetting.Name;
             this.Parameter = this._ColumnSetting.Parameter;
             this.FetchingNumberOfTweet = this._ColumnSetting.FetchingNumberOfTweet;
-            this.OwnerScreenName = this._AccountSetting.ScreenName;
-            this.OwnerUserId = this._AccountSetting.UserId;
+            this.ScreenName = this._AccountSetting.ScreenName;
             
             if (!this._ColumnSetting.DisableStartupRefresh)
             {
@@ -366,7 +356,7 @@ namespace Flantter.MilkyWay.Models
                             if (this._Action == SettingSupport.ColumnTypeEnum.Home)
                             {
                                 paramList.Add("home://");
-                                if (tweet.Status.Entities.UserMentions != null && tweet.Status.Entities.UserMentions.Any(x => x.Id == this.OwnerUserId))
+                                if (tweet.Status.Entities.UserMentions != null && tweet.Status.Entities.UserMentions.Any(x => x.Id == this._Tokens.UserId))
                                     paramList.Add("mentions://");
                             }
                             else if (this._Action == SettingSupport.ColumnTypeEnum.Search)
@@ -378,28 +368,28 @@ namespace Flantter.MilkyWay.Models
                                 paramList.Add("list://" + this._Parameter);
                             }
 
-                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(tweet.Status), this._OwnerUserId, paramList, true));
+                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(tweet.Status), this._Tokens.UserId, paramList, true));
                             break;
                         case MessageType.DirectMesssage:
                             var directMessage = m as DirectMessageMessage;
-                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.DirectMessage(directMessage.DirectMessage), this._OwnerUserId, new List<string>() { "directmessages://" }, true));
+                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.DirectMessage(directMessage.DirectMessage), this._Tokens.UserId, new List<string>() { "directmessages://" }, true));
                             break;
                         case MessageType.DeleteStatus:
                             var deleteStatus = m as DeleteMessage;
-                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.Status, deleteStatus.Id, this._OwnerUserId));
+                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.Status, deleteStatus.Id, this._Tokens.UserId));
                             break;
                         case MessageType.DeleteDirectMessage:
                             var deleteDirectMessage = m as DeleteMessage;
-                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.DirectMessage, deleteDirectMessage.Id, this._OwnerUserId));
+                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.DirectMessage, deleteDirectMessage.Id, this._Tokens.UserId));
                             break;
                         case MessageType.Event:
                             var eventMessage = m as CoreTweet.Streaming.EventMessage;
-                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.EventMessage(eventMessage), this._OwnerUserId, new List<string>() { "events://" }, true));
+                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.EventMessage(eventMessage), this._Tokens.UserId, new List<string>() { "events://" }, true));
                             
-                            if (eventMessage.Event == EventCode.Favorite && eventMessage.TargetStatus != null && eventMessage.Source.Id == this._OwnerUserId)
+                            if (eventMessage.Event == EventCode.Favorite && eventMessage.TargetStatus != null && eventMessage.Source.Id == this._Tokens.UserId)
                             {
                                 eventMessage.TargetStatus.IsFavorited = true;
-                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this._OwnerUserId, new List<string>() { "favorites://" }, false));
+                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this._Tokens.UserId, new List<string>() { "favorites://" }, false));
                             }
 
                             break;
@@ -562,7 +552,7 @@ namespace Flantter.MilkyWay.Models
                         Add(statusObject);
 
                     var paramList = new List<string>() { "home://" };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this._OwnerUserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this._Tokens.UserId, paramList, false));
                 }
             }
             catch (TwitterException ex)
@@ -594,7 +584,7 @@ namespace Flantter.MilkyWay.Models
                         Add(statusObject);
 
                     var paramList = new List<string>() { "mentions://" };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this._OwnerUserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this._Tokens.UserId, paramList, false));
                 }
             }
             catch (TwitterException ex)
@@ -627,7 +617,7 @@ namespace Flantter.MilkyWay.Models
                     Add(directMessageObject);
 
                     var paramList = new List<string>() { "directmessages://" };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(directMessageObject, this._OwnerUserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(directMessageObject, this._Tokens.UserId, paramList, false));
                 }
             }
             catch (TwitterException ex)
@@ -659,7 +649,7 @@ namespace Flantter.MilkyWay.Models
                         Add(statusObject);
 
                     var paramList = new List<string>() { "favorites://" };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._OwnerUserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._Tokens.UserId, paramList, false));
                 }
             }
             catch (TwitterException ex)
@@ -691,7 +681,7 @@ namespace Flantter.MilkyWay.Models
                         Add(statusObject);
 
                     var paramList = new List<string>() { "list://" + this._Parameter };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._OwnerUserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._Tokens.UserId, paramList, false));
                 }
             }
             catch (TwitterException ex)
@@ -753,7 +743,7 @@ namespace Flantter.MilkyWay.Models
                         Add(statusObject);
 
                     var paramList = new List<string>() { "search://" + this._Parameter };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._OwnerUserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._Tokens.UserId, paramList, false));
                 }
             }
             catch (TwitterException ex)
@@ -785,7 +775,7 @@ namespace Flantter.MilkyWay.Models
                         Add(statusObject);
 
                     var paramList = new List<string>() { "usertimeline://" + this._Parameter };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._OwnerUserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this._Tokens.UserId, paramList, false));
                 }
             }
             catch (TwitterException ex)
@@ -936,7 +926,7 @@ namespace Flantter.MilkyWay.Models
             else
             {
                 var retindex = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => (x as ITweet)?.Id == status.Id));
-                if (retindex != -1 && SettingService.Setting.RemoveRetweetAlreadyReceive && status.HasRetweetInformation && status.RetweetInformation.User.ScreenName != this._OwnerScreenName)
+                if (retindex != -1 && SettingService.Setting.RemoveRetweetAlreadyReceive && status.HasRetweetInformation && status.RetweetInformation.User.ScreenName != this._ScreenName)
                     return;
 
                 var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;

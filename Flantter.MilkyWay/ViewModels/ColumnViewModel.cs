@@ -33,7 +33,7 @@ namespace Flantter.MilkyWay.ViewModels
 
 		public ReactiveProperty<Symbol> ActionSymbol { get; private set; }
 		public ReactiveProperty<string> Name { get; private set; }
-        public ReactiveProperty<string> OwnerScreenName { get; private set; }
+        public ReactiveProperty<string> ScreenName { get; private set; }
 		public ReactiveProperty<bool> EnableCreateFilterColumn { get; private set; }
 		public ReactiveProperty<Symbol> StreamingSymbol { get; private set; }
         public ReactiveProperty<bool> IsEnabledStreaming { get; private set; }
@@ -99,7 +99,7 @@ namespace Flantter.MilkyWay.ViewModels
 			}).ToReactiveProperty();
 			this.EnableCreateFilterColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Home).ToReactiveProperty();
             this.Name = column.ObserveProperty(x => x.Name).ToReactiveProperty();
-            this.OwnerScreenName = column.ObserveProperty(x => x.OwnerScreenName).ToReactiveProperty();
+            this.ScreenName = column.ObserveProperty(x => x.ScreenName).ToReactiveProperty();
 			this.StreamingSymbol = column.ObserveProperty(x => x.Streaming).Select(x => x ? Symbol.Pause : Symbol.Play).ToReactiveProperty();
             this.Index = column.ObserveProperty(x => x.Index).ToReactiveProperty();
             this.IsEnabledStreaming = column.ObserveProperty(x => x.Action).Select(x =>
@@ -194,11 +194,11 @@ namespace Flantter.MilkyWay.ViewModels
                         var item = e.NewItems[0];
 
                         if (item is Status)
-                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel.OwnerUserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel._Tokens.UserId));
                         else if (item is DirectMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel.OwnerUserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel._Tokens.UserId));
                         else if (item is EventMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel.OwnerUserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel._Tokens.UserId));
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Remove)
                     {
@@ -222,11 +222,11 @@ namespace Flantter.MilkyWay.ViewModels
 
                         var item = e.NewItems[0];
                         if (item is Status)
-                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel.OwnerUserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel._Tokens.UserId));
                         else if (item is DirectMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel.OwnerUserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel._Tokens.UserId));
                         else if (item is EventMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel.OwnerUserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel._Tokens.UserId));
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Reset)
                     {
@@ -265,7 +265,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.ActionSymbol.Dispose();
             this.EnableCreateFilterColumn.Dispose();
             this.Name.Dispose();
-            this.OwnerScreenName.Dispose();
+            this.ScreenName.Dispose();
             this.StreamingSymbol.Dispose();
             this.Index.Dispose();
             this.IsEnabledStreaming.Dispose();

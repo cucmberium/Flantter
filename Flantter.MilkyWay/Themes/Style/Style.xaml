@@ -3264,7 +3264,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Grid>
+                    <Canvas CacheMode="BitmapCache">
                         <Polygon Fill="LightGreen" Points="0,0,25,0,0,25" FillRule="Nonzero" />
                         <Polygon Fill="MediumSeaGreen" Points="0,0,23,0,0,23" FillRule="Nonzero" />
                         <SymbolIcon Symbol="ReShare" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="LightGreen" RenderTransformOrigin="0,0">
@@ -3272,7 +3272,7 @@
                                 <CompositeTransform ScaleX="0.5" TranslateX="0" TranslateY="0" ScaleY="0.5"/>
                             </SymbolIcon.RenderTransform>
                         </SymbolIcon>
-                    </Grid>
+                    </Canvas>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -3282,7 +3282,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Grid>
+                    <Canvas CacheMode="BitmapCache">
                         <Polygon Fill="Yellow" Points="0,0,25,0,0,25" FillRule="Nonzero" />
                         <Polygon Fill="Orange" Points="0,0,23,0,0,23" FillRule="Nonzero" />
                         <SymbolIcon Symbol="Favorite" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="Yellow" RenderTransformOrigin="0,0">
@@ -3290,7 +3290,7 @@
                                 <CompositeTransform ScaleX="0.5" TranslateX="0" TranslateY="0" ScaleY="0.5"/>
                             </SymbolIcon.RenderTransform>
                         </SymbolIcon>
-                    </Grid>
+                    </Canvas>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -3300,7 +3300,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Grid>
+                    <Canvas CacheMode="BitmapCache">
                         <Polygon Fill="Yellow" Points="0,0,25,0,12.5,12.5" FillRule="Nonzero" />
                         <Polygon Fill="Orange" Points="0,0,23,0,11.5,11.5" FillRule="Nonzero" />
                         <SymbolIcon Symbol="Favorite" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="Yellow" RenderTransformOrigin="0,0">
@@ -3315,7 +3315,7 @@
                                 <CompositeTransform ScaleX="0.4" TranslateX="0" TranslateY="5" ScaleY="0.4"/>
                             </SymbolIcon.RenderTransform>
                         </SymbolIcon>
-                    </Grid>
+                    </Canvas>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

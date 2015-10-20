@@ -45,7 +45,7 @@
                             <TextBlock Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <Run Text="{x:Bind Name.Value, Mode=OneWay}"/>
                                 <Run Text=" - "/>
-                                <Run Text="@"/><Run Text="{x:Bind OwnerScreenName.Value, Mode=OneWay}"/>
+                                <Run Text="@"/><Run Text="{x:Bind ScreenName.Value, Mode=OneWay}"/>
                             </TextBlock>
                         </Grid>
 

@@ -92,6 +92,7 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <WarningLevel>2</WarningLevel>
     <EnableGatekeeperAnalysis>false</EnableGatekeeperAnalysis>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->

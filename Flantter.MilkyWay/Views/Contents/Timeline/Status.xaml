@@ -180,11 +180,11 @@
             </StackPanel>
 
             <StackPanel Grid.Column="3" x:Name="StatusBox">
-                <TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Left">
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap" Margin="0,2" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
-                <TextBlock FontSize="10.5" HorizontalAlignment="Left" TextWrapping="NoWrap" VerticalAlignment="Center">
+                <TextBlock FontSize="10.5" HorizontalAlignment="Left">
                     <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{x:Bind ViewModel.CreatedAt, Mode=OneWay}"/>
                     <Run Foreground="{StaticResource TweetOtherTextblockForegroundBrush}" Text="  -  "/>
                     <Run Foreground="{StaticResource TweetOtherTextblockForegroundBrush}" Text="via "/><Run Foreground="{StaticResource TweetSourceTextblockForegroundBrush}" Text="{x:Bind ViewModel.Source, Mode=OneWay}"/>
@@ -224,7 +224,7 @@
                     <TextBlock Grid.Column="1" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="5,0,0,0" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetInformationText, Mode=OneWay}"/>
                 </Grid>
 
-                <TextBlock Visibility="{x:Bind ViewModel.RetweetCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="2" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,2,0,0" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetCounterText, Mode=OneWay}"/>
+                <TextBlock Grid.Row="2" Visibility="{x:Bind ViewModel.RetweetCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,2,0,0" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetCounterText, Mode=OneWay}"/>
             </StackPanel>
 
             <ContentControl Style="{StaticResource RetweetTriangleIcon}" Grid.Column="1" Visibility="{x:Bind ViewModel.RetweetTriangleIconVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>

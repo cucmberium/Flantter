@@ -5,18 +5,13 @@
     xmlns:local="using:Flantter.MilkyWay.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:prism="using:Prism.Windows"
     xmlns:mvvm="using:Prism.Windows.Mvvm"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
-    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
-    xmlns:common="using:Flantter.MilkyWay.Common"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
-    xmlns:winrtXamlToolKit="using:WinRTXamlToolkit.Controls"
-    xmlns:extensions="using:WinRTXamlToolkit.Controls.Extensions"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 

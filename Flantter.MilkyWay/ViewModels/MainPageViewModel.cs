@@ -18,6 +18,9 @@ using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Prism.Windows.Mvvm;
 using Prism.Windows.Navigation;
 using System.Reactive.Concurrency;
+using Windows.ApplicationModel.DataTransfer;
+using Flantter.MilkyWay.Common;
+using Windows.System;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -40,7 +43,6 @@ namespace Flantter.MilkyWay.ViewModels
         public MainPageViewModel()
         {
             this._MainPageModel = MainPageModel.Instance;
-            this.Accounts = this._MainPageModel.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
 
             // 設定によってTitlebarの表示を変える
             this.TitleBarVisivility = SettingService.Setting.ObserveProperty(x => x.TitleBarVisibility).Select(x => x && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile").ToReactiveProperty();
@@ -56,6 +58,8 @@ namespace Flantter.MilkyWay.ViewModels
                     await this.TweetArea.Value.TextBoxFocusMessenger.Raise(new Notification());
                 }
             });
+            
+            this.Accounts = this._MainPageModel.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
 
             this.TweetArea = new ReactiveProperty<TweetAreaViewModel>(new TweetAreaViewModel(this.Accounts));
 
@@ -93,6 +97,72 @@ namespace Flantter.MilkyWay.ViewModels
             Services.Notice.Instance.ShowSettingsFlyoutCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 await this.ShowSettingsFlyoutMessenger.Raise(x as Notification);
+            });
+
+            Services.Notice.Instance.CopyTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var status = x as Status;
+                if (status != null)
+                {
+                    try
+                    {
+                        var textPackage = new DataPackage();
+                        textPackage.SetText(status.Text);
+                        Clipboard.SetContent(textPackage);
+                    }
+                    catch
+                    {
+                    }
+
+                    return;
+                }
+
+                var directMessage = x as DirectMessage;
+                if (directMessage != null)
+                {
+                    try
+                    {
+                        var textPackage = new DataPackage();
+                        textPackage.SetText(directMessage.Text);
+                        Clipboard.SetContent(textPackage);
+                    }
+                    catch
+                    {
+                    }
+
+                    return;
+                }
+            });
+
+            Services.Notice.Instance.UrlClickCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var linkUrl = x as string;
+                if (string.IsNullOrWhiteSpace(linkUrl))
+                    return;
+
+
+                if (linkUrl.StartsWith("@"))
+                {
+                    var userMention = linkUrl.Replace("@", "");
+                    ViewModels.Services.Notice.Instance.ShowUserProfileCommand.Execute(userMention.Replace("@", ""));
+                    return;
+                }
+                else if (linkUrl.StartsWith("#"))
+                {
+                    var hashTag = linkUrl.Replace("#", "");
+                    return;
+                }
+
+                var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
+                var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
+                if (statusMatch.Success)
+                { }
+                else if (userMatch.Success)
+                { }
+                else
+                {
+                    await Launcher.LaunchUriAsync(new Uri(linkUrl));
+                }
             });
             #endregion
         }

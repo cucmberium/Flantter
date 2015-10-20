@@ -227,9 +227,9 @@
                 <TextBlock Grid.Row="2" Visibility="{x:Bind ViewModel.RetweetCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,2,0,0" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetCounterText, Mode=OneWay}"/>
             </StackPanel>
 
-            <ContentControl Style="{StaticResource RetweetTriangleIcon}" Grid.Column="1" Visibility="{x:Bind ViewModel.RetweetTriangleIconVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
-            <ContentControl Style="{StaticResource FavoriteTriangleIcon}" Grid.Column="1" Visibility="{x:Bind ViewModel.FavoriteTriangleIconVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
-            <ContentControl Style="{StaticResource RetweetFavoriteTriangleIcon}" Grid.Column="1" Visibility="{x:Bind ViewModel.RetweetFavoriteTriangleIconVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
+            <ContentControl x:Name="RetweetTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource RetweetTriangleIcon}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
+            <ContentControl x:Name="FavoriteTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource FavoriteTriangleIcon}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
+            <ContentControl x:Name="RetweetFavoriteTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource RetweetFavoriteTriangleIcon}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
         </Grid>
 
         <Border x:DeferLoadStrategy="Lazy" Grid.Row="3" x:Name="QuotedStatusBorder" Visibility="Collapsed" Margin="30,4,12,0" Background="{StaticResource TweetQuotedStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">

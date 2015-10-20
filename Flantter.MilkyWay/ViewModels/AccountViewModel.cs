@@ -67,10 +67,7 @@ namespace Flantter.MilkyWay.ViewModels
                         return (width + 10.0) * count + 352.0 * 2;
                 }).ToReactiveProperty();
 
-            this.SnapPointsSpaceing = LayoutHelper.Instance.ColumnWidth.Select(x => 
-            {
-                return x + 10.0;
-            }).ToReactiveProperty();
+            this.SnapPointsSpaceing = LayoutHelper.Instance.ColumnWidth.Select(x => x + 10.0).ToReactiveProperty();
 
             this.MaxSnapPoint = Observable.CombineLatest<double, double, double>(this.PanelWidth, WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth), (panelWidth, windowWidth) => (panelWidth + 10.0) - windowWidth + 352.0).ToReactiveProperty();
 
@@ -219,73 +216,7 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
                 statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
             });
-
-            Services.Notice.Instance.UrlClickCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
-            {
-                var linkUrl = x as string;
-                if (string.IsNullOrWhiteSpace(linkUrl))
-                    return;
-
-
-                if (linkUrl.StartsWith("@"))
-                {
-                    var userMention = linkUrl.Replace("@", "");
-                    ViewModels.Services.Notice.Instance.ShowUserProfileCommand.Execute(userMention.Replace("@", ""));
-                    return;
-                }
-                else if (linkUrl.StartsWith("#"))
-                {
-                    var hashTag = linkUrl.Replace("#", "");
-                    return;
-                }
-
-                var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
-                var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
-                if (statusMatch.Success)
-                { }
-                else if (userMatch.Success)
-                { }
-                else
-                {
-                    await Launcher.LaunchUriAsync(new Uri(linkUrl));
-                }
-            });
-
-            Services.Notice.Instance.CopyTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
-            {
-                var status = x as Status;
-                if (status != null)
-                {
-                    try
-                    {
-                        var textPackage = new DataPackage();
-                        textPackage.SetText(status.Text);
-                        Clipboard.SetContent(textPackage);
-                    }
-                    catch
-                    {
-                    }
-
-                    return;
-                }
-
-                var directMessage = x as DirectMessage;
-                if (directMessage != null)
-                {
-                    try
-                    {
-                        var textPackage = new DataPackage();
-                        textPackage.SetText(directMessage.Text);
-                        Clipboard.SetContent(textPackage);
-                    }
-                    catch
-                    {
-                    }
-
-                    return;
-                }
-            });
-
+            
             Services.Notice.Instance.ShowUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this._AccountModel._Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };

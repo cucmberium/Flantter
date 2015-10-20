@@ -156,18 +156,18 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             if (e.NewStartingIndex >= newVerticalOffset - 1)
                 return;
-
-            this.ScrollViewerObject.ChangeView(null, offset, null, true);
-
-            if (SettingService.Setting.DisableStreamingScroll)
+            
+            if (SettingService.Setting.DisableStreamingScroll || IsScrollLockEnabled)
+            {
+                this.ScrollViewerObject.ChangeView(null, offset, null, true);
                 return;
-
-            if (IsScrollLockEnabled)
-                return;
+            }
 
             switch (SettingService.Setting.TweetAnimation)
             {
                 case SettingSupport.TweetAnimationEnum.ScrollToTop:
+                    this.ScrollViewerObject.ChangeView(null, offset, null, true);
+
                     if (isAnimationRunning && !isAnimationCooldown)
                         this.RunAnimation(offset, changedVerticalOffset);
                     else if (oldVerticalOffset <= 2.5 && !isAnimationCooldown)
@@ -177,7 +177,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 case SettingSupport.TweetAnimationEnum.Expand:
                 case SettingSupport.TweetAnimationEnum.Slide:
                     if (oldVerticalOffset > 2.5 || isAnimationCooldown)
+                    {
+                        this.ScrollViewerObject.ChangeView(null, offset, null, true);
                         return;
+                    }
 
                     var lvItem = ((ListView)this.AssociatedObject).ContainerFromIndex(0) as ListViewItem;
                     if (lvItem == null || lvItem.ContentTemplateRoot == null)
@@ -188,9 +191,16 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     var story = ((FrameworkElement)lvItem.ContentTemplateRoot).Resources[storyName] as Storyboard;
                     story.Begin();
+
+                    this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
+
                     break;
                 case SettingSupport.TweetAnimationEnum.None:
-                    this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
+                    if (oldVerticalOffset > 2.5)
+                        this.ScrollViewerObject.ChangeView(null, offset, null, true);
+                    else
+                        this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
+
                     break;
             }
         }
@@ -210,14 +220,14 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (isAnimationRunning)
             {
                 remainHeight = this.ScrollViewerObject.VerticalOffset;
-                tickCount += 10;
+                tickCount += 12;
 
-                if (tickCount > 70)
-                    tickCount = 70;
+                if (tickCount > 75)
+                    tickCount = 75;
             }
             else
             {
-                tickCount = 20;
+                tickCount = 25;
                 remainHeight = changedOffset;
 
                 isAnimationRunning = true;
@@ -245,7 +255,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }).AsTask().Wait();
                 }
 
-                new Task(() => { }).Wait(12);
+                new Task(() => { }).Wait(14);
             }
             isAnimationRunning = false;
             this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0.02, null, true)).AsTask().Wait();
@@ -363,7 +373,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 else if (selectedItemIndex != -1)
                     unreadCount = behavior.UnreadCount + 1;
                 else
-                    unreadCount = behavior.UnreadCount > verticalOffset - 2 ? (int)verticalOffset - 2 : behavior.UnreadCount + 1;
+                    unreadCount = behavior.UnreadCount > verticalOffset - 2.5 ? (int)verticalOffset - 2 : behavior.UnreadCount + 1;
 
                 behavior.UnreadCount = unreadCount >= 0 ? unreadCount : 0;
 

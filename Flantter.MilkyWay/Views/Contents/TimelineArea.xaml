@@ -46,7 +46,10 @@
                             MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
                             IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
                             QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
-                            MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"/>
+                            MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
+                            RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
+                            FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
+                            RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
                     </DataTemplate>
                     <DataTemplate x:Key="DirectMessageViewModel" x:DataType="twitterObjectsViewModel:DirectMessageViewModel">
                         <timeline:DirectMessage ViewModel="{x:Bind}" MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}"/>

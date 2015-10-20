@@ -20,6 +20,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Reactive.Concurrency;
 using Flantter.MilkyWay.ViewModels.Services;
+using System.Reactive.Subjects;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -61,6 +62,9 @@ namespace Flantter.MilkyWay.ViewModels
 
         public IDisposable TweetsCollectionChangedDisposable { get; private set; }
         public IDisposable DisableNotifyCollectionChangedDisposable { get; private set; }
+
+        public Subject<NotifyCollectionChangedEventArgs> TweetCollectionChangedSubjectOnUIDispatcher { get; set; }
+        public IDisposable TweetCollectionChangedSubjectOnUIDispatcherDisposable { get; set; }
 
         #region Constructor
         /*public ColumnViewModel()
@@ -177,20 +181,17 @@ namespace Flantter.MilkyWay.ViewModels
                     else
                         return 5.0 + index * (columnWidth + 10.0) + 352.0;
                 }).ToReactiveProperty();
-
+            
             this.Tweets = new ExtendedObservableCollection<object>();
             this.TweetsCollectionChangedDisposable = Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                 h => (sender, e) => h(e),
                 h => this._ColumnModel.Tweets.CollectionChanged += h,
-                h => this._ColumnModel.Tweets.CollectionChanged -= h).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
+                h => this._ColumnModel.Tweets.CollectionChanged -= h).ObserveOnUIDispatcher().Subscribe(x => 
                 {
                     var e = x as NotifyCollectionChangedEventArgs;
 
                     if (e.Action == NotifyCollectionChangedAction.Add)
                     {
-                        if (e.NewItems.Count > 1)
-                            throw new NotImplementedException();
-
                         var item = e.NewItems[0];
 
                         if (item is Status)
@@ -202,9 +203,6 @@ namespace Flantter.MilkyWay.ViewModels
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Remove)
                     {
-                        if (e.OldItems.Count > 1)
-                            throw new NotImplementedException();
-
                         var item = this.Tweets[e.OldStartingIndex] as IDisposable;
                         if (item != null)
                             item.Dispose();
@@ -213,9 +211,6 @@ namespace Flantter.MilkyWay.ViewModels
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Replace)
                     {
-                        if (e.OldItems.Count > 1 || e.NewItems.Count > 1)
-                            throw new NotImplementedException();
-
                         var olditem = this.Tweets[e.OldStartingIndex] as IDisposable;
                         if (olditem != null)
                             olditem.Dispose();
@@ -245,7 +240,7 @@ namespace Flantter.MilkyWay.ViewModels
                     }
                 });
 
-            this.DisableNotifyCollectionChangedDisposable = this._ColumnModel.ObserveProperty(x => x.DisableNotifyCollectionChanged).SubscribeOn(ThreadPoolScheduler.Default).Subscribe<bool>(x => 
+            this.DisableNotifyCollectionChangedDisposable = this._ColumnModel.ObserveProperty(x => x.DisableNotifyCollectionChanged).ObserveOnUIDispatcher().Subscribe<bool>(x => 
             {
                 this.Tweets.DisableNotifyCollectionChanged = x;
                 if (!x)
@@ -278,9 +273,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.IsScrollLockToTopEnabled.Dispose();
             this.StreamingCommand.Dispose();
             this.ScrollToTopCommand.Dispose();
-            
-            this.Height.Dispose();
-            this.Width.Dispose();
+
             this.Left.Dispose();
 
             this.TweetsCollectionChangedDisposable.Dispose();

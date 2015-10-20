@@ -249,6 +249,58 @@ namespace Flantter.MilkyWay.Models
         #region Initialize
         public async Task Initialize()
         {
+            this.Stream.SubscribeOn(NewThreadScheduler.Default).Subscribe(
+                (StreamingMessage m) =>
+                {
+                    switch (m.Type)
+                    {
+                        case MessageType.Create:
+                            var tweet = m as StatusMessage;
+                            var paramList = new List<string>();
+                            if (this._Action == SettingSupport.ColumnTypeEnum.Home)
+                            {
+                                paramList.Add("home://");
+                                if (tweet.Status.Entities.UserMentions != null && tweet.Status.Entities.UserMentions.Any(x => x.Id == this._Tokens.UserId))
+                                    paramList.Add("mentions://");
+                            }
+                            else if (this._Action == SettingSupport.ColumnTypeEnum.Search)
+                            {
+                                paramList.Add("search://" + this._Parameter);
+                            }
+                            else if (this._Action == SettingSupport.ColumnTypeEnum.List)
+                            {
+                                paramList.Add("list://" + this._Parameter);
+                            }
+
+                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(tweet.Status), this._Tokens.UserId, paramList, true));
+                            break;
+                        case MessageType.DirectMesssage:
+                            var directMessage = m as DirectMessageMessage;
+                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.DirectMessage(directMessage.DirectMessage), this._Tokens.UserId, new List<string>() { "directmessages://" }, true));
+                            break;
+                        case MessageType.DeleteStatus:
+                            var deleteStatus = m as DeleteMessage;
+                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.Status, deleteStatus.Id, this._Tokens.UserId));
+                            break;
+                        case MessageType.DeleteDirectMessage:
+                            var deleteDirectMessage = m as DeleteMessage;
+                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.DirectMessage, deleteDirectMessage.Id, this._Tokens.UserId));
+                            break;
+                        case MessageType.Event:
+                            var eventMessage = m as CoreTweet.Streaming.EventMessage;
+                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.EventMessage(eventMessage), this._Tokens.UserId, new List<string>() { "events://" }, true));
+
+                            if (eventMessage.Event == EventCode.Favorite && eventMessage.TargetStatus != null && eventMessage.Source.Id == this._Tokens.UserId)
+                            {
+                                eventMessage.TargetStatus.IsFavorited = true;
+                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this._Tokens.UserId, new List<string>() { "favorites://" }, false));
+                            }
+
+                            break;
+                    }
+                }
+            );
+
             Observable.Merge(
                 Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
                 h => (sender, e) => h(e),
@@ -344,58 +396,6 @@ namespace Flantter.MilkyWay.Models
             this._ColumnSetting = column;
 
             this._AccountModel = accountModel;
-            
-            this.Stream.SubscribeOn(NewThreadScheduler.Default).Subscribe(
-                (StreamingMessage m) =>
-                {
-                    switch (m.Type)
-                    {
-                        case MessageType.Create:
-                            var tweet = m as StatusMessage;
-                            var paramList = new List<string>();
-                            if (this._Action == SettingSupport.ColumnTypeEnum.Home)
-                            {
-                                paramList.Add("home://");
-                                if (tweet.Status.Entities.UserMentions != null && tweet.Status.Entities.UserMentions.Any(x => x.Id == this._Tokens.UserId))
-                                    paramList.Add("mentions://");
-                            }
-                            else if (this._Action == SettingSupport.ColumnTypeEnum.Search)
-                            {
-                                paramList.Add("search://" + this._Parameter);
-                            }
-                            else if (this._Action == SettingSupport.ColumnTypeEnum.List)
-                            {
-                                paramList.Add("list://" + this._Parameter);
-                            }
-
-                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(tweet.Status), this._Tokens.UserId, paramList, true));
-                            break;
-                        case MessageType.DirectMesssage:
-                            var directMessage = m as DirectMessageMessage;
-                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.DirectMessage(directMessage.DirectMessage), this._Tokens.UserId, new List<string>() { "directmessages://" }, true));
-                            break;
-                        case MessageType.DeleteStatus:
-                            var deleteStatus = m as DeleteMessage;
-                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.Status, deleteStatus.Id, this._Tokens.UserId));
-                            break;
-                        case MessageType.DeleteDirectMessage:
-                            var deleteDirectMessage = m as DeleteMessage;
-                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.DirectMessage, deleteDirectMessage.Id, this._Tokens.UserId));
-                            break;
-                        case MessageType.Event:
-                            var eventMessage = m as CoreTweet.Streaming.EventMessage;
-                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.EventMessage(eventMessage), this._Tokens.UserId, new List<string>() { "events://" }, true));
-                            
-                            if (eventMessage.Event == EventCode.Favorite && eventMessage.TargetStatus != null && eventMessage.Source.Id == this._Tokens.UserId)
-                            {
-                                eventMessage.TargetStatus.IsFavorited = true;
-                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this._Tokens.UserId, new List<string>() { "favorites://" }, false));
-                            }
-
-                            break;
-                    }
-                }
-            );
         }
         #endregion
 

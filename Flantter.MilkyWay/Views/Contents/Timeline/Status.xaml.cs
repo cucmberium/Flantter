@@ -225,6 +225,59 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         }
         #endregion
 
+        #region RetweetFavoriteIcon 関連
+        public static bool GetRetweetTriangleIconVisibility(DependencyObject obj) { return (bool)obj.GetValue(RetweetTriangleIconVisibilityProperty); }
+        public static void SetRetweetTriangleIconVisibility(DependencyObject obj, bool value) { obj.SetValue(RetweetTriangleIconVisibilityProperty, value); }
+
+        public static readonly DependencyProperty RetweetTriangleIconVisibilityProperty =
+            DependencyProperty.Register("RetweetTriangleIconVisibility", typeof(bool), typeof(Status), new PropertyMetadata(false, RetweetTriangleIconVisibility_PropertyChanged));
+
+        private static void RetweetTriangleIconVisibility_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var status = obj as Status;
+            var itemsControl = status.FindName("RetweetTriangleIcon") as ContentControl;
+
+            if (GetRetweetTriangleIconVisibility(obj))
+                itemsControl.Visibility = Visibility.Visible;
+            else
+                itemsControl.Visibility = Visibility.Collapsed;
+        }
+
+        public static bool GetFavoriteTriangleIconVisibility(DependencyObject obj) { return (bool)obj.GetValue(FavoriteTriangleIconVisibilityProperty); }
+        public static void SetFavoriteTriangleIconVisibility(DependencyObject obj, bool value) { obj.SetValue(FavoriteTriangleIconVisibilityProperty, value); }
+
+        public static readonly DependencyProperty FavoriteTriangleIconVisibilityProperty =
+            DependencyProperty.Register("FavoriteTriangleIconVisibility", typeof(bool), typeof(Status), new PropertyMetadata(false, FavoriteTriangleIconVisibility_PropertyChanged));
+
+        private static void FavoriteTriangleIconVisibility_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var status = obj as Status;
+            var itemsControl = status.FindName("FavoriteTriangleIcon") as ContentControl;
+
+            if (GetFavoriteTriangleIconVisibility(obj))
+                itemsControl.Visibility = Visibility.Visible;
+            else
+                itemsControl.Visibility = Visibility.Collapsed;
+        }
+
+        public static bool GetRetweetFavoriteTriangleIconVisibility(DependencyObject obj) { return (bool)obj.GetValue(RetweetFavoriteTriangleIconVisibilityProperty); }
+        public static void SetRetweetFavoriteTriangleIconVisibility(DependencyObject obj, bool value) { obj.SetValue(RetweetFavoriteTriangleIconVisibilityProperty, value); }
+
+        public static readonly DependencyProperty RetweetFavoriteTriangleIconVisibilityProperty =
+            DependencyProperty.Register("RetweetFavoriteTriangleIconVisibility", typeof(bool), typeof(Status), new PropertyMetadata(false, RetweetFavoriteTriangleIconVisibility_PropertyChanged));
+
+        private static void RetweetFavoriteTriangleIconVisibility_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var status = obj as Status;
+            var itemsControl = status.FindName("RetweetFavoriteTriangleIcon") as ContentControl;
+
+            if (GetRetweetFavoriteTriangleIconVisibility(obj))
+                itemsControl.Visibility = Visibility.Visible;
+            else
+                itemsControl.Visibility = Visibility.Collapsed;
+        }
+        #endregion
+
         #region CommandGrid 関連
         private static void CommandGrid_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {

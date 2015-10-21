@@ -43,7 +43,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl) ? "http://localhost/" : status.User.ProfileImageUrl;
             this.Id = status.Id;
             this.Entities = status.Entities;
-            
+            this.ProtectedText = status.User.IsProtected ? "🔒" : "";
+
             this.RetweetInformationVisibility = status.HasRetweetInformation;
             this.MediaVisibility = status.Entities.Media.Count == 0 ? false : true;
             this.MediaEntities = new List<MediaEntityViewModel>();
@@ -156,6 +157,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl) ? "http://localhost/" : status.User.ProfileImageUrl;
             this.Id = status.Id;
             this.Entities = status.Entities;
+            this.ProtectedText = status.User.IsProtected ? "🔒" : "";
 
             this.RetweetInformationVisibility = status.HasRetweetInformation;
             this.MediaVisibility = status.Entities.Media.Count == 0 ? false : true;
@@ -263,6 +265,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public string ScreenName { get; set; }
 
         public string Name { get; set; }
+
+        public string ProtectedText { get; set; }
         
         public string ProfileImageUrl { get; set; }
 

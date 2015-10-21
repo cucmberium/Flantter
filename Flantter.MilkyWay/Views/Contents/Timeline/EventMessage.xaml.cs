@@ -19,8 +19,19 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
-    public sealed partial class EventMessage : UserControl
+    public sealed partial class EventMessage : UserControl, IRecycleItem
     {
+        public void ResetItem()
+        {
+            if (CommandGridLoaded)
+            {
+                this.CommandGrid.Visibility = Visibility.Collapsed;
+                this.CommandGrid.Height = 0;
+            }
+
+            SetIsSelected(this, false);
+        }
+
         public EventMessageViewModel ViewModel
         {
             get { return (EventMessageViewModel)GetValue(ViewModelProperty); }
@@ -64,6 +75,7 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         #endregion
 
         #region CommandGrid 関連
+        public bool CommandGridLoaded = false;
         private static void CommandGrid_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var status = obj as EventMessage;
@@ -71,6 +83,8 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
 
             if (grid == null)
                 return;
+
+            status.CommandGridLoaded = true;
 
             if ((bool)e.NewValue)
                 (grid.Resources["TweetCommandBarOpenAnimation"] as Storyboard).Begin();
@@ -95,7 +109,8 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
                 this.SetBinding(IsSelectedProperty, new Binding
                 {
                     Path = new PropertyPath("IsSelected"),
-                    Source = selector
+                    Source = selector,
+                    Mode = BindingMode.TwoWay
                 });
             };
         }

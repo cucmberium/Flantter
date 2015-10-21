@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Flantter.MilkyWay.Views.Controls
 {
-    public sealed class PullToRefreshListView : ListView
+    public class PullToRefreshListView : ListView
     {
         public PullToRefreshListView()
         {

@@ -255,7 +255,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }).AsTask().Wait();
                 }
 
-                new Task(() => { }).Wait(15);
+                new Task(() => { }).Wait(16);
             }
             isAnimationRunning = false;
             this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0.02, null, true)).AsTask().Wait();

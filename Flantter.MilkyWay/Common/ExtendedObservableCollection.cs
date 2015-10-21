@@ -15,6 +15,7 @@ namespace Flantter.MilkyWay.Common
     public class ExtendedObservableCollection<T> : IList<T>, IList, INotifyCollectionChanged, INotifyPropertyChanged
     {
         private object _SyncRoot = new object();
+        private object _Lock = new object();
         private Collection<T> _Collection;
 
         public bool DisableNotifyPropertyChanged { get; set; }
@@ -44,7 +45,10 @@ namespace Flantter.MilkyWay.Common
             if (action != NotifyCollectionChangedAction.Reset)
                 throw new NotImplementedException();
 
-            CollectionChanged(this, new NotifyCollectionChangedEventArgs(action));
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action));
+            else
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CollectionChanged(this, new NotifyCollectionChangedEventArgs(action))).AsTask().Wait();
         }
 
         private void NotifyPropertyChanged(string propertyName)
@@ -55,7 +59,10 @@ namespace Flantter.MilkyWay.Common
             if (DisableNotifyPropertyChanged)
                 return;
 
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            else
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => PropertyChanged(this, new PropertyChangedEventArgs(propertyName))).AsTask().Wait();
         }
 
         private void NotifyCollectionChanged(NotifyCollectionChangedAction action)
@@ -66,7 +73,10 @@ namespace Flantter.MilkyWay.Common
             if (DisableNotifyCollectionChanged)
                 return;
 
-            CollectionChanged(this, new NotifyCollectionChangedEventArgs(action));
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action));
+            else
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CollectionChanged(this, new NotifyCollectionChangedEventArgs(action))).AsTask().Wait();
         }
         private void NotifyCollectionChanged(NotifyCollectionChangedAction action, object item)
         {
@@ -76,7 +86,10 @@ namespace Flantter.MilkyWay.Common
             if (DisableNotifyCollectionChanged)
                 return;
 
-            CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item));
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item));
+            else
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item))).AsTask().Wait();
         }
         private void NotifyCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
         {
@@ -86,16 +99,21 @@ namespace Flantter.MilkyWay.Common
             if (DisableNotifyCollectionChanged)
                 return;
 
-            CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index));
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index));
+            else
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index))).AsTask().Wait();
         }
 
         public int IndexOf(T item)
         {
-            return _Collection.IndexOf(item);
+            lock (_Lock)
+                return _Collection.IndexOf(item);
         }
         public void Insert(int index, T item)
         {
-            _Collection.Insert(index, item);
+            lock (_Lock)
+                _Collection.Insert(index, item);
 
             NotifyPropertyChanged("Count");
             NotifyPropertyChanged("Item[]");
@@ -104,10 +122,11 @@ namespace Flantter.MilkyWay.Common
         public void RemoveAt(int index)
         {
             T item;
-
-            item = _Collection[index];
-            _Collection.RemoveAt(index);
-
+            lock (_Lock)
+            {
+                item = _Collection[index];
+                _Collection.RemoveAt(index);
+            }
             NotifyPropertyChanged("Count");
             NotifyPropertyChanged("Item[]");
             NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item, index);
@@ -116,11 +135,13 @@ namespace Flantter.MilkyWay.Common
         {
             get
             {
-                return _Collection[index];
+                lock (_Lock)
+                    return _Collection[index];
             }
             set
             {
-                _Collection[index] = value;
+                lock (_Lock)
+                    _Collection[index] = value;
 
                 NotifyPropertyChanged("Item[]");
                 NotifyCollectionChanged(NotifyCollectionChangedAction.Replace, value, index);
@@ -129,8 +150,11 @@ namespace Flantter.MilkyWay.Common
         public void Add(T item)
         {
             int count;
-            _Collection.Add(item);
-            count = _Collection.Count;
+            lock (_Lock)
+            {
+                _Collection.Add(item);
+                count = _Collection.Count;
+            }
 
             NotifyPropertyChanged("Count");
             NotifyPropertyChanged("Item[]");
@@ -138,24 +162,28 @@ namespace Flantter.MilkyWay.Common
         }
         public void Clear()
         {
-            _Collection.Clear();
+            lock (_Lock)
+                _Collection.Clear();
             NotifyPropertyChanged("Count");
             NotifyPropertyChanged("Item[]");
             NotifyCollectionChanged(NotifyCollectionChangedAction.Reset);
         }
         public bool Contains(T item)
         {
-            return _Collection.Contains(item);
+            lock (_Lock)
+                return _Collection.Contains(item);
         }
         public void CopyTo(T[] array, int arrayIndex)
         {
-            _Collection.CopyTo(array, arrayIndex);
+            lock (_Lock)
+                _Collection.CopyTo(array, arrayIndex);
         }
         public int Count
         {
             get 
             {
-                return _Collection.Count; 
+                lock (_Lock)
+                    return _Collection.Count; 
             }
         }
         public bool Remove(T item)
@@ -163,12 +191,15 @@ namespace Flantter.MilkyWay.Common
             int index = -1;
             bool response = false;
 
-            index = _Collection.IndexOf(item);
+            lock (_Lock)
+            {
+                index = _Collection.IndexOf(item);
 
-            if (index == -1)
-                return false;
+                if (index == -1)
+                    return false;
 
-            response = _Collection.Remove(item);
+                response = _Collection.Remove(item);
+            }
 
             if (!response)
                 return false;
@@ -181,11 +212,12 @@ namespace Flantter.MilkyWay.Common
         }
         public IEnumerator<T> GetEnumerator()
         {
-            return _Collection.GetEnumerator();
+            lock (_Lock)
+                return _Collection.GetEnumerator();
         }
         public bool IsSynchronized
         {
-            get { return false; }
+            get { return true; }
         }
 
         public bool IsReadOnly
@@ -195,14 +227,18 @@ namespace Flantter.MilkyWay.Common
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _Collection.GetEnumerator();
+            lock (_Lock)
+                return _Collection.GetEnumerator();
         }
 
         public int Add(object value)
         {
             int count;
-            _Collection.Add((T)value);
-            count = _Collection.Count;
+            lock (_Lock)
+            {
+                _Collection.Add((T)value);
+                count = _Collection.Count;
+            }
 
             NotifyPropertyChanged("Count");
             NotifyPropertyChanged("Item[]");
@@ -212,17 +248,20 @@ namespace Flantter.MilkyWay.Common
 
         public bool Contains(object value)
         {
-            return _Collection.Contains((T)value);
+            lock (_Lock)
+                return _Collection.Contains((T)value);
         }
 
         public int IndexOf(object value)
         {
-            return _Collection.IndexOf((T)value);
+            lock (_Lock)
+                return _Collection.IndexOf((T)value);
         }
 
         public void Insert(int index, object value)
         {
-            _Collection.Insert(index, (T)value);
+            lock (_Lock)
+                _Collection.Insert(index, (T)value);
 
             NotifyPropertyChanged("Count");
             NotifyPropertyChanged("Item[]");
@@ -236,7 +275,8 @@ namespace Flantter.MilkyWay.Common
 
         public void Remove(object value)
         {
-            _Collection.Remove((T)value);
+            lock (_Lock)
+                _Collection.Remove((T)value);
 
             NotifyPropertyChanged("Count");
             NotifyPropertyChanged("Item[]");
@@ -246,11 +286,13 @@ namespace Flantter.MilkyWay.Common
         {
             get
             {
-                return _Collection[index];
+                lock (_Lock)
+                    return _Collection[index];
             }
             set
             {
-                _Collection[index] = (T)value;
+                lock (_Lock)
+                    _Collection[index] = (T)value;
 
                 NotifyPropertyChanged("Item[]");
                 NotifyCollectionChanged(NotifyCollectionChangedAction.Replace, value, index);
@@ -259,7 +301,8 @@ namespace Flantter.MilkyWay.Common
 
         public void CopyTo(Array array, int index)
         {
-            _Collection.CopyTo((T[])array, index);
+            lock (_Lock)
+                _Collection.CopyTo((T[])array, index);
         }
 
         public object SyncRoot

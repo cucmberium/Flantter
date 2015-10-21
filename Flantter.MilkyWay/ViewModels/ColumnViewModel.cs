@@ -63,9 +63,6 @@ namespace Flantter.MilkyWay.ViewModels
         public IDisposable TweetsCollectionChangedDisposable { get; private set; }
         public IDisposable DisableNotifyCollectionChangedDisposable { get; private set; }
 
-        public Subject<NotifyCollectionChangedEventArgs> TweetCollectionChangedSubjectOnUIDispatcher { get; set; }
-        public IDisposable TweetCollectionChangedSubjectOnUIDispatcherDisposable { get; set; }
-
         #region Constructor
         /*public ColumnViewModel()
         {
@@ -186,7 +183,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.TweetsCollectionChangedDisposable = Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                 h => (sender, e) => h(e),
                 h => this._ColumnModel.Tweets.CollectionChanged += h,
-                h => this._ColumnModel.Tweets.CollectionChanged -= h).ObserveOnUIDispatcher().Subscribe(x => 
+                h => this._ColumnModel.Tweets.CollectionChanged -= h).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
                 {
                     var e = x as NotifyCollectionChangedEventArgs;
 
@@ -240,7 +237,7 @@ namespace Flantter.MilkyWay.ViewModels
                     }
                 });
 
-            this.DisableNotifyCollectionChangedDisposable = this._ColumnModel.ObserveProperty(x => x.DisableNotifyCollectionChanged).ObserveOnUIDispatcher().Subscribe<bool>(x => 
+            this.DisableNotifyCollectionChangedDisposable = this._ColumnModel.ObserveProperty(x => x.DisableNotifyCollectionChanged).SubscribeOn(ThreadPoolScheduler.Default).Subscribe<bool>(x => 
             {
                 this.Tweets.DisableNotifyCollectionChanged = x;
                 if (!x)

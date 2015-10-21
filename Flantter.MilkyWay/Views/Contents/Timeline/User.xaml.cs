@@ -19,8 +19,19 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
-    public sealed partial class User : UserControl
+    public sealed partial class User : UserControl, IRecycleItem
     {
+        public void ResetItem()
+        {
+            if (CommandGridLoaded)
+            {
+                this.CommandGrid.Visibility = Visibility.Collapsed;
+                this.CommandGrid.Height = 0;
+            }
+
+            SetIsSelected(this, false);
+        }
+
         public UserViewModel ViewModel
         {
             get { return (UserViewModel)GetValue(ViewModelProperty); }
@@ -29,6 +40,8 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(UserViewModel), typeof(User), null);
 
+        public static bool GetIsSelected(DependencyObject obj) { return (bool)obj.GetValue(IsSelectedProperty); }
+        public static void SetIsSelected(DependencyObject obj, bool value) { obj.SetValue(IsSelectedProperty, value); }
         public bool IsSelected
         {
             get { return (bool)GetValue(IsSelectedProperty); }
@@ -53,7 +66,8 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
                 this.SetBinding(IsSelectedProperty, new Binding
                 {
                     Path = new PropertyPath("IsSelected"),
-                    Source = selector
+                    Source = selector,
+                    Mode = BindingMode.TwoWay
                 });
             };
         }
@@ -64,6 +78,7 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         }
 
         #region CommandGrid 関連
+        public bool CommandGridLoaded = false;
         private static void CommandGrid_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var status = obj as User;
@@ -71,6 +86,8 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
 
             if (grid == null)
                 return;
+
+            status.CommandGridLoaded = true;
 
             if ((bool)e.NewValue)
                 (grid.Resources["TweetCommandBarOpenAnimation"] as Storyboard).Begin();

@@ -20,8 +20,28 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
-    public sealed partial class Status : UserControl
+    public sealed partial class Status : UserControl, IRecycleItem
     {
+        public bool test = false;
+        public void ResetItem()
+        {
+            if (CommandGridLoaded)
+            {
+                this.CommandGrid.Visibility = Visibility.Collapsed;
+                this.CommandGrid.Height = 0;
+            }
+            if (MentionStatusGridLoaded)
+            {
+                this.MentionStatusGrid.Visibility = Visibility.Collapsed;
+                this.MentionStatusGrid.Height = 0;
+                this.MentionStatusProgressBar.Visibility = Visibility.Collapsed;
+                this.MentionStatusProgressBar.IsIndeterminate = false;
+                this.MentionStatusMainGrid.Visibility = Visibility.Collapsed;
+            }
+
+            SetIsSelected(this, false);
+        }
+
         public StatusViewModel ViewModel
         {
             get { return (StatusViewModel)GetValue(ViewModelProperty); }
@@ -56,7 +76,8 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
                 this.SetBinding(IsSelectedProperty, new Binding
                 {
                     Path = new PropertyPath("IsSelected"),
-                    Source = selector
+                    Source = selector,
+                    Mode = BindingMode.TwoWay
                 });
             };
         }
@@ -108,7 +129,7 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(Status), new PropertyMetadata(null));
 
-
+        public bool MentionStatusGridLoaded = false;
         private static void MentionStatus_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var status = obj as Status;
@@ -121,9 +142,11 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
                 if (e.Property == MentionStatusVisibilityProperty && !GetMentionStatusVisibility(obj))
                 {
                     var grid = status.FindName("MentionStatusGrid") as Grid;
-
+                    
                     if (grid == null)
                         return;
+
+                    status.MentionStatusGridLoaded = true;
 
                     (grid.Resources["MentionStatusCloseAnimation"] as Storyboard).Begin();
                 }
@@ -133,6 +156,8 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
 
                     if (grid == null)
                         return;
+
+                    status.MentionStatusGridLoaded = true;
 
                     if (GetIsMentionStatusLoaded(obj))
                     {
@@ -155,6 +180,8 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
                 else if (e.Property == IsSelectedProperty)
                 {
                     var grid = status.FindName("MentionStatusGrid") as Grid;
+
+                    status.MentionStatusGridLoaded = true;
 
                     if (grid == null)
                         return;
@@ -279,6 +306,7 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         #endregion
 
         #region CommandGrid 関連
+        public bool CommandGridLoaded = false;
         private static void CommandGrid_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var status = obj as Status;
@@ -287,10 +315,17 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
             if (grid == null)
                 return;
 
+            status.CommandGridLoaded = true;
+
             if ((bool)e.NewValue)
+            {
                 (grid.Resources["TweetCommandBarOpenAnimation"] as Storyboard).Begin();
+            }
             else
+            {
                 (grid.Resources["TweetCommandBarCloseAnimation"] as Storyboard).Begin();
+            }
+                
         }
         #endregion
     }

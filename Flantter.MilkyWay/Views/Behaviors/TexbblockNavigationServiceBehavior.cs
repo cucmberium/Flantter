@@ -27,6 +27,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
         public static string GetLink(DependencyObject obj) { return obj.GetValue(LinkProperty) as string; }
         public static void SetLink(DependencyObject obj, string value) { obj.SetValue(LinkProperty, value); }
 
+        public static bool GetDeficientEntity(DependencyObject obj) { return (bool)obj.GetValue(DeficientEntityProperty); }
+        public static void SetDeficientEntity(DependencyObject obj, bool value) { obj.SetValue(DeficientEntityProperty, value); }
+
         public static readonly DependencyProperty EntitiesProperty =
             DependencyProperty.RegisterAttached("Entities", typeof(object), typeof(TexbblockNavigationServiceBehavior), new PropertyMetadata(null));
 
@@ -35,6 +38,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         public static readonly DependencyProperty LinkProperty =
             DependencyProperty.RegisterAttached("Link", typeof(string), typeof(TexbblockNavigationServiceBehavior), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty DeficientEntityProperty =
+            DependencyProperty.RegisterAttached("DeficientEntity", typeof(bool), typeof(TexbblockNavigationServiceBehavior), new PropertyMetadata(false));
 
         public static SolidColorBrush GetTextForeground(DependencyObject obj) { return obj.GetValue(TextForegroundProperty) as SolidColorBrush; }
         public static void SetTextForeground(DependencyObject obj, SolidColorBrush value) { obj.SetValue(TextForegroundProperty, value); }
@@ -77,13 +83,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         yield return GenerateText(obj, token.Value as string);
                         break;
                     case TextToken.TextTokenId.HashTag:
-                        if (entities != null)
+                        if (entities != null && !GetDeficientEntity(obj))
                         {
-                            var hashtags = entities.HashTags.Where(x => "#" + x.Tag == (string)token.Value);
-                            if (hashtags.Count() == 0)
-                                continue;
-
-                            yield return GenerateLink(obj, (string)token.Value, "hashtag://" + (string)token.Value);
+                            var userMentions = entities.HashTags.Where(x => "#" + x.Tag == (string)token.Value);
+                            if (userMentions.Count() == 0)
+                                yield return GenerateText(obj, token.Value as string);
+                            else
+                                yield return GenerateLink(obj, (string)token.Value, "hashtag://" + (string)token.Value);
                         }
                         else
                         {
@@ -91,13 +97,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         }
                         break;
                     case TextToken.TextTokenId.UserMention:
-                        if (entities != null)
+                        if (entities != null && !GetDeficientEntity(obj))
                         {
                             var userMentions = entities.UserMentions.Where(x => "@" + x.ScreenName == (string)token.Value);
                             if (userMentions.Count() == 0)
-                                continue;
-
-                            yield return GenerateLink(obj, (string)token.Value, "usermention://" + (string)token.Value);
+                                yield return GenerateText(obj, token.Value as string);
+                            else
+                                yield return GenerateLink(obj, (string)token.Value, "usermention://" + (string)token.Value);
                         }
                         else
                         {
@@ -109,9 +115,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         {
                             var urls = entities.Urls.Where(x => x.Url == (string)token.Value);
                             if (urls.Count() == 0)
-                                continue;
-
-                            yield return GenerateLink(obj, urls.First().DisplayUrl, !string.IsNullOrWhiteSpace(urls.First().ExpandedUrl) ? urls.First().ExpandedUrl : urls.First().Url);
+                                yield return GenerateText(obj, token.Value as string);
+                            else
+                                yield return GenerateLink(obj, urls.First().DisplayUrl, !string.IsNullOrWhiteSpace(urls.First().ExpandedUrl) ? urls.First().ExpandedUrl : urls.First().Url);
                         }
                         else
                         {

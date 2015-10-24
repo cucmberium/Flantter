@@ -123,14 +123,20 @@ namespace Flantter.MilkyWay.Views.Controls
             rootBorder.RightTapped += (s, e) => e.Handled = true;
             
             if (!IsOpenFromLeftEnabled)
-            {
-                rootGrid.BorderThickness = new Thickness(1, 0, 0, 0);
                 rootBorder.ChildTransitions.Add(new EdgeUIThemeTransition() { Edge = EdgeTransitionLocation.Right });
+            else
+                rootBorder.ChildTransitions.Add(new EdgeUIThemeTransition() { Edge = EdgeTransitionLocation.Left });
+
+            if (this.Width >= Window.Current.Bounds.Width)
+            {
+                rootGrid.BorderThickness = new Thickness(0, 0, 0, 0);
             }
             else
             {
-                rootGrid.BorderThickness = new Thickness(0, 0, 1, 0);
-                rootBorder.ChildTransitions.Add(new EdgeUIThemeTransition() { Edge = EdgeTransitionLocation.Left });
+                if (!IsOpenFromLeftEnabled)
+                    rootGrid.BorderThickness = new Thickness(1, 0, 0, 0);
+                else
+                    rootGrid.BorderThickness = new Thickness(0, 0, 1, 0);
             }
         }
 

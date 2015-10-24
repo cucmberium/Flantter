@@ -180,6 +180,9 @@
     <Compile Include="Views\Contents\FollowButon.xaml.cs">
       <DependentUpon>FollowButon.xaml</DependentUpon>
     </Compile>
+    <None Include="Views\Contents\SettingsFlyouts\StatusDetailSettingsFlyout.xaml.cs">
+      <DependentUpon>StatusDetailSettingsFlyout.xaml</DependentUpon>
+    </None>
     <Compile Include="Views\Contents\SettingsFlyouts\SearchSettingsFlyout.xaml.cs">
       <DependentUpon>SearchSettingsFlyout.xaml</DependentUpon>
     </Compile>
@@ -348,6 +351,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <None Include="Views\Contents\SettingsFlyouts\StatusDetailSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
     <Page Include="Views\Contents\SettingsFlyouts\SearchSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -95,18 +95,15 @@
 
                             <Grid HorizontalAlignment="Center">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="40" />
                                     <ColumnDefinition Width="200" />
                                 </Grid.ColumnDefinitions>
-                                <Grid Width="40">
-                                    <Viewbox x:Name="Arrow" Height="15" VerticalAlignment="Top" Margin="0,4,0,0" RenderTransformOrigin="0.5,0.5">
-                                        <Viewbox.RenderTransform>
-                                            <CompositeTransform Rotation="180" />
-                                        </Viewbox.RenderTransform>
-                                        <Path Width="12" Height="12.9999" Stretch="Fill" Fill="{TemplateBinding ArrowColor}"
-                                                    Data="M 20.4289,10.4376L 25,15.0087L 23.571,16.4376L 20.0291,12.8957L 20.0291,21.9999L 18.0083,21.9999L 18.0083,12.8583L 14.4289,16.4377L 13,15.0087L 17.5624,10.429L 19.0087,9" />
-                                    </Viewbox>
-                                </Grid>
+                                <Path x:Name="Arrow" Grid.Column="0" Width="12" Height="12.9999" Stretch="Fill" Fill="{TemplateBinding ArrowColor}"  RenderTransformOrigin="0.5,0.5"
+                                                    Data="M 20.4289,10.4376L 25,15.0087L 23.571,16.4376L 20.0291,12.8957L 20.0291,21.9999L 18.0083,21.9999L 18.0083,12.8583L 14.4289,16.4377L 13,15.0087L 17.5624,10.429L 19.0087,9" >
+                                    <Path.RenderTransform>
+                                        <CompositeTransform Rotation="180" />
+                                    </Path.RenderTransform>
+                                </Path>
                                 <TextBlock Grid.Column="1" x:Name="PullPart" Foreground="{TemplateBinding IndicatorForegroundBrush}" Text="{TemplateBinding PullPartTemplate}" HorizontalAlignment="Center"/>
                                 <TextBlock Grid.Column="1" Visibility="Collapsed" x:Name="ReleasePart" Foreground="{TemplateBinding IndicatorForegroundBrush}" Text="{TemplateBinding ReleasePartTemplate}" HorizontalAlignment="Center"/>
                             </Grid>

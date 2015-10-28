@@ -141,7 +141,7 @@
             <controls:VerticalBar x:Name="UserProfileVerticalBar" Width="2" Visibility="Collapsed"/>
 
             <Grid x:Name="UserProfileTweetGrid">
-                <ListView x:Name="UserProfileStatusListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.StatusesVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses, Mode=OneWay}">
+                <ListView x:Name="UserProfileStatusListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.StatusesVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                     <i:Interaction.Behaviors>
                         <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand, Mode=OneWay}"/>
                     </i:Interaction.Behaviors>
@@ -170,12 +170,9 @@
                                 RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-                    </ItemsControl.ItemContainerStyle>
                 </ListView>
 
-                <ListView x:Name="UserProfileFavoritesListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.FavoritesVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single"  ItemsSource="{x:Bind ViewModel.Favorites, Mode=OneWay}">
+                <ListView x:Name="UserProfileFavoritesListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.FavoritesVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single"  ItemsSource="{x:Bind ViewModel.Favorites, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                     <i:Interaction.Behaviors>
                         <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FavoritesIncrementalLoadCommand, Mode=OneWay}" />
                     </i:Interaction.Behaviors>
@@ -204,12 +201,9 @@
                                 RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-                    </ItemsControl.ItemContainerStyle>
                 </ListView>
 
-                <ListView x:Name="UserProfileFollowersListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.FollowersVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Followers, Mode=OneWay}">
+                <ListView x:Name="UserProfileFollowersListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.FollowersVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Followers, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                     <i:Interaction.Behaviors>
                         <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowersIncrementalLoadCommand, Mode=OneWay}" />
                     </i:Interaction.Behaviors>
@@ -230,12 +224,9 @@
                             <timeline:User ViewModel="{x:Bind}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-                    </ItemsControl.ItemContainerStyle>
                 </ListView>
 
-                <ListView x:Name="UserProfileFollowingListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.FollowingVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Following, Mode=OneWay}">
+                <ListView x:Name="UserProfileFollowingListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.FollowingVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Following, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                     <i:Interaction.Behaviors>
                         <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowingIncrementalLoadCommand, Mode=OneWay}" />
                     </i:Interaction.Behaviors>
@@ -256,9 +247,6 @@
                             <timeline:User ViewModel="{x:Bind}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-                    </ItemsControl.ItemContainerStyle>
                 </ListView>
 
                 <ProgressBar x:Name="UserProfileProgressBar" VerticalAlignment="Top" Foreground="{StaticResource ProgressBarForegroundBrush}" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" />

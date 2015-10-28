@@ -29,7 +29,7 @@
 
     <Grid x:Name="ConversationGrid" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
 
-        <ListView x:Name="ConversationListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Conversation, Mode=OneWay}">
+        <ListView x:Name="ConversationListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Conversation, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel>
@@ -55,9 +55,6 @@
                                 RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemContainerStyle>
-                <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-            </ItemsControl.ItemContainerStyle>
         </ListView>
 
         <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" VerticalAlignment="Top" />

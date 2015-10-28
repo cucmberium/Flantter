@@ -19,7 +19,7 @@
     <Grid>
         <ProgressBar Foreground="{StaticResource ProgressBarForegroundBrush}" VerticalAlignment="Top" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" />
 
-        <controls:PullToRefreshListView x:Uid="TimelineArea_PullToRefreshListView" DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=OneWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" PullPartTemplate="Pull to Refresh" ReleasePartTemplate="Release to Refresh" IndicatorForegroundBrush="{StaticResource PullToRefreshCharacterBrush}">
+        <controls:PullToRefreshListView x:Uid="TimelineArea_PullToRefreshListView" DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=OneWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" PullPartTemplate="Pull to Refresh" ReleasePartTemplate="Release to Refresh" IndicatorForegroundBrush="{StaticResource PullToRefreshCharacterBrush}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
             <i:Interaction.Behaviors>
                 <behaviors:ListViewScrollControlBehavior IsScrollLockEnabled="{x:Bind ViewModel.IsScrollLockEnabled.Value, Mode=OneWay}" IsScrollLockToTopEnabled="{x:Bind ViewModel.IsScrollLockToTopEnabled.Value, Mode=OneWay}" IsScrollControlEnabled="{x:Bind ViewModel.IsScrollControlEnabled.Value, Mode=OneWay}" UnreadCount="{x:Bind ViewModel.UnreadCount.Value, Mode=TwoWay}" UnreadCountIncrementalTrigger="{x:Bind ViewModel.UnreadCountIncrementalTrigger.Value, Mode=TwoWay}" />
                 <core:EventTriggerBehavior EventName="MoreContent">
@@ -65,9 +65,6 @@
                 </DataTemplate>-->
                 </common:DataTypeTemplateSelector>
             </ItemsControl.ItemTemplateSelector>
-            <ItemsControl.ItemContainerStyle>
-                <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-            </ItemsControl.ItemContainerStyle>
         </controls:PullToRefreshListView>
     </Grid>
 </UserControl>

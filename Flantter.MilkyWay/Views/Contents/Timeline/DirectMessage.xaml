@@ -18,7 +18,7 @@
 
     <UserControl.Resources>
         <Storyboard x:Name="TweetSlideAnimation">
-            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TweetGrid">
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TweetStackPanel">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-40">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <QuarticEase EasingMode="EaseOut"/>
@@ -30,31 +30,24 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="TweetGrid">
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="TweetStackPanel">
                 <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
                 <LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="TweetExpandAnimation">
-            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="TweetGrid">
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="TweetStackPanel">
                 <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
                 <LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
 
-    <Grid x:Name="TweetGrid" Background="{x:Bind ViewModel.BackgroundBrush, Mode=OneWay, Converter={StaticResource StringToTweetBackgroundBrushConverter}}" RenderTransformOrigin="0.5,0.5">
+    <StackPanel x:Name="TweetStackPanel" Background="{x:Bind ViewModel.BackgroundBrush, Mode=OneWay, Converter={StaticResource StringToTweetBackgroundBrushConverter}}" RenderTransformOrigin="0.5,0.5" Padding="0,7">
 
-        <Grid.RenderTransform>
+        <StackPanel.RenderTransform>
             <CompositeTransform/>
-        </Grid.RenderTransform>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="7"/>
-            <RowDefinition Height="Auto"/><!-- Main Field -->
-            <RowDefinition Height="Auto"/><!-- Command Field -->
-            <RowDefinition Height="7"/>
-        </Grid.RowDefinitions>
+        </StackPanel.RenderTransform>
 
         <Grid Grid.Row="1" x:Name="DirectMessageGrid" Margin="0,0,12,0">
             <Grid.ColumnDefinitions>
@@ -193,5 +186,5 @@
                 </Button.Flyout>
             </Button>
         </Grid>
-    </Grid>
+    </StackPanel>
 </UserControl>

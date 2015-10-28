@@ -702,8 +702,8 @@
                             <!--<Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_DeleteHistoryButton" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="履歴を削除" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.DeleteHistoryCommand, Mode=OneWay}"/>-->
                         </StackPanel>
                     </StackPanel>
-                    
-                    <ListView Grid.Row="4" x:Name="SearchSettingsFlyoutStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses, Mode=OneWay}">
+
+                    <ListView Grid.Row="4" x:Name="SearchSettingsFlyoutStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses, Mode=OneWay}"  ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>
                             <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand, Mode=OneWay}" />
                         </i:Interaction.Behaviors>
@@ -732,9 +732,6 @@
                                 RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemContainerStyle>
-                            <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-                        </ItemsControl.ItemContainerStyle>
                     </ListView>
 
                     <ProgressBar Grid.Row="4" Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingStatusSearch.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingStatusSearch.Value, Mode=OneWay}" VerticalAlignment="Top" />
@@ -766,7 +763,7 @@
                         </i:Interaction.Behaviors>
                     </SearchBox>
 
-                    <ListView Grid.Row="1" x:Name="SearchSettingsFlyoutUsersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Users, Mode=OneWay}">
+                    <ListView Grid.Row="1" x:Name="SearchSettingsFlyoutUsersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Users, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>
                             <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.UsersIncrementalLoadCommand, Mode=OneWay}" />
                         </i:Interaction.Behaviors>
@@ -784,9 +781,6 @@
                                 <timeline:User ViewModel="{x:Bind}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemContainerStyle>
-                            <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-                        </ItemsControl.ItemContainerStyle>
                     </ListView>
 
                     <ProgressBar Grid.Row="1" Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingUserSearch.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingUserSearch.Value, Mode=OneWay}" VerticalAlignment="Top" />

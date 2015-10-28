@@ -7,6 +7,7 @@ using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Flantter.MilkyWay.Views.Controls
@@ -30,7 +31,7 @@ namespace Flantter.MilkyWay.Views.Controls
         public static readonly DependencyProperty ReleasePartTemplateProperty =
             DependencyProperty.Register("ReleasePartTemplate", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty RefreshHeaderHeightProperty =
-            DependencyProperty.Register("RefreshHeaderHeight", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(30.0, RefreshHeaderHeight_ChangedCallback));
+            DependencyProperty.Register("RefreshHeaderHeight", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(25.0, RefreshHeaderHeight_ChangedCallback));
         private static readonly DependencyProperty arrowColorProperty =
             DependencyProperty.Register("ArrowColor", typeof(Brush), typeof(PullToRefreshListView), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
         private static readonly DependencyProperty IndicatorForegroundBrushProperty =
@@ -108,7 +109,7 @@ namespace Flantter.MilkyWay.Views.Controls
         #endregion
 
         #region Field
-        private double _OffsetTreshhold = 40;
+        private double _OffsetTreshhold = 25;
         private ScrollViewer _RootScrollViewer;
         private DispatcherTimer _Timer;
         private DispatcherTimer _RenderTimer;
@@ -128,6 +129,7 @@ namespace Flantter.MilkyWay.Views.Controls
             _RootScrollViewer = GetTemplateChild("ScrollViewer") as ScrollViewer;
             _RootScrollViewer.ViewChanging += ScrollViewer_ViewChanging;
             _RootScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+            
             _RootScrollViewer.RenderTransform = new CompositeTransform() { TranslateY = 0 };
             _RootScrollViewer.DirectManipulationStarted += Viewer_DirectManipulationStarted;
             _RootScrollViewer.DirectManipulationCompleted += Viewer_DirectManipulationCompleted;
@@ -150,19 +152,24 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void PullToRefreshScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
+            _OffsetTreshhold = this.ActualHeight * 40 / 570;
+
             _Timer = new DispatcherTimer();
             _Timer.Interval = TimeSpan.FromMilliseconds(100);
             _Timer.Tick += Timer_Tick;
 
             _RenderTimer = new DispatcherTimer();
-            _RenderTimer.Interval = TimeSpan.FromMilliseconds(1); // fps?
+            _RenderTimer.Interval = TimeSpan.FromMilliseconds(0);
             _RenderTimer.Tick += RenderTimer_Tick;
         }
-
+        
         private void Viewer_DirectManipulationStarted(object sender, object e)
         {
-            _Timer.Start();
-            _RenderTimer.Start();
+            if (_RootScrollViewer.VerticalOffset <= 2)
+            {
+                _Timer.Start();
+                _RenderTimer.Start();
+            }
         }
 
         private void Viewer_DirectManipulationCompleted(object sender, object e)
@@ -182,6 +189,8 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            _OffsetTreshhold = e.NewSize.Height * 40 / 570;
+
             Clip = new RectangleGeometry()
             {
                 Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height)
@@ -190,22 +199,24 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
         {
-            if (e.NextView.VerticalOffset == 0)
+            if (e.NextView.VerticalOffset <= 2)
             {
-                if (!e.IsInertial)
+                if (!e.IsInertial && _Timer != null && _RenderTimer != null)
                 {
                     _Timer.Start();
                     _RenderTimer.Start();
                 }
+                
             }
             else
             {
+
                 if (_Timer != null)
                     _Timer.Stop();
 
                 if (_RenderTimer != null)
                     _RenderTimer.Stop();
-
+                
                 //_IsCompressionTimerRunning = false;
                 //_IsCompressedEnough = false;
                 _IsReadyToRefresh = false;
@@ -223,15 +234,16 @@ namespace Flantter.MilkyWay.Views.Controls
             }
         }
 
+        private Rect emptyRect = new Rect(0.0, 0.0, 0.0, 0.0);
         private void RenderTimer_Tick(object sender, object e)
         {
-            var elementBounds = _ListViewItemsPresenter.TransformToVisual(_ContainerGrid).TransformBounds(new Rect(0.0, 0.0, 0.0, 0.0));
+            var elementBounds = _ListViewItemsPresenter.TransformToVisual(_ContainerGrid).TransformBounds(emptyRect);
             ((CompositeTransform)(_PullToRefreshIndicator.RenderTransform)).TranslateY = elementBounds.Bottom;
         }
 
         private void Timer_Tick(object sender, object e)
         {
-            var elementBounds = _ListViewItemsPresenter.TransformToVisual(_ContainerGrid).TransformBounds(new Rect(0.0, 0.0, 0.0, 0.0));
+            var elementBounds = _ListViewItemsPresenter.TransformToVisual(_ContainerGrid).TransformBounds(emptyRect);
             var compressionOffset = elementBounds.Bottom;
 
             if (compressionOffset > _OffsetTreshhold)
@@ -268,6 +280,29 @@ namespace Flantter.MilkyWay.Views.Controls
             {
                 MoreContent(this, EventArgs.Empty);
             }
+        }
+        #endregion
+
+        #region Helper
+
+        T FindChild<T>(DependencyObject d)
+            where T : DependencyObject
+        {
+            var q = new Queue<DependencyObject>();
+            q.Enqueue(d);
+            while (q.Count > 0)
+            {
+                var e = q.Dequeue();
+                if (e is T) return (T)e;
+                var n = VisualTreeHelper.GetChildrenCount(e);
+                for (var i = 0; i < n; i++)
+                {
+                    var c = VisualTreeHelper.GetChild(e, i);
+                    if (c is T) return (T)c;
+                    q.Enqueue(c);
+                }
+            }
+            return null;
         }
         #endregion
     }

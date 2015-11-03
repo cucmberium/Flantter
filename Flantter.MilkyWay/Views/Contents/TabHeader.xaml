@@ -11,7 +11,7 @@
     <StackPanel>
         <FontIcon
                             HorizontalAlignment="Center"
-                            Margin="0,4,0,0"
+                            Margin="0,3,0,0"
                             Glyph="{x:Bind Glyph, Mode=OneWay}"
                             FontSize="16" />
         <TextBlock
@@ -23,6 +23,7 @@
                             MaxLines="2"
                             IsTextScaleFactorEnabled="False"
                             TextAlignment="Center"
+                            TextWrapping="NoWrap"
                             Margin="2,3,2,7" />
     </StackPanel>
 </UserControl>

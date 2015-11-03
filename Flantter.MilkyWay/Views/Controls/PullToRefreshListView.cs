@@ -18,6 +18,14 @@ namespace Flantter.MilkyWay.Views.Controls
         {
             this.DefaultStyleKey = typeof(PullToRefreshListView);
             this.Loaded += PullToRefreshScrollViewer_Loaded;
+            
+            _Timer = new DispatcherTimer();
+            _Timer.Interval = TimeSpan.FromMilliseconds(100);
+            _Timer.Tick += Timer_Tick;
+
+            _RenderTimer = new DispatcherTimer();
+            _RenderTimer.Interval = TimeSpan.FromMilliseconds(0);
+            _RenderTimer.Tick += RenderTimer_Tick;
         }
 
         #region Event
@@ -153,18 +161,12 @@ namespace Flantter.MilkyWay.Views.Controls
         private void PullToRefreshScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
             _OffsetTreshhold = this.ActualHeight * 40 / 570;
-
-            _Timer = new DispatcherTimer();
-            _Timer.Interval = TimeSpan.FromMilliseconds(100);
-            _Timer.Tick += Timer_Tick;
-
-            _RenderTimer = new DispatcherTimer();
-            _RenderTimer.Interval = TimeSpan.FromMilliseconds(0);
-            _RenderTimer.Tick += RenderTimer_Tick;
         }
-        
+
+        private bool _DirectManipulationDelta = false;
         private void Viewer_DirectManipulationStarted(object sender, object e)
         {
+            _DirectManipulationDelta = true;
             if (_RootScrollViewer.VerticalOffset <= 2)
             {
                 _Timer.Start();
@@ -174,6 +176,7 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void Viewer_DirectManipulationCompleted(object sender, object e)
         {
+            _DirectManipulationDelta = false;
             _Timer.Stop();
             _RenderTimer.Stop();
             if (_IsReadyToRefresh)
@@ -201,22 +204,22 @@ namespace Flantter.MilkyWay.Views.Controls
         {
             if (e.NextView.VerticalOffset <= 2)
             {
-                if (!e.IsInertial && _Timer != null && _RenderTimer != null)
+                if (!e.IsInertial && _Timer != null && _RenderTimer != null && _DirectManipulationDelta)
                 {
                     _Timer.Start();
                     _RenderTimer.Start();
                 }
-                
+                else
+                {
+                    _Timer.Stop();
+                    _RenderTimer.Stop();
+                }
             }
             else
             {
+                _Timer.Stop();
+                _RenderTimer.Stop();
 
-                if (_Timer != null)
-                    _Timer.Stop();
-
-                if (_RenderTimer != null)
-                    _RenderTimer.Stop();
-                
                 //_IsCompressionTimerRunning = false;
                 //_IsCompressedEnough = false;
                 _IsReadyToRefresh = false;

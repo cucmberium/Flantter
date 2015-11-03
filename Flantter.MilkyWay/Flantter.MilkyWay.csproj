@@ -166,7 +166,6 @@
     <Compile Include="ViewModels\Twitter\Objects\TrendViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\UserViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
-    <Compile Include="Views\Behaviors\ScrollViewerIncrementalLoadBehavior.cs" />
     <Compile Include="Views\Behaviors\VirtualizingStackPanelRecycleItemResetBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewIncrementalLoadBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewScrollControlBehavior.cs" />

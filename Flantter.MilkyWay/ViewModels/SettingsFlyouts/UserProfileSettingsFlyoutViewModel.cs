@@ -28,24 +28,20 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.IconSource = new ReactiveProperty<string>("http://localhost/");
 
             this.SelectedTab = this.Model.ToReactivePropertyAsSynchronized(x => x.SelectedTab);
-            this.StatusesVisibility = this.Model.ObserveProperty(x => x.SelectedTab).Select(x => x == 0).ToReactiveProperty();
-            this.FollowingVisibility = this.Model.ObserveProperty(x => x.SelectedTab).Select(x => x == 1).ToReactiveProperty();
-            this.FollowersVisibility = this.Model.ObserveProperty(x => x.SelectedTab).Select(x => x == 2).ToReactiveProperty();
-            this.FavoritesVisibility = this.Model.ObserveProperty(x => x.SelectedTab).Select(x => x == 3).ToReactiveProperty();
 
             this.Description = new ReactiveProperty<string>();
             this.UrlEntities = new ReactiveProperty<Entities>();
             this.DescriptionEntities = new ReactiveProperty<Entities>();
-            this.FavouritesCount = new ReactiveProperty<int>();
-            this.FollowersCount = new ReactiveProperty<int>();
-            this.FriendsCount = new ReactiveProperty<int>();
+            this.FavouritesCount = new ReactiveProperty<string>();
+            this.FollowersCount = new ReactiveProperty<string>();
+            this.FriendsCount = new ReactiveProperty<string>();
             this.IsMuting = new ReactiveProperty<string>();
             this.IsProtected = new ReactiveProperty<string>();
             this.IsVerified = new ReactiveProperty<string>();
             this.Location = new ReactiveProperty<string>();
             this.ProfileBannerUrl = new ReactiveProperty<string>("http://localhost/");
             this.ProfileImageUrl = new ReactiveProperty<string>("http://localhost/");
-            this.StatusesCount = new ReactiveProperty<int>();
+            this.StatusesCount = new ReactiveProperty<string>();
             this.Url = new ReactiveProperty<string>();
             this.Name = new ReactiveProperty<string>();
 
@@ -73,16 +69,16 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.DescriptionEntities.Value = null;
                 this.UrlEntities.Value = null;
                 this.Description.Value = "";
-                this.FavouritesCount.Value = 0;
-                this.FollowersCount.Value = 0;
-                this.FriendsCount.Value = 0;
+                this.FavouritesCount.Value = "";
+                this.FollowersCount.Value = "";
+                this.FriendsCount.Value = "";
                 this.IsMuting.Value = "";
                 this.IsProtected.Value = "";
                 this.IsVerified.Value = "";
                 this.Location.Value = "";
                 this.ProfileBannerUrl.Value = "http://localhost/";
                 this.ProfileImageUrl.Value = "http://localhost/";
-                this.StatusesCount.Value = 0;
+                this.StatusesCount.Value = "";
                 this.Url.Value = "";
                 this.Name.Value = "";
 
@@ -100,16 +96,16 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.UrlEntities.Value = this.Model.UserInformation.Entities.Url;
                 this.DescriptionEntities.Value = this.Model.UserInformation.Entities.Description;
                 this.Description.Value = this.Model.UserInformation.Description;
-                this.FavouritesCount.Value = this.Model.UserInformation.FavouritesCount;
-                this.FollowersCount.Value = this.Model.UserInformation.FollowersCount;
-                this.FriendsCount.Value = this.Model.UserInformation.FriendsCount;
+                this.FavouritesCount.Value = this.Model.UserInformation.FavouritesCount.ToString() + " Favorites";
+                this.FollowersCount.Value = this.Model.UserInformation.FollowersCount.ToString() + " Follower";
+                this.FriendsCount.Value = this.Model.UserInformation.FriendsCount.ToString() + " Following";
                 this.IsMuting.Value = this.Model.UserInformation.IsMuting ? "" : "";
                 this.IsProtected.Value = this.Model.UserInformation.IsProtected ? "🔒" : "";
                 this.IsVerified.Value = this.Model.UserInformation.IsVerified ? "" : "";
                 this.Location.Value = this.Model.UserInformation.Location;
                 this.ProfileBannerUrl.Value = string.IsNullOrWhiteSpace(this.Model.UserInformation.ProfileBannerUrl) ? "http://localhost/" : this.Model.UserInformation.ProfileBannerUrl;
                 this.ProfileImageUrl.Value = string.IsNullOrWhiteSpace(this.Model.UserInformation.ProfileImageUrl) ? "http://localhost/" : this.Model.UserInformation.ProfileImageUrl.Replace("_normal", "");
-                this.StatusesCount.Value = this.Model.UserInformation.StatusesCount;
+                this.StatusesCount.Value = this.Model.UserInformation.StatusesCount.ToString() + " Tweets";
                 this.Url.Value = this.Model.UserInformation.Url;
                 this.Name.Value = this.Model.UserInformation.Name;
 
@@ -196,7 +192,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 switch (this.SelectedTab.Value)
                 {
                     case 0:
-                        await this.Model.UpdateStatuses(this.Model.Statuses.LastOrDefault().Id);
+                        if (this.Model.Statuses.Count != 0)
+                            await this.Model.UpdateStatuses(this.Model.Statuses.LastOrDefault().Id);
                         break;
                     case 1:
                         await this.Model.UpdateFollowing(true);
@@ -205,7 +202,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                         await this.Model.UpdateFollowers(true);
                         break;
                     case 3:
-                        await this.Model.UpdateStatuses(this.Model.Statuses.LastOrDefault().Id);
+                        if (this.Model.Favorites.Count != 0)
+                            await this.Model.UpdateFavorites(this.Model.Favorites.LastOrDefault().Id);
                         break;
                 }
             });
@@ -237,10 +235,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveProperty<string> IconSource { get; set; }
 
         public ReactiveProperty<int> SelectedTab { get; set; }
-        public ReactiveProperty<bool> StatusesVisibility { get; set; }
-        public ReactiveProperty<bool> FollowingVisibility { get; set; }
-        public ReactiveProperty<bool> FollowersVisibility { get; set; }
-        public ReactiveProperty<bool> FavoritesVisibility { get; set; }
         
         public ReadOnlyReactiveCollection<StatusViewModel> Statuses { get; private set; }
         
@@ -270,15 +264,15 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         #endregion
 
         #region FavouritesCount変更通知プロパティ
-        public ReactiveProperty<int> FavouritesCount { get; set; }
+        public ReactiveProperty<string> FavouritesCount { get; set; }
         #endregion
 
         #region FollowersCount変更通知プロパティ
-        public ReactiveProperty<int> FollowersCount { get; set; }
+        public ReactiveProperty<string> FollowersCount { get; set; }
         #endregion
 
         #region FriendsCount変更通知プロパティ
-        public ReactiveProperty<int> FriendsCount { get; set; }
+        public ReactiveProperty<string> FriendsCount { get; set; }
         #endregion
         
         #region IsMuting変更通知プロパティ
@@ -314,7 +308,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         #endregion
 
         #region StatusesCount変更通知プロパティ
-        public ReactiveProperty<int> StatusesCount { get; set; }
+        public ReactiveProperty<string> StatusesCount { get; set; }
         #endregion
 
         #region Url変更通知プロパティ

@@ -27,139 +27,86 @@
     d:DesignHeight="720"
     d:DesignWidth="320">
 
-    <controls:ExtendedSettingsFlyout.Resources>
-        <ResourceDictionary>
-            <SolidColorBrush x:Key="UserDescriptionTextblockForegroundBrush" Color="White"/>
-        </ResourceDictionary>
-    </controls:ExtendedSettingsFlyout.Resources>
-    
-    <ScrollViewer x:Name="UserProfileScrollViewer" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" ZoomMode="Disabled">
-        <i:Interaction.Behaviors>
-            <behaviors:ScrollViewerIncrementalLoadBehavior Command="{x:Bind ViewModel.ScrollViewerIncrementalLoadCommand,Mode=OneWay}"/>
-        </i:Interaction.Behaviors>
-        
-        <StackPanel x:Name="UserProfileStackPanel" Orientation="Vertical" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
-            <Grid x:Name="UserProfileInformationGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+    <ScrollViewer x:Name="RootScrollViewer" Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled">
+        <StackPanel x:Name="RootStackPanel">
+            <Grid x:Name="UserProfileInformationGrid" VerticalAlignment="Top">
 
-                <Grid Grid.Row="0">
-                    <Border x:Name="UserProfileBackgroundImageBorder" Margin="0,0,0,0" Background="Transparent" Height="274" VerticalAlignment="Top">
-                        <Image Source="{x:Bind ViewModel.ProfileBannerUrl.Value, Mode=OneWay}" Margin="0,0,0,0" Stretch="UniformToFill" HorizontalAlignment="Center" />
+                <Image Grid.Row="0" Height="160" Source="{x:Bind ViewModel.ProfileBannerUrl.Value, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Border Background="Azure" Grid.Row="0" Grid.RowSpan="2" Height="64" Width="64" BorderThickness="3" BorderBrush="{StaticResource SettingsFlyoutTextblockForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="5" Margin="20,134,20,0">
+                    <Border CornerRadius="4">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{x:Bind ViewModel.ProfileImageUrl.Value, Mode=OneWay}" />
+                        </Border.Background>
                     </Border>
-
-                    <StackPanel Orientation="Vertical">
-                        <Border BorderBrush="Transparent" BorderThickness="0" Height="100" Width="100" Margin="0,0,0,0" CornerRadius="6" HorizontalAlignment="Center">
-                            <Border.Background>
-                                <ImageBrush ImageSource="{x:Bind ViewModel.ProfileImageUrl.Value, Mode=OneWay}" />
-                            </Border.Background>
-                        </Border>
-                        
-                        <Border Background="#A8000000" BorderBrush="Transparent" BorderThickness="0" Margin="0,0,0,0" CornerRadius="10">
-                            <StackPanel>
-                                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Foreground="White" FontFamily="Meiryo UI" Padding="20,0,0,0" Margin="0,4,0,0">
-                                    <Run FontSize="20" FontWeight="Bold" Text="{x:Bind ViewModel.Name.Value, Mode=OneWay}"/>
-                                    <Run FontSize="14" Text=" @"/><Run FontSize="14" Text="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
-                                </TextBlock>
-                                <TextBlock Foreground="White" FontSize="10" Padding="20,0,0,0" Margin="0,2,0,0">
-                                    <Run Text="{x:Bind ViewModel.FollowedByText.Value, Mode=OneWay}"/>
-                                    <Run FontFamily="Segoe UI Symbol" Foreground="Yellow" Text="{x:Bind ViewModel.IsProtected.Value, Mode=OneWay}"/>
-                                    <Run FontFamily="Segoe UI Symbol" Text="{x:Bind ViewModel.IsMuting.Value, Mode=OneWay}"/>
-                                    <Run FontFamily="Segoe UI Symbol" Text="{x:Bind ViewModel.IsVerified.Value, Mode=OneWay}"/>
-                                </TextBlock>
-
-                                <TextBlock Foreground="White" FontFamily="Meiryo UI" FontSize="13" Padding="20,0,0,0" Margin="0,2,0,0" Text="{x:Bind ViewModel.Location.Value, Mode=OneWay}"/>
-                                <TextBlock Foreground="White" TextWrapping="Wrap" FontSize="10" Padding="20,0,0,0" Margin="0,2,0,0" behaviors:TexbblockNavigationServiceBehavior.TextForeground="{StaticResource UserDescriptionTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.DeficientEntity="True" behaviors:TexbblockNavigationServiceBehavior.LinkForeground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.UrlEntities.Value, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Url.Value, Mode=OneWay}"/>
-
-                                <ScrollViewer Height="80" HorizontalScrollMode="Disabled" ZoomMode="Disabled" VerticalScrollBarVisibility="Hidden" Margin="0,4">
-                                    <TextBlock FontSize="10" Foreground="White" TextWrapping="Wrap" Padding="10,0" Margin="0,2" behaviors:TexbblockNavigationServiceBehavior.TextForeground="{StaticResource UserDescriptionTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.DeficientEntity="True" behaviors:TexbblockNavigationServiceBehavior.LinkForeground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.DescriptionEntities.Value, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Description.Value, Mode=OneWay}" />
-                                </ScrollViewer>
-                            </StackPanel>
-                        </Border>
+                </Border>
+                <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="17" TextWrapping="NoWrap" Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind ViewModel.Name.Value, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="96,162,0,0"/>
+                <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="13" TextWrapping="NoWrap" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="96,180,0,0">
+                    <Run Text="@"/><Run Text="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/><Run Text=" "/>
+                    <Run FontFamily="Segoe UI Symbol" Foreground="Yellow" Text="{x:Bind ViewModel.IsProtected.Value, Mode=OneWay}"/>
+                    <Run FontFamily="Segoe UI Symbol" Text="{x:Bind ViewModel.IsMuting.Value, Mode=OneWay}"/>
+                    <Run FontFamily="Segoe UI Symbol" Text="{x:Bind ViewModel.IsVerified.Value, Mode=OneWay}"/>
+                    <Run FontSize="9" Text="{x:Bind ViewModel.FollowedByText.Value, Mode=OneWay}"/>
+                </TextBlock>
+                <StackPanel Margin="0,200,0,0">
+                    <TextBlock FontSize="10.5" Margin="10,10,10,0" TextWrapping="Wrap" behaviors:TexbblockNavigationServiceBehavior.TextForeground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.DeficientEntity="True" behaviors:TexbblockNavigationServiceBehavior.LinkForeground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.DescriptionEntities.Value, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Description.Value, Mode=OneWay}"  />
+                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="11" Margin="10,10,10,0">
+                            <Run FontFamily="Segoe UI Symbol" Text="&#xE167;"/>
+                            <Run Text="     "/>
+                            <Hyperlink Foreground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}">
+                                <Run Text="{x:Bind ViewModel.Url.Value, Mode=OneWay}"/>
+                            </Hyperlink>
+                    </TextBlock>
+                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="11" Margin="10">
+                            <Run FontFamily="Segoe UI Symbol" Text="&#xE1C4;"/>
+                            <Run Text="     "/>
+                            <Run Text="{x:Bind ViewModel.Location.Value, Mode=OneWay}"/>
+                    </TextBlock>
+                    <controls:HorizontalBar Height="2"/>
+                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <contents:FollowButon ButtonContent="{x:Bind ViewModel.FollowButtonText.Value, Mode=OneWay}" ButtonPointerOverContent="{x:Bind ViewModel.FollowButtonPointerOverText.Value, Mode=OneWay}" FlowDirection="LeftToRight"/>
+                        <Button x:Uid="SettingsFlyout_UserProfile_AddColumnButton" FlowDirection="LeftToRight" Width="100" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1"/>
+                        <Button FlowDirection="LeftToRight" HorizontalAlignment="Right" Background="#FF21A4E4" Foreground="White" Margin="1,1">
+                            <SymbolIcon Symbol="Add" Foreground="White"/>
+                            <Button.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenInWeb" Text="ブラウザで開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UrlClickCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.UserProfileUrl.Value, Mode=OneWay}"/>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserLists" Text="ユーザーのリストを開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserListsCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
+                                    <!--<MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserFavorite" Text="ユーザーのAclogを開く" FontFamily="Segoe UI Symbol" Command="{Binding OpenUserAclogClickCommand}"/>-->
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_Block" FontFamily="Segoe UI Symbol" Text="ブロック" Command="{x:Bind ViewModel.BlockUserCommand, Mode=OneWay}"/>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_UserMute" FontFamily="Segoe UI Symbol" Text="ユーザーをミュート" Command="{x:Bind ViewModel.MuteUserCommand, Mode=OneWay}"/>
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </Button>
                     </StackPanel>
-                </Grid>
-
-                <controls:HorizontalBar Grid.Row="1" Height="2"/>
-
-                <ListBox Background="{StaticResource SettingsFlyoutBackgroundBrush}" Grid.Row="2" SelectedIndex="{x:Bind ViewModel.SelectedTab.Value, Mode=TwoWay}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ListBoxItem Padding="20,4,4,4">
-                        <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
-                            <Run Text="{x:Bind ViewModel.StatusesCount.Value, Mode=OneWay}"/><Run Text=" Tweets"/>
-                        </TextBlock>
-                    </ListBoxItem>
-                    <ListBoxItem Padding="20,4,4,4">
-                        <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
-                            <Run Text="{x:Bind ViewModel.FriendsCount.Value, Mode=OneWay}"/><Run Text=" Following"/>
-                        </TextBlock>
-                    </ListBoxItem>
-                    <ListBoxItem Padding="20,4,4,4">
-                        <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
-                            <Run Text="{x:Bind ViewModel.FollowersCount.Value, Mode=OneWay}"/><Run Text=" Followers"/>
-                        </TextBlock>
-                    </ListBoxItem>
-                    <ListBoxItem Padding="20,4,4,4">
-                        <TextBlock  Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
-                            <Run Text="{x:Bind ViewModel.FavouritesCount.Value, Mode=OneWay}"/><Run Text=" Favorites"/>
-                        </TextBlock>
-                    </ListBoxItem>
-                </ListBox>
-
-                <controls:HorizontalBar Grid.Row="3" Height="2"/>
-
-                <StackPanel Grid.Row="4" Orientation="Horizontal" FlowDirection="RightToLeft">
-                    <contents:FollowButon ButtonContent="{x:Bind ViewModel.FollowButtonText.Value, Mode=OneWay}" ButtonPointerOverContent="{x:Bind ViewModel.FollowButtonPointerOverText.Value, Mode=OneWay}" FlowDirection="LeftToRight"/>
-                    <Button x:Uid="SettingsFlyout_UserProfile_AddColumnButton" FlowDirection="LeftToRight" Width="100" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1"/>
-                    <Button FlowDirection="LeftToRight" HorizontalAlignment="Right" Background="#FF21A4E4" Foreground="White" Margin="1,1">
-                        <SymbolIcon Symbol="Add" Foreground="White"/>
-                        <Button.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenInWeb" Text="ブラウザで開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UrlClickCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.UserProfileUrl.Value, Mode=OneWay}"/>
-                                <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserLists" Text="ユーザーのリストを開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserListsCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
-                                <!--<MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserFavorite" Text="ユーザーのAclogを開く" FontFamily="Segoe UI Symbol" Command="{Binding OpenUserAclogClickCommand}"/>-->
-                                <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_Block" FontFamily="Segoe UI Symbol" Text="ブロック" Command="{x:Bind ViewModel.BlockUserCommand, Mode=OneWay}"/>
-                                <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_UserMute" FontFamily="Segoe UI Symbol" Text="ユーザーをミュート" Command="{x:Bind ViewModel.MuteUserCommand, Mode=OneWay}"/>
-                            </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
+                    <controls:HorizontalBar Height="2"/>
                 </StackPanel>
-
-                <controls:HorizontalBar Grid.Row="5" Height="2"/>
             </Grid>
-
             <controls:VerticalBar x:Name="UserProfileVerticalBar" Width="2" Visibility="Collapsed"/>
-
-            <Grid x:Name="UserProfileTweetGrid">
-                <ListView x:Name="UserProfileStatusListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.StatusesVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand, Mode=OneWay}"/>
-                    </i:Interaction.Behaviors>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
-                                <VirtualizingStackPanel.ChildrenTransitions>
-                                    <TransitionCollection/>
-                                </VirtualizingStackPanel.ChildrenTransitions>
-                            </VirtualizingStackPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
-                            <timeline:Status ViewModel="{x:Bind}" 
+            <Pivot x:Name="UserProfileTweetPivot" SelectedIndex="{x:Bind ViewModel.SelectedTab.Value, Mode=TwoWay}"  Style="{StaticResource PivotStyleDynamicHeader}">
+                <PivotItem Margin="0">
+                    <PivotItem.Header>
+                        <contents:TabHeader Width="80" Label="Tweets" Glyph="&#xE15F;" />
+                    </PivotItem.Header>
+                    <ListView x:Name="UserProfileStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                        <i:Interaction.Behaviors>
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand, Mode=OneWay}"/>
+                        </i:Interaction.Behaviors>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel>
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                    </i:Interaction.Behaviors>
+                                    <VirtualizingStackPanel.ChildrenTransitions>
+                                        <TransitionCollection/>
+                                    </VirtualizingStackPanel.ChildrenTransitions>
+                                </VirtualizingStackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
+                                <timeline:Status ViewModel="{x:Bind}" 
                                 MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
                                 IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
                                 QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
@@ -168,29 +115,90 @@
                                 RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
                                 FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
                                 RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ListView>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ListView>
+                </PivotItem>
 
-                <ListView x:Name="UserProfileFavoritesListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.FavoritesVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single"  ItemsSource="{x:Bind ViewModel.Favorites, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FavoritesIncrementalLoadCommand, Mode=OneWay}" />
-                    </i:Interaction.Behaviors>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
-                                <VirtualizingStackPanel.ChildrenTransitions>
-                                    <TransitionCollection/>
-                                </VirtualizingStackPanel.ChildrenTransitions>
-                            </VirtualizingStackPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
-                            <timeline:Status ViewModel="{x:Bind}" 
+                <PivotItem Margin="0">
+                    <PivotItem.Header>
+                        <contents:TabHeader Width="80" Label="Following" Glyph="&#xE125;" />
+                    </PivotItem.Header>
+                    <ListView x:Name="UserProfileFollowingListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Following, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                        <i:Interaction.Behaviors>
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowingIncrementalLoadCommand, Mode=OneWay}" />
+                        </i:Interaction.Behaviors>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel>
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                    </i:Interaction.Behaviors>
+                                    <VirtualizingStackPanel.ChildrenTransitions>
+                                        <TransitionCollection/>
+                                    </VirtualizingStackPanel.ChildrenTransitions>
+                                </VirtualizingStackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="twitterObjectsViewModel:UserViewModel">
+                                <timeline:User ViewModel="{x:Bind}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ListView>
+                </PivotItem>
+
+                <PivotItem Margin="0">
+                    <PivotItem.Header>
+                        <contents:TabHeader Width="80" Label="Followers" Glyph="&#xE125;" />
+                    </PivotItem.Header>
+                    <ListView x:Name="UserProfileFollowersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Followers, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                        <i:Interaction.Behaviors>
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowersIncrementalLoadCommand, Mode=OneWay}" />
+                        </i:Interaction.Behaviors>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel>
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                    </i:Interaction.Behaviors>
+                                    <VirtualizingStackPanel.ChildrenTransitions>
+                                        <TransitionCollection/>
+                                    </VirtualizingStackPanel.ChildrenTransitions>
+                                </VirtualizingStackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="twitterObjectsViewModel:UserViewModel">
+                                <timeline:User ViewModel="{x:Bind}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ListView>
+                </PivotItem>
+
+                <PivotItem Margin="0">
+                    <PivotItem.Header>
+                        <contents:TabHeader Width="80" Label="Favorites" Glyph="&#xE113;" />
+                    </PivotItem.Header>
+                    <ListView x:Name="UserProfileFavoritesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single"  ItemsSource="{x:Bind ViewModel.Favorites, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                        <i:Interaction.Behaviors>
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FavoritesIncrementalLoadCommand, Mode=OneWay}" />
+                        </i:Interaction.Behaviors>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel>
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                    </i:Interaction.Behaviors>
+                                    <VirtualizingStackPanel.ChildrenTransitions>
+                                        <TransitionCollection/>
+                                    </VirtualizingStackPanel.ChildrenTransitions>
+                                </VirtualizingStackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
+                                <timeline:Status ViewModel="{x:Bind}" 
                                 MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
                                 IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
                                 QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
@@ -199,58 +207,12 @@
                                 RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
                                 FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
                                 RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ListView>
-
-                <ListView x:Name="UserProfileFollowersListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.FollowersVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Followers, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowersIncrementalLoadCommand, Mode=OneWay}" />
-                    </i:Interaction.Behaviors>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
-                                <VirtualizingStackPanel.ChildrenTransitions>
-                                    <TransitionCollection/>
-                                </VirtualizingStackPanel.ChildrenTransitions>
-                            </VirtualizingStackPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="twitterObjectsViewModel:UserViewModel">
-                            <timeline:User ViewModel="{x:Bind}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ListView>
-
-                <ListView x:Name="UserProfileFollowingListView" Background="{StaticResource ColumnViewBackgroundBrush}" Visibility="{x:Bind ViewModel.FollowingVisibility.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Following, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowingIncrementalLoadCommand, Mode=OneWay}" />
-                    </i:Interaction.Behaviors>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
-                                <VirtualizingStackPanel.ChildrenTransitions>
-                                    <TransitionCollection/>
-                                </VirtualizingStackPanel.ChildrenTransitions>
-                            </VirtualizingStackPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="twitterObjectsViewModel:UserViewModel">
-                            <timeline:User ViewModel="{x:Bind}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ListView>
-
-                <ProgressBar x:Name="UserProfileProgressBar" VerticalAlignment="Top" Foreground="{StaticResource ProgressBarForegroundBrush}" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" />
-            </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ListView>
+                </PivotItem>
+            </Pivot>
         </StackPanel>
     </ScrollViewer>
+    
 </controls:ExtendedSettingsFlyout>

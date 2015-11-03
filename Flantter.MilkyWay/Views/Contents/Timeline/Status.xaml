@@ -341,7 +341,7 @@
                         <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_DeleteTweet" Text="&#xE107;    削除" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.DeleteTweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.IsMyRetweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_DeleteRetweet" Text="&#xE107;    リツイートの削除" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.IsMyRetweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.DeleteRetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_DeleteRetweet" Text="&#xE107;    リツイートの削除" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.IsMyRetweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.DeleteRetweetCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

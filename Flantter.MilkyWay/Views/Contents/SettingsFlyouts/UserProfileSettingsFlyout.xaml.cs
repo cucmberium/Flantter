@@ -1,4 +1,5 @@
-﻿using Flantter.MilkyWay.ViewModels.SettingsFlyouts;
+﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.ViewModels.SettingsFlyouts;
 using Flantter.MilkyWay.Views.Controls;
 using System;
 using System.Collections.Generic;
@@ -29,13 +30,163 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(UserProfileSettingsFlyoutViewModel), typeof(UserProfileSettingsFlyout), null);
 
+        private ScrollViewer _UserProfileStatusesListViewScrollViewer;
+        private ScrollViewer _UserProfileFavoritesListViewScrollViewer;
+        private ScrollViewer _UserProfileFollowingListViewScrollViewer;
+        private ScrollViewer _UserProfileFollowersListViewScrollViewer;
         public UserProfileSettingsFlyout()
         {
             this.InitializeComponent();
+
+            this.Loaded += (s, e) =>
+            {
+                this.RootStackPanel.AddHandler(UIElement.PointerWheelChangedEvent, new PointerEventHandler(RootStackPanel_PointerWheelChanged), true);
+
+                this.RootScrollViewer.ViewChanged += RootScrollViewer_ViewChanged;
+                this.UserProfileTweetPivot.SelectionChanged += UserProfileTweetPivot_SelectionChanged;
+
+                this.UserProfileStatusesListView.PointerWheelChanged += UserProfilePivotListView_PointerWheelChanged;
+                this.UserProfileFavoritesListView.PointerWheelChanged += UserProfilePivotListView_PointerWheelChanged;
+                this.UserProfileFollowingListView.PointerWheelChanged += UserProfilePivotListView_PointerWheelChanged;
+                this.UserProfileFollowersListView.PointerWheelChanged += UserProfilePivotListView_PointerWheelChanged;
+            };
+
+            this.UserProfileStatusesListView.Loaded += (s, e) =>
+            {
+                _UserProfileStatusesListViewScrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(this.UserProfileStatusesListView, 0), 0) as ScrollViewer;
+                _UserProfileStatusesListViewScrollViewer.ViewChanged += UserProfilePivotListView_ViewChanged;
+
+                RootScrollViewer_ViewChanged(this.RootScrollViewer, null);
+            };
+
+            this.UserProfileFavoritesListView.Loaded += (s, e) =>
+            {
+                _UserProfileFavoritesListViewScrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(this.UserProfileFavoritesListView, 0), 0) as ScrollViewer;
+                _UserProfileFavoritesListViewScrollViewer.ViewChanged += UserProfilePivotListView_ViewChanged;
+
+                RootScrollViewer_ViewChanged(this.RootScrollViewer, null);
+            };
+
+            this.UserProfileFollowingListView.Loaded += (s, e) =>
+            {
+                _UserProfileFollowingListViewScrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(this.UserProfileFollowingListView, 0), 0) as ScrollViewer;
+                _UserProfileFollowingListViewScrollViewer.ViewChanged += UserProfilePivotListView_ViewChanged;
+
+                RootScrollViewer_ViewChanged(this.RootScrollViewer, null);
+            };
+
+            this.UserProfileFollowersListView.Loaded += (s, e) =>
+            {
+                _UserProfileFollowersListViewScrollViewer = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(this.UserProfileFollowersListView, 0), 0) as ScrollViewer;
+                _UserProfileFollowersListViewScrollViewer.ViewChanged += UserProfilePivotListView_ViewChanged;
+
+                RootScrollViewer_ViewChanged(this.RootScrollViewer, null);
+            };
+
             this.SizeChanged += UserProfileSettingsFlyout_SizeChanged;
             UserProfileSettingsFlyout_SizeChanged(null, null);
+        }
 
-            this.UserProfileScrollViewer.ViewChanged += UserProfileScrollViewer_ViewChanged;
+        private void UserProfileTweetPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RootScrollViewer_ViewChanged(this.RootScrollViewer, null);
+        }
+
+        private void UserProfilePivotListView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private bool _RootScrollViewerLocked = false;
+        private void RootStackPanel_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            if (!_RootScrollViewerLocked && this.RootStackPanel.Orientation == Orientation.Vertical)
+                e.Handled = false;
+        }
+        
+        private void UserProfilePivotListView_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            var scrollViewer = sender as ScrollViewer;
+            if (scrollViewer.VerticalOffset > 2.1)
+                _RootScrollViewerLocked = true;
+            else
+                _RootScrollViewerLocked = false;
+        }
+
+        private void RootScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (this.RootStackPanel.Orientation == Orientation.Vertical)
+            {
+                if (this.RootScrollViewer.VerticalOffset == this.UserProfileInformationGrid.ActualHeight)
+                {
+                    if (_UserProfileStatusesListViewScrollViewer != null)
+                    {
+                        _UserProfileStatusesListViewScrollViewer.VerticalScrollMode = ScrollMode.Enabled;
+                        _UserProfileStatusesListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                    }
+                    if (_UserProfileFavoritesListViewScrollViewer != null)
+                    {
+                        _UserProfileFavoritesListViewScrollViewer.VerticalScrollMode = ScrollMode.Enabled;
+                        _UserProfileFavoritesListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                    }
+                    if (_UserProfileFollowersListViewScrollViewer != null)
+                    {
+                        _UserProfileFollowersListViewScrollViewer.VerticalScrollMode = ScrollMode.Enabled;
+                        _UserProfileFollowersListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                    }
+                    if (_UserProfileFollowingListViewScrollViewer != null)
+                    {
+                        _UserProfileFollowingListViewScrollViewer.VerticalScrollMode = ScrollMode.Enabled;
+                        _UserProfileFollowingListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                    }
+                }
+                else
+                {
+                    if (_UserProfileStatusesListViewScrollViewer != null)
+                    {
+                        _UserProfileStatusesListViewScrollViewer.VerticalScrollMode = ScrollMode.Disabled;
+                        _UserProfileStatusesListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                    }
+                    if (_UserProfileFavoritesListViewScrollViewer != null)
+                    {
+                        _UserProfileFavoritesListViewScrollViewer.VerticalScrollMode = ScrollMode.Disabled;
+                        _UserProfileFavoritesListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                    }
+                    if (_UserProfileFollowersListViewScrollViewer != null)
+                    {
+                        _UserProfileFollowersListViewScrollViewer.VerticalScrollMode = ScrollMode.Disabled;
+                        _UserProfileFollowersListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                    }
+                    if (_UserProfileFollowingListViewScrollViewer != null)
+                    {
+                        _UserProfileFollowingListViewScrollViewer.VerticalScrollMode = ScrollMode.Disabled;
+                        _UserProfileFollowingListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                    }
+                }
+            }
+            else
+            {
+                if (_UserProfileStatusesListViewScrollViewer != null)
+                {
+                    _UserProfileStatusesListViewScrollViewer.VerticalScrollMode = ScrollMode.Enabled;
+                    _UserProfileStatusesListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                }
+                if (_UserProfileFavoritesListViewScrollViewer != null)
+                {
+                    _UserProfileFavoritesListViewScrollViewer.VerticalScrollMode = ScrollMode.Enabled;
+                    _UserProfileFavoritesListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                }
+                if (_UserProfileFollowersListViewScrollViewer != null)
+                {
+                    _UserProfileFollowersListViewScrollViewer.VerticalScrollMode = ScrollMode.Enabled;
+                    _UserProfileFollowersListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                }
+                if (_UserProfileFollowingListViewScrollViewer != null)
+                {
+                    _UserProfileFollowingListViewScrollViewer.VerticalScrollMode = ScrollMode.Enabled;
+                    _UserProfileFollowingListViewScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                }
+            }
         }
 
         private void UserProfileSettingsFlyout_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -51,43 +202,23 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
 
             this.Width = width;
 
-            this.UserProfileStackPanel.Orientation = width >= 800 ? Orientation.Horizontal : Orientation.Vertical;
+            this.RootStackPanel.Orientation = width >= 800 ? Orientation.Horizontal : Orientation.Vertical;
+            this.UserProfileTweetPivot.Height = Window.Current.Bounds.Height - 70;
 
             if (width >= 802)
             {
-                this.UserProfileTweetGrid.Height = Window.Current.Bounds.Height - 70;
-                this.UserProfileTweetGrid.Width = 400;
+                this.UserProfileTweetPivot.Width = 400;
                 this.UserProfileInformationGrid.Width = 400;
                 this.UserProfileVerticalBar.Visibility = Visibility.Visible;
             }
             else
             {
-                this.UserProfileTweetGrid.Height = double.NaN;
-                this.UserProfileTweetGrid.Width = double.NaN;
+                this.UserProfileTweetPivot.Width = double.NaN;
                 this.UserProfileInformationGrid.Width = double.NaN;
                 this.UserProfileVerticalBar.Visibility = Visibility.Collapsed;
             }
-        }
 
-        private void UserProfileScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-        {
-            var transform = this.UserProfileProgressBar.RenderTransform as CompositeTransform;
-            if (transform == null)
-                transform = new CompositeTransform();
-
-            if (this.UserProfileStackPanel.Orientation == Orientation.Horizontal)
-            {
-                transform.TranslateY = 0;
-            }
-            else
-            {
-                if (this.UserProfileScrollViewer.VerticalOffset - 426 > 0)
-                    transform.TranslateY = this.UserProfileScrollViewer.VerticalOffset - 426;
-                else
-                    transform.TranslateY = 0;
-            }
-
-            this.UserProfileProgressBar.RenderTransform = transform;
+            RootScrollViewer_ViewChanged(this.RootScrollViewer, null);
         }
     }
 }

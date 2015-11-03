@@ -219,7 +219,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
     {
         public UserMentionEntity(CoreTweet.UserMentionEntity cUrlEntity)
         {
-            this.Id = cUrlEntity.Id;
+            this.Id = cUrlEntity.Id.HasValue ? cUrlEntity.Id.Value : 0;
             this.Name = cUrlEntity.Name;
             this.ScreenName = cUrlEntity.ScreenName;
             this.Start = cUrlEntity.Indices.First();

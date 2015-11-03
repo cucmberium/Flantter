@@ -65,6 +65,20 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.Model.Favorites.Clear();
                 this.Model.Following.Clear();
                 this.Model.Followers.Clear();
+                
+                this.Model.UserInformation.Description = "";
+                this.Model.UserInformation.FavouritesCount = 0;
+                this.Model.UserInformation.FollowersCount = 0;
+                this.Model.UserInformation.FriendsCount = 0;
+                this.Model.UserInformation.IsMuting = false;
+                this.Model.UserInformation.IsProtected = false;
+                this.Model.UserInformation.IsVerified = false;
+                this.Model.UserInformation.Location = "";
+                this.Model.UserInformation.ProfileBannerUrl = "";
+                this.Model.UserInformation.ProfileImageUrl = "";
+                this.Model.UserInformation.StatusesCount = 0;
+                this.Model.UserInformation.Url = "";
+                this.Model.UserInformation.Name = "";
 
                 this.DescriptionEntities.Value = null;
                 this.UrlEntities.Value = null;
@@ -93,8 +107,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             {
                 await this.Model.UpdateUserInfomation();
                 
-                this.UrlEntities.Value = this.Model.UserInformation.Entities.Url;
-                this.DescriptionEntities.Value = this.Model.UserInformation.Entities.Description;
+                this.UrlEntities.Value = this.Model.UserInformation.Entities != null ? this.Model.UserInformation.Entities.Url : null;
+                this.DescriptionEntities.Value = this.Model.UserInformation.Entities != null ? this.Model.UserInformation.Entities.Description : null;
                 this.Description.Value = this.Model.UserInformation.Description;
                 this.FavouritesCount.Value = this.Model.UserInformation.FavouritesCount.ToString() + " Favorites";
                 this.FollowersCount.Value = this.Model.UserInformation.FollowersCount.ToString() + " Follower";

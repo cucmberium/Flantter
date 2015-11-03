@@ -19,6 +19,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             this.Favorites = new ObservableCollection<Twitter.Objects.Status>();
             this.Followers = new ObservableCollection<Twitter.Objects.User>();
             this.Following = new ObservableCollection<Twitter.Objects.User>();
+
+            this._UserInformation = new Twitter.Objects.User();
         }
 
         #region Tokens変更通知プロパティ

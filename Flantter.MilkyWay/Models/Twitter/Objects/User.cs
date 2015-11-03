@@ -8,6 +8,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
     public class User
     {
+        public User() { }
+
         public User(CoreTweet.User cUser)
         {
             this.CreateAt = cUser.CreatedAt.DateTime;

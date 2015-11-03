@@ -288,7 +288,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             }
 			else if (userMatch.Success)
 			{
-                ViewModels.Services.Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"]);
+                ViewModels.Services.Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"].ToString());
             }
 			else
 			{

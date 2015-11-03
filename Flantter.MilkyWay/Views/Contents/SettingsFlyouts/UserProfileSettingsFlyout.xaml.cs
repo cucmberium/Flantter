@@ -36,6 +36,11 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
         private ScrollViewer _UserProfileFollowersListViewScrollViewer;
         public UserProfileSettingsFlyout()
         {
+            this.Showed += (s, e) =>
+            {
+                this.RootScrollViewer.ChangeView(null, 0.0, null, true);
+            };
+
             this.InitializeComponent();
 
             this.Loaded += (s, e) =>

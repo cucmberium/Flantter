@@ -31,7 +31,10 @@
         <StackPanel x:Name="RootStackPanel">
             <Grid x:Name="UserProfileInformationGrid" VerticalAlignment="Top">
 
-                <Image Grid.Row="0" Height="160" Source="{x:Bind ViewModel.ProfileBannerUrl.Value, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Grid Background="{x:Bind ViewModel.ProfileBackgroundColor.Value, Mode=OneWay, Converter={StaticResource ColorCodeToBrushConverter}}" VerticalAlignment="Top">
+                    <Image Height="160" Source="{x:Bind ViewModel.ProfileBannerUrl.Value, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
+                </Grid>
+                
                 <Border Background="Azure" Grid.Row="0" Grid.RowSpan="2" Height="64" Width="64" BorderThickness="3" BorderBrush="{StaticResource SettingsFlyoutTextblockForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="5" Margin="20,134,20,0">
                     <Border CornerRadius="4">
                         <Border.Background>
@@ -45,7 +48,7 @@
                     <Run FontFamily="Segoe UI Symbol" Foreground="Yellow" Text="{x:Bind ViewModel.IsProtected.Value, Mode=OneWay}"/>
                     <Run FontFamily="Segoe UI Symbol" Text="{x:Bind ViewModel.IsMuting.Value, Mode=OneWay}"/>
                     <Run FontFamily="Segoe UI Symbol" Text="{x:Bind ViewModel.IsVerified.Value, Mode=OneWay}"/>
-                    <Run FontSize="9" Text="{x:Bind ViewModel.FollowedByText.Value, Mode=OneWay}"/>
+                    <Run FontSize="10" Text="{x:Bind ViewModel.FollowedByText.Value, Mode=OneWay}"/>
                 </TextBlock>
                 <StackPanel Margin="0,200,0,0">
                     <TextBlock FontSize="10.5" Margin="10,10,10,0" TextWrapping="Wrap" behaviors:TexbblockNavigationServiceBehavior.TextForeground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.DeficientEntity="True" behaviors:TexbblockNavigationServiceBehavior.LinkForeground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.DescriptionEntities.Value, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Description.Value, Mode=OneWay}"  />
@@ -56,14 +59,50 @@
                                 <Run Text="{x:Bind ViewModel.Url.Value, Mode=OneWay}"/>
                             </Hyperlink>
                     </TextBlock>
-                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="11" Margin="10">
+                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="11" Margin="10,10,10,0">
                             <Run FontFamily="Segoe UI Symbol" Text="&#xE1C4;"/>
                             <Run Text="     "/>
                             <Run Text="{x:Bind ViewModel.Location.Value, Mode=OneWay}"/>
                     </TextBlock>
+
+                    <Grid Margin="0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Margin="10,0,0,0" FontFamily="Segoe UI Symbol" FontSize="10.5" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
+                            <Run Text="&#xE1E2;   "/><Run Text="{x:Bind ViewModel.FriendsCount.Value, Mode=OneWay}"/><Run Text="  "/><Run x:Uid="SettingsFlyout_UserProfile_Following" Text="Following"/>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Margin="40,0,0,0" FontFamily="Segoe UI Symbol" FontSize="10.5" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
+                            <Run Text="&#xE125;   "/><Run Text="{x:Bind ViewModel.FollowersCount.Value, Mode=OneWay}"/><Run Text="  "/><Run x:Uid="SettingsFlyout_UserProfile_Followers" Text="Followers"/>
+                        </TextBlock>
+
+                    </Grid>
+
+                    <controls:HorizontalBar Height="2"/>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Margin="5" FontFamily="Segoe UI Symbol" HorizontalAlignment="Left" FontSize="10.5" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
+                            <Run Text="{x:Bind ViewModel.StatusesCount.Value, Mode=OneWay}"/><Run Text="   "/><Run x:Uid="SettingsFlyout_UserProfile_Tweets" Text="Tweets"/>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Margin="5" FontFamily="Segoe UI Symbol" FontSize="10.5" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
+                            <Run Text="&#xE1CF;   "/><Run Text="{x:Bind ViewModel.FavouritesCount.Value, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock Grid.Column="2" Margin="5" FontFamily="Segoe UI Symbol" FontSize="10.5" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
+                            <Run Text="&#xE179;   "/><Run Text="{x:Bind ViewModel.ListedCount.Value, Mode=OneWay}"/>
+                        </TextBlock>
+
+                    </Grid>
                     <controls:HorizontalBar Height="2"/>
                     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-                        <contents:FollowButon ButtonContent="{x:Bind ViewModel.FollowButtonText.Value, Mode=OneWay}" ButtonPointerOverContent="{x:Bind ViewModel.FollowButtonPointerOverText.Value, Mode=OneWay}" FlowDirection="LeftToRight"/>
+                        <contents:FollowButon IsEnabled="{x:Bind ViewModel.IsMyUserProfile.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" ButtonContent="{x:Bind ViewModel.FollowButtonText.Value, Mode=OneWay}" ButtonPointerOverContent="{x:Bind ViewModel.FollowButtonPointerOverText.Value, Mode=OneWay}" FlowDirection="LeftToRight"/>
                         <Button x:Uid="SettingsFlyout_UserProfile_AddColumnButton" FlowDirection="LeftToRight" Width="100" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1"/>
                         <Button FlowDirection="LeftToRight" HorizontalAlignment="Right" Background="#FF21A4E4" Foreground="White" Margin="1,1">
                             <SymbolIcon Symbol="Add" Foreground="White"/>
@@ -122,7 +161,7 @@
 
                 <PivotItem Margin="0">
                     <PivotItem.Header>
-                        <contents:TabHeader Width="80" Label="Following" Glyph="&#xE125;" />
+                        <contents:TabHeader Width="80" Label="Following" Glyph="&#xE1E2;" />
                     </PivotItem.Header>
                     <ListView x:Name="UserProfileFollowingListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Following, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>

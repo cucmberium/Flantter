@@ -32,18 +32,22 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.Description = new ReactiveProperty<string>();
             this.UrlEntities = new ReactiveProperty<Entities>();
             this.DescriptionEntities = new ReactiveProperty<Entities>();
-            this.FavouritesCount = new ReactiveProperty<string>();
-            this.FollowersCount = new ReactiveProperty<string>();
-            this.FriendsCount = new ReactiveProperty<string>();
+            this.FavouritesCount = new ReactiveProperty<int>();
+            this.FollowersCount = new ReactiveProperty<int>();
+            this.FriendsCount = new ReactiveProperty<int>();
+            this.ListedCount = new ReactiveProperty<int>();
             this.IsMuting = new ReactiveProperty<string>();
             this.IsProtected = new ReactiveProperty<string>();
             this.IsVerified = new ReactiveProperty<string>();
             this.Location = new ReactiveProperty<string>();
+            this.ProfileBackgroundColor = new ReactiveProperty<string>();
             this.ProfileBannerUrl = new ReactiveProperty<string>("http://localhost/");
             this.ProfileImageUrl = new ReactiveProperty<string>("http://localhost/");
-            this.StatusesCount = new ReactiveProperty<string>();
+            this.StatusesCount = new ReactiveProperty<int>();
             this.Url = new ReactiveProperty<string>();
             this.Name = new ReactiveProperty<string>();
+
+            this.IsMyUserProfile = new ReactiveProperty<bool>();
 
             this.FollowButtonText = new ReactiveProperty<string>("Follow");
             this.FollowButtonPointerOverText = new ReactiveProperty<string>("Follow");
@@ -70,10 +74,13 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.Model.UserInformation.FavouritesCount = 0;
                 this.Model.UserInformation.FollowersCount = 0;
                 this.Model.UserInformation.FriendsCount = 0;
+                this.Model.UserInformation.ListedCount = 0;
                 this.Model.UserInformation.IsMuting = false;
                 this.Model.UserInformation.IsProtected = false;
                 this.Model.UserInformation.IsVerified = false;
                 this.Model.UserInformation.Location = "";
+                this.Model.UserInformation.ProfileBackgroundColor = "";
+                this.Model.UserInformation.ProfileBackgroundImageUrl = "";
                 this.Model.UserInformation.ProfileBannerUrl = "";
                 this.Model.UserInformation.ProfileImageUrl = "";
                 this.Model.UserInformation.StatusesCount = 0;
@@ -83,19 +90,22 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.DescriptionEntities.Value = null;
                 this.UrlEntities.Value = null;
                 this.Description.Value = "";
-                this.FavouritesCount.Value = "";
-                this.FollowersCount.Value = "";
-                this.FriendsCount.Value = "";
+                this.FavouritesCount.Value = 0;
+                this.FollowersCount.Value = 0;
+                this.FriendsCount.Value = 0;
+                this.ListedCount.Value = 0;
                 this.IsMuting.Value = "";
                 this.IsProtected.Value = "";
                 this.IsVerified.Value = "";
                 this.Location.Value = "";
+                this.ProfileBackgroundColor.Value = "#C0DEED"; //"#55ACEE";
                 this.ProfileBannerUrl.Value = "http://localhost/";
                 this.ProfileImageUrl.Value = "http://localhost/";
-                this.StatusesCount.Value = "";
+                this.StatusesCount.Value = 0;
                 this.Url.Value = "";
                 this.Name.Value = "";
 
+                this.IsMyUserProfile.Value = false;
                 this.FollowedByText.Value = "";
 
                 this.FollowButtonText.Value = "Follow";
@@ -110,16 +120,18 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.UrlEntities.Value = this.Model.UserInformation.Entities != null ? this.Model.UserInformation.Entities.Url : null;
                 this.DescriptionEntities.Value = this.Model.UserInformation.Entities != null ? this.Model.UserInformation.Entities.Description : null;
                 this.Description.Value = this.Model.UserInformation.Description;
-                this.FavouritesCount.Value = this.Model.UserInformation.FavouritesCount.ToString() + " Favorites";
-                this.FollowersCount.Value = this.Model.UserInformation.FollowersCount.ToString() + " Follower";
-                this.FriendsCount.Value = this.Model.UserInformation.FriendsCount.ToString() + " Following";
+                this.FavouritesCount.Value = this.Model.UserInformation.FavouritesCount;
+                this.FollowersCount.Value = this.Model.UserInformation.FollowersCount;
+                this.FriendsCount.Value = this.Model.UserInformation.FriendsCount;
+                this.ListedCount.Value = this.Model.UserInformation.ListedCount;
                 this.IsMuting.Value = this.Model.UserInformation.IsMuting ? "" : "";
                 this.IsProtected.Value = this.Model.UserInformation.IsProtected ? "🔒" : "";
                 this.IsVerified.Value = this.Model.UserInformation.IsVerified ? "" : "";
                 this.Location.Value = this.Model.UserInformation.Location;
-                this.ProfileBannerUrl.Value = string.IsNullOrWhiteSpace(this.Model.UserInformation.ProfileBannerUrl) ? "http://localhost/" : this.Model.UserInformation.ProfileBannerUrl;
+                this.ProfileBackgroundColor.Value = "#" + this.Model.UserInformation.ProfileBackgroundColor;
+                this.ProfileBannerUrl.Value = string.IsNullOrWhiteSpace(this.Model.UserInformation.ProfileBannerUrl) ? "http://localhost/" : this.Model.UserInformation.ProfileBannerUrl + "/1500x500";
                 this.ProfileImageUrl.Value = string.IsNullOrWhiteSpace(this.Model.UserInformation.ProfileImageUrl) ? "http://localhost/" : this.Model.UserInformation.ProfileImageUrl.Replace("_normal", "");
-                this.StatusesCount.Value = this.Model.UserInformation.StatusesCount.ToString() + " Tweets";
+                this.StatusesCount.Value = this.Model.UserInformation.StatusesCount;
                 this.Url.Value = this.Model.UserInformation.Url;
                 this.Name.Value = this.Model.UserInformation.Name;
 
@@ -127,7 +139,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
                 await this.Model.UpdateRelationShip();
 
-                this.FollowedByText.Value = this.Model.IsFollowedBy ? resourceLoader.GetString("SettingsFlyout_UserProfile_FollowBacked") : "";
+                this.IsMyUserProfile.Value = this.ScreenName.Value == this.Tokens.Value.ScreenName;
+                this.FollowedByText.Value = this.Model.IsFollowedBy ? resourceLoader.GetString("SettingsFlyout_UserProfile_FollowBacked") : (this.IsMyUserProfile.Value ? resourceLoader.GetString("SettingsFlyout_UserProfile_ThatsYou") : "");
                 if (this.Model.IsBlocking)
                 {
                     this.FollowButtonText.Value = "Blocking";
@@ -258,6 +271,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReadOnlyReactiveCollection<UserViewModel> Followers { get; private set; }
 
+        public ReactiveProperty<bool> IsMyUserProfile { get; set; }
+
         public ReactiveProperty<bool> Updating { get; set; }
 
         public ReactiveProperty<string> FollowedByText { get; set; }
@@ -278,17 +293,21 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         #endregion
 
         #region FavouritesCount変更通知プロパティ
-        public ReactiveProperty<string> FavouritesCount { get; set; }
+        public ReactiveProperty<int> FavouritesCount { get; set; }
         #endregion
 
         #region FollowersCount変更通知プロパティ
-        public ReactiveProperty<string> FollowersCount { get; set; }
+        public ReactiveProperty<int> FollowersCount { get; set; }
         #endregion
 
         #region FriendsCount変更通知プロパティ
-        public ReactiveProperty<string> FriendsCount { get; set; }
+        public ReactiveProperty<int> FriendsCount { get; set; }
         #endregion
-        
+
+        #region ListedCount変更通知プロパティ
+        public ReactiveProperty<int> ListedCount { get; set; }
+        #endregion
+
         #region IsMuting変更通知プロパティ
         public ReactiveProperty<string> IsMuting { get; set; }
         #endregion
@@ -309,6 +328,10 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveProperty<string> Name { get; set; }
         #endregion
 
+        #region ProfileBackgroundColor変更通知プロパティ
+        public ReactiveProperty<string> ProfileBackgroundColor { get; set; }
+        #endregion
+
         #region ProfileBannerUrl変更通知プロパティ
         public ReactiveProperty<string> ProfileBannerUrl { get; set; }
         #endregion
@@ -322,7 +345,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         #endregion
 
         #region StatusesCount変更通知プロパティ
-        public ReactiveProperty<string> StatusesCount { get; set; }
+        public ReactiveProperty<int> StatusesCount { get; set; }
         #endregion
 
         #region Url変更通知プロパティ

@@ -45,7 +45,15 @@
         </behaviors:BottomAppBarShowBehavior>
     </i:Interaction.Behaviors>
 
-    <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}">
+    <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}" AllowDrop="True">
+        <i:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="DragOver">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.DragOverCommand, Mode=OneWay}"/>
+            </core:EventTriggerBehavior>
+            <core:EventTriggerBehavior EventName="Drop">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.DropCommand, Mode=OneWay}"/>
+            </core:EventTriggerBehavior>
+        </i:Interaction.Behaviors>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

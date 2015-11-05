@@ -21,6 +21,7 @@ using System.Reactive.Concurrency;
 using Windows.ApplicationModel.DataTransfer;
 using Flantter.MilkyWay.Common;
 using Windows.System;
+using Windows.Storage;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -32,6 +33,9 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
         public ReactiveProperty<bool> AppBarIsOpen { get; private set; }
         public ReactiveProperty<TweetAreaViewModel> TweetArea { get; private set; }
+
+        public ReactiveCommand DragOverCommand { get; private set; }
+        public ReactiveCommand DropCommand { get; private set; }
 
         public Messenger ShowImagePreviewMessenger { get; private set; }
 
@@ -68,6 +72,41 @@ namespace Flantter.MilkyWay.ViewModels
             this.ShowSettingsFlyoutMessenger = new Messenger();
 
             #region Command
+            this.DragOverCommand = new ReactiveCommand();
+            this.DragOverCommand.Subscribe(x =>
+            {
+                var e = x as DragEventArgs;
+                e.AcceptedOperation = DataPackageOperation.Copy;
+                e.Handled = true;
+            });
+
+            this.DropCommand = new ReactiveCommand();
+            this.DropCommand.Subscribe(async x =>
+            {
+                var e = x as DragEventArgs;
+                var d = e.GetDeferral();
+
+                var files = (await e.DataView.GetStorageItemsAsync()).OfType<StorageFile>();
+                if (files.Count() == 0)
+                {
+                    d.Complete();
+                    return;
+                }
+
+                var supportedFormat = new[] { ".jpg", ".jpeg", ".png", ".gif", ".mp4", };
+
+                foreach (var file in files)
+                {
+                    if (!supportedFormat.Contains(file.FileType))
+                        continue;
+
+                    await this.TweetArea.Value._TweetAreaModel.AddPicture(file);
+                }
+
+                this.AppBarIsOpen.Value = true;
+
+                d.Complete();
+            });
 
             Services.Notice.Instance.ShowMediaCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {

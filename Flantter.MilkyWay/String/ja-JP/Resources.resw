@@ -376,4 +376,16 @@
   <data name="SettingsFlyout_Search_AdvancedSearch_Menu_SaveThisSearchButton.Content" xml:space="preserve">
     <value>検索メモに保存</value>
   </data>
+  <data name="SettingsFlyout_UserProfile_ThatsYou" xml:space="preserve">
+    <value>あなたです！</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Followers.Text" xml:space="preserve">
+    <value>フォロワー</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Following.Text" xml:space="preserve">
+    <value>フォロー</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Tweets.Text" xml:space="preserve">
+    <value>ツイート</value>
+  </data>
 </root>

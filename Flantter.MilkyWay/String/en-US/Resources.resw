@@ -376,4 +376,16 @@
   <data name="SettingsFlyout_Search_AdvancedSearch_Menu_SaveThisSearchButton.Content" xml:space="preserve">
     <value>Save this search</value>
   </data>
+  <data name="SettingsFlyout_UserProfile_ThatsYou" xml:space="preserve">
+    <value>That's you!</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Followers.Text" xml:space="preserve">
+    <value>Followers</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Following.Text" xml:space="preserve">
+    <value>Following</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Tweets.Text" xml:space="preserve">
+    <value>Tweets</value>
+  </data>
 </root>

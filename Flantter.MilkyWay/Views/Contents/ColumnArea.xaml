@@ -71,11 +71,11 @@
                         </Button>
                     </Grid>
 
-                    <StackPanel x:Name="TweetMultipulActionStackPanel" Grid.Row="2" Height="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="Collapsed">
-                        <AppBarButton Command="{Binding MultipulRetweetClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare"/>
-                        <AppBarButton Command="{Binding MultipulFavoriteClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite"/>
-                        <AppBarButton Command="{Binding MultipulReplyClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message"/>
-                        <AppBarButton Command="{Binding MultipulCancelClickCommand}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel"/>
+                    <StackPanel x:Name="TweetMultipulActionStackPanel" Grid.Row="2" Visibility="Collapsed" Height="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare"/>
+                        <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite"/>
+                        <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message"/>
+                        <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel"/>
                     </StackPanel>
                 </Grid>
             </DataTemplate>

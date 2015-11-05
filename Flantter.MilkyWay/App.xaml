@@ -26,6 +26,7 @@
             <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
             <converters:DoublePlusConverter x:Key="DoublePlusConverter"/>
             <converters:IntToStringConverter x:Key="IntToStringConverter"/>
+            <converters:ColorCodeToBrushConverter x:Key="ColorCodeToBrushConverter"/>
             
             <setting:SettingProvider x:Key="Setting"/>
             <notice:NoticeProvider x:Key="Notice"/>

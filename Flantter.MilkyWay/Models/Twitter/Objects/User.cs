@@ -27,6 +27,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.ListedCount = cUser.ListedCount.HasValue ? cUser.ListedCount.Value : 0;
             this.Location = cUser.Location;
             this.Name = cUser.Name;
+            this.ProfileBackgroundColor = cUser.ProfileBackgroundColor;
             this.ProfileBackgroundImageUrl = cUser.ProfileBackgroundImageUrl;
             this.ProfileBannerUrl = cUser.ProfileBannerUrl;
             this.ProfileImageUrl = cUser.ProfileImageUrl;
@@ -106,6 +107,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
         #region ProfileImageUrl変更通知プロパティ
         public string ProfileImageUrl { get; set; }
+        #endregion
+
+        #region ProfileBackgroundColor変更通知プロパティ
+        public string ProfileBackgroundColor { get; set; }
         #endregion
 
         #region ScreenName変更通知プロパティ

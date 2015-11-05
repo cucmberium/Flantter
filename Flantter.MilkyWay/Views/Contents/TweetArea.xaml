@@ -124,18 +124,17 @@
                 </PathIcon>
             </Button>
 
-            <Grid x:Name="BottomAppBar_CommandGrid" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Grid x:Name="BottomAppBar_CommandGrid" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="BottomAppBar_CounterTextBlock" Grid.Column="5" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
-                <Button Grid.Column="4" ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind ViewModel.Message.Value, Mode=OneWay}" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
+                <TextBlock x:Name="BottomAppBar_CounterTextBlock" Grid.Column="4" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
+                <Button Grid.Column="3" ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind ViewModel.Message.Value, Mode=OneWay}" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
                     <Grid>
                         <SymbolIcon Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Symbol="{x:Bind ViewModel.StateSymbol.Value, Mode=OneWay}"/>
                         <ProgressRing Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsActive="True"/>
@@ -146,13 +145,13 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button x:Uid="TweetArea_LockingHashTagsButton" Grid.Column="3" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.ChangeLockHashTagsCommand, Mode=OneWay}">
+                <Button x:Uid="TweetArea_LockingHashTagsButton" Grid.Column="2" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.ChangeLockHashTagsCommand, Mode=OneWay}">
                     <SymbolIcon Symbol="{x:Bind ViewModel.LockingHashTagsSymbol.Value, Mode=OneWay}"/>
                 </Button>
-                <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBar_PictureButton" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Grid.Column="2" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand, Mode=OneWay}">
+                <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBar_PictureButton" Grid.Column="1" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand, Mode=OneWay}">
                     <SymbolIcon Symbol="Pictures"/>
                 </Button>
-                <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBar_SmallPictureButton" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Visibility="Collapsed" Grid.Column="2" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
+                <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBar_SmallPictureButton" Grid.Column="1" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Visibility="Collapsed" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
                     <SymbolIcon Symbol="Pictures"/>
                     <Button.Flyout>
                         <Flyout>
@@ -184,7 +183,7 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <ItemsControl x:Name="BottomAppBar_PictureItemsControl"  IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Grid.Column="1" ItemsSource="{x:Bind ViewModel.Pictures, Mode=OneWay}" VerticalAlignment="Center" Height="40">
+                <ItemsControl x:Name="BottomAppBar_PictureItemsControl" Grid.Column="0" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" ItemsSource="{x:Bind ViewModel.Pictures, Mode=OneWay}" VerticalAlignment="Center" Height="40">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" />
@@ -235,7 +234,7 @@
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CommandGrid" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,72.5,0"/>
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="50,0,72.5,0"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CounterTextBlock" Storyboard.TargetProperty="Margin">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
@@ -278,7 +277,7 @@
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CommandGrid" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,72.5,0"/>
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="50,0,72.5,0"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CounterTextBlock" Storyboard.TargetProperty="Margin">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
@@ -321,19 +320,19 @@
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CommandGrid" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,72.5,0"/>
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="50,0,72.5,0"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CounterTextBlock" Storyboard.TargetProperty="Margin">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_PictureButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_PictureItemsControl" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_SmallPictureButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>

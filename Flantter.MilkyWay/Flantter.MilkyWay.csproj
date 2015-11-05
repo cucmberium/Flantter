@@ -244,6 +244,7 @@
     <Compile Include="Views\Controls\PullToRefreshListView.cs" />
     <Compile Include="Views\Controls\TriangleButton.cs" />
     <Compile Include="Views\Controls\VerticalBar.cs" />
+    <Compile Include="Views\Converters\ColorCodeToBrushConverter.cs" />
     <Compile Include="Views\Converters\EnumToDoubleConverter.cs" />
     <Compile Include="Views\Converters\IntToStringConverter.cs" />
     <Compile Include="Views\Converters\DoublePlusConverter.cs" />

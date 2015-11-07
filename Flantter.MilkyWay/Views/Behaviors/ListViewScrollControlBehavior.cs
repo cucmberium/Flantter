@@ -102,21 +102,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         DependencyProperty.RegisterAttached("UnreadCountIncrementalTrigger", typeof(bool),
                         typeof(ListViewScrollControlBehavior), new PropertyMetadata(false, UnreadCountIncrementalTriggerChanged));
 
-        private INotifyCollectionChanged previousItemsSource = null;
-        private void ListView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs e)
+        private void ListView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            if (previousItemsSource != null)
-            {
-                previousItemsSource.CollectionChanged -= ListView_CollectionChanged;
-                previousItemsSource = null;
-            }
-
             var itemsSource = ((ListView)this.AssociatedObject).ItemsSource as INotifyCollectionChanged;
             if (itemsSource != null)
-            {
                 itemsSource.CollectionChanged += ListView_CollectionChanged;
-                previousItemsSource = itemsSource;
-            }
         }
 
         private void ListView_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -141,7 +131,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             var verticalOffset = previousVerticalOffset;
             var changedVerticalOffset = 1; // 論理スクロールで e.NewItems の数は常に1なので変化するVerticalOffsetは常に1
             var offset = verticalOffset + changedVerticalOffset;
-            previousVerticalOffset = offset;
+            previousVerticalOffset += changedVerticalOffset;
 
             if (this.ScrollViewerObject.ScrollableHeight - offset <= 0)
                 return;
@@ -207,7 +197,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (isAnimationCooldown) return;
 
             if (remainHeight < 0) remainHeight = 0;
-            currentOffset = previousVerticalOffset;
+            currentOffset = offset;
 
             if (isAnimationRunning)
             {
@@ -250,7 +240,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 new Task(() => { }).Wait(12);
             }
             isAnimationRunning = false;
-            remainHeight = 0.0;
             this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0.02, null, true)).AsTask().Wait();
         }
 

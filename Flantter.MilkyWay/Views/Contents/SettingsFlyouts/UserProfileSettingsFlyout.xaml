@@ -92,7 +92,7 @@
                         <TextBlock Grid.Column="0" Margin="5" FontFamily="Segoe UI Symbol" HorizontalAlignment="Left" FontSize="10.5" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
                             <Run Text="{x:Bind ViewModel.StatusesCount.Value, Mode=OneWay}"/><Run Text="   "/><Run x:Uid="SettingsFlyout_UserProfile_Tweets" Text="Tweets"/>
                         </TextBlock>
-                        <TextBlock Grid.Column="1" Margin="5" FontFamily="Segoe UI Symbol" FontSize="10.5" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
+                        <TextBlock Grid.Column="1" Margin="10,5" FontFamily="Segoe UI Symbol" FontSize="10.5" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">
                             <Run Text="&#xE1CF;   "/><Run Text="{x:Bind ViewModel.FavouritesCount.Value, Mode=OneWay}"/>
                         </TextBlock>
                         <TextBlock Grid.Column="2" Margin="5" FontFamily="Segoe UI Symbol" FontSize="10.5" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}">

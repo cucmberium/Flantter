@@ -28,8 +28,6 @@
     d:DesignWidth="320">
 
     <Grid x:Name="StatusDetailGrid" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
-
-        <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" VerticalAlignment="Top" />
-
+        
     </Grid>
 </controls:ExtendedSettingsFlyout>

@@ -26,13 +26,13 @@
             <behaviors:TitleBarSwitchAction TitleBarVisibility="{Binding TitleBarVisivility.Value}"/>
         </core:EventTriggerBehavior>-->
 
-        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.ShowImagePreviewMessenger, Mode=OneWay}">
+        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.ShowImagePreviewMessenger}">
             <behaviors:ShowImagePreviewAction/>
         </util:MessengerTriggerBehavior>
-        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.ShowVideoPreviewMessenger, Mode=OneWay}">
+        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.ShowVideoPreviewMessenger}">
             <behaviors:ShowVideoPreviewAction/>
         </util:MessengerTriggerBehavior>
-        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.ShowSettingsFlyoutMessenger, Mode=OneWay}">
+        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.ShowSettingsFlyoutMessenger}">
             <behaviors:ShowSettingsFlyoutAction/>
         </util:MessengerTriggerBehavior>
 
@@ -48,10 +48,10 @@
     <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}" AllowDrop="True">
         <i:Interaction.Behaviors>
             <core:EventTriggerBehavior EventName="DragOver">
-                <core:InvokeCommandAction Command="{x:Bind ViewModel.DragOverCommand, Mode=OneWay}"/>
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.DragOverCommand}"/>
             </core:EventTriggerBehavior>
             <core:EventTriggerBehavior EventName="Drop">
-                <core:InvokeCommandAction Command="{x:Bind ViewModel.DropCommand, Mode=OneWay}"/>
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.DropCommand}"/>
             </core:EventTriggerBehavior>
         </i:Interaction.Behaviors>
 
@@ -64,7 +64,7 @@
             
         </Grid>
 
-        <ItemsControl Grid.Row="1" ItemsSource="{x:Bind ViewModel.Accounts, Mode=OneWay}">
+        <ItemsControl Grid.Row="1" ItemsSource="{x:Bind ViewModel.Accounts}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid/>
@@ -72,7 +72,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:AccountViewModel">
-                    <contents:MainArea ViewModel="{x:Bind Mode=OneWay}" Visibility="{x:Bind IsEnabled.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <contents:MainArea ViewModel="{x:Bind}" Visibility="{x:Bind IsEnabled.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

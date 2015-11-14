@@ -29,7 +29,7 @@
 
     <Grid x:Name="ConversationGrid" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
 
-        <ListView x:Name="ConversationListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Conversation, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+        <ListView x:Name="ConversationListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Conversation}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel>
@@ -45,14 +45,13 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
                     <timeline:Status ViewModel="{x:Bind}" 
-                                MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
-                                IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
-                                QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
-                                MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}"
-                                RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
-                                RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
-                                FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
-                                RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
+                            MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
+                            IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
+                            QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
+                            MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
+                            RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
+                            FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
+                            RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListView>

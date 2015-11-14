@@ -27,7 +27,17 @@
     d:DesignHeight="720"
     d:DesignWidth="320">
 
-    <Grid x:Name="StatusDetailGrid" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
-        
-    </Grid>
+    <ScrollViewer x:Name="StatusDetailScrollViewer" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
+        <StackPanel>
+            <timeline:Status ViewModel="{x:Bind ViewModel.Status.Value, Mode=OneWay}" 
+                MentionStatusVisibility="{x:Bind ViewModel.Status.MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind ViewModel.Status.IsMentionStatusLoaded, Mode=OneWay}"
+                IsMentionStatusLoading="{x:Bind ViewModel.Status.IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
+                QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
+                MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}"
+                RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
+                RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
+                FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
+                RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
+        </StackPanel>
+    </ScrollViewer>
 </controls:ExtendedSettingsFlyout>

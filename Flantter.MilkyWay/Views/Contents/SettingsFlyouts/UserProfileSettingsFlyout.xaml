@@ -108,12 +108,12 @@
                             <SymbolIcon Symbol="Add" Foreground="White"/>
                             <Button.Flyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenInWeb" Text="ブラウザで開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UrlClickCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.UserProfileUrl.Value, Mode=OneWay}"/>
-                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserLists" Text="ユーザーのリストを開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserListsCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenInWeb" Text="ブラウザで開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UrlClickCommand}" CommandParameter="{x:Bind ViewModel.UserProfileUrl.Value, Mode=OneWay}"/>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserLists" Text="ユーザーのリストを開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserListsCommand}" CommandParameter="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
                                     <!--<MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserFavorite" Text="ユーザーのAclogを開く" FontFamily="Segoe UI Symbol" Command="{Binding OpenUserAclogClickCommand}"/>-->
                                     <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_Block" FontFamily="Segoe UI Symbol" Text="ブロック" Command="{x:Bind ViewModel.BlockUserCommand, Mode=OneWay}"/>
-                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_UserMute" FontFamily="Segoe UI Symbol" Text="ユーザーをミュート" Command="{x:Bind ViewModel.MuteUserCommand, Mode=OneWay}"/>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_Block" FontFamily="Segoe UI Symbol" Text="ブロック" Command="{x:Bind ViewModel.BlockUserCommand}"/>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_UserMute" FontFamily="Segoe UI Symbol" Text="ユーザーをミュート" Command="{x:Bind ViewModel.MuteUserCommand}"/>
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>
@@ -127,9 +127,9 @@
                     <PivotItem.Header>
                         <contents:TabHeader Width="80" Label="Tweets" Glyph="&#xE15F;" />
                     </PivotItem.Header>
-                    <ListView x:Name="UserProfileStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <ListView x:Name="UserProfileStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>
-                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand, Mode=OneWay}"/>
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand}"/>
                         </i:Interaction.Behaviors>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -146,14 +146,13 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
                                 <timeline:Status ViewModel="{x:Bind}" 
-                                MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
-                                IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
-                                QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
-                                MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}"
-                                RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
-                                RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
-                                FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
-                                RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
+                            MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
+                            IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
+                            QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
+                            MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
+                            RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
+                            FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
+                            RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ListView>
@@ -163,9 +162,9 @@
                     <PivotItem.Header>
                         <contents:TabHeader Width="80" Label="Following" Glyph="&#xE1E2;" />
                     </PivotItem.Header>
-                    <ListView x:Name="UserProfileFollowingListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Following, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <ListView x:Name="UserProfileFollowingListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Following}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>
-                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowingIncrementalLoadCommand, Mode=OneWay}" />
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowingIncrementalLoadCommand}" />
                         </i:Interaction.Behaviors>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -191,9 +190,9 @@
                     <PivotItem.Header>
                         <contents:TabHeader Width="80" Label="Followers" Glyph="&#xE125;" />
                     </PivotItem.Header>
-                    <ListView x:Name="UserProfileFollowersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Followers, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <ListView x:Name="UserProfileFollowersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Followers}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>
-                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowersIncrementalLoadCommand, Mode=OneWay}" />
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowersIncrementalLoadCommand}" />
                         </i:Interaction.Behaviors>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -219,9 +218,9 @@
                     <PivotItem.Header>
                         <contents:TabHeader Width="80" Label="Favorites" Glyph="&#xE113;" />
                     </PivotItem.Header>
-                    <ListView x:Name="UserProfileFavoritesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single"  ItemsSource="{x:Bind ViewModel.Favorites, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <ListView x:Name="UserProfileFavoritesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single"  ItemsSource="{x:Bind ViewModel.Favorites}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>
-                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FavoritesIncrementalLoadCommand, Mode=OneWay}" />
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FavoritesIncrementalLoadCommand}" />
                         </i:Interaction.Behaviors>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -238,14 +237,13 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
                                 <timeline:Status ViewModel="{x:Bind}" 
-                                MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
-                                IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
-                                QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
-                                MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}"
-                                RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
-                                RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
-                                FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
-                                RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
+                            MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
+                            IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
+                            QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
+                            MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
+                            RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
+                            FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
+                            RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ListView>

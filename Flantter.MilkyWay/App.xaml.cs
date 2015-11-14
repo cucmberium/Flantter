@@ -50,14 +50,16 @@ namespace Flantter.MilkyWay
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-#if _DEBUG
+#if DEBUG
             // デバッグ用コードをここに突っ込む
             var sw = System.Diagnostics.Stopwatch.StartNew();
-            Models.Filter.Compiler.Compile("(!(User.ScreenName In [\"cucmberium\", \"cucmberium_sub\"] || User.Id !In [10, 20, 30]) && RetweetCount >= FavoriteCount * 10 + 10 / (2 + 3))");
+            //Models.Filter.Compiler.Compile("(!(User.ScreenName In [\"cucmberium\", \"cucmberium_sub\"] || User.Id !In [10, 20, 30]) && RetweetCount >= FavoriteCount * 10 + 10 / (2 + 3))");
 
-            Models.Filter.Compiler.Compile("(Text RegexMatch \"(ふらん|フラン)ちゃんかわいい\" || Text Contains \"Flantter\")");
+            //Models.Filter.Compiler.Compile("(Text RegexMatch \"(ふらん|フラン)ちゃんかわいい\" || Text Contains \"Flantter\")");
 
-            Models.Filter.Compiler.Compile("(Text StartsWith \"島風\" || Text EndsWith \"天津風\")");
+            //Models.Filter.Compiler.Compile("(Text StartsWith \"島風\" || Text EndsWith \"天津風\")");
+
+            Models.Filter.Compiler.Compile("(Random(0, 10) == 0 && Text Contains \"チノちゃん\")");
 
             sw.Stop();
             System.Diagnostics.Debug.WriteLine(sw.Elapsed);

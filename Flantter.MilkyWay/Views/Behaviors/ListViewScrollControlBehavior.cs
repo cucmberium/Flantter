@@ -212,7 +212,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (isAnimationRunning)
             {
                 remainHeight = this.ScrollViewerObject.VerticalOffset;
-                tickCount += 15;
+                tickCount += 16;
 
                 if (tickCount > 75)
                     tickCount = 75;
@@ -247,7 +247,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }).AsTask().Wait();
                 }
 
-                new Task(() => { }).Wait(12);
+                new Task(() => { }).Wait(10);
             }
             isAnimationRunning = false;
             remainHeight = 0.0;

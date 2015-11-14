@@ -29,9 +29,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <contents:ColumnArea x:Name="MainArea_ColumnList" ViewModel="{x:Bind ViewModel, Mode=OneWay}" Grid.Row="0" SelectedIndex="{x:Bind ViewModel.ColumnSelectedIndex.Value, Mode=TwoWay}" />
+        <contents:ColumnArea x:Name="MainArea_ColumnList" ViewModel="{x:Bind ViewModel}" Grid.Row="0" SelectedIndex="{x:Bind ViewModel.ColumnSelectedIndex.Value, Mode=TwoWay}" />
 
-        <contents:BottomBarArea x:Name="MainArea_BottomBar" ViewModel="{x:Bind ViewModel, Mode=OneWay}" Grid.Row="1" SelectedIndex="{x:Bind ViewModel.ColumnSelectedIndex.Value, Mode=TwoWay}" Height="75"/>
+        <contents:BottomBarArea x:Name="MainArea_BottomBar" ViewModel="{x:Bind ViewModel}" Grid.Row="1" SelectedIndex="{x:Bind ViewModel.ColumnSelectedIndex.Value, Mode=TwoWay}" Height="75"/>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="SizeStateGroup">

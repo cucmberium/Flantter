@@ -29,7 +29,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <contents:TimelineArea Grid.Row="0" ViewModel="{x:Bind Mode=OneWay}"/>
+                    <contents:TimelineArea Grid.Row="0" ViewModel="{x:Bind}"/>
 
                     <Polygon Grid.Row="0" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Fill="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}" Points="10,10,20,0,30,10" Width="40" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                     
@@ -51,7 +51,7 @@
                         </Grid>
 
                         <Grid Grid.Column="3" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
-                            <Button Background="Transparent" BorderThickness="0" Width="40" Height="30" Padding="0" Command="{x:Bind ScrollToTopCommand, Mode=OneWay}">
+                            <Button Background="Transparent" BorderThickness="0" Width="40" Height="30" Padding="0" Command="{x:Bind ScrollToTopCommand}">
                                 <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="{x:Bind UnreadCount.Value, Mode=OneWay}" FontSize="14" FontWeight="Bold"/>
                             </Button>
                         </Grid>
@@ -59,14 +59,14 @@
                             <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Add"/>
                             <Button.Flyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol" Command="{x:Bind RefreshCommand, Mode=OneWay}"/>
+                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol" Command="{x:Bind RefreshCommand}"/>
                                     <MenuFlyoutSeparator/>
                                     <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol"/>
                                     <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>
-                        <Button Grid.Column="1" ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" Width="40" BorderThickness="0" Padding="0" Visibility="{x:Bind IsEnabledStreaming.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Command="{x:Bind StreamingCommand, Mode=OneWay}">
+                        <Button Grid.Column="1" ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" Width="40" BorderThickness="0" Padding="0" Visibility="{x:Bind IsEnabledStreaming.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Command="{x:Bind StreamingCommand}">
                             <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{x:Bind StreamingSymbol.Value, Mode=OneWay}"/>
                         </Button>
                     </Grid>

@@ -224,15 +224,15 @@
                         <SearchBox x:Name="SearchSettingsFlyoutStatusSearchBox" Grid.Column="0" RequestedTheme="Light" QueryText="{Binding StatusSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SearchHistoryEnabled="False">
                             <i:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="SuggestionsRequested">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedStatusSearchCommand, Mode=OneWay}" />
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedStatusSearchCommand}" />
                                 </core:EventTriggerBehavior>
                                 <core:EventTriggerBehavior EventName="QuerySubmitted">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateStatusSearchCommand, Mode=OneWay}" />
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateStatusSearchCommand}" />
                                 </core:EventTriggerBehavior>
                             </i:Interaction.Behaviors>
                         </SearchBox>
 
-                        <Button Grid.Column="1" FlowDirection="LeftToRight" Width="48" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AdvancedSearchCommand, Mode=OneWay}">
+                        <Button Grid.Column="1" FlowDirection="LeftToRight" Width="48" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AdvancedSearchCommand}">
                             <SymbolIcon Symbol="Add" Foreground="White"/>
                         </Button>
                     </Grid>
@@ -241,7 +241,7 @@
                         <Grid Background="Transparent" Height="36">
                             <i:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Tapped">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.AdvancedSearchContentCommand, Mode=OneWay}" />
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.AdvancedSearchContentCommand}" />
                                 </core:EventTriggerBehavior>
                             </i:Interaction.Behaviors>
 
@@ -307,7 +307,7 @@
                         <Grid Background="Transparent" Height="36">
                             <i:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Tapped">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.AdvancedSearchEngagementCommand, Mode=OneWay}" />
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.AdvancedSearchEngagementCommand}" />
                                 </core:EventTriggerBehavior>
                             </i:Interaction.Behaviors>
 
@@ -349,15 +349,15 @@
 
                         <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
 
-                            <Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_SaveThisSearchButton" Height="34" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="検索メモに保存" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.SaveSearchCommand, Mode=OneWay}"/>
-                            <Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_AddColumnButton" Height="34" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AddColumnCommand, Mode=OneWay}"/>
-                            <!--<Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_DeleteHistoryButton" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="履歴を削除" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.DeleteHistoryCommand, Mode=OneWay}"/>-->
+                            <Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_SaveThisSearchButton" Height="34" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="検索メモに保存" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.SaveSearchCommand}"/>
+                            <Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_AddColumnButton" Height="34" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AddColumnCommand}"/>
+                            <!--<Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_DeleteHistoryButton" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="履歴を削除" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.DeleteHistoryCommand}"/>-->
                         </StackPanel>
                     </StackPanel>
 
-                    <ListView Grid.Row="4" x:Name="SearchSettingsFlyoutStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses, Mode=OneWay}"  ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <ListView Grid.Row="4" x:Name="SearchSettingsFlyoutStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses}"  ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>
-                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand, Mode=OneWay}" />
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand}" />
                         </i:Interaction.Behaviors>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -374,14 +374,13 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
                                 <timeline:Status ViewModel="{x:Bind}" 
-                                MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
-                                IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
-                                QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
-                                MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}"
-                                RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
-                                RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
-                                FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
-                                RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
+                            MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
+                            IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
+                            QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
+                            MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
+                            RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
+                            FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
+                            RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ListView>
@@ -407,17 +406,17 @@
                     <SearchBox x:Name="SearchSettingsFlyoutUserSearchBox" Grid.Row="0" RequestedTheme="Light" QueryText="{Binding UserSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SearchHistoryEnabled="False">
                         <i:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="SuggestionsRequested">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedUserSearchCommand, Mode=OneWay}" />
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedUserSearchCommand}" />
                             </core:EventTriggerBehavior>
                             <core:EventTriggerBehavior EventName="QuerySubmitted">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateUserSearchCommand, Mode=OneWay}" />
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateUserSearchCommand}" />
                             </core:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </SearchBox>
 
-                    <ListView Grid.Row="1" x:Name="SearchSettingsFlyoutUsersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Users, Mode=OneWay}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <ListView Grid.Row="1" x:Name="SearchSettingsFlyoutUsersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Users}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>
-                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.UsersIncrementalLoadCommand, Mode=OneWay}" />
+                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.UsersIncrementalLoadCommand}" />
                         </i:Interaction.Behaviors>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -454,10 +453,10 @@
                         <Run Text="SavedSearches : @"/><Run Text="{x:Bind ViewModel.SavedSearchesScreenName.Value, Mode=OneWay}"/>
                         </TextBlock>
                         <controls:HorizontalBar/>
-                        <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.SavedSearches, Mode=OneWay}" SelectionMode="None">
+                        <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.SavedSearches}" SelectionMode="None">
                             <i:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="ItemClick">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.SavedSearchesSelectCommand, Mode=OneWay}" />
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.SavedSearchesSelectCommand}" />
                                 </core:EventTriggerBehavior>
                             </i:Interaction.Behaviors>
 
@@ -477,7 +476,7 @@
                                 <DataTemplate x:DataType="twitterObjectsViewModel:SearchQueryViewModel">
                                     <Grid>
                                         <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,10,0,10" FontFamily="Yu Gothic UI" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
-                                        <Button Background="Transparent" Height="30" Width="30" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" BorderThickness="0" Padding="0" Command="{x:Bind Notice.SearchSettingsFlyoutDeleteSearchQueryCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}">
+                                        <Button Background="Transparent" Height="30" Width="30" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" BorderThickness="0" Padding="0" Command="{x:Bind Notice.SearchSettingsFlyoutDeleteSearchQueryCommand}" CommandParameter="{x:Bind Mode=OneWay}">
                                             <SymbolIcon Symbol="Cancel"/>
                                         </Button>
                                     </Grid>
@@ -494,10 +493,10 @@
                         <Run Text="Trends : "/><Run Text="{x:Bind ViewModel.TrendPlace.Value, Mode=OneWay}"/>
                         </TextBlock>
                         <controls:HorizontalBar/>
-                        <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.Trends, Mode=OneWay}" SelectionMode="None">
+                        <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.Trends}" SelectionMode="None">
                             <i:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="ItemClick">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.TrendsSelectCommand, Mode=OneWay}" />
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.TrendsSelectCommand}" />
                                 </core:EventTriggerBehavior>
                             </i:Interaction.Behaviors>
                             <ItemsPanelTemplate>

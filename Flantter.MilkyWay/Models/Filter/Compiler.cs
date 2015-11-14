@@ -12,18 +12,31 @@ using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Models.Filter
 {
-    struct Token
+    public static class FilterFunction
+    {
+        private static readonly Random random = new Random();
+        private static readonly object syncLock = new object();
+        public static long Random(long min, long max)
+        {
+            lock (syncLock)
+                return random.Next((int)min, (int)max);
+        }
+    }
+
+    public struct Token
     {
         #region Priority List
-        public static readonly List<TokenId> Priority_1 = new List<TokenId> {
+        public static readonly List<TokenId> Priority1 = new List<TokenId> {
                                                                                 TokenId.Multiplication, // *
                                                                                 TokenId.Division, // /
+                                                                                TokenId.Modulo, // %
                                                                             };
-        public static readonly List<TokenId> Priority_2 = new List<TokenId> {
+        public static readonly List<TokenId> Priority2 = new List<TokenId> {
                                                                                 TokenId.Plus, // +
                                                                                 TokenId.Minus, // -
                                                                             };
-        public static readonly List<TokenId> Priority_3 = new List<TokenId> {
+        public static readonly List<TokenId> Priority3 = new List<TokenId> {
+                                                                                TokenId.Function, // 関数
                                                                                 TokenId.Equal, // ==
                                                                                 TokenId.NotEqual, // !=
                                                                                 TokenId.LessThanEqual, // <=
@@ -41,25 +54,45 @@ namespace Flantter.MilkyWay.Models.Filter
                                                                                 TokenId.NotRegexMatch, // !RegexMatch
                                                                                 TokenId.NotIn, // !In 
                                                                             };
-        public static readonly List<TokenId> Priority_4 = new List<TokenId> {
+        public static readonly List<TokenId> Priority4 = new List<TokenId> {
                                                                                 TokenId.And, // &&
                                                                                 TokenId.Or, // ||
                                                                                 TokenId.Exclamation, // !
                                                                             };
 
-        public static readonly List<TokenId> Priority_Other = new List<TokenId> {
+        public static readonly List<TokenId> PriorityOther = new List<TokenId> {
                                                                                 TokenId.String, // "こ↑こ↓のぶぶん"
                                                                                 TokenId.Numeric, // 数字(整数)
                                                                                 TokenId.Space, // 空白
                                                                                 TokenId.Boolean, // ブール代数
                                                                                 TokenId.Literal, // いろいろ
                                                                                 TokenId.Null, // Null
+                                                                                TokenId.Function, // 関数
                                                                                 TokenId.LiteralExpression, // いろいろ変換した後のリテラル
                                                                                 TokenId.NumericArrayExpression, // 数字配列のリテラル
                                                                                 TokenId.StringArrayExpression, // 文字列配列のリテラル
                                                                                 TokenId.ExpressionParam // Expressionのパラメータ
                                                                             };
         #endregion
+
+        public struct Function
+        {
+            public string Name;
+            public int ArgumentCount;
+            public Type Type;
+
+            public Function(string Name, Type Type, int ArgumentCount)
+                : this()
+            {
+                this.Name = Name;
+                this.Type = Type;
+                this.ArgumentCount = ArgumentCount;
+            }
+        }
+
+        public static readonly List<Function> FunctionList = new List<Function> {
+                                                                                new Function("Random", typeof(FilterFunction), 2)
+                                                                            };
 
         public enum TokenId
         {
@@ -74,6 +107,7 @@ namespace Flantter.MilkyWay.Models.Filter
             // 優先度 1
             Multiplication, // *
             Division, // /
+            Modulo, // %
 
             // 優先度 2
             Plus, // +
@@ -109,6 +143,7 @@ namespace Flantter.MilkyWay.Models.Filter
             Boolean, // ブール代数
             Literal, // いろいろ
             Null, // Null
+            Function, // 関数
 
             // ???
             LiteralExpression, // いろいろ変換した後のリテラル
@@ -338,7 +373,9 @@ namespace Flantter.MilkyWay.Models.Filter
                         case '/':
                             yield return new Token(Token.TokenId.Division, strPos++);
                             break;
-
+                        case '%':
+                            yield return new Token(Token.TokenId.Modulo, strPos++);
+                            break;
                         case '1':
                         case '2':
                         case '3':
@@ -361,15 +398,24 @@ namespace Flantter.MilkyWay.Models.Filter
                             break;
                         default:
                             begin = strPos;
-                            do
+
+                            if (TryGetFunction(filter, ref strPos, ref keywordToken, ref value))
                             {
-                                if (Tokens.Contains(filter[strPos].ToString()))
-                                {
-                                    yield return new Token(Token.TokenId.Literal, filter.Substring(begin, strPos - begin), begin);
-                                    break;
-                                }
+                                yield return new Token(keywordToken, value, begin);
                                 strPos++;
-                            } while (strPos < filter.Length);
+                            }
+                            else
+                            {
+                                do
+                                {
+                                    if (Tokens.Contains(filter[strPos].ToString()))
+                                    {
+                                        yield return new Token(Token.TokenId.Literal, filter.Substring(begin, strPos - begin), begin);
+                                        break;
+                                    }
+                                    strPos++;
+                                } while (strPos < filter.Length);
+                            }
                             break;
                     }
                 } while (strPos < filter.Length);
@@ -411,6 +457,25 @@ namespace Flantter.MilkyWay.Models.Filter
                     return filter.Substring(begin, cursor-- - begin);
                 }
                 return filter.Substring(begin, cursor-- - begin);
+            }
+
+            private static bool TryGetFunction(string filter, ref int cursor, ref Token.TokenId token, ref object value)
+            {
+                foreach (var function in Token.FunctionList)
+                {
+                    if (cursor + function.Name.Length < filter.Length && filter.Substring(cursor, function.Name.Length).Contains(function.Name))
+                    {
+                        if (cursor + function.Name.Length + 1 < filter.Length && !Tokens.Contains(filter.Substring(cursor + function.Name.Length, 1)))
+                            continue;
+
+                        token = Token.TokenId.Function;
+                        value = function;
+                        cursor += function.Name.Length - 1;
+                        return true;
+                    }
+                }
+
+                return false;
             }
 
             private static bool TryGetKeyword(string filter, ref int cursor, ref Token.TokenId token, ref object value)
@@ -536,6 +601,7 @@ namespace Flantter.MilkyWay.Models.Filter
                         case Token.TokenId.Minus:
                         case Token.TokenId.Multiplication:
                         case Token.TokenId.Division:
+                        case Token.TokenId.Modulo:
                         case Token.TokenId.Equal:
                         case Token.TokenId.NotEqual:
                         case Token.TokenId.LessThanEqual:
@@ -555,6 +621,7 @@ namespace Flantter.MilkyWay.Models.Filter
                         case Token.TokenId.And:
                         case Token.TokenId.Or:
                         case Token.TokenId.Exclamation:
+                        case Token.TokenId.Function:
                             tempQueue.Add(cursorToken);
                             TempQueueCheckPriority();
                             break;
@@ -570,6 +637,8 @@ namespace Flantter.MilkyWay.Models.Filter
                             else
                                 TempQueueAnnihilationBracket();
                             break;
+                        case Token.TokenId.Comma:
+                            break;
                     }
                 }
 
@@ -584,6 +653,17 @@ namespace Flantter.MilkyWay.Models.Filter
                     PolandQueue.Add(tempQueue[tempQueueCursor]);
                 }
                 tempQueue.Clear();
+            }
+
+            private void ForceOperation()
+            {
+                if (tempQueue.Count < 1)
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Comma position is wrong", null);
+
+                int cursor = tempQueue.Count - 1;
+
+                PolandQueue.Add(tempQueue[cursor]);
+                tempQueue.RemoveAt(cursor);
             }
 
             private void TempQueueCheckPriority()
@@ -609,13 +689,13 @@ namespace Flantter.MilkyWay.Models.Filter
             {
                 if (token == Token.TokenId.OpenBracket || token == Token.TokenId.CloseBracket)
                     return 0;
-                else if (Token.Priority_1.Contains(token))
+                else if (Token.Priority1.Contains(token))
                     return 1;
-                else if (Token.Priority_2.Contains(token))
+                else if (Token.Priority2.Contains(token))
                     return 2;
-                else if (Token.Priority_3.Contains(token))
+                else if (Token.Priority3.Contains(token))
                     return 3;
-                else if (Token.Priority_4.Contains(token))
+                else if (Token.Priority4.Contains(token))
                     return 4;
 
                 throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Internal error", null);
@@ -773,7 +853,7 @@ namespace Flantter.MilkyWay.Models.Filter
             private static readonly MethodInfo ContainsMethod = typeof(string).GetMethods("Contains").First();
             private static readonly MethodInfo StartsWithMethod = typeof(string).GetMethods("StartsWith").First();
             private static readonly MethodInfo EndsWithMethod = typeof(string).GetMethods("EndsWith").First();
-
+            
             public PolandTokenCompiler(IEnumerable<Token> tokens)
             {
                 polandQueue = new List<Token>();
@@ -803,6 +883,7 @@ namespace Flantter.MilkyWay.Models.Filter
                         case Token.TokenId.Minus:
                         case Token.TokenId.Multiplication:
                         case Token.TokenId.Division:
+                        case Token.TokenId.Modulo:
                         case Token.TokenId.Equal:
                         case Token.TokenId.NotEqual:
                         case Token.TokenId.LessThanEqual:
@@ -824,7 +905,10 @@ namespace Flantter.MilkyWay.Models.Filter
                             PolandTokenOperate(token.Type);
                             break;
                         case Token.TokenId.Exclamation:
-                            PolandTokenOperateExclamation(token.Type);
+                            PolandTokenOperateExclamation();
+                            break;
+                        case Token.TokenId.Function:
+                            PolandTokenOperateFunction(token);
                             break;
                         default:
                             throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Internal error", null);
@@ -850,13 +934,54 @@ namespace Flantter.MilkyWay.Models.Filter
                 }
             }
 
-            public void PolandTokenOperateExclamation(Token.TokenId tokenId)
+            private void PolandTokenOperateFunction(Token token)
+            {
+                var function = Token.FunctionList.Where(x => x.Name == ((Token.Function)token.Value).Name).First();
+
+                if (tempQueue.Count < function.ArgumentCount)
+                    throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Argument count is wrong", null);
+
+                var param = new Expression[function.ArgumentCount];
+                for (int i = 0; i < function.ArgumentCount; i++)
+                {
+                    switch (tempQueue[i].Type)
+                    {
+                        case Token.TokenId.Boolean:
+                            param[i] = Expression.Constant((bool)tempQueue[i].Value);
+                            break;
+                        case Token.TokenId.Numeric:
+                            param[i] = Expression.Constant((long)tempQueue[i].Value);
+                            break;
+                        case Token.TokenId.String:
+                            param[i] = Expression.Constant((string)tempQueue[i].Value);
+                            break;
+                        case Token.TokenId.LiteralExpression:
+                        case Token.TokenId.ExpressionParam:
+                        case Token.TokenId.NumericArrayExpression:
+                        case Token.TokenId.StringArrayExpression:
+                            param[i] = tempQueue[i].Value as Expression;
+                            break;
+                        case Token.TokenId.Null:
+                            param[i] = Expression.Constant(null, typeof(object));
+                            break;
+                        default:
+                            throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
+                    }
+                }
+                
+                var expressionResult = Expression.Call(function.Type, function.Name, null, param);
+
+                tempQueue.RemoveRange(tempQueue.Count - function.ArgumentCount, function.ArgumentCount);
+                tempQueue.Add(new Token { Pos = -1, Type = Token.TokenId.ExpressionParam, Value = expressionResult });
+            }
+
+            public void PolandTokenOperateExclamation()
             {
                 if (tempQueue.Count < 1)
                     throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
 
                 var frontToken = tempQueue[tempQueue.Count - 1];
-                if (!Token.Priority_Other.Contains(frontToken.Type))
+                if (!Token.PriorityOther.Contains(frontToken.Type))
                     throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
 
                 Expression expressionResult = null;
@@ -877,14 +1002,7 @@ namespace Flantter.MilkyWay.Models.Filter
                         throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
                 }
 
-                switch (tokenId)
-                {
-                    case Token.TokenId.Exclamation:
-                        expressionResult = Expression.Equal(frontExpression, Expression.Constant(false, typeof(bool)));
-                        break;
-                    default:
-                        throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
-                }
+                expressionResult = Expression.Equal(frontExpression, Expression.Constant(false, typeof(bool)));
 
                 tempQueue.Remove(frontToken);
                 tempQueue.Add(new Token { Pos = -1, Type = Token.TokenId.ExpressionParam, Value = expressionResult });
@@ -897,9 +1015,9 @@ namespace Flantter.MilkyWay.Models.Filter
 
                 var backToken = tempQueue[tempQueue.Count - 2];
                 var frontToken = tempQueue[tempQueue.Count - 1];
-                if (!Token.Priority_Other.Contains(backToken.Type))
+                if (!Token.PriorityOther.Contains(backToken.Type))
                     throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
-                if (!Token.Priority_Other.Contains(frontToken.Type))
+                if (!Token.PriorityOther.Contains(frontToken.Type))
                     throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation", null);
 
                 Expression expressionResult = null;
@@ -967,6 +1085,9 @@ namespace Flantter.MilkyWay.Models.Filter
                         break;
                     case Token.TokenId.Division:
                         expressionResult = Expression.Divide(backExpression, frontExpression);
+                        break;
+                    case Token.TokenId.Modulo:
+                        expressionResult = Expression.Modulo(backExpression, frontExpression);
                         break;
                     case Token.TokenId.Equal:
                         expressionResult = Expression.Equal(backExpression, frontExpression);

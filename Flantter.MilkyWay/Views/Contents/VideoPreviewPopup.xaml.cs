@@ -193,7 +193,7 @@ namespace Flantter.MilkyWay.Views.Contents
             else if (this.VideoType == "Youtube")
             {
                 var html = "<html><head><style type=\"text/css\"> \n body {{ margin: 0; }} .video-container {{ position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0; overflow: hidden; }} .video-container iframe {{ position: absolute; top: 0; left: 0; width: 100%; height: 100%; }} \n </style></head>";
-                html += "<body><div class=\"video-container\"><iframe width=\"960\" height=\"540\" src=\"http://www.youtube.com/embed/{0}?html5=1\" frameborder=\"0\" allowfullscreen></iframe></div></body></html>";
+                html += "<body><div class=\"video-container\"><iframe width=\"960\" height=\"540\" src=\"https://www.youtube.com/embed/{0}?html5=1\" frameborder=\"0\"></iframe></div></body></html>";
                 this.VideoPreviewWebView.NavigateToString(string.Format(html, this.Id));
             }
             else

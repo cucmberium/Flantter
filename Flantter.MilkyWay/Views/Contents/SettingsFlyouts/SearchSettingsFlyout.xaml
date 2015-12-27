@@ -27,338 +27,438 @@
     d:DesignHeight="720"
     d:DesignWidth="320">
 
-    <Grid x:Name="SearchSettingsFlyoutGrid">
-        <Pivot x:Name="SearchSettingsFlyoutPivot" Style="{StaticResource PivotStyleDynamicHeader}" Background="{StaticResource SettingsFlyoutBackgroundBrush}" SelectedIndex="{x:Bind ViewModel.PivotSelectedIndex.Value, Mode=TwoWay}">
+    <Pivot x:Name="SearchSettingsFlyoutPivot" Style="{StaticResource PivotStyleDynamicHeader}" Background="{StaticResource SettingsFlyoutBackgroundBrush}" SelectedIndex="{x:Bind ViewModel.PivotSelectedIndex.Value, Mode=TwoWay}">
 
-            <PivotItem Margin="0">
-                <PivotItem.Header>
-                    <contents:TabHeader Label="Tweets" Glyph="&#xE15F;" />
-                </PivotItem.Header>
+        <PivotItem Margin="0">
+            <PivotItem.Header>
+                <contents:TabHeader Label="Tweets" Glyph="&#xE15F;" />
+            </PivotItem.Header>
 
-                <Grid>
+            <Grid>
 
-                    <i:Interaction.Behaviors>
+                <i:Interaction.Behaviors>
 
-                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchContentOpen.Value, Mode=OneWay}" Value="True">
-                            <util:StoryboardBeginAction Key="AdvancedSearchContentOpenAnimation"/>
-                        </core:DataTriggerBehavior>
-                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchContentOpen.Value, Mode=OneWay}" Value="False">
-                            <util:StoryboardBeginAction Key="AdvancedSearchContentCloseAnimation"/>
-                        </core:DataTriggerBehavior>
+                    <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchContentOpen.Value, Mode=OneWay}" Value="True">
+                        <util:StoryboardBeginAction Key="AdvancedSearchContentOpenAnimation"/>
+                    </core:DataTriggerBehavior>
+                    <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchContentOpen.Value, Mode=OneWay}" Value="False">
+                        <util:StoryboardBeginAction Key="AdvancedSearchContentCloseAnimation"/>
+                    </core:DataTriggerBehavior>
 
-                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchEngagementOpen.Value, Mode=OneWay}" Value="True">
-                            <util:StoryboardBeginAction Key="AdvancedSearchEngagementOpenAnimation"/>
-                        </core:DataTriggerBehavior>
-                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchEngagementOpen.Value, Mode=OneWay}" Value="False">
-                            <util:StoryboardBeginAction Key="AdvancedSearchEngagementCloseAnimation"/>
-                        </core:DataTriggerBehavior>
-                        
-                        
-                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchOpen.Value, Mode=OneWay}" Value="True">
-                            <util:StoryboardBeginAction Key="AdvancedSearchOpenAnimation"/>
-                        </core:DataTriggerBehavior>
-                        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchOpen.Value, Mode=OneWay}" Value="False">
-                            <util:StoryboardBeginAction Key="AdvancedSearchCloseAnimation"/>
-                        </core:DataTriggerBehavior>
-                        
-                    </i:Interaction.Behaviors>
-                    
-                    <Grid.Resources>
-                        <Storyboard x:Name="AdvancedSearchOpenAnimation">
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
+                    <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchEngagementOpen.Value, Mode=OneWay}" Value="True">
+                        <util:StoryboardBeginAction Key="AdvancedSearchEngagementOpenAnimation"/>
+                    </core:DataTriggerBehavior>
+                    <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchEngagementOpen.Value, Mode=OneWay}" Value="False">
+                        <util:StoryboardBeginAction Key="AdvancedSearchEngagementCloseAnimation"/>
+                    </core:DataTriggerBehavior>
 
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
 
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="36">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
+                    <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchOpen.Value, Mode=OneWay}" Value="True">
+                        <util:StoryboardBeginAction Key="AdvancedSearchOpenAnimation"/>
+                    </core:DataTriggerBehavior>
+                    <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchOpen.Value, Mode=OneWay}" Value="False">
+                        <util:StoryboardBeginAction Key="AdvancedSearchCloseAnimation"/>
+                    </core:DataTriggerBehavior>
 
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                        <Storyboard x:Name="AdvancedSearchCloseAnimation">
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
+                </i:Interaction.Behaviors>
 
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
+                <Grid.Resources>
+                    <Storyboard x:Name="AdvancedSearchOpenAnimation">
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
 
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
 
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="36">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
 
-                        <Storyboard x:Name="AdvancedSearchContentOpenAnimation">
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="162">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="AdvancedSearchCloseAnimation">
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
 
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentFontIcon">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
-                        </Storyboard>
-                        <Storyboard x:Name="AdvancedSearchContentCloseAnimation">
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
 
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentFontIcon">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
-                        </Storyboard> 
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
 
-                        <Storyboard x:Name="AdvancedSearchEngagementOpenAnimation">
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="122">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
 
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
-                        </Storyboard>
-                        <Storyboard x:Name="AdvancedSearchEngagementCloseAnimation">
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
+                    <Storyboard x:Name="AdvancedSearchContentOpenAnimation">
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="162">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
 
-                            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon">
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                                    <EasingDoubleKeyFrame.EasingFunction>
-                                        <SineEase EasingMode="EaseInOut"/>
-                                    </EasingDoubleKeyFrame.EasingFunction>
-                                </EasingDoubleKeyFrame>
-                            </DoubleAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </Grid.Resources>
-                    
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentFontIcon">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="AdvancedSearchContentCloseAnimation">
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
 
-                    <Grid Grid.Row="0">
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentFontIcon">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                    <Storyboard x:Name="AdvancedSearchEngagementOpenAnimation">
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="122">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
 
-                        <SearchBox x:Name="SearchSettingsFlyoutStatusSearchBox" Grid.Column="0" RequestedTheme="Light" QueryText="{Binding StatusSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SearchHistoryEnabled="False">
-                            <i:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="SuggestionsRequested">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedStatusSearchCommand}" />
-                                </core:EventTriggerBehavior>
-                                <core:EventTriggerBehavior EventName="QuerySubmitted">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateStatusSearchCommand}" />
-                                </core:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>
-                        </SearchBox>
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="AdvancedSearchEngagementCloseAnimation">
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
 
-                        <Button Grid.Column="1" FlowDirection="LeftToRight" Width="48" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AdvancedSearchCommand}">
-                            <SymbolIcon Symbol="Add" Foreground="White"/>
-                        </Button>
+                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <SineEase EasingMode="EaseInOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </Grid.Resources>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <SearchBox x:Name="SearchSettingsFlyoutStatusSearchBox" Grid.Column="0" RequestedTheme="Light" QueryText="{Binding StatusSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SearchHistoryEnabled="False">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="SuggestionsRequested">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedStatusSearchCommand}" />
+                            </core:EventTriggerBehavior>
+                            <core:EventTriggerBehavior EventName="QuerySubmitted">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateStatusSearchCommand}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </SearchBox>
+
+                    <Button Grid.Column="1" FlowDirection="LeftToRight" Width="48" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AdvancedSearchCommand}">
+                        <SymbolIcon Symbol="Add" Foreground="White"/>
+                    </Button>
+                </Grid>
+
+                <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Grid.Row="1" Height="0" Visibility="Collapsed">
+                    <Grid Background="Transparent" Height="36">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Tapped">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.AdvancedSearchContentCommand}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+
+                        <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_ContentTextblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Margin="20,0" FontFamily="Segoe UI Symbol" Text="&#xE115;    Content" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                        <FontIcon x:Name="SearchSettingsFlyoutAdvancedSearchContentFontIcon" Margin="20,0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Glyph="&#xE0E5;" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                            <FontIcon.RenderTransform>
+                                <CompositeTransform/>
+                            </FontIcon.RenderTransform>
+                        </FontIcon>
+
                     </Grid>
 
-                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Grid.Row="1" Height="0" Visibility="Collapsed">
-                        <Grid Background="Transparent" Height="36">
-                            <i:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Tapped">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.AdvancedSearchContentCommand}" />
-                                </core:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_ContentTextblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Margin="20,0" FontFamily="Segoe UI Symbol" Text="&#xE115;    Content" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_ShowingTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="Showing : " VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <ComboBox Grid.Column="1" Margin="10,0" HorizontalAlignment="Stretch" SelectedIndex="{x:Bind ViewModel.AdvancedSearchContentShowingOption.Value, Mode=TwoWay}">
+                            <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_AllTweetsComboBoxItem" Content="all Tweets"/>
+                            <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithImagesComboBoxItem" Content="Tweets with images"/>
+                            <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithVideosComboBoxItem" Content="Tweets with videos"/>
+                            <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithVinesComboBoxItem" Content="Tweets with Vines"/>
+                            <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithAnyMediasComboBoxItem" Content="Tweets with any media"/>
+                            <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithLinksComboBoxItem" Content="Tweets with links"/>
+                        </ComboBox>
+                    </Grid>
 
-                            <FontIcon x:Name="SearchSettingsFlyoutAdvancedSearchContentFontIcon" Margin="20,0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Glyph="&#xE0E5;" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                <FontIcon.RenderTransform>
-                                    <CompositeTransform/>
-                                </FontIcon.RenderTransform>
-                            </FontIcon>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                        </Grid>
+                        <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_WrittenInTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="Written in : " VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <ComboBox Grid.Column="1" Margin="10,0" HorizontalAlignment="Stretch" SelectedIndex="{x:Bind ViewModel.AdvancedSearchContentWrittenInOption.Value, Mode=TwoWay}">
+                            <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_WrittenIn_AllLanguageComboBoxItem" Content="any Language"/>
+                            <ComboBoxItem Content="English (English)"/>
+                            <ComboBoxItem Content="Japanese (日本語)"/>
+                        </ComboBox>
+                    </Grid>
 
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_ShowingTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="Showing : " VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            <ComboBox Grid.Column="1" Margin="10,0" HorizontalAlignment="Stretch" SelectedIndex="{x:Bind ViewModel.AdvancedSearchContentShowingOption.Value, Mode=TwoWay}">
-                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_AllTweetsComboBoxItem" Content="all Tweets"/>
-                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithImagesComboBoxItem" Content="Tweets with images"/>
-                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithVideosComboBoxItem" Content="Tweets with videos"/>
-                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithVinesComboBoxItem" Content="Tweets with Vines"/>
-                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithAnyMediasComboBoxItem" Content="Tweets with any media"/>
-                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Showing_TweetsWithLinksComboBoxItem" Content="Tweets with links"/>
-                            </ComboBox>
-                        </Grid>
+                        <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_RetweetsTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="Retweets : " VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <ComboBox Grid.Column="1" Margin="10,0" HorizontalAlignment="Stretch"  SelectedIndex="{x:Bind ViewModel.AdvancedSearchContentRetweetsOption.Value, Mode=TwoWay}">
+                            <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Retweets_IncludedComboBoxItem" Content="included"/>
+                            <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Retweets_ExcludedComboBoxItem" Content="excluded"/>
+                        </ComboBox>
+                    </Grid>
+                </StackPanel>
 
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Grid.Row="2" Height="0" Visibility="Collapsed">
 
-                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_WrittenInTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="Written in : " VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            <ComboBox Grid.Column="1" Margin="10,0" HorizontalAlignment="Stretch" SelectedIndex="{x:Bind ViewModel.AdvancedSearchContentWrittenInOption.Value, Mode=TwoWay}">
-                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_WrittenIn_AllLanguageComboBoxItem" Content="any Language"/>
-                                <ComboBoxItem Content="English (English)"/>
-                                <ComboBoxItem Content="Japanese (日本語)"/>
-                            </ComboBox>
-                        </Grid>
+                    <controls:HorizontalBar/>
 
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_RetweetsTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="Retweets : " VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            <ComboBox Grid.Column="1" Margin="10,0" HorizontalAlignment="Stretch"  SelectedIndex="{x:Bind ViewModel.AdvancedSearchContentRetweetsOption.Value, Mode=TwoWay}">
-                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Retweets_IncludedComboBoxItem" Content="included"/>
-                                <ComboBoxItem x:Uid="SettingsFlyout_Search_AdvancedSearch_Content_Retweets_ExcludedComboBoxItem" Content="excluded"/>
-                            </ComboBox>
-                        </Grid>
-                    </StackPanel>
-
-                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Grid.Row="2" Height="0" Visibility="Collapsed">
-
-                        <controls:HorizontalBar/>
-
-                        <Grid Background="Transparent" Height="36">
-                            <i:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Tapped">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.AdvancedSearchEngagementCommand}" />
-                                </core:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>
-
-                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_EngagementTextblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Margin="20,0" FontFamily="Segoe UI Symbol" Text="&#xE113;    Engagement" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                            <FontIcon x:Name="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon" Margin="20,0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Glyph="&#xE0E5;" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                <FontIcon.RenderTransform>
-                                    <CompositeTransform/>
-                                </FontIcon.RenderTransform>
-                            </FontIcon>
-                        </Grid>
-
-                        <Grid Margin="5" HorizontalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="100"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_FirstTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="At least " VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            <controls:NumericTextBox Grid.Column="1" Style="{StaticResource ExtendedTextBoxStyle}" Margin="15,0" Width="50" InputScope="Number" Text="{x:Bind ViewModel.AdvancedSearchEngagementRetweetsCount.Value, Mode=TwoWay, Converter={StaticResource IntToStringConverter}}"/>
-                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_SecondTextblock" Grid.Column="2" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text=" retweets" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                        </Grid>
-
-                        <Grid Margin="5" HorizontalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="100"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_FirstTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="At least " VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                            <controls:NumericTextBox Grid.Column="1" Style="{StaticResource ExtendedTextBoxStyle}" Margin="15,0" Width="50" InputScope="Number" Text="{x:Bind ViewModel.AdvancedSearchEngagementFavoritesCount.Value, Mode=TwoWay, Converter={StaticResource IntToStringConverter}}"/>
-                            <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_SecondTextblock" Grid.Column="2" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text=" favorites" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                        </Grid>
-                    </StackPanel>
-
-                    <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Grid.Row="3" Height="0" Visibility="Collapsed">
-                        <controls:HorizontalBar/>
-
-                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-
-                            <Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_SaveThisSearchButton" Height="34" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="検索メモに保存" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.SaveSearchCommand}"/>
-                            <Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_AddColumnButton" Height="34" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AddColumnCommand}"/>
-                            <!--<Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_DeleteHistoryButton" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="履歴を削除" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.DeleteHistoryCommand}"/>-->
-                        </StackPanel>
-                    </StackPanel>
-
-                    <ListView Grid.Row="4" x:Name="SearchSettingsFlyoutStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses}"  ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <Grid Background="Transparent" Height="36">
                         <i:Interaction.Behaviors>
-                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand}" />
+                            <core:EventTriggerBehavior EventName="Tapped">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.AdvancedSearchEngagementCommand}" />
+                            </core:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
+
+                        <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_EngagementTextblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Margin="20,0" FontFamily="Segoe UI Symbol" Text="&#xE113;    Engagement" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <FontIcon x:Name="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon" Margin="20,0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Glyph="&#xE0E5;" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                            <FontIcon.RenderTransform>
+                                <CompositeTransform/>
+                            </FontIcon.RenderTransform>
+                        </FontIcon>
+                    </Grid>
+
+                    <Grid Margin="5" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_FirstTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="At least " VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <controls:NumericTextBox Grid.Column="1" Style="{StaticResource ExtendedTextBoxStyle}" Margin="15,0" Width="50" InputScope="Number" Text="{x:Bind ViewModel.AdvancedSearchEngagementRetweetsCount.Value, Mode=TwoWay, Converter={StaticResource IntToStringConverter}}"/>
+                        <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_SecondTextblock" Grid.Column="2" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text=" retweets" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    </Grid>
+
+                    <Grid Margin="5" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_FirstTextblock" Grid.Column="0" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="At least " VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <controls:NumericTextBox Grid.Column="1" Style="{StaticResource ExtendedTextBoxStyle}" Margin="15,0" Width="50" InputScope="Number" Text="{x:Bind ViewModel.AdvancedSearchEngagementFavoritesCount.Value, Mode=TwoWay, Converter={StaticResource IntToStringConverter}}"/>
+                        <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_SecondTextblock" Grid.Column="2" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text=" favorites" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel x:Name="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Grid.Row="3" Height="0" Visibility="Collapsed">
+                    <controls:HorizontalBar/>
+
+                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+
+                        <Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_SaveThisSearchButton" Height="34" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="検索メモに保存" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.SaveSearchCommand}"/>
+                        <Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_AddColumnButton" Height="34" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AddColumnCommand}"/>
+                        <!--<Button x:Uid="SettingsFlyout_Search_AdvancedSearch_Menu_DeleteHistoryButton" Padding="4,2" FlowDirection="LeftToRight" Width="106.666" Content="履歴を削除" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.DeleteHistoryCommand}"/>-->
+                    </StackPanel>
+                </StackPanel>
+
+                <ListView Grid.Row="4" x:Name="SearchSettingsFlyoutStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses}"  ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <i:Interaction.Behaviors>
+                        <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand}" />
+                    </i:Interaction.Behaviors>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel>
+                                <i:Interaction.Behaviors>
+                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                </i:Interaction.Behaviors>
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection/>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
+                            <timeline:Status ViewModel="{x:Bind}" 
+                            MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
+                            IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
+                            QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
+                            MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
+                            RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
+                            FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
+                            RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListView>
+
+                <ProgressBar Grid.Row="4" Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingStatusSearch.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingStatusSearch.Value, Mode=OneWay}" VerticalAlignment="Top" />
+
+            </Grid>
+
+        </PivotItem>
+
+        <PivotItem Margin="0">
+            <PivotItem.Header>
+                <contents:TabHeader Label="Users" Glyph="&#xE125;" />
+            </PivotItem.Header>
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <SearchBox x:Name="SearchSettingsFlyoutUserSearchBox" Grid.Row="0" RequestedTheme="Light" QueryText="{Binding UserSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SearchHistoryEnabled="False">
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="SuggestionsRequested">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedUserSearchCommand}" />
+                        </core:EventTriggerBehavior>
+                        <core:EventTriggerBehavior EventName="QuerySubmitted">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateUserSearchCommand}" />
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </SearchBox>
+
+                <ListView Grid.Row="1" x:Name="SearchSettingsFlyoutUsersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Users}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <i:Interaction.Behaviors>
+                        <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.UsersIncrementalLoadCommand}" />
+                    </i:Interaction.Behaviors>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel>
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection/>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:UserViewModel">
+                            <timeline:User ViewModel="{x:Bind}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListView>
+
+                <ProgressBar Grid.Row="1" Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingUserSearch.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingUserSearch.Value, Mode=OneWay}" VerticalAlignment="Top" />
+
+            </Grid>
+
+        </PivotItem>
+
+        <PivotItem Margin="0">
+            <PivotItem.Header>
+                <contents:TabHeader Label="Trends" Glyph="&#xE1C3;" />
+            </PivotItem.Header>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel>
+                    <controls:HorizontalBar/>
+
+                    <TextBlock Grid.Row="0" Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
+                        <Run Text="SavedSearches : @"/><Run Text="{x:Bind ViewModel.SavedSearchesScreenName.Value, Mode=OneWay}"/>
+                    </TextBlock>
+                    <controls:HorizontalBar/>
+                    <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.SavedSearches}" SelectionMode="None">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="ItemClick">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.SavedSearchesSelectCommand}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel>
@@ -372,153 +472,51 @@
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
-                                <timeline:Status ViewModel="{x:Bind}" 
-                            MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
-                            IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
-                            QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
-                            MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
-                            RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
-                            FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
-                            RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
+                            <DataTemplate x:DataType="twitterObjectsViewModel:SearchQueryViewModel">
+                                <Grid>
+                                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,10,0,10" FontFamily="Yu Gothic UI" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
+                                    <Button Background="Transparent" Height="30" Width="30" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" BorderThickness="0" Padding="0" Command="{x:Bind Notice.SearchSettingsFlyoutDeleteSearchQueryCommand}" CommandParameter="{x:Bind Mode=OneWay}">
+                                        <SymbolIcon Symbol="Cancel"/>
+                                    </Button>
+                                </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
+                        </ItemsControl.ItemContainerStyle>
                     </ListView>
 
-                    <ProgressBar Grid.Row="4" Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingStatusSearch.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingStatusSearch.Value, Mode=OneWay}" VerticalAlignment="Top" />
+                    <controls:HorizontalBar/>
 
-                </Grid>
-
-            </PivotItem>
-            
-            <PivotItem Margin="0">
-                <PivotItem.Header>
-                    <contents:TabHeader Label="Users" Glyph="&#xE125;" />
-                </PivotItem.Header>
-
-                <Grid>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <SearchBox x:Name="SearchSettingsFlyoutUserSearchBox" Grid.Row="0" RequestedTheme="Light" QueryText="{Binding UserSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SearchHistoryEnabled="False">
-                        <i:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="SuggestionsRequested">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedUserSearchCommand}" />
-                            </core:EventTriggerBehavior>
-                            <core:EventTriggerBehavior EventName="QuerySubmitted">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateUserSearchCommand}" />
-                            </core:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                    </SearchBox>
-
-                    <ListView Grid.Row="1" x:Name="SearchSettingsFlyoutUsersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Users}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
-                        <i:Interaction.Behaviors>
-                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.UsersIncrementalLoadCommand}" />
-                        </i:Interaction.Behaviors>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel>
-                                    <VirtualizingStackPanel.ChildrenTransitions>
-                                        <TransitionCollection/>
-                                    </VirtualizingStackPanel.ChildrenTransitions>
-                                </VirtualizingStackPanel>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="twitterObjectsViewModel:UserViewModel">
-                                <timeline:User ViewModel="{x:Bind}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ListView>
-
-                    <ProgressBar Grid.Row="1" Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingUserSearch.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingUserSearch.Value, Mode=OneWay}" VerticalAlignment="Top" />
-
-                </Grid>
-
-            </PivotItem>
-            
-            <PivotItem Margin="0">
-                <PivotItem.Header>
-                    <contents:TabHeader Label="Trends" Glyph="&#xE1C3;" />
-                </PivotItem.Header>
-
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <StackPanel>
-                        <controls:HorizontalBar/>
-
-                        <TextBlock Grid.Row="0" Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
-                        <Run Text="SavedSearches : @"/><Run Text="{x:Bind ViewModel.SavedSearchesScreenName.Value, Mode=OneWay}"/>
-                        </TextBlock>
-                        <controls:HorizontalBar/>
-                        <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.SavedSearches}" SelectionMode="None">
-                            <i:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="ItemClick">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.SavedSearchesSelectCommand}" />
-                                </core:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>
-
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel>
-                                        <i:Interaction.Behaviors>
-                                            <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                        </i:Interaction.Behaviors>
-                                        <VirtualizingStackPanel.ChildrenTransitions>
-                                            <TransitionCollection/>
-                                        </VirtualizingStackPanel.ChildrenTransitions>
-                                    </VirtualizingStackPanel>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="twitterObjectsViewModel:SearchQueryViewModel">
-                                    <Grid>
-                                        <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,10,0,10" FontFamily="Yu Gothic UI" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
-                                        <Button Background="Transparent" Height="30" Width="30" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" BorderThickness="0" Padding="0" Command="{x:Bind Notice.SearchSettingsFlyoutDeleteSearchQueryCommand}" CommandParameter="{x:Bind Mode=OneWay}">
-                                            <SymbolIcon Symbol="Cancel"/>
-                                        </Button>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-                            </ItemsControl.ItemContainerStyle>
-                        </ListView>
-
-                        <controls:HorizontalBar/>
-
-                        <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
+                    <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="20,0,0,0" FontSize="18">
                         <Run Text="Trends : "/><Run Text="{x:Bind ViewModel.TrendPlace.Value, Mode=OneWay}"/>
-                        </TextBlock>
-                        <controls:HorizontalBar/>
-                        <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.Trends}" SelectionMode="None">
-                            <i:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="ItemClick">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.TrendsSelectCommand}" />
-                                </core:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel>
-                                    <VirtualizingStackPanel.ChildrenTransitions>
-                                        <TransitionCollection/>
-                                    </VirtualizingStackPanel.ChildrenTransitions>
-                                </VirtualizingStackPanel>
-                            </ItemsPanelTemplate>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="twitterObjectsViewModel:TrendViewModel">
-                                    <TextBlock FontFamily="Yu Gothic UI" Margin="20,10,0,10" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
-                            </ItemsControl.ItemContainerStyle>
-                        </ListView>
-                        <controls:HorizontalBar/>
-                    </StackPanel>
-                </ScrollViewer>
-            </PivotItem>
-        </Pivot>
-    </Grid>
+                    </TextBlock>
+                    <controls:HorizontalBar/>
+                    <ListView IsItemClickEnabled="True" Background="Transparent" ItemsSource="{x:Bind ViewModel.Trends}" SelectionMode="None">
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="ItemClick">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.TrendsSelectCommand}" />
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel>
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection/>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="twitterObjectsViewModel:TrendViewModel">
+                                <TextBlock FontFamily="Yu Gothic UI" Margin="20,10,0,10" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="16" Text="{x:Bind Name, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ListViewItem" BasedOn="{StaticResource TimelineAreaListViewItem}"/>
+                        </ItemsControl.ItemContainerStyle>
+                    </ListView>
+                    <controls:HorizontalBar/>
+                </StackPanel>
+            </ScrollViewer>
+        </PivotItem>
+    </Pivot>
 </controls:ExtendedSettingsFlyout>

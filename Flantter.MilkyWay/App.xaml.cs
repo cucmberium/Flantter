@@ -50,7 +50,7 @@ namespace Flantter.MilkyWay
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-#if DEBUG
+#if _DEBUG
             // デバッグ用コードをここに突っ込む
             var sw = System.Diagnostics.Stopwatch.StartNew();
             //Models.Filter.Compiler.Compile("(!(User.ScreenName In [\"cucmberium\", \"cucmberium_sub\"] || User.Id !In [10, 20, 30]) && RetweetCount >= FavoriteCount * 10 + 10 / (2 + 3))");

@@ -11,8 +11,8 @@
     <AssemblyName>Flantter.MilkyWay</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
@@ -131,6 +131,7 @@
     <Compile Include="Models\Services\Databases.cs" />
     <Compile Include="Models\SettingsFlyouts\SearchSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ConversationSettingsFlyoutModel.cs" />
+    <None Include="Models\SettingsFlyouts\StatusDetailSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\UserProfileSettingsFlyoutModel.cs" />
     <Compile Include="Models\TweetAreaModel.cs" />
     <Compile Include="Models\Twitter\Objects\SearchQuery.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="ViewModels\Services\LayoutHelper.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ConversationSettingsFlyoutViewModel.cs" />
+    <None Include="ViewModels\SettingsFlyouts\StatusDetailSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\SearchSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserProfileSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\TweetAreaViewModel.cs" />
@@ -235,7 +237,6 @@
     <Compile Include="Views\Contents\Timeline\Status.xaml.cs">
       <DependentUpon>Status.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\BindableMenuFlyout.cs" />
     <Compile Include="Views\Controls\ExtendedCanvas.cs" />
     <Compile Include="Views\Controls\ExtendedSettingsFlyout.cs" />
     <Compile Include="Views\Controls\NumericTextBox.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="Views\Behaviors\TextBoxKeyTriggerBehavior.cs" />
     <Compile Include="Views\Util\FileOpenPickerAction.cs" />
     <Compile Include="Views\Util\KeyTriggerBehavior.cs" />
+    <Compile Include="Views\Util\MenuFlyoutExtension.cs" />
     <Compile Include="Views\Util\MessengerTriggerBehavior.cs" />
     <Compile Include="Views\Util\StoryboardBeginAction.cs" />
     <Compile Include="Views\Util\ShowAttachedFlyoutAction.cs" />

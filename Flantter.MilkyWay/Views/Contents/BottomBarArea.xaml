@@ -7,6 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
+    xmlns:util="using:Flantter.MilkyWay.Views.Util"
     mc:Ignorable="d"
     d:DesignHeight="75"
     d:DesignWidth="720">
@@ -253,7 +257,11 @@
                     </SymbolIcon.RenderTransform>
                 </SymbolIcon>
                 <Button.Flyout>
-                    <controls:BindableMenuFlyout x:Name="BottomBarArea_OthersButton_Flyout" Source="{Binding AdditionalColumnsName, Mode=OneWay}"/>
+                    <MenuFlyout>
+                        <i:Interaction.Behaviors>
+                            <util:MenuFlyoutExtension x:Name="BottomBarArea_OthersButton_MenuFlyoutExtension" Items="{x:Bind ViewModel.OtherColumnNames}" />
+                        </i:Interaction.Behaviors>
+                    </MenuFlyout>
                 </Button.Flyout>
             </Button>
         </Grid>
@@ -277,7 +285,11 @@
             <Button x:Name="BottomBarArea_DirectMessagesTextButton" Grid.Column="3" Style="{StaticResource TextBlockButtonStyle}" Template="{StaticResource TextblockButtonPressedAnimTemplete}" Tapped="BottomBarArea_DirectMessagesButton_Tapped" BorderThickness="0" Content="DirectMessages" FontSize="24" Margin="14,0"/>
             <Button x:Name="BottomBarArea_OthersTextButton" Grid.Column="4" Style="{StaticResource TextBlockButtonStyle}" Template="{StaticResource TextblockButtonPressedAnimTemplete}" BorderThickness="0" Content="Others" FontSize="24" Margin="14,0">
                 <Button.Flyout>
-                    <controls:BindableMenuFlyout x:Name="BottomBarArea_OthersTextButton_Flyout" Source="{Binding AdditionalColumnsName, Mode=OneWay}"/>
+                    <MenuFlyout>
+                        <i:Interaction.Behaviors>
+                            <util:MenuFlyoutExtension x:Name="BottomBarArea_OthersTextButton_MenuFlyoutExtension" Items="{x:Bind ViewModel.OtherColumnNames}" />
+                        </i:Interaction.Behaviors>
+                    </MenuFlyout>
                 </Button.Flyout>
             </Button>
         </Grid>

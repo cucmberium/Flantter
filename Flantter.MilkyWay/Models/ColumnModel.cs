@@ -385,6 +385,8 @@ namespace Flantter.MilkyWay.Models
         #region Constructor
         public ColumnModel(ColumnSetting column, AccountSetting account, AccountModel accountModel)
         {
+            this.Name = column.Name;
+
             this._Tweets = new ObservableCollection<ITweet>();
             this.stream = new Subject<StreamingMessage>();
 

@@ -21,13 +21,13 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
 {
     public sealed partial class StatusDetailSettingsFlyout : ExtendedSettingsFlyout
     {
-        /*public StatusDetailSettingsFlyoutViewModel ViewModel
+        public StatusDetailSettingsFlyoutViewModel ViewModel
         {
             get { return (StatusDetailSettingsFlyoutViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(StatusDetailSettingsFlyoutViewModel), typeof(StatusDetailSettingsFlyout), null);*/
+            DependencyProperty.Register("ViewModel", typeof(StatusDetailSettingsFlyoutViewModel), typeof(StatusDetailSettingsFlyout), null);
 
         public StatusDetailSettingsFlyout()
         {

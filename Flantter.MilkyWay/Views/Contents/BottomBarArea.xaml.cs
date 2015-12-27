@@ -1,4 +1,5 @@
 ﻿using Flantter.MilkyWay.ViewModels;
+using Flantter.MilkyWay.Views.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -49,18 +50,18 @@ namespace Flantter.MilkyWay.Views.Contents
 
             this.SizeChanged += BottomBarArea_SizeChanged;
 
-            this.BottomBarArea_OthersButton_Flyout.ItemSelected += this.BottomBarArea_OthersButton_Flyout_ItemSelected;
-            this.BottomBarArea_OthersTextButton_Flyout.ItemSelected += this.BottomBarArea_OthersButton_Flyout_ItemSelected;
+            this.BottomBarArea_OthersButton_MenuFlyoutExtension.ItemSelected += this.BottomBarArea_OthersButton_Flyout_ItemSelected;
+            this.BottomBarArea_OthersTextButton_MenuFlyoutExtension.ItemSelected += this.BottomBarArea_OthersButton_Flyout_ItemSelected;
 
-            this.BottomBarArea_OthersButton_Flyout.Source = new ObservableCollection<string>() { "Events", "Favorites" };
-            this.BottomBarArea_OthersTextButton_Flyout.Source = new ObservableCollection<string>() { "Events", "Favorites" };
+            // this.BottomBarArea_OthersButton_MenuFlyoutExtension.Items = new ObservableCollection<string>() { "Events", "Favorites" };
+            // this.BottomBarArea_OthersTextButton_MenuFlyoutExtension.Items = new ObservableCollection<string>() { "Events", "Favorites" };
 
             this.BottomBarArea_SelectedIndexChanged();
         }
 
-        private void BottomBarArea_OthersButton_Flyout_ItemSelected(object sender, Controls.ItemSelectedEventArgs e)
+        private void BottomBarArea_OthersButton_Flyout_ItemSelected(object sender, ItemSelectedEventArgs e)
         {
-            this.SelectedIndex = 3 + e.Index;
+            this.SelectedIndex = e.Index + 3;
         }
 
         public void BottomBarArea_SelectedIndexChanged()

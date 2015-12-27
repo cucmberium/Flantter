@@ -22,7 +22,7 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights/1.1.0": {
+      "Microsoft.ApplicationInsights/2.0.0-beta3": {
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         },
@@ -30,9 +30,9 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.1.0": {
+      "Microsoft.ApplicationInsights.PersistenceChannel/2.0.0-beta3": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[2.0.0-beta3, )"
         },
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
@@ -41,10 +41,10 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.WindowsApps/1.1.0": {
+      "Microsoft.ApplicationInsights.WindowsApps/1.1.1": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[1.2.3, 1.2.3]",
+          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.2.3, 1.2.3]"
         },
         "compile": {
           "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
@@ -251,7 +251,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1-beta2": {
+      "Newtonsoft.Json/8.0.1-beta4": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -275,7 +275,7 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.1": {
+      "Prism.Windows/6.0.2-pre1": {
         "dependencies": {
           "CommonServiceLocator": "[1.3.0, )",
           "Prism.Core": "[6.1.0, )",
@@ -304,7 +304,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.2.8": {
+      "ReactiveProperty/2.4.1": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -1753,7 +1753,7 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights/1.1.0": {
+      "Microsoft.ApplicationInsights/2.0.0-beta3": {
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         },
@@ -1761,9 +1761,9 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.1.0": {
+      "Microsoft.ApplicationInsights.PersistenceChannel/2.0.0-beta3": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[2.0.0-beta3, )"
         },
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
@@ -1772,10 +1772,10 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.WindowsApps/1.1.0": {
+      "Microsoft.ApplicationInsights.WindowsApps/1.1.1": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[1.2.3, 1.2.3]",
+          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.2.3, 1.2.3]"
         },
         "compile": {
           "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
@@ -2025,7 +2025,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1-beta2": {
+      "Newtonsoft.Json/8.0.1-beta4": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -2049,7 +2049,7 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.1": {
+      "Prism.Windows/6.0.2-pre1": {
         "dependencies": {
           "CommonServiceLocator": "[1.3.0, )",
           "Prism.Core": "[6.1.0, )",
@@ -2078,7 +2078,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.2.8": {
+      "ReactiveProperty/2.4.1": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -3574,7 +3574,7 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights/1.1.0": {
+      "Microsoft.ApplicationInsights/2.0.0-beta3": {
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         },
@@ -3582,9 +3582,9 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.1.0": {
+      "Microsoft.ApplicationInsights.PersistenceChannel/2.0.0-beta3": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[2.0.0-beta3, )"
         },
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
@@ -3593,10 +3593,10 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.WindowsApps/1.1.0": {
+      "Microsoft.ApplicationInsights.WindowsApps/1.1.1": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[1.2.3, 1.2.3]",
+          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.2.3, 1.2.3]"
         },
         "compile": {
           "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
@@ -3832,7 +3832,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1-beta2": {
+      "Newtonsoft.Json/8.0.1-beta4": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -3856,7 +3856,7 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.1": {
+      "Prism.Windows/6.0.2-pre1": {
         "dependencies": {
           "CommonServiceLocator": "[1.3.0, )",
           "Prism.Core": "[6.1.0, )",
@@ -3885,7 +3885,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.2.8": {
+      "ReactiveProperty/2.4.1": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -5367,7 +5367,7 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights/1.1.0": {
+      "Microsoft.ApplicationInsights/2.0.0-beta3": {
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         },
@@ -5375,9 +5375,9 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.1.0": {
+      "Microsoft.ApplicationInsights.PersistenceChannel/2.0.0-beta3": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[2.0.0-beta3, )"
         },
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
@@ -5386,10 +5386,10 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.WindowsApps/1.1.0": {
+      "Microsoft.ApplicationInsights.WindowsApps/1.1.1": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[1.2.3, 1.2.3]",
+          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.2.3, 1.2.3]"
         },
         "compile": {
           "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
@@ -5644,7 +5644,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1-beta2": {
+      "Newtonsoft.Json/8.0.1-beta4": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -5668,7 +5668,7 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.1": {
+      "Prism.Windows/6.0.2-pre1": {
         "dependencies": {
           "CommonServiceLocator": "[1.3.0, )",
           "Prism.Core": "[6.1.0, )",
@@ -5697,7 +5697,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.2.8": {
+      "ReactiveProperty/2.4.1": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -7193,7 +7193,7 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights/1.1.0": {
+      "Microsoft.ApplicationInsights/2.0.0-beta3": {
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         },
@@ -7201,9 +7201,9 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.1.0": {
+      "Microsoft.ApplicationInsights.PersistenceChannel/2.0.0-beta3": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[2.0.0-beta3, )"
         },
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
@@ -7212,10 +7212,10 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.WindowsApps/1.1.0": {
+      "Microsoft.ApplicationInsights.WindowsApps/1.1.1": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[1.2.3, 1.2.3]",
+          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.2.3, 1.2.3]"
         },
         "compile": {
           "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
@@ -7451,7 +7451,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1-beta2": {
+      "Newtonsoft.Json/8.0.1-beta4": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -7475,7 +7475,7 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.1": {
+      "Prism.Windows/6.0.2-pre1": {
         "dependencies": {
           "CommonServiceLocator": "[1.3.0, )",
           "Prism.Core": "[6.1.0, )",
@@ -7504,7 +7504,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.2.8": {
+      "ReactiveProperty/2.4.1": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -8986,7 +8986,7 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights/1.1.0": {
+      "Microsoft.ApplicationInsights/2.0.0-beta3": {
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         },
@@ -8994,9 +8994,9 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.1.0": {
+      "Microsoft.ApplicationInsights.PersistenceChannel/2.0.0-beta3": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[2.0.0-beta3, )"
         },
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
@@ -9005,10 +9005,10 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.WindowsApps/1.1.0": {
+      "Microsoft.ApplicationInsights.WindowsApps/1.1.1": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[1.2.3, 1.2.3]",
+          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.2.3, 1.2.3]"
         },
         "compile": {
           "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
@@ -9263,7 +9263,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1-beta2": {
+      "Newtonsoft.Json/8.0.1-beta4": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -9287,7 +9287,7 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.1": {
+      "Prism.Windows/6.0.2-pre1": {
         "dependencies": {
           "CommonServiceLocator": "[1.3.0, )",
           "Prism.Core": "[6.1.0, )",
@@ -9316,7 +9316,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.2.8": {
+      "ReactiveProperty/2.4.1": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -10812,7 +10812,7 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights/1.1.0": {
+      "Microsoft.ApplicationInsights/2.0.0-beta3": {
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         },
@@ -10820,9 +10820,9 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.PersistenceChannel/1.1.0": {
+      "Microsoft.ApplicationInsights.PersistenceChannel/2.0.0-beta3": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[2.0.0-beta3, )"
         },
         "compile": {
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
@@ -10831,10 +10831,10 @@
           "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll": {}
         }
       },
-      "Microsoft.ApplicationInsights.WindowsApps/1.1.0": {
+      "Microsoft.ApplicationInsights.WindowsApps/1.1.1": {
         "dependencies": {
-          "Microsoft.ApplicationInsights": "[1.1.0, )",
-          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.1.0, )"
+          "Microsoft.ApplicationInsights": "[1.2.3, 1.2.3]",
+          "Microsoft.ApplicationInsights.PersistenceChannel": "[1.2.3, 1.2.3]"
         },
         "compile": {
           "lib/win81/Microsoft.ApplicationInsights.Extensibility.Windows.dll": {}
@@ -11070,7 +11070,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1-beta2": {
+      "Newtonsoft.Json/8.0.1-beta4": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -11094,7 +11094,7 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.1": {
+      "Prism.Windows/6.0.2-pre1": {
         "dependencies": {
           "CommonServiceLocator": "[1.3.0, )",
           "Prism.Core": "[6.1.0, )",
@@ -11123,7 +11123,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.2.8": {
+      "ReactiveProperty/2.4.1": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -12630,42 +12630,48 @@
         "package/services/metadata/core-properties/4e9fd6fac85a47d1ba2ce3d1fd52369f.psmdcp"
       ]
     },
-    "Microsoft.ApplicationInsights/1.1.0": {
-      "sha512": "X4QBy+VEF+J+H+Cuo1jjo+uUjU5d/ipEVgo4MPddo6sVU899kh6TEhPXri4PiZPsZi9nRn5QSjBJOcsnQsrF5w==",
+    "Microsoft.ApplicationInsights/2.0.0-beta3": {
+      "sha512": "MTEOYjgmn6gFVp4d63R8dBkQI4n9bj7lLoW4OaWeRnJ+2yqwMEOS0Mz6z+qKP8ve3LeoUTw4Ygtr9oCaHJN+SQ==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
         "_rels/.rels",
+        "lib/dnxcore50/Microsoft.ApplicationInsights.dll",
+        "lib/dnxcore50/Microsoft.ApplicationInsights.XML",
         "lib/net40/Microsoft.ApplicationInsights.dll",
         "lib/net40/Microsoft.ApplicationInsights.XML",
         "lib/net45/Microsoft.ApplicationInsights.dll",
         "lib/net45/Microsoft.ApplicationInsights.XML",
+        "lib/net46/Microsoft.ApplicationInsights.dll",
+        "lib/net46/Microsoft.ApplicationInsights.XML",
         "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.dll",
         "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.XML",
         "lib/wp8/Microsoft.ApplicationInsights.dll",
         "lib/wp8/Microsoft.ApplicationInsights.XML",
         "Microsoft.ApplicationInsights.nuspec",
-        "package/services/metadata/core-properties/44f76c8c8f094a8da0e1a5362bc3b822.psmdcp"
+        "package/services/metadata/core-properties/9dd1daaa0725478eb5ea0dffbe325a57.psmdcp"
       ]
     },
-    "Microsoft.ApplicationInsights.PersistenceChannel/1.1.0": {
-      "sha512": "no5rTAwEJGALn45SE4Xl+/aUoACwd7LBMUIRc7tuJ16uSzJONSG905Vn5HPvOrEKtCYNeAtufl1FbT4i8AhmlQ==",
+    "Microsoft.ApplicationInsights.PersistenceChannel/2.0.0-beta3": {
+      "sha512": "1km42tFTsuNSDe3wEN88r9tzlw5uTbFAl/KjkZtC2w13Tc2lA92tJHM7mSWv0zFt9w6Bx7m3km5yMECcYhzOLw==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
         "_rels/.rels",
         "lib/net40/Microsoft.ApplicationInsights.PersistenceChannel.dll",
         "lib/net40/Microsoft.ApplicationInsights.PersistenceChannel.XML",
-        "lib/portable-win8+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.XML",
+        "lib/net45/Microsoft.ApplicationInsights.PersistenceChannel.dll",
+        "lib/net45/Microsoft.ApplicationInsights.PersistenceChannel.XML",
         "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.dll",
+        "lib/portable-win81+wpa81/Microsoft.ApplicationInsights.PersistenceChannel.XML",
         "lib/wp8/Microsoft.ApplicationInsights.PersistenceChannel.dll",
         "lib/wp8/Microsoft.ApplicationInsights.PersistenceChannel.XML",
         "Microsoft.ApplicationInsights.PersistenceChannel.nuspec",
-        "package/services/metadata/core-properties/83fcacc0c8644ebb937914fc57756ee5.psmdcp"
+        "package/services/metadata/core-properties/460690bead5947ebb831d7d2a4912dad.psmdcp"
       ]
     },
-    "Microsoft.ApplicationInsights.WindowsApps/1.1.0": {
-      "sha512": "H6nhyM+ZVOhLmF8cqQj70fc5HZOS6dxh18nNwEM7+HD8NzArdSLK0gwGJkEOUYPtjner/0/3aOxgGZbFi9OVdA==",
+    "Microsoft.ApplicationInsights.WindowsApps/1.1.1": {
+      "sha512": "Orj0UQrjQ2z0aWZZoexl734Ge7Q4oVev3VFSsk6t8l2kImrfJ1eygkJWtQ1d7u0kF6MLLrvUvsMSxo+0rgPiMQ==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -12677,7 +12683,7 @@
         "lib/wpa81/Microsoft.ApplicationInsights.Extensibility.Windows.dll",
         "lib/wpa81/Microsoft.ApplicationInsights.Extensibility.Windows.XML",
         "Microsoft.ApplicationInsights.WindowsApps.nuspec",
-        "package/services/metadata/core-properties/441e5d0bc7164e089277ae041b2043cc.psmdcp"
+        "package/services/metadata/core-properties/8265b8c93c244c80b4e8bce27f31849d.psmdcp"
       ]
     },
     "Microsoft.CSharp/4.0.0": {
@@ -13333,8 +13339,8 @@
         "ref/xamarinmac20/_._"
       ]
     },
-    "Newtonsoft.Json/8.0.1-beta2": {
-      "sha512": "AY/4bZopCl2pqsXwIa2oYiKbOaPFbdFfgxu394wSCWifVdrFPSrAXi93A0CYzVROSIDQOYgCdrLYzmlk1JuPvg==",
+    "Newtonsoft.Json/8.0.1-beta4": {
+      "sha512": "bdlBXPNufwnLY6tqefxzzG3i4LLBm4GDW4MrLcG3KXeLtLhe75Mo+0RGpqt/8GgF+0c0Fu++yVyH3LbKSw1Ssg==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -13352,7 +13358,7 @@
         "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
         "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
         "Newtonsoft.Json.nuspec",
-        "package/services/metadata/core-properties/7ae0c14cd97e498486daa7dbdf525283.psmdcp",
+        "package/services/metadata/core-properties/78fd40cfd6694de2ab88ed8cbf56f9d3.psmdcp",
         "tools/install.ps1"
       ]
     },
@@ -13403,8 +13409,8 @@
         "Prism.Core.nuspec"
       ]
     },
-    "Prism.Windows/6.0.1": {
-      "sha512": "ZizrGMZOkov0WGKPNnXS1bsIfh4oZnYqj5+bbqnAOQoDrG8FQO239Pc6U2glETwQDVhg30Eg5m1kfcKlfjjuDA==",
+    "Prism.Windows/6.0.2-pre1": {
+      "sha512": "l9SU4qa3GBjSDpUH9dDSsKBro034MVum2X4SaVoWLDtCDvkfOMEdAA51YzJ0Fs5BJCmQMVAp9WABCWp/Dh/QlQ==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -13412,12 +13418,12 @@
         "lib/uap10.0/Prism.Windows.dll",
         "lib/uap10.0/Prism.Windows.pri",
         "lib/uap10.0/Prism.Windows.xml",
-        "package/services/metadata/core-properties/e0b42f9fab30491e8fa124809b2c9ef1.psmdcp",
+        "package/services/metadata/core-properties/ad34d65d2a3a46d49347cdda0ef0c7f0.psmdcp",
         "Prism.Windows.nuspec"
       ]
     },
-    "ReactiveProperty/2.2.8": {
-      "sha512": "GZOk8T1dDzpz7u+BI+gIMI3E/5d5JsU9gvQ/LnWXy3+Jifskcvx7V+rNqdzOuS8EMPp0Pbwta3YSpeV5BSAZUQ==",
+    "ReactiveProperty/2.4.1": {
+      "sha512": "jae3qLND9OV45H90GX73RyCgov+Jf5fi5jPMuDhXk64gtRGvGBCDk2lssZSLAQFe5Wf7zRuFK9A9d5ReqSAeDQ==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -13432,6 +13438,8 @@
         "lib/MonoTouch/ReactiveProperty.DataAnnotations.dll",
         "lib/MonoTouch/ReactiveProperty.DataAnnotations.XML",
         "lib/MonoTouch/ReactiveProperty.dll",
+        "lib/MonoTouch/ReactiveProperty.iOS.dll",
+        "lib/MonoTouch/ReactiveProperty.iOS.XML",
         "lib/MonoTouch/ReactiveProperty.XML",
         "lib/net4/ReactiveProperty.NET4.dll",
         "lib/net4/ReactiveProperty.NET4.xml",
@@ -13441,6 +13449,12 @@
         "lib/net45/ReactiveProperty.NET45.dll",
         "lib/net45/ReactiveProperty.NET45.XML",
         "lib/net45/ReactiveProperty.XML",
+        "lib/net46/ReactiveProperty.DataAnnotations.dll",
+        "lib/net46/ReactiveProperty.DataAnnotations.XML",
+        "lib/net46/ReactiveProperty.dll",
+        "lib/net46/ReactiveProperty.NET46.dll",
+        "lib/net46/ReactiveProperty.NET46.XML",
+        "lib/net46/ReactiveProperty.XML",
         "lib/portable-net45+win81+wpa81+MonoTouch+MonoAndroid/ReactiveProperty.DataAnnotations.dll",
         "lib/portable-net45+win81+wpa81+MonoTouch+MonoAndroid/ReactiveProperty.DataAnnotations.XML",
         "lib/portable-net45+win81+wpa81+MonoTouch+MonoAndroid/ReactiveProperty.dll",
@@ -13467,8 +13481,18 @@
         "lib/wpa81/ReactiveProperty.WPA81.dll",
         "lib/wpa81/ReactiveProperty.WPA81.XML",
         "lib/wpa81/ReactiveProperty.XML",
+        "lib/Xamarin.iOS10/ReactiveProperty.DataAnnotations.dll",
+        "lib/Xamarin.iOS10/ReactiveProperty.DataAnnotations.XML",
+        "lib/Xamarin.iOS10/ReactiveProperty.dll",
+        "lib/Xamarin.iOS10/ReactiveProperty.iOS.dll",
+        "lib/Xamarin.iOS10/ReactiveProperty.iOS.XML",
+        "lib/Xamarin.iOS10/ReactiveProperty.XML",
+        "lib/Xamarin.Mac20/ReactiveProperty.DataAnnotations.dll",
+        "lib/Xamarin.Mac20/ReactiveProperty.DataAnnotations.XML",
+        "lib/Xamarin.Mac20/ReactiveProperty.dll",
+        "lib/Xamarin.Mac20/ReactiveProperty.XML",
         "LICENSE.txt",
-        "package/services/metadata/core-properties/7a3cef3a7fd142cb81bcc4260443011d.psmdcp",
+        "package/services/metadata/core-properties/b4c59cb80b954cd2b508b76f43291445.psmdcp",
         "ReactiveProperty.nuspec",
         "Snippet/csharp5/ReactiveCollection.snippet",
         "Snippet/csharp5/ReactiveCommand.snippet",
@@ -16377,15 +16401,15 @@
   "projectFileDependencyGroups": {
     "": [
       "CoreTweet >= 0.6.0.251",
-      "Microsoft.ApplicationInsights >= 1.1.0",
-      "Microsoft.ApplicationInsights.PersistenceChannel >= 1.1.0",
-      "Microsoft.ApplicationInsights.WindowsApps >= 1.1.0",
+      "Microsoft.ApplicationInsights >= 2.0.0-beta3",
+      "Microsoft.ApplicationInsights.PersistenceChannel >= 2.0.0-beta3",
+      "Microsoft.ApplicationInsights.WindowsApps >= 1.1.1",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0",
-      "Newtonsoft.Json >= 8.0.1-beta2",
+      "Newtonsoft.Json >= 8.0.1-beta4",
       "NotificationsExtensions.Win10 >= 10586.0.0",
       "Prism.Core >= 6.1.0",
-      "Prism.Windows >= 6.0.1",
-      "ReactiveProperty >= 2.2.8",
+      "Prism.Windows >= 6.0.2-pre1",
+      "ReactiveProperty >= 2.4.1",
       "Rx-Core >= 2.3.0-beta2",
       "Rx-Interfaces >= 2.3.0-beta2",
       "Rx-Linq >= 2.3.0-beta2",

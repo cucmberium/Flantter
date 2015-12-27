@@ -10,6 +10,8 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
@@ -27,7 +29,8 @@ namespace Flantter.MilkyWay.ViewModels
         public Services.Notice Notice { get; set; }
 
         public ReadOnlyReactiveCollection<ColumnViewModel> Columns { get; private set; }
-        public ReadOnlyReactiveCollection<string> AdditionalColumnsName { get; private set; }
+        public ObservableCollection<string> OtherColumnNames { get; private set; }
+        private IDisposable OtherColumnNamesDisposable { get; set; }
 
         public ReactiveProperty<string> ProfileImageUrl { get; private set; }
         public ReactiveProperty<string> ProfileBannerUrl { get; private set; }
@@ -54,7 +57,38 @@ namespace Flantter.MilkyWay.ViewModels
             this.IsEnabled = account.ObserveProperty(x => x.IsEnabled).ToReactiveProperty();
 
             this.Columns = this._AccountModel.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x));
-            this.AdditionalColumnsName = this._AccountModel.ReadOnlyColumns.ToObservable().Where(x => x.Name != "Home" && x.Name != "Mentions" && x.Name != "DirectMessages").Select(x => x.Name).ToReadOnlyReactiveCollection();
+
+            this.OtherColumnNames = new ObservableCollection<string>(this._AccountModel.ReadOnlyColumns.ToObservable().Where(x => x.Name != "Home" && x.Name != "Mentions" && x.Name != "DirectMessages").Select(x => x.Name).ToEnumerable());
+            this.OtherColumnNamesDisposable = this._AccountModel.ReadOnlyColumns.CollectionChangedAsObservable().SubscribeOnUIDispatcher().Subscribe<NotifyCollectionChangedEventArgs>(e => 
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        foreach (var obj in e.NewItems)
+                        {
+                            var column = obj as ColumnModel;
+                            if (column.Name == "Home" || column.Name == "Mentions" || column.Name == "DirectMessages")
+                                continue;
+
+                            this.OtherColumnNames.Add(column.Name);
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (var obj in e.OldItems)
+                        {
+                            var column = obj as ColumnModel;
+                            if (column.Name == "Home" || column.Name == "Mentions" || column.Name == "DirectMessages")
+                                continue;
+
+                            this.OtherColumnNames.Remove(column.Name);
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Move:
+                    case NotifyCollectionChangedAction.Replace:
+                    case NotifyCollectionChangedAction.Reset:
+                        throw new NotImplementedException();
+                }
+            });
 
             this.PanelWidth = Observable.CombineLatest<double, int, double>(
                 LayoutHelper.Instance.ColumnWidth,
@@ -261,7 +295,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.ProfileBannerUrl.Dispose();
             this.IsEnabled.Dispose();
             this.Columns.Dispose();
-            this.AdditionalColumnsName.Dispose();
+            this.OtherColumnNamesDisposable.Dispose();
             this.PanelWidth.Dispose();
             this.SnapPointsSpaceing.Dispose();
             this.MaxSnapPoint.Dispose();

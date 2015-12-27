@@ -420,6 +420,9 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel>
+                                <i:Interaction.Behaviors>
+                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                </i:Interaction.Behaviors>
                                 <VirtualizingStackPanel.ChildrenTransitions>
                                     <TransitionCollection/>
                                 </VirtualizingStackPanel.ChildrenTransitions>

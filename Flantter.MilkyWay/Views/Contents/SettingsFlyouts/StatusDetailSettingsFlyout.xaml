@@ -17,7 +17,7 @@
     xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
     xmlns:winrtXamlToolKit="using:WinRTXamlToolkit.Controls"
     mc:Ignorable="d"
-    Title="Conversation"
+    Title="Status"
     HorizontalContentAlignment="Stretch"
     VerticalContentAlignment="Stretch"
     Padding="0"
@@ -34,8 +34,15 @@
                 <contents:TabHeader Label="Tweets" Glyph="&#xE15F;" />
             </PivotItem.Header>
 
-            <StackPanel>
-                <timeline:Status ViewModel="{x:Bind ViewModel.Status.Value}" 
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <controls:HorizontalBar Grid.Row="0" />
+                <timeline:Status Grid.Row="1" ViewModel="{x:Bind ViewModel.Status.Value, Mode=OneWay}" 
                             MentionStatusVisibility="{x:Bind ViewModel.Status.Value.MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind ViewModel.Status.Value.IsMentionStatusLoaded, Mode=OneWay}"
                             IsMentionStatusLoading="{x:Bind ViewModel.Status.Value.IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind ViewModel.Status.Value.Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Status.Value,Mode=OneWay}"
                             QuotedStatusVisibility="{x:Bind ViewModel.Status.Value.QuotedStatusVisibility, Mode=OneWay}"
@@ -44,27 +51,248 @@
                             FavoriteTriangleIconVisibility="{x:Bind ViewModel.Status.Value.FavoriteTriangleIconVisibility, Mode=OneWay}"
                             RetweetFavoriteTriangleIconVisibility="{x:Bind ViewModel.Status.Value.RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
 
-                <controls:HorizontalBar/>
-                <Button Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Account"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="返信する" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Account"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="全員に返信する" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Mail"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="ダイレクトメッセージを送る" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="ReShare"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="リツイート" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Mail"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="コメント付きリツイート" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Favorite"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="お気に入りに追加" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="ReShare"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="リツイート + お気に入りに追加" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Message"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="会話を表示" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="ContactInfo"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="ツイート内のユーザー" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Link"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="ツイート内のリンク" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <FontIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontFamily="Segoe MDL2 Assets" Glyph="#"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="ツイート内のハッシュタグ" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Link"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="ツイートURLを開く" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <FontIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="ツイートを共有" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Mute"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="ユーザーをミュート" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
+                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Mute"/>
+                                <TextBlock Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="クライアントをミュート" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
 
-                        <FontIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" FontFamily="Segoe UI Symbol" Margin="5,0,0,0" Glyph="@"/>
-                        <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="返信する" FontSize="18" Margin="10,0,0,0"/>
-                    </Grid>
-                </Button>
-                <controls:HorizontalBar/>
-            </StackPanel>
-            
+            </Grid>
+
         </PivotItem>
 
         <PivotItem Margin="0">
             <PivotItem.Header>
-                <contents:TabHeader Label="Responce" Glyph="&#xE125;" />
+                <contents:TabHeader Label="Reaction" Glyph="&#xE125;" />
             </PivotItem.Header>
+
+
+            <Grid>
+                <ListView x:Name="ActionStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.ActionStatuses}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel>
+                                <i:Interaction.Behaviors>
+                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                </i:Interaction.Behaviors>
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection/>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
+                            <timeline:Status ViewModel="{x:Bind}" 
+                            MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
+                            IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
+                            QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
+                            MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
+                            RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
+                            FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
+                            RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListView>
+
+                <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingActionStatuses.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingActionStatuses.Value, Mode=OneWay}" VerticalAlignment="Top" />
+
+            </Grid>
+
 
         </PivotItem>
     </Pivot>

@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
@@ -131,7 +131,7 @@
     <Compile Include="Models\Services\Databases.cs" />
     <Compile Include="Models\SettingsFlyouts\SearchSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ConversationSettingsFlyoutModel.cs" />
-    <None Include="Models\SettingsFlyouts\StatusDetailSettingsFlyoutModel.cs" />
+    <Compile Include="Models\SettingsFlyouts\StatusDetailSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\UserProfileSettingsFlyoutModel.cs" />
     <Compile Include="Models\TweetAreaModel.cs" />
     <Compile Include="Models\Twitter\Objects\SearchQuery.cs" />
@@ -156,7 +156,7 @@
     <Compile Include="ViewModels\Services\LayoutHelper.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ConversationSettingsFlyoutViewModel.cs" />
-    <None Include="ViewModels\SettingsFlyouts\StatusDetailSettingsFlyoutViewModel.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\StatusDetailSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\SearchSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserProfileSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\TweetAreaViewModel.cs" />
@@ -181,9 +181,9 @@
     <Compile Include="Views\Contents\FollowButon.xaml.cs">
       <DependentUpon>FollowButon.xaml</DependentUpon>
     </Compile>
-    <None Include="Views\Contents\SettingsFlyouts\StatusDetailSettingsFlyout.xaml.cs">
+    <Compile Include="Views\Contents\SettingsFlyouts\StatusDetailSettingsFlyout.xaml.cs">
       <DependentUpon>StatusDetailSettingsFlyout.xaml</DependentUpon>
-    </None>
+    </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\SearchSettingsFlyout.xaml.cs">
       <DependentUpon>SearchSettingsFlyout.xaml</DependentUpon>
     </Compile>
@@ -353,10 +353,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <None Include="Views\Contents\SettingsFlyouts\StatusDetailSettingsFlyout.xaml">
+    <Page Include="Views\Contents\SettingsFlyouts\StatusDetailSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </None>
+    </Page>
     <Page Include="Views\Contents\SettingsFlyouts\SearchSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

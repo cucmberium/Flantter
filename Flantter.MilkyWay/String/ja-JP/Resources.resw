@@ -195,7 +195,7 @@
   <data name="Tweet_Command_MenuFlyout_SendDirectMessage.Text" xml:space="preserve">
     <value>    ダイレクトメッセージを送信</value>
   </data>
-  <data name="Tweet_Command_MenuFlyout_TweetDetail.Text" xml:space="preserve">
+  <data name="Tweet_Command_MenuFlyout_StatusDetail.Text" xml:space="preserve">
     <value>    ツイートの詳細</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_UnofficialRetweet.Text" xml:space="preserve">

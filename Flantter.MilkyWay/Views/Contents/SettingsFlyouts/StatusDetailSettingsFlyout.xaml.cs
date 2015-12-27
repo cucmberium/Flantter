@@ -47,8 +47,8 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
             
             this.Width = width;
 
-            this.StatusDetailScrollViewer.Width = width;
-            this.StatusDetailScrollViewer.Height = Window.Current.Bounds.Height - 70;
+            this.StatusDetailSettingsFlyoutPivot.Width = width;
+            this.StatusDetailSettingsFlyoutPivot.Height = Window.Current.Bounds.Height - 70;
         }
     }
 }

@@ -111,6 +111,39 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     settingsFlyout.Show();
                     break;
+                case "StatusDetail":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is StatusDetailSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new StatusDetailSettingsFlyout();
+                        ((StatusDetailSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.StatusDetailSettingsFlyoutViewModel();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((StatusDetailSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((StatusDetailSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((StatusDetailSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    if (notification.Content is Models.Twitter.Objects.Status)
+                    {
+                        var status = notification.Content as Models.Twitter.Objects.Status;
+                        ((StatusDetailSettingsFlyout)settingsFlyout).ViewModel.Model.Status = status;
+                        ((StatusDetailSettingsFlyout)settingsFlyout).ViewModel.StatusId.Value = status.Id;
+                    }
+                    else if (notification.Content is long)
+                    {
+                        var statusId = (long)notification.Content;
+                        ((StatusDetailSettingsFlyout)settingsFlyout).ViewModel.StatusId.Value = statusId;
+                        ((StatusDetailSettingsFlyout)settingsFlyout).ViewModel.UpdateStatusCommand.Execute();
+                    }
+
+                    settingsFlyout.Show();
+                    break;
             }
 
             return null;

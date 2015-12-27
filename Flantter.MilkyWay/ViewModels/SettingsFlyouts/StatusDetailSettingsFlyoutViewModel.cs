@@ -26,16 +26,20 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.IconSource = new ReactiveProperty<string>("http://localhost/");
 
             this.StatusId = this.Model.ToReactivePropertyAsSynchronized(x => x.StatusId);
-            this.Status = new ReactiveProperty<StatusViewModel>();
+            this.Status = this.Model.ObserveProperty(x => x.Status).Select(x => x != null ? new StatusViewModel(x, this.Tokens.Value.UserId) : null).ToReactiveProperty();
 
             this.UpdatingStatus = this.Model.ToReactivePropertyAsSynchronized(x => x.UpdatingStatus);
-            this.UpdatingResponseStatuses = this.Model.ToReactivePropertyAsSynchronized(x => x.UpdatingResponseStatuses);
+            this.UpdatingActionStatuses = this.Model.ToReactivePropertyAsSynchronized(x => x.UpdatingActionStatuses);
 
             this.PivotSelectedIndex = new ReactiveProperty<int>(0);
             this.PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 if (x == 1)
                 {
+                    if (this.Model.UpdatingActionStatuses || this.Model.ActionStatuses.Count > 0)
+                        return;
+
+                    await this.Model.UpdateActionStatuses();
                 }
             });
             
@@ -43,26 +47,20 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 this.PivotSelectedIndex.Value = 0;
+
+                this.Model.ActionStatuses.Clear();
             });
 
             this.UpdateStatusCommand = new ReactiveCommand();
             this.UpdateStatusCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-            });
+                await this.Model.UpdateStatus();
+            });            
 
-            this.UpdateResponseStatusesCommand = new ReactiveCommand();
-            this.UpdateResponseStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-            });
-            
-            this.ResponseStatusesIncrementalLoadCommand = new ReactiveCommand();
-            this.ResponseStatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-            });
-
-            this.ResponseStatuses = this.Model.ResponseStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
+            this.ActionStatuses = this.Model.ActionStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
 
             this.Notice = Services.Notice.Instance;
+
         }
 
         public StatusDetailSettingsFlyoutModel Model { get; set; }
@@ -71,7 +69,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<bool> UpdatingStatus { get; set; }
 
-        public ReactiveProperty<bool> UpdatingResponseStatuses { get; set; }
+        public ReactiveProperty<bool> UpdatingActionStatuses { get; set; }
 
         public ReactiveProperty<CoreTweet.Tokens> Tokens { get; set; }
 
@@ -83,15 +81,11 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveProperty<StatusViewModel> Status { get; set; }
 
 
-        public ReadOnlyReactiveCollection<StatusViewModel> ResponseStatuses { get; private set; }
+        public ReadOnlyReactiveCollection<StatusViewModel> ActionStatuses { get; private set; }
         
         public ReactiveCommand ClearCommand { get; set; }
 
         public ReactiveCommand UpdateStatusCommand { get; set; }
-
-        public ReactiveCommand UpdateResponseStatusesCommand { get; set; }
-
-        public ReactiveCommand ResponseStatusesIncrementalLoadCommand { get; set; }
 
         public Services.Notice Notice { get; set; }
     }

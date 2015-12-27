@@ -60,6 +60,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             this.Conversation.Clear();
 
+            var updateCount = 0;
+
             long nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
 
             if (SettingService.Setting.UseOfficialApi && TwitterConsumerKeyPatterns.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
@@ -118,6 +120,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 while (true)
                 {
                     // Todo : データベースから過去のツイートを抽出
+
+                    updateCount += 1;
                     Status item;
                     try
                     {
@@ -129,14 +133,17 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         return;
                     }
 
-                    nextId = item.InReplyToStatusId.HasValue ? item.InReplyToStatusId.Value : 0;
+                    if (item.RetweetedStatus != null)
+                        nextId = item.RetweetedStatus.InReplyToStatusId.HasValue ? item.RetweetedStatus.InReplyToStatusId.Value : 0;
+                    else
+                        nextId = item.InReplyToStatusId.HasValue ? item.InReplyToStatusId.Value : 0;
 
                     var status = new Twitter.Objects.Status(item);
                     status.InReplyToStatusId = 0;
 
                     this.Conversation.Add(status);
 
-                    if (nextId == 0)
+                    if (nextId == 0 || updateCount > 20)
                         break;
                 }
             }

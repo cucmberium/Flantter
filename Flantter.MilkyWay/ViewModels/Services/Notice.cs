@@ -22,11 +22,9 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.RetweetCommand = new ReactiveCommand();
             this.FavoriteCommand = new ReactiveCommand();
             this.UrlClickCommand = new ReactiveCommand();
-            this.ShowTweetDetailCommand = new ReactiveCommand();
             this.ReplyToAllCommand = new ReactiveCommand();
             this.SendDirectMessageCommand = new ReactiveCommand();
             this.UrlQuoteRetweetCommand = new ReactiveCommand();
-            this.UnofficialRetweetCommand = new ReactiveCommand();
             this.CopyTweetCommand = new ReactiveCommand();
             this.ShowRetweeterCommand = new ReactiveCommand();
             this.MuteUserCommand = new ReactiveCommand();
@@ -61,11 +59,9 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand RetweetCommand { get; private set; }
         public ReactiveCommand FavoriteCommand { get; private set; }
         public ReactiveCommand UrlClickCommand { get; private set; }
-        public ReactiveCommand ShowTweetDetailCommand { get; private set; }
         public ReactiveCommand ReplyToAllCommand { get; private set; }
         public ReactiveCommand SendDirectMessageCommand { get; private set; }
         public ReactiveCommand UrlQuoteRetweetCommand { get; private set; }
-        public ReactiveCommand UnofficialRetweetCommand { get; private set; }
         public ReactiveCommand CopyTweetCommand { get; private set; }
         public ReactiveCommand ShowRetweeterCommand { get; private set; }
         public ReactiveCommand MuteUserCommand { get; private set; }

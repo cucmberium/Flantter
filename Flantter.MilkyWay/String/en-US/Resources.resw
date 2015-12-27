@@ -198,8 +198,8 @@
   <data name="Tweet_Command_MenuFlyout_SendDirectMessage.Text" xml:space="preserve">
     <value>    Send DM</value>
   </data>
-  <data name="Tweet_Command_MenuFlyout_TweetDetail.Text" xml:space="preserve">
-    <value>    Tweet Detail</value>
+  <data name="Tweet_Command_MenuFlyout_StatusDetail.Text" xml:space="preserve">
+    <value>    Status Detail</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_UnofficialRetweet.Text" xml:space="preserve">
     <value>    Unofficial Retweet</value>

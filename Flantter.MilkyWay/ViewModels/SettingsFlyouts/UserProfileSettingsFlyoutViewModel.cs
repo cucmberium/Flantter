@@ -13,6 +13,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
+using Windows.System;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
@@ -53,8 +54,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.FollowButtonPointerOverText = new ReactiveProperty<string>("Follow");
 
             this.FollowedByText = new ReactiveProperty<string>();
-
-            this.UserProfileUrl = new ReactiveProperty<string>();
 
             this.ClearCommand = new ReactiveCommand();
             this.ClearCommand.Subscribe(x => 
@@ -134,8 +133,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.StatusesCount.Value = this.Model.UserInformation.StatusesCount;
                 this.Url.Value = this.Model.UserInformation.Url;
                 this.Name.Value = this.Model.UserInformation.Name;
-
-                this.UserProfileUrl.Value = "http://twitter.com/" + this.Model.ScreenName;
 
                 await this.Model.UpdateRelationShip();
 
@@ -235,6 +232,13 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 }
             });
 
+            this.OpenUserProfileInWebCommand = new ReactiveCommand();
+            this.OpenUserProfileInWebCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var url = "http://twitter.com/" + this.Model.ScreenName;
+                await Launcher.LaunchUriAsync(new Uri(url));
+            });
+
             this.Statuses = this.Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
             this.Favorites = this.Model.Favorites.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
             this.Followers = this.Model.Followers.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
@@ -280,8 +284,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveProperty<string> FollowButtonText { get; set; }
 
         public ReactiveProperty<string> FollowButtonPointerOverText { get; set; }
-
-        public ReactiveProperty<string> UserProfileUrl { get; set; }
 
         #region Description変更通知プロパティ
         public ReactiveProperty<string> Description { get; set; }
@@ -365,7 +367,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveCommand FollowersIncrementalLoadCommand { get; set; }
         public ReactiveCommand FollowingIncrementalLoadCommand { get; set; }
         public ReactiveCommand ScrollViewerIncrementalLoadCommand { get; set; }
-
+        public ReactiveCommand OpenUserProfileInWebCommand { get; set; }
         public Services.Notice Notice { get; set; }
     }
 }

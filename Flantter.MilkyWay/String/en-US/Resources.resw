@@ -201,9 +201,6 @@
   <data name="Tweet_Command_MenuFlyout_StatusDetail.Text" xml:space="preserve">
     <value>    Status Detail</value>
   </data>
-  <data name="Tweet_Command_MenuFlyout_UnofficialRetweet.Text" xml:space="preserve">
-    <value>    Unofficial Retweet</value>
-  </data>
   <data name="Tweet_Command_MenuFlyout_UrlQuoteRetweet.Text" xml:space="preserve">
     <value>    Retweet with Comment</value>
   </data>

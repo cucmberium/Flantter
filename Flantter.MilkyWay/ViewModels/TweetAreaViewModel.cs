@@ -211,6 +211,39 @@ namespace Flantter.MilkyWay.ViewModels
                 this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
             });
 
+            Services.Notice.Instance.ReplyToAllCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+
+                this.ReplyOrQuotedStatus.Value = statusViewModel;
+
+                this._TweetAreaModel.IsQuotedRetweet = false;
+                this._TweetAreaModel.IsReply = true;
+                this._TweetAreaModel.ReplyOrQuotedStatus = statusViewModel.Model;
+
+                var userList = new List<string>();
+
+                this._TweetAreaModel.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
+                userList.Add(statusViewModel.Model.User.ScreenName);
+
+                foreach (var user in statusViewModel.Model.Entities.UserMentions)
+                {
+                    if (userList.Contains(user.ScreenName) || user.ScreenName == this.SelectedAccount.Value.ScreenName.Value)
+                        continue;
+
+                    this._TweetAreaModel.Text += "@" + user.ScreenName + " ";
+                    userList.Add(user.ScreenName);
+                }
+
+                Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                await Task.Delay(50);
+
+                this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
+            });
+
             Services.Notice.Instance.UrlQuoteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
                 var statusViewModel = x as StatusViewModel;

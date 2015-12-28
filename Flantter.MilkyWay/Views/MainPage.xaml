@@ -39,7 +39,7 @@
         <behaviors:BottomAppBarShowBehavior IsOpen="{x:Bind ViewModel.AppBarIsOpen.Value, Mode=TwoWay}">
             <behaviors:BottomAppBarShowBehavior.BottomAppBar>
                 <AppBar ClosedDisplayMode="Hidden" IsSticky="False">
-                    <contents:TweetArea ViewModel="{x:Bind ViewModel.TweetArea.Value, Mode=OneWay}" />
+                    <contents:TweetArea ViewModel="{x:Bind ViewModel.TweetArea, Mode=OneWay}" />
                 </AppBar>
             </behaviors:BottomAppBarShowBehavior.BottomAppBar>
         </behaviors:BottomAppBarShowBehavior>

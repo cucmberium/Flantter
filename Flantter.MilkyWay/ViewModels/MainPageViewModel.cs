@@ -32,7 +32,8 @@ namespace Flantter.MilkyWay.ViewModels
         public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; private set; }
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
         public ReactiveProperty<bool> AppBarIsOpen { get; private set; }
-        public ReactiveProperty<TweetAreaViewModel> TweetArea { get; private set; }
+
+        public TweetAreaViewModel TweetArea { get; private set; }
 
         public ReactiveCommand DragOverCommand { get; private set; }
         public ReactiveCommand DropCommand { get; private set; }
@@ -59,13 +60,13 @@ namespace Flantter.MilkyWay.ViewModels
                     Services.Notice.Instance.TweetAreaAccountChangeCommand.Execute(this.Accounts.First(x => x.IsEnabled.Value));
 
                     await Task.Delay(50);
-                    await this.TweetArea.Value.TextBoxFocusMessenger.Raise(new Notification());
+                    await this.TweetArea.TextBoxFocusMessenger.Raise(new Notification());
                 }
             });
             
             this.Accounts = this._MainPageModel.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
 
-            this.TweetArea = new ReactiveProperty<TweetAreaViewModel>(new TweetAreaViewModel(this.Accounts));
+            this.TweetArea = new TweetAreaViewModel(this.Accounts);
 
             this.ShowImagePreviewMessenger = new Messenger();
             this.ShowVideoPreviewMessenger = new Messenger();
@@ -100,7 +101,7 @@ namespace Flantter.MilkyWay.ViewModels
                     if (!supportedFormat.Contains(file.FileType))
                         continue;
 
-                    await this.TweetArea.Value._TweetAreaModel.AddPicture(file);
+                    await this.TweetArea._TweetAreaModel.AddPicture(file);
                 }
 
                 this.AppBarIsOpen.Value = true;

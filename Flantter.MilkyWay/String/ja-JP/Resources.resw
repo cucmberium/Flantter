@@ -198,9 +198,6 @@
   <data name="Tweet_Command_MenuFlyout_StatusDetail.Text" xml:space="preserve">
     <value>    ツイートの詳細</value>
   </data>
-  <data name="Tweet_Command_MenuFlyout_UnofficialRetweet.Text" xml:space="preserve">
-    <value>    非公式リツイート</value>
-  </data>
   <data name="Tweet_Command_MenuFlyout_UrlQuoteRetweet.Text" xml:space="preserve">
     <value>    コメント付きリツイート</value>
   </data>

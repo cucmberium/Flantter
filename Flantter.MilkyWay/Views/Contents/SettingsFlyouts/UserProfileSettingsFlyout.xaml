@@ -107,12 +107,12 @@
                             <SymbolIcon Symbol="Add" Foreground="White"/>
                             <Button.Flyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenInWeb" Text="ブラウザで開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UrlClickCommand}" CommandParameter="{x:Bind ViewModel.UserProfileUrl.Value, Mode=OneWay}"/>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenInWeb" Text="ブラウザで開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.OpenUserProfileInWebCommand}"/>
                                     <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserLists" Text="ユーザーのリストを開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserListsCommand}" CommandParameter="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
                                     <!--<MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserFavorite" Text="ユーザーのAclogを開く" FontFamily="Segoe UI Symbol" Command="{Binding OpenUserAclogClickCommand}"/>-->
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_Block" FontFamily="Segoe UI Symbol" Text="ブロック" Command="{x:Bind ViewModel.BlockUserCommand}"/>
-                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_UserMute" FontFamily="Segoe UI Symbol" Text="ユーザーをミュート" Command="{x:Bind ViewModel.MuteUserCommand}"/>
+                                    <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.IsMyUserProfile.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}"/>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_Block" Visibility="{x:Bind ViewModel.IsMyUserProfile.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" FontFamily="Segoe UI Symbol" Text="ブロック" Command="{x:Bind ViewModel.BlockUserCommand}"/>
+                                    <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_UserMute" Visibility="{x:Bind ViewModel.IsMyUserProfile.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" FontFamily="Segoe UI Symbol" Text="ユーザーをミュート" Command="{x:Bind ViewModel.MuteUserCommand}"/>
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>

@@ -11,7 +11,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
     public class Status : ITweet
     {
         private static readonly Regex SourceRegex = new Regex("<(\"[^\"]*\"|'[^']*'|[^'\">])*>", RegexOptions.Compiled);
-
+        
         public Status(CoreTweet.Status cOrigStatus)
         {
             var cStatus = cOrigStatus;

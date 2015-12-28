@@ -271,6 +271,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (linkUrl.StartsWith("hashtag://"))
             {
                 var hashTag = linkUrl.Replace("hashtag://", "");
+                ViewModels.Services.Notice.Instance.ShowSearchCommand.Execute(hashTag);
                 return;
             }
             else if (linkUrl.StartsWith("usermention://"))
@@ -284,7 +285,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
 			if (statusMatch.Success)
 			{
-
+                ViewModels.Services.Notice.Instance.ShowStatusDetailCommand.Execute(long.Parse(statusMatch.Groups["Id"].ToString()));
             }
 			else if (userMatch.Success)
 			{

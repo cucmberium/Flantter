@@ -20,120 +20,51 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
     public class StatusViewModel : ExtendedBindableBase, ITweetViewModel
     {
-        public StatusViewModel(Status status, long userId)
+        public StatusViewModel()
         {
-            this.Model = status;
+            this.Model = null;
 
             // BackgroundBrush
             this.BackgroundBrush = "Default";
-            if (status.HasRetweetInformation)
-                this.BackgroundBrush = "Retweet";
-            else if (status.InReplyToUserId == userId)
-                this.BackgroundBrush = "Mention";
-            else if (status.IsFavorited)
-                this.BackgroundBrush = "Favorite";
-            else if (status.User.Id == userId)
-                this.BackgroundBrush = "MyTweet";
+            this.CreatedAt = DateTime.Now.ToString();
+            this.Source = "";
+            this.Text = "";
+            this.ScreenName = "";
+            this.Name = "";
+            this.ProfileImageUrl = "http://localhost/";
+            this.Id = 0;
+            this.Entities = null;
+            this.ProtectedText = "";
 
-            this.CreatedAt = status.CreatedAt.ToLocalTime().ToString();
-            this.Source = status.Source;
-            this.Text = status.Text;
-            this.ScreenName = status.User.ScreenName;
-            this.Name = status.User.Name;
-            this.ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl) ? "http://localhost/" : status.User.ProfileImageUrl;
-            this.Id = status.Id;
-            this.Entities = status.Entities;
-            this.ProtectedText = status.User.IsProtected ? "🔒" : "";
-
-            this.RetweetInformationVisibility = status.HasRetweetInformation;
-            this.MediaVisibility = status.Entities.Media.Count == 0 ? false : true;
+            this.RetweetInformationVisibility = false;
+            this.MediaVisibility = false;
             this.MediaEntities = new List<MediaEntityViewModel>();
-            foreach (var mediaEntity in status.Entities.Media)
-                this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
-
             this.EntitiesList = new List<EntityViewModel>();
-            foreach (var urlEntity in status.Entities.Urls)
-                this.EntitiesList.Add(new EntityViewModel(urlEntity));
-            foreach (var hashTagEntity in status.Entities.HashTags)
-                this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
-            foreach (var userMentionEntity in status.Entities.UserMentions)
-                this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
 
-            this.IsFavorited = status.IsFavorited;
-            this.IsRetweeted = status.IsRetweeted;
+            this.IsFavorited = false;
+            this.IsRetweeted = false;
 
             // RetweetInformation
-            if (status.RetweetInformation != null)
-            {
-                if (status.RetweetCount >= 2)
-                    this.RetweetInformationText = "Retweet by " + status.RetweetInformation.User.ScreenName + " ( " + status.RetweetInformation.User.Name + " ) and " + status.RetweetCount.ToString() + " others";
-                else
-                    this.RetweetInformationText = "Retweet by " + status.RetweetInformation.User.ScreenName + " ( " + status.RetweetInformation.User.Name + " )";
-
-                this.RetweetInformationProfileImageUrl = string.IsNullOrWhiteSpace(status.RetweetInformation.User.ProfileImageUrl) ? "http://localhost/" : status.RetweetInformation.User.ProfileImageUrl;
-                this.RetweetInformationScreenName = status.RetweetInformation.User.ScreenName;
-            }
-            else
-            {
-                this.RetweetInformationText = "";
-                this.RetweetInformationProfileImageUrl = "http://localhost/";
-            }
+            this.RetweetInformationText = "";
+            this.RetweetInformationProfileImageUrl = "http://localhost/";
 
             // RetweetCounter
-            if (!status.HasRetweetInformation && status.RetweetCount > 0)
-            {
-                this.RetweetCounterVisibility = true;
-                this.RetweetCounterText = "Retweeted " + status.RetweetCount.ToString() + " time";
-
-                if (status.RetweetCount > 1)
-                    this.RetweetCounterText += "s";
-            }
-            else
-            {
-                this.RetweetCounterVisibility = false;
-                this.RetweetCounterText = "";
-            }
-
-            // TriangleIcon
-            if (!status.IsRetweeted && status.IsFavorited)
-                this.FavoriteTriangleIconVisibility = true;
-            else
-                this.FavoriteTriangleIconVisibility = false;
-            if (status.IsRetweeted && !status.IsFavorited)
-                this.RetweetTriangleIconVisibility = true;
-            else
-                this.RetweetTriangleIconVisibility = false;
-            if (status.IsRetweeted && status.IsFavorited)
-                this.RetweetFavoriteTriangleIconVisibility = true;
-            else
-                this.RetweetFavoriteTriangleIconVisibility = false;
+            this.RetweetCounterVisibility = false;
+            this.RetweetCounterText = "";
             
-            this.QuotedStatusVisibility = status.QuotedStatusId != 0 ? true : false;
-            this.QuotedStatusId = status.QuotedStatusId;
-            if (status.QuotedStatus != null)
-            {
-                this.QuotedStatusName = status.QuotedStatus.User.Name;
-                this.QuotedStatusScreenName = status.QuotedStatus.User.ScreenName;
-                this.QuotedStatusText = status.QuotedStatus.Text;
-                this.QuotedStatusEntities = status.QuotedStatus.Entities;
-                this.QuotedStatusProfileImageUrl = string.IsNullOrWhiteSpace(status.QuotedStatus.User.ProfileImageUrl) ? "http://localhost/" : status.QuotedStatus.User.ProfileImageUrl;
-            }
-            else
-            {
-                this.QuotedStatusProfileImageUrl = "http://localhost/";
-            }
+            this.QuotedStatusVisibility = false;
+            this.QuotedStatusProfileImageUrl = "http://localhost/";
 
             this.MentionStatusProfileImageUrl = "http://localhost/";
 
-            this.MentionStatusVisibility = (status.InReplyToStatusId != 0);
-            this.IsMentionStatusLoaded = (status.MentionStatus != null);
+            this.MentionStatusVisibility = false;
             this.IsMentionStatusLoading = false;
 
-            this.RetweetCount = status.RetweetCount;
+            this.RetweetCount = 0;
 
-            this.IsMyTweet = (status.User.Id == userId);
-            this.IsMyRetweet = (status.RetweetInformation != null && status.RetweetInformation.User.Id == userId) || status.IsRetweeted;
-            
+            this.IsMyTweet = false;
+            this.IsMyRetweet = false;
+
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;
         }
@@ -248,6 +179,124 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.IsMyTweet = false;
             this.IsMyRetweet = false;
 
+            this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
+        }
+
+        public StatusViewModel(Status status, long userId)
+        {
+            this.Model = status;
+
+            // BackgroundBrush
+            this.BackgroundBrush = "Default";
+            if (status.HasRetweetInformation)
+                this.BackgroundBrush = "Retweet";
+            else if (status.InReplyToUserId == userId)
+                this.BackgroundBrush = "Mention";
+            else if (status.IsFavorited)
+                this.BackgroundBrush = "Favorite";
+            else if (status.User.Id == userId)
+                this.BackgroundBrush = "MyTweet";
+
+            this.CreatedAt = status.CreatedAt.ToLocalTime().ToString();
+            this.Source = status.Source;
+            this.Text = status.Text;
+            this.ScreenName = status.User.ScreenName;
+            this.Name = status.User.Name;
+            this.ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl) ? "http://localhost/" : status.User.ProfileImageUrl;
+            this.Id = status.Id;
+            this.Entities = status.Entities;
+            this.ProtectedText = status.User.IsProtected ? "🔒" : "";
+
+            this.RetweetInformationVisibility = status.HasRetweetInformation;
+            this.MediaVisibility = status.Entities.Media.Count == 0 ? false : true;
+            this.MediaEntities = new List<MediaEntityViewModel>();
+            foreach (var mediaEntity in status.Entities.Media)
+                this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+
+            this.EntitiesList = new List<EntityViewModel>();
+            foreach (var urlEntity in status.Entities.Urls)
+                this.EntitiesList.Add(new EntityViewModel(urlEntity));
+            foreach (var hashTagEntity in status.Entities.HashTags)
+                this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
+            foreach (var userMentionEntity in status.Entities.UserMentions)
+                this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
+
+            this.IsFavorited = status.IsFavorited;
+            this.IsRetweeted = status.IsRetweeted;
+
+            // RetweetInformation
+            if (status.RetweetInformation != null)
+            {
+                if (status.RetweetCount >= 2)
+                    this.RetweetInformationText = "Retweet by " + status.RetweetInformation.User.ScreenName + " ( " + status.RetweetInformation.User.Name + " ) and " + status.RetweetCount.ToString() + " others";
+                else
+                    this.RetweetInformationText = "Retweet by " + status.RetweetInformation.User.ScreenName + " ( " + status.RetweetInformation.User.Name + " )";
+
+                this.RetweetInformationProfileImageUrl = string.IsNullOrWhiteSpace(status.RetweetInformation.User.ProfileImageUrl) ? "http://localhost/" : status.RetweetInformation.User.ProfileImageUrl;
+                this.RetweetInformationScreenName = status.RetweetInformation.User.ScreenName;
+            }
+            else
+            {
+                this.RetweetInformationText = "";
+                this.RetweetInformationProfileImageUrl = "http://localhost/";
+            }
+
+            // RetweetCounter
+            if (!status.HasRetweetInformation && status.RetweetCount > 0)
+            {
+                this.RetweetCounterVisibility = true;
+                this.RetweetCounterText = "Retweeted " + status.RetweetCount.ToString() + " time";
+
+                if (status.RetweetCount > 1)
+                    this.RetweetCounterText += "s";
+            }
+            else
+            {
+                this.RetweetCounterVisibility = false;
+                this.RetweetCounterText = "";
+            }
+
+            // TriangleIcon
+            if (!status.IsRetweeted && status.IsFavorited)
+                this.FavoriteTriangleIconVisibility = true;
+            else
+                this.FavoriteTriangleIconVisibility = false;
+            if (status.IsRetweeted && !status.IsFavorited)
+                this.RetweetTriangleIconVisibility = true;
+            else
+                this.RetweetTriangleIconVisibility = false;
+            if (status.IsRetweeted && status.IsFavorited)
+                this.RetweetFavoriteTriangleIconVisibility = true;
+            else
+                this.RetweetFavoriteTriangleIconVisibility = false;
+            
+            this.QuotedStatusVisibility = status.QuotedStatusId != 0 ? true : false;
+            this.QuotedStatusId = status.QuotedStatusId;
+            if (status.QuotedStatus != null)
+            {
+                this.QuotedStatusName = status.QuotedStatus.User.Name;
+                this.QuotedStatusScreenName = status.QuotedStatus.User.ScreenName;
+                this.QuotedStatusText = status.QuotedStatus.Text;
+                this.QuotedStatusEntities = status.QuotedStatus.Entities;
+                this.QuotedStatusProfileImageUrl = string.IsNullOrWhiteSpace(status.QuotedStatus.User.ProfileImageUrl) ? "http://localhost/" : status.QuotedStatus.User.ProfileImageUrl;
+            }
+            else
+            {
+                this.QuotedStatusProfileImageUrl = "http://localhost/";
+            }
+
+            this.MentionStatusProfileImageUrl = "http://localhost/";
+
+            this.MentionStatusVisibility = (status.InReplyToStatusId != 0);
+            this.IsMentionStatusLoaded = (status.MentionStatus != null);
+            this.IsMentionStatusLoading = false;
+
+            this.RetweetCount = status.RetweetCount;
+
+            this.IsMyTweet = (status.User.Id == userId);
+            this.IsMyRetweet = (status.RetweetInformation != null && status.RetweetInformation.User.Id == userId) || status.IsRetweeted;
+            
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;
         }

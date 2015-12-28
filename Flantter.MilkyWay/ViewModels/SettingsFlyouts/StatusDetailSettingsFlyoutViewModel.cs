@@ -26,7 +26,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.IconSource = new ReactiveProperty<string>("http://localhost/");
 
             this.StatusId = this.Model.ToReactivePropertyAsSynchronized(x => x.StatusId);
-            this.Status = this.Model.ObserveProperty(x => x.Status).Select(x => x != null ? new StatusViewModel(x, this.Tokens.Value.UserId) : null).ToReactiveProperty();
+            this.Status = this.Model.ObserveProperty(x => x.Status).Select(x => x != null ? new StatusViewModel(x, this.Tokens.Value.UserId) : new StatusViewModel()).ToReactiveProperty();
 
             this.UpdatingStatus = this.Model.ToReactivePropertyAsSynchronized(x => x.UpdatingStatus);
             this.UpdatingActionStatuses = this.Model.ToReactivePropertyAsSynchronized(x => x.UpdatingActionStatuses);

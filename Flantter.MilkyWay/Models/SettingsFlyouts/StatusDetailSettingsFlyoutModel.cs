@@ -14,6 +14,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         public StatusDetailSettingsFlyoutModel()
         {
             this.ActionStatuses = new ObservableCollection<Twitter.Objects.Status>();
+            this.Status = null;
         }
 
         #region Tokens変更通知プロパティ

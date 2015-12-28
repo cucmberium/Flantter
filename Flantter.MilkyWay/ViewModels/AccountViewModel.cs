@@ -222,6 +222,40 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
             });
 
+            Services.Notice.Instance.RetweetFavoriteCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+
+                if (!statusViewModel.Model.IsRetweeted)
+                    await this._AccountModel.Retweet(statusViewModel.Model);
+                if (!statusViewModel.Model.IsFavorited)
+                    await this._AccountModel.Favorite(statusViewModel.Model);
+
+                statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
+                statusViewModel.OnPropertyChanged("IsRetweeted");
+                statusViewModel.IsFavorited = statusViewModel.Model.IsFavorited;
+                statusViewModel.OnPropertyChanged("IsFavorited");
+
+                if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.FavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.FavoriteTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
+
+                statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
+            });
+
             Services.Notice.Instance.DeleteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
             {
                 var statusViewModel = x as StatusViewModel;

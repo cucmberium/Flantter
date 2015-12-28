@@ -9,6 +9,7 @@
     xmlns:setting="using:Flantter.MilkyWay.Setting"
     xmlns:notice="using:Flantter.MilkyWay.ViewModels.Services"
     RequestedTheme="Dark">
+    
     <prism:PrismApplication.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -27,7 +28,8 @@
             <converters:DoublePlusConverter x:Key="DoublePlusConverter"/>
             <converters:IntToStringConverter x:Key="IntToStringConverter"/>
             <converters:ColorCodeToBrushConverter x:Key="ColorCodeToBrushConverter"/>
-            
+            <converters:LongToVisibilityConverter x:Key="LongToVisibilityConverter"/>
+
             <setting:SettingProvider x:Key="Setting"/>
             <notice:NoticeProvider x:Key="Notice"/>
             

@@ -322,14 +322,18 @@
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_ReplyMenu" Text="&#xE172;    リプライ関連" FontFamily="Segoe UI Symbol">
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Reply" Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
-                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_ReplyToAll" Text="&#xE165;    全員に返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyToAllCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_ReplyToAll" Text="&#xE165;    全員に返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyToAllCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_RetweetMenu" Text="&#xE1CA;    リツイート関連" FontFamily="Segoe UI Symbol">
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Retweet" Text="&#xE1CA;    リツイート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.RetweetCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UrlQuoteRetweet" Text="&#xE167;    コメント付きリツイート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UrlQuoteRetweetCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_RetweetFavorite" Text="&#xE1CA;    リツイート + お気に入りへ登録" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.RetweetFavoriteCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Favorite" Text="&#xE1CF;    お気に入りへ登録" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.FavoriteCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_OtherMenu" Text="&#xE16F;    その他" FontFamily="Segoe UI Symbol">
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_OpenStatusUrl" Text="&#xE71B;    ツイートのURLを開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.OpenStatusUrlCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_ShareStatus" Text="&#xE72D;    ツイートの共有" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShareStatusCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_CopyTweet" Text="&#xE16F;    ツイートのコピー" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.CopyTweetCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Retweeter" Text="&#xE1CA;    リツイートした人" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.RetweetCount, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowRetweeterCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                             <MenuFlyoutSeparator />

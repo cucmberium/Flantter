@@ -60,7 +60,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.ActionStatuses = this.Model.ActionStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
 
             this.Notice = Services.Notice.Instance;
-
         }
 
         public StatusDetailSettingsFlyoutModel Model { get; set; }

@@ -203,6 +203,24 @@ namespace Flantter.MilkyWay.ViewModels
                     await Launcher.LaunchUriAsync(new Uri(linkUrl));
                 }
             });
+
+            Services.Notice.Instance.OpenStatusUrlCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var status = x as Status;
+                if (status == null)
+                    return;
+
+                await Launcher.LaunchUriAsync(new Uri("https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id.ToString()));
+            });
+
+            Services.Notice.Instance.ShareStatusCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var status = x as Status;
+                if (status == null)
+                    return;
+
+                // Todo : 実装
+            });
             #endregion
         }
         #endregion

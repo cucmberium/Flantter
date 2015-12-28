@@ -205,7 +205,7 @@
     <value>    Unofficial Retweet</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_UrlQuoteRetweet.Text" xml:space="preserve">
-    <value>    Retweet with comment</value>
+    <value>    Retweet with Comment</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_UserProfile.Text" xml:space="preserve">
     <value>    User Profile</value>
@@ -387,5 +387,59 @@
   </data>
   <data name="SettingsFlyout_UserProfile_Tweets.Text" xml:space="preserve">
     <value>Tweets</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_OpenStatusUrl.Text" xml:space="preserve">
+    <value>    Open Status Url</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_ShareStatus.Text" xml:space="preserve">
+    <value>    Share Status</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_Favorite.Text" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_Link.Text" xml:space="preserve">
+    <value>Link in Tweet</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_MuteClient.Text" xml:space="preserve">
+    <value>Mute Client</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_MuteUser.Text" xml:space="preserve">
+    <value>Mute User</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_OpenStatusUrl.Text" xml:space="preserve">
+    <value>Open Tweet Url</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_Reply.Text" xml:space="preserve">
+    <value>Reply</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_ReplyToAll.Text" xml:space="preserve">
+    <value>Reply All</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_Retweet.Text" xml:space="preserve">
+    <value>Retweet</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_RetweetFavorite.Text" xml:space="preserve">
+    <value>Retweet + Favorite</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_SendDirectMessage.Text" xml:space="preserve">
+    <value>Send DM</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_ShareStatus.Text" xml:space="preserve">
+    <value>Share Tweet</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_ShowConversation.Text" xml:space="preserve">
+    <value>Show Conversation</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_ShowRetweeter.Text" xml:space="preserve">
+    <value>Show Retweeter</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_UrlQuoteRetweetRetweet.Text" xml:space="preserve">
+    <value>Retweet with comment</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_Favorite.Text" xml:space="preserve">
+    <value>    Favorite</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_RetweetFavorite.Text" xml:space="preserve">
+    <value>    Retweet + Favorite</value>
   </data>
 </root>

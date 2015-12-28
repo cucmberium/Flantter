@@ -202,7 +202,7 @@
     <value>    非公式リツイート</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_UrlQuoteRetweet.Text" xml:space="preserve">
-    <value>    コメント付きリツイート</value>
+    <value>    コメント付きリツイート</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_UserProfile.Text" xml:space="preserve">
     <value>    ユーザープロフィール</value>
@@ -387,5 +387,59 @@
   </data>
   <data name="SettingsFlyout_UserProfile_Tweets.Text" xml:space="preserve">
     <value>ツイート</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_OpenStatusUrl.Text" xml:space="preserve">
+    <value>    ツイートのURLを開く</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_ShareStatus.Text" xml:space="preserve">
+    <value>    ツイートの共有</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_Favorite.Text" xml:space="preserve">
+    <value>お気に入りに追加</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_Link.Text" xml:space="preserve">
+    <value>ツイート内のリンク</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_MuteClient.Text" xml:space="preserve">
+    <value>クライアントをミュート</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_MuteUser.Text" xml:space="preserve">
+    <value>ユーザーをミュート</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_OpenStatusUrl.Text" xml:space="preserve">
+    <value>ツイートのURLを開く</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_Reply.Text" xml:space="preserve">
+    <value>返信する</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_ReplyToAll.Text" xml:space="preserve">
+    <value>全員に返信する</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_Retweet.Text" xml:space="preserve">
+    <value>リツイート</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_RetweetFavorite.Text" xml:space="preserve">
+    <value>リツイート + お気に入りに追加</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_SendDirectMessage.Text" xml:space="preserve">
+    <value>ダイレクトメッセージを送る</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_ShareStatus.Text" xml:space="preserve">
+    <value>ツイートを共有</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_ShowConversation.Text" xml:space="preserve">
+    <value>会話を表示</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_ShowRetweeter.Text" xml:space="preserve">
+    <value>リツイートした人</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_UrlQuoteRetweetRetweet.Text" xml:space="preserve">
+    <value>コメント付きリツイート</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_Favorite.Text" xml:space="preserve">
+    <value>    お気に入りに追加</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_RetweetFavorite.Text" xml:space="preserve">
+    <value>    リツイート + お気に入りに追加</value>
   </data>
 </root>

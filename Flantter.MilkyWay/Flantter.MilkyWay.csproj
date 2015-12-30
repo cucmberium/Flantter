@@ -129,6 +129,7 @@
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\SettingsFlyouts\DirectMessageConversationSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\SearchSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ConversationSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\StatusDetailSettingsFlyoutModel.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\LayoutHelper.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\DirectMessageConversationSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ConversationSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\StatusDetailSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\SearchSettingsFlyoutViewModel.cs" />
@@ -180,6 +182,9 @@
     <Compile Include="Views\Contents\ColumnAreaListBox.cs" />
     <Compile Include="Views\Contents\FollowButon.xaml.cs">
       <DependentUpon>FollowButon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\DirectMessageConversationSettingsFlyout.xaml.cs">
+      <DependentUpon>DirectMessageConversationSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\StatusDetailSettingsFlyout.xaml.cs">
       <DependentUpon>StatusDetailSettingsFlyout.xaml</DependentUpon>
@@ -353,6 +358,10 @@
     <Page Include="Views\Contents\FollowButon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\DirectMessageConversationSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\StatusDetailSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>

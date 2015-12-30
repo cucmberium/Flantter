@@ -144,6 +144,32 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     settingsFlyout.Show();
                     break;
+                case "DirectMessageConversation":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is DirectMessageConversationSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new DirectMessageConversationSettingsFlyout();
+                        ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.DirectMessageConversationSettingsFlyoutViewModel();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value = notification.Content as string;
+
+                    ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((DirectMessageConversationSettingsFlyout)settingsFlyout).DataContext = ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+                    break;
             }
 
             return null;

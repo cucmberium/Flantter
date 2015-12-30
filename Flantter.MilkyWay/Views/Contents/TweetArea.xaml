@@ -14,7 +14,7 @@
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
     mc:Ignorable="d"
-    d:DesignHeight="132"
+    d:DesignHeight="160"
     d:DesignWidth="1280">
 
     <i:Interaction.Behaviors>

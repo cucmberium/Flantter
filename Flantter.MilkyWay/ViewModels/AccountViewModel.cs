@@ -318,6 +318,12 @@ namespace Flantter.MilkyWay.ViewModels
                 this._AccountModel.AddColumn(setting);
             });
 
+            Services.Notice.Instance.SendDirectMessageCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "DirectMessageConversation", Tokens = this._AccountModel._Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
             #endregion
         }
         #endregion

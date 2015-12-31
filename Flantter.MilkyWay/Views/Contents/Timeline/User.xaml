@@ -108,16 +108,25 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="1" ToolTipService.ToolTip="UserProfile" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}">
+            <Button Grid.Column="2" ToolTipService.ToolTip="UserProfile" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="ContactInfo" />
             </Button>
 
+            <Button Grid.Column="1" ToolTipService.ToolTip="Reply" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}">
+                <SymbolIcon Foreground="{StaticResource TweetCommandBarReplySymbolIconForegroundBrush}" Symbol="Message"/>
+            </Button>
+            
             <Button Grid.Column="0" ToolTipService.ToolTip="Menu" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="Add" />
                 <Button.Flyout>
                     <MenuFlyout>
+                        <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_ReplyMenu" Text="&#xE172;    リプライ関連" FontFamily="Segoe UI Symbol">
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Reply" Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
+                        </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_OtherMenu" Text="&#xE16F;    その他" FontFamily="Segoe UI Symbol">
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_MuteUser" Text="&#xE1E0;    ユーザーミュート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>

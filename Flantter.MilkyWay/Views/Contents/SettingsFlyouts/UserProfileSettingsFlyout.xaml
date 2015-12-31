@@ -107,6 +107,11 @@
                             <SymbolIcon Symbol="Add" Foreground="White"/>
                             <Button.Flyout>
                                 <MenuFlyout>
+                                    <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_ReplyMenu" Text="&#xE172;    リプライ関連" FontFamily="Segoe UI Symbol">
+                                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Reply" Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
+                                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Visibility="{x:Bind ViewModel.IsMyUserProfile.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
+                                    </MenuFlyoutSubItem>
+                                    <MenuFlyoutSeparator/>
                                     <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenInWeb" Text="ブラウザで開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.OpenUserProfileInWebCommand}"/>
                                     <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserLists" Text="ユーザーのリストを開く" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserListsCommand}" CommandParameter="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
                                     <!--<MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_OpenUserFavorite" Text="ユーザーのAclogを開く" FontFamily="Segoe UI Symbol" Command="{Binding OpenUserAclogClickCommand}"/>-->

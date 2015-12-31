@@ -193,22 +193,39 @@ namespace Flantter.MilkyWay.ViewModels
             Services.Notice.Instance.ReplyCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
                 var statusViewModel = x as StatusViewModel;
-                if (statusViewModel == null)
+                if (statusViewModel != null)
+                {
+
+                    this.ReplyOrQuotedStatus.Value = statusViewModel;
+
+                    this._TweetAreaModel.IsQuotedRetweet = false;
+                    this._TweetAreaModel.IsReply = true;
+                    this._TweetAreaModel.ReplyOrQuotedStatus = statusViewModel.Model;
+
+                    this._TweetAreaModel.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
+
+                    Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                    await Task.Delay(50);
+
+                    this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
+
                     return;
+                }
 
-                this.ReplyOrQuotedStatus.Value = statusViewModel;
+                var screenName = x as string;
+                if (!string.IsNullOrWhiteSpace(screenName))
+                {
+                    this._TweetAreaModel.Text = "@" + screenName + " ";
 
-                this._TweetAreaModel.IsQuotedRetweet = false;
-                this._TweetAreaModel.IsReply = true;
-                this._TweetAreaModel.ReplyOrQuotedStatus = statusViewModel.Model;
+                    Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
 
-                this._TweetAreaModel.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
+                    await Task.Delay(50);
 
-                Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
+                    this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
 
-                await Task.Delay(50);
-
-                this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
+                    return;
+                }
             });
 
             Services.Notice.Instance.ReplyToAllCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>

@@ -158,12 +158,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
             switch (SettingService.Setting.TweetAnimation)
             {
                 case SettingSupport.TweetAnimationEnum.ScrollToTop:
-                    this.ScrollViewerObject.ChangeView(null, offset, null, true);
-
                     if (isAnimationRunning && !isAnimationCooldown)
                         this.RunAnimation(offset, changedVerticalOffset);
                     else if (verticalOffset <= 2.5 && !isAnimationCooldown)
                         this.RunAnimation(offset, offset);
+                    else
+                        this.ScrollViewerObject.ChangeView(null, offset, null, true);
 
                     break;
                 case SettingSupport.TweetAnimationEnum.Expand:
@@ -185,13 +185,19 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     story.Begin();
 
                     this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
+                    previousVerticalOffset = 0;
 
                     break;
                 case SettingSupport.TweetAnimationEnum.None:
                     if (verticalOffset > 2.5)
+                    {
                         this.ScrollViewerObject.ChangeView(null, offset, null, true);
+                    }
                     else
+                    {
                         this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
+                        previousVerticalOffset = 0;
+                    }
 
                     break;
             }
@@ -247,7 +253,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }).AsTask().Wait();
                 }
 
-                new Task(() => { }).Wait(10);
+                Task.Delay(12).Wait();
             }
             isAnimationRunning = false;
             remainHeight = 0.0;
@@ -341,7 +347,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     break;
 
                 cooltime -= 10;
-                new Task(() => { }).Wait(10);
+                Task.Delay(10).Wait();
             }
             cooltime = 0;
             isAnimationCooldown = false;

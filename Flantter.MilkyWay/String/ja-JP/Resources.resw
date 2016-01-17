@@ -439,4 +439,10 @@
   <data name="Tweet_Command_MenuFlyout_RetweetFavorite.Text" xml:space="preserve">
     <value>    リツイート + お気に入りに追加</value>
   </data>
+  <data name="SettingsFlyout_UserLists_MemberCountTextblock.Text" xml:space="preserve">
+    <value>メンバー : </value>
+  </data>
+  <data name="SettingsFlyout_UserLists_SubscriberCountTextblock.Text" xml:space="preserve">
+    <value>フォロワー : </value>
+  </data>
 </root>

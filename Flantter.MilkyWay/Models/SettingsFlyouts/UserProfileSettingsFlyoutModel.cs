@@ -45,50 +45,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         public bool OpenFollowers { get; set; }
         public bool OpenFavorite { get; set; }
 
-        #region SelectedTab変更通知プロパティ
-        private int _SelectedTab;
-        public int SelectedTab
-        {
-            get { return this._SelectedTab; }
-            set
-            { 
-                if (this._SelectedTab != value)
-                {
-                    this._SelectedTab = value;
-                    this.OnPropertyChanged();
-
-                    switch (this._SelectedTab)
-                    {
-                        case 0:
-                            break;
-                        case 1:
-                            if (!this.OpenFollowing)
-                            {
-                                this.UpdateFollowing();
-                                this.OpenFollowing = true;
-                            }
-                            break;
-                        case 2:
-                            if (!this.OpenFollowers)
-                            {
-                                this.UpdateFollowers();
-                                this.OpenFollowers = true;
-                            }
-                            break;
-                        case 3:
-                            if (!this.OpenFavorite)
-                            {
-                                this.UpdateFavorites();
-                                this.OpenFavorite = true;
-                            }
-                            break;
-                    }
-
-                }
-            }
-        }
-        #endregion
-
         public ObservableCollection<Twitter.Objects.Status> Statuses { get; set; }
         public ObservableCollection<Twitter.Objects.Status> Favorites { get; set; }
         public ObservableCollection<Twitter.Objects.User> Followers { get; set; }
@@ -350,6 +306,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
                 return;
 
+            if (useCursor && followerCursor == 0)
+                return;
+
             this.UpdatingFollowers = true;
 
             Cursored<CoreTweet.User> follower;
@@ -389,6 +348,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
 
             if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
+                return;
+
+            if (useCursor && followingCursor == 0)
                 return;
 
             this.UpdatingFollowing = true;

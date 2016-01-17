@@ -49,7 +49,7 @@
             <CompositeTransform/>
         </StackPanel.RenderTransform>
 
-        <Grid x:DeferLoadStrategy="Lazy" Grid.Row="1" x:Name="MentionStatusGrid" Visibility="Collapsed" Height="0" Margin="0,0,0,5">
+        <Grid x:DeferLoadStrategy="Lazy" x:Name="MentionStatusGrid" Visibility="Collapsed" Height="0" Margin="0,0,0,5">
             <i:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="Tapped">
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowConversationCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
@@ -147,7 +147,7 @@
             </Grid>
         </Grid>
         
-        <Grid Grid.Row="2" x:Name="StatusGrid" Margin="0,0,12,0">
+        <Grid x:Name="StatusGrid" Margin="0,0,12,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="Auto"/>
@@ -223,7 +223,7 @@
             <ContentControl x:Name="RetweetFavoriteTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource RetweetFavoriteTriangleIcon}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
         </Grid>
 
-        <Border x:DeferLoadStrategy="Lazy" Grid.Row="3" x:Name="QuotedStatusBorder" Visibility="Collapsed" Margin="30,4,12,0" Background="{StaticResource TweetQuotedStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">
+        <Border x:DeferLoadStrategy="Lazy" x:Name="QuotedStatusBorder" Visibility="Collapsed" Margin="30,4,12,0" Background="{StaticResource TweetQuotedStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">
 
             <i:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="Tapped">
@@ -253,7 +253,7 @@
 
         </Border>
 
-        <Grid x:DeferLoadStrategy="Lazy" Grid.Row="4" x:Name="CommandGrid" Visibility="Collapsed" Height="0" HorizontalAlignment="Right" Margin="0,0,12,0">
+        <Grid x:DeferLoadStrategy="Lazy" x:Name="CommandGrid" Visibility="Collapsed" Height="0" HorizontalAlignment="Right" Margin="0,0,12,0">
 
             <Grid.Resources>
                 <Storyboard x:Name="TweetCommandBarOpenAnimation">

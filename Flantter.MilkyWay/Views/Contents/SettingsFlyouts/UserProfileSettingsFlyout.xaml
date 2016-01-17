@@ -126,7 +126,7 @@
                 </StackPanel>
             </Grid>
             <controls:VerticalBar x:Name="UserProfileVerticalBar" Width="2" Visibility="Collapsed"/>
-            <Pivot x:Name="UserProfileTweetPivot" SelectedIndex="{x:Bind ViewModel.SelectedTab.Value, Mode=TwoWay}"  Style="{StaticResource PivotStyleDynamicHeader}">
+            <Pivot x:Name="UserProfileTweetPivot" SelectedIndex="{x:Bind ViewModel.PivotSelectedIndex.Value, Mode=TwoWay}"  Style="{StaticResource PivotStyleDynamicHeader}">
                 <PivotItem Margin="0">
                     <PivotItem.Header>
                         <contents:TabHeader Width="80" Label="Tweets" Glyph="&#xE15F;" />

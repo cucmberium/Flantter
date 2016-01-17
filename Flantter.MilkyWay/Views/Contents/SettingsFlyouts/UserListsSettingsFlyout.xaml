@@ -1,0 +1,135 @@
+﻿<controls:ExtendedSettingsFlyout
+    x:Class="Flantter.MilkyWay.Views.Contents.SettingsFlyouts.UserListsSettingsFlyout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Flantter.MilkyWay.Views.Contents.SettingsFlyouts"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
+    xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
+    xmlns:util="using:Flantter.MilkyWay.Views.Util"
+	xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
+    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
+    xmlns:winrtXamlToolKit="using:WinRTXamlToolkit.Controls"
+    mc:Ignorable="d"
+    Title="UserLists"
+    HorizontalContentAlignment="Stretch"
+    VerticalContentAlignment="Stretch"
+    Padding="0"
+    IconSource="{x:Bind ViewModel.IconSource.Value, Mode=OneWay}"
+    MinWidth="320"
+    HeaderBackground="{StaticResource SettingsFlyoutHeaderForegroundBrush}"
+    d:DesignHeight="720"
+    d:DesignWidth="320">
+
+    <Pivot x:Name="UserListsSettingsFlyoutPivot" Style="{StaticResource PivotStyleDynamicHeader}" Background="{StaticResource SettingsFlyoutBackgroundBrush}" SelectedIndex="{x:Bind ViewModel.PivotSelectedIndex.Value, Mode=TwoWay}">
+
+        <PivotItem Margin="0">
+            <PivotItem.Header>
+                <contents:TabHeader Label="User" Glyph="&#xE13D;" />
+            </PivotItem.Header>
+
+            <Grid>
+                <ListView Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.UserLists}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <i:Interaction.Behaviors>
+                        <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.UserListsIncrementalLoadCommand}" />
+                    </i:Interaction.Behaviors>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel>
+                                <i:Interaction.Behaviors>
+                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                </i:Interaction.Behaviors>
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection/>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:ListViewModel">
+                            <timeline:List ViewModel="{x:Bind}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListView>
+
+                <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingUserLists.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingUserLists.Value, Mode=OneWay}" VerticalAlignment="Top" />
+
+            </Grid>
+        </PivotItem>
+
+        <PivotItem Margin="0">
+            <PivotItem.Header>
+                <contents:TabHeader Label="Subscribe" Glyph="&#xE125;" />
+            </PivotItem.Header>
+
+            <Grid>
+                <ListView Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.SubscribeLists}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <i:Interaction.Behaviors>
+                        <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.SubscribeListsIncrementalLoadCommand}" />
+                    </i:Interaction.Behaviors>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel>
+                                <i:Interaction.Behaviors>
+                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                </i:Interaction.Behaviors>
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection/>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:ListViewModel">
+                            <timeline:List ViewModel="{x:Bind}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListView>
+
+                <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingSubscribeLists.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingSubscribeLists.Value, Mode=OneWay}" VerticalAlignment="Top" />
+
+            </Grid>
+        </PivotItem>
+
+        <PivotItem Margin="0">
+            <PivotItem.Header>
+                <contents:TabHeader Label="Member" Glyph="&#xE136;" />
+            </PivotItem.Header>
+
+            <Grid>
+                <ListView Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.MembershipLists}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <i:Interaction.Behaviors>
+                        <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.MembershipListsIncrementalLoadCommand}" />
+                    </i:Interaction.Behaviors>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel>
+                                <i:Interaction.Behaviors>
+                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                </i:Interaction.Behaviors>
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection/>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:ListViewModel">
+                            <timeline:List ViewModel="{x:Bind}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListView>
+
+                <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingMembershipLists.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingMembershipLists.Value, Mode=OneWay}" VerticalAlignment="Top" />
+
+            </Grid>
+        </PivotItem>
+    </Pivot>
+
+</controls:ExtendedSettingsFlyout>

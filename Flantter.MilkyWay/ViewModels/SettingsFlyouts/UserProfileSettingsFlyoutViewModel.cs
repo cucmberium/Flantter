@@ -28,7 +28,34 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.ScreenName = this.Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
             this.IconSource = new ReactiveProperty<string>("http://localhost/");
 
-            this.SelectedTab = this.Model.ToReactivePropertyAsSynchronized(x => x.SelectedTab);
+            this.PivotSelectedIndex = new ReactiveProperty<int>(0);
+            this.PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                switch (x)
+                {
+                    case 1:
+                        if (!this.Model.OpenFollowing)
+                        {
+                            await this.Model.UpdateFollowing();
+                            this.Model.OpenFollowing = true;
+                        }
+                        break;
+                    case 2:
+                        if (!this.Model.OpenFollowers)
+                        {
+                            await this.Model.UpdateFollowers();
+                            this.Model.OpenFollowers = true;
+                        }
+                        break;
+                    case 3:
+                        if (!this.Model.OpenFavorite)
+                        {
+                            await this.Model.UpdateFavorites();
+                            this.Model.OpenFavorite = true;
+                        }
+                        break;
+                }
+            });
 
             this.Description = new ReactiveProperty<string>();
             this.UrlEntities = new ReactiveProperty<Entities>();
@@ -58,7 +85,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.ClearCommand = new ReactiveCommand();
             this.ClearCommand.Subscribe(x => 
             {
-                this.SelectedTab.Value = 0;
+                this.PivotSelectedIndex.Value = 0;
 
                 this.Model.OpenFavorite = false;
                 this.Model.OpenFollowers = false;
@@ -213,7 +240,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.ScrollViewerIncrementalLoadCommand = new ReactiveCommand();
             this.ScrollViewerIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
-                switch (this.SelectedTab.Value)
+                switch (this.PivotSelectedIndex.Value)
                 {
                     case 0:
                         if (this.Model.Statuses.Count != 0)
@@ -265,7 +292,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<string> IconSource { get; set; }
 
-        public ReactiveProperty<int> SelectedTab { get; set; }
+        public ReactiveProperty<int> PivotSelectedIndex { get; set; }
         
         public ReadOnlyReactiveCollection<StatusViewModel> Statuses { get; private set; }
         

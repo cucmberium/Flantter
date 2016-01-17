@@ -251,7 +251,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1": {
+      "Newtonsoft.Json/8.0.2": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -304,7 +304,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.1": {
+      "ReactiveProperty/2.4.2": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -2025,7 +2025,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1": {
+      "Newtonsoft.Json/8.0.2": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -2078,7 +2078,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.1": {
+      "ReactiveProperty/2.4.2": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -3832,7 +3832,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1": {
+      "Newtonsoft.Json/8.0.2": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -3885,7 +3885,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.1": {
+      "ReactiveProperty/2.4.2": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -5644,7 +5644,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1": {
+      "Newtonsoft.Json/8.0.2": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -5697,7 +5697,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.1": {
+      "ReactiveProperty/2.4.2": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -7451,7 +7451,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1": {
+      "Newtonsoft.Json/8.0.2": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -7504,7 +7504,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.1": {
+      "ReactiveProperty/2.4.2": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -9263,7 +9263,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1": {
+      "Newtonsoft.Json/8.0.2": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -9316,7 +9316,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.1": {
+      "ReactiveProperty/2.4.2": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -11070,7 +11070,7 @@
           "lib/dotnet/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.1": {
+      "Newtonsoft.Json/8.0.2": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
@@ -11123,7 +11123,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.1": {
+      "ReactiveProperty/2.4.2": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -13339,8 +13339,8 @@
         "ref/xamarinmac20/_._"
       ]
     },
-    "Newtonsoft.Json/8.0.1": {
-      "sha512": "qFzqzune1D7hDz8kNavFwrJ0fv8qkwANGyUOPjP0I67DmNH04nmSCRB0g0LCIqogMKrBXjsiP43Z0E1huBvxOg==",
+    "Newtonsoft.Json/8.0.2": {
+      "sha512": "e5yWmEfu68rmtG431zl9N/7PlNKQDIuiDW5MHlEFAZcecakcxrIGnKqrPAtWNILzK2oNanRB5cD150MYhECK3g==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -13358,7 +13358,7 @@
         "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
         "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
         "Newtonsoft.Json.nuspec",
-        "package/services/metadata/core-properties/ec951ab7a85848cfa5a19094817892b5.psmdcp",
+        "package/services/metadata/core-properties/cc8c591d554640789c6a6ef6456f7772.psmdcp",
         "tools/install.ps1"
       ]
     },
@@ -13422,8 +13422,8 @@
         "Prism.Windows.nuspec"
       ]
     },
-    "ReactiveProperty/2.4.1": {
-      "sha512": "jae3qLND9OV45H90GX73RyCgov+Jf5fi5jPMuDhXk64gtRGvGBCDk2lssZSLAQFe5Wf7zRuFK9A9d5ReqSAeDQ==",
+    "ReactiveProperty/2.4.2": {
+      "sha512": "N17eg2KIuz6YxDl+edsmmcvo/JyCftxDDulNisB3hygGVh21o7t6UQd79C+5XxCTQD9HAQAU0i7/aq6JUlq4WA==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -13492,7 +13492,7 @@
         "lib/Xamarin.Mac20/ReactiveProperty.dll",
         "lib/Xamarin.Mac20/ReactiveProperty.XML",
         "LICENSE.txt",
-        "package/services/metadata/core-properties/b4c59cb80b954cd2b508b76f43291445.psmdcp",
+        "package/services/metadata/core-properties/1f625f37111e4fed9bc18a31c3c447c2.psmdcp",
         "ReactiveProperty.nuspec",
         "Snippet/csharp5/ReactiveCollection.snippet",
         "Snippet/csharp5/ReactiveCommand.snippet",
@@ -16405,11 +16405,11 @@
       "Microsoft.ApplicationInsights.PersistenceChannel >= 2.0.0-beta3",
       "Microsoft.ApplicationInsights.WindowsApps >= 1.1.1",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0",
-      "Newtonsoft.Json >= 8.0.1",
+      "Newtonsoft.Json >= 8.0.2",
       "NotificationsExtensions.Win10 >= 10586.0.0",
       "Prism.Core >= 6.1.0",
       "Prism.Windows >= 6.0.2-pre1",
-      "ReactiveProperty >= 2.4.1",
+      "ReactiveProperty >= 2.4.2",
       "Rx-Core >= 2.3.0-beta2",
       "Rx-Interfaces >= 2.3.0-beta2",
       "Rx-Linq >= 2.3.0-beta2",

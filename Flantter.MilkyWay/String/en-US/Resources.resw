@@ -439,4 +439,10 @@
   <data name="Tweet_Command_MenuFlyout_RetweetFavorite.Text" xml:space="preserve">
     <value>    Retweet + Favorite</value>
   </data>
+  <data name="SettingsFlyout_UserLists_MemberCountTextblock.Text" xml:space="preserve">
+    <value>Member : </value>
+  </data>
+  <data name="SettingsFlyout_UserLists_SubscriberCountTextblock.Text" xml:space="preserve">
+    <value>Subscriber : </value>
+  </data>
 </root>

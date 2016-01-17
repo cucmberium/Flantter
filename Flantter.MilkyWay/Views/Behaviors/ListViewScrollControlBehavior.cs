@@ -225,6 +225,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
             }
             else
             {
+                this.ScrollViewerObject.ChangeView(null, offset, null, true);
+
                 tickCount = 24;
                 remainHeight = changedOffset;
 

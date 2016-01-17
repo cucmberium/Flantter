@@ -49,7 +49,7 @@
             <CompositeTransform/>
         </StackPanel.RenderTransform>
 
-        <Grid Grid.Row="1" x:Name="DirectMessageGrid" Margin="0,0,12,0">
+        <Grid x:Name="DirectMessageGrid" Margin="0,0,12,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="Auto"/>
@@ -117,7 +117,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:DeferLoadStrategy="Lazy" Grid.Row="2" x:Name="CommandGrid" Height="0" Visibility="Collapsed" HorizontalAlignment="Right" Margin="0,0,12,0">
+        <Grid x:DeferLoadStrategy="Lazy" x:Name="CommandGrid" Height="0" Visibility="Collapsed" HorizontalAlignment="Right" Margin="0,0,12,0">
 
             <Grid.Resources>
                 <Storyboard x:Name="TweetCommandBarOpenAnimation">

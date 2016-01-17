@@ -170,6 +170,32 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     settingsFlyout.Show();
                     break;
+                case "UserLists":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is UserListsSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new UserListsSettingsFlyout();
+                        ((UserListsSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.UserListsSettingsFlyoutViewModel();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((UserListsSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((UserListsSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((UserListsSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((UserListsSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value = notification.Content as string;
+
+                    ((UserListsSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((UserListsSettingsFlyout)settingsFlyout).DataContext = ((UserListsSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+                    break;
             }
 
             return null;

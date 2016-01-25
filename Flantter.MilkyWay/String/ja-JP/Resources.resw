@@ -445,4 +445,7 @@
   <data name="SettingsFlyout_UserLists_SubscriberCountTextblock.Text" xml:space="preserve">
     <value>フォロワー : </value>
   </data>
+  <data name="Tweet_Command_MenuFlyout_AddList" xml:space="preserve">
+    <value>    カラムを追加</value>
+  </data>
 </root>

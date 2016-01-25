@@ -96,7 +96,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         public ObservableCollection<Twitter.Objects.SearchQuery> SavedSearches { get; set; }
 
-        public async Task UpdateStatuses(long maxid = 0)
+        public async Task UpdateStatuses(long maxid = 0, bool clear = true)
         {
             if (this.UpdatingStatusSearch)
                 return;
@@ -106,7 +106,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             this.UpdatingStatusSearch = true;
 
-            if (maxid == 0)
+            if (maxid == 0 && clear)
                 this.Statuses.Clear();
 
             SearchResult search;
@@ -119,14 +119,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             }
             catch
             {
-                if (maxid == 0)
+                if (maxid == 0 && clear)
                     this.Statuses.Clear();
 
                 this.UpdatingStatusSearch = false;
                 return;
             }
 
-            if (maxid == 0)
+            if (maxid == 0 && clear)
                 this.Statuses.Clear();
 
             foreach (var item in search)

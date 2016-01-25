@@ -46,7 +46,7 @@
                 <Run Text="@"/><Run Text="{x:Bind ViewModel.ScreenName.Value, Mode=OneWay}"/>
             </TextBlock>
 
-            <Button Grid.Column="1" ToolTipService.ToolTip="Refresh" IsEnabled="{x:Bind ViewModel.SendingDirectMessage.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Background="Transparent" BorderThickness="0" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.RefreshCommand}">
+            <Button Grid.Column="1" Width="64" ToolTipService.ToolTip="Refresh" IsEnabled="{x:Bind ViewModel.SendingDirectMessage.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Background="Transparent" BorderThickness="0" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.RefreshCommand}">
                 <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Refresh"/>
             </Button>
             

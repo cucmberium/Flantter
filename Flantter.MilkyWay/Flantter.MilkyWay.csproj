@@ -129,6 +129,7 @@
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\SettingsFlyouts\ListStatusesSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\UserListsSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\DirectMessageConversationSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\SearchSettingsFlyoutModel.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\LayoutHelper.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\ListStatusesSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserListsSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\DirectMessageConversationSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ConversationSettingsFlyoutViewModel.cs" />
@@ -186,6 +188,9 @@
     <Compile Include="Views\Contents\ColumnAreaListBox.cs" />
     <Compile Include="Views\Contents\FollowButon.xaml.cs">
       <DependentUpon>FollowButon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\ListStatusesSettingsFlyout.xaml.cs">
+      <DependentUpon>ListStatusesSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\UserListsSettingsFlyout.xaml.cs">
       <DependentUpon>UserListsSettingsFlyout.xaml</DependentUpon>
@@ -368,6 +373,10 @@
     <Page Include="Views\Contents\FollowButon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\ListStatusesSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\UserListsSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -88,16 +88,18 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="2" ToolTipService.ToolTip="Tweet" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShowListTweetsCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
+            <Button Grid.Column="2" ToolTipService.ToolTip="Tweet" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShowListStatusesCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarRetweetSymbolIconForegroundBrush}" Symbol="List"/>
             </Button>
-            <Button Grid.Column="1" ToolTipService.ToolTip="Member" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShowListMembersCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
+            <Button Grid.Column="1" ToolTipService.ToolTip="Member" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShowListMembersCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarFavoriteSymbolIconForegroundBrush}" Symbol="ContactInfo"/>
             </Button>
             <Button Grid.Column="0" ToolTipService.ToolTip="Menu" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="Add" />
                 <Button.Flyout>
                     <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_AddList" Text="&#xE105;    カラムを追加" FontFamily="Segoe UI Symbol"/>
+                        <MenuFlyoutSeparator/>
                         <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UserProfile" Text="&#xE136;    ユーザープロフィール" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_OtherMenu" Text="&#xE16F;    その他" FontFamily="Segoe UI Symbol">

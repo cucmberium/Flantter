@@ -445,4 +445,7 @@
   <data name="SettingsFlyout_UserLists_SubscriberCountTextblock.Text" xml:space="preserve">
     <value>Subscriber : </value>
   </data>
+  <data name="Tweet_Command_MenuFlyout_AddList" xml:space="preserve">
+    <value>    Add Column</value>
+  </data>
 </root>

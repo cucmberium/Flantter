@@ -126,9 +126,16 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 if (this.AdvancedSearchEngagementRetweetsCount.Value != 0)
                     searchWords += " min_faves:" + this.AdvancedSearchEngagementRetweetsCount.Value.ToString();
 
-                this.Model.StatusSearchWords = searchWords;
-
-                await this.Model.UpdateStatuses();
+                if (this.Model.StatusSearchWords == searchWords)
+                {
+                    await this.Model.UpdateStatuses(clear: false);
+                }
+                else
+                {
+                    this.Model.StatusSearchWords = searchWords;
+                    await this.Model.UpdateStatuses();
+                }
+                
             });
 
             this.UpdateUserSearchCommand = new ReactiveCommand();

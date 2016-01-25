@@ -374,7 +374,7 @@
     <value>検索メモに保存</value>
   </data>
   <data name="SettingsFlyout_UserProfile_ThatsYou" xml:space="preserve">
-    <value>あなたです！</value>
+    <value>それはあなたです！</value>
   </data>
   <data name="SettingsFlyout_UserProfile_Followers.Text" xml:space="preserve">
     <value>フォロワー</value>

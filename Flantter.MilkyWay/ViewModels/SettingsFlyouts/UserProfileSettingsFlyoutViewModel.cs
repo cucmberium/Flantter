@@ -220,15 +220,29 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.StatusesIncrementalLoadCommand = new ReactiveCommand();
             this.StatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                if (this.Model.Statuses.Count > 0)
-                    await this.Model.UpdateStatuses(this.Model.Statuses.LastOrDefault().Id);
+                if (this.Model.Statuses.Count <= 0)
+                    return;
+
+                var id = this.Model.Statuses.Last().Id;
+                var status = this.Model.Statuses.Last();
+                if (status.HasRetweetInformation)
+                    id = status.RetweetInformation.Id;
+
+                await this.Model.UpdateStatuses(id);
             });
 
             this.FavoritesIncrementalLoadCommand = new ReactiveCommand();
             this.FavoritesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                if (this.Model.Favorites.Count > 0)
-                    await this.Model.UpdateFavorites(this.Model.Favorites.LastOrDefault().Id);
+                if (this.Model.Favorites.Count <= 0)
+                    return;
+
+                var id = this.Model.Favorites.Last().Id;
+                var status = this.Model.Favorites.Last();
+                if (status.HasRetweetInformation)
+                    id = status.RetweetInformation.Id;
+
+                await this.Model.UpdateFavorites(id);
             });
 
             this.FollowersIncrementalLoadCommand = new ReactiveCommand();

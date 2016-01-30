@@ -24,12 +24,16 @@ namespace Flantter.MilkyWay.Views.Behaviors
             var notification = parameter as Notification;
             var mediaEntity = notification.Content as MediaEntity;
 
+            if (mediaEntity.ParentEntities == null)
+                return null;
+
             if (_ImagePreviewPopup == null)
                 _ImagePreviewPopup = new ImagePreviewPopup();
 
-            this._ImagePreviewPopup.ImageUrl = mediaEntity.MediaUrl;
-            this._ImagePreviewPopup.ImageWebUrl = mediaEntity.ExpandedUrl;
-            this._ImagePreviewPopup.ImageChanged();
+            this._ImagePreviewPopup.Images = mediaEntity.ParentEntities.Media.Where(x => x.Type == "Image").ToList();
+            this._ImagePreviewPopup.ImageIndex = this._ImagePreviewPopup.Images.IndexOf(mediaEntity);
+            
+            this._ImagePreviewPopup.ImageRefresh();
 
             this._ImagePreviewPopup.Show();
 

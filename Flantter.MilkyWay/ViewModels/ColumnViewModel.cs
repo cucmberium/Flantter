@@ -154,7 +154,12 @@ namespace Flantter.MilkyWay.ViewModels
             this.IncrementalLoadCommand = new ReactiveCommand();
             this.IncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ => 
             {
-                await this._ColumnModel.Update(this._ColumnModel.Tweets.Last().Id);
+                var id = this._ColumnModel.Tweets.Last().Id;
+                var status = this._ColumnModel.Tweets.Last() as Status;
+                if (status != null && status.HasRetweetInformation)
+                    id = status.RetweetInformation.Id;
+                
+                await this._ColumnModel.Update(id);
             });
 
             this.RefreshCommand = new ReactiveCommand();

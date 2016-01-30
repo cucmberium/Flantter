@@ -38,7 +38,6 @@ namespace Flantter.MilkyWay.Views.Contents
         public string VideoContentType { get; set; }
         public string Id { get; set; }
 
-
         public VideoPreviewPopup()
         {
             this.InitializeComponent();
@@ -245,7 +244,6 @@ namespace Flantter.MilkyWay.Views.Contents
             FlyoutBase.ShowAttachedFlyout(this.VideoPreviewTriangleButton);
 
             e.Handled = true;
-            return;
         }
 
         private void VideoPreviewGrid_Tapped(object sender, TappedRoutedEventArgs e)
@@ -264,7 +262,6 @@ namespace Flantter.MilkyWay.Views.Contents
             VideoPreviewPopup_SizeChanged(null, null);
 
             e.Handled = true;
-            return;
         }
 
         private void VideoPreviewLargeViewTriangleButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -277,7 +274,6 @@ namespace Flantter.MilkyWay.Views.Contents
             VideoPreviewPopup_SizeChanged(null, null);
 
             e.Handled = true;
-            return;
         }
 
         private void VideoPreviewMenu_Close(object sender, RoutedEventArgs e)

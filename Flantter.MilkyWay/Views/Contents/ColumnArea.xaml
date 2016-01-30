@@ -13,7 +13,7 @@
     d:DesignHeight="720"
     d:DesignWidth="400">
 
-    <contents:ColumnAreaListBox x:Name="ColumnArea_ColumnList" Grid.Row="0" Style="{StaticResource ExtendedListBox}" Margin="5,10" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{x:Bind ViewModel.Columns, Mode=OneWay}">
+    <contents:ColumnAreaListBox x:Name="ColumnArea_ColumnList" Grid.Row="0" Style="{StaticResource ExtendedListBox}" IsTabStop="False" Margin="5,10" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{x:Bind ViewModel.Columns, Mode=OneWay}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <!-- 本当はここもx:Bindにしたいけどすると "error WMC9999" が発生する -->

@@ -22,7 +22,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
                 return;
 
             foreach (var fMedia in mediaList)
-                this.Media.Add(new MediaEntity(fMedia));
+                this.Media.Add(new MediaEntity(fMedia, this));
 
             if (cEntities.HashTags != null)
             {
@@ -142,6 +142,17 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.VideoInfo = new VideoInfo(fMedia);
         }
 
+        public MediaEntity(Media fMedia, Entities parentEntities)
+        {
+            this.MediaUrl = fMedia.MediaUrl;
+            this.MediaThumbnailUrl = fMedia.MediaThumbnailUrl;
+            this.DisplayUrl = fMedia.DisplayUrl;
+            this.ExpandedUrl = fMedia.ExpandedUrl;
+            this.Type = fMedia.Type;
+            this.VideoInfo = new VideoInfo(fMedia);
+            this.ParentEntities = parentEntities;
+        }
+
         #region MediaUrl変更通知プロパティ
         public string MediaUrl { get; set; }
         #endregion
@@ -164,6 +175,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
         #region VideoInfo変更通知プロパティ
         public VideoInfo VideoInfo { get; set; }
+        #endregion
+
+        #region ParentEntities変更通知プロパティ
+        public Entities ParentEntities { get; set; }
         #endregion
     }
 

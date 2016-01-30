@@ -220,8 +220,15 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.StatusesIncrementalLoadCommand = new ReactiveCommand();
             this.StatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                if (this.Model.Statuses.Count > 0)
-                    await this.Model.UpdateStatuses(this.Model.Statuses.LastOrDefault().Id);
+                if (this.Model.Statuses.Count <= 0)
+                    return;
+
+                var id = this.Model.Statuses.Last().Id;
+                var status = this.Model.Statuses.Last();
+                if (status.HasRetweetInformation)
+                    id = status.RetweetInformation.Id;
+
+                await this.Model.UpdateStatuses(id);
             });
 
             this.UsersIncrementalLoadCommand = new ReactiveCommand();

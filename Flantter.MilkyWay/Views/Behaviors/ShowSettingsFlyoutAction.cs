@@ -223,6 +223,32 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     settingsFlyout.Show();
                     break;
+                case "ListMembers":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is ListMembersSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new ListMembersSettingsFlyout();
+                        ((ListMembersSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.ListMembersSettingsFlyoutViewModel();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((ListMembersSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((ListMembersSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((ListMembersSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((ListMembersSettingsFlyout)settingsFlyout).ViewModel.Id.Value = ((Models.Twitter.Objects.List)notification.Content).Id;
+
+                    ((ListMembersSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((ListMembersSettingsFlyout)settingsFlyout).DataContext = ((ListMembersSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+                    break;
             }
 
             return null;

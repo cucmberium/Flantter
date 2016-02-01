@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
@@ -214,19 +215,41 @@ namespace Flantter.MilkyWay.Views.Contents
 
             if (e.GetCurrentPoint(element).Properties.MouseWheelDelta > 0)
             {
-                if (transform.ScaleX > 5 || transform.ScaleY > 5)
+                if (transform.ScaleX >= 5 || transform.ScaleY >= 5)
                     return;
 
-                transform.ScaleX += 0.05 * transform.ScaleX;
-                transform.ScaleY += 0.05 * transform.ScaleY;
+                transform.ScaleX *= 1.1;
+                transform.ScaleY *= 1.1;
+
+                if (transform.ScaleX >= 5 || transform.ScaleY >= 5)
+                {
+                    transform.ScaleX = 5;
+                    transform.ScaleY = 5;
+                }
+                /*else
+                {
+                    transform.TranslateX -= (e.GetCurrentPoint(Window.Current.Content).Position.X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2)) * (1 - 1 / 1.1) * transform.ScaleX;
+                    transform.TranslateY -= (e.GetCurrentPoint(Window.Current.Content).Position.Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2)) * (1 - 1 / 1.1) * transform.ScaleY;
+                }*/
             }
             else
             {
-                if (transform.ScaleX < 0.20 || transform.ScaleY < 0.20)
+                if (transform.ScaleX <= 0.20 || transform.ScaleY <= 0.20)
                     return;
 
-                transform.ScaleX -= 0.05 * transform.ScaleX;
-                transform.ScaleY -= 0.05 * transform.ScaleY;
+                transform.ScaleX *= 0.95;
+                transform.ScaleY *= 0.95;
+
+                if (transform.ScaleX <= 0.20 || transform.ScaleY <= 0.20)
+                {
+                    transform.ScaleX = 0.20;
+                    transform.ScaleY = 0.20;
+                }
+                /*else
+                {
+                    transform.TranslateX -= (e.GetCurrentPoint(Window.Current.Content).Position.X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2)) * (1 - 1 / 0.9) * transform.ScaleX;
+                    transform.TranslateY -= (e.GetCurrentPoint(Window.Current.Content).Position.Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2)) * (1 - 1 / 0.9) * transform.ScaleY;
+                }*/
             }
 
             element.RenderTransform = transform;
@@ -251,12 +274,12 @@ namespace Flantter.MilkyWay.Views.Contents
             transform.ScaleX *= e.Delta.Scale;
             transform.ScaleY *= e.Delta.Scale;
 
-            if (transform.ScaleX > 5 || transform.ScaleY > 5)
+            if (transform.ScaleX >= 5 || transform.ScaleY >= 5)
             {
                 transform.ScaleX = 5;
                 transform.ScaleY = 5;
             }
-            else if (transform.ScaleX < 0.20 || transform.ScaleY < 0.20)
+            else if (transform.ScaleX <= 0.20 || transform.ScaleY <= 0.20)
             {
                 transform.ScaleX = 0.20;
                 transform.ScaleY = 0.20;
@@ -265,8 +288,8 @@ namespace Flantter.MilkyWay.Views.Contents
             transform.TranslateX += e.Delta.Translation.X;
             transform.TranslateY += e.Delta.Translation.Y;
 
-            transform.TranslateX -= (e.Position.X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2)) * (1 - 1 / e.Delta.Scale) * transform.ScaleX;
-            transform.TranslateY -= (e.Position.Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2)) * (1 - 1 / e.Delta.Scale) * transform.ScaleY;
+            transform.TranslateX += (e.Position.X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2)) * (1 - e.Delta.Scale) * transform.ScaleX;
+            transform.TranslateY += (e.Position.Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2)) * (1 - e.Delta.Scale) * transform.ScaleY;
 
             element.RenderTransform = transform;
 
@@ -281,7 +304,6 @@ namespace Flantter.MilkyWay.Views.Contents
             if (transform == null)
                 transform = new CompositeTransform();
             
-
             if (transform.TranslateX + (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2 < -WindowSizeHelper.Instance.ClientWidth / 2)
                 transform.TranslateX = -WindowSizeHelper.Instance.ClientWidth / 2 - (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2;
             else if (transform.TranslateX - (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2 > WindowSizeHelper.Instance.ClientWidth / 2)
@@ -304,6 +326,44 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private void ImagePreviewImage_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
+            var element = this.ImagePreviewImage as UIElement;
+            var transform = element.RenderTransform as CompositeTransform;
+
+            if (transform == null)
+                transform = new CompositeTransform();
+
+            var scale = 1.0;
+            if (transform.ScaleX >= 3 || transform.ScaleY >= 3)
+                scale = 1.0;
+            else if (transform.ScaleX >= 2 || transform.ScaleY >= 2)
+                scale = 3.0;
+            else if (transform.ScaleX >= 1 || transform.ScaleY >= 1)
+                scale = 2.0;
+            else
+                scale = 1.0;
+
+            Storyboard storyboard = new Storyboard();
+            DoubleAnimation scaleAnimX = new DoubleAnimation() { To = scale, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+            storyboard.Children.Add(scaleAnimX);
+            Storyboard.SetTarget(scaleAnimX, element);
+            Storyboard.SetTargetProperty(scaleAnimX, "(UIElement.RenderTransform).(CompositeTransform.ScaleX)");
+            DoubleAnimation scaleAnimY = new DoubleAnimation() { To = scale, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+            storyboard.Children.Add(scaleAnimY);
+            Storyboard.SetTarget(scaleAnimY, element);
+            Storyboard.SetTargetProperty(scaleAnimY, "(UIElement.RenderTransform).(CompositeTransform.ScaleY)");
+
+            var translateAnimXVal = transform.TranslateX + (e.GetPosition(Window.Current.Content).X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2)) * (1 - scale / transform.ScaleX) * transform.ScaleX;
+            var translateAnimYVal = transform.TranslateY + (e.GetPosition(Window.Current.Content).Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2)) * (1 - scale / transform.ScaleY) * transform.ScaleY;
+            DoubleAnimation translateAnimX = new DoubleAnimation() { To = translateAnimXVal, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+            storyboard.Children.Add(translateAnimX);
+            Storyboard.SetTarget(translateAnimX, element);
+            Storyboard.SetTargetProperty(translateAnimX, "(UIElement.RenderTransform).(CompositeTransform.TranslateX)");
+            DoubleAnimation translateAnimY = new DoubleAnimation() { To = translateAnimYVal, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+            storyboard.Children.Add(translateAnimY);
+            Storyboard.SetTarget(translateAnimY, element);
+            Storyboard.SetTargetProperty(translateAnimY, "(UIElement.RenderTransform).(CompositeTransform.TranslateY)");
+            
+            storyboard.Begin();
         }
 
         private void ImagePreviewPreviousButton_Tapped(object sender, TappedRoutedEventArgs e)

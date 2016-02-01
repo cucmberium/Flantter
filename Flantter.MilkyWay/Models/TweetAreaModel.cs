@@ -216,7 +216,10 @@ namespace Flantter.MilkyWay.Models
 
         public async Task AddPicture(StorageFile picture)
         {
-            this._Pictures.Add(new PictureModel() { Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(), IsVideo = (picture.FileType == ".mp4" || picture.FileType == ".mov") });
+            if (picture == null)
+                return;
+            
+            this._Pictures.Add(new PictureModel() { Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(), IsVideo = (picture.FileType == ".mp4" || picture.FileType == ".mov"), StorageFile = picture });
             CharacterCountChanged();
         }
 
@@ -497,6 +500,15 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region StorageFile変更通知プロパティ
+        private StorageFile _StorageFile;
+        public StorageFile StorageFile
+        {
+            get { return this._StorageFile; }
+            set { this.SetProperty(ref this._StorageFile, value); }
+        }
+        #endregion
+
         public void Dispose()
         {
             if (this._Stream != null)
@@ -507,7 +519,6 @@ namespace Flantter.MilkyWay.Models
 
             if (this._SourceStream != null)
             {
-
                 this._SourceStream.Dispose();
                 this._SourceStream = null;
             }

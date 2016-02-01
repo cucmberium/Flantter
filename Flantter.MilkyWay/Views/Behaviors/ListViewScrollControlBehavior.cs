@@ -361,6 +361,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (behavior == null)
                 return;
 
+            if (behavior.ScrollViewerObject == null)
+                return;
+
             if ((bool)e.NewValue == true)
             {
                 var verticalOffset = behavior.ScrollViewerObject.VerticalOffset;

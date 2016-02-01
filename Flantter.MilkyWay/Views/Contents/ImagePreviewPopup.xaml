@@ -78,7 +78,7 @@
     
     <Grid x:Name="ImagePreviewGrid" PointerWheelChanged="ImagePreviewGrid_PointerWheelChanged" Tapped="ImagePreviewGrid_Tapped" Background="#99000000">
         <Canvas x:Name="ImagePreviewCanvas" ManipulationDelta="ImagePreviewCanvas_ManipulationDelta" ManipulationCompleted="ImagePreviewCanvas_ManipulationCompleted" ManipulationMode="Scale,TranslateX,TranslateY" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="Transparent">
-            <Image x:Name="ImagePreviewImage" ImageOpened="ImagePreviewImage_ImageOpened" ImageFailed="ImagePreviewImage_ImageFailed" Tapped="ImagePreviewImage_Tapped" Stretch="Uniform" ManipulationMode="Scale,TranslateX,TranslateY" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Image x:Name="ImagePreviewImage" ImageOpened="ImagePreviewImage_ImageOpened" ImageFailed="ImagePreviewImage_ImageFailed" Tapped="ImagePreviewImage_Tapped" DoubleTapped="ImagePreviewImage_DoubleTapped" Stretch="Uniform" ManipulationMode="Scale,TranslateX,TranslateY" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Canvas>
 
         <Button x:Name="ImagePreviewPreviousButton" Tapped="ImagePreviewPreviousButton_Tapped" HorizontalAlignment="Left" Height="48" IsTabStop="False" Template="{StaticResource HorizontalPreviousTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Center" Width="30"/>

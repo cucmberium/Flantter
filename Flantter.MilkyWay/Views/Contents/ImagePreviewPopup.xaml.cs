@@ -248,9 +248,6 @@ namespace Flantter.MilkyWay.Views.Contents
             if (transform == null)
                 transform = new CompositeTransform();
 
-            var oldScaleX = transform.ScaleX;
-            var oldScaleY = transform.ScaleY;
-
             transform.ScaleX *= e.Delta.Scale;
             transform.ScaleY *= e.Delta.Scale;
 
@@ -268,11 +265,8 @@ namespace Flantter.MilkyWay.Views.Contents
             transform.TranslateX += e.Delta.Translation.X;
             transform.TranslateY += e.Delta.Translation.Y;
 
-            //var imageWidthDiff = transform.ScaleX * this.ImagePreviewImage.ActualWidth - oldScaleX * this.ImagePreviewImage.Width;
-            //var imageHeightDiff = transform.ScaleY * this.ImagePreviewImage.ActualHeight - oldScaleY * this.ImagePreviewImage.Width;
-
-            //transform.TranslateX += (e.Position.X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2)) / this.ImagePreviewImage.ActualWidth * imageWidthDiff;
-            //transform.TranslateY += (e.Position.Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2)) / this.ImagePreviewImage.ActualHeight * imageHeightDiff;
+            transform.TranslateX -= (e.Position.X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2)) * (1 - 1 / e.Delta.Scale) * transform.ScaleX;
+            transform.TranslateY -= (e.Position.Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2)) * (1 - 1 / e.Delta.Scale) * transform.ScaleY;
 
             element.RenderTransform = transform;
 
@@ -306,6 +300,10 @@ namespace Flantter.MilkyWay.Views.Contents
         private void ImagePreviewImage_Tapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void ImagePreviewImage_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
         }
 
         private void ImagePreviewPreviousButton_Tapped(object sender, TappedRoutedEventArgs e)

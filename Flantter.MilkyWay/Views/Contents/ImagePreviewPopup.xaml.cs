@@ -215,16 +215,16 @@ namespace Flantter.MilkyWay.Views.Contents
 
             if (e.GetCurrentPoint(element).Properties.MouseWheelDelta > 0)
             {
-                if (transform.ScaleX >= 5 || transform.ScaleY >= 5)
+                if (transform.ScaleX >= 4 || transform.ScaleY >= 4)
                     return;
 
                 transform.ScaleX *= 1.1;
                 transform.ScaleY *= 1.1;
 
-                if (transform.ScaleX >= 5 || transform.ScaleY >= 5)
+                if (transform.ScaleX >= 4 || transform.ScaleY >= 4)
                 {
-                    transform.ScaleX = 5;
-                    transform.ScaleY = 5;
+                    transform.ScaleX = 4;
+                    transform.ScaleY = 4;
                 }
                 /*else
                 {
@@ -234,16 +234,16 @@ namespace Flantter.MilkyWay.Views.Contents
             }
             else
             {
-                if (transform.ScaleX <= 0.20 || transform.ScaleY <= 0.20)
+                if (transform.ScaleX <= 0.40 || transform.ScaleY <= 0.40)
                     return;
 
-                transform.ScaleX *= 0.95;
-                transform.ScaleY *= 0.95;
+                transform.ScaleX *= 0.90;
+                transform.ScaleY *= 0.90;
 
-                if (transform.ScaleX <= 0.20 || transform.ScaleY <= 0.20)
+                if (transform.ScaleX <= 0.40 || transform.ScaleY <= 0.40)
                 {
-                    transform.ScaleX = 0.20;
-                    transform.ScaleY = 0.20;
+                    transform.ScaleX = 0.40;
+                    transform.ScaleY = 0.40;
                 }
                 /*else
                 {
@@ -274,15 +274,15 @@ namespace Flantter.MilkyWay.Views.Contents
             transform.ScaleX *= e.Delta.Scale;
             transform.ScaleY *= e.Delta.Scale;
 
-            if (transform.ScaleX >= 5 || transform.ScaleY >= 5)
+            if (transform.ScaleX >= 4 || transform.ScaleY >= 4)
             {
-                transform.ScaleX = 5;
-                transform.ScaleY = 5;
+                transform.ScaleX = 4;
+                transform.ScaleY = 4;
             }
-            else if (transform.ScaleX <= 0.20 || transform.ScaleY <= 0.20)
+            else if (transform.ScaleX <= 0.40 || transform.ScaleY <= 0.40)
             {
-                transform.ScaleX = 0.20;
-                transform.ScaleY = 0.20;
+                transform.ScaleX = 0.40;
+                transform.ScaleY = 0.40;
             }
 
             transform.TranslateX += e.Delta.Translation.X;
@@ -354,6 +354,12 @@ namespace Flantter.MilkyWay.Views.Contents
 
             var translateAnimXVal = transform.TranslateX + (e.GetPosition(Window.Current.Content).X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2)) * (1 - scale / transform.ScaleX) * transform.ScaleX;
             var translateAnimYVal = transform.TranslateY + (e.GetPosition(Window.Current.Content).Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2)) * (1 - scale / transform.ScaleY) * transform.ScaleY;
+            if (scale <= 1.0)
+            {
+                translateAnimYVal = 0.0;
+                translateAnimXVal = 0.0;
+            }
+
             DoubleAnimation translateAnimX = new DoubleAnimation() { To = translateAnimXVal, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
             storyboard.Children.Add(translateAnimX);
             Storyboard.SetTarget(translateAnimX, element);

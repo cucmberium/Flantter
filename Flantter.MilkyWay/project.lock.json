@@ -304,7 +304,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.2": {
+      "ReactiveProperty/2.5.0": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -2078,7 +2078,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.2": {
+      "ReactiveProperty/2.5.0": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -3885,7 +3885,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.2": {
+      "ReactiveProperty/2.5.0": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -5697,7 +5697,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.2": {
+      "ReactiveProperty/2.5.0": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -7504,7 +7504,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.2": {
+      "ReactiveProperty/2.5.0": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -9316,7 +9316,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.2": {
+      "ReactiveProperty/2.5.0": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -11123,7 +11123,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.4.2": {
+      "ReactiveProperty/2.5.0": {
         "dependencies": {
           "Rx-Main": "[2.2.5, )"
         },
@@ -13418,8 +13418,8 @@
         "Prism.Windows.nuspec"
       ]
     },
-    "ReactiveProperty/2.4.2": {
-      "sha512": "N17eg2KIuz6YxDl+edsmmcvo/JyCftxDDulNisB3hygGVh21o7t6UQd79C+5XxCTQD9HAQAU0i7/aq6JUlq4WA==",
+    "ReactiveProperty/2.5.0": {
+      "sha512": "rkDGdRo9zEbs+NeaXxN813amfVy+ashd66LCoaNAgK/Vsp41c5LxyCFb35XRAe/k607nCMqR0q/ZQVZz2P6tPw==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -13488,7 +13488,7 @@
         "lib/Xamarin.Mac20/ReactiveProperty.dll",
         "lib/Xamarin.Mac20/ReactiveProperty.XML",
         "LICENSE.txt",
-        "package/services/metadata/core-properties/1f625f37111e4fed9bc18a31c3c447c2.psmdcp",
+        "package/services/metadata/core-properties/f303878b8aaf43619df54462a3002803.psmdcp",
         "ReactiveProperty.nuspec",
         "Snippet/csharp5/ReactiveCollection.snippet",
         "Snippet/csharp5/ReactiveCommand.snippet",
@@ -16405,7 +16405,7 @@
       "NotificationsExtensions.Win10 >= 10586.0.2",
       "Prism.Core >= 6.1.0",
       "Prism.Windows >= 6.0.2-pre1",
-      "ReactiveProperty >= 2.4.2",
+      "ReactiveProperty >= 2.5.0",
       "Rx-Core >= 2.3.0-beta2",
       "Rx-Interfaces >= 2.3.0-beta2",
       "Rx-Linq >= 2.3.0-beta2",

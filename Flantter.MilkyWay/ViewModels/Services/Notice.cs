@@ -38,6 +38,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.ShareStatusCommand = new ReactiveCommand();
             this.ShowListMembersCommand = new ReactiveCommand();
             this.ShowListStatusesCommand = new ReactiveCommand();
+            this.ShowRetweetsOfMeCommand = new ReactiveCommand();
 
             this.TweetAreaAccountChangeCommand = new ReactiveCommand();
             this.TweetAreaDeletePictureCommand = new ReactiveCommand();
@@ -80,6 +81,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShareStatusCommand { get; private set; }
         public ReactiveCommand ShowListMembersCommand { get; private set; }
         public ReactiveCommand ShowListStatusesCommand { get; private set; }
+        public ReactiveCommand ShowRetweetsOfMeCommand { get; private set; }
 
         public ReactiveCommand TweetAreaAccountChangeCommand { get; private set; }
         public ReactiveCommand TweetAreaDeletePictureCommand { get; private set; }

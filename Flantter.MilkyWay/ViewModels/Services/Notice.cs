@@ -27,7 +27,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.SendDirectMessageCommand = new ReactiveCommand();
             this.UrlQuoteRetweetCommand = new ReactiveCommand();
             this.CopyTweetCommand = new ReactiveCommand();
-            this.ShowRetweeterCommand = new ReactiveCommand();
+            this.ShowRetweetersCommand = new ReactiveCommand();
             this.MuteUserCommand = new ReactiveCommand();
             this.MuteClientCommand = new ReactiveCommand();
             this.DeleteTweetCommand = new ReactiveCommand();
@@ -69,7 +69,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand SendDirectMessageCommand { get; private set; }
         public ReactiveCommand UrlQuoteRetweetCommand { get; private set; }
         public ReactiveCommand CopyTweetCommand { get; private set; }
-        public ReactiveCommand ShowRetweeterCommand { get; private set; }
+        public ReactiveCommand ShowRetweetersCommand { get; private set; }
         public ReactiveCommand MuteUserCommand { get; private set; }
         public ReactiveCommand MuteClientCommand { get; private set; }
         public ReactiveCommand DeleteTweetCommand { get; private set; }

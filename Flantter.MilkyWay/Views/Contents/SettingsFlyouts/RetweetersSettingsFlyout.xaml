@@ -1,0 +1,58 @@
+﻿<controls:ExtendedSettingsFlyout
+    x:Class="Flantter.MilkyWay.Views.Contents.SettingsFlyouts.RetweetersSettingsFlyout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Flantter.MilkyWay.Views.Contents.SettingsFlyouts"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
+    xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
+    xmlns:util="using:Flantter.MilkyWay.Views.Util"
+	xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
+    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
+    xmlns:winrtXamlToolKit="using:WinRTXamlToolkit.Controls"
+    mc:Ignorable="d"
+    Title="Retweeters"
+    HorizontalContentAlignment="Stretch"
+    VerticalContentAlignment="Stretch"
+    Padding="0"
+    IconSource="{x:Bind ViewModel.IconSource.Value, Mode=OneWay}"
+    MinWidth="320"
+    HeaderBackground="{StaticResource SettingsFlyoutHeaderForegroundBrush}"
+    d:DesignHeight="720"
+    d:DesignWidth="320">
+
+    <Grid x:Name="RetweetersGrid" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
+
+        <ListView x:Name="RetweetersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Retweeters}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+            <i:Interaction.Behaviors>
+                <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.RetweetersIncrementalLoadCommand}" />
+            </i:Interaction.Behaviors>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel>
+                        <i:Interaction.Behaviors>
+                            <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                        </i:Interaction.Behaviors>
+                        <VirtualizingStackPanel.ChildrenTransitions>
+                            <TransitionCollection/>
+                        </VirtualizingStackPanel.ChildrenTransitions>
+                    </VirtualizingStackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="twitterObjectsViewModel:UserViewModel">
+                    <timeline:User ViewModel="{x:Bind}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListView>
+
+        <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" VerticalAlignment="Top" />
+
+    </Grid>
+</controls:ExtendedSettingsFlyout>

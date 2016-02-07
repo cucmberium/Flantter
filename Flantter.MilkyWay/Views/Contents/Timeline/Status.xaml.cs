@@ -22,7 +22,6 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
     public sealed partial class Status : UserControl, IRecycleItem
     {
-        public bool test = false;
         public void ResetItem()
         {
             if (CommandGridLoaded)

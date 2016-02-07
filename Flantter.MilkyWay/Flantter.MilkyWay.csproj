@@ -129,6 +129,7 @@
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\SettingsFlyouts\RetweetersSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ListMembersSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ListStatusesSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\UserListsSettingsFlyoutModel.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\LayoutHelper.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\RetweetersSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ListMembersSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ListStatusesSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserListsSettingsFlyoutViewModel.cs" />
@@ -190,6 +192,9 @@
     <Compile Include="Views\Contents\ColumnAreaListBox.cs" />
     <Compile Include="Views\Contents\FollowButon.xaml.cs">
       <DependentUpon>FollowButon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\RetweetersSettingsFlyout.xaml.cs">
+      <DependentUpon>RetweetersSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\ListMembersSettingsFlyout.xaml.cs">
       <DependentUpon>ListMembersSettingsFlyout.xaml</DependentUpon>
@@ -378,6 +383,10 @@
     <Page Include="Views\Contents\FollowButon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\RetweetersSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\ListMembersSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>

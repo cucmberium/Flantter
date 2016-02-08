@@ -81,6 +81,35 @@ namespace Flantter.MilkyWay.Views.Contents
                 Rect = new Rect(0, 0, WindowSizeHelper.Instance.ClientWidth, WindowSizeHelper.Instance.ClientHeight)
             };
 
+            var imageWidth = ((BitmapImage)this.ImagePreviewImage.Source).PixelWidth;
+            var imageHeight = ((BitmapImage)this.ImagePreviewImage.Source).PixelHeight;
+            var windowWidth = WindowSizeHelper.Instance.ClientWidth;
+            var windowHeight = WindowSizeHelper.Instance.ClientHeight;
+
+            double raito = 1.0;
+
+            if (imageWidth > windowWidth * 0.95 && imageHeight > windowHeight * 0.95)
+            {
+                var imageWindowWidthRaito = windowWidth / imageWidth;
+                var imageWindowHeightRaito = windowHeight / imageHeight;
+                raito = (imageWindowHeightRaito < imageWindowWidthRaito ? imageWindowHeightRaito : imageWindowWidthRaito) * 0.95;
+            }
+            else if (imageWidth <= windowWidth * 0.95 && imageHeight <= windowHeight * 0.95)
+            {
+                raito = 1.0;
+            }
+            else if (imageWidth > windowWidth * 0.95 && imageHeight <= windowHeight * 0.95)
+            {
+                raito = windowWidth / imageWidth * 0.95;
+            }
+            else if (imageWidth <= windowWidth * 0.95 && imageHeight > windowHeight * 0.95)
+            {
+                raito = windowHeight / imageHeight * 0.95;
+            }
+
+            this.ImagePreviewImage.Width = imageWidth * raito;
+            this.ImagePreviewImage.Height = imageHeight * raito;
+
             var canvasTop = (WindowSizeHelper.Instance.ClientHeight - this.ImagePreviewImage.Height) / 2;
             var canvasLeft = (WindowSizeHelper.Instance.ClientWidth - this.ImagePreviewImage.Width) / 2;
 
@@ -124,8 +153,7 @@ namespace Flantter.MilkyWay.Views.Contents
             transform.ScaleY = 1.0;
 
             element.RenderTransform = transform;
-
-
+            
             var imageWidth = ((BitmapImage)this.ImagePreviewImage.Source).PixelWidth;
             var imageHeight = ((BitmapImage)this.ImagePreviewImage.Source).PixelHeight;
             var windowWidth = WindowSizeHelper.Instance.ClientWidth;

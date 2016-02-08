@@ -448,4 +448,10 @@
   <data name="Tweet_Command_MenuFlyout_AddList" xml:space="preserve">
     <value>    カラムを追加</value>
   </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_Unblock.Text" xml:space="preserve">
+    <value>    ブロック解除</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_UserUnmute.Text" xml:space="preserve">
+    <value>    ミュートを解除</value>
+  </data>
 </root>

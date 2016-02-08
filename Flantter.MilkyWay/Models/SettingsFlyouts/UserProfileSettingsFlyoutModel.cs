@@ -19,8 +19,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             this.Favorites = new ObservableCollection<Twitter.Objects.Status>();
             this.Followers = new ObservableCollection<Twitter.Objects.User>();
             this.Following = new ObservableCollection<Twitter.Objects.User>();
-
-            this._UserInformation = new Twitter.Objects.User();
         }
 
         #region Tokens変更通知プロパティ
@@ -51,12 +49,165 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         public ObservableCollection<Twitter.Objects.User> Following { get; set; }
 
 
-        #region UserInformation変更通知プロパティ
-        private Twitter.Objects.User _UserInformation;
-        public Twitter.Objects.User UserInformation
+        #region DescriptionEntities変更通知プロパティ
+        private Twitter.Objects.Entities _DescriptionEntities;
+        public Twitter.Objects.Entities DescriptionEntities
         {
-            get { return this._UserInformation; }
-            set { this.SetProperty(ref this._UserInformation, value); }
+            get { return this._DescriptionEntities; }
+            set { this.SetProperty(ref this._DescriptionEntities, value); }
+        }
+        #endregion
+
+        #region UrlEntities変更通知プロパティ
+        private Twitter.Objects.Entities _UrlEntities;
+        public Twitter.Objects.Entities UrlEntities
+        {
+            get { return this._UrlEntities; }
+            set { this.SetProperty(ref this._UrlEntities, value); }
+        }
+        #endregion
+
+        #region Description変更通知プロパティ
+        private string _Description;
+        public string Description
+        {
+            get { return this._Description; }
+            set { this.SetProperty(ref this._Description, value); }
+        }
+        #endregion
+
+        #region FavouritesCount変更通知プロパティ
+        private int _FavouritesCount;
+        public int FavouritesCount
+        {
+            get { return this._FavouritesCount; }
+            set { this.SetProperty(ref this._FavouritesCount, value); }
+        }
+        #endregion
+
+        #region FollowersCount変更通知プロパティ
+        private int _FollowersCount;
+        public int FollowersCount
+        {
+            get { return this._FollowersCount; }
+            set { this.SetProperty(ref this._FollowersCount, value); }
+        }
+        #endregion
+
+        #region FriendsCount変更通知プロパティ
+        private int _FriendsCount;
+        public int FriendsCount
+        {
+            get { return this._FriendsCount; }
+            set { this.SetProperty(ref this._FriendsCount, value); }
+        }
+        #endregion
+
+        #region ListedCount変更通知プロパティ
+        private int _ListedCount;
+        public int ListedCount
+        {
+            get { return this._ListedCount; }
+            set { this.SetProperty(ref this._ListedCount, value); }
+        }
+        #endregion
+
+        #region IsMuting変更通知プロパティ
+        private bool _IsMuting;
+        public bool IsMuting
+        {
+            get { return this._IsMuting; }
+            set { this.SetProperty(ref this._IsMuting, value); }
+        }
+        #endregion
+
+        #region IsProtected変更通知プロパティ
+        private bool _IsProtected;
+        public bool IsProtected
+        {
+            get { return this._IsProtected; }
+            set { this.SetProperty(ref this._IsProtected, value); }
+        }
+        #endregion
+
+        #region IsVerified変更通知プロパティ
+        private bool _IsVerified;
+        public bool IsVerified
+        {
+            get { return this._IsVerified; }
+            set { this.SetProperty(ref this._IsVerified, value); }
+        }
+        #endregion
+
+        #region Location変更通知プロパティ
+        private string _Location;
+        public string Location
+        {
+            get { return this._Location; }
+            set { this.SetProperty(ref this._Location, value); }
+        }
+        #endregion
+
+        #region ProfileBackgroundColor変更通知プロパティ
+        private string _ProfileBackgroundColor;
+        public string ProfileBackgroundColor
+        {
+            get { return this._ProfileBackgroundColor; }
+            set { this.SetProperty(ref this._ProfileBackgroundColor, value); }
+        }
+        #endregion
+
+        #region ProfileBannerUrl変更通知プロパティ
+        private string _ProfileBannerUrl;
+        public string ProfileBannerUrl
+        {
+            get { return this._ProfileBannerUrl; }
+            set { this.SetProperty(ref this._ProfileBannerUrl, value); }
+        }
+        #endregion
+
+        #region ProfileImageUrl変更通知プロパティ
+        private string _ProfileImageUrl;
+        public string ProfileImageUrl
+        {
+            get { return this._ProfileImageUrl; }
+            set { this.SetProperty(ref this._ProfileImageUrl, value); }
+        }
+        #endregion
+
+        #region StatusesCount変更通知プロパティ
+        private int _StatusesCount;
+        public int StatusesCount
+        {
+            get { return this._StatusesCount; }
+            set { this.SetProperty(ref this._StatusesCount, value); }
+        }
+        #endregion
+
+        #region Url変更通知プロパティ
+        private string _Url;
+        public string Url
+        {
+            get { return this._Url; }
+            set { this.SetProperty(ref this._Url, value); }
+        }
+        #endregion
+
+        #region Name変更通知プロパティ
+        private string _Name;
+        public string Name
+        {
+            get { return this._Name; }
+            set { this.SetProperty(ref this._Name, value); }
+        }
+        #endregion
+
+        #region IsFollowRequestSent変更通知プロパティ
+        private bool _IsFollowRequestSent;
+        public bool IsFollowRequestSent
+        {
+            get { return this._IsFollowRequestSent; }
+            set { this.SetProperty(ref this._IsFollowRequestSent, value); }
         }
         #endregion
 
@@ -69,7 +220,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
         #endregion
 
-        #region IsFollowing変更通知プロパティ
+        #region IsFollowedBy変更通知プロパティ
         private bool _IsFollowedBy;
         public bool IsFollowedBy
         {
@@ -86,6 +237,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             set { this.SetProperty(ref this._IsBlocking, value); }
         }
         #endregion
+
 
         #region UpdatingUserInformation変更通知プロパティ
         private bool _UpdatingUserInformation;
@@ -162,8 +314,27 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
             }
 
-            this.UserInformation = new Twitter.Objects.User(user);
+            var userObj = new Twitter.Objects.User(user);
 
+            this.UrlEntities = userObj.Entities.Url;
+            this.DescriptionEntities = userObj.Entities.Description;
+            this.Description = userObj.Description;
+            this.FavouritesCount = userObj.FavouritesCount;
+            this.FollowersCount = userObj.FollowersCount;
+            this.FriendsCount = userObj.FriendsCount;
+            this.ListedCount = userObj.ListedCount;
+            this.IsMuting = userObj.IsMuting;
+            this.IsProtected = userObj.IsProtected;
+            this.IsVerified = userObj.IsVerified;
+            this.Location = userObj.Location;
+            this.ProfileBackgroundColor = userObj.ProfileBackgroundColor;
+            this.ProfileBannerUrl = userObj.ProfileBannerUrl;
+            this.ProfileImageUrl = userObj.ProfileImageUrl;
+            this.StatusesCount = userObj.StatusesCount;
+            this.Url = userObj.Url;
+            this.Name = userObj.Name;
+            this.IsFollowRequestSent = userObj.IsFollowRequestSent;
+            
             this.UpdatingUserInformation = false;
         }
 
@@ -394,9 +565,26 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             catch
             {
                 // Todo : 通知
+                return;
             }
 
+            this.IsFollowing = false;
             this.IsBlocking = true;
+        }
+
+        public async Task DestroyBlock()
+        {
+            try
+            {
+                await this.Tokens.Blocks.DestroyAsync(screen_name => this._ScreenName);
+            }
+            catch
+            {
+                // Todo : 通知
+                return;
+            }
+
+            this.IsBlocking = false;
         }
     }
 }

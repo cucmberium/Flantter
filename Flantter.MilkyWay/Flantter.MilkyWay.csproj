@@ -207,6 +207,9 @@
     <Compile Include="Views\Contents\SettingsFlyouts\ListStatusesSettingsFlyout.xaml.cs">
       <DependentUpon>ListStatusesSettingsFlyout.xaml</DependentUpon>
     </Compile>
+    <None Include="Views\Contents\SettingsFlyouts\UserFollowInfoSettingsFlyout.xaml.cs">
+      <DependentUpon>UserFollowInfoSettingsFlyout.xaml</DependentUpon>
+    </None>
     <Compile Include="Views\Contents\SettingsFlyouts\UserListsSettingsFlyout.xaml.cs">
       <DependentUpon>UserListsSettingsFlyout.xaml</DependentUpon>
     </Compile>
@@ -405,6 +408,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <None Include="Views\Contents\SettingsFlyouts\UserFollowInfoSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
     <Page Include="Views\Contents\SettingsFlyouts\UserListsSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -350,7 +350,7 @@
     <value>all Language</value>
   </data>
   <data name="SettingsFlyout_Search_AdvancedSearch_EngagementTextblock.Text" xml:space="preserve">
-    <value>★    Engagement</value>
+    <value>    Engagement</value>
   </data>
   <data name="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_FirstTextblock.Text" xml:space="preserve">
     <value>At least </value>

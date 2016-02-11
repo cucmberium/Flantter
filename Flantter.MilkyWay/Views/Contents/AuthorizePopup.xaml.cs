@@ -99,7 +99,7 @@ namespace Flantter.MilkyWay.Views.Contents
 
             try
             {
-                authorize = await OAuth.AuthorizeAsync(ConsumerKey, ConsumerSecret);
+                authorize = await OAuth.AuthorizeAsync(cKey, cSecret);
             }
             catch (Exception ex)
             {

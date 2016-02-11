@@ -129,6 +129,7 @@
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\SettingsFlyouts\UserFollowInfoSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\RetweetsOfMeSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\RetweetersSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ListMembersSettingsFlyoutModel.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\LayoutHelper.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\UserFollowInfoSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\RetweetsOfMeSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\RetweetersSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ListMembersSettingsFlyoutViewModel.cs" />
@@ -207,9 +209,9 @@
     <Compile Include="Views\Contents\SettingsFlyouts\ListStatusesSettingsFlyout.xaml.cs">
       <DependentUpon>ListStatusesSettingsFlyout.xaml</DependentUpon>
     </Compile>
-    <None Include="Views\Contents\SettingsFlyouts\UserFollowInfoSettingsFlyout.xaml.cs">
+    <Compile Include="Views\Contents\SettingsFlyouts\UserFollowInfoSettingsFlyout.xaml.cs">
       <DependentUpon>UserFollowInfoSettingsFlyout.xaml</DependentUpon>
-    </None>
+    </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\UserListsSettingsFlyout.xaml.cs">
       <DependentUpon>UserListsSettingsFlyout.xaml</DependentUpon>
     </Compile>
@@ -408,10 +410,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <None Include="Views\Contents\SettingsFlyouts\UserFollowInfoSettingsFlyout.xaml">
+    <Page Include="Views\Contents\SettingsFlyouts\UserFollowInfoSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </None>
+    </Page>
     <Page Include="Views\Contents\SettingsFlyouts\UserListsSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

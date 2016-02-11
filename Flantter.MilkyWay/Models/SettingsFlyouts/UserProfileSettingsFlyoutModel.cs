@@ -468,7 +468,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             this.UpdatingFavorites = false;
         }
 
-        private long followerCursor = 0;
+        private long followersCursor = 0;
         public async Task UpdateFollowers(bool useCursor = false)
         {
             if (this.UpdatingFollowers)
@@ -477,7 +477,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
                 return;
 
-            if (useCursor && followerCursor == 0)
+            if (useCursor && followersCursor == 0)
                 return;
 
             this.UpdatingFollowers = true;
@@ -485,21 +485,21 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             Cursored<CoreTweet.User> follower;
             try
             {
-                if (useCursor && followerCursor != 0)
-                    follower = await Tokens.Followers.ListAsync(screen_name => this._ScreenName, count => 20, cursor => followerCursor);
+                if (useCursor && followersCursor != 0)
+                    follower = await Tokens.Followers.ListAsync(screen_name => this._ScreenName, count => 20, cursor => followersCursor);
                 else
                     follower = await Tokens.Followers.ListAsync(screen_name => this._ScreenName, count => 20);
             }
             catch
             {
-                if (!useCursor || followerCursor == 0)
+                if (!useCursor || followersCursor == 0)
                     this.Followers.Clear();
 
                 this.UpdatingFollowers = false;
                 return;
             }
 
-            if (!useCursor || followerCursor == 0)
+            if (!useCursor || followersCursor == 0)
                 this.Followers.Clear();
 
             foreach (var item in follower)
@@ -508,7 +508,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 this.Followers.Add(user);
             }
 
-            followerCursor = follower.NextCursor;
+            followersCursor = follower.NextCursor;
             this.UpdatingFollowers = false;
         }
 

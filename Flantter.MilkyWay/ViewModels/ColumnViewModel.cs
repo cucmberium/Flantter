@@ -197,11 +197,11 @@ namespace Flantter.MilkyWay.ViewModels
                         var item = e.NewItems[0];
 
                         if (item is Status)
-                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel._Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel.Tokens.UserId));
                         else if (item is DirectMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel._Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel.Tokens.UserId));
                         else if (item is EventMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel._Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel.Tokens.UserId));
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Remove)
                     {
@@ -219,11 +219,11 @@ namespace Flantter.MilkyWay.ViewModels
 
                         var item = e.NewItems[0];
                         if (item is Status)
-                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel._Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel.Tokens.UserId));
                         else if (item is DirectMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel._Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel.Tokens.UserId));
                         else if (item is EventMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel._Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel.Tokens.UserId));
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Reset)
                     {

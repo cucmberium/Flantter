@@ -1,6 +1,7 @@
 ﻿using CoreTweet;
 using CoreTweet.Core;
 using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using Reactive.Bindings;
@@ -109,23 +110,62 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (maxid == 0 && clear)
                 this.Statuses.Clear();
 
-            SearchResult search;
-            try
-            {
-                if (maxid == 0)
-                    search = await Tokens.Search.TweetsAsync(q => this._StatusSearchWords, count => 20);
-                else
-                    search = await Tokens.Search.TweetsAsync(q => this._StatusSearchWords, count => 20, max_id => maxid);
-            }
-            catch
-            {
-                if (maxid == 0 && clear)
-                    this.Statuses.Clear();
+            IEnumerable<CoreTweet.Status> search = null;
 
-                this.UpdatingStatusSearch = false;
-                return;
-            }
+            if (SettingService.Setting.UseOfficialApi && TwitterConnectionHelper.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
+            {
+                var param = new Dictionary<string, object>() { { "q", this._StatusSearchWords }, { "count", 100 }, { "result_type", "recent" }, { "modules", "status" } };
+                if (maxid != 0)
+                    param["q"] = param["q"] + " max_id:" + maxid;
 
+                try
+                {
+                    var res = await this.Tokens.SendRequestAsync(MethodType.Get, "https://api.twitter.com/1.1/search/universal.json", param);
+                    var json = await res.Source.Content.ReadAsStringAsync();
+                    var jsonObject = Newtonsoft.Json.Linq.JObject.Parse(json);
+                    var modules = jsonObject["modules"].Children<Newtonsoft.Json.Linq.JObject>();
+
+                    var tweets = new List<CoreTweet.Status>();
+                    foreach (var status in modules)
+                    {
+                        foreach (Newtonsoft.Json.Linq.JProperty prop in status.Properties())
+                        {
+                            if (prop.Name == "status")
+                                tweets.Add(CoreBase.Convert<CoreTweet.Status>(Newtonsoft.Json.JsonConvert.SerializeObject(status["status"]["data"])));
+                        }
+                    }
+
+                    search = tweets;
+                }
+                catch
+                {
+                    if (maxid == 0 && clear)
+                        this.Statuses.Clear();
+
+                    this.UpdatingStatusSearch = false;
+                    return;
+                }
+            }
+            else
+            {
+                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "q", this._StatusSearchWords } };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+
+                try
+                {
+                    search = await this.Tokens.Search.TweetsAsync(param);
+                }
+                catch
+                {
+                    if (maxid == 0 && clear)
+                        this.Statuses.Clear();
+
+                    this.UpdatingStatusSearch = false;
+                    return;
+                }
+            }
+            
             if (maxid == 0 && clear)
                 this.Statuses.Clear();
 

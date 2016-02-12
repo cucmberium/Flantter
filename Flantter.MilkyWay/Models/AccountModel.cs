@@ -1,5 +1,7 @@
 ﻿using CoreTweet;
+using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -97,7 +99,7 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region Tokens
-        public Tokens _Tokens;
+        public Tokens Tokens { get; set; }
         #endregion
         #region AccountSetting
         private AccountSetting _AccountSetting;
@@ -124,7 +126,7 @@ namespace Flantter.MilkyWay.Models
 
             Task.Run(async () => 
             {
-                var user = await this._Tokens.Users.ShowAsync(user_id => this.UserId);
+                var user = await this.Tokens.Users.ShowAsync(user_id => this.UserId);
                 this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
                 this.ProfileBannerUrl = user.ProfileBannerUrl;
 
@@ -149,8 +151,9 @@ namespace Flantter.MilkyWay.Models
             this._Columns = new ObservableCollection<ColumnModel>();
             this._ReadOnlyColumns = new ReadOnlyObservableCollection<ColumnModel>(this._Columns);
             
-            this._Tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName);
-
+            this.Tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName);
+            this.Tokens.ConnectionOptions.UserAgent = TwitterConnectionHelper.GetUserAgent(this.Tokens);
+            
             this._AccountSetting = account;
             
             foreach (var column in account.Column)
@@ -187,7 +190,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var mentionStatus = await this._Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
+                var mentionStatus = await this.Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
                 status.MentionStatus = new Twitter.Objects.Status(mentionStatus);
 
                 Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status.MentionStatus, this._UserId, new List<string>() { "none://" }, false));
@@ -202,7 +205,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var retweetedResponse = await this._Tokens.Statuses.RetweetAsync(id => status.Id);
+                var retweetedResponse = await this.Tokens.Statuses.RetweetAsync(id => status.Id);
                 status.IsRetweeted = true;
             }
             catch
@@ -222,14 +225,14 @@ namespace Flantter.MilkyWay.Models
                 }
                 else
                 {
-                    var retweetedStatus = await this._Tokens.Statuses.ShowAsync(id => status.Id, include_my_retweet => true);
+                    var retweetedStatus = await this.Tokens.Statuses.ShowAsync(id => status.Id, include_my_retweet => true);
                     if (!retweetedStatus.CurrentUserRetweet.HasValue)
                         return;
 
                     currentUserRetweet = retweetedStatus.CurrentUserRetweet.Value;
                 }
 
-                var retweetedResponse = await this._Tokens.Statuses.RetweetAsync(id => currentUserRetweet);
+                var retweetedResponse = await this.Tokens.Statuses.RetweetAsync(id => currentUserRetweet);
                 status.IsRetweeted = false;
             }
             catch
@@ -242,7 +245,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var retweetedResponse = await this._Tokens.Favorites.CreateAsync(id => status.Id);
+                var retweetedResponse = await this.Tokens.Favorites.CreateAsync(id => status.Id);
                 status.IsFavorited = true;
             }
             catch
@@ -255,7 +258,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var retweetedResponse = await this._Tokens.Favorites.DestroyAsync(id => status.Id);
+                var retweetedResponse = await this.Tokens.Favorites.DestroyAsync(id => status.Id);
                 status.IsFavorited = false;
             }
             catch

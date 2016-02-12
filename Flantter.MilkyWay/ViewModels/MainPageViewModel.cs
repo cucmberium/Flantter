@@ -22,6 +22,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Flantter.MilkyWay.Common;
 using Windows.System;
 using Windows.Storage;
+using Flantter.MilkyWay.Models.Twitter;
 
 namespace Flantter.MilkyWay.ViewModels
 {

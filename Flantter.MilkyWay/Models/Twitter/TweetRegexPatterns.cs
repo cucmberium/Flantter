@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Flantter.MilkyWay.Common
+namespace Flantter.MilkyWay.Models.Twitter
 {
     public static class TweetRegexPatterns
     {

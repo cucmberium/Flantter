@@ -1,6 +1,7 @@
 ﻿using CoreTweet;
 using CoreTweet.Core;
 using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -64,7 +65,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             long nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
 
-            if (SettingService.Setting.UseOfficialApi && TwitterConsumerKeyPatterns.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
+            if (SettingService.Setting.UseOfficialApi && TwitterConnectionHelper.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
             {
                 AsyncResponse res;
                 try

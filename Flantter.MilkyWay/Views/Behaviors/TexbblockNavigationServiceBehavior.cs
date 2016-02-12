@@ -1,4 +1,5 @@
 ﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using System;
 using System.Collections.Generic;

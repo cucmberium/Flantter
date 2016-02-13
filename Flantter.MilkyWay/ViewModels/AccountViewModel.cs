@@ -35,6 +35,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<string> ProfileImageUrl { get; private set; }
         public ReactiveProperty<string> ProfileBannerUrl { get; private set; }
         public ReactiveProperty<string> ScreenName { get; private set; }
+        public ReactiveProperty<string> Name { get; private set; }
         public ReactiveProperty<bool> IsEnabled { get; private set; }
         public ReactiveProperty<double> PanelWidth { get; private set; }
         public ReactiveProperty<double> SnapPointsSpaceing { get; private set; }
@@ -52,6 +53,7 @@ namespace Flantter.MilkyWay.ViewModels
         {
             this._AccountModel = account;
             this.ScreenName = account.ObserveProperty(x => x.ScreenName).ToReactiveProperty();
+            this.Name = account.ObserveProperty(x => x.Name).ToReactiveProperty();
             this.ProfileImageUrl = account.ObserveProperty(x => x.ProfileImageUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
             this.ProfileBannerUrl = account.ObserveProperty(x => x.ProfileBannerUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
             this.IsEnabled = account.ObserveProperty(x => x.IsEnabled).ToReactiveProperty();
@@ -373,6 +375,7 @@ namespace Flantter.MilkyWay.ViewModels
         public void Dispose()
         {
             this.ScreenName.Dispose();
+            this.Name.Dispose();
             this.ProfileImageUrl.Dispose();
             this.ProfileBannerUrl.Dispose();
             this.IsEnabled.Dispose();

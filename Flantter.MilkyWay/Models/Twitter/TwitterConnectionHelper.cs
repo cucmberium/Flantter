@@ -25,7 +25,7 @@ namespace Flantter.MilkyWay.Models.Twitter
             switch (tokens.ConsumerKey)
             {
                 case Twitter_for_Android:
-                    // Nexus One に偽装
+                    // Nexus One に偽装 (From twidere)
                     return "TwitterAndroid /5.2.4 (524-r1) Nexus One/8 (HTC;passion;google;passion;0)";
                 case Twitter_for_iPhone:
                     return "Twitter-iPhone";
@@ -38,7 +38,8 @@ namespace Flantter.MilkyWay.Models.Twitter
                 case Twitter_for_Windows_Phone:
                     return "Twitter-WindowsPhone";
                 case Twitter_for_Windows:
-                    return "Twitter-Windows";
+                    // 調べたヘッダがこれだった
+                    return "TwitterForWindows/4.3.3.0";
                 case TweetDeck:
                     // Microsoft Edge に偽装
                     return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.14257";

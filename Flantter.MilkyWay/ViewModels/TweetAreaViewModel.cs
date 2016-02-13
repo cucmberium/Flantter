@@ -68,7 +68,7 @@ namespace Flantter.MilkyWay.ViewModels
             this._TweetAreaModel = new TweetAreaModel();
 
             this.Accounts = accounts;
-            this.SelectedAccount = new ReactiveProperty<AccountViewModel>(Accounts.First());
+            this.SelectedAccount = new ReactiveProperty<AccountViewModel>();
 
             this.SelectionStart = this._TweetAreaModel.ToReactivePropertyAsSynchronized(x => x.SelectionStart);
             this.Text = this._TweetAreaModel.ToReactivePropertyAsSynchronized(x => x.Text);

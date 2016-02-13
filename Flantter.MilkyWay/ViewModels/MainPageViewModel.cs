@@ -34,7 +34,11 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
         public ReactiveProperty<bool> AppBarIsOpen { get; private set; }
 
+        public ReactiveProperty<bool> LeftSwipeMenuIsOpen { get; private set; }
+
         public TweetAreaViewModel TweetArea { get; private set; }
+
+        public MainSwipeMenuViewModel LeftSwipeMenu { get; private set; }
 
         public ReactiveCommand DragOverCommand { get; private set; }
         public ReactiveCommand DropCommand { get; private set; }
@@ -64,10 +68,13 @@ namespace Flantter.MilkyWay.ViewModels
                     await this.TweetArea.TextBoxFocusMessenger.Raise(new Notification());
                 }
             });
-            
+
+            this.LeftSwipeMenuIsOpen = new ReactiveProperty<bool>(false);
+
             this.Accounts = this._MainPageModel.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
 
             this.TweetArea = new TweetAreaViewModel(this.Accounts);
+            this.LeftSwipeMenu = new MainSwipeMenuViewModel(this.Accounts);
 
             this.ShowImagePreviewMessenger = new Messenger();
             this.ShowVideoPreviewMessenger = new Messenger();
@@ -127,7 +134,9 @@ namespace Flantter.MilkyWay.ViewModels
             Services.Notice.Instance.TweetAreaOpenCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var isOpen = false;
-                if (x == null)
+                if (!(x is bool))
+                    isOpen = true;
+                else if (x == null)
                     isOpen = true;
                 else
                     isOpen = (bool)x;
@@ -223,6 +232,19 @@ namespace Flantter.MilkyWay.ViewModels
 
                 // Todo : 実装
             });
+
+            Services.Notice.Instance.ShowLeftSwipeMenuCommand.Subscribe(x =>
+            {
+                var isOpen = false;
+                if (!(x is bool))
+                    isOpen = true;
+                else if (x == null)
+                    isOpen = true;
+                else
+                    isOpen = (bool)x;
+
+                this.LeftSwipeMenuIsOpen.Value = isOpen;
+            });
             #endregion
         }
         #endregion
@@ -234,11 +256,14 @@ namespace Flantter.MilkyWay.ViewModels
         #endregion
 
         #region Others
-        public override void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
+        public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
 
-            Task.Run(() => this._MainPageModel.Initialize());
+            await Task.Run(() => this._MainPageModel.Initialize());
+
+            Services.Notice.Instance.TweetAreaAccountChangeCommand.Execute(this.Accounts.First(x => x.IsEnabled.Value));
+            this.LeftSwipeMenu.SelectedAccount.Value = this.Accounts.First(x => x.IsEnabled.Value);
         }
         #endregion
     }

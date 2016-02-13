@@ -50,6 +50,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.ShowSettingsFlyoutCommand = new ReactiveCommand();
 
             this.AddColumnCommand = new ReactiveCommand();
+
+            this.ShowLeftSwipeMenuCommand = new ReactiveCommand();
         }
 
         public static Notice Instance
@@ -94,6 +96,9 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowSettingsFlyoutCommand { get; private set; }
 
         public ReactiveCommand AddColumnCommand { get; private set; }
+
+
+        public ReactiveCommand ShowLeftSwipeMenuCommand { get; private set; }
     }
 
     public class NoticeProvider

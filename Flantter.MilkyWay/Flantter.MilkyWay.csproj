@@ -160,6 +160,7 @@
     <Compile Include="Themes\ThemeService.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\ColumnViewModel.cs" />
+    <Compile Include="ViewModels\MainSwipeMenuViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\LayoutHelper.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="ViewModels\Twitter\Objects\TrendViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\UserViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
+    <Compile Include="Views\Behaviors\LeftSwipeMenuShowBehavior.cs" />
     <Compile Include="Views\Behaviors\VirtualizingStackPanelRecycleItemResetBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewIncrementalLoadBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewScrollControlBehavior.cs" />
@@ -196,6 +198,9 @@
     <Compile Include="Views\Contents\ColumnAreaListBox.cs" />
     <Compile Include="Views\Contents\FollowButon.xaml.cs">
       <DependentUpon>FollowButon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SwipeMenu\MainSwipeMenu.xaml.cs">
+      <DependentUpon>MainSwipeMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\RetweetsOfMeSettingsFlyout.xaml.cs">
       <DependentUpon>RetweetsOfMeSettingsFlyout.xaml</DependentUpon>
@@ -391,6 +396,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\FollowButon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\SwipeMenu\MainSwipeMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

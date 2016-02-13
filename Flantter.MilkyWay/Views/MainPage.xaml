@@ -12,8 +12,10 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
+    xmlns:swipe="using:Flantter.MilkyWay.Views.Contents.SwipeMenu"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    ManipulationMode="TranslateX">
 
     <i:Interaction.Behaviors>
         <core:DataTriggerBehavior Binding="{x:Bind ViewModel.TitleBarVisivility.Value, Mode=OneWay}" Value="True" >
@@ -43,6 +45,13 @@
                 </AppBar>
             </behaviors:BottomAppBarShowBehavior.BottomAppBar>
         </behaviors:BottomAppBarShowBehavior>
+
+        <behaviors:LeftSwipeMenuShowBehavior IsOpen="{x:Bind ViewModel.LeftSwipeMenuIsOpen.Value, Mode=TwoWay}">
+            <behaviors:LeftSwipeMenuShowBehavior.SwipeMenu>
+                <swipe:MainSwipeMenu ViewModel="{x:Bind ViewModel.LeftSwipeMenu, Mode=OneWay}" />
+            </behaviors:LeftSwipeMenuShowBehavior.SwipeMenu>
+        </behaviors:LeftSwipeMenuShowBehavior>
+
     </i:Interaction.Behaviors>
 
     <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}" AllowDrop="True">

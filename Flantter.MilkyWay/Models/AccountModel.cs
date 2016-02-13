@@ -129,9 +129,11 @@ namespace Flantter.MilkyWay.Models
                 var user = await this.Tokens.Users.ShowAsync(user_id => this.UserId);
                 this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
                 this.ProfileBannerUrl = user.ProfileBannerUrl;
+                this.Name = user.Name;
 
                 this._AccountSetting.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
                 this._AccountSetting.ProfileBannerUrl = user.ProfileBannerUrl;
+                this._AccountSetting.Name = user.Name;
             });
         }
         #endregion

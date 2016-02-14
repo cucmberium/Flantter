@@ -31,6 +31,9 @@ namespace Flantter.MilkyWay.ViewModels
         public ReadOnlyReactiveCollection<ColumnViewModel> Columns { get; private set; }
         public ObservableCollection<string> OtherColumnNames { get; private set; }
         private IDisposable OtherColumnNamesDisposable { get; set; }
+        
+
+        public ReactiveProperty<bool> LeftSwipeMenuIsOpen { get; private set; }
 
         public ReactiveProperty<string> ProfileImageUrl { get; private set; }
         public ReactiveProperty<string> ProfileBannerUrl { get; private set; }
@@ -44,6 +47,10 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveProperty<int> ColumnSelectedIndex { get; private set; }
         
+        public ReactiveCommand ShowMyUserProfileCommand { get; private set; }
+
+        public ReactiveCommand ShowMyUserListsCommand { get; private set; }
+
         #region Constructor
         /*public AccountViewModel()
         {
@@ -57,6 +64,8 @@ namespace Flantter.MilkyWay.ViewModels
             this.ProfileImageUrl = account.ObserveProperty(x => x.ProfileImageUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
             this.ProfileBannerUrl = account.ObserveProperty(x => x.ProfileBannerUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
             this.IsEnabled = account.ObserveProperty(x => x.IsEnabled).ToReactiveProperty();
+
+            this.LeftSwipeMenuIsOpen = new ReactiveProperty<bool>();
 
             this.Columns = this._AccountModel.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x));
 
@@ -114,6 +123,20 @@ namespace Flantter.MilkyWay.ViewModels
             this.Notice = Services.Notice.Instance;
 
             #region Command
+
+            this.ShowMyUserProfileCommand = new ReactiveCommand();
+            this.ShowMyUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+            this.ShowMyUserListsCommand = new ReactiveCommand();
+            this.ShowMyUserListsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
 
             Services.Notice.Instance.LoadMentionCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
             {
@@ -360,6 +383,19 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserFollowInfo", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+            Services.Notice.Instance.ShowLeftSwipeMenuCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            {
+                var isOpen = false;
+                if (!(x is bool))
+                    isOpen = true;
+                else if (x == null)
+                    isOpen = true;
+                else
+                    isOpen = (bool)x;
+
+                this.LeftSwipeMenuIsOpen.Value = isOpen;
             });
 
             #endregion

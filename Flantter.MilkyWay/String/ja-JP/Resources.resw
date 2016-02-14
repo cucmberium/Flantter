@@ -454,4 +454,28 @@
   <data name="SettingsFlyout_UserProfile_Add_Flyout_UserUnmute.Text" xml:space="preserve">
     <value>    ミュートを解除</value>
   </data>
+  <data name="MainSwipeMenu_ChangeAccount.Text" xml:space="preserve">
+    <value>アカウント変更</value>
+  </data>
+  <data name="MainSwipeMenu_Exit.Text" xml:space="preserve">
+    <value>アプリの終了</value>
+  </data>
+  <data name="MainSwipeMenu_FollowingInfo.Text" xml:space="preserve">
+    <value>フォロー関連情報</value>
+  </data>
+  <data name="MainSwipeMenu_MyUserLists.Text" xml:space="preserve">
+    <value>リスト</value>
+  </data>
+  <data name="MainSwipeMenu_MyUserProfile.Text" xml:space="preserve">
+    <value>自分のプロフィール</value>
+  </data>
+  <data name="MainSwipeMenu_RetweetsOfMe.Text" xml:space="preserve">
+    <value>リツイートされたツイート</value>
+  </data>
+  <data name="MainSwipeMenu_SearchAndTrends.Text" xml:space="preserve">
+    <value>検索とトレンド</value>
+  </data>
+  <data name="MainSwipeMenu_Settings.Text" xml:space="preserve">
+    <value>設定</value>
+  </data>
 </root>

@@ -140,9 +140,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.Mute = this.Model.Mute.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
 
             this.UpdatingFollowing = this.Model.ObserveProperty(x => x.UpdatingFollowing).ToReactiveProperty();
-            this.UpdatingFollowers = this.Model.ObserveProperty(x => x.UpdatingFollowing).ToReactiveProperty();
-            this.UpdatingCrush = this.Model.ObserveProperty(x => x.UpdatingBlock).ToReactiveProperty();
-            this.UpdatingCrushedOn = this.Model.ObserveProperty(x => x.UpdatingMute).ToReactiveProperty();
+            this.UpdatingFollowers = this.Model.ObserveProperty(x => x.UpdatingFollowers).ToReactiveProperty();
+            this.UpdatingCrush = this.Model.ObserveProperty(x => x.UpdatingCrush).ToReactiveProperty();
+            this.UpdatingCrushedOn = this.Model.ObserveProperty(x => x.UpdatingCrushedOn).ToReactiveProperty();
             this.UpdatingBlock = this.Model.ObserveProperty(x => x.UpdatingBlock).ToReactiveProperty();
             this.UpdatingMute = this.Model.ObserveProperty(x => x.UpdatingMute).ToReactiveProperty();
 

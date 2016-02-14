@@ -12,7 +12,6 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
-    xmlns:swipe="using:Flantter.MilkyWay.Views.Contents.SwipeMenu"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d"
     ManipulationMode="TranslateX">
@@ -45,12 +44,6 @@
                 </AppBar>
             </behaviors:BottomAppBarShowBehavior.BottomAppBar>
         </behaviors:BottomAppBarShowBehavior>
-
-        <behaviors:LeftSwipeMenuShowBehavior IsOpen="{x:Bind ViewModel.LeftSwipeMenuIsOpen.Value, Mode=TwoWay}">
-            <behaviors:LeftSwipeMenuShowBehavior.SwipeMenu>
-                <swipe:MainSwipeMenu ViewModel="{x:Bind ViewModel.LeftSwipeMenu, Mode=OneWay}" />
-            </behaviors:LeftSwipeMenuShowBehavior.SwipeMenu>
-        </behaviors:LeftSwipeMenuShowBehavior>
 
     </i:Interaction.Behaviors>
 

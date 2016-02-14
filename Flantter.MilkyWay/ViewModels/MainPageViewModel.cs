@@ -34,11 +34,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
         public ReactiveProperty<bool> AppBarIsOpen { get; private set; }
 
-        public ReactiveProperty<bool> LeftSwipeMenuIsOpen { get; private set; }
-
         public TweetAreaViewModel TweetArea { get; private set; }
-
-        public MainSwipeMenuViewModel LeftSwipeMenu { get; private set; }
 
         public ReactiveCommand DragOverCommand { get; private set; }
         public ReactiveCommand DropCommand { get; private set; }
@@ -68,13 +64,10 @@ namespace Flantter.MilkyWay.ViewModels
                     await this.TweetArea.TextBoxFocusMessenger.Raise(new Notification());
                 }
             });
-
-            this.LeftSwipeMenuIsOpen = new ReactiveProperty<bool>(false);
-
+            
             this.Accounts = this._MainPageModel.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
 
             this.TweetArea = new TweetAreaViewModel(this.Accounts);
-            this.LeftSwipeMenu = new MainSwipeMenuViewModel(this.Accounts);
 
             this.ShowImagePreviewMessenger = new Messenger();
             this.ShowVideoPreviewMessenger = new Messenger();
@@ -233,18 +226,21 @@ namespace Flantter.MilkyWay.ViewModels
                 // Todo : 実装
             });
 
-            Services.Notice.Instance.ShowLeftSwipeMenuCommand.Subscribe(x =>
+            Services.Notice.Instance.ChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                var isOpen = false;
-                if (!(x is bool))
-                    isOpen = true;
-                else if (x == null)
-                    isOpen = true;
-                else
-                    isOpen = (bool)x;
-
-                this.LeftSwipeMenuIsOpen.Value = isOpen;
+                // Todo : 実装
             });
+
+            Services.Notice.Instance.ShowAppSettingsCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                // Todo : 実装
+            });
+
+            Services.Notice.Instance.ExitAppCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                // Todo : 実装
+            });
+
             #endregion
         }
         #endregion
@@ -263,7 +259,6 @@ namespace Flantter.MilkyWay.ViewModels
             await Task.Run(() => this._MainPageModel.Initialize());
 
             Services.Notice.Instance.TweetAreaAccountChangeCommand.Execute(this.Accounts.First(x => x.IsEnabled.Value));
-            this.LeftSwipeMenu.SelectedAccount.Value = this.Accounts.First(x => x.IsEnabled.Value);
         }
         #endregion
     }

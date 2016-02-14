@@ -21,13 +21,13 @@ namespace Flantter.MilkyWay.Views.Contents.SwipeMenu
 {
     public sealed partial class MainSwipeMenu : UserControl
     {
-        public MainSwipeMenuViewModel ViewModel
+        public AccountViewModel ViewModel
         {
-            get { return (MainSwipeMenuViewModel)GetValue(ViewModelProperty); }
+            get { return (AccountViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(MainSwipeMenuViewModel), typeof(MainSwipeMenu), null);
+            DependencyProperty.Register("ViewModel", typeof(AccountViewModel), typeof(MainSwipeMenu), null);
 
         public MainSwipeMenu()
         {

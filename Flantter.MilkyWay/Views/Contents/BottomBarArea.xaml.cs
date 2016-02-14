@@ -138,7 +138,7 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private void BottomBarArea_ProfileImageButton_Click(object sender, RoutedEventArgs e)
         {
-            //Setting.SettingService.Setting.Theme = Setting.SettingService.Setting.Theme == "Dark" ? "Light" : "Dark";
+            Setting.SettingService.Setting.Theme = Setting.SettingService.Setting.Theme == "Dark" ? "Light" : "Dark";
         }
     }
 }

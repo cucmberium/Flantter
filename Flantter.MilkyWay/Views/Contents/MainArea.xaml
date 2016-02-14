@@ -13,6 +13,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
+    xmlns:swipe="using:Flantter.MilkyWay.Views.Contents.SwipeMenu"
     mc:Ignorable="d">
     
     <Grid>
@@ -34,6 +35,12 @@
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserFollowInfoCommand, Mode=OneWay}"/>
                 </util:KeyTrigger>
             </util:GlobalKeyTriggerBehavior>
+
+            <behaviors:LeftSwipeMenuShowBehavior IsOpen="{x:Bind ViewModel.LeftSwipeMenuIsOpen.Value, Mode=TwoWay}">
+                <behaviors:LeftSwipeMenuShowBehavior.SwipeMenu>
+                    <swipe:MainSwipeMenu ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                </behaviors:LeftSwipeMenuShowBehavior.SwipeMenu>
+            </behaviors:LeftSwipeMenuShowBehavior>
         </i:Interaction.Behaviors>
         
         <Grid.RowDefinitions>

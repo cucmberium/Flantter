@@ -230,9 +230,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
         private static void IsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var behavior = d as LeftSwipeMenuShowBehavior;
-            var page = behavior.AssociatedObject as Page;
-            if (page == null)
-                return;
 
             var isOpen = (bool)e.NewValue;
             if (isOpen)

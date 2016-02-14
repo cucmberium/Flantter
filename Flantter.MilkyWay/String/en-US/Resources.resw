@@ -454,4 +454,28 @@
   <data name="SettingsFlyout_UserProfile_Add_Flyout_UserUnmute.Text" xml:space="preserve">
     <value>    Unute user</value>
   </data>
+  <data name="MainSwipeMenu_ChangeAccount.Text" xml:space="preserve">
+    <value>Change Account</value>
+  </data>
+  <data name="MainSwipeMenu_Exit.Text" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="MainSwipeMenu_FollowingInfo.Text" xml:space="preserve">
+    <value>Following Info</value>
+  </data>
+  <data name="MainSwipeMenu_MyUserLists.Text" xml:space="preserve">
+    <value>Lists</value>
+  </data>
+  <data name="MainSwipeMenu_MyUserProfile.Text" xml:space="preserve">
+    <value>My User Profile</value>
+  </data>
+  <data name="MainSwipeMenu_RetweetsOfMe.Text" xml:space="preserve">
+    <value>Retweets of Me</value>
+  </data>
+  <data name="MainSwipeMenu_SearchAndTrends.Text" xml:space="preserve">
+    <value>Search and Trends</value>
+  </data>
+  <data name="MainSwipeMenu_Settings.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
 </root>

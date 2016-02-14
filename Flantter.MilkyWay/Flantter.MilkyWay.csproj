@@ -160,7 +160,6 @@
     <Compile Include="Themes\ThemeService.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\ColumnViewModel.cs" />
-    <Compile Include="ViewModels\MainSwipeMenuViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\LayoutHelper.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />

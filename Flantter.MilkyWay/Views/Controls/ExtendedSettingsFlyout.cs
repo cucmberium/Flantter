@@ -156,6 +156,8 @@ namespace Flantter.MilkyWay.Views.Controls
             popupGrid.Width = Window.Current.Bounds.Width;
             popupGrid.Height = Window.Current.Bounds.Height;
 
+            this.Height = Window.Current.Bounds.Height;
+
             if (this.Width >= Window.Current.Bounds.Width)
             {
                 rootGrid.BorderThickness = new Thickness(0, 0, 0, 0);
@@ -192,6 +194,8 @@ namespace Flantter.MilkyWay.Views.Controls
 
             popupGrid.Width = Window.Current.Bounds.Width;
             popupGrid.Height = Window.Current.Bounds.Height;
+
+            this.Height = Window.Current.Bounds.Height;
 
             if (rootBorder != null && rootGrid != null)
             {

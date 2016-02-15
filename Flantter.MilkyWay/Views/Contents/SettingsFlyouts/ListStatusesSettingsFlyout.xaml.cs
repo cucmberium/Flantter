@@ -48,7 +48,6 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
             this.Width = width;
 
             this.ListStatusesGrid.Width = width;
-            this.ListStatusesGrid.Height = Window.Current.Bounds.Height - 70;
         }
     }
 }

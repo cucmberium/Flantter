@@ -48,7 +48,6 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
             this.Width = width;
 
             this.RetweetersGrid.Width = width;
-            this.RetweetersGrid.Height = Window.Current.Bounds.Height - 70;
         }
     }
 }

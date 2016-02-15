@@ -48,7 +48,6 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
             this.Width = width;
 
             this.UserListsSettingsFlyoutPivot.Width = width;
-            this.UserListsSettingsFlyoutPivot.Height = Window.Current.Bounds.Height - 70;
         }
     }
 }

@@ -543,7 +543,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -575,7 +575,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", 40 }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -607,7 +607,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", 20 }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -640,7 +640,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", 25 }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -672,7 +672,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "list_id", long.Parse(this._Parameter) } };
+                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true }, { "list_id", long.Parse(this._Parameter) } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -708,7 +708,7 @@ namespace Flantter.MilkyWay.Models
 
                 if (SettingService.Setting.UseOfficialApi && TwitterConnectionHelper.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
                 {
-                    var param = new Dictionary<string, object>() { { "q", this._Parameter }, { "count", 100 }, { "result_type", "recent" }, { "modules", "status" } };
+                    var param = new Dictionary<string, object>() { { "q", this._Parameter }, { "count", this._FetchingNumberOfTweet }, { "result_type", "recent" }, { "modules", "status" } };
                     if (maxid != 0)
                         param["q"] = param["q"] + " max_id:" + maxid;
                     if (sinceid != 0)
@@ -733,7 +733,7 @@ namespace Flantter.MilkyWay.Models
                 }
                 else
                 {
-                    var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "q", this._Parameter } };
+                    var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true }, { "q", this._Parameter } };
                     if (maxid != 0)
                         param.Add("max_id", maxid);
                     if (sinceid != 0)
@@ -766,7 +766,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", 30 }, { "include_entities", true }, { "user_id", int.Parse(this._Parameter) } };
+                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true }, { "user_id", int.Parse(this._Parameter) } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)

@@ -198,6 +198,9 @@
     <Compile Include="Views\Contents\FollowButon.xaml.cs">
       <DependentUpon>FollowButon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\Settings\MainSettingSettingsFlyout.xaml.cs">
+      <DependentUpon>MainSettingSettingsFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\SwipeMenu\MainSwipeMenu.xaml.cs">
       <DependentUpon>MainSwipeMenu.xaml</DependentUpon>
     </Compile>
@@ -397,6 +400,10 @@
     <Page Include="Views\Contents\FollowButon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\Settings\MainSettingSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\SwipeMenu\MainSwipeMenu.xaml">
       <SubType>Designer</SubType>

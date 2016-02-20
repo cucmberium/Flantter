@@ -11,6 +11,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
+    xmlns:swipe="using:Flantter.MilkyWay.Views.Contents.SwipeMenu"
     mc:Ignorable="d"
     d:DesignHeight="75"
     d:DesignWidth="720">
@@ -203,7 +204,16 @@
             </TransitionCollection>
         </Grid.Transitions>
 
-        <Button x:Name="BottomBarArea_ProfileImageButton" Click="BottomBarArea_ProfileImageButton_Click" Grid.Column="0" Width="75" Height="75" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <Button x:Name="BottomBarArea_ProfileImageButton" Grid.Column="0" ManipulationMode="TranslateX,TranslateY" Width="75" Height="75" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+
+            <i:Interaction.Behaviors>
+                <behaviors:LeftSwipeMenuShowBehavior IsOpen="{x:Bind ViewModel.LeftSwipeMenuIsOpen.Value, Mode=TwoWay}">
+                    <behaviors:LeftSwipeMenuShowBehavior.SwipeMenu>
+                        <swipe:MainSwipeMenu ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                    </behaviors:LeftSwipeMenuShowBehavior.SwipeMenu>
+                </behaviors:LeftSwipeMenuShowBehavior>
+            </i:Interaction.Behaviors>
+            
             <Image x:Name="BottomBarArea_ProfileImage" Source="{x:Bind ViewModel.ProfileImageUrl.Value, Mode=OneWay}"/>
             <Button.Flyout>
                 <MenuFlyout>

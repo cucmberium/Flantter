@@ -88,13 +88,13 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 if (maxid == 0)
                 {
-                    receivedDirectMessages = await Tokens.DirectMessages.ReceivedAsync(count => 50);
-                    sentDirectMessages = await Tokens.DirectMessages.SentAsync(count => 50);
+                    receivedDirectMessages = await Tokens.DirectMessages.ReceivedAsync(count => 50, full_text => true);
+                    sentDirectMessages = await Tokens.DirectMessages.SentAsync(count => 50, full_text => true);
                 }
                 else
                 {
-                    receivedDirectMessages = await Tokens.DirectMessages.ReceivedAsync(count => 50, max_id => maxid);
-                    sentDirectMessages = await Tokens.DirectMessages.SentAsync(count => 50, max_id => maxid);
+                    receivedDirectMessages = await Tokens.DirectMessages.ReceivedAsync(count => 50, max_id => maxid, full_text => true);
+                    sentDirectMessages = await Tokens.DirectMessages.SentAsync(count => 50, max_id => maxid, full_text => true);
                 }
             }
             catch

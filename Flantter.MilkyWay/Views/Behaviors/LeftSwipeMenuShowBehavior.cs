@@ -35,10 +35,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
             var element = this.AssociatedObject as FrameworkElement;
             element.ManipulationStarted += (s, e) =>
             {
-                if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-                    return;
+                //if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+                //    return;
 
-                if (e.Position.X >= 5)
+                if (this.IsEdgeSwipe && e.Position.X >= 5)
                     return;
 
                 capturingPointer = true;
@@ -48,8 +48,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 if (!capturingPointer)
                     return;
 
-                if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-                    return;
+                //if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+                //    return;
 
                 if (e.Cumulative.Translation.X < 20)
                     return;
@@ -237,5 +237,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
             else
                 behavior.Hide();
         }
+
+        public bool IsEdgeSwipe
+        {
+            get { return (bool)GetValue(IsEdgeSwipeProperty); }
+            set { SetValue(IsEdgeSwipeProperty, value); }
+        }
+        public static readonly DependencyProperty IsEdgeSwipeProperty =
+            DependencyProperty.Register("IsEdgeSwipe", typeof(bool), typeof(LeftSwipeMenuShowBehavior), new PropertyMetadata(false));
     }
 }

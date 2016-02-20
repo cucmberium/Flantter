@@ -607,7 +607,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true }, { "full_text", true } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)

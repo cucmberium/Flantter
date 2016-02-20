@@ -75,74 +75,74 @@
                 <Button Command="{x:Bind ViewModel.ShowMyUserProfileCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="ContactInfo" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <TextBlock x:Uid="MainSwipeMenu_MyUserProfile" Text="自分のプロフィール" Padding="0" FontSize="18" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="MainSwipeMenu_MyUserProfile" Text="自分のプロフィール" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
 
-                <controls:HorizontalBar Margin="60,0,0,0"/>
+                <controls:HorizontalBar Margin="50,0,0,0"/>
 
                 <Button Command="{x:Bind ViewModel.Notice.ShowSearchCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Find" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <TextBlock x:Uid="MainSwipeMenu_SearchAndTrends" Text="検索とトレンド" Padding="0" FontSize="18" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="MainSwipeMenu_SearchAndTrends" Text="検索とトレンド" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
 
-                <controls:HorizontalBar Margin="60,0,0,0"/>
+                <controls:HorizontalBar Margin="50,0,0,0"/>
 
                 <Button Command="{x:Bind ViewModel.ShowMyUserListsCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Bullets" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <TextBlock x:Uid="MainSwipeMenu_MyUserLists" Text="リスト" Padding="0" FontSize="18" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="MainSwipeMenu_MyUserLists" Text="リスト" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
 
-                <controls:HorizontalBar Margin="60,0,0,0"/>
+                <controls:HorizontalBar Margin="50,0,0,0"/>
 
                 <Button Command="{x:Bind ViewModel.Notice.ShowUserFollowInfoCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Contact" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <TextBlock x:Uid="MainSwipeMenu_FollowingInfo" Text="フォロー関連" Padding="0" FontSize="18" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="MainSwipeMenu_FollowingInfo" Text="フォロー関連" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
 
-                <controls:HorizontalBar Margin="60,0,0,0"/>
+                <controls:HorizontalBar Margin="50,0,0,0"/>
 
                 <Button Command="{x:Bind ViewModel.Notice.ShowRetweetsOfMeCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="ReShare" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <TextBlock x:Uid="MainSwipeMenu_RetweetsOfMe" Text="リツイートされたツイート" Padding="0" FontSize="18" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="MainSwipeMenu_RetweetsOfMe" Text="リツイートされたツイート" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
 
-                <controls:HorizontalBar Margin="60,0,0,0"/>
+                <controls:HorizontalBar Margin="50,0,0,0"/>
 
                 <Button Command="{x:Bind ViewModel.Notice.ChangeAccountCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="ContactInfo" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <TextBlock x:Uid="MainSwipeMenu_ChangeAccount" Text="アカウント切り替え" Padding="0" FontSize="18" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="MainSwipeMenu_ChangeAccount" Text="アカウント切り替え" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
 
-                <controls:HorizontalBar Margin="60,0,0,0"/>
+                <controls:HorizontalBar Margin="50,0,0,0"/>
 
                 <Button Command="{x:Bind ViewModel.Notice.ShowAppSettingsCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Setting" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <TextBlock x:Uid="MainSwipeMenu_Settings" Text="設定" Padding="0" FontSize="18" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="MainSwipeMenu_Settings" Text="設定" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
 
-                <controls:HorizontalBar Margin="60,0,0,0"/>
+                <controls:HorizontalBar Margin="50,0,0,0"/>
 
                 <Button Command="{x:Bind ViewModel.Notice.ExitAppCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Clear" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <TextBlock x:Uid="MainSwipeMenu_Exit" Text="アプリの終了" Padding="0" FontSize="18" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="MainSwipeMenu_Exit" Text="アプリの終了" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
 
-                <controls:HorizontalBar Margin="60,0,0,0"/>
+                <controls:HorizontalBar Margin="50,0,0,0"/>
                 
             </StackPanel>
         </ScrollViewer>

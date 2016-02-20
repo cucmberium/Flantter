@@ -52,10 +52,7 @@ namespace Flantter.MilkyWay.Views.Contents
 
             this.BottomBarArea_OthersButton_MenuFlyoutExtension.ItemSelected += this.BottomBarArea_OthersButton_Flyout_ItemSelected;
             this.BottomBarArea_OthersTextButton_MenuFlyoutExtension.ItemSelected += this.BottomBarArea_OthersButton_Flyout_ItemSelected;
-
-            // this.BottomBarArea_OthersButton_MenuFlyoutExtension.Items = new ObservableCollection<string>() { "Events", "Favorites" };
-            // this.BottomBarArea_OthersTextButton_MenuFlyoutExtension.Items = new ObservableCollection<string>() { "Events", "Favorites" };
-
+            
             this.BottomBarArea_SelectedIndexChanged();
         }
 
@@ -134,11 +131,6 @@ namespace Flantter.MilkyWay.Views.Contents
         private void BottomBarArea_DirectMessagesButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             this.SelectedIndex = 2;
-        }
-
-        private void BottomBarArea_ProfileImageButton_Click(object sender, RoutedEventArgs e)
-        {
-            Setting.SettingService.Setting.Theme = Setting.SettingService.Setting.Theme == "Dark" ? "Light" : "Dark";
         }
     }
 }

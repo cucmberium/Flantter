@@ -496,4 +496,10 @@
   <data name="SettingsFlyout_Settings_Main_NotificationSetting_Textblock.Text" xml:space="preserve">
     <value>通知設定</value>
   </data>
+  <data name="SettingsFlyout_Settings_Main_AppInfo_Textblock.Text" xml:space="preserve">
+    <value>アプリケーション情報</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Main_SupportAccount_Textblock.Text" xml:space="preserve">
+    <value>サポートアカウント</value>
+  </data>
 </root>

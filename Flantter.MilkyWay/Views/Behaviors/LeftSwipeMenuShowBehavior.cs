@@ -51,11 +51,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 //if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
                 //    return;
 
-                if (e.Cumulative.Translation.X < 20)
+                if (e.Cumulative.Translation.X < 10)
                     return;
                 
                 this.rootPopup.IsOpen = true;
-                var x = (e.Cumulative.Translation.X - 20) - 300;
+                var x = (e.Cumulative.Translation.X - 10) - (this.SwipeMenu.ActualWidth == 0 ? 280 : this.SwipeMenu.ActualWidth);
                 if (x > 0)
                     x = 0;
 
@@ -66,7 +66,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 if (!capturingPointer)
                     return;
 
-                if (e.Cumulative.Translation.X > 160)
+                if (e.Cumulative.Translation.X > this.SwipeMenu.ActualWidth / 2)
                     this.Show();
                 else
                     this.Hide();
@@ -103,7 +103,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     this.SwipeMenu.RenderTransform = new CompositeTransform();
 
                 var rendarTransform = this.SwipeMenu.RenderTransform as CompositeTransform;
-                rendarTransform.TranslateX = -300;
+                rendarTransform.TranslateX = -this.SwipeMenu.ActualWidth;
                 this.SwipeMenu.RenderTransform = rendarTransform;
             }
         }
@@ -145,7 +145,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 swipeMenu.RenderTransform = new CompositeTransform();
 
             var rendarTransform = swipeMenu.RenderTransform as CompositeTransform;
-            rendarTransform.TranslateX = -300;
+            rendarTransform.TranslateX = -swipeMenu.ActualWidth;
             swipeMenu.RenderTransform = rendarTransform;
         }
 
@@ -160,13 +160,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (disableAnimation)
             {
                 var rendarTransform = this.SwipeMenu.RenderTransform as CompositeTransform;
-                rendarTransform.TranslateX = -300;
+                rendarTransform.TranslateX = -this.SwipeMenu.ActualWidth;
                 this.SwipeMenu.RenderTransform = rendarTransform;
             }
             else
             {
                 Storyboard storyboard = new Storyboard();
-                DoubleAnimation translateAnimX = new DoubleAnimation() { To = -300, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+                DoubleAnimation translateAnimX = new DoubleAnimation() { To = -this.SwipeMenu.ActualWidth, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
                 storyboard.Children.Add(translateAnimX);
                 Storyboard.SetTarget(translateAnimX, this.SwipeMenu);
                 Storyboard.SetTargetProperty(translateAnimX, "(UIElement.RenderTransform).(CompositeTransform.TranslateX)");

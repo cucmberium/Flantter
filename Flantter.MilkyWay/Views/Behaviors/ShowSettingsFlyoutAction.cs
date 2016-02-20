@@ -336,6 +336,20 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     
                     settingsFlyout.Show();
                     break;
+                case "AppInfo":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AppInfoSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new AppInfoSettingsFlyout();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    settingsFlyout.Show();
+                    break;
             }
 
             return null;

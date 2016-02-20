@@ -243,6 +243,11 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
+            Services.Notice.Instance.ShowAppInfoCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AppInfo" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
             #endregion
         }
         #endregion

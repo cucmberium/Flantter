@@ -48,7 +48,7 @@
             <Grid>
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#AA000000" Offset="1"/>
+                        <GradientStop Color="#BB000000" Offset="1"/>
                         <GradientStop Color="Transparent" Offset="0.4"/>
                         <GradientStop Color="Transparent" Offset="0"/>
                     </LinearGradientBrush>
@@ -126,7 +126,7 @@
 
                 <controls:HorizontalBar Margin="50,0,0,0"/>
 
-                <Button Command="{x:Bind ViewModel.Notice.ShowAppSettingsCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Button Command="{x:Bind ViewModel.Notice.ShowMainSettingCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Setting" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         <TextBlock x:Uid="MainSwipeMenu_Settings" Text="設定" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>

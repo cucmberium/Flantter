@@ -2,6 +2,7 @@
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Views.Contents;
 using Flantter.MilkyWay.Views.Contents.SettingsFlyouts;
+using Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings;
 using Flantter.MilkyWay.Views.Controls;
 using Flantter.MilkyWay.Views.Util;
 using Microsoft.Xaml.Interactivity;
@@ -319,6 +320,20 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     ((UserFollowInfoSettingsFlyout)settingsFlyout).DataContext = ((UserFollowInfoSettingsFlyout)settingsFlyout).ViewModel;
 
+                    settingsFlyout.Show();
+                    break;
+                case "MainSetting":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is MainSettingSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new MainSettingSettingsFlyout();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+                    
                     settingsFlyout.Show();
                     break;
             }

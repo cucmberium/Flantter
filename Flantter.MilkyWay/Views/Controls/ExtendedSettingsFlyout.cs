@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
 // テンプレート コントロールのアイテム テンプレートについては、http://go.microsoft.com/fwlink/?LinkId=234235 を参照してください
@@ -50,7 +51,7 @@ namespace Flantter.MilkyWay.Views.Controls
             set { SetValue(IconSourceProperty, value); }
         }
         public static readonly DependencyProperty IconSourceProperty =
-            DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(ExtendedSettingsFlyout), new PropertyMetadata("http://localhost"));
+            DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(ExtendedSettingsFlyout), new PropertyMetadata(new BitmapImage() { UriSource = new Uri("http://localhost") }));
 
         public bool IsOpenFromLeftEnabled
         {

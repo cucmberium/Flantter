@@ -478,4 +478,22 @@
   <data name="MainSwipeMenu_Settings.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="SettingsFlyout_Settings_Main_AccountSetting_Textblock.Text" xml:space="preserve">
+    <value>Account Setting</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Main_AdvancedSetting_Textblock.Text" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Main_BehaviorSetting_Textblock.Text" xml:space="preserve">
+    <value>Behavior Setting</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Main_DisplaySetting_Textblock.Text" xml:space="preserve">
+    <value>Display Setting</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Main_MuteSetting_Textblock.Text" xml:space="preserve">
+    <value>Mute Setting</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Main_NotificationSetting_Textblock.Text" xml:space="preserve">
+    <value>Notification Setting</value>
+  </data>
 </root>

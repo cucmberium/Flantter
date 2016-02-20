@@ -23,6 +23,7 @@ using Flantter.MilkyWay.Common;
 using Windows.System;
 using Windows.Storage;
 using Flantter.MilkyWay.Models.Twitter;
+using Flantter.MilkyWay.Views.Behaviors;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -231,14 +232,15 @@ namespace Flantter.MilkyWay.ViewModels
                 // Todo : 実装
             });
 
-            Services.Notice.Instance.ShowAppSettingsCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            Services.Notice.Instance.ExitAppCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 // Todo : 実装
             });
 
-            Services.Notice.Instance.ExitAppCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            Services.Notice.Instance.ShowMainSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
-                // Todo : 実装
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "MainSetting" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
             #endregion

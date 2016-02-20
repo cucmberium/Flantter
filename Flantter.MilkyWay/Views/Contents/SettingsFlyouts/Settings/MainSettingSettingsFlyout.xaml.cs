@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
+namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings
 {
     public sealed partial class MainSettingSettingsFlyout : ExtendedSettingsFlyout
     {

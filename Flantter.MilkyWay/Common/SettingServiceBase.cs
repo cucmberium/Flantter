@@ -13,6 +13,12 @@ namespace Flantter.MilkyWay.Common
     public class SettingServiceBase<Impl> : INotifyPropertyChanged
         where Impl : class, new()
     {
+        public Dictionary<string, object> Cache { get; set; }
+        
+        protected SettingServiceBase()
+        {
+            Cache = new Dictionary<string, object>();
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
@@ -29,11 +35,20 @@ namespace Flantter.MilkyWay.Common
             try
             {
                 var values = ApplicationData.Current.LocalSettings.Values;
-                if (values.ContainsKey(name)) return (T)values[name];
-                return defaultValue;
+                if (values.ContainsKey(name))
+                {
+                    Cache[name] = (T)values[name];
+                    return (T)Cache[name];
+                }
+                else
+                {
+                    Cache[name] = defaultValue;
+                    return defaultValue;
+                }
             }
             catch
             {
+                Cache[name] = defaultValue;
                 return defaultValue;
             }
         }
@@ -58,11 +73,20 @@ namespace Flantter.MilkyWay.Common
             try
             {
                 var values = ApplicationData.Current.RoamingSettings.Values;
-                if (values.ContainsKey(name)) return (T)values[name];
-                return defaultValue;
+                if (values.ContainsKey(name))
+                {
+                    Cache[name] = (T)values[name];
+                    return (T)Cache[name];
+                }
+                else
+                {
+                    Cache[name] = defaultValue;
+                    return defaultValue;
+                }
             }
             catch
             {
+                Cache[name] = defaultValue;
                 return defaultValue;
             }
         }
@@ -84,6 +108,9 @@ namespace Flantter.MilkyWay.Common
 
         private T GetValueProxy<T>(string name, T defaultValue)
         {
+            if (Cache.ContainsKey(name))
+                return (T)Cache[name];
+
             var prop = GetType().GetRuntimeProperty(name);
             var attr = prop.GetCustomAttribute(typeof(LocalValueAttribute));
             return attr != null ? GetLocalValue(name, defaultValue) : GetRoamingValue(name, defaultValue);
@@ -91,6 +118,8 @@ namespace Flantter.MilkyWay.Common
 
         private void SetValueProxy<T>(string name, T value)
         {
+            Cache[name] = value;
+
             var prop = GetType().GetRuntimeProperty(name);
             var attr = prop.GetCustomAttribute(typeof(LocalValueAttribute));
             if (attr != null) SetLocalValue(name, value);

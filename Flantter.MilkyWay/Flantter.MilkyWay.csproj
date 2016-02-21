@@ -117,6 +117,7 @@
     <Compile Include="Common\IEnumerableExtensions.cs" />
     <Compile Include="Common\SettingServiceBase.cs" />
     <Compile Include="Common\StringExtensions.cs" />
+    <Compile Include="Models\Twitter\ExtractTextParts.cs" />
     <Compile Include="Models\Twitter\TweetRegexPatterns.cs" />
     <Compile Include="Models\Twitter\TwitterConnectionHelper.cs" />
     <Compile Include="Common\VisualTreeHelperExtensions.cs" />

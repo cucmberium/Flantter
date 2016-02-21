@@ -76,7 +76,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         private static IEnumerable<Inline> GenerateInlines(DependencyObject obj, string text, Entities entities = null)
         {
-            foreach (var token in Tokenize(text))
+            foreach (var token in Tokenize(text, entities))
             {
                 switch (token.Type)
                 {
@@ -256,6 +256,39 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             if (lastPosition < text.LengthInTextElements())
                 yield return new TextToken(TextToken.TextTokenId.Text, text.SubstringByTextElements(lastPosition, text.LengthInTextElements() - lastPosition));*/
+        }
+
+        private static IEnumerable<TextToken> Tokenize(string text, Entities entities)
+        {
+            if (string.IsNullOrEmpty(text))
+                yield break;
+
+            if (entities == null)
+            {
+                foreach (var token in Tokenize(text))
+                    yield return token;
+
+                yield break;
+            }
+            
+            foreach (var s in ExtractTextParts.EnumerateTextParts(text, entities))
+            {
+                switch (s.Type)
+                {
+                    case TextPartType.Hashtag:
+                        yield return new TextToken(TextToken.TextTokenId.HashTag, s.RawText);
+                        break;
+                    case TextPartType.UserMention:
+                        yield return new TextToken(TextToken.TextTokenId.UserMention, s.RawText);
+                        break;
+                    case TextPartType.Url:
+                        yield return new TextToken(TextToken.TextTokenId.Url, s.RawText);
+                        break;
+                    default:
+                        yield return new TextToken(TextToken.TextTokenId.Text, s.RawText);
+                        break;
+                }
+            }
         }
 
         private static async void HyperLink_Click(object sender, HyperlinkClickEventArgs e)

@@ -13,7 +13,7 @@ namespace Flantter.MilkyWay.Views.Util
 	public class StoryboardBeginAction : DependencyObject, IAction
 	{
         public static readonly DependencyProperty KeyProperty =
-            DependencyProperty.Register("Key", typeof(string), typeof(KeyTrigger),
+            DependencyProperty.Register("Key", typeof(string), typeof(StoryboardBeginAction),
                 new PropertyMetadata(null));
 
         public string Key

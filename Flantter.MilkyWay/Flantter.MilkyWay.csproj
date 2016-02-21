@@ -319,6 +319,7 @@
     <Compile Include="Views\Util\KeyTriggerBehavior.cs" />
     <Compile Include="Views\Util\MenuFlyoutExtension.cs" />
     <Compile Include="Views\Util\MessengerTriggerBehavior.cs" />
+    <Compile Include="Views\Util\OpenLinkAction.cs" />
     <Compile Include="Views\Util\StoryboardBeginAction.cs" />
     <Compile Include="Views\Util\ShowAttachedFlyoutAction.cs" />
     <Compile Include="Views\Behaviors\ShowVideoPreviewAction.cs" />

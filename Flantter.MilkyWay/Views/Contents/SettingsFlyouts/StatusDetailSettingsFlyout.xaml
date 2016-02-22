@@ -54,7 +54,7 @@
                             RetweetFavoriteTriangleIconVisibility="{x:Bind ViewModel.Status.Value.RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
 
                         <controls:HorizontalBar/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -67,7 +67,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.Model.Entities.UserMentions.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}"/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.Model.Entities.UserMentions.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ReplyToAllCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.Model.Entities.UserMentions.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ReplyToAllCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -80,7 +80,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -93,7 +93,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -106,7 +106,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.UrlQuoteRetweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.UrlQuoteRetweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -119,7 +119,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.FavoriteCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.FavoriteCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -132,7 +132,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetFavoriteCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetFavoriteCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -145,7 +145,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.Model.InReplyToStatusId, Mode=OneWay, Converter={StaticResource LongToVisibilityConverter}}"/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.Model.InReplyToStatusId, Mode=OneWay, Converter={StaticResource LongToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowConversationCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.Model.InReplyToStatusId, Mode=OneWay, Converter={StaticResource LongToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowConversationCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -158,7 +158,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.Model.RetweetCount, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}"/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.Model.RetweetCount, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowRetweetersCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.Model.RetweetCount, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowRetweetersCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -171,7 +171,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.EntitiesList.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}"/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.EntitiesList.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.EntitiesList.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -195,7 +195,7 @@
                             </Button.Flyout>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.OpenStatusUrlCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.OpenStatusUrlCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -208,7 +208,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShareStatusCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShareStatusCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -221,7 +221,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -234,7 +234,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="36" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.MuteClientCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.MuteClientCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>

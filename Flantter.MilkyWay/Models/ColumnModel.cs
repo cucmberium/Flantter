@@ -294,7 +294,7 @@ namespace Flantter.MilkyWay.Models
                             if (eventMessage.Event == EventCode.Favorite && eventMessage.TargetStatus != null && eventMessage.Source.Id == this.Tokens.UserId)
                             {
                                 eventMessage.TargetStatus.IsFavorited = true;
-                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this.Tokens.UserId, new List<string>() { "favorites://" }, false));
+                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this.Tokens.UserId, new List<string>() { "favorites://" }, true));
                             }
 
                             break;
@@ -319,23 +319,26 @@ namespace Flantter.MilkyWay.Models
                         switch (tweetEventArgs.Type)
                         {
                             case TweetEventArgs.TypeEnum.Status:
-                                
                                 if (!this.Check(tweetEventArgs.Status, tweetEventArgs.Parameter))
                                     return;
-                                
-                                this.Add(tweetEventArgs.Status, tweetEventArgs.Streaming);
+
+                                if (this.Action == SettingSupport.ColumnTypeEnum.Favorites)
+                                    this.Add(tweetEventArgs.Status);
+                                else
+                                    this.Add(tweetEventArgs.Status, tweetEventArgs.Streaming);
+
                                 break;
                             case TweetEventArgs.TypeEnum.DirectMessage:
-                                if (this.Action == SettingSupport.ColumnTypeEnum.DirectMessages)
-                                {
-                                    this.Add(tweetEventArgs.DirectMessage, tweetEventArgs.Streaming);
-                                }
+                                if (this.Action != SettingSupport.ColumnTypeEnum.DirectMessages)
+                                    return;
+
+                                this.Add(tweetEventArgs.DirectMessage, tweetEventArgs.Streaming);
                                 break;
                             case TweetEventArgs.TypeEnum.EventMessage:
-                                if (this.Action == SettingSupport.ColumnTypeEnum.Events && tweetEventArgs.EventMessage.Source.Id != this.Tokens.UserId)
-                                {
-                                    this.Add(tweetEventArgs.EventMessage, tweetEventArgs.Streaming);
-                                }
+                                if (this.Action != SettingSupport.ColumnTypeEnum.Events || tweetEventArgs.EventMessage.Source.Id == this.Tokens.UserId)
+                                    return;
+
+                                this.Add(tweetEventArgs.EventMessage, tweetEventArgs.Streaming);
                                 break;
                         }
                     }
@@ -420,9 +423,6 @@ namespace Flantter.MilkyWay.Models
                 var param = new Dictionary<string, object>();
                 if (this._AccountSetting.IncludeFollowingsActivity)
                     param.Add("include_followings_activity", true);
-
-                param.Add("include_cards", true);
-                param.Add("cards_platform", "Android-12");
 
                 iObservable = this.Tokens.Streaming.UserAsObservable(param);
                 this.twitterStreamDisposableObject = iObservable.Catch((Exception ex) =>

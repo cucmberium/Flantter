@@ -44,13 +44,11 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
             if (cEntities != null && cEntities.Media != null)
             {
-                foreach (var cMedia in cEntities.Media)
-                    this.Urls.Add(new UrlEntity(cMedia));
+                this.Urls.Add(new UrlEntity(cEntities.Media.First()));
             }
             else if (cExtendedEntities != null && cExtendedEntities.Media != null)
             {
-                foreach (var cMedia in cExtendedEntities.Media)
-                    this.Urls.Add(new UrlEntity(cMedia));
+                this.Urls.Add(new UrlEntity(cExtendedEntities.Media.First()));
             }
             
             

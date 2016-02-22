@@ -248,6 +248,7 @@ namespace Flantter.MilkyWay.ViewModels
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AppInfo" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
+
             #endregion
         }
         #endregion

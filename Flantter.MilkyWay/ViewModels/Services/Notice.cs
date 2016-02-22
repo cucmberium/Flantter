@@ -57,6 +57,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
             this.ShowMainSettingCommand = new ReactiveCommand();
             this.ShowAppInfoCommand = new ReactiveCommand();
+            this.ShowSupportAccountCommand = new ReactiveCommand();
         }
 
         public static Notice Instance
@@ -110,6 +111,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
         public ReactiveCommand ShowMainSettingCommand { get; private set; }
         public ReactiveCommand ShowAppInfoCommand { get; private set; }
+        public ReactiveCommand ShowSupportAccountCommand { get; private set; }
     }
 
     public class NoticeProvider

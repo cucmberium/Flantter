@@ -227,7 +227,7 @@
 
             <i:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="Tapped">
-                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowStatusDetailCommand}" CommandParameter="{x:Bind ViewModel.QuotedStatusId, Mode=OneWay}"/>
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowStatusDetailCommand}" CommandParameter="{x:Bind ViewModel.Model.QuotedStatus, Mode=OneWay}"/>
                 </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
 

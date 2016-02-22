@@ -398,6 +398,12 @@ namespace Flantter.MilkyWay.ViewModels
                 this.LeftSwipeMenuIsOpen.Value = isOpen;
             });
 
+            Services.Notice.Instance.ShowSupportAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = "Flantter" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
             #endregion
         }
         #endregion

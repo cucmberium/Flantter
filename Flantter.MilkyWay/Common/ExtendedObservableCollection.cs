@@ -59,10 +59,7 @@ namespace Flantter.MilkyWay.Common
             if (DisableNotifyPropertyChanged)
                 return;
 
-            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            else
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => PropertyChanged(this, new PropertyChangedEventArgs(propertyName))).AsTask().Wait();
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void NotifyCollectionChanged(NotifyCollectionChangedAction action)
@@ -73,10 +70,7 @@ namespace Flantter.MilkyWay.Common
             if (DisableNotifyCollectionChanged)
                 return;
 
-            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action));
-            else
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CollectionChanged(this, new NotifyCollectionChangedEventArgs(action))).AsTask().Wait();
+            CollectionChanged(this, new NotifyCollectionChangedEventArgs(action));
         }
         private void NotifyCollectionChanged(NotifyCollectionChangedAction action, object item)
         {
@@ -86,10 +80,7 @@ namespace Flantter.MilkyWay.Common
             if (DisableNotifyCollectionChanged)
                 return;
 
-            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item));
-            else
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item))).AsTask().Wait();
+            CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item));
         }
         private void NotifyCollectionChanged(NotifyCollectionChangedAction action, object item, int index)
         {
@@ -99,10 +90,7 @@ namespace Flantter.MilkyWay.Common
             if (DisableNotifyCollectionChanged)
                 return;
 
-            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index));
-            else
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index))).AsTask().Wait();
+            CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item, index));
         }
 
         public int IndexOf(T item)
@@ -115,9 +103,22 @@ namespace Flantter.MilkyWay.Common
             lock (_Lock)
                 _Collection.Insert(index, item);
 
-            NotifyPropertyChanged("Count");
-            NotifyPropertyChanged("Item[]");
-            NotifyCollectionChanged(NotifyCollectionChangedAction.Add, item, index);
+            
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+            {
+                NotifyPropertyChanged("Count");
+                NotifyPropertyChanged("Item[]");
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Add, item, index);
+            }
+            else
+            {
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    NotifyPropertyChanged("Count");
+                    NotifyPropertyChanged("Item[]");
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Add, item, index);
+                }).AsTask().Wait();
+            }
         }
         public void RemoveAt(int index)
         {
@@ -127,9 +128,22 @@ namespace Flantter.MilkyWay.Common
                 item = _Collection[index];
                 _Collection.RemoveAt(index);
             }
-            NotifyPropertyChanged("Count");
-            NotifyPropertyChanged("Item[]");
-            NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item, index);
+
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+            {
+                NotifyPropertyChanged("Count");
+                NotifyPropertyChanged("Item[]");
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item, index);
+            }
+            else
+            {
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    NotifyPropertyChanged("Count");
+                    NotifyPropertyChanged("Item[]");
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item, index);
+                }).AsTask().Wait();
+            }
         }
         public T this[int index]
         {
@@ -143,8 +157,19 @@ namespace Flantter.MilkyWay.Common
                 lock (_Lock)
                     _Collection[index] = value;
 
-                NotifyPropertyChanged("Item[]");
-                NotifyCollectionChanged(NotifyCollectionChangedAction.Replace, value, index);
+                if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+                {
+                    NotifyPropertyChanged("Item[]");
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Replace, value, index);
+                }
+                else
+                {
+                    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        NotifyPropertyChanged("Item[]");
+                        NotifyCollectionChanged(NotifyCollectionChangedAction.Replace, value, index);
+                    }).AsTask().Wait();
+                }
             }
         }
         public void Add(T item)
@@ -156,17 +181,42 @@ namespace Flantter.MilkyWay.Common
                 count = _Collection.Count;
             }
 
-            NotifyPropertyChanged("Count");
-            NotifyPropertyChanged("Item[]");
-            NotifyCollectionChanged(NotifyCollectionChangedAction.Add, item, count - 1);
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+            {
+                NotifyPropertyChanged("Count");
+                NotifyPropertyChanged("Item[]");
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Add, item, count - 1);
+            }
+            else
+            {
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    NotifyPropertyChanged("Count");
+                    NotifyPropertyChanged("Item[]");
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Add, item, count - 1);
+                }).AsTask().Wait();
+            }
         }
         public void Clear()
         {
             lock (_Lock)
                 _Collection.Clear();
-            NotifyPropertyChanged("Count");
-            NotifyPropertyChanged("Item[]");
-            NotifyCollectionChanged(NotifyCollectionChangedAction.Reset);
+
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+            {
+                NotifyPropertyChanged("Count");
+                NotifyPropertyChanged("Item[]");
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Reset);
+            }
+            else
+            {
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    NotifyPropertyChanged("Count");
+                    NotifyPropertyChanged("Item[]");
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Reset);
+                }).AsTask().Wait();
+            }
         }
         public bool Contains(T item)
         {
@@ -204,9 +254,21 @@ namespace Flantter.MilkyWay.Common
             if (!response)
                 return false;
 
-            NotifyPropertyChanged("Count");
-            NotifyPropertyChanged("Item[]");
-            NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item, index);
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+            {
+                NotifyPropertyChanged("Count");
+                NotifyPropertyChanged("Item[]");
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item, index);
+            }
+            else
+            {
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    NotifyPropertyChanged("Count");
+                    NotifyPropertyChanged("Item[]");
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item, index);
+                }).AsTask().Wait();
+            }
 
             return true;
         }
@@ -240,9 +302,22 @@ namespace Flantter.MilkyWay.Common
                 count = _Collection.Count;
             }
 
-            NotifyPropertyChanged("Count");
-            NotifyPropertyChanged("Item[]");
-            NotifyCollectionChanged(NotifyCollectionChangedAction.Add, value, count - 1);
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+            {
+                NotifyPropertyChanged("Count");
+                NotifyPropertyChanged("Item[]");
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Add, value, count - 1);
+            }
+            else
+            {
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    NotifyPropertyChanged("Count");
+                    NotifyPropertyChanged("Item[]");
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Add, value, count - 1);
+                }).AsTask().Wait();
+            }
+
             return count - 1;
         }
 
@@ -263,9 +338,22 @@ namespace Flantter.MilkyWay.Common
             lock (_Lock)
                 _Collection.Insert(index, (T)value);
 
-            NotifyPropertyChanged("Count");
-            NotifyPropertyChanged("Item[]");
-            NotifyCollectionChanged(NotifyCollectionChangedAction.Add, value, index);
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+            {
+                NotifyPropertyChanged("Count");
+                NotifyPropertyChanged("Item[]");
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Add, value, index);
+            }
+            else
+            {
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    NotifyPropertyChanged("Count");
+                    NotifyPropertyChanged("Item[]");
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Add, value, index);
+                }).AsTask().Wait();
+            }
+
         }
 
         public bool IsFixedSize
@@ -278,8 +366,20 @@ namespace Flantter.MilkyWay.Common
             lock (_Lock)
                 _Collection.Remove((T)value);
 
-            NotifyPropertyChanged("Count");
-            NotifyPropertyChanged("Item[]");
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+            {
+                NotifyPropertyChanged("Count");
+                NotifyPropertyChanged("Item[]");
+            }
+            else
+            {
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    NotifyPropertyChanged("Count");
+                    NotifyPropertyChanged("Item[]");
+                }).AsTask().Wait();
+            }
+
         }
 
         object IList.this[int index]
@@ -294,8 +394,20 @@ namespace Flantter.MilkyWay.Common
                 lock (_Lock)
                     _Collection[index] = (T)value;
 
-                NotifyPropertyChanged("Item[]");
-                NotifyCollectionChanged(NotifyCollectionChangedAction.Replace, value, index);
+                if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+                {
+                    NotifyPropertyChanged("Item[]");
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Replace, value, index);
+                }
+                else
+                {
+                    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        NotifyPropertyChanged("Item[]");
+                        NotifyCollectionChanged(NotifyCollectionChangedAction.Replace, value, index);
+                    }).AsTask().Wait();
+                }
+
             }
         }
 

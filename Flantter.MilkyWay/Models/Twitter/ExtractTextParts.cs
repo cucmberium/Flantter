@@ -37,7 +37,7 @@ namespace Flantter.MilkyWay.Models.Twitter
 {
     public static class ExtractTextParts
     {
-        private static string CharFromInt(int code)
+        private static string CharFromInt(uint code)
         {
             if (code <= char.MaxValue) return ((char)code).ToString();
 
@@ -49,34 +49,92 @@ namespace Flantter.MilkyWay.Models.Twitter
             });
         }
 
-        private static readonly Regex HtmlDecodeCharFromIntRegex = new Regex("&#([0-9]+);", RegexOptions.Compiled);
-        private static readonly Regex HtmlDecodeHexNumberRegex = new Regex("&#x([0-9a-f]+);", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         private static string HtmlDecode(string source)
         {
-            if (!source.Contains("&")) return source;
-            var result = HtmlDecodeCharFromIntRegex.Replace(source, match => CharFromInt(int.Parse(match.Groups[1].Value)));
-            result = HtmlDecodeHexNumberRegex.Replace(result, match => CharFromInt(int.Parse(match.Groups[1].Value, NumberStyles.HexNumber)));
-            return result.Replace("&nbsp;", " ")
-                .Replace("&lt;", "<")
-                .Replace("&gt;", ">")
-                .Replace("&amp;", "&")
-                .Replace("&quot;", "\"")
-                .Replace("&apos;", "'");
+            if (source.IndexOf('&') == -1) return source;
+            var sb = new StringBuilder(source.Length);
+            for (var i = 0; i < source.Length; i++)
+            {
+                int semicolonIndex;
+                if (source[i] != '&'
+                    || (semicolonIndex = source.IndexOf(';', i + 3)) == -1)
+                {
+                    sb.Append(source[i]);
+                    continue;
+                }
+
+                var s = source.Substring(i + 1, semicolonIndex - i - 1);
+                switch (s)
+                {
+                    case "nbsp": sb.Append(' '); break;
+                    case "lt": sb.Append('<'); break;
+                    case "gt": sb.Append('>'); break;
+                    case "amp": sb.Append('&'); break;
+                    case "quot": sb.Append('"'); break;
+                    case "apos": sb.Append('\''); break;
+                    default:
+                        if (s[0] == '#')
+                        {
+                            var code = s[1] == 'x'
+                                ? uint.Parse(s.Substring(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)
+                                : uint.Parse(s.Substring(1), CultureInfo.InvariantCulture);
+                            sb.Append(CharFromInt(code));
+                        }
+                        else
+                        {
+                            sb.Append('&').Append(s).Append(';');
+                        }
+                        break;
+                }
+
+                i = semicolonIndex;
+            }
+            return sb.ToString();
         }
 
-        private static IEnumerable<string> EnumerateChars(string str)
+
+        private static List<DoubleUtf16Char> EnumerateChars(string str)
         {
+            var result = new List<DoubleUtf16Char>(str.Length);
             for (var i = 0; i < str.Length; i++)
             {
-                if (char.IsSurrogatePair(str, i))
-                {
-                    yield return new string(new[] { str[i], str[++i] });
-                }
-                else
-                {
-                    yield return str[i].ToString();
-                }
+                var c = str[i];
+                result.Add(char.IsHighSurrogate(c)
+                    ? new DoubleUtf16Char(c, str[++i])
+                    : new DoubleUtf16Char(c));
             }
+            return result;
+        }
+
+        private static string ToString(IList<DoubleUtf16Char> source, int start)
+        {
+            var sourceLen = source.Count;
+            var arr = new char[sourceLen * 2];
+            var strLen = 0;
+            for (var i = start; i < sourceLen; i++)
+            {
+                var x = source[i];
+                arr[strLen++] = x.X;
+                if (char.IsHighSurrogate(x.X))
+                    arr[strLen++] = x.Y;
+            }
+            return new string(arr, 0, strLen);
+        }
+
+        private static string ToString(IList<DoubleUtf16Char> source, int start, int count)
+        {
+            var arr = new char[count * 2];
+            var end = start + count;
+            var strLen = 0;
+            for (var i = start; i < end; i++)
+            {
+                var x = source[i];
+                arr[strLen++] = x.X;
+                if (char.IsHighSurrogate(x.X))
+                    arr[strLen++] = x.Y;
+            }
+            return new string(arr, 0, strLen);
         }
 
         private static IEnumerable<T> Slice<T>(this T[] source, int start)
@@ -171,7 +229,7 @@ namespace Flantter.MilkyWay.Models.Twitter
             }
 
             var current = list.First;
-            var chars = EnumerateChars(text).ToArray();
+            var chars = EnumerateChars(text);
 
             while (true)
             {
@@ -179,7 +237,7 @@ namespace Flantter.MilkyWay.Models.Twitter
                 var count = current.Value.Start - start;
                 if (count > 0)
                 {
-                    var output = string.Concat(chars.Slice(start, count));
+                    var output = ToString(chars, start, count);
                     yield return new TextPart()
                     {
                         RawText = output,
@@ -194,9 +252,9 @@ namespace Flantter.MilkyWay.Models.Twitter
             }
 
             var lastStart = current.Value.End;
-            if (lastStart < chars.Length)
+            if (lastStart < chars.Count)
             {
-                var lastOutput = string.Concat(chars.Slice(lastStart));
+                var lastOutput = ToString(chars, lastStart);
                 yield return new TextPart()
                 {
                     RawText = lastOutput,
@@ -269,4 +327,21 @@ namespace Flantter.MilkyWay.Models.Twitter
         object Entity { get; }
     }
 
+    internal struct DoubleUtf16Char
+    {
+        public char X;
+        public char Y;
+
+        public DoubleUtf16Char(char x)
+        {
+            this.X = x;
+            this.Y = default(char);
+        }
+
+        public DoubleUtf16Char(char x, char y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
+    }
 }

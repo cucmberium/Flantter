@@ -151,23 +151,13 @@ namespace Flantter.MilkyWay.Models.Twitter
                 yield return source[i];
         }
 
-        private class TextPart : ITextPart
-        {
-            public TextPartType Type { get; set; }
-            internal int Start { get; set; }
-            internal int End { get; set; }
-            public string RawText { get; set; }
-            public string Text { get; set; }
-            public object Entity { get; set; }
-        }
-
         /// <summary>
         /// Enumerates parts split into Tweet Entities.
         /// </summary>
         /// <param name="text">The text such as <see cref="Status.Text"/>, <see cref="DirectMessage.Text"/> and <see cref="User.Description"/>.</param>
         /// <param name="entities">The <see cref="Entities"/> instance.</param>
         /// <returns>An <see cref="IEnumerable{ITextPart}"/> whose elements are parts of <paramref name="text"/>.</returns>
-        public static IEnumerable<ITextPart> EnumerateTextParts(string text, Entities entities)
+        public static IEnumerable<TextPart> EnumerateTextParts(string text, Entities entities)
         {
             if (entities == null)
             {
@@ -304,27 +294,14 @@ namespace Flantter.MilkyWay.Models.Twitter
     /// <summary>
     /// A part of text.
     /// </summary>
-    public interface ITextPart
+    public class TextPart
     {
-        /// <summary>
-        /// The type of this instance.
-        /// </summary>
-        TextPartType Type { get; }
-
-        /// <summary>
-        /// The raw text.
-        /// </summary>
-        string RawText { get; }
-
-        /// <summary>
-        /// The decoded text.
-        /// </summary>
-        string Text { get; }
-
-        /// <summary>
-        /// The base entity information.
-        /// </summary>
-        object Entity { get; }
+        public TextPartType Type { get; set; }
+        internal int Start { get; set; }
+        internal int End { get; set; }
+        public string RawText { get; set; }
+        public string Text { get; set; }
+        public object Entity { get; set; }
     }
 
     internal struct DoubleUtf16Char

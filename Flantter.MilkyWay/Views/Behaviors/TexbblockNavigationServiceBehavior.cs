@@ -80,50 +80,20 @@ namespace Flantter.MilkyWay.Views.Behaviors
             {
                 switch (token.Type)
                 {
-                    case TextToken.TextTokenId.Text:
-                        yield return GenerateText(obj, token.Value as string);
+                    case TextPartType.Plain:
+                        yield return GenerateText(obj, token.RawText);
                         break;
-                    case TextToken.TextTokenId.HashTag:
-                        if (entities != null && !GetDeficientEntity(obj))
-                        {
-                            var userMentions = entities.HashTags.Where(x => "#" + x.Tag == (string)token.Value);
-                            if (userMentions.Count() == 0)
-                                yield return GenerateText(obj, token.Value as string);
-                            else
-                                yield return GenerateLink(obj, (string)token.Value, "hashtag://" + (string)token.Value);
-                        }
-                        else
-                        {
-                            yield return GenerateLink(obj, (string)token.Value, "hashtag://" + (string)token.Value);
-                        }
+                    case TextPartType.Cashtag:
+                        yield return GenerateText(obj, token.RawText);
                         break;
-                    case TextToken.TextTokenId.UserMention:
-                        if (entities != null && !GetDeficientEntity(obj))
-                        {
-                            var userMentions = entities.UserMentions.Where(x => "@" + x.ScreenName == (string)token.Value);
-                            if (userMentions.Count() == 0)
-                                yield return GenerateText(obj, token.Value as string);
-                            else
-                                yield return GenerateLink(obj, (string)token.Value, "usermention://" + (string)token.Value);
-                        }
-                        else
-                        {
-                            yield return GenerateLink(obj, (string)token.Value, "usermention://" + (string)token.Value);
-                        }
+                    case TextPartType.Hashtag:
+                        yield return GenerateLink(obj, token.Text, "hashtag://" + token.RawText);
                         break;
-                    case TextToken.TextTokenId.Url:
-                        if (entities != null)
-                        {
-                            var urls = entities.Urls.Where(x => x.Url == (string)token.Value);
-                            if (urls.Count() == 0)
-                                yield return GenerateText(obj, token.Value as string);
-                            else
-                                yield return GenerateLink(obj, urls.First().DisplayUrl, !string.IsNullOrWhiteSpace(urls.First().ExpandedUrl) ? urls.First().ExpandedUrl : urls.First().Url);
-                        }
-                        else
-                        {
-                            yield return GenerateLink(obj, (string)token.Value, (string)token.Value);
-                        }
+                    case TextPartType.UserMention:
+                        yield return GenerateLink(obj, token.Text, "usermention://" + token.RawText);
+                        break;
+                    case TextPartType.Url:
+                        yield return GenerateLink(obj, token.Text, token.RawText);
                         break;
                 }
             }
@@ -131,7 +101,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         private static Inline GenerateText(DependencyObject obj, string text)
         {
-            if (string.IsNullOrEmpty(text))
+            if (text == null)
                 text = "";
 
             var run = new Run() { Text = text };
@@ -149,9 +119,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         private static Inline GenerateLink(DependencyObject obj, string text, string linkUrl)
         {
-            if (string.IsNullOrEmpty(text))
+            if (text == null)
                 text = "";
-            if (string.IsNullOrEmpty(linkUrl))
+            if (linkUrl == null)
                 linkUrl = "";
 
             var hyperLink = new Hyperlink() { };
@@ -168,7 +138,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             return hyperLink;
         }
 
-        private static IEnumerable<TextToken> Tokenize(string text)
+        private static IEnumerable<TextPart> TokenizeImpl(string text)
         {
             if (string.IsNullOrEmpty(text))
                 yield break;
@@ -206,14 +176,14 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     switch (kind)
                     {
                         case 'U':
-                            // &sharp; => #
-                            yield return new TextToken(TextToken.TextTokenId.Url, body.Replace("&sharp;", "#"));
+                            // "&sharp;" => "#"  ,  "https://" => ""
+                            yield return new TextPart() { RawText = body.Replace("&sharp;", "#"), Text = body.Replace("&sharp;", "#").Replace("https://", ""), Type = TextPartType.Url };
                             break;
                         case 'A':
-                            yield return new TextToken(TextToken.TextTokenId.UserMention, body);
+                            yield return new TextPart() { RawText = body, Text = body, Type = TextPartType.UserMention };
                             break;
                         case 'H':
-                            yield return new TextToken(TextToken.TextTokenId.HashTag, body);
+                            yield return new TextPart() { RawText = body, Text = body, Type = TextPartType.Hashtag };
                             break;
                         default:
                             throw new InvalidOperationException("invalid grouping:" + kind);
@@ -221,73 +191,25 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 }
                 else
                 {
-                    yield return new TextToken(TextToken.TextTokenId.Text, s.ResolveEntity());
+                    yield return new TextPart() { RawText = s.ResolveEntity(), Type = TextPartType.Plain };
                 }
             }
-
-            /*if (entities.UrlEntities != null)
-            {
-                foreach (var url in entities.UrlEntities)
-                    entitiesList.Add(new EntityInfo() { Entities = url, Start = url.Start, End = url.End, Type = TextToken.TextTokenId.Url });
-            }
-            if (entities.HashTagEntities != null)
-            {
-                foreach (var hashTag in entities.HashTagEntities)
-                    entitiesList.Add(new EntityInfo() { Entities = hashTag, Start = hashTag.Start, End = hashTag.End, Type = TextToken.TextTokenId.HashTag });
-            }
-            if (entities.UserMentionsEntities != null)
-            {
-                foreach (var userMention in entities.UserMentionsEntities)
-                    entitiesList.Add(new EntityInfo() { Entities = userMention, Start = userMention.Start, End = userMention.End, Type = TextToken.TextTokenId.UserMention });
-            }
-
-            entitiesList = new List<EntityInfo>(entitiesList.OrderBy((entity) => entity.Start));
-
-            var lastPosition = 0;
-            foreach (var entity in entitiesList)
-            {
-                if (entity.Start != lastPosition)
-                    yield return new TextToken(TextToken.TextTokenId.Text, text.SubstringByTextElements(lastPosition, entity.Start - lastPosition));
-                
-
-                yield return new TextToken(entity.Type, entity.Entities);
-                lastPosition = entity.End;
-            }
-
-            if (lastPosition < text.LengthInTextElements())
-                yield return new TextToken(TextToken.TextTokenId.Text, text.SubstringByTextElements(lastPosition, text.LengthInTextElements() - lastPosition));*/
         }
 
-        private static IEnumerable<TextToken> Tokenize(string text, Entities entities)
+        private static IEnumerable<TextPart> Tokenize(string text, Entities entities)
         {
             if (string.IsNullOrEmpty(text))
                 yield break;
 
             if (entities == null)
             {
-                foreach (var token in Tokenize(text))
+                foreach (var token in TokenizeImpl(text))
                     yield return token;
-
-                yield break;
             }
-            
-            foreach (var s in ExtractTextParts.EnumerateTextParts(text, entities))
+            else
             {
-                switch (s.Type)
-                {
-                    case TextPartType.Hashtag:
-                        yield return new TextToken(TextToken.TextTokenId.HashTag, s.RawText);
-                        break;
-                    case TextPartType.UserMention:
-                        yield return new TextToken(TextToken.TextTokenId.UserMention, s.RawText);
-                        break;
-                    case TextPartType.Url:
-                        yield return new TextToken(TextToken.TextTokenId.Url, s.RawText);
-                        break;
-                    default:
-                        yield return new TextToken(TextToken.TextTokenId.Text, s.RawText);
-                        break;
-                }
+                foreach (var token in ExtractTextParts.EnumerateTextParts(text, entities))
+                    yield return token;
             }
         }
 
@@ -329,35 +251,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
 			{
 				await Launcher.LaunchUriAsync(new Uri(linkUrl));
 			}
-        }
-    }
-
-    public class EntityInfo
-    {
-        public int Start { get; set; }
-        public int End { get; set; }
-        public object Entities { get; set; }
-        public TextToken.TextTokenId Type { get; set; }
-    }
-
-    public struct TextToken
-    {
-        public enum TextTokenId
-        {
-            Text,
-            HashTag,
-            UserMention,
-            Url
-        }
-
-        public TextTokenId Type;
-        public object Value;
-
-        public TextToken(TextTokenId Type, object Value)
-            : this()
-        {
-            this.Type = Type;
-            this.Value = Value;
         }
     }
 }

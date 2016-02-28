@@ -49,7 +49,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 ((ListView)this.AssociatedObject).DataContextChanged -= ListView_DataContextChanged;
             }
         }
-        
+
         private ScrollViewer _ScrollViewerObject;
         public ScrollViewer ScrollViewerObject
         {
@@ -119,28 +119,28 @@ namespace Flantter.MilkyWay.Views.Behaviors
             }
         }
 
+        private const int ChangedVertialOffset = 1;
         private void ListView_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (!IsScrollControlEnabled)
+            if (!this.IsScrollControlEnabled)
                 return;
 
-            if (IsScrollLockToTopEnabled)
+            if (e.Action != NotifyCollectionChangedAction.Add)
+                return;
+
+            if (this.IsScrollLockToTopEnabled)
             {
                 this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
                 return;
             }
 
-            if (e.Action != NotifyCollectionChangedAction.Add)
-                return;
-
             var collection = sender as INotifyCollectionChanged;
 
-            if (this.AssociatedObject == null || this.ScrollViewerObject == null || collection == null)
+            if (collection == null)
                 return;
 
             var verticalOffset = previousVerticalOffset;
-            var changedVerticalOffset = 1; // 論理スクロールで e.NewItems の数は常に1なので変化するVerticalOffsetは常に1
-            var offset = verticalOffset + changedVerticalOffset;
+            var offset = verticalOffset + ChangedVertialOffset;
             previousVerticalOffset = offset;
 
             if (this.ScrollViewerObject.ScrollableHeight - offset <= 0)
@@ -148,8 +148,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             if (e.NewStartingIndex >= verticalOffset - 1)
                 return;
-            
-            if (SettingService.Setting.DisableStreamingScroll || IsScrollLockEnabled)
+
+            if (SettingService.Setting.DisableStreamingScroll || this.IsScrollLockEnabled)
             {
                 this.ScrollViewerObject.ChangeView(null, offset, null, true);
                 return;
@@ -159,9 +159,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
             {
                 case SettingSupport.TweetAnimationEnum.ScrollToTop:
                     if (isAnimationRunning && !isAnimationCooldown)
-                        this.RunAnimation(offset, changedVerticalOffset);
+                        this.RunAnimation(offset);
                     else if (verticalOffset <= 2.5 && !isAnimationCooldown)
-                        this.RunAnimation(offset, offset);
+                        this.RunAnimation(offset);
                     else
                         this.ScrollViewerObject.ChangeView(null, offset, null, true);
 
@@ -204,31 +204,28 @@ namespace Flantter.MilkyWay.Views.Behaviors
         }
 
         public double currentOffset;
-        public double remainHeight;
-        volatile public bool isAnimationRunning;
-        volatile public bool isAnimationCooldown;
-        volatile public int tickCount;
-        public async void RunAnimation(double offset, double changedOffset)
+        volatile private bool isAnimationRunning;
+        volatile private bool isAnimationCooldown;
+        volatile private int tickCount;
+        public async void RunAnimation(double offset)
         {
-            if (isAnimationCooldown) return;
+            if (isAnimationCooldown)
+                return;
 
-            if (remainHeight < 0) remainHeight = 0;
             currentOffset = offset;
+            this.ScrollViewerObject.ChangeView(null, offset, null, true);
 
             if (isAnimationRunning)
             {
-                remainHeight = this.ScrollViewerObject.VerticalOffset;
                 tickCount += 16;
 
-                if (tickCount > 75)
-                    tickCount = 75;
+                if (tickCount > 72)
+                    tickCount = 72;
             }
             else
             {
-                this.ScrollViewerObject.ChangeView(null, offset, null, true);
 
-                tickCount = 24;
-                remainHeight = changedOffset;
+                tickCount = 26;
 
                 isAnimationRunning = true;
                 await Task.Run(() => RunAnimationTask()).ConfigureAwait(false);
@@ -238,12 +235,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
         {
             for (; tickCount > 0; tickCount--)
             {
-                var dx = remainHeight / tickCount;
-                remainHeight -= dx;
+                var dx = currentOffset / tickCount;
                 currentOffset -= dx;
                 if (isAnimationCooldown)
                 {
-                    remainHeight = 0.0;
                     isAnimationRunning = false;
                     return;
                 }
@@ -258,7 +253,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 Task.Delay(12).Wait();
             }
             isAnimationRunning = false;
-            remainHeight = 0.0;
             this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0.02, null, true)).AsTask().Wait();
         }
 
@@ -278,7 +272,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
             this.ScrollViewerObject = listViewScroll;
             this.ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
             previousVerticalOffset = this.ScrollViewerObject.VerticalOffset;
-            //this.ScrollViewerObject.ViewChanging += ScrollViewerObject_ViewChanging;
         }
 
         private void ListView_Loaded(object sender, RoutedEventArgs e)
@@ -297,14 +290,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
             this.ScrollViewerObject = listViewScroll;
             this.ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
             previousVerticalOffset = this.ScrollViewerObject.VerticalOffset;
-            //this.ScrollViewerObject.ViewChanging += ScrollViewerObject_ViewChanging;
-        }
-
-        private void ScrollViewerObject_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
-        {
-            //Debug.WriteLine(e.NextView.VerticalOffset);
-            //if (e.IsInertial)
-            //    AnimationCooldown(200);
         }
 
         private double previousVerticalOffset = 0.0;
@@ -314,6 +299,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 this.AnimationCooldown(200);
 
             previousVerticalOffset = this.ScrollViewerObject.VerticalOffset;
+            currentOffset = previousVerticalOffset;
+
             var verticalOffset = this.ScrollViewerObject.VerticalOffset;
             var maxVerticalOffset = this.ScrollViewerObject.ExtentHeight - this.ScrollViewerObject.ViewportHeight;
             if (verticalOffset != maxVerticalOffset)

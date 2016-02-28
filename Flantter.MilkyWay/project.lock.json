@@ -3,6 +3,14 @@
   "version": 1,
   "targets": {
     "UAP,Version=v10.0": {
+      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        }
+      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -1734,6 +1742,14 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
+      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        }
+      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -3555,6 +3571,14 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
+      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        }
+      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -5348,6 +5372,14 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
+      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        }
+      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -7174,6 +7206,14 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
+      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        }
+      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -8967,6 +9007,14 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
+      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        }
+      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -10793,6 +10841,14 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
+      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
+        }
+      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -12587,6 +12643,17 @@
     }
   },
   "libraries": {
+    "Azyobuzi.TwitterUrlExtractor/1.0.3": {
+      "sha512": "mGlaaoQ3GRdhmOkKLqZjzQNaTIKzujebvYV6F8XoQekP2vfx6fnk84GE+m7erUSFN10A4HGg9F1f/5KVYb7AqQ==",
+      "type": "Package",
+      "files": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "Azyobuzi.TwitterUrlExtractor.nuspec",
+        "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll",
+        "package/services/metadata/core-properties/0a4f2e0eedd84bd0bd6bd9f6b94b4106.psmdcp"
+      ]
+    },
     "CommonServiceLocator/1.3.0": {
       "sha512": "fbjO0SNwbOFPdwVfyqv+B7gIJ2CVBOFPKqn1mDDECK7KER8jFaOdcvroFYoAHa0ktPbxi5s+15qOLnA96f8GSA==",
       "type": "Package",
@@ -16610,6 +16677,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "Azyobuzi.TwitterUrlExtractor >= 1.0.3",
       "CoreTweet >= 0.6.1.267",
       "Microsoft.ApplicationInsights >= 2.0.0-beta3",
       "Microsoft.ApplicationInsights.PersistenceChannel >= 2.0.0-beta3",

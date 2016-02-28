@@ -25,7 +25,7 @@ namespace Flantter.MilkyWay.Models
 {
     public class TweetAreaModel : BindableBase
     {
-        ResourceLoader _ResourceLoader;
+        public const int MaxTweetLength = 140;
 
         public TweetAreaModel()
         {
@@ -37,8 +37,12 @@ namespace Flantter.MilkyWay.Models
             this.CharacterCount = 140;
             this.State = "Accept";
             this.Message = _ResourceLoader.GetString("TweetArea_Message_AllSet");
+
+            this._Extractor = new Azyobuzi.TwitterUrlExtractor.Extractor();
         }
 
+        private ResourceLoader _ResourceLoader;
+        private Azyobuzi.TwitterUrlExtractor.Extractor _Extractor = null;
         private bool _TextChanged = false;
 
         #region Text変更通知プロパティ
@@ -198,20 +202,11 @@ namespace Flantter.MilkyWay.Models
 
         public void CharacterCountChanged()
         {
-            StringInfo textInfo = new StringInfo(this._Text.Replace("\r\n", "\n"));
-            int count = 140 - textInfo.LengthInTextElements;
+            var text = this._Text.Replace("\r\n", "\n").Normalize();
+            var result = this._Extractor.Extract(text);
+            var length = text.Count(x => !char.IsLowSurrogate(x)) - result.Sum(x => x.Length) + 23 * result.Count;
 
-            // Twitterの仕様が変わって全部 "https://t.co" になったので全部-23文字
-            foreach (Match m in TweetRegexPatterns.ValidUrl.Matches(this._Text))
-                count += m.Value.Length - 23;
-
-            if (this._Pictures.Count > 0)
-                count -= 24;
-
-            if (this._IsQuotedRetweet)
-                count -= 24;
-
-            this.CharacterCount = count;
+            this.CharacterCount = MaxTweetLength - length;
         }
 
         public async Task AddPicture(StorageFile picture)

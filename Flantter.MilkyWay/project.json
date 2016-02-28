@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "Azyobuzi.TwitterUrlExtractor": "1.0.3",
     "CoreTweet": "0.6.1.267",
     "Microsoft.ApplicationInsights": "2.0.0-beta3",
     "Microsoft.ApplicationInsights.PersistenceChannel": "2.0.0-beta3",

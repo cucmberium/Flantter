@@ -35,7 +35,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.HasRetweetInformation = (cOrigStatus.RetweetedStatus != null);
             this.MentionStatus = null;
             this.QuotedStatus = cStatus.QuotedStatus != null && cStatus.QuotedStatus.User != null ? new Status(cStatus.QuotedStatus) : null;
-            this.QuotedStatusId = cStatus.QuotedStatusId.HasValue ? cStatus.QuotedStatusId.Value : 0;
+            this.QuotedStatusId = (cStatus.QuotedStatusId.HasValue && this.QuotedStatus != null) ? cStatus.QuotedStatusId.Value : 0;
         }
 
         #region CreatedAt変更通知プロパティ

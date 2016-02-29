@@ -35,7 +35,16 @@
                     <TextBlock x:Uid="SettingsFlyout_Settings_Main_BehaviorSetting_Textblock" Text="動作設定" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
+            
+            <controls:HorizontalBar/>
 
+            <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Grid>
+                    <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Message" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <TextBlock x:Uid="SettingsFlyout_Settings_Main_PostSetting_Textblock" Text="投稿設定" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+            
             <controls:HorizontalBar/>
 
             <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">

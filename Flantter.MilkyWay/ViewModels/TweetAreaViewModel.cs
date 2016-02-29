@@ -124,7 +124,7 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 var result = await this.ShowFilePickerMessenger.Raise(new FileOpenPickerNotification
                 {
-                    FileTypeFilter = new[] { ".jpg", ".jpeg", ".png", ".gif", ".mp4", },
+                    FileTypeFilter = new[] { ".jpg", ".jpeg", ".png", ".gif", ".mp4", ".mov" },
                     IsMultiple = true,
                 });
 

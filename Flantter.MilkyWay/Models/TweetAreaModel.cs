@@ -206,6 +206,9 @@ namespace Flantter.MilkyWay.Models
             var result = this._Extractor.Extract(text);
             var length = text.Count(x => !char.IsLowSurrogate(x)) - result.Sum(x => x.Length) + 23 * result.Count;
 
+            if (this.ReplyOrQuotedStatus != null)
+                length += 23;
+
             this.CharacterCount = MaxTweetLength - length;
         }
 
@@ -214,7 +217,43 @@ namespace Flantter.MilkyWay.Models
             if (picture == null)
                 return;
             
-            this._Pictures.Add(new PictureModel() { Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(), IsVideo = (picture.FileType == ".mp4" || picture.FileType == ".mov"), StorageFile = picture });
+            if (SettingService.Setting.ConvertPostingImage && (picture.FileType == ".jpeg" || picture.FileType == ".jpg" || picture.FileType == ".png"))
+            {
+                RandomAccessStreamReference newBitmap;
+                InMemoryRandomAccessStream memoryStream = new InMemoryRandomAccessStream();
+
+                using (IRandomAccessStream fileStream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync())
+                {
+                    var picDecoder = await BitmapDecoder.CreateAsync(fileStream);
+                    var picDecoderPixels = await picDecoder.GetPixelDataAsync();
+                    var picEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memoryStream);
+                    var data = picDecoderPixels.DetachPixelData();
+
+                    if (SettingService.Setting.ConvertPostingImage)
+                        data[3] = 254; // 左上1pixelの透明度情報を254に設定し,Twitter側の劣化に抗う
+
+                    picEncoder.SetPixelData(picDecoder.BitmapPixelFormat, BitmapAlphaMode.Premultiplied, picDecoder.PixelWidth, picDecoder.PixelHeight, picDecoder.DpiX, picDecoder.DpiY, data);
+
+                    await picEncoder.FlushAsync();
+
+                    newBitmap = RandomAccessStreamReference.CreateFromStream(memoryStream);
+                }
+                
+                if (memoryStream.Size > 3145728)
+                {
+                    this._Pictures.Add(new PictureModel() { Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(), IsGifAnimation = false, IsVideo = false, /*StorageFile = picture*/ });
+                    memoryStream.Dispose();
+                }
+                else
+                {
+                    this._Pictures.Add(new PictureModel() { Stream = await newBitmap.OpenReadAsync(), IsVideo = false, IsGifAnimation = false, SourceStream = memoryStream });
+                }
+            }
+            else
+            {
+                this._Pictures.Add(new PictureModel() { Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(), IsGifAnimation = (picture.FileType == ".gif"), IsVideo = (picture.FileType == ".mp4" || picture.FileType == ".mov"), /*StorageFile = picture*/ });
+            }
+
             CharacterCountChanged();
         }
 
@@ -254,13 +293,19 @@ namespace Flantter.MilkyWay.Models
                 var picDecoder = await BitmapDecoder.CreateAsync(fileStream);
                 var picDecoderPixels = await picDecoder.GetPixelDataAsync();
                 var picEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memoryStream);
-                picEncoder.SetPixelData(picDecoder.BitmapPixelFormat, BitmapAlphaMode.Ignore, picDecoder.PixelWidth, picDecoder.PixelHeight, picDecoder.DpiX, picDecoder.DpiY, picDecoderPixels.DetachPixelData());
+                var data = picDecoderPixels.DetachPixelData();
+                
+                if (SettingService.Setting.ConvertPostingImage)
+                    data[3] = 254; // 左上1pixelの透明度情報を254に設定し,Twitter側の劣化に抗う
+
+                picEncoder.SetPixelData(picDecoder.BitmapPixelFormat, BitmapAlphaMode.Premultiplied, picDecoder.PixelWidth, picDecoder.PixelHeight, picDecoder.DpiX, picDecoder.DpiY, data);
+
                 await picEncoder.FlushAsync();
 
                 newBitmap = RandomAccessStreamReference.CreateFromStream(memoryStream);
             }
 
-            this._Pictures.Add(new PictureModel() { Stream = await newBitmap.OpenReadAsync(), IsVideo = false, SourceStream = memoryStream });
+            this._Pictures.Add(new PictureModel() { Stream = await newBitmap.OpenReadAsync(), IsVideo = false, IsGifAnimation = false, SourceStream = memoryStream });
             CharacterCountChanged();
         }
 
@@ -288,13 +333,13 @@ namespace Flantter.MilkyWay.Models
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_TextIsEmptyOrWhiteSpace");
                 return;
             }
-            else if (this._Pictures.Where(x => !x.IsVideo).Count() > 4 || this._Pictures.Where(x => x.IsVideo).Count() > 1)
+            else if (this._Pictures.Where(x => !x.IsVideo && !x.IsGifAnimation).Count() > 4 || this._Pictures.Where(x => x.IsVideo && !x.IsGifAnimation).Count() > 1 || this._Pictures.Where(x => !x.IsVideo && x.IsGifAnimation).Count() > 1)
             {
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
                 return;
             }
-            else if (this._Pictures.Where(x => x.IsVideo).Count() > 0 && this._Pictures.Where(x => !x.IsVideo).Count() > 0)
+            else if (this._Pictures.Where(x => x.IsVideo || x.IsGifAnimation).Count() > 0 && this._Pictures.Where(x => !x.IsVideo && !x.IsGifAnimation).Count() > 0)
             {
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
@@ -325,18 +370,31 @@ namespace Flantter.MilkyWay.Models
 
                     var taskList = new List<Task<MediaUploadResult>>();
 
-                    foreach (var pic in this._Pictures.Where(x => !x.IsVideo))
+                    foreach (var pic in this._Pictures.Where(x => !x.IsVideo && !x.IsGifAnimation))
+                    {
+                        var st = pic.Stream;
+                        st.Seek(0);
+                        if (st.Size > 3145728) // 本当は 5242880 までいいはず
+                            throw new NotImplementedException("Image size is too big."); // Todo : Exceptionをそれ専用のものにする
+
+                        taskList.Add(tokens.Media.UploadAsync(media => st.AsStream()));
+                    }
+                    foreach (var pic in this._Pictures.Where(x => !x.IsVideo && x.IsGifAnimation))
                     {
                         var st = pic.Stream;
                         st.Seek(0);
                         if (st.Size > 3145728)
                             throw new NotImplementedException("Image size is too big."); // Todo : Exceptionをそれ専用のものにする
+
                         taskList.Add(tokens.Media.UploadAsync(media => st.AsStream()));
                     }
-                    foreach (var pic in this._Pictures.Where(x => x.IsVideo))
+                    foreach (var pic in this._Pictures.Where(x => x.IsVideo && !x.IsGifAnimation))
                     {
                         var st = pic.Stream;
                         st.Seek(0);
+                        if (st.Size > 15728640)
+                            throw new NotImplementedException("Image size is too big."); // Todo : Exceptionをそれ専用のものにする
+
                         taskList.Add(tokens.Media.UploadChunkedAsync(st.AsStream(), UploadMediaType.Video));
                     }
 
@@ -485,7 +543,16 @@ namespace Flantter.MilkyWay.Models
             set { this.SetProperty(ref this._IsVideo, value); }
         }
         #endregion
-        
+
+        #region IsGifAnimation変更通知プロパティ
+        private bool _IsGifAnimation;
+        public bool IsGifAnimation
+        {
+            get { return this._IsGifAnimation; }
+            set { this.SetProperty(ref this._IsGifAnimation, value); }
+        }
+        #endregion
+
         #region SourceStream変更通知プロパティ
         private IRandomAccessStream _SourceStream;
         public IRandomAccessStream SourceStream
@@ -495,14 +562,14 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
-        #region StorageFile変更通知プロパティ
+        /*#region StorageFile変更通知プロパティ
         private StorageFile _StorageFile;
         public StorageFile StorageFile
         {
             get { return this._StorageFile; }
             set { this.SetProperty(ref this._StorageFile, value); }
         }
-        #endregion
+        #endregion*/
 
         public void Dispose()
         {

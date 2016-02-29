@@ -155,17 +155,20 @@ namespace Flantter.MilkyWay.Setting
         public bool AutoTitleBarVisibility { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool TitleBarVisibility { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ShowRetweetToMentionColumn { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ShowFavoriteConfirmDialog { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ShowRetweetConfirmDialog { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool RemoveRetweetAlreadyReceive { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool UnlockAfterScroll { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool DisableStreamingScroll { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public SettingSupport.DoubleTappedEventEnum DoubleTappedAction { get { return (SettingSupport.DoubleTappedEventEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
         public SettingSupport.TrendsPlaceEnum TrendsPlace { get { return (SettingSupport.TrendsPlaceEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
+
+        // 投稿設定
+        public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool ConvertPostingImage { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+
 
         // Mute設定
         public string MuteFilter { get { return GetValue("(False)"); } set { SetValue(value); OnPropertyChanged(); } }

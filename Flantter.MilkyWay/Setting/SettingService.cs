@@ -167,7 +167,7 @@ namespace Flantter.MilkyWay.Setting
 
         // 投稿設定
         public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool ConvertPostingImage { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool ConvertPostingImage { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
 
 
         // Mute設定

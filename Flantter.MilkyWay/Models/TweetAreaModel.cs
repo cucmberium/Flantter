@@ -206,8 +206,11 @@ namespace Flantter.MilkyWay.Models
             var result = this._Extractor.Extract(text);
             var length = text.Count(x => !char.IsLowSurrogate(x)) - result.Sum(x => x.Length) + 23 * result.Count;
 
-            if (this.ReplyOrQuotedStatus != null)
-                length += 23;
+            if (this._IsQuotedRetweet)
+                length += 24;
+
+            if (this._Pictures.Count > 0)
+                length += 24;
 
             this.CharacterCount = MaxTweetLength - length;
         }

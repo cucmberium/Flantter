@@ -224,7 +224,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
             }
             else
             {
-
                 tickCount = 26;
 
                 isAnimationRunning = true;

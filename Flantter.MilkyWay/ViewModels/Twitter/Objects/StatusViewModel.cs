@@ -177,7 +177,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.RetweetCount = status.RetweetCount;
 
             this.IsMyTweet = false;
-            this.IsMyRetweet = false;
+            this.IsMyRetweet = status.IsRetweeted;
 
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;

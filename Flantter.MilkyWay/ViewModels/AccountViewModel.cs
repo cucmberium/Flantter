@@ -197,6 +197,9 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
                 statusViewModel.OnPropertyChanged("IsRetweeted");
 
+                statusViewModel.IsMyRetweet = (statusViewModel.Model.RetweetInformation != null && statusViewModel.Model.RetweetInformation.User.Id == this._AccountModel.UserId) || statusViewModel.Model.IsRetweeted;
+                statusViewModel.OnPropertyChanged("IsMyRetweet");
+
                 if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
                     statusViewModel.FavoriteTriangleIconVisibility = true;
                 else
@@ -291,6 +294,9 @@ namespace Flantter.MilkyWay.ViewModels
 
                 statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
                 statusViewModel.OnPropertyChanged("IsRetweeted");
+
+                statusViewModel.IsMyRetweet = (statusViewModel.Model.RetweetInformation != null && statusViewModel.Model.RetweetInformation.User.Id == this._AccountModel.UserId) || statusViewModel.Model.IsRetweeted;
+                statusViewModel.OnPropertyChanged("IsMyRetweet");
 
                 if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
                     statusViewModel.FavoriteTriangleIconVisibility = true;

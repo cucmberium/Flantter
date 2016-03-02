@@ -28,6 +28,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             set { this._AssociatedObject = value; }
         }
 
+        private PointerEventHandler _PointerWheelChangedEventHandler = null;
         public void Attach(DependencyObject AssociatedObject)
         {
             this.AssociatedObject = AssociatedObject;
@@ -35,6 +36,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
             ((ListView)this.AssociatedObject).Loaded += ListView_Loaded;
             ((ListView)this.AssociatedObject).LayoutUpdated += ListView_LayoutUpdated;
             ((ListView)this.AssociatedObject).DataContextChanged += ListView_DataContextChanged;
+            ((ListView)this.AssociatedObject).PointerWheelChanged += ListView_PointerWheelChanged;
+
+            this._PointerWheelChangedEventHandler = new PointerEventHandler(ListView_PointerWheelChanged);
+            ((ListView)this.AssociatedObject).AddHandler(ListView.PointerWheelChangedEvent, _PointerWheelChangedEventHandler, true);
         }
 
         public void Detach()
@@ -47,6 +52,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 ((ListView)this.AssociatedObject).Loaded -= ListView_Loaded;
                 ((ListView)this.AssociatedObject).LayoutUpdated -= ListView_LayoutUpdated;
                 ((ListView)this.AssociatedObject).DataContextChanged -= ListView_DataContextChanged;
+
+                ((ListView)this.AssociatedObject).RemoveHandler(ListView.PointerWheelChangedEvent, _PointerWheelChangedEventHandler);
             }
         }
 
@@ -290,13 +297,19 @@ namespace Flantter.MilkyWay.Views.Behaviors
             this.ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
             previousVerticalOffset = this.ScrollViewerObject.VerticalOffset;
         }
+        
+        private void ListView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint((ListView)this.AssociatedObject).Properties.MouseWheelDelta < 0 && this.isAnimationRunning)
+                this.AnimationCooldown(200);
+        }
 
         private double previousVerticalOffset = 0.0;
         private void ScrollViewerObject_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            if (e != null && e.IsIntermediate)
+            if (e != null && e.IsIntermediate && this.isAnimationRunning)
                 this.AnimationCooldown(200);
-
+            
             previousVerticalOffset = this.ScrollViewerObject.VerticalOffset;
             currentOffset = previousVerticalOffset;
 
@@ -334,8 +347,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 if (cooltime < 0)
                     break;
 
-                cooltime -= 10;
-                Task.Delay(10).Wait();
+                cooltime -= 20;
+                Task.Delay(20).Wait();
             }
             cooltime = 0;
             isAnimationCooldown = false;

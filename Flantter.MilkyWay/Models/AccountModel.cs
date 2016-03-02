@@ -220,21 +220,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                long currentUserRetweet = 0;
-                if (status.HasRetweetInformation)
-                {
-                    currentUserRetweet = status.RetweetInformation.Id;
-                }
-                else
-                {
-                    var retweetedStatus = await this.Tokens.Statuses.ShowAsync(id => status.Id, include_my_retweet => true);
-                    if (!retweetedStatus.CurrentUserRetweet.HasValue)
-                        return;
-
-                    currentUserRetweet = retweetedStatus.CurrentUserRetweet.Value;
-                }
-
-                var retweetedResponse = await this.Tokens.Statuses.RetweetAsync(id => currentUserRetweet);
+                //var retweetedResponse = await this.Tokens.Statuses.UnretweetAsync(id => status.Id);
                 status.IsRetweeted = false;
             }
             catch

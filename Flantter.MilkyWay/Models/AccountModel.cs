@@ -220,7 +220,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                //var retweetedResponse = await this.Tokens.Statuses.UnretweetAsync(id => status.Id);
+                var retweetedResponse = await this.Tokens.Statuses.UnretweetAsync(id => status.Id);
                 status.IsRetweeted = false;
             }
             catch

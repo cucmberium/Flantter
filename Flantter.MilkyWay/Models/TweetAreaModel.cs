@@ -254,7 +254,7 @@ namespace Flantter.MilkyWay.Models
             }
             else
             {
-                this._Pictures.Add(new PictureModel() { Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(), IsGifAnimation = (picture.FileType == ".gif"), IsVideo = (picture.FileType == ".mp4" || picture.FileType == ".mov"), /*StorageFile = picture*/ });
+                this._Pictures.Add(new PictureModel() { Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(), IsGifAnimation = (picture.FileType == ".gif"), IsVideo = (picture.FileType == ".mp4" || picture.FileType == ".mov"), StorageFile = picture });
             }
 
             CharacterCountChanged();
@@ -336,7 +336,7 @@ namespace Flantter.MilkyWay.Models
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_TextIsEmptyOrWhiteSpace");
                 return;
             }
-            else if (this._Pictures.Where(x => !x.IsVideo && !x.IsGifAnimation).Count() > 4 || this._Pictures.Where(x => x.IsVideo && !x.IsGifAnimation).Count() > 1 || this._Pictures.Where(x => !x.IsVideo && x.IsGifAnimation).Count() > 1)
+            else if (this._Pictures.Where(x => !x.IsVideo && !x.IsGifAnimation).Count() > 4 || this._Pictures.Where(x => x.IsVideo || x.IsGifAnimation).Count() > 1 || this._Pictures.Where(x => !x.IsVideo && x.IsGifAnimation).Count() > 1)
             {
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
@@ -346,6 +346,12 @@ namespace Flantter.MilkyWay.Models
             {
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
+                return;
+            }
+            else if (this._Pictures.Where(x => !x.IsVideo).Any(x => x.Stream.Size > 3145728) || this._Pictures.Where(x => x.IsVideo).Any(x => x.Stream.Size > 15728640))
+            {
+                this.State = "Cancel";
+                this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
                 return;
             }
 
@@ -369,41 +375,29 @@ namespace Flantter.MilkyWay.Models
 
                 if (this._Pictures.Count > 0)
                 {
-                    this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingImage");
+                    this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + "0.0%";
 
-                    var taskList = new List<Task<MediaUploadResult>>();
+                    var resultList = new List<MediaUploadResult>();
 
-                    foreach (var pic in this._Pictures.Where(x => !x.IsVideo && !x.IsGifAnimation))
+                    foreach (var item in this._Pictures.Select((v, i) => new { v, i }))
                     {
-                        var st = pic.Stream;
-                        st.Seek(0);
-                        if (st.Size > 3145728) // 本当は 5242880 までいいはず
-                            throw new NotImplementedException("Image size is too big."); // Todo : Exceptionをそれ専用のものにする
+                        var progress = new Progress<UploadProgressInfo>();
+                        progress.ProgressChanged += (s, e) =>
+                        {
+                            var progressPercentage = (item.i / (double)this._Pictures.Count + (((e.BytesSent / (double)item.v.Stream.Size) > 1.0 ? 1.0 : (e.BytesSent / (double)item.v.Stream.Size)) / this._Pictures.Count)) * 100.0;
 
-                        taskList.Add(tokens.Media.UploadAsync(media => st.AsStream()));
+                            this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + progressPercentage.ToString("#0.0") + "%";
+                        };
+
+                        var pic = item.v;
+                        pic.Stream.Seek(0);
+                        if (pic.IsVideo)
+                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, (IEnumerable<long>)null, default(System.Threading.CancellationToken), progress));
+                        else
+                            resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), (IEnumerable<long>)null, default(System.Threading.CancellationToken), progress));
                     }
-                    foreach (var pic in this._Pictures.Where(x => !x.IsVideo && x.IsGifAnimation))
-                    {
-                        var st = pic.Stream;
-                        st.Seek(0);
-                        if (st.Size > 3145728)
-                            throw new NotImplementedException("Image size is too big."); // Todo : Exceptionをそれ専用のものにする
-
-                        taskList.Add(tokens.Media.UploadAsync(media => st.AsStream()));
-                    }
-                    foreach (var pic in this._Pictures.Where(x => x.IsVideo && !x.IsGifAnimation))
-                    {
-                        var st = pic.Stream;
-                        st.Seek(0);
-                        if (st.Size > 15728640)
-                            throw new NotImplementedException("Image size is too big."); // Todo : Exceptionをそれ専用のものにする
-
-                        taskList.Add(tokens.Media.UploadChunkedAsync(st.AsStream(), UploadMediaType.Video));
-                    }
-
-                    MediaUploadResult[] result = await Task.WhenAll(taskList);
-
-                    param.Add("media_ids", result.Select(x => x.MediaId));
+                    
+                    param.Add("media_ids", resultList.Select(x => x.MediaId));
                     param.Add("possibly_sensitive", account.PossiblySensitive);
                 }
 
@@ -565,14 +559,14 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
-        /*#region StorageFile変更通知プロパティ
+        #region StorageFile変更通知プロパティ
         private StorageFile _StorageFile;
         public StorageFile StorageFile
         {
             get { return this._StorageFile; }
             set { this.SetProperty(ref this._StorageFile, value); }
         }
-        #endregion*/
+        #endregion
 
         public void Dispose()
         {

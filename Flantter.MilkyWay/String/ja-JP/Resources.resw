@@ -243,8 +243,8 @@
   <data name="TweetArea_Message_UpdatingStatus" xml:space="preserve">
     <value>投稿中・・・</value>
   </data>
-  <data name="TweetArea_Message_UploadingImage" xml:space="preserve">
-    <value>画像のアップロード中・・・</value>
+  <data name="TweetArea_Message_UploadingMedia" xml:space="preserve">
+    <value>メディアのアップロード中</value>
   </data>
   <data name="TweetArea_LockingHashTagsButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>ハッシュタグの固定/解除</value>

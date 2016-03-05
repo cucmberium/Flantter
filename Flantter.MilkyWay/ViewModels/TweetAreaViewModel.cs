@@ -290,17 +290,31 @@ namespace Flantter.MilkyWay.ViewModels
         {
             this.Image = picture.ObserveProperty(x => x.Stream).SubscribeOnUIDispatcher().Select(x => 
             {
-                BitmapImage bitmap = new BitmapImage();
+                if (!picture.IsVideo)
+                { 
+                    BitmapImage bitmap = new BitmapImage();
 
-                var stream = x as IRandomAccessStream;
+                    var stream = x as IRandomAccessStream;
+                    if (stream != null)
+                        bitmap.SetSource(stream);
 
-                if (stream != null)
+                    return (ImageSource)bitmap;
+                }
+                else if (picture.StorageFile != null)
                 {
-                    bitmap.SetSource(x);
+                    var thumbnailTask = picture.StorageFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.VideosView).AsTask();
+                    thumbnailTask.Wait();
+
+                    BitmapImage bitmap = new BitmapImage();
+
+                    var stream = thumbnailTask.Result as IRandomAccessStream;
+                    if (stream != null)
+                        bitmap.SetSource(stream);
+
+                    return (ImageSource)bitmap;
                 }
 
-                return (ImageSource)bitmap;
-
+                return new BitmapImage();
 
             }).ToReactiveProperty();
 

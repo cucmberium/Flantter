@@ -243,8 +243,8 @@
   <data name="TweetArea_Message_UpdatingStatus" xml:space="preserve">
     <value>Updating status</value>
   </data>
-  <data name="TweetArea_Message_UploadingImage" xml:space="preserve">
-    <value>Uploading image</value>
+  <data name="TweetArea_Message_UploadingMedia" xml:space="preserve">
+    <value>Uploading media</value>
   </data>
   <data name="TweetArea_LockingHashTagsButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Lock/Unlock Hashtags</value>

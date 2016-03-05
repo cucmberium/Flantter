@@ -141,7 +141,7 @@
                     </Grid>
                     <Button.Flyout>
                         <Flyout>
-                            <TextBlock Foreground="{StaticResource AppBarMessageForegroundBrush}" Text="{x:Bind ViewModel.Message.Value, Mode=OneWay}"/>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource AppBarMessageForegroundBrush}" Text="{x:Bind ViewModel.Message.Value, Mode=OneWay}"/>
                         </Flyout>
                     </Button.Flyout>
                 </Button>

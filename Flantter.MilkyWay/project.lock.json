@@ -19,7 +19,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.6.1.267": {
+      "CoreTweet/0.7.0-beta2": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -1732,7 +1732,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/1.9.4": {
+      "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
@@ -1758,7 +1758,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.6.1.267": {
+      "CoreTweet/0.7.0-beta2": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -3561,7 +3561,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/1.9.4": {
+      "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
@@ -3587,7 +3587,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.6.1.267": {
+      "CoreTweet/0.7.0-beta2": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -5362,7 +5362,7 @@
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/1.9.4": {
+      "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
@@ -5388,7 +5388,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.6.1.267": {
+      "CoreTweet/0.7.0-beta2": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -7196,7 +7196,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/1.9.4": {
+      "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
@@ -7222,7 +7222,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.6.1.267": {
+      "CoreTweet/0.7.0-beta2": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -8997,7 +8997,7 @@
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/1.9.4": {
+      "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
@@ -9023,7 +9023,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.6.1.267": {
+      "CoreTweet/0.7.0-beta2": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -10831,7 +10831,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/1.9.4": {
+      "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
@@ -10857,7 +10857,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.6.1.267": {
+      "CoreTweet/0.7.0-beta2": {
         "dependencies": {
           "Newtonsoft.Json": "[6.0.8, )"
         },
@@ -12632,7 +12632,7 @@
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "WinRTXamlToolkit.UWP/1.9.4": {
+      "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
         },
@@ -12669,8 +12669,8 @@
         "package/services/metadata/core-properties/99be0c88b2fd41c8b07c42071005ee47.psmdcp"
       ]
     },
-    "CoreTweet/0.6.1.267": {
-      "sha512": "q1nxI2iDnBFEr1mhO9M9V5qIbIgit7cXUefgROgReGAi2XKitdosz/fIrqqToK/X3r4Hozc/9kzCR34lbAYA0A==",
+    "CoreTweet/0.7.0-beta2": {
+      "sha512": "ZmPdtWhpXm37Cu/88HIwOJUNMkZhFftIewMtrieqFWGy1s+mj7DUtFiter51bdV/gfKqp0iuhD4KlveEQQUSdg==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -12690,7 +12690,7 @@
         "lib/portable-win81+wpa81/CoreTweet.xml",
         "lib/wp8/CoreTweet.dll",
         "lib/wp8/CoreTweet.xml",
-        "package/services/metadata/core-properties/b1ff2ca8d05745daa17482c9b9f64b4d.psmdcp"
+        "package/services/metadata/core-properties/9240a3c95a164a83a7bc3badd465a2db.psmdcp"
       ]
     },
     "Microsoft.ApplicationInsights/2.0.0-beta3": {
@@ -16419,8 +16419,8 @@
         "System.Xml.XmlSerializer.nuspec"
       ]
     },
-    "WinRTXamlToolkit.UWP/1.9.4": {
-      "sha512": "CnX7Cpg+AzxUMBsSuAdwi5Bjh1Jp8Cy0PyCJnFVBmYxHujDoFAu5getRXvgLl4cIFw3BGUndFnrx7ws6GFoLWA==",
+    "WinRTXamlToolkit.UWP/2.0.0": {
+      "sha512": "aO7uISAWUNJojXOf36YpruZz1YPIC8l/vH5q5diPNaRpR8VuYRCOMw3tHq8VzaGj64w/a22bwVSon5elHAsj4Q==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -16429,6 +16429,9 @@
         "lib/uap10.0/WinRTXamlToolkit.pri",
         "lib/uap10.0/WinRTXamlToolkit/Async/_._",
         "lib/uap10.0/WinRTXamlToolkit/AwaitableUI/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/ARM/Debug/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/ARM/Release/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/Debug/_._",
         "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/AlternativeFrame/_._",
         "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/AnimatingContainer/_._",
         "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/AutoCompleteTextBox/_._",
@@ -16454,6 +16457,56 @@
         "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/WatermarkTextBox/_._",
         "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/WebBrowser/_._",
         "lib/uap10.0/WinRTXamlToolkit/bin/Release/Themes/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/AlternativeFrame/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/AnimatingContainer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/AutoCompleteTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CameraCaptureControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CascadingImageControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CascadingTextBlock/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ColorPicker/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CountdownControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CustomAppBar/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CustomGridSplitter/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/DelayedLoadControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/FocusVisualizer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/FxContentControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ImageButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ImageToggleButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/InputDialog/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ListItemButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/NumericUpDown/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ToolStrip/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ToolWindow/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/TreeView/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/WatermarkPasswordBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/WatermarkTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/WebBrowser/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Themes/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/AlternativeFrame/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/AnimatingContainer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/AutoCompleteTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CameraCaptureControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CascadingImageControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CascadingTextBlock/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ColorPicker/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CountdownControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CustomAppBar/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CustomGridSplitter/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/DelayedLoadControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/FocusVisualizer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/FxContentControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ImageButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ImageToggleButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/InputDialog/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ListItemButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/NumericUpDown/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ToolStrip/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ToolWindow/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/TreeView/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/WatermarkPasswordBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/WatermarkTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/WebBrowser/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Themes/_._",
         "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/AlternativeFrame/_._",
         "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/AnimatingContainer/_._",
         "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/AutoCompleteTextBox/_._",
@@ -16479,6 +16532,7 @@
         "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/WatermarkTextBox/_._",
         "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/WebBrowser/_._",
         "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Themes/_._",
+        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Release/_._",
         "lib/uap10.0/WinRTXamlToolkit/Common/_._",
         "lib/uap10.0/WinRTXamlToolkit/Controls/AlternativeFrame/AlternativeFrame.xaml",
         "lib/uap10.0/WinRTXamlToolkit/Controls/AlternativeFrame/AlternativeFrame.xbf",
@@ -16487,6 +16541,7 @@
         "lib/uap10.0/WinRTXamlToolkit/Controls/AutoCompleteTextBox/Algorithm/_._",
         "lib/uap10.0/WinRTXamlToolkit/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xaml",
         "lib/uap10.0/WinRTXamlToolkit/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xbf",
+        "lib/uap10.0/WinRTXamlToolkit/Controls/AutoOrientingStackPanel/_._",
         "lib/uap10.0/WinRTXamlToolkit/Controls/Behaviors/_._",
         "lib/uap10.0/WinRTXamlToolkit/Controls/CameraCaptureControl/CameraCaptureControl.xaml",
         "lib/uap10.0/WinRTXamlToolkit/Controls/CameraCaptureControl/CameraCaptureControl.xbf",
@@ -16556,6 +16611,33 @@
         "lib/uap10.0/WinRTXamlToolkit/IO/Serialization/_._",
         "lib/uap10.0/WinRTXamlToolkit/Licensing/_._",
         "lib/uap10.0/WinRTXamlToolkit/Net/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/AlternativeFrame/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/AnimatingContainer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/AutoCompleteTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CameraCaptureControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CascadingImageControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CascadingTextBlock/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ColorPicker/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CountdownControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CustomAppBar/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CustomGridSplitter/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/DelayedLoadControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/FocusVisualizer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/FxContentControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ImageButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ImageToggleButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/InputDialog/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ListItemButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/NumericUpDown/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ToolStrip/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ToolWindow/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/TreeView/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/WatermarkPasswordBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/WatermarkTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/WebBrowser/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/intermediatexaml/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/TempPE/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Themes/_._",
         "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/AlternativeFrame/AlternativeFrame.xaml",
         "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/AnimatingContainer/AnimatingContainer.xaml",
         "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xaml",
@@ -16610,6 +16692,116 @@
         "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/WatermarkTextBox/_._",
         "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/WebBrowser/_._",
         "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Themes/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/AlternativeFrame/AlternativeFrame.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/AnimatingContainer/AnimatingContainer.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CameraCaptureControl/CameraCaptureControl.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CascadingImageControl/CascadingImageControl.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CascadingTextBlock/CascadingTextBlock.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ColorPicker/ColorPicker.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CountdownControl/CountdownControl.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CustomAppBar/CustomAppBar.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CustomGridSplitter/CustomGridSplitter.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/DelayedLoadControl/DelayedLoadControl.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/FocusVisualizer/FocusVisualizer.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/FxContentControl/FxContentControl.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ImageButton/ImageButton.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ImageToggleButton/ImageToggleButton.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/InputDialog/InputDialog.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ListItemButton/ListItemButton.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/NumericUpDown/NumericUpDown.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ToolStrip/ToolStrip.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ToolWindow/ToolWindow.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/TreeView/TreeView.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/TreeView/TreeViewItem.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/TreeView/TreeViewMouse.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/TreeView/TreeViewTouch.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/WatermarkPasswordBox/WatermarkPasswordBox.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/WatermarkTextBox/WatermarkTextBox.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/WebBrowser/WebBrowser.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/intermediatexaml/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/TempPE/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Themes/Generic.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/AlternativeFrame/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/AnimatingContainer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/AutoCompleteTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CameraCaptureControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CascadingImageControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CascadingTextBlock/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ColorPicker/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CountdownControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CustomAppBar/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CustomGridSplitter/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/DelayedLoadControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/FocusVisualizer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/FxContentControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ImageButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ImageToggleButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/InputDialog/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ListItemButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/NumericUpDown/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ToolStrip/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ToolWindow/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/TreeView/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/WatermarkPasswordBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/WatermarkTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/WebBrowser/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Themes/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/AlternativeFrame/AlternativeFrame.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/AnimatingContainer/AnimatingContainer.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CameraCaptureControl/CameraCaptureControl.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CascadingImageControl/CascadingImageControl.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CascadingTextBlock/CascadingTextBlock.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ColorPicker/ColorPicker.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CountdownControl/CountdownControl.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CustomAppBar/CustomAppBar.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CustomGridSplitter/CustomGridSplitter.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/DelayedLoadControl/DelayedLoadControl.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/FocusVisualizer/FocusVisualizer.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/FxContentControl/FxContentControl.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ImageButton/ImageButton.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ImageToggleButton/ImageToggleButton.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/InputDialog/InputDialog.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ListItemButton/ListItemButton.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/NumericUpDown/NumericUpDown.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ToolStrip/ToolStrip.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ToolWindow/ToolWindow.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/TreeView/TreeView.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/TreeView/TreeViewItem.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/TreeView/TreeViewMouse.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/TreeView/TreeViewTouch.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/WatermarkPasswordBox/WatermarkPasswordBox.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/WatermarkTextBox/WatermarkTextBox.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/WebBrowser/WebBrowser.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/intermediatexaml/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/TempPE/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Themes/Generic.xaml",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/AlternativeFrame/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/AnimatingContainer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/AutoCompleteTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CameraCaptureControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CascadingImageControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CascadingTextBlock/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ColorPicker/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CountdownControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CustomAppBar/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CustomGridSplitter/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/DelayedLoadControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/FocusVisualizer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/FxContentControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ImageButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ImageToggleButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/InputDialog/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ListItemButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/NumericUpDown/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ToolStrip/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ToolWindow/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/TreeView/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/WatermarkPasswordBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/WatermarkTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/WebBrowser/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Themes/_._",
         "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/AlternativeFrame/AlternativeFrame.xaml",
         "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/AnimatingContainer/AnimatingContainer.xaml",
         "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xaml",
@@ -16665,12 +16857,39 @@
         "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/WatermarkTextBox/_._",
         "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/WebBrowser/_._",
         "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Themes/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/AlternativeFrame/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/AnimatingContainer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/AutoCompleteTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CameraCaptureControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CascadingImageControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CascadingTextBlock/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ColorPicker/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CountdownControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CustomAppBar/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CustomGridSplitter/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/DelayedLoadControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/FocusVisualizer/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/FxContentControl/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ImageButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ImageToggleButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/InputDialog/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ListItemButton/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/NumericUpDown/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ToolStrip/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ToolWindow/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/TreeView/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/WatermarkPasswordBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/WatermarkTextBox/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/WebBrowser/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/intermediatexaml/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/TempPE/_._",
+        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Themes/_._",
         "lib/uap10.0/WinRTXamlToolkit/Properties/WinRTXamlToolkit.UWP.rd.xml",
         "lib/uap10.0/WinRTXamlToolkit/Themes/Generic.xaml",
         "lib/uap10.0/WinRTXamlToolkit/Themes/Generic.xbf",
         "lib/uap10.0/WinRTXamlToolkit/Tools/_._",
         "lib/uap10.0/WinRTXamlToolkit/WinRTXamlToolkit.xr.xml",
-        "package/services/metadata/core-properties/deced4abe78a4a6e8c4a83fae1aa2cb0.psmdcp",
+        "package/services/metadata/core-properties/ce6c1fedc27f441dba9fb67730877578.psmdcp",
         "WinRTXamlToolkit.UWP.nuspec"
       ]
     }
@@ -16678,7 +16897,7 @@
   "projectFileDependencyGroups": {
     "": [
       "Azyobuzi.TwitterUrlExtractor >= 1.0.3",
-      "CoreTweet >= 0.6.1.267",
+      "CoreTweet >= 0.7.0-beta2",
       "Microsoft.ApplicationInsights >= 2.0.0-beta3",
       "Microsoft.ApplicationInsights.PersistenceChannel >= 2.0.0-beta3",
       "Microsoft.ApplicationInsights.WindowsApps >= 1.1.1",
@@ -16694,7 +16913,7 @@
       "Rx-Main >= 2.3.0-beta2",
       "Rx-PlatformServices >= 2.3.0-beta2",
       "SQLite.Net-PCL >= 3.1.1",
-      "WinRTXamlToolkit.UWP >= 1.9.4"
+      "WinRTXamlToolkit.UWP >= 2.0.0"
     ],
     "UAP,Version=v10.0": []
   }

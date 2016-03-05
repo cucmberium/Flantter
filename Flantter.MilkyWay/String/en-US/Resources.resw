@@ -121,16 +121,16 @@
     <value>Authorize</value>
   </data>
   <data name="AuthorizePopup_AuthorizeCompleted" xml:space="preserve">
-    <value>Authorize completed!</value>
+    <value>Complete authentication!</value>
   </data>
   <data name="AuthorizePopup_CustomCKCSCheckBox.Content" xml:space="preserve">
     <value>Change ConsumerKey and ConsumerSecret</value>
   </data>
-  <data name="AuthorizePopup_MainContentNextButton.Content" xml:space="preserve">
+  <data name="AuthorizePopup_ConfigNextButton.Content" xml:space="preserve">
     <value>Next</value>
   </data>
   <data name="AuthorizePopup_OAuthAuthorizeError" xml:space="preserve">
-    <value>Error. check your computer time setting and ConsumerKey.</value>
+    <value>Error occurred. Please check your computer time setting and ConsumerKey.</value>
   </data>
   <data name="AuthorizePopup_PincodeIsEmpty" xml:space="preserve">
     <value>Pincode is empty.</value>

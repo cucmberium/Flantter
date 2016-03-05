@@ -1,5 +1,6 @@
 ﻿using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Contents;
+using Flantter.MilkyWay.Views.Contents.Authorize;
 using Prism.Windows.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,7 @@ namespace Flantter.MilkyWay.Views
                     ConsumerSecret = account.ConsumerSecret,
                     ScreenName = account.ScreenName,
                     UserId = account.UserId,
+
                     Column = new ObservableCollection<ColumnSetting>() 
                     {
                         new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Home, AutoRefresh = false, AutoRefreshTimerInterval = 60.0, Filter = "()", Name = "Home", Parameter = string.Empty, Streaming = true, Index = 0, DisableStartupRefresh = false, FetchingNumberOfTweet = 100 },

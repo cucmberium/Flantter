@@ -264,7 +264,7 @@
       <DependentUpon>TweetArea.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Behaviors\TitlebarSwitchAction.cs" />
-    <Compile Include="Views\Contents\AuthorizePopup.xaml.cs">
+    <Compile Include="Views\Contents\Authorize\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\BottomBarArea.xaml.cs">
@@ -390,7 +390,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Contents\AuthorizePopup.xaml">
+    <Page Include="Views\Contents\Authorize\AuthorizePopup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

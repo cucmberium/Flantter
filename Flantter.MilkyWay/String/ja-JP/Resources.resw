@@ -118,19 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AuthorizePopup_AuthorizeButton.Content" xml:space="preserve">
-    <value>認証</value>
+    <value>Authorize</value>
   </data>
   <data name="AuthorizePopup_AuthorizeCompleted" xml:space="preserve">
     <value>認証しました！</value>
   </data>
   <data name="AuthorizePopup_CustomCKCSCheckBox.Content" xml:space="preserve">
-    <value>投稿元クライアントの名前を変更する</value>
+    <value>ConsumerKeyを変更する</value>
   </data>
-  <data name="AuthorizePopup_MainContentNextButton.Content" xml:space="preserve">
+  <data name="AuthorizePopup_ConfigNextButton.Content" xml:space="preserve">
     <value>Next</value>
   </data>
   <data name="AuthorizePopup_OAuthAuthorizeError" xml:space="preserve">
-    <value>エラーが発生しました。PCの日時設定やConsumerKeyなどが正しいかよく確認して下さい。</value>
+    <value>エラーが発生しました。PCの日時設定やConsumerKeyなどが正しいか確認して下さい。</value>
   </data>
   <data name="AuthorizePopup_PincodeIsEmpty" xml:space="preserve">
     <value>Pincodeが空になっています。</value>

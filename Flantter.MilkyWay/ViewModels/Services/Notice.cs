@@ -56,6 +56,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.ExitAppCommand = new ReactiveCommand();
 
             this.ShowMainSettingCommand = new ReactiveCommand();
+            this.ShowBehaviorSettingCommand = new ReactiveCommand();
+            this.ShowDisplaySettingCommand = new ReactiveCommand();
             this.ShowAppInfoCommand = new ReactiveCommand();
             this.ShowSupportAccountCommand = new ReactiveCommand();
         }
@@ -110,6 +112,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ExitAppCommand { get; private set; }
 
         public ReactiveCommand ShowMainSettingCommand { get; private set; }
+        public ReactiveCommand ShowDisplaySettingCommand { get; private set; }
+        public ReactiveCommand ShowBehaviorSettingCommand { get; private set; }
         public ReactiveCommand ShowAppInfoCommand { get; private set; }
         public ReactiveCommand ShowSupportAccountCommand { get; private set; }
     }

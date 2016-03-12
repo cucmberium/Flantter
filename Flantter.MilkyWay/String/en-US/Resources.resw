@@ -505,4 +505,40 @@
   <data name="SettingsFlyout_Settings_Main_PostSetting_Textblock.Text" xml:space="preserve">
     <value>Post Setting</value>
   </data>
+  <data name="ConfirmDialog_Favorite" xml:space="preserve">
+    <value>Favorite the tweet?</value>
+  </data>
+  <data name="ConfirmDialog_Retweet" xml:space="preserve">
+    <value>Retweet the tweet?</value>
+  </data>
+  <data name="ConfirmDialog_RetweetFavorite" xml:space="preserve">
+    <value>Retweet and Favorite the tweet?</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_BottomBarSearchBoxEnabled_ToggleSwitch.Header" xml:space="preserve">
+    <value>Enable search box of bottom bar</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_DoubleTappedAction_ComboBox.Header" xml:space="preserve">
+    <value>Action when double tapping</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_ExtendTitleBar_ToggleSwitch.Header" xml:space="preserve">
+    <value>Extend title bar</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_FavoriteConfirmation_ToggleSwitch.Header" xml:space="preserve">
+    <value>Favorite confirmation</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_PreventForcedTermination_ToggleSwitch.Header" xml:space="preserve">
+    <value>Prevent forced termination</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_RemoveRetweetAlreadyReceive_ToggleSwitch.Header" xml:space="preserve">
+    <value>Remove retweet that received already</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_RetweetConfirmation_ToggleSwitch.Header" xml:space="preserve">
+    <value>Retweet confirmation</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_ShowRetweetInMentionColumn_ToggleSwitch.Header" xml:space="preserve">
+    <value>Show retweet that related me in mention column</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_TrendsRegion_ComboBox.Header" xml:space="preserve">
+    <value>Trends region</value>
+  </data>
 </root>

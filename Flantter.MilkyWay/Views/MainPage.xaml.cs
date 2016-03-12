@@ -53,7 +53,7 @@ namespace Flantter.MilkyWay.Views
             applicationView.TitleBar.InactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
             applicationView.TitleBar.InactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
 
-            if (Setting.SettingService.Setting.TitleBarVisibility)
+            if (Setting.SettingService.Setting.ExtendTitleBar)
             {
                 applicationView.TitleBar.ButtonBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
                 applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
@@ -71,11 +71,11 @@ namespace Flantter.MilkyWay.Views
 
         private void Setting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "TitleBarVisibility")
+            if (e.PropertyName == "ExtendTitleBar")
             {
                 var applicationView = ApplicationView.GetForCurrentView();
 
-                if (Setting.SettingService.Setting.TitleBarVisibility)
+                if (Setting.SettingService.Setting.ExtendTitleBar)
                 {
                     applicationView.TitleBar.ButtonBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
                     applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
@@ -100,7 +100,7 @@ namespace Flantter.MilkyWay.Views
             applicationView.TitleBar.InactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
             applicationView.TitleBar.InactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
 
-            if (Setting.SettingService.Setting.TitleBarVisibility)
+            if (Setting.SettingService.Setting.ExtendTitleBar)
             {
                 applicationView.TitleBar.ButtonBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
                 applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;

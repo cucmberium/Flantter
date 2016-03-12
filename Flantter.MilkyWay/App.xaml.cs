@@ -46,6 +46,11 @@ namespace Flantter.MilkyWay
 
         void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            var stacktrace = e.Exception.StackTrace; // 別変数に最初に入れないと次アクセスからNull , 一番最初のUnhandledExceptionじゃないとNull
+            if (SettingService.Setting.PreventForcedTermination)
+                e.Handled = true;
+
+            System.Diagnostics.Debug.WriteLine(stacktrace);
         }
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)

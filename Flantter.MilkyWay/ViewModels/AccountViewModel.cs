@@ -12,10 +12,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -40,16 +42,25 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<string> ScreenName { get; private set; }
         public ReactiveProperty<string> Name { get; private set; }
         public ReactiveProperty<bool> IsEnabled { get; private set; }
+
         public ReactiveProperty<double> PanelWidth { get; private set; }
         public ReactiveProperty<double> SnapPointsSpaceing { get; private set; }
         public ReactiveProperty<double> MaxSnapPoint { get; private set; }
 		public ReactiveProperty<double> MinSnapPoint { get; private set; }
+
+        public ReactiveProperty<bool> BottomBarSearchBoxEnabled { get; private set; }
 
         public ReactiveProperty<int> ColumnSelectedIndex { get; private set; }
         
         public ReactiveCommand ShowMyUserProfileCommand { get; private set; }
 
         public ReactiveCommand ShowMyUserListsCommand { get; private set; }
+
+        public ReactiveCommand UpdateUserSearchCommand { get; private set; }
+
+        public ReactiveCommand UpdateSearchCommand { get; private set; }
+
+        public ReactiveCommand SuggestionsRequestedSearchCommand { get; private set; }
 
         #region Constructor
         /*public AccountViewModel()
@@ -120,6 +131,15 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.ColumnSelectedIndex = new ReactiveProperty<int>(0);
 
+            this.BottomBarSearchBoxEnabled = Observable.CombineLatest(
+                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth), 
+                SettingService.Setting.ObserveProperty(x => x.BottomBarSearchBoxEnabled), 
+                (clientWidth, searchBoxEnabled) =>
+                {
+                    return (clientWidth >= 960.0 && searchBoxEnabled && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile");
+                }).ToReactiveProperty();
+
+
             this.Notice = Services.Notice.Instance;
 
             #region Command
@@ -136,6 +156,58 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+            this.UpdateSearchCommand = new ReactiveCommand();
+            this.UpdateSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(y =>
+            {
+                var e = y as SearchBoxQuerySubmittedEventArgs;
+                if (e == null || string.IsNullOrWhiteSpace(e.QueryText.TrimStart(new char[] { '#', '@' })))
+                    return;
+
+                Notice.ShowSearchCommand.Execute(e.QueryText);
+            });
+
+            this.UpdateUserSearchCommand = new ReactiveCommand();
+            this.UpdateUserSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(y =>
+            {
+                var e = y as SearchBoxResultSuggestionChosenEventArgs;
+                if (e == null || string.IsNullOrWhiteSpace(e.Tag))
+                    return;
+
+                Notice.ShowUserProfileCommand.Execute(e.Tag);
+            });
+
+            this.SuggestionsRequestedSearchCommand = new ReactiveCommand();
+            this.SuggestionsRequestedSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(y =>
+            {
+                var e = y as SearchBoxSuggestionsRequestedEventArgs;
+                if (e == null || string.IsNullOrWhiteSpace(e.QueryText.TrimStart(new char[] { '#', '@' })))
+                    return;
+
+                var deferral = e.Request.GetDeferral();
+
+                IEnumerable<string> suggestHashtags = null;
+                IEnumerable<Models.Twitter.Objects.User> suggestUsers = null;
+                lock (Models.Services.Connecter.Instance.TweetCollecter[this._AccountModel.Tokens.UserId].EntitiesObjectsLock)
+                {
+                    suggestHashtags = Models.Services.Connecter.Instance.TweetCollecter[this._AccountModel.Tokens.UserId].HashTagObjects.Where(x => x.StartsWith(e.QueryText.TrimStart(new char[] { '#' }))).OrderBy(x => x);
+                    suggestUsers = Models.Services.Connecter.Instance.TweetCollecter[this._AccountModel.Tokens.UserId].UserObjects.Where(x => x.ScreenName.StartsWith(e.QueryText.TrimStart(new char[] { '@' }))).OrderBy(x => x.ScreenName);
+                }
+                if (suggestHashtags.Count() > 0)
+                {
+                    e.Request.SearchSuggestionCollection.AppendSearchSeparator("HashTag");
+                    foreach (var hashtag in suggestHashtags)
+                        e.Request.SearchSuggestionCollection.AppendQuerySuggestion("#" + hashtag);
+                }
+                if (suggestUsers.Count() > 0)
+                {
+                    e.Request.SearchSuggestionCollection.AppendSearchSeparator("User");
+                    foreach (var user in suggestUsers)
+                        e.Request.SearchSuggestionCollection.AppendResultSuggestion("@" + user.ScreenName, user.Name, user.ScreenName, RandomAccessStreamReference.CreateFromUri(new Uri(user.ProfileImageUrl)), "Result");
+                }
+
+                deferral.Complete();
             });
 
             Services.Notice.Instance.LoadMentionCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
@@ -189,6 +261,19 @@ namespace Flantter.MilkyWay.ViewModels
                 if (statusViewModel == null)
                     return;
 
+                // Taboo : 禁忌
+                if (!statusViewModel.Model.IsRetweeted && SettingService.Setting.RetweetConfirmation)
+                {
+                    bool result = false;
+                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView().GetString("ConfirmDialog_Retweet"), "Confirmation");
+                    msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                    msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                    await msg.ShowAsync();
+
+                    if (!result)
+                        return;
+                }
+
                 if (!statusViewModel.Model.IsRetweeted)
                     await this._AccountModel.Retweet(statusViewModel.Model);
                 else
@@ -224,6 +309,19 @@ namespace Flantter.MilkyWay.ViewModels
                 if (statusViewModel == null)
                     return;
 
+                // Taboo : 禁忌
+                if (!statusViewModel.Model.IsFavorited && SettingService.Setting.FavoriteConfirmation)
+                {
+                    bool result = false;
+                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView().GetString("ConfirmDialog_Favorite"), "Confirmation");
+                    msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                    msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                    await msg.ShowAsync();
+
+                    if (!result)
+                        return;
+                }
+
                 if (!statusViewModel.Model.IsFavorited)
                     await this._AccountModel.Favorite(statusViewModel.Model);
                 else
@@ -255,6 +353,19 @@ namespace Flantter.MilkyWay.ViewModels
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
                     return;
+
+                // Taboo : 禁忌
+                if (SettingService.Setting.RetweetConfirmation || SettingService.Setting.FavoriteConfirmation)
+                {
+                    bool result = false;
+                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView().GetString("ConfirmDialog_RetweetFavorite"), "Confirmation");
+                    msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                    msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                    await msg.ShowAsync();
+
+                    if (!result)
+                        return;
+                }
 
                 if (!statusViewModel.Model.IsRetweeted)
                     await this._AccountModel.Retweet(statusViewModel.Model);

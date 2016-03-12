@@ -61,7 +61,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     settingsFlyout.Show();
 
-                    ((SearchSettingsFlyout)settingsFlyout).FocusToStatusSearchBox();
+                    if (!string.IsNullOrWhiteSpace(notification.Content as string))
+                        ((SearchSettingsFlyout)settingsFlyout).ViewModel.UpdateStatusSearchCommand.Execute();
+                    else
+                        ((SearchSettingsFlyout)settingsFlyout).FocusToStatusSearchBox();
 
                     break;
                 case "UserProfile":
@@ -334,6 +337,34 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         this._SettingsFlyoutList.Add(settingsFlyout);
                     }
                     
+                    settingsFlyout.Show();
+                    break;
+                case "BehaviorSetting":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is BehaviorSettingSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new BehaviorSettingSettingsFlyout();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    settingsFlyout.Show();
+                    break;
+                case "DisplaySetting":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is DisplaySettingSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new DisplaySettingSettingsFlyout();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
                     settingsFlyout.Show();
                     break;
                 case "AppInfo":

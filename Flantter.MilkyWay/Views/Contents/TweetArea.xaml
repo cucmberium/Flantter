@@ -66,7 +66,7 @@
                         <TextBlock Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaTextBackgroundBrush}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="0,2" FontFamily="{Binding Source={StaticResource Setting},Path=Setting.CustomFontName}" FontSize="{Binding Source={StaticResource Setting},Path=Setting.FontSize}" behaviors:TexbblockNavigationServiceBehavior.TextForeground="{StaticResource TweetTextTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.LinkForeground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.ReplyOrQuotedStatus.Value.QuotedStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.ReplyOrQuotedStatus.Value.Text, Mode=OneWay}"/>
                     </StackPanel>
 
-                    <Button Grid.Column="3" Foreground="Black" Background="Transparent" Width="40" Height="40" BorderThickness="0" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{x:Bind ViewModel.DeleteReplyOrQuotedStatusCommand}">
+                    <Button Grid.Column="3" Background="Transparent" Width="40" Height="40" BorderThickness="0" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{x:Bind ViewModel.DeleteReplyOrQuotedStatusCommand}">
                         <SymbolIcon Symbol="Cancel"/>
                     </Button>
                 </Grid>

@@ -52,7 +52,7 @@ namespace Flantter.MilkyWay.ViewModels
             this._MainPageModel = MainPageModel.Instance;
 
             // 設定によってTitlebarの表示を変える
-            this.TitleBarVisivility = SettingService.Setting.ObserveProperty(x => x.TitleBarVisibility).Select(x => x && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile").ToReactiveProperty();
+            this.TitleBarVisivility = SettingService.Setting.ObserveProperty(x => x.ExtendTitleBar).Select(x => x && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile").ToReactiveProperty();
 
             this.AppBarIsOpen = new ReactiveProperty<bool>(false);
             this.AppBarIsOpen.Subscribe<bool>(async isOpen => 
@@ -194,6 +194,7 @@ namespace Flantter.MilkyWay.ViewModels
                 else if (linkUrl.StartsWith("#"))
                 {
                     var hashTag = linkUrl.Replace("#", "");
+                    ViewModels.Services.Notice.Instance.ShowSearchCommand.Execute(hashTag);
                     return;
                 }
 
@@ -249,6 +250,17 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
+            Services.Notice.Instance.ShowBehaviorSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "BehaviorSetting" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+            Services.Notice.Instance.ShowDisplaySettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "DisplaySetting" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
             #endregion
         }
         #endregion

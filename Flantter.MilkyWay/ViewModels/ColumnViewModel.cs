@@ -60,6 +60,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveCommand RefreshCommand { get; private set; }
 
+        public ReactiveCommand TweetDoubleTappedActionCommand { get; private set; }
+
         public IDisposable TweetsCollectionChangedDisposable { get; private set; }
         public IDisposable DisableNotifyCollectionChangedDisposable { get; private set; }
 
@@ -166,6 +168,65 @@ namespace Flantter.MilkyWay.ViewModels
             this.RefreshCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ =>
             {
                 await this._ColumnModel.Update();
+            });
+
+            this.TweetDoubleTappedActionCommand = new ReactiveCommand();
+            this.TweetDoubleTappedActionCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ =>
+            {
+                if (this.SelectedIndex.Value == -1)
+                    return;
+
+                var tweet = this.Tweets[this.SelectedIndex.Value];
+
+                string screenName = string.Empty;
+                if (tweet is StatusViewModel)
+                    screenName = ((StatusViewModel)tweet).ScreenName;
+                if (tweet is DirectMessageViewModel)
+                    screenName = ((DirectMessageViewModel)tweet).ScreenName;
+                if (tweet is EventMessageViewModel)
+                    screenName = ((EventMessageViewModel)tweet).ScreenName;
+
+                var status = this.Tweets[this.SelectedIndex.Value] as StatusViewModel;
+
+                switch (SettingService.Setting.DoubleTappedAction)
+                {
+                    case SettingSupport.DoubleTappedActionEnum.None:
+                        break;
+                    case SettingSupport.DoubleTappedActionEnum.StatusDetail:
+                        if (status == null)
+                            break;
+
+                        Notice.Instance.ShowStatusDetailCommand.Execute(status.Model);
+                        break;
+                    case SettingSupport.DoubleTappedActionEnum.UserProfile:
+                        if (string.IsNullOrWhiteSpace(screenName))
+                            break;
+                        
+                        Notice.Instance.ShowUserProfileCommand.Execute(screenName);
+                        break;
+                    case SettingSupport.DoubleTappedActionEnum.Favorite:
+                        if (status == null)
+                            break;
+
+                        Notice.Instance.FavoriteCommand.Execute(status);
+                        break;
+                    case SettingSupport.DoubleTappedActionEnum.Reply:
+                        if (status != null)
+                            Notice.Instance.ReplyCommand.Execute(status);
+                        else if (string.IsNullOrWhiteSpace(screenName))
+                            Notice.Instance.ReplyCommand.Execute(screenName);
+
+                        break;
+                    case SettingSupport.DoubleTappedActionEnum.Retweet:
+                        if (status == null)
+                            break;
+
+                        Notice.Instance.RetweetCommand.Execute(status);
+                        break;
+                    default:
+                        break;
+                }
+
             });
 
             this.Height = LayoutHelper.Instance.ColumnHeight;
@@ -275,6 +336,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.IsScrollLockToTopEnabled.Dispose();
             this.StreamingCommand.Dispose();
             this.ScrollToTopCommand.Dispose();
+            this.TweetDoubleTappedActionCommand.Dispose();
 
             this.Left.Dispose();
 

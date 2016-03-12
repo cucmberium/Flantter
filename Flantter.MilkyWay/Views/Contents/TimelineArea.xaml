@@ -19,14 +19,17 @@
     <Grid>
         <ProgressBar Foreground="{StaticResource ProgressBarForegroundBrush}" VerticalAlignment="Top" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" />
 
-        <controls:PullToRefreshListView x:Uid="TimelineArea_PullToRefreshListView" DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=OneWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" PullPartTemplate="Pull to Refresh" ReleasePartTemplate="Release to Refresh" IndicatorForegroundBrush="{StaticResource PullToRefreshCharacterBrush}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+        <controls:PullToRefreshListView x:Uid="TimelineArea_PullToRefreshListView" DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=TwoWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" PullPartTemplate="Pull to Refresh" ReleasePartTemplate="Release to Refresh" IndicatorForegroundBrush="{StaticResource PullToRefreshCharacterBrush}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
             <i:Interaction.Behaviors>
                 <behaviors:ListViewScrollControlBehavior IsScrollLockEnabled="{x:Bind ViewModel.IsScrollLockEnabled.Value, Mode=OneWay}" IsScrollLockToTopEnabled="{x:Bind ViewModel.IsScrollLockToTopEnabled.Value, Mode=OneWay}" IsScrollControlEnabled="{x:Bind ViewModel.IsScrollControlEnabled.Value, Mode=OneWay}" UnreadCount="{x:Bind ViewModel.UnreadCount.Value, Mode=TwoWay}" UnreadCountIncrementalTrigger="{x:Bind ViewModel.UnreadCountIncrementalTrigger.Value, Mode=TwoWay}" />
                 <core:EventTriggerBehavior EventName="MoreContent">
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.IncrementalLoadCommand, Mode=OneWay}" />
                 </core:EventTriggerBehavior>
                 <core:EventTriggerBehavior EventName="RefreshContent">
-                    <core:InvokeCommandAction Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}" />
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}" /> 
+                </core:EventTriggerBehavior>
+                <core:EventTriggerBehavior EventName="DoubleTapped">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.TweetDoubleTappedActionCommand, Mode=OneWay}" />
                 </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
 
@@ -61,8 +64,8 @@
                         <timeline:EventMessage ViewModel="{x:Bind}" TargetStatusVisibility="{x:Bind TargetStatusVisibility, Mode=OneWay}"/>
                     </DataTemplate>
                     <!--<DataTemplate x:Key="GViewModel">
-                    <timeline:Gap DataContext="{Binding}"/>
-                </DataTemplate>-->
+                        <timeline:Gap DataContext="{Binding}"/>
+                    </DataTemplate>-->
                 </common:DataTypeTemplateSelector>
             </ItemsControl.ItemTemplateSelector>
         </controls:PullToRefreshListView>

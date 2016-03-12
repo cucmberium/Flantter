@@ -275,13 +275,14 @@
                 </Button.Flyout>
             </Button>
         </Grid>
-        <Grid x:Name="BottomBarArea_TextButtonSelecter" Grid.Column="1" HorizontalAlignment="Left">
+        <Grid x:Name="BottomBarArea_TextButtonSelecter" Grid.Column="1" HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Grid.Transitions>
@@ -302,6 +303,20 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
+
+            <controls:ExtendedSearchBox x:Name="BottomBarArea_SearchBox" Grid.Column="5" Style="{StaticResource ExtendedSearchBox}" SuggestionToTop="True" Visibility="{x:Bind ViewModel.BottomBarSearchBoxEnabled.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" SearchHistoryEnabled="False" Width="240" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="15,0">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="SuggestionsRequested">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedSearchCommand}" />
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="QuerySubmitted">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateSearchCommand}" />
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="ResultSuggestionChosen">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateUserSearchCommand}" />
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </controls:ExtendedSearchBox>
         </Grid>
 
         <AppBarButton x:Name="BottomBarArea_TweetButton" Grid.Column="2" Style="{StaticResource ExtendedBottomAppBarButtonStyle}" Width="100" IsCompact="False" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,-5" Label="Tweet" Command="{x:Bind ViewModel.Notice.TweetAreaOpenCommand}">

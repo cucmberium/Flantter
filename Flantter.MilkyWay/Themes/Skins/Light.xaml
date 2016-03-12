@@ -20,6 +20,27 @@
     <SolidColorBrush x:Key="SearchBoxIMECandidateListSeparatorThemeBrush" Color="#FF2A2A2A"/>
     <SolidColorBrush x:Key="SearchBoxForegroundThemeBrush" Color="#FF000000" />
 
+    <SolidColorBrush x:Key="ToggleSwitchForegroundThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ToggleSwitchPointerOverOuterBorderStrokeThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ToggleSwitchPointerOverSwitchKnobOffFillThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ToggleSwitchPressedOuterBorderFillThemeBrush" Color="#99000000" />
+    <SolidColorBrush x:Key="ToggleSwitchPressedSwitchKnobBoundsStrokeThemeBrush" Color="#99000000" />
+    <SolidColorBrush x:Key="ToggleSwitchPressedSwitchKnobBoundsFillThemeBrush" Color="#99000000" />
+    <SolidColorBrush x:Key="ToggleSwitchPressedSwitchKnobOffFillThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledHeaderContentPresenterForegroundThemeBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledOffContentPresenterForegroundThemeBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledOnContentPresenterForegroundThemeBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledOuterBorderStrokeThemeBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobBoundsFillThemeBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobBoundsStrokeThemeBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobOffFillThemeBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobOnFillThemeBrush" Color="#33000000" />
+    <SolidColorBrush x:Key="ToggleSwitchHeaderContentPresenterForegroundThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ToggleSwitchOuterBorderStrokeThemeBrush" Color="#CC000000" />
+    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobBoundsStrokeThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobOnFillThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobOffFillThemeBrush" Color="#CC000000" />
+
     <SolidColorBrush x:Key="FlyoutBackgroundThemeBrush" Color="#FFF2F2F2"/>
     <SolidColorBrush x:Key="FlyoutBorderThemeBrush" Color="#FFCCCCCC"/>
     <SolidColorBrush x:Key="MenuFlyoutSeparatorBackgroundThemeBrush" Color="#66000000" />

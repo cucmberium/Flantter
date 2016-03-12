@@ -35,7 +35,7 @@ namespace Flantter.MilkyWay.Themes
         public static ThemeService Theme { get { return _instance ?? (_instance = new ThemeService()); } }
         private ThemeService()
         {
-            this.ThemeString = SettingService.Setting.Theme;
+            this.ThemeString = SettingService.Setting.Theme.ToString();
             DefaultResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + "Default" + ".xaml", UriKind.Absolute);
 
             ChangeTheme();
@@ -83,14 +83,14 @@ namespace Flantter.MilkyWay.Themes
                 }
                 catch (Exception ex)
                 {
-                    this.ThemeString = supportedThemeNames.Contains(name) ? name : "Dark";
+                    this.ThemeString = supportedThemeNames.Contains(name.ToString()) ? name.ToString() : "Dark";
                     ResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + this.ThemeString + ".xaml", UriKind.Absolute);
                     DefaultResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + this.ThemeString + ".xaml", UriKind.Absolute);
                 }
             }
             else
             {
-                this.ThemeString = supportedThemeNames.Contains(name) ? name : "Dark";
+                this.ThemeString = supportedThemeNames.Contains(name.ToString()) ? name.ToString() : "Dark";
                 ResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + this.ThemeString + ".xaml", UriKind.Absolute);
                 DefaultResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + this.ThemeString + ".xaml", UriKind.Absolute);
             }
@@ -113,7 +113,28 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["SearchBoxSeparatorSuggestionForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxSeparatorSuggestionForegroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["SearchBoxIMECandidateListSeparatorThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxIMECandidateListSeparatorThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["SearchBoxForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SearchBoxForegroundThemeBrush"]).Color;
-                
+
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPointerOverOuterBorderStrokeThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchPointerOverOuterBorderStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPointerOverSwitchKnobOffFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchPointerOverSwitchKnobOffFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPressedOuterBorderFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchPressedOuterBorderFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPressedSwitchKnobBoundsStrokeThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchPressedSwitchKnobBoundsStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPressedSwitchKnobBoundsFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchPressedSwitchKnobBoundsFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPressedSwitchKnobOffFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchPressedSwitchKnobOffFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledHeaderContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchDisabledHeaderContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledOffContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchDisabledOffContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledOnContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchDisabledOnContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledOuterBorderStrokeThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchDisabledOuterBorderStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledSwitchKnobBoundsFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchDisabledSwitchKnobBoundsFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledSwitchKnobBoundsStrokeThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchDisabledSwitchKnobBoundsStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledSwitchKnobOffFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchDisabledSwitchKnobOffFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledSwitchKnobOnFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchDisabledSwitchKnobOnFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchHeaderContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchHeaderContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchOuterBorderStrokeThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchOuterBorderStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobBoundsStrokeThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchSwitchKnobBoundsStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobOnFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchSwitchKnobOnFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobOffFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchSwitchKnobOffFillThemeBrush"]).Color;
+
                 ((SolidColorBrush)Application.Current.Resources["FlyoutBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["FlyoutBackgroundThemeBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["FlyoutBorderThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["FlyoutBorderThemeBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["MenuFlyoutSeparatorBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["MenuFlyoutSeparatorBackgroundThemeBrush"]).Color;
@@ -365,6 +386,27 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["SearchBoxSeparatorSuggestionForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxSeparatorSuggestionForegroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["SearchBoxIMECandidateListSeparatorThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxIMECandidateListSeparatorThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["SearchBoxForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SearchBoxForegroundThemeBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPointerOverOuterBorderStrokeThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchPointerOverOuterBorderStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPointerOverSwitchKnobOffFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchPointerOverSwitchKnobOffFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPressedOuterBorderFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchPressedOuterBorderFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPressedSwitchKnobBoundsStrokeThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchPressedSwitchKnobBoundsStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPressedSwitchKnobBoundsFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchPressedSwitchKnobBoundsFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchPressedSwitchKnobOffFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchPressedSwitchKnobOffFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledHeaderContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchDisabledHeaderContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledOffContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchDisabledOffContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledOnContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchDisabledOnContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledOuterBorderStrokeThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchDisabledOuterBorderStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledSwitchKnobBoundsFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchDisabledSwitchKnobBoundsFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledSwitchKnobBoundsStrokeThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchDisabledSwitchKnobBoundsStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledSwitchKnobOffFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchDisabledSwitchKnobOffFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchDisabledSwitchKnobOnFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchDisabledSwitchKnobOnFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchHeaderContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchHeaderContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchOuterBorderStrokeThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchOuterBorderStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobBoundsStrokeThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchSwitchKnobBoundsStrokeThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobOnFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchSwitchKnobOnFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobOffFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchSwitchKnobOffFillThemeBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["FlyoutBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["FlyoutBackgroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["FlyoutBorderThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["FlyoutBorderThemeBrush"]).Color;

@@ -145,6 +145,7 @@ namespace Flantter.MilkyWay.Models.Services
             public object EntitiesObjectsLock = new object();
             public List<string> ScreenNameObjects { get; set; }
             public List<string> HashTagObjects { get; set; }
+            public List<User> UserObjects { get; set; }
 
             private IDisposable tweetReceiveDisposableObject = null;
             private IDisposable tweetDeleteDisposableObject = null;
@@ -157,7 +158,8 @@ namespace Flantter.MilkyWay.Models.Services
                 
                 this.ScreenNameObjects = new List<string>();
                 this.HashTagObjects = new List<string>();
-                
+                this.UserObjects = new List<User>();
+
                 tweetDeleteDisposableObject = Observable.FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                     h => (sender, e) => h(e),
                     h => Connecter.Instance.TweetDelete_CommandExecute += h,
@@ -201,6 +203,9 @@ namespace Flantter.MilkyWay.Models.Services
                         {
                             if (!this.ScreenNameObjects.Contains(e.Status.User.ScreenName))
                                 this.ScreenNameObjects.Add(e.Status.User.ScreenName);
+
+                            if (!this.UserObjects.Any(x => x.ScreenName == e.Status.User.ScreenName))
+                                this.UserObjects.Add(e.Status.User);
 
                             foreach (var screenName in e.Status.Entities.UserMentions)
                             {

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Themes;
 using Windows.Globalization;
+using SharpDX.DirectWrite;
 
 namespace Flantter.MilkyWay.Setting
 {
@@ -23,17 +24,17 @@ namespace Flantter.MilkyWay.Setting
             Large = 55,
         }
 
-        public enum DoubleTappedEventEnum
+        public enum DoubleTappedActionEnum
         {
             None = 0,
-            TweetDetail = 1,
+            StatusDetail = 1,
             UserProfile = 2,
             Favorite = 3,
             Reply = 4,
             Retweet = 5,
         }
 
-        public enum TrendsPlaceEnum
+        public enum TrendsRegionEnum
         {
             Default = 0,
             Global = 1,
@@ -78,39 +79,149 @@ namespace Flantter.MilkyWay.Setting
             Filter = 8,
         }
 
-        public static long GetTrendsWoeId(TrendsPlaceEnum place)
+        public static long GetTrendsWoeId(TrendsRegionEnum place)
         {
             switch (place)
             {
-                case TrendsPlaceEnum.Default:
+                case TrendsRegionEnum.Default:
                     switch (ApplicationLanguages.Languages.First())
                     {
                         case "ja":
+                        case "ja-JP":
                             return 23424856;
+                        case "en-US":
+                            return 23424977;
+                        case "en-CA":
+                            return 23424775;
+                        case "en-AU":
+                            return 23424748;
+                        case "en-GB":
+                            return 23424975;
+                        case "en":
                         default:
                             return 1;
                     }
-                case TrendsPlaceEnum.Global:
-                    return 1;
-                case TrendsPlaceEnum.Japan:
-                    return 23424856;
-                case TrendsPlaceEnum.UnitedStates:
-                    return 23424977;
-                case TrendsPlaceEnum.UnitedKingdom:
-                    return 23424975;
-                case TrendsPlaceEnum.Canada:
-                    return 23424775;
-                case TrendsPlaceEnum.Australia:
-                    return 23424748;
 
+                case TrendsRegionEnum.Global:
+                    return 1;
+                case TrendsRegionEnum.Japan:
+                    return 23424856;
+                case TrendsRegionEnum.UnitedStates:
+                    return 23424977;
+                case TrendsRegionEnum.UnitedKingdom:
+                    return 23424975;
+                case TrendsRegionEnum.Canada:
+                    return 23424775;
+                case TrendsRegionEnum.Australia:
+                    return 23424748;
+                default:
+                    return 1;
+            }
+        }
+
+        public static string GetTrendsPlaceString(TrendsRegionEnum place)
+        {
+            switch (place)
+            {
+                case TrendsRegionEnum.Default:
+                    switch (ApplicationLanguages.Languages.First().ToLower())
+                    {
+                        case "ja":
+                        case "ja-jp":
+                            return "Japan";
+                        case "en-us":
+                            return "UnitedStates";
+                        case "en-ca":
+                            return "Canada";
+                        case "en-au":
+                            return "Australia";
+                        case "en-gb":
+                            return "UnitedKingdom";
+                        case "en":
+                        default:
+                            return "Global";
+                    }
+                default:
+                    return place.ToString();
+            }
+        }
+
+        public static IEnumerable<string> GetSystemFontFamilies()
+        {
+            var fontlist = new List<string>();
+
+            using (var factory = new Factory())
+            using (var fontCollection = factory.GetSystemFontCollection(false))
+            {
+                var familyCount = fontCollection.FontFamilyCount;
+                for (int i = 0; i < familyCount; i++)
+                {
+                    using (var fontFamily = fontCollection.GetFontFamily(i))
+                    using (var familyNames = fontFamily.FamilyNames)
+                    {
+                        int index;
+                        familyNames.FindLocaleName("en-us", out index);
+                        fontlist.Add(familyNames.GetString(index));
+                    }
+                }
             }
 
-            return 1;
+            fontlist.Add("Global User Interface");
+            fontlist.Sort(StringComparer.OrdinalIgnoreCase);
+            return fontlist;
+        }
+    }
+
+    public class SettingSupportProvider
+    {
+        public static IEnumerable<SettingSupport.DoubleTappedActionEnum> DoubleTappedEventListTypeValues
+        {
+            get { return Enum.GetValues(typeof(SettingSupport.DoubleTappedActionEnum)).Cast<SettingSupport.DoubleTappedActionEnum>(); }
+        }
+
+        public static IEnumerable<SettingSupport.TrendsRegionEnum> TrendsRegionListTypeValues
+        {
+            get { return Enum.GetValues(typeof(SettingSupport.TrendsRegionEnum)).Cast<SettingSupport.TrendsRegionEnum>(); }
+        }
+
+        public static IEnumerable<SettingSupport.SizeEnum> SizeListTypeValues
+        {
+            get { return Enum.GetValues(typeof(SettingSupport.SizeEnum)).Cast<SettingSupport.SizeEnum>(); }
+        }
+
+        public static IEnumerable<SettingSupport.TileNotificationEnum> TileNotificationListTypeValues
+        {
+            get { return Enum.GetValues(typeof(SettingSupport.TileNotificationEnum)).Cast<SettingSupport.TileNotificationEnum>(); }
+        }
+
+        public static IEnumerable<SettingSupport.TweetAnimationEnum> TweetAnimationListTypeValues
+        {
+            get { return Enum.GetValues(typeof(SettingSupport.TweetAnimationEnum)).Cast<SettingSupport.TweetAnimationEnum>(); }
+        }
+        public static IEnumerable<SettingSupport.ThemeEnum> ThemeListTypeValues
+        {
+            get { return Enum.GetValues(typeof(SettingSupport.ThemeEnum)).Cast<SettingSupport.ThemeEnum>(); }
+        }
+        public static IEnumerable<string> SystemFontFamilies
+        {
+            get { return SettingSupport.GetSystemFontFamilies(); }
         }
     }
 
     public class SettingService : SettingServiceBase<SettingService>
     {
+        // 動作設定
+        public SettingSupport.DoubleTappedActionEnum DoubleTappedAction { get { return (SettingSupport.DoubleTappedActionEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
+        public SettingSupport.TrendsRegionEnum TrendsRegion { get { return (SettingSupport.TrendsRegionEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
+        public bool RetweetConfirmation { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool FavoriteConfirmation { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool ExtendTitleBar { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool ShowRetweetInMentionColumn { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool RemoveRetweetAlreadyReceive { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } } // Todo : 実装
+
         // 通知設定
         public bool FavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool UnfavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
@@ -125,7 +236,7 @@ namespace Flantter.MilkyWay.Setting
         public SettingSupport.TileNotificationEnum TileNotification { get { return (SettingSupport.TileNotificationEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
 
         // 表示設定
-        public string Theme { get { return GetValue("Dark"); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
+        public SettingSupport.ThemeEnum Theme { get { return (SettingSupport.ThemeEnum)GetValue(1); } set { SetValue((int)value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
         public double FontSize { get { return GetValue(12.0); } set { SetValue(value); OnPropertyChanged(); } }
         public double ColumnBackgroundBrushAlpha { get { return GetValue(255.0); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeBackgroundAlpha(); } }
         public double TweetBackgroundBrushAlpha { get { return GetValue(10.0); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeBackgroundAlpha(); } }
@@ -135,6 +246,7 @@ namespace Flantter.MilkyWay.Setting
         public double TweetCommandBarHeight { get { return GetValue(40.0); } set { SetValue(value); OnPropertyChanged(); } }
         public SettingSupport.SizeEnum IconSize { get { return (SettingSupport.SizeEnum)GetValue(45); } set { SetValue((int)value); OnPropertyChanged(); } }
         public SettingSupport.TweetAnimationEnum TweetAnimation { get { return (SettingSupport.TweetAnimationEnum)GetValue(3); } set { SetValue((int)value); OnPropertyChanged(); } }
+        public bool DisableStreamingScroll { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public double TweetMediaThumbnailSize { get { return GetValue(100.0); } set { SetValue(value); OnPropertyChanged(); } }
 
         [LocalValue]
@@ -150,20 +262,6 @@ namespace Flantter.MilkyWay.Setting
                     return string.Empty;
             } 
             set { SetValue(value); OnPropertyChanged(); } }
-
-        // 動作設定
-        public bool AutoTitleBarVisibility { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool TitleBarVisibility { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool ShowRetweetToMentionColumn { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool ShowFavoriteConfirmDialog { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool ShowRetweetConfirmDialog { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool RemoveRetweetAlreadyReceive { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool DisableStreamingScroll { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public SettingSupport.DoubleTappedEventEnum DoubleTappedAction { get { return (SettingSupport.DoubleTappedEventEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
-        public SettingSupport.TrendsPlaceEnum TrendsPlace { get { return (SettingSupport.TrendsPlaceEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
 
         // 投稿設定
         public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }

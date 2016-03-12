@@ -505,4 +505,40 @@
   <data name="SettingsFlyout_Settings_Main_PostSetting_Textblock.Text" xml:space="preserve">
     <value>投稿設定</value>
   </data>
+  <data name="ConfirmDialog_Favorite" xml:space="preserve">
+    <value>ツイートをお気に入りに登録しますか?</value>
+  </data>
+  <data name="ConfirmDialog_Retweet" xml:space="preserve">
+    <value>ツイートをリツイートしますか?</value>
+  </data>
+  <data name="ConfirmDialog_RetweetFavorite" xml:space="preserve">
+    <value>ツイートをリツイートしてお気に入りに登録しますか?</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_BottomBarSearchBoxEnabled_ToggleSwitch.Header" xml:space="preserve">
+    <value>下部に検索ボックスを追加する</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_DoubleTappedAction_ComboBox.Header" xml:space="preserve">
+    <value>ツイートダブルタップ時の動作</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_ExtendTitleBar_ToggleSwitch.Header" xml:space="preserve">
+    <value>タイトルバーを描画する</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_FavoriteConfirmation_ToggleSwitch.Header" xml:space="preserve">
+    <value>お気に入り追加の確認</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_PreventForcedTermination_ToggleSwitch.Header" xml:space="preserve">
+    <value>エラー発生時にアプリを終了しない</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_RemoveRetweetAlreadyReceive_ToggleSwitch.Header" xml:space="preserve">
+    <value>すでに受信したリツイートを再表示しない</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_RetweetConfirmation_ToggleSwitch.Header" xml:space="preserve">
+    <value>リツイートの確認</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_ShowRetweetInMentionColumn_ToggleSwitch.Header" xml:space="preserve">
+    <value>自分に関係するリツイートをメンションカラムに表示</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_TrendsRegion_ComboBox.Header" xml:space="preserve">
+    <value>トレンドの地域</value>
+  </data>
 </root>

@@ -869,7 +869,7 @@ namespace Flantter.MilkyWay.Models
                 }*/
             }
 
-            if (this.Action == SettingSupport.ColumnTypeEnum.Mentions && !SettingService.Setting.ShowRetweetToMentionColumn)
+            if (this.Action == SettingSupport.ColumnTypeEnum.Mentions && !SettingService.Setting.ShowRetweetInMentionColumn)
             {
                 if (status.HasRetweetInformation)
                     return false;

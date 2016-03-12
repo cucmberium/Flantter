@@ -26,6 +26,30 @@
     <SolidColorBrush x:Key="SearchBoxIMECandidateListSeparatorThemeBrush" Color="#FF2A2A2A"/>
     <SolidColorBrush x:Key="SearchBoxForegroundThemeBrush" Color="#FF000000" />
 
+    <SolidColorBrush x:Key="ToggleSwitchForegroundThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchPointerOverOuterBorderStrokeThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchPointerOverSwitchKnobOffFillThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchPointerOverSwitchKnobBoundsFillThemeBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.7" />
+    <SolidColorBrush x:Key="ToggleSwitchPointerOverSwitchKnobBoundsStrokeThemeBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.7" />
+    <SolidColorBrush x:Key="ToggleSwitchPressedOuterBorderFillThemeBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchPressedSwitchKnobBoundsStrokeThemeBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchPressedSwitchKnobBoundsFillThemeBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchPressedSwitchKnobOffFillThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledHeaderContentPresenterForegroundThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledOffContentPresenterForegroundThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledOnContentPresenterForegroundThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledOuterBorderStrokeThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobBoundsFillThemeBrush" Color="#33FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobBoundsStrokeThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobOffFillThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobOnFillThemeBrush" Color="#33FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchHeaderContentPresenterForegroundThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchOuterBorderStrokeThemeBrush" Color="#CCFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobBoundsFillThemeBrush" Color="{ThemeResource SystemAccentColor}" />
+    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobBoundsStrokeThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobOnFillThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobOffFillThemeBrush" Color="#CCFFFFFF" />
+
     <SolidColorBrush x:Key="FlyoutBackgroundThemeBrush" Color="#FF2B2B2B"/>
     <SolidColorBrush x:Key="FlyoutBorderThemeBrush" Color="#FF767676"/>
     <SolidColorBrush x:Key="MenuFlyoutSeparatorBackgroundThemeBrush" Color="#66FFFFFF" />

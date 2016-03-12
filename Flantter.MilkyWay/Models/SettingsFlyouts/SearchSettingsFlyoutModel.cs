@@ -280,17 +280,17 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (this.UpdatingTrends)
                 return;
 
-            if (!forceUpdate && trendsLastUpdate + TimeSpan.FromMinutes(15) > DateTime.Now && trendsLastWoeId == SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsPlace))
+            if (!forceUpdate && trendsLastUpdate + TimeSpan.FromMinutes(15) > DateTime.Now && trendsLastWoeId == SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsRegion))
                 return;
 
             this.UpdatingTrends = true;
             
-            this.TrendsPlace = (SettingService.Setting.TrendsPlace == SettingSupport.TrendsPlaceEnum.Default) ? ((ApplicationLanguages.Languages.First() == "ja") ? "Japan" : "Global") : SettingService.Setting.TrendsPlace.ToString();
+            this.TrendsPlace = SettingSupport.GetTrendsPlaceString(SettingService.Setting.TrendsRegion);
 
             this.Trends.Clear();
             try
             {
-                var trends = await this.Tokens.Trends.PlaceAsync(id => SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsPlace));
+                var trends = await this.Tokens.Trends.PlaceAsync(id => SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsRegion));
 
                 if (trends.Count == 0)
                 {
@@ -304,7 +304,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 trendsLastUpdate = trends.First().CreatedAt.DateTime.ToLocalTime();
 
-                trendsLastWoeId = SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsPlace);
+                trendsLastWoeId = SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsRegion);
             }
             catch
             {

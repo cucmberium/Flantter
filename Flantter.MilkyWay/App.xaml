@@ -33,6 +33,7 @@
             <converters:LongToVisibilityConverter x:Key="LongToVisibilityConverter"/>
 
             <setting:SettingProvider x:Key="Setting"/>
+            <setting:SettingSupportProvider x:Key="SettingSupport" />
             <notice:NoticeProvider x:Key="Notice"/>
             
         </ResourceDictionary>

@@ -222,6 +222,10 @@ namespace Flantter.MilkyWay.Setting
         public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } } // Todo : 実装
 
+        // 投稿設定
+        public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool ConvertPostingImage { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+
         // 通知設定
         public bool FavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool UnfavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
@@ -262,12 +266,7 @@ namespace Flantter.MilkyWay.Setting
                     return string.Empty;
             } 
             set { SetValue(value); OnPropertyChanged(); } }
-
-        // 投稿設定
-        public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool ConvertPostingImage { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-
-
+        
         // Mute設定
         public string MuteFilter { get { return GetValue("(False)"); } set { SetValue(value); OnPropertyChanged(); } }
 

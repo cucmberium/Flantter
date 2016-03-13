@@ -502,8 +502,8 @@
   <data name="SettingsFlyout_Settings_Main_SupportAccount_Textblock.Text" xml:space="preserve">
     <value>Support Account</value>
   </data>
-  <data name="SettingsFlyout_Settings_Main_PostSetting_Textblock.Text" xml:space="preserve">
-    <value>Post Setting</value>
+  <data name="SettingsFlyout_Settings_Main_PostingSetting_Textblock.Text" xml:space="preserve">
+    <value>Posting Setting</value>
   </data>
   <data name="ConfirmDialog_Favorite" xml:space="preserve">
     <value>Favorite the tweet?</value>
@@ -540,5 +540,11 @@
   </data>
   <data name="SettingsFlyout_Settings_Behavior_TrendsRegion_ComboBox.Header" xml:space="preserve">
     <value>Trends region</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Posting_CloseBottomAppBarAfterTweet_ToggleSwitch.Header" xml:space="preserve">
+    <value>Close bottom appbar after tweet</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Posting_ConvertPostingImage_ToggleSwitch.Header" xml:space="preserve">
+    <value>Convert posting image for prevent deterioration</value>
   </data>
 </root>

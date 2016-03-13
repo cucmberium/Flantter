@@ -154,6 +154,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (this.SwipeMenu == null)
                 return;
 
+            if (this.SwipeMenu.ActualWidth == 0)
+                return;
+
             if (this.SwipeMenu.RenderTransform == null)
                 this.SwipeMenu.RenderTransform = new CompositeTransform();
 

@@ -202,6 +202,9 @@
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\AppInfoSettingsFlyout.xaml.cs">
       <DependentUpon>AppInfoSettingsFlyout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\Settings\PostingSettingSettingsFlyout.xaml.cs">
+      <DependentUpon>PostingSettingSettingsFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\DisplaySettingSettingsFlyout.xaml.cs">
       <DependentUpon>DisplaySettingSettingsFlyout.xaml</DependentUpon>
     </Compile>
@@ -414,6 +417,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\Settings\AppInfoSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\Settings\PostingSettingSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

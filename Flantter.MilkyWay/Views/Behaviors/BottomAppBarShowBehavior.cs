@@ -151,6 +151,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
             else
             {
                 page.BottomAppBar.IsOpen = false;
+
+                await Task.Delay(500);
+
                 page.BottomAppBar = null;
             }
         }

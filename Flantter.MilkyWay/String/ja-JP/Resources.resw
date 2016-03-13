@@ -502,7 +502,7 @@
   <data name="SettingsFlyout_Settings_Main_SupportAccount_Textblock.Text" xml:space="preserve">
     <value>サポートアカウント</value>
   </data>
-  <data name="SettingsFlyout_Settings_Main_PostSetting_Textblock.Text" xml:space="preserve">
+  <data name="SettingsFlyout_Settings_Main_PostingSetting_Textblock.Text" xml:space="preserve">
     <value>投稿設定</value>
   </data>
   <data name="ConfirmDialog_Favorite" xml:space="preserve">
@@ -540,5 +540,11 @@
   </data>
   <data name="SettingsFlyout_Settings_Behavior_TrendsRegion_ComboBox.Header" xml:space="preserve">
     <value>トレンドの地域</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Posting_CloseBottomAppBarAfterTweet_ToggleSwitch.Header" xml:space="preserve">
+    <value>ツイート後にツイート画面を閉じる</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Posting_ConvertPostingImage_ToggleSwitch.Header" xml:space="preserve">
+    <value>投稿画像が劣化しないように変換する</value>
   </data>
 </root>

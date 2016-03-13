@@ -243,22 +243,28 @@ namespace Flantter.MilkyWay.ViewModels
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "MainSetting" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
-
-            Services.Notice.Instance.ShowAppInfoCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AppInfo" };
-                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
-
+            
             Services.Notice.Instance.ShowBehaviorSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "BehaviorSetting" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
+            Services.Notice.Instance.ShowPostingSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "PostingSetting" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
             Services.Notice.Instance.ShowDisplaySettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "DisplaySetting" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+            Services.Notice.Instance.ShowAppInfoCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AppInfo" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
             #endregion

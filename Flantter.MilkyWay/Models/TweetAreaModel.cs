@@ -232,7 +232,7 @@ namespace Flantter.MilkyWay.Models
                     var picEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memoryStream);
                     var data = picDecoderPixels.DetachPixelData();
 
-                    if (SettingService.Setting.ConvertPostingImage)
+                    if (SettingService.Setting.ConvertPostingImage && data[3] >= 254)
                         data[3] = 254; // 左上1pixelの透明度情報を254に設定し,Twitter側の劣化に抗う
 
                     picEncoder.SetPixelData(picDecoder.BitmapPixelFormat, BitmapAlphaMode.Premultiplied, picDecoder.PixelWidth, picDecoder.PixelHeight, picDecoder.DpiX, picDecoder.DpiY, data);
@@ -298,7 +298,7 @@ namespace Flantter.MilkyWay.Models
                 var picEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memoryStream);
                 var data = picDecoderPixels.DetachPixelData();
                 
-                if (SettingService.Setting.ConvertPostingImage)
+                if (SettingService.Setting.ConvertPostingImage && data[3] >= 254)
                     data[3] = 254; // 左上1pixelの透明度情報を254に設定し,Twitter側の劣化に抗う
 
                 picEncoder.SetPixelData(picDecoder.BitmapPixelFormat, BitmapAlphaMode.Premultiplied, picDecoder.PixelWidth, picDecoder.PixelHeight, picDecoder.DpiX, picDecoder.DpiY, data);

@@ -36,7 +36,16 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="1">
-                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource SubtitleTextBlockStyle}" Text="Flantter" HorizontalAlignment="Center"/>
+                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource SubtitleTextBlockStyle}" HorizontalAlignment="Center">
+                        <Hyperlink>
+                            <Run Text="Flantter"/>
+                            <i:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Click">
+                                    <util:OpenLinkAction Uri="http://cucmber.net/flantter/"/>
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                        </Hyperlink>
+                    </TextBlock>
                     <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="Version 1.0.0" HorizontalAlignment="Center"/>
                     <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}" Text="Copyright (c) 2014-2016 cucmberium" HorizontalAlignment="Center"/>
                 </StackPanel>

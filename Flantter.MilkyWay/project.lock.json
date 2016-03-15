@@ -3,14 +3,6 @@
   "version": 1,
   "targets": {
     "UAP,Version=v10.0": {
-      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
-        "compile": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        }
-      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -1763,6 +1755,14 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "ToriatamaText/1.0.0": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        }
+      },
       "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
@@ -1773,14 +1773,6 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
-      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
-        "compile": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        }
-      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -3623,6 +3615,14 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "ToriatamaText/1.0.0": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        }
+      },
       "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
@@ -3633,14 +3633,6 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
-      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
-        "compile": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        }
-      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -5455,6 +5447,14 @@
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "ToriatamaText/1.0.0": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        }
+      },
       "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
@@ -5465,14 +5465,6 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
-      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
-        "compile": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        }
-      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -7320,6 +7312,14 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "ToriatamaText/1.0.0": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        }
+      },
       "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
@@ -7330,14 +7330,6 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
-      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
-        "compile": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        }
-      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -9152,6 +9144,14 @@
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "ToriatamaText/1.0.0": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        }
+      },
       "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
@@ -9162,14 +9162,6 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
-      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
-        "compile": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        }
-      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -11017,6 +11009,14 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "ToriatamaText/1.0.0": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        }
+      },
       "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
@@ -11027,14 +11027,6 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
-      "Azyobuzi.TwitterUrlExtractor/1.0.3": {
-        "compile": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll": {}
-        }
-      },
       "CommonServiceLocator/1.3.0": {
         "compile": {
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
@@ -12849,6 +12841,14 @@
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "ToriatamaText/1.0.0": {
+        "compile": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
+        }
+      },
       "WinRTXamlToolkit.UWP/2.0.0": {
         "compile": {
           "lib/uap10.0/WinRTXamlToolkit.dll": {}
@@ -12860,17 +12860,6 @@
     }
   },
   "libraries": {
-    "Azyobuzi.TwitterUrlExtractor/1.0.3": {
-      "sha512": "mGlaaoQ3GRdhmOkKLqZjzQNaTIKzujebvYV6F8XoQekP2vfx6fnk84GE+m7erUSFN10A4HGg9F1f/5KVYb7AqQ==",
-      "type": "Package",
-      "files": [
-        "[Content_Types].xml",
-        "_rels/.rels",
-        "Azyobuzi.TwitterUrlExtractor.nuspec",
-        "lib/portable-net45+win+wpa81+wp80/Azyobuzi.TwitterUrlExtractor.dll",
-        "package/services/metadata/core-properties/0a4f2e0eedd84bd0bd6bd9f6b94b4106.psmdcp"
-      ]
-    },
     "CommonServiceLocator/1.3.0": {
       "sha512": "fbjO0SNwbOFPdwVfyqv+B7gIJ2CVBOFPKqn1mDDECK7KER8jFaOdcvroFYoAHa0ktPbxi5s+15qOLnA96f8GSA==",
       "type": "Package",
@@ -16678,6 +16667,17 @@
         "System.Xml.XmlSerializer.nuspec"
       ]
     },
+    "ToriatamaText/1.0.0": {
+      "sha512": "Q3g0B7u0ILtyxCoSmHcbP4DP5xLkH2syiryu5r+EiXFDBbvcTCFiBOPFVXMbK2s6v1dQJzfOplChLVwvnbm9Cw==",
+      "type": "Package",
+      "files": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll",
+        "package/services/metadata/core-properties/029d0239c2e14e4eb695941a3287003c.psmdcp",
+        "ToriatamaText.nuspec"
+      ]
+    },
     "WinRTXamlToolkit.UWP/2.0.0": {
       "sha512": "aO7uISAWUNJojXOf36YpruZz1YPIC8l/vH5q5diPNaRpR8VuYRCOMw3tHq8VzaGj64w/a22bwVSon5elHAsj4Q==",
       "type": "Package",
@@ -17155,7 +17155,6 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "Azyobuzi.TwitterUrlExtractor >= 1.0.3",
       "CoreTweet >= 0.7.0-beta2",
       "Microsoft.ApplicationInsights >= 2.0.0-beta3",
       "Microsoft.ApplicationInsights.PersistenceChannel >= 2.0.0-beta3",
@@ -17173,6 +17172,7 @@
       "Rx-PlatformServices >= 2.3.0-beta2",
       "SharpDX.Direct2D1 >= 3.0.2",
       "SQLite.Net-PCL >= 3.1.1",
+      "ToriatamaText >= 1.0.0",
       "WinRTXamlToolkit.UWP >= 2.0.0"
     ],
     "UAP,Version=v10.0": []

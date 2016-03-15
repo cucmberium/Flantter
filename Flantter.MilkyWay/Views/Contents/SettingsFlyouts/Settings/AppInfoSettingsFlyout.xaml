@@ -53,7 +53,7 @@
             
             <controls:HorizontalBar/>
 
-            <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Margin="10,4,0,4" Text="License Info"/>
+            <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Margin="10,4,0,4" Text="Library Info"/>
             
             <controls:HorizontalBar/>
 
@@ -128,32 +128,35 @@
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
                 <Hyperlink>
-                    <Run Text="Azyobuzi.TwitterUrlExtractor"/>
+                    <Run Text="ToriatamaText"/>
                     <i:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Click">
-                            <util:OpenLinkAction Uri="https://github.com/azyobuzin/Azyobuzi.TwitterUrlExtractor"/>
+                            <util:OpenLinkAction Uri="https://github.com/azyobuzin/ToriatamaText"/>
                         </core:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
-                twitter-text<LineBreak/>
+                # twitter-text<LineBreak/>
                 Copyright 2014 Twitter, Inc and other contributors<LineBreak/><LineBreak/>
-                
+
                 Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0<LineBreak/><LineBreak/>
-                
-                Azyobuzi.TwitterUrlExtractorはtwitter-textのソースコードの一部とTLDリストを使用しています。<LineBreak/><LineBreak/>
-                
-                Azyobuzi.TwitterUrlExtractor<LineBreak/>
+
+                ToriatamaText は twitter-text と同様の動作を目指しているため、 twitter-text より以下のものを使用しています<LineBreak/><LineBreak/>
+
+                * 正規表現の一部<LineBreak/>
+                * TLD リスト<LineBreak/><LineBreak/>
+
+                # ToriatamaText<LineBreak/>
                 The MIT License (MIT)<LineBreak/><LineBreak/>
-                
+
                 Copyright (c) 2016 azyobuzin<LineBreak/><LineBreak/>
-                
+
                 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<LineBreak/><LineBreak/>
-                
+
                 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<LineBreak/><LineBreak/>
-                
-                THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+                THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<LineBreak/><LineBreak/>
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">

@@ -38,11 +38,11 @@ namespace Flantter.MilkyWay.Models
             this.State = "Accept";
             this.Message = _ResourceLoader.GetString("TweetArea_Message_AllSet");
 
-            this._Extractor = new Azyobuzi.TwitterUrlExtractor.Extractor();
+            this._Extractor = new ToriatamaText.Extractor();
         }
 
         private ResourceLoader _ResourceLoader;
-        private Azyobuzi.TwitterUrlExtractor.Extractor _Extractor = null;
+        private ToriatamaText.Extractor _Extractor = null;
         private bool _TextChanged = false;
 
         #region Text変更通知プロパティ
@@ -202,8 +202,8 @@ namespace Flantter.MilkyWay.Models
 
         public void CharacterCountChanged()
         {
-            var text = this._Text.Replace("\r\n", "\n").Normalize();
-            var result = this._Extractor.Extract(text);
+            var text = this._Text.Replace("\r\n", "\n");
+            var result = this._Extractor.ExtractUrls(text);
             var length = text.Count(x => !char.IsLowSurrogate(x)) - result.Sum(x => x.Length) + 23 * result.Count;
 
             if (this._IsQuotedRetweet)

@@ -1,6 +1,5 @@
 ﻿{
   "dependencies": {
-    "Azyobuzi.TwitterUrlExtractor": "1.0.3",
     "CoreTweet": "0.7.0-beta2",
     "Microsoft.ApplicationInsights": "2.0.0-beta3",
     "Microsoft.ApplicationInsights.PersistenceChannel": "2.0.0-beta3",
@@ -18,6 +17,7 @@
     "Rx-PlatformServices": "2.3.0-beta2",
     "SharpDX.Direct2D1": "3.0.2",
     "SQLite.Net-PCL": "3.1.1",
+    "ToriatamaText": "1.0.0",
     "WinRTXamlToolkit.UWP": "2.0.0"
   },
   "frameworks": {

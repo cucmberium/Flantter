@@ -1,5 +1,7 @@
 ﻿using Flantter.MilkyWay.ViewModels;
+using Flantter.MilkyWay.Views.Util;
 using Prism.Windows.Mvvm;
+using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,29 +45,32 @@ namespace Flantter.MilkyWay.Views
 
             Themes.ThemeService.Theme.PropertyChanged += Theme_PropertyChanged;
             Setting.SettingService.Setting.PropertyChanged += Setting_PropertyChanged;
+            WindowSizeHelper.Instance.PropertyChanged += WindowSizeHelper_PropertyChanged;
 
-            //Windows.UI.ViewManagement.UIViewSettings.GetForCurrentView().UserInteractionMode;
-
-            var applicationView = ApplicationView.GetForCurrentView();
-            
-            applicationView.TitleBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
-            applicationView.TitleBar.ForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
-            applicationView.TitleBar.InactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
-            applicationView.TitleBar.InactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
-
-            if (Setting.SettingService.Setting.ExtendTitleBar)
-            {
-                applicationView.TitleBar.ButtonBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
-                applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
-                applicationView.TitleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
-                applicationView.TitleBar.ButtonInactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
-            }
+            var titleBarVisiblity = false;
+            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                titleBarVisiblity = false;
+            else if (WindowSizeHelper.Instance.UserIntaractionMode == Util.UserInteractionMode.Mouse)
+                titleBarVisiblity = true;
             else
+                titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
+
+            this.UpdateTitleBar(titleBarVisiblity);
+        }
+
+        private void WindowSizeHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "UserIntaractionMode")
             {
-                applicationView.TitleBar.ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonBackgroundBrush"]).Color;
-                applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
-                applicationView.TitleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveBackgroundBrush"]).Color;
-                applicationView.TitleBar.ButtonInactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
+                var titleBarVisiblity = false;
+                if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                    titleBarVisiblity = false;
+                else if (WindowSizeHelper.Instance.UserIntaractionMode == Util.UserInteractionMode.Mouse)
+                    titleBarVisiblity = true;
+                else
+                    titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
+
+                this.UpdateTitleBar(titleBarVisiblity);
             }
         }
 
@@ -73,34 +78,36 @@ namespace Flantter.MilkyWay.Views
         {
             if (e.PropertyName == "ExtendTitleBar")
             {
-                var applicationView = ApplicationView.GetForCurrentView();
-
-                if (Setting.SettingService.Setting.ExtendTitleBar)
-                {
-                    applicationView.TitleBar.ButtonBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
-                    applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
-                    applicationView.TitleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
-                    applicationView.TitleBar.ButtonInactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
-                }
+                var titleBarVisiblity = false;
+                if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                    titleBarVisiblity = false;
+                else if (WindowSizeHelper.Instance.UserIntaractionMode == Util.UserInteractionMode.Mouse)
+                    titleBarVisiblity = true;
                 else
-                {
-                    applicationView.TitleBar.ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonBackgroundBrush"]).Color;
-                    applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
-                    applicationView.TitleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveBackgroundBrush"]).Color;
-                    applicationView.TitleBar.ButtonInactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
-                }
+                    titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
+
+                this.UpdateTitleBar(titleBarVisiblity);
             }
         }
 
         private void Theme_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var applicationView = ApplicationView.GetForCurrentView();
-            applicationView.TitleBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
-            applicationView.TitleBar.ForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
-            applicationView.TitleBar.InactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
-            applicationView.TitleBar.InactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarForegroundBrush"]).Color;
+            var titleBarVisiblity = false;
+            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                titleBarVisiblity = false;
+            else if (WindowSizeHelper.Instance.UserIntaractionMode == Util.UserInteractionMode.Mouse)
+                titleBarVisiblity = true;
+            else
+                titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
 
-            if (Setting.SettingService.Setting.ExtendTitleBar)
+            this.UpdateTitleBar(titleBarVisiblity);
+        }
+
+        private void UpdateTitleBar(bool isVisible)
+        {
+            var applicationView = ApplicationView.GetForCurrentView();
+
+            if (isVisible)
             {
                 applicationView.TitleBar.ButtonBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
                 applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;

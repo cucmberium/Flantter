@@ -60,6 +60,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         }
         
         public ReactiveProperty<int> ColumnCount { get; private set; }
+
         public ReactiveProperty<double> ColumnWidth { get; private set; }
         public ReactiveProperty<double> ColumnHeight { get; private set; }
     }

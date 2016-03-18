@@ -520,9 +520,6 @@
   <data name="SettingsFlyout_Settings_Behavior_DoubleTappedAction_ComboBox.Header" xml:space="preserve">
     <value>ツイートダブルタップ時の動作</value>
   </data>
-  <data name="SettingsFlyout_Settings_Behavior_ExtendTitleBar_ToggleSwitch.Header" xml:space="preserve">
-    <value>タイトルバーを描画する</value>
-  </data>
   <data name="SettingsFlyout_Settings_Behavior_FavoriteConfirmation_ToggleSwitch.Header" xml:space="preserve">
     <value>お気に入り追加の確認</value>
   </data>
@@ -546,5 +543,8 @@
   </data>
   <data name="SettingsFlyout_Settings_Posting_ConvertPostingImage_ToggleSwitch.Header" xml:space="preserve">
     <value>投稿画像が劣化しないように変換する</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_ExtendTitleBar_ToggleSwitch.Header" xml:space="preserve">
+    <value>タブレットモード時にタイトルバーを表示する</value>
   </data>
 </root>

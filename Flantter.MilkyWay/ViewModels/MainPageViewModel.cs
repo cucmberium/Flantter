@@ -52,7 +52,16 @@ namespace Flantter.MilkyWay.ViewModels
             this._MainPageModel = MainPageModel.Instance;
 
             // 設定によってTitlebarの表示を変える
-            this.TitleBarVisivility = SettingService.Setting.ObserveProperty(x => x.ExtendTitleBar).Select(x => x && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile").ToReactiveProperty();
+            this.TitleBarVisivility = Observable.CombineLatest<bool, UserInteractionMode, bool>(SettingService.Setting.ObserveProperty(x => x.ExtendTitleBar), WindowSizeHelper.Instance.ObserveProperty(x => x.UserIntaractionMode),
+                (titleBarSetting, userIntaractionMode) =>
+                {
+                    if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                        return false;
+                    else if (userIntaractionMode == UserInteractionMode.Mouse)
+                        return true;
+                    else
+                        return titleBarSetting;
+                }).ToReactiveProperty();
 
             this.AppBarIsOpen = new ReactiveProperty<bool>(false);
             this.AppBarIsOpen.Subscribe<bool>(async isOpen => 

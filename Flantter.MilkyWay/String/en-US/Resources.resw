@@ -521,7 +521,7 @@
     <value>Action when double tapping</value>
   </data>
   <data name="SettingsFlyout_Settings_Behavior_ExtendTitleBar_ToggleSwitch.Header" xml:space="preserve">
-    <value>Extend title bar</value>
+    <value>Extend title bar in tablet mode</value>
   </data>
   <data name="SettingsFlyout_Settings_Behavior_FavoriteConfirmation_ToggleSwitch.Header" xml:space="preserve">
     <value>Favorite confirmation</value>

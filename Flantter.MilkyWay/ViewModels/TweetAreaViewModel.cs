@@ -16,6 +16,7 @@ using Windows.Storage.Streams;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using System.Reactive.Concurrency;
+using Flantter.MilkyWay.Setting;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -24,6 +25,7 @@ namespace Flantter.MilkyWay.ViewModels
         public MainPageModel _MainPageModel { get; set; }
         public TweetAreaModel _TweetAreaModel { get; set; }
         public Services.Notice Notice { get; set; }
+        public Setting.SettingService Setting { get; set; }
 
         public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; private set; }
 
@@ -98,6 +100,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.IsReply = this._TweetAreaModel.ObserveProperty(x => x.IsReply).ToReactiveProperty();
 
             this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
 
             this.ShowFilePickerMessenger = new Messenger();
             this.SuggestionMessenger = new Messenger();
@@ -139,7 +142,7 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 await this._TweetAreaModel.Tweet(this.SelectedAccount.Value._AccountModel);
                 
-                if (Setting.SettingService.Setting.CloseBottomAppBarAfterTweet)
+                if (SettingService.Setting.CloseBottomAppBarAfterTweet)
                 {
                     Services.Notice.Instance.TweetAreaOpenCommand.Execute(false);
                 }

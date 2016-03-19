@@ -226,18 +226,6 @@ namespace Flantter.MilkyWay.Setting
         public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ConvertPostingImage { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
 
-        // 通知設定
-        public bool FavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool UnfavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool FollowNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool RetweetNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool MentionNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool DirectMessageNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool SystemNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool StreamNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool AchievementNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool NotificationSound { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public SettingSupport.TileNotificationEnum TileNotification { get { return (SettingSupport.TileNotificationEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
 
         // 表示設定
         public SettingSupport.ThemeEnum Theme { get { return (SettingSupport.ThemeEnum)GetValue(1); } set { SetValue((int)value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
@@ -256,17 +244,31 @@ namespace Flantter.MilkyWay.Setting
         [LocalValue]
         public bool UseBackgroundImage { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); OnPropertyChanged("BackgroundImagePath"); } }
         [LocalValue]
-        public string BackgroundImagePath 
-        { 
-            get 
+        public string BackgroundImagePath
+        {
+            get
             {
                 if (UseBackgroundImage)
                     return GetValue(string.Empty);
-                else 
+                else
                     return string.Empty;
-            } 
-            set { SetValue(value); OnPropertyChanged(); } }
-        
+            }
+            set { SetValue(value); OnPropertyChanged(); }
+        }
+
+        // 通知設定
+        public bool FavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool UnfavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool FollowNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool RetweetNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool MentionNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool DirectMessageNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool SystemNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool StreamNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool AchievementNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool NotificationSound { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public SettingSupport.TileNotificationEnum TileNotification { get { return (SettingSupport.TileNotificationEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
+                
         // Mute設定
         public string MuteFilter { get { return GetValue("(False)"); } set { SetValue(value); OnPropertyChanged(); } }
 

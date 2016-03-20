@@ -24,12 +24,15 @@ using Windows.System;
 using Windows.Storage;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Views.Behaviors;
+using Windows.Storage.Pickers;
 
 namespace Flantter.MilkyWay.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
         public MainPageModel _MainPageModel { get; set; }
+
+        public SettingService Setting { get; set; }
 
         public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; private set; }
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
@@ -50,6 +53,7 @@ namespace Flantter.MilkyWay.ViewModels
         public MainPageViewModel()
         {
             this._MainPageModel = MainPageModel.Instance;
+            this.Setting = SettingService.Setting;
 
             // 設定によってTitlebarの表示を変える
             this.TitleBarVisivility = Observable.CombineLatest<bool, UserInteractionMode, bool>(SettingService.Setting.ObserveProperty(x => x.ExtendTitleBar), WindowSizeHelper.Instance.ObserveProperty(x => x.UserIntaractionMode),
@@ -276,6 +280,34 @@ namespace Flantter.MilkyWay.ViewModels
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AppInfo" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
+
+            Services.Notice.Instance.ChangeBackgroundImageCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var picture = new FileOpenPicker();
+                picture.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                picture.ViewMode = PickerViewMode.Thumbnail;
+                picture.FileTypeFilter.Clear();
+                picture.FileTypeFilter.Add(".bmp");
+                picture.FileTypeFilter.Add(".png");
+                picture.FileTypeFilter.Add(".jpeg");
+                picture.FileTypeFilter.Add(".jpg");
+
+                StorageFile file = await picture.PickSingleFileAsync();
+                if (file == null)
+                    return;
+
+                SettingService.Setting.BackgroundImagePath = "";
+
+                try
+                {
+                    await file.CopyAsync(ApplicationData.Current.LocalFolder, "background_image" + file.FileType, NameCollisionOption.ReplaceExisting);
+                    SettingService.Setting.BackgroundImagePath = "ms-appdata:///local/" + "background_image" + file.FileType;
+                }
+                catch
+                {
+                }
+            });
+            
             #endregion
         }
         #endregion

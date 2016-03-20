@@ -547,4 +547,46 @@
   <data name="SettingsFlyout_Settings_Behavior_ExtendTitleBar_ToggleSwitch.Header" xml:space="preserve">
     <value>タブレットモード時にタイトルバーを表示する</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_Browse_Button.Content" xml:space="preserve">
+    <value>参照</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_ColumnBackgroundBrushAlpha_Slider.Header" xml:space="preserve">
+    <value>カラムの背景の透明度</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_DisableStreamingScroll_ToggleSwitch.Header" xml:space="preserve">
+    <value>ストリーミングのスクロールを無効化</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_FontSize_Slider.Header" xml:space="preserve">
+    <value>文字の大きさ</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_IconSize_ComboBox.Header" xml:space="preserve">
+    <value>アイコンサイズ</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_MaxColumnCount_Slider.Header" xml:space="preserve">
+    <value>表示するカラムの最大数</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_MinColumnSize_Slider.Header" xml:space="preserve">
+    <value>カラムの最小サイズ</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_Theme_ComboBox.Header" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetAnimation_ComboBox.Header" xml:space="preserve">
+    <value>スクロールアニメーション</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetAreaFontSize_Slider.Header" xml:space="preserve">
+    <value>投稿画面の文字サイズ</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetBackgroundBrushAlpha_Slider.Header" xml:space="preserve">
+    <value>ツイートの背景の透明度</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetCommandBarHeight_Slider.Header" xml:space="preserve">
+    <value>ツイート操作ボタンの大きさ</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetMediaThumbnailSize_ToggleSwitch.Header" xml:space="preserve">
+    <value>サムネイルの表示サイズ</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_UseBackgroundImage_ToggleSwitch.Header" xml:space="preserve">
+    <value>背景画像を表示</value>
+  </data>
 </root>

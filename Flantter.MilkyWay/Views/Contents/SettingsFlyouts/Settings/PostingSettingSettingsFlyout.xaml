@@ -29,11 +29,11 @@
     <ScrollViewer Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Auto">
         <StackPanel>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_CloseBottomAppBarAfterTweet_ToggleSwitch" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.CloseBottomAppBarAfterTweet, Mode=TwoWay}" Header="ツイート後にツイート画面を閉じる"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_CloseBottomAppBarAfterTweet_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.CloseBottomAppBarAfterTweet, Mode=TwoWay}" Header="ツイート後にツイート画面を閉じる"/>
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_ConvertPostingImage_ToggleSwitch" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ConvertPostingImage, Mode=TwoWay}" Header="投稿画像が劣化しないように変換する"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_ConvertPostingImage_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ConvertPostingImage, Mode=TwoWay}" Header="投稿画像が劣化しないように変換する"/>
 
             <controls:HorizontalBar/>
 

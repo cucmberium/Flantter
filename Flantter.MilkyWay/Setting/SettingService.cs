@@ -234,7 +234,7 @@ namespace Flantter.MilkyWay.Setting
         public double TweetBackgroundBrushAlpha { get { return GetValue(10.0); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeBackgroundAlpha(); } }
         public double MinColumnSize { get { return GetValue(336.0); } set { SetValue(value); OnPropertyChanged(); } }
         public int MaxColumnCount { get { return GetValue(2); } set { SetValue(value); OnPropertyChanged(); } }
-        public double TweetPostFieldFontSize { get { return GetValue(14.5); } set { SetValue(value); OnPropertyChanged(); } }
+        public double TweetAreaFontSize { get { return GetValue(14.5); } set { SetValue(value); OnPropertyChanged(); } }
         public double TweetCommandBarHeight { get { return GetValue(40.0); } set { SetValue(value); OnPropertyChanged(); } }
         public SettingSupport.SizeEnum IconSize { get { return (SettingSupport.SizeEnum)GetValue(45); } set { SetValue((int)value); OnPropertyChanged(); } }
         public SettingSupport.TweetAnimationEnum TweetAnimation { get { return (SettingSupport.TweetAnimationEnum)GetValue(3); } set { SetValue((int)value); OnPropertyChanged(); } }

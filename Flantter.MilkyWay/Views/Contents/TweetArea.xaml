@@ -92,7 +92,7 @@
                 </Button.Flyout>
             </Button>
 
-            <controls:ExtendedTextBox x:Name="BottomAppBar_TextBox" Style="{StaticResource ExtendedTextBoxStyle}" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" CursorPosition="{Binding TweetArea.SelectionStart.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Text="{Binding TweetArea.Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{x:Bind ViewModel.Setting.TweetPostFieldFontSize, Mode=OneWay}">
+            <controls:ExtendedTextBox x:Name="BottomAppBar_TextBox" Style="{StaticResource ExtendedTextBoxStyle}" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" CursorPosition="{Binding TweetArea.SelectionStart.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Text="{Binding TweetArea.Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{x:Bind ViewModel.Setting.TweetAreaFontSize, Mode=OneWay}">
                 <i:Interaction.Behaviors>
                     <behaviors:TextBoxKeyTriggerBehavior>
                         <util:KeyTrigger Key="Enter" Modifiers="Control">

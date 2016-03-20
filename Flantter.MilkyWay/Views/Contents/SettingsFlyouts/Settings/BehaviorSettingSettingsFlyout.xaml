@@ -29,39 +29,39 @@
     <ScrollViewer Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Auto">
         <StackPanel>
 
-            <ComboBox x:Uid="SettingsFlyout_Settings_Behavior_DoubleTappedAction_ComboBox" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイートダブルタップ時の動作" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=DoubleTappedEventListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.DoubleTappedAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ComboBox x:Uid="SettingsFlyout_Settings_Behavior_DoubleTappedAction_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイートダブルタップ時の動作" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=DoubleTappedEventListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.DoubleTappedAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <controls:HorizontalBar/>
 
-            <ComboBox x:Uid="SettingsFlyout_Settings_Behavior_TrendsRegion_ComboBox" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="トレンドの地域" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=TrendsRegionListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.TrendsRegion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ComboBox x:Uid="SettingsFlyout_Settings_Behavior_TrendsRegion_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="トレンドの地域" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=TrendsRegionListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.TrendsRegion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_RetweetConfirmation_ToggleSwitch" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RetweetConfirmation, Mode=TwoWay}" Header="リツイートを確認する"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_RetweetConfirmation_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RetweetConfirmation, Mode=TwoWay}" Header="リツイートを確認する"/>
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_FavoriteConfirmation_ToggleSwitch" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.FavoriteConfirmation, Mode=TwoWay}" Header="お気に入り登録を確認する"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_FavoriteConfirmation_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.FavoriteConfirmation, Mode=TwoWay}" Header="お気に入り登録を確認する"/>
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_ExtendTitleBar_ToggleSwitch" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ExtendTitleBar, Mode=TwoWay}" Header="タイトルバーに機能を追加する"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_ExtendTitleBar_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ExtendTitleBar, Mode=TwoWay}" Header="タイトルバーに機能を追加する"/>
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_ShowRetweetInMentionColumn_ToggleSwitch" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ShowRetweetInMentionColumn, Mode=TwoWay}" Header="自分に関係するリツイートをメンションカラムに表示"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_ShowRetweetInMentionColumn_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ShowRetweetInMentionColumn, Mode=TwoWay}" Header="自分に関係するリツイートをメンションカラムに表示"/>
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_RemoveRetweetAlreadyReceive_ToggleSwitch" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RemoveRetweetAlreadyReceive, Mode=TwoWay}" Header="一度表示したリツイートを表示しない"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_RemoveRetweetAlreadyReceive_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RemoveRetweetAlreadyReceive, Mode=TwoWay}" Header="一度表示したリツイートを表示しない"/>
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_BottomBarSearchBoxEnabled_ToggleSwitch" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.BottomBarSearchBoxEnabled, Mode=TwoWay}" Header="下部の検索ボックスを有効化"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_BottomBarSearchBoxEnabled_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.BottomBarSearchBoxEnabled, Mode=TwoWay}" Header="下部の検索ボックスを有効化"/>
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_PreventForcedTermination_ToggleSwitch" Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.PreventForcedTermination, Mode=TwoWay}" Header="エラー発生時にアプリを終了しない"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_PreventForcedTermination_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.PreventForcedTermination, Mode=TwoWay}" Header="エラー発生時にアプリを終了しない"/>
 
             <controls:HorizontalBar/>
 

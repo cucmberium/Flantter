@@ -547,4 +547,46 @@
   <data name="SettingsFlyout_Settings_Posting_ConvertPostingImage_ToggleSwitch.Header" xml:space="preserve">
     <value>Convert posting image for prevent deterioration</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_Browse_Button.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_ColumnBackgroundBrushAlpha_Slider.Header" xml:space="preserve">
+    <value>Column background transparency</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_DisableStreamingScroll_ToggleSwitch.Header" xml:space="preserve">
+    <value>Disable streaming scroll</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_FontSize_Slider.Header" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_IconSize_ComboBox.Header" xml:space="preserve">
+    <value>Icon size</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_MaxColumnCount_Slider.Header" xml:space="preserve">
+    <value>Max column count</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_MinColumnSize_Slider.Header" xml:space="preserve">
+    <value>Min column size</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_Theme_ComboBox.Header" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetAnimation_ComboBox.Header" xml:space="preserve">
+    <value>Scroll animation</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetAreaFontSize_Slider.Header" xml:space="preserve">
+    <value>Tweet area font size</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetBackgroundBrushAlpha_Slider.Header" xml:space="preserve">
+    <value>Tweet background transparency</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetCommandBarHeight_Slider.Header" xml:space="preserve">
+    <value>Tweet command bar height</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetMediaThumbnailSize_ToggleSwitch.Header" xml:space="preserve">
+    <value>Thumbnail size</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_UseBackgroundImage_ToggleSwitch.Header" xml:space="preserve">
+    <value>Use background image</value>
+  </data>
 </root>

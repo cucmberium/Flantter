@@ -66,6 +66,8 @@
             
         </Grid>
 
+        <Image Grid.Row="1" Source="{Binding Setting.BackgroundImagePath, Mode=OneWay}" Stretch="UniformToFill"/>
+        
         <ItemsControl Grid.Row="1" ItemsSource="{x:Bind ViewModel.Accounts}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

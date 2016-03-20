@@ -41,6 +41,32 @@
     <SolidColorBrush x:Key="ToggleSwitchSwitchKnobOnFillThemeBrush" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="ToggleSwitchSwitchKnobOffFillThemeBrush" Color="#CCFFFFFF" />
 
+    <SolidColorBrush x:Key="SliderBackgroundThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="SliderPressedHorizontalThumbBackgroundThemeBrush" Color="#FF767676" />
+    <SolidColorBrush x:Key="SliderPressedVerticalThumbBackgroundThemeBrush" Color="#FF767676" />
+    <SolidColorBrush x:Key="SliderDisabledHeaderContentPresenterForegroundThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="SliderDisabledHorizontalDecreaseRectFillThemeBrush" Color="#FF333333" />
+    <SolidColorBrush x:Key="SliderDisabledHorizontalTrackRectFillThemeBrush" Color="#FF333333" />
+    <SolidColorBrush x:Key="SliderDisabledVerticalDecreaseRectFillThemeBrush" Color="#FF333333" />
+    <SolidColorBrush x:Key="SliderDisabledVerticalTrackRectFillThemeBrush" Color="#FF333333" />
+    <SolidColorBrush x:Key="SliderDisabledHorizontalThumbBackgroundThemeBrush" Color="#FF333333" />
+    <SolidColorBrush x:Key="SliderDisabledVerticalThumbBackgroundThemeBrush" Color="#FF333333" />
+    <SolidColorBrush x:Key="SliderDisabledTopTickBarFillThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="SliderDisabledBottomTickBarFillThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="SliderDisabledLeftTickBarFillThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="SliderDisabledRightTickBarFillThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="SliderPointerOverHorizontalTrackRectFillThemeBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="SliderPointerOverVerticalTrackRectFillThemeBrush" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="SliderPointerOverHorizontalThumbBackgroundThemeBrush" Color="#FFF2F2F2" />
+    <SolidColorBrush x:Key="SliderPointerOverVerticalThumbBackgroundThemeBrush" Color="#FFF2F2F2" />
+    <SolidColorBrush x:Key="SliderHeaderContentPresenterForegroundThemeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="SliderTopTickBarFillThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="SliderHorizontalInlineTickBarFillThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="SliderBottomTickBarFillThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="SliderLeftTickBarFillThemeBrush" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="SliderVerticalInlineTickBarFillThemeBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="SliderRightTickBarFillThemeBrush" Color="#66FFFFFF" />
+
     <SolidColorBrush x:Key="FlyoutBackgroundThemeBrush" Color="#FF2B2B2B"/>
     <SolidColorBrush x:Key="FlyoutBorderThemeBrush" Color="White"/>
     <SolidColorBrush x:Key="MenuFlyoutSeparatorBackgroundThemeBrush" Color="#66FFFFFF" />

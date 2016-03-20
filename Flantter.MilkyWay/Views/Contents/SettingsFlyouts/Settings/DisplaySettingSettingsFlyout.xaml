@@ -29,7 +29,58 @@
     <ScrollViewer Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Auto">
         <StackPanel>
 
-            <ComboBox Margin="5,10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="テーマ" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=ThemeListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.Theme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ComboBox x:Uid="SettingsFlyout_Settings_Display_Theme_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="テーマ" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=ThemeListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.Theme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <controls:HorizontalBar/>
+
+            <Slider x:Uid="SettingsFlyout_Settings_Display_FontSize_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="文字の大きさ" Maximum="25" Minimum="10" LargeChange="3" StepFrequency="0.5" SmallChange="0.5" Value="{Binding Source={StaticResource Setting}, Path=Setting.FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <controls:HorizontalBar/>
+
+            <Grid Margin="10" >
+                <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_UseBackgroundImage_ToggleSwitch" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.UseBackgroundImage, Mode=TwoWay}" Header="背景画像を表示"/>
+                <Button x:Uid="SettingsFlyout_Settings_Display_Browse_Button" Command="{Binding Source={StaticResource Notice},Path=Notice.ChangeBackgroundImageCommand}" Content="参照" Width="60" Background="#FF21A4E4" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" />
+            </Grid>
+            
+            <controls:HorizontalBar/>
+
+            <Slider x:Uid="SettingsFlyout_Settings_Display_ColumnBackgroundBrushAlpha_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="カラムの背景の透明度" Maximum="255" Minimum="0" LargeChange="10" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.ColumnBackgroundBrushAlpha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <controls:HorizontalBar/>
+
+            <Slider x:Uid="SettingsFlyout_Settings_Display_TweetBackgroundBrushAlpha_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイートの背景の透明度" Maximum="64" Minimum="0" LargeChange="10" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.TweetBackgroundBrushAlpha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <controls:HorizontalBar/>
+
+            <Slider x:Uid="SettingsFlyout_Settings_Display_MinColumnSize_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="カラムの最小サイズ" Maximum="1920" Minimum="336" LargeChange="10" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.MinColumnSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <controls:HorizontalBar/>
+
+            <Slider x:Uid="SettingsFlyout_Settings_Display_MaxColumnCount_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="表示するカラムの最大数" Maximum="5" Minimum="1" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.MaxColumnCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <controls:HorizontalBar/>
+
+            <Slider x:Uid="SettingsFlyout_Settings_Display_TweetAreaFontSize_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="投稿画面の文字サイズ" Maximum="24" Minimum="12" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.TweetAreaFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <controls:HorizontalBar/>
+
+            <Slider x:Uid="SettingsFlyout_Settings_Display_TweetCommandBarHeight_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイート操作ボタンの大きさ" Maximum="50" Minimum="35" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.TweetCommandBarHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <controls:HorizontalBar/>
+
+            <ComboBox x:Uid="SettingsFlyout_Settings_Display_IconSize_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="アイコンサイズ" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=SizeListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.IconSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <controls:HorizontalBar/>
+
+            <ComboBox x:Uid="SettingsFlyout_Settings_Display_TweetAnimation_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="スクロールアニメーション" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=TweetAnimationListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.TweetAnimation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <controls:HorizontalBar/>
+
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_DisableStreamingScroll_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.DisableStreamingScroll, Mode=TwoWay}" Header="ストリーミングのスクロールを無効化"/>
+
+            <controls:HorizontalBar/>
+
+            <Slider x:Uid="SettingsFlyout_Settings_Display_TweetMediaThumbnailSize_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="サムネイルの表示サイズ" Maximum="150" Minimum="100" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.TweetMediaThumbnailSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <controls:HorizontalBar/>
 

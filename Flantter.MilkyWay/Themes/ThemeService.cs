@@ -134,6 +134,31 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobBoundsStrokeThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchSwitchKnobBoundsStrokeThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobOnFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchSwitchKnobOnFillThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobOffFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["ToggleSwitchSwitchKnobOffFillThemeBrush"]).Color;
+                
+                ((SolidColorBrush)Application.Current.Resources["SliderBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderPressedHorizontalThumbBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderPressedHorizontalThumbBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledHeaderContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledHeaderContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledHorizontalDecreaseRectFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledHorizontalDecreaseRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledHorizontalTrackRectFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledHorizontalTrackRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledVerticalDecreaseRectFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledVerticalDecreaseRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledVerticalTrackRectFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledVerticalTrackRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledHorizontalThumbBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledHorizontalThumbBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledVerticalThumbBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledVerticalThumbBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledTopTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledTopTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledBottomTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledBottomTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledLeftTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledLeftTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledRightTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderDisabledRightTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderPointerOverHorizontalTrackRectFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderPointerOverHorizontalTrackRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderPointerOverVerticalTrackRectFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderPointerOverVerticalTrackRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderPointerOverHorizontalThumbBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderPointerOverHorizontalThumbBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderPointerOverVerticalThumbBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderPointerOverVerticalThumbBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderHeaderContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderHeaderContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderTopTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderTopTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderHorizontalInlineTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderHorizontalInlineTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderBottomTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderBottomTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderLeftTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderLeftTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderVerticalInlineTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderVerticalInlineTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderRightTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["SliderRightTickBarFillThemeBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["FlyoutBackgroundThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["FlyoutBackgroundThemeBrush"]).Color;
 				((SolidColorBrush)Application.Current.Resources["FlyoutBorderThemeBrush"]).Color = ((SolidColorBrush)_ResourceDictionary["FlyoutBorderThemeBrush"]).Color;
@@ -407,6 +432,31 @@ namespace Flantter.MilkyWay.Themes
                 ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobBoundsStrokeThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchSwitchKnobBoundsStrokeThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobOnFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchSwitchKnobOnFillThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["ToggleSwitchSwitchKnobOffFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["ToggleSwitchSwitchKnobOffFillThemeBrush"]).Color;
+
+                ((SolidColorBrush)Application.Current.Resources["SliderBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderPressedHorizontalThumbBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderPressedHorizontalThumbBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledHeaderContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledHeaderContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledHorizontalDecreaseRectFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledHorizontalDecreaseRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledHorizontalTrackRectFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledHorizontalTrackRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledVerticalDecreaseRectFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledVerticalDecreaseRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledVerticalTrackRectFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledVerticalTrackRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledHorizontalThumbBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledHorizontalThumbBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledVerticalThumbBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledVerticalThumbBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledTopTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledTopTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledBottomTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledBottomTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledLeftTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledLeftTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderDisabledRightTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderDisabledRightTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderPointerOverHorizontalTrackRectFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderPointerOverHorizontalTrackRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderPointerOverVerticalTrackRectFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderPointerOverVerticalTrackRectFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderPointerOverHorizontalThumbBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderPointerOverHorizontalThumbBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderPointerOverVerticalThumbBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderPointerOverVerticalThumbBackgroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderHeaderContentPresenterForegroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderHeaderContentPresenterForegroundThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderTopTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderTopTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderHorizontalInlineTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderHorizontalInlineTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderBottomTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderBottomTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderLeftTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderLeftTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderVerticalInlineTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderVerticalInlineTickBarFillThemeBrush"]).Color;
+                ((SolidColorBrush)Application.Current.Resources["SliderRightTickBarFillThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["SliderRightTickBarFillThemeBrush"]).Color;
 
                 ((SolidColorBrush)Application.Current.Resources["FlyoutBackgroundThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["FlyoutBackgroundThemeBrush"]).Color;
                 ((SolidColorBrush)Application.Current.Resources["FlyoutBorderThemeBrush"]).Color = ((SolidColorBrush)_DefaultResourceDictionary["FlyoutBorderThemeBrush"]).Color;

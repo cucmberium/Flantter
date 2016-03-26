@@ -360,9 +360,6 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
-      <Name>Behaviors SDK %28XAML%29</Name>
-    </SDKReference>
     <SDKReference Include="Microsoft.NET.Native.Runtime.1.1, Version=1.1">
       <Name>Microsoft .NET Core Runtime Package for Windows</Name>
     </SDKReference>

@@ -122,7 +122,7 @@ namespace Flantter.MilkyWay.Views.Contents
             this.ImagePreviewProgressRing.Visibility = Visibility.Visible;
             this.ImagePreviewProgressRing.IsActive = true;
             this.ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
-            this.ImagePreviewImage.Opacity = 0;
+            this.ImagePreviewImage.Visibility = Visibility.Collapsed;
             // こっちのほうが画像がキャッシュされるような気がする(気のせい)
             this.ImagePreviewImage.Source = (ImageSource)Windows.UI.Xaml.Markup.XamlBindingHelper.ConvertValue(typeof(ImageSource), this.Images[this.ImageIndex].MediaUrl);
             imageOpened = false;
@@ -218,11 +218,11 @@ namespace Flantter.MilkyWay.Views.Contents
             this.ImagePreviewProgressRing.Visibility = Visibility.Collapsed;
             this.ImagePreviewProgressRing.IsActive = false;
             this.ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
-            this.ImagePreviewImage.Opacity = 0;
+            this.ImagePreviewImage.Visibility = Visibility.Collapsed;
 
             this.ImageInitialize();
 
-            this.ImagePreviewImage.Opacity = 1;
+            this.ImagePreviewImage.Visibility = Visibility.Visible;
         }
 
         private void ImagePreviewImage_ImageFailed(object sender, ExceptionRoutedEventArgs e)
@@ -230,7 +230,7 @@ namespace Flantter.MilkyWay.Views.Contents
             this.ImagePreviewProgressRing.Visibility = Visibility.Collapsed;
             this.ImagePreviewProgressRing.IsActive = false;
             this.ImagePreviewSymbolIcon.Visibility = Visibility.Visible;
-            this.ImagePreviewImage.Opacity = 0;
+            this.ImagePreviewImage.Visibility = Visibility.Collapsed;
         }
 
         private void ImagePreviewGrid_PointerWheelChanged(object sender, PointerRoutedEventArgs e)

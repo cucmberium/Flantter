@@ -220,7 +220,7 @@ namespace Flantter.MilkyWay.Setting
         public bool RemoveRetweetAlreadyReceive { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } } // Todo : 実装
+        public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
 
         // 投稿設定
         public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
@@ -258,13 +258,13 @@ namespace Flantter.MilkyWay.Setting
 
         // 通知設定
         public bool FavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool UnfavoriteNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool UnfavoriteNotification { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool FollowNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool RetweetNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool MentionNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool DirectMessageNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool QuotedTweetNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool SystemNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool StreamNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool AchievementNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool NotificationSound { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public SettingSupport.TileNotificationEnum TileNotification { get { return (SettingSupport.TileNotificationEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }

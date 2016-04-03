@@ -84,15 +84,15 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="2" ToolTipService.ToolTip="UserProfile" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}">
+            <Button Grid.Column="2" Width="60" ToolTipService.ToolTip="UserProfile" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="ContactInfo" />
             </Button>
 
-            <Button Grid.Column="1" ToolTipService.ToolTip="Reply" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}">
+            <Button Grid.Column="1" Width="60" ToolTipService.ToolTip="Reply" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarReplySymbolIconForegroundBrush}" Symbol="Message"/>
             </Button>
-            
-            <Button Grid.Column="0" ToolTipService.ToolTip="Menu" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch">
+
+            <Button Grid.Column="0" Width="60" ToolTipService.ToolTip="Menu" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="Add" />
                 <Button.Flyout>
                     <MenuFlyout>

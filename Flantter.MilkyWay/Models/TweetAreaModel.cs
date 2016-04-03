@@ -262,8 +262,6 @@ namespace Flantter.MilkyWay.Models
 
         public async Task AddPictureFromClipboard()
         {
-            // Todo : UIスレッド上で走っているかの確認
-
             try
             {
                 var clipboardContent = Clipboard.GetContent();
@@ -408,14 +406,14 @@ namespace Flantter.MilkyWay.Models
             }
             catch (TwitterException ex)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
                 return;
             }
             catch (Exception ex)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
                 return;

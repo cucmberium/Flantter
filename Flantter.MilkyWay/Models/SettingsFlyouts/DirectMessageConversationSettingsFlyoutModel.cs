@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
@@ -162,11 +163,17 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 directMessageResponse = await this.Tokens.DirectMessages.NewAsync(text => this._Text, screen_name => this._ScreenName);
             }
-            catch
+            catch (TwitterException ex)
             {
                 this.SendingDirectMessage = false;
-                
-                // Todo : 通知
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                this.SendingDirectMessage = false;
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                return;
             }
 
             var directMessage = new Twitter.Objects.DirectMessage(directMessageResponse);

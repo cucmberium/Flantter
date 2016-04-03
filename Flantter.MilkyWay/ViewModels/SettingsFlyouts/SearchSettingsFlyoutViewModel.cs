@@ -10,6 +10,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.ApplicationModel.Search.Core;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
@@ -205,7 +206,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.SaveSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
                 if (string.IsNullOrWhiteSpace(this.Model.StatusSearchWords))
-                    return; // Todo : ダイアログかなにかを出す
+                    return;
 
                 await this.Model.CreateSavedSearches(this.Model.StatusSearchWords);
             });
@@ -273,8 +274,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 if (searchQuery == null || searchQuery.Model.Id == 0)
                     return;
 
-                // Todo : 確認ダイアログ
-
                 await this.Model.DestroySavedSearches(searchQuery.Model.Id);
             });
 
@@ -294,12 +293,20 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.AdvancedSearchEngagementCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ => this.AdvancedSearchEngagementOpen.Value = !this.AdvancedSearchEngagementOpen.Value);
 
             this.AddColumnCommand = new ReactiveCommand();
-            this.AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            this.AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 if (string.IsNullOrWhiteSpace(this.Model.StatusSearchWords))
                     return;
 
-                // Todo : 確認ダイアログ
+                // Taboo : 禁忌
+                bool result = false;
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Retweet"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (result)
+                    return;
 
                 var columnSetting = new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Search, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = ("Search : " + this.Model.StatusSearchWords), Parameter = this.Model.StatusSearchWords, Streaming = false, Index = -1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 };
                 Services.Notice.Instance.AddColumnCommand.Execute(columnSetting);

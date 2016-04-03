@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.Globalization;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
@@ -244,13 +245,18 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.SavedSearches.CreateAsync(query => word);
             }
-            catch
+            catch (TwitterException ex)
             {
-                // Todo : 通知
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
-            // Todo : 通知
+            Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_SaveSearchSuccessfully"));
 
             await this.UpdateSavedSearches(true);
         }
@@ -261,13 +267,18 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.SavedSearches.DestroyAsync(id => savedSearchId);
             }
-            catch
+            catch (TwitterException ex)
             {
-                // Todo : 通知
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
-            // Todo : 通知
+            Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_DestroySearchSuccessfully"));
 
             await this.UpdateSavedSearches(true);
         }

@@ -141,8 +141,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            
-            <Button Grid.Column="0" ToolTipService.ToolTip="Menu" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch">
+
+            <Button Grid.Column="0" Width="60" ToolTipService.ToolTip="Menu" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="Add" />
                 <Button.Flyout>
                     <MenuFlyout>

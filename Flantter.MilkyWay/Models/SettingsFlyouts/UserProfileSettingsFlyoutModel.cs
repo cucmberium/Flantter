@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
@@ -562,9 +563,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.Blocks.CreateAsync(screen_name => this._ScreenName);
             }
-            catch
+            catch (TwitterException ex)
             {
-                // Todo : 通知
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
@@ -578,9 +584,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.Blocks.DestroyAsync(screen_name => this._ScreenName);
             }
-            catch
+            catch (TwitterException ex)
             {
-                // Todo : 通知
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
 

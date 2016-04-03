@@ -7,8 +7,10 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace Flantter.MilkyWay.Models
 {
@@ -197,10 +199,14 @@ namespace Flantter.MilkyWay.Models
 
                 Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status.MentionStatus, this._UserId, new List<string>() { "none://" }, false));
             }
-            catch
+            catch (TwitterException ex)
             {
-                // Todo : 通知
-            } 
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+            }
         }
 
         public async Task Retweet(Twitter.Objects.Status status)
@@ -210,9 +216,13 @@ namespace Flantter.MilkyWay.Models
                 var retweetedResponse = await this.Tokens.Statuses.RetweetAsync(id => status.Id);
                 status.IsRetweeted = true;
             }
-            catch
+            catch (TwitterException ex)
             {
-                // Todo : 通知
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -223,9 +233,13 @@ namespace Flantter.MilkyWay.Models
                 var retweetedResponse = await this.Tokens.Statuses.UnretweetAsync(id => status.Id);
                 status.IsRetweeted = false;
             }
-            catch
+            catch (TwitterException ex)
             {
-                // Todo : 通知
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -236,9 +250,13 @@ namespace Flantter.MilkyWay.Models
                 var retweetedResponse = await this.Tokens.Favorites.CreateAsync(id => status.Id);
                 status.IsFavorited = true;
             }
-            catch
+            catch (TwitterException ex)
             {
-                // Todo : 通知
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -249,9 +267,13 @@ namespace Flantter.MilkyWay.Models
                 var retweetedResponse = await this.Tokens.Favorites.DestroyAsync(id => status.Id);
                 status.IsFavorited = false;
             }
-            catch
+            catch (TwitterException ex)
             {
-                // Todo : 通知
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
     }

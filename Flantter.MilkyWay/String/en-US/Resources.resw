@@ -589,4 +589,73 @@
   <data name="SettingsFlyout_Settings_Display_UseBackgroundImage_ToggleSwitch.Header" xml:space="preserve">
     <value>Use background image</value>
   </data>
+  <data name="Notification_System_ErrorOccurred" xml:space="preserve">
+    <value>Error occurred</value>
+  </data>
+  <data name="Notification_System_CheckNetwork" xml:space="preserve">
+    <value>Check network connection</value>
+  </data>
+  <data name="Notification_System_DestroySearchSuccessfully" xml:space="preserve">
+    <value>Destroy search successfully</value>
+  </data>
+  <data name="Notification_System_SaveSearchSuccessfully" xml:space="preserve">
+    <value>Save search successfully</value>
+  </data>
+  <data name="ConfirmDialog_AddColumn" xml:space="preserve">
+    <value>Add column?</value>
+  </data>
+  <data name="ConfirmDialog_ExitApp" xml:space="preserve">
+    <value>Exit app?</value>
+  </data>
+  <data name="Notification_DirectMessage_DirectMessage" xml:space="preserve">
+    <value>{0} send DM to you.</value>
+  </data>
+  <data name="Notification_Favorite_Favorite" xml:space="preserve">
+    <value>{0} favorite your tweet.</value>
+  </data>
+  <data name="Notification_Follow_Follow" xml:space="preserve">
+    <value>{0} follow you.</value>
+  </data>
+  <data name="Notification_Mention_Mention" xml:space="preserve">
+    <value>{0} mention to your tweet.</value>
+  </data>
+  <data name="Notification_QuotedTweet_QuotedTweet" xml:space="preserve">
+    <value>{0} quote your tweet</value>
+  </data>
+  <data name="Notification_Retweet_Retweet" xml:space="preserve">
+    <value>{0} retweet your tweet.</value>
+  </data>
+  <data name="Notification_Unfavorite_Unfavorite" xml:space="preserve">
+    <value>{0} unfavorite your tweet.</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_DirectMessage_ToggleSwitch.Header" xml:space="preserve">
+    <value>DirectMessage notification</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_Favorite_ToggleSwitch.Header" xml:space="preserve">
+    <value>Favorite notification</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_Mention_ToggleSwitch.Header" xml:space="preserve">
+    <value>Mention notification</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_Message_TextBlock.Text" xml:space="preserve">
+    <value>Notification setting is enabled when user stream is connected.</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_Retweet_ToggleSwitch.Header" xml:space="preserve">
+    <value>Retweet notification</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_Unfavorite_ToggleSwitch.Header" xml:space="preserve">
+    <value>Unfavorite notification</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_EnableNotificationSound_ToggleSwitch.Header" xml:space="preserve">
+    <value>Enable notification sound</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_Follow_ToggleSwitch.Header" xml:space="preserve">
+    <value>Follow notification</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_QuotedTweet_ToggleSwitch.Header" xml:space="preserve">
+    <value>QuotedTweet notification</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_System_ToggleSwitch.Header" xml:space="preserve">
+    <value>System notification</value>
+  </data>
 </root>

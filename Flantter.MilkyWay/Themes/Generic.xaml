@@ -317,12 +317,22 @@
                                 <ContentPresenter x:Name="ContentPresenter"                                            
                                             Content="{TemplateBinding Content}"
                                             ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            Style="{StaticResource BodyContentPresenterStyle}"
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                            TextWrapping="Wrap" />
+                                <!--
+                                <ContentPresenter x:Name="ContentPresenter"                                            
+                                            Content="{TemplateBinding Content}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
                                             ContentTransitions="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ContentTransitions}"
                                             Style="{StaticResource BodyContentPresenterStyle}"
                                             Margin="{TemplateBinding Padding}"
                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
                                             TextWrapping="Wrap" />
+                                -->
 
                             </Grid>
                             <Rectangle x:Name="InputPanePlaceholder" Grid.Row="2" />

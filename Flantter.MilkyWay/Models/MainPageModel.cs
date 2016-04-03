@@ -30,9 +30,9 @@ namespace Flantter.MilkyWay.Models
             Connecter.Instance.Initialize();
 
             foreach (var accountModel in this._Accounts)
-            {
                 accountModel.Initialize();
-            }
+
+            Notifications.Core.Instance.Initialize();
         }
         #endregion
 

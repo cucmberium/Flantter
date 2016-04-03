@@ -164,7 +164,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
             var extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
             var snapPointsList = extendedCanvas.GetIrregularSnapPoints(Orientation.Horizontal, SnapPointsAlignment.Near);
-            // Todo : 禁忌 (Taboo)
+
+            // Taboo : 禁忌
             var selectedIndex = this.ViewModel.Columns[this.SelectedIndex].Index.Value;
 
 

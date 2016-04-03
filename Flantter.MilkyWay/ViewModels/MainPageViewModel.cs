@@ -25,6 +25,7 @@ using Windows.Storage;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Views.Behaviors;
 using Windows.Storage.Pickers;
+using Windows.ApplicationModel.Resources;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -248,7 +249,15 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.ExitAppCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                // Todo : 実装
+                // Taboo : 禁忌
+                bool result = false;
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Retweet"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (result)
+                    return;
             });
 
             Services.Notice.Instance.ShowMainSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
@@ -272,6 +281,12 @@ namespace Flantter.MilkyWay.ViewModels
             Services.Notice.Instance.ShowDisplaySettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "DisplaySetting" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+            Services.Notice.Instance.ShowNotificationSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "NotificationSetting" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 

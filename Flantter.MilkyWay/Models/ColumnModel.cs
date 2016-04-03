@@ -18,6 +18,7 @@ using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Core;
 
 namespace Flantter.MilkyWay.Models
@@ -427,7 +428,6 @@ namespace Flantter.MilkyWay.Models
                 iObservable = this.Tokens.Streaming.UserAsObservable(param);
                 this.twitterStreamDisposableObject = iObservable.Catch((Exception ex) =>
                 {
-                    // Todo : Notifications の通知システムに渡す
                     return iObservable.DelaySubscription(TimeSpan.FromSeconds(10)).Retry();
                 }).Subscribe(x => this.stream.OnNext(x), ex => this.stream.OnError(ex), () => this.stream.OnCompleted());
             }
@@ -441,7 +441,6 @@ namespace Flantter.MilkyWay.Models
                 iObservable = this.Tokens.Streaming.FilterAsObservable(param);
                 this.twitterStreamDisposableObject = iObservable.Catch((Exception ex) =>
                 {
-                    // Todo : Notifications の通知システムに渡す
                     return iObservable.DelaySubscription(TimeSpan.FromSeconds(10)).Retry();
                 }).Subscribe(x => this.stream.OnNext(x), ex => this.stream.OnError(ex), () => this.stream.OnCompleted());
             }
@@ -458,12 +457,11 @@ namespace Flantter.MilkyWay.Models
                 }
                 catch (TwitterException ex)
                 {
-                    // Todo : Notifications の通知システムに渡す
+                    Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                     return;
                 }
                 catch (Exception ex)
                 {
-                    // Todo : Notifications の通知システムに渡す
                     return;
                 }
 
@@ -473,7 +471,6 @@ namespace Flantter.MilkyWay.Models
                 iObservable = this.Tokens.Streaming.FilterAsObservable(param);
                 this.twitterStreamDisposableObject = iObservable.Catch((Exception ex) =>
                 {
-                    // Todo : Notifications の通知システムに渡す
                     return iObservable.DelaySubscription(TimeSpan.FromSeconds(10)).Retry();
                 }).Subscribe(x => this.stream.OnNext(x), ex => this.stream.OnError(ex), () => this.stream.OnCompleted());
             }
@@ -563,11 +560,11 @@ namespace Flantter.MilkyWay.Models
             }
             catch (TwitterException ex)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
-            catch
+            catch (Exception e)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -595,11 +592,11 @@ namespace Flantter.MilkyWay.Models
             }
             catch (TwitterException ex)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
-            catch
+            catch (Exception e)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -628,11 +625,11 @@ namespace Flantter.MilkyWay.Models
             }
             catch (TwitterException ex)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
-            catch
+            catch (Exception e)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -660,11 +657,11 @@ namespace Flantter.MilkyWay.Models
             }
             catch (TwitterException ex)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
-            catch
+            catch (Exception e)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -692,11 +689,11 @@ namespace Flantter.MilkyWay.Models
             }
             catch (TwitterException ex)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
-            catch
+            catch (Exception e)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -754,11 +751,11 @@ namespace Flantter.MilkyWay.Models
             }
             catch (TwitterException ex)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
-            catch
+            catch (Exception e)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -786,11 +783,11 @@ namespace Flantter.MilkyWay.Models
             }
             catch (TwitterException ex)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
-            catch
+            catch (Exception e)
             {
-                // Todo : 通知システムに渡す
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
 

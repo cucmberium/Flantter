@@ -17,6 +17,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Core;
@@ -265,7 +266,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (!statusViewModel.Model.IsRetweeted && SettingService.Setting.RetweetConfirmation)
                 {
                     bool result = false;
-                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView().GetString("ConfirmDialog_Retweet"), "Confirmation");
+                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_AddColumn"), "Confirmation");
                     msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
                     msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
                     await msg.ShowAsync();
@@ -313,7 +314,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (!statusViewModel.Model.IsFavorited && SettingService.Setting.FavoriteConfirmation)
                 {
                     bool result = false;
-                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView().GetString("ConfirmDialog_Favorite"), "Confirmation");
+                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Favorite"), "Confirmation");
                     msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
                     msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
                     await msg.ShowAsync();
@@ -358,7 +359,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (SettingService.Setting.RetweetConfirmation || SettingService.Setting.FavoriteConfirmation)
                 {
                     bool result = false;
-                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView().GetString("ConfirmDialog_RetweetFavorite"), "Confirmation");
+                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_RetweetFavorite"), "Confirmation");
                     msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
                     msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
                     await msg.ShowAsync();

@@ -26,6 +26,7 @@ using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Views.Behaviors;
 using Windows.Storage.Pickers;
 using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Exceptions;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -69,7 +70,7 @@ namespace Flantter.MilkyWay.ViewModels
                 }).ToReactiveProperty();
 
             this.AppBarIsOpen = new ReactiveProperty<bool>(false);
-            this.AppBarIsOpen.Subscribe<bool>(async isOpen => 
+            this.AppBarIsOpen.Subscribe<bool>(async isOpen =>
             {
                 if (isOpen && this.Accounts.Any(x => x.IsEnabled.Value))
                 {
@@ -79,7 +80,7 @@ namespace Flantter.MilkyWay.ViewModels
                     await this.TweetArea.TextBoxFocusMessenger.Raise(new Notification());
                 }
             });
-            
+
             this.Accounts = this._MainPageModel.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
 
             this.TweetArea = new TweetAreaViewModel(this.Accounts);
@@ -251,13 +252,17 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 // Taboo : 禁忌
                 bool result = false;
-                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Retweet"), "Confirmation");
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_ExitApp"), "Confirmation");
                 msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
                 msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
                 await msg.ShowAsync();
 
-                if (result)
+                if (!result)
                     return;
+
+                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+
+                Application.Current.Exit();
             });
 
             Services.Notice.Instance.ShowMainSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
@@ -265,7 +270,7 @@ namespace Flantter.MilkyWay.ViewModels
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "MainSetting" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
-            
+
             Services.Notice.Instance.ShowBehaviorSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "BehaviorSetting" };
@@ -287,6 +292,12 @@ namespace Flantter.MilkyWay.ViewModels
             Services.Notice.Instance.ShowNotificationSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "NotificationSetting" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+            Services.Notice.Instance.ShowMuteSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "MuteSetting" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
@@ -322,7 +333,85 @@ namespace Flantter.MilkyWay.ViewModels
                 {
                 }
             });
-            
+
+            Services.Notice.Instance.MuteClientCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var client = x as string;
+                if (string.IsNullOrWhiteSpace(client))
+                    return;
+
+                // Taboo : 禁忌
+                bool result = false;
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_MuteClient"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (!result)
+                    return;
+
+                if (!AdvancedSettingService.AdvancedSetting.MuteClients.Contains(client))
+                {
+                    AdvancedSettingService.AdvancedSetting.MuteClients.Add(client);
+                    AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                }
+            });
+
+            Services.Notice.Instance.DeleteMuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var screenName = x as string;
+                if (string.IsNullOrWhiteSpace(screenName))
+                    return;
+
+                if (AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(screenName))
+                {
+                    AdvancedSettingService.AdvancedSetting.MuteUsers.Remove(screenName);
+                    AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                }
+            });
+
+            Services.Notice.Instance.DeleteMuteClientCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var client = x as string;
+                if (string.IsNullOrWhiteSpace(client))
+                    return;
+
+                if (AdvancedSettingService.AdvancedSetting.MuteClients.Contains(client))
+                {
+                    AdvancedSettingService.AdvancedSetting.MuteClients.Remove(client);
+                    AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                }
+            });
+
+            Services.Notice.Instance.UpdateMuteFilterCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var filter = x as string;
+                if (string.IsNullOrWhiteSpace(filter))
+                    return;
+
+                try
+                {
+                    Models.Filter.Compiler.Compile(filter);
+                }
+                catch (FilterCompileException fex)
+                {
+                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(fex.Error.ToString() + "\n" + fex.Message, "Compile Error");
+                    await msg.ShowAsync();
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(ex.ToString() + "\n" + ex.Message, "Compile Error");
+                    await msg.ShowAsync();
+                    return;
+                }
+
+                SettingService.Setting.MuteFilter = filter;
+
+                Windows.UI.Popups.MessageDialog msgok = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_CompiledMuteFilterSuccessfully"), "Compile Error");
+                await msgok.ShowAsync();
+                return;
+            });
             #endregion
         }
         #endregion

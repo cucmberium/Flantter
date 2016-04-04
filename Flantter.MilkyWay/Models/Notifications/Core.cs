@@ -5,6 +5,7 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,7 @@ namespace Flantter.MilkyWay.Models.Notifications
                 h => Connecter.Instance.TweetReceive_CommandExecute += h,
                 h => Connecter.Instance.TweetReceive_CommandExecute -= h)
                 .Where(e => e.Streaming)
+                .SubscribeOn(NewThreadScheduler.Default)
                 .Subscribe(e => 
                 {
                     switch (e.Type)

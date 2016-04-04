@@ -276,5 +276,59 @@ namespace Flantter.MilkyWay.Models
                 Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
         }
+
+        public async Task CreateMute(string screenName)
+        {
+            try
+            {
+                await this.Tokens.Mutes.Users.CreateAsync(screen_name => screenName);
+            }
+            catch (TwitterException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                return;
+            }
+        }
+
+        public async Task DestroyStatus(long id)
+        {
+            try
+            {
+                await this.Tokens.Statuses.DestroyAsync(id);
+            }
+            catch (TwitterException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                return;
+            }
+        }
+
+        public async Task DestroyDirectMessage(long id)
+        {
+            try
+            {
+                await this.Tokens.DirectMessages.DestroyAsync(id);
+            }
+            catch (TwitterException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                return;
+            }
+        }
     }
 }

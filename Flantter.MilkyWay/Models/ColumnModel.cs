@@ -854,7 +854,9 @@ namespace Flantter.MilkyWay.Models
             }
 
             if (status.User.IsMuting)
+            {
                 return false;
+            }
             else
             {
                 // Todo : NoRetweetIdsの読み込み

@@ -628,9 +628,6 @@
   <data name="Notification_Unfavorite_Unfavorite" xml:space="preserve">
     <value>{0} がお気に入りを解除しました.</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
-  </data>
   <data name="SettingsFlyout_Settings_Notification_DirectMessage_ToggleSwitch.Header" xml:space="preserve">
     <value>ダイレクトメッセージ通知</value>
   </data>
@@ -660,5 +657,41 @@
   </data>
   <data name="SettingsFlyout_Settings_Notification_System_ToggleSwitch.Header" xml:space="preserve">
     <value>システム通知</value>
+  </data>
+  <data name="ConfirmDialog_Block" xml:space="preserve">
+    <value>ユーザーをブロックしますか?</value>
+  </data>
+  <data name="ConfirmDialog_Mute" xml:space="preserve">
+    <value>ユーザーをミュートしますか?</value>
+  </data>
+  <data name="ConfirmDialog_MuteInFlantter" xml:space="preserve">
+    <value>Flantter内ミュートもONにしますか?</value>
+  </data>
+  <data name="ConfirmDialog_MuteClient" xml:space="preserve">
+    <value>Flantter内でクライアントをミュートしますか?</value>
+  </data>
+  <data name="ConfirmDialog_CompiledMuteFilterSuccessfully" xml:space="preserve">
+    <value>ミュートフィルタが正常に更新されました。</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_Message_TextBlock.Text" xml:space="preserve">
+    <value>この設定はアプリ内でのみ有効なものです。公式ミュートの解除はメニュー内のフォロー関連からユーザープロフィールを開き行ってください。</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteClients_ComboBox.Header" xml:space="preserve">
+    <value>ミュートクライアント</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteClients_Delete_Button.Content" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteFilter_TextBox.Header" xml:space="preserve">
+    <value>ミュートフィルター</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteFilter_Update_Button.Content" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteUsers_ComboBox.Header" xml:space="preserve">
+    <value>ミュートユーザー</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteUsers_Delete_Button.Content" xml:space="preserve">
+    <value>削除</value>
   </data>
 </root>

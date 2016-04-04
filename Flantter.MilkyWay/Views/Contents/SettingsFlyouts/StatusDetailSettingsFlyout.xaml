@@ -221,7 +221,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model.User.ScreenName, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -234,7 +234,7 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
-                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.MuteClientCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.MuteClientCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model.Source, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>

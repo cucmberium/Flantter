@@ -658,4 +658,40 @@
   <data name="SettingsFlyout_Settings_Notification_System_ToggleSwitch.Header" xml:space="preserve">
     <value>System notification</value>
   </data>
+  <data name="ConfirmDialog_Block" xml:space="preserve">
+    <value>Block user?</value>
+  </data>
+  <data name="ConfirmDialog_Mute" xml:space="preserve">
+    <value>Mute user?</value>
+  </data>
+  <data name="ConfirmDialog_MuteInFlantter" xml:space="preserve">
+    <value>Enable flantter user mute too?</value>
+  </data>
+  <data name="ConfirmDialog_MuteClient" xml:space="preserve">
+    <value>Mute client in Flantter</value>
+  </data>
+  <data name="ConfirmDialog_CompiledMuteFilterSuccessfully" xml:space="preserve">
+    <value>Compiled successfully</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_Message_TextBlock.Text" xml:space="preserve">
+    <value>This mute setting enable in only Flantter. Official mute setting can change in user profile.</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteClients_ComboBox.Header" xml:space="preserve">
+    <value>Mute clients</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteClients_Delete_Button.Content" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteFilter_TextBox.Header" xml:space="preserve">
+    <value>Mute filter</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteFilter_Update_Button.Content" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteUsers_ComboBox.Header" xml:space="preserve">
+    <value>Mute users</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteUsers_Delete_Button.Content" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>

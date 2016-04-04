@@ -266,7 +266,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (!statusViewModel.Model.IsRetweeted && SettingService.Setting.RetweetConfirmation)
                 {
                     bool result = false;
-                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_AddColumn"), "Confirmation");
+                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Retweet"), "Confirmation");
                     msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
                     msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
                     await msg.ShowAsync();
@@ -396,6 +396,22 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
             });
 
+
+            Services.Notice.Instance.DeleteTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            {
+                if (x is Status)
+                {
+                    var status = x as Status;
+                    await this._AccountModel.DestroyStatus(status.Id);
+                }
+                else if (x is DirectMessage)
+                {
+                    var directMessage = x as DirectMessage;
+                    await this._AccountModel.DestroyDirectMessage(directMessage.Id);
+                }
+            });
+
+
             Services.Notice.Instance.DeleteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
             {
                 var statusViewModel = x as StatusViewModel;
@@ -520,6 +536,39 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = "Flantter" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+            Services.Notice.Instance.MuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            {
+                var screenName = x as string;
+                if (string.IsNullOrWhiteSpace(screenName))
+                    return;
+
+                // Taboo : 禁忌
+                bool result = false;
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Mute"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (result)
+                    await this._AccountModel.CreateMute(screenName);
+                
+                // Taboo : 禁忌
+                result = false;
+                msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_MuteInFlantter"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (!result)
+                    return;
+
+                if (!AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(screenName))
+                {
+                    AdvancedSettingService.AdvancedSetting.MuteUsers.Add(screenName);
+                    AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                }
             });
 
             #endregion

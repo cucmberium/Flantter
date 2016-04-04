@@ -300,12 +300,12 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
                 // Taboo : 禁忌
                 bool result = false;
-                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Retweet"), "Confirmation");
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_AddColumn"), "Confirmation");
                 msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
                 msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
                 await msg.ShowAsync();
 
-                if (result)
+                if (!result)
                     return;
 
                 var columnSetting = new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Search, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = ("Search : " + this.Model.StatusSearchWords), Parameter = this.Model.StatusSearchWords, Streaming = false, Index = -1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 };

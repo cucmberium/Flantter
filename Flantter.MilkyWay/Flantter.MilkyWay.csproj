@@ -202,6 +202,9 @@
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\AppInfoSettingsFlyout.xaml.cs">
       <DependentUpon>AppInfoSettingsFlyout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\Settings\MuteSettingSettingsFlyout.xaml.cs">
+      <DependentUpon>MuteSettingSettingsFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\NotificationSettingSettingsFlyout.xaml.cs">
       <DependentUpon>NotificationSettingSettingsFlyout.xaml</DependentUpon>
     </Compile>
@@ -417,6 +420,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\Settings\AppInfoSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\Settings\MuteSettingSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -60,9 +60,14 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.ShowPostingSettingCommand = new ReactiveCommand();
             this.ShowDisplaySettingCommand = new ReactiveCommand();
             this.ShowNotificationSettingCommand = new ReactiveCommand();
+            this.ShowMuteSettingCommand = new ReactiveCommand();
             this.ShowAppInfoCommand = new ReactiveCommand();
             this.ShowSupportAccountCommand = new ReactiveCommand();
             this.ChangeBackgroundImageCommand = new ReactiveCommand();
+
+            this.DeleteMuteUserCommand = new ReactiveCommand();
+            this.DeleteMuteClientCommand = new ReactiveCommand();
+            this.UpdateMuteFilterCommand = new ReactiveCommand();
         }
 
         public static Notice Instance
@@ -111,7 +116,6 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
         public ReactiveCommand ShowLeftSwipeMenuCommand { get; private set; }
         public ReactiveCommand ChangeAccountCommand { get; private set; }
-        public ReactiveCommand ShowAppSettingsCommand { get; private set; }
         public ReactiveCommand ExitAppCommand { get; private set; }
 
         public ReactiveCommand ShowMainSettingCommand { get; private set; }
@@ -119,9 +123,14 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowPostingSettingCommand { get; private set; }
         public ReactiveCommand ShowDisplaySettingCommand { get; private set; }
         public ReactiveCommand ShowNotificationSettingCommand { get; private set; }
+        public ReactiveCommand ShowMuteSettingCommand { get; private set; }
         public ReactiveCommand ShowAppInfoCommand { get; private set; }
         public ReactiveCommand ShowSupportAccountCommand { get; private set; }
         public ReactiveCommand ChangeBackgroundImageCommand { get; private set; }
+
+        public ReactiveCommand DeleteMuteUserCommand { get; private set; }
+        public ReactiveCommand DeleteMuteClientCommand { get; private set; }
+        public ReactiveCommand UpdateMuteFilterCommand { get; private set; }
 
     }
 

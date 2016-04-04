@@ -597,5 +597,45 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             this.IsBlocking = false;
         }
+
+        public async Task CreateMute()
+        {
+            try
+            {
+                await this.Tokens.Mutes.Users.CreateAsync(screen_name => this._ScreenName);
+            }
+            catch (TwitterException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                return;
+            }
+            
+            this.IsMuting = true;
+        }
+
+        public async Task DestroyMute()
+        {
+            try
+            {
+                await this.Tokens.Mutes.Users.DestroyAsync(screen_name => this._ScreenName);
+            }
+            catch (TwitterException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                return;
+            }
+
+            this.IsMuting = false;
+        }
     }
 }

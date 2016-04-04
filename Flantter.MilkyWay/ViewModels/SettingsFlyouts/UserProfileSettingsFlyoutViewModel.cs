@@ -1,6 +1,7 @@
 ﻿using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.SettingsFlyouts;
 using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -205,8 +206,18 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             });
 
             this.BlockUserCommand = new ReactiveCommand();
-            this.BlockUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
+            this.BlockUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
+                // Taboo : 禁忌
+                bool result = false;
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Block"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (!result)
+                    return;
+
                 await this.Model.CreateBlock();
             });
 
@@ -215,12 +226,42 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             {
                 await this.Model.DestroyBlock();
             });
-
-            // Todo : 実装
-
+            
             this.MuteUserCommand = new ReactiveCommand();
+            this.MuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                // Taboo : 禁忌
+                bool result = false;
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Mute"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (result)
+                    await this.Model.CreateMute();
+                
+                // Taboo : 禁忌
+                result = false;
+                msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_MuteInFlantter"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (!result)
+                    return;
+
+                if (!AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(this.Model.ScreenName))
+                {
+                    AdvancedSettingService.AdvancedSetting.MuteUsers.Add(this.Model.ScreenName);
+                    AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                }
+            });
 
             this.UnmuteUserCommand = new ReactiveCommand();
+            this.UnmuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                await this.Model.DestroyMute();
+            });
 
             this.StatusesIncrementalLoadCommand = new ReactiveCommand();
             this.StatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>

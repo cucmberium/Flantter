@@ -49,6 +49,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
             this.ShowSettingsFlyoutCommand = new ReactiveCommand();
 
+            this.AuthAccountCommand = new ReactiveCommand();
+            this.AddAccountCommand = new ReactiveCommand();
             this.AddColumnCommand = new ReactiveCommand();
 
             this.ShowLeftSwipeMenuCommand = new ReactiveCommand();
@@ -61,6 +63,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.ShowDisplaySettingCommand = new ReactiveCommand();
             this.ShowNotificationSettingCommand = new ReactiveCommand();
             this.ShowMuteSettingCommand = new ReactiveCommand();
+            this.ShowAccountsSettingCommand = new ReactiveCommand();
             this.ShowAppInfoCommand = new ReactiveCommand();
             this.ShowSupportAccountCommand = new ReactiveCommand();
             this.ChangeBackgroundImageCommand = new ReactiveCommand();
@@ -111,6 +114,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
         public ReactiveCommand ShowSettingsFlyoutCommand { get; private set; }
 
+        public ReactiveCommand AuthAccountCommand { get; private set; }
+        public ReactiveCommand AddAccountCommand { get; private set; }
         public ReactiveCommand AddColumnCommand { get; private set; }
 
 
@@ -124,6 +129,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowDisplaySettingCommand { get; private set; }
         public ReactiveCommand ShowNotificationSettingCommand { get; private set; }
         public ReactiveCommand ShowMuteSettingCommand { get; private set; }
+        public ReactiveCommand ShowAccountsSettingCommand { get; private set; }
         public ReactiveCommand ShowAppInfoCommand { get; private set; }
         public ReactiveCommand ShowSupportAccountCommand { get; private set; }
         public ReactiveCommand ChangeBackgroundImageCommand { get; private set; }
@@ -131,7 +137,6 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand DeleteMuteUserCommand { get; private set; }
         public ReactiveCommand DeleteMuteClientCommand { get; private set; }
         public ReactiveCommand UpdateMuteFilterCommand { get; private set; }
-
     }
 
     public class NoticeProvider

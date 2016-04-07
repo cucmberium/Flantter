@@ -42,7 +42,7 @@ namespace Flantter.MilkyWay.Models
             this._Accounts = new ObservableCollection<AccountModel>();
             this._ReadOnlyAccounts = new ReadOnlyObservableCollection<AccountModel>(this._Accounts);
             
-            foreach (var account in AdvancedSettingService.AdvancedSetting.Account)
+            foreach (var account in AdvancedSettingService.AdvancedSetting.Accounts)
             {
                 this._Accounts.Add(new AccountModel(account));
             }
@@ -54,6 +54,16 @@ namespace Flantter.MilkyWay.Models
         {
         }
         #endregion
+
+        public void AddAccount(AccountSetting account)
+        {
+            AdvancedSettingService.AdvancedSetting.Accounts.Add(account);
+            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+
+            var accountModel = new AccountModel(account);
+            accountModel.Initialize();
+            this._Accounts.Add(accountModel);
+        }
 
         #region Instance
         private static MainPageModel _Instance = new MainPageModel();

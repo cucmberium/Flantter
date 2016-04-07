@@ -14,7 +14,7 @@ using Windows.ApplicationModel.Resources;
 
 namespace Flantter.MilkyWay.Models
 {
-    public class AccountModel : BindableBase
+    public class AccountModel : BindableBase, IDisposable
     {
         #region IsEnabled変更通知プロパティ
         private bool _IsEnabled;
@@ -70,15 +70,6 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
-        #region IncludeFollowingsActivity変更通知プロパティ
-        private bool _IncludeFollowingsActivity;
-        public bool IncludeFollowingsActivity
-        {
-            get { return this._IncludeFollowingsActivity; }
-            set { this.SetProperty(ref this._IncludeFollowingsActivity, value); }
-        }
-        #endregion
-
         #region PossiblySensitive変更通知プロパティ
         private bool _PossiblySensitive;
         public bool PossiblySensitive
@@ -103,6 +94,7 @@ namespace Flantter.MilkyWay.Models
         #region Tokens
         public Tokens Tokens { get; set; }
         #endregion
+
         #region AccountSetting
         private AccountSetting _AccountSetting;
         #endregion
@@ -113,7 +105,6 @@ namespace Flantter.MilkyWay.Models
             Connecter.Instance.AddAccount(this._AccountSetting);
 
             this.IsEnabled = this._AccountSetting.IsEnabled;
-            this.IncludeFollowingsActivity = this._AccountSetting.IncludeFollowingsActivity;
             this.Name = this._AccountSetting.Name;
             this.PossiblySensitive = this._AccountSetting.PossiblySensitive;
             this.ProfileBannerUrl = this._AccountSetting.ProfileBannerUrl;
@@ -132,10 +123,14 @@ namespace Flantter.MilkyWay.Models
                 this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
                 this.ProfileBannerUrl = user.ProfileBannerUrl;
                 this.Name = user.Name;
+                this.ScreenName = user.ScreenName;
 
                 this._AccountSetting.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
                 this._AccountSetting.ProfileBannerUrl = user.ProfileBannerUrl;
                 this._AccountSetting.Name = user.Name;
+                this._AccountSetting.ScreenName = user.ScreenName;
+
+                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
             });
         }
         #endregion
@@ -167,15 +162,21 @@ namespace Flantter.MilkyWay.Models
 
         public void AddColumn(ColumnSetting column)
         {
+            this._AccountSetting.Column.Add(column);
+            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+
             if (column.Index == -1)
                 column.Index = this._Columns.Count;
-
-            //this._AccountSetting.Column.Add(column);
 
             var columnModel = new ColumnModel(column, this._AccountSetting, this);
             this._Columns.Add(columnModel);
 
             Task.Run(async () => await columnModel.Initialize());
+        }
+
+        public void DeleteColumn(ColumnSetting column)
+        {
+            // Todo : カラム削除の実装
         }
 
         public void DisconnectAllFilterStreaming(object sender = null)
@@ -328,6 +329,14 @@ namespace Flantter.MilkyWay.Models
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (var column in this._Columns)
+            {
+                column.Dispose();
             }
         }
     }

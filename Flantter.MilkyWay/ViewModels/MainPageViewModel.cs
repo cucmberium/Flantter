@@ -27,6 +27,8 @@ using Flantter.MilkyWay.Views.Behaviors;
 using Windows.Storage.Pickers;
 using Windows.ApplicationModel.Resources;
 using Flantter.MilkyWay.Models.Exceptions;
+using Flantter.MilkyWay.Views.Contents.Authorize;
+using System.Collections.ObjectModel;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -301,6 +303,13 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
+            Services.Notice.Instance.ShowAccountsSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AccountsSetting" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+
             Services.Notice.Instance.ShowAppInfoCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AppInfo" };
@@ -408,10 +417,65 @@ namespace Flantter.MilkyWay.ViewModels
 
                 SettingService.Setting.MuteFilter = filter;
 
-                Windows.UI.Popups.MessageDialog msgok = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_CompiledMuteFilterSuccessfully"), "Compile Error");
+                Windows.UI.Popups.MessageDialog msgok = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_CompiledMuteFilterSuccessfully"), "Compile Filter");
                 await msgok.ShowAsync();
                 return;
             });
+            
+            Services.Notice.Instance.AuthAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                // Taboo : 禁忌
+                var authorizePopup = new AuthorizePopup();
+                var account = await authorizePopup.ShowAsync();
+                if (account == null)
+                    return;
+
+                if (AdvancedSettingService.AdvancedSetting.Accounts.Any(y => y.UserId == account.UserId))
+                {
+                    var accountSetting = AdvancedSettingService.AdvancedSetting.Accounts.First(y => y.UserId == account.UserId);
+                    accountSetting.ScreenName = account.ScreenName;
+                    accountSetting.ConsumerKey = account.ConsumerKey;
+                    accountSetting.ConsumerSecret = account.ConsumerSecret;
+                    accountSetting.AccessToken = account.AccessToken;
+                    accountSetting.AccessTokenSecret = account.AccessTokenSecret;
+                }
+                else
+                {
+                    var accountSetting = new AccountSetting()
+                    {
+                        AccessToken = account.AccessToken,
+                        AccessTokenSecret = account.AccessTokenSecret,
+                        ConsumerKey = account.ConsumerKey,
+                        ConsumerSecret = account.ConsumerSecret,
+                        ScreenName = account.ScreenName,
+                        UserId = account.UserId,
+
+                        Column = new ObservableCollection<ColumnSetting>()
+                        {
+                            new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Home, AutoRefresh = false, AutoRefreshTimerInterval = 60.0, Filter = "()", Name = "Home", Parameter = string.Empty, Streaming = true, Index = 0, DisableStartupRefresh = false, FetchingNumberOfTweet = 100 },
+                            new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Mentions, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = "Mentions", Parameter = string.Empty, Streaming = false, Index = 1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 },
+                            new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.DirectMessages, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = "DirectMessages", Parameter = string.Empty, Streaming = false, Index = 2, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 },
+                            new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Events, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = "Events", Parameter = string.Empty, Streaming = false, Index = 3, DisableStartupRefresh = false, FetchingNumberOfTweet = 100 },
+                            new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Favorites, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = "Favorites", Parameter = string.Empty, Streaming = false, Index = 4, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 },
+                        },
+                        IsEnabled = false,
+                    };
+
+                    AdvancedSettingService.AdvancedSetting.Accounts.Add(accountSetting);
+
+                    Services.Notice.Instance.AddAccountCommand.Execute(accountSetting);
+                }
+            });
+
+            Services.Notice.Instance.AuthAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var accountSetting = x as AccountSetting;
+                if (accountSetting == null)
+                    return;
+
+                this._MainPageModel.AddAccount(accountSetting);
+            });
+
             #endregion
         }
         #endregion

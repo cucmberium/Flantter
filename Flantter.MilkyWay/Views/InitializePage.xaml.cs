@@ -62,8 +62,8 @@ namespace Flantter.MilkyWay.Views
                 AdvancedSettingService.AdvancedSetting.MuteClients = new ObservableCollection<string>();
                 AdvancedSettingService.AdvancedSetting.MuteUsers = new ObservableCollection<string>();
 
-                AdvancedSettingService.AdvancedSetting.Account = new ObservableCollection<AccountSetting>();
-                AdvancedSettingService.AdvancedSetting.Account.Add(new AccountSetting()
+                AdvancedSettingService.AdvancedSetting.Accounts = new ObservableCollection<AccountSetting>();
+                AdvancedSettingService.AdvancedSetting.Accounts.Add(new AccountSetting()
                 {
                     AccessToken = account.AccessToken,
                     AccessTokenSecret = account.AccessTokenSecret,

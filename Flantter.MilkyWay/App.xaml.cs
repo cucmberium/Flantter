@@ -72,7 +72,7 @@ namespace Flantter.MilkyWay
 
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 500 });
 
-            if (AdvancedSettingService.AdvancedSetting.Account == null || AdvancedSettingService.AdvancedSetting.Account.Count == 0)
+            if (AdvancedSettingService.AdvancedSetting.Accounts == null || AdvancedSettingService.AdvancedSetting.Accounts.Count == 0)
                 this.NavigationService.Navigate("Initialize", args.Arguments);
             else
                 this.NavigationService.Navigate("Main", args.Arguments);

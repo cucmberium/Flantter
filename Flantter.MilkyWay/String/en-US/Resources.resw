@@ -478,8 +478,8 @@
   <data name="MainSwipeMenu_Settings.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="SettingsFlyout_Settings_Main_AccountSetting_Textblock.Text" xml:space="preserve">
-    <value>Account Setting</value>
+  <data name="SettingsFlyout_Settings_Main_AccountsSetting_Textblock.Text" xml:space="preserve">
+    <value>Accounts Setting</value>
   </data>
   <data name="SettingsFlyout_Settings_Main_AdvancedSetting_Textblock.Text" xml:space="preserve">
     <value>Advanced Setting</value>

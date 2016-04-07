@@ -1,6 +1,7 @@
 ﻿using Flantter.MilkyWay.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,42 +16,166 @@ using Windows.UI.Notifications;
 
 namespace Flantter.MilkyWay.Setting
 {
-    public class AccountSetting
+    public class AccountSetting : BindableBase
     {
-        public string Name { get; set; }
-        public string ScreenName { get; set; }
-        public long UserId { get; set; }
+        private string _Name;
+        public string Name
+        {
+            get { return this._Name; }
+            set { this.SetProperty(ref this._Name, value); }
+        }
 
-        public string ConsumerKey { get; set; }
-        public string ConsumerSecret { get; set; }
-        public string AccessToken { get; set; }
-        public string AccessTokenSecret { get; set; }
+        private string _ScreenName;
+        public string ScreenName
+        {
+            get { return this._ScreenName; }
+            set { this.SetProperty(ref this._ScreenName, value); }
+        }
+
+        private long _UserId;
+        public long UserId
+        {
+            get { return this._UserId; }
+            set { this.SetProperty(ref this._UserId, value); }
+        }
+
+        private string _ConsumerKey;
+        public string ConsumerKey
+        {
+            get { return _ConsumerKey; }
+            set { this.SetProperty(ref this._ConsumerKey, value); }
+        }
+
+        private string _ConsumerSecret;
+        public string ConsumerSecret
+        {
+            get { return _ConsumerSecret; }
+            set { this.SetProperty(ref this._ConsumerSecret, value); }
+        }
+
+        private string _AccessToken;
+        public string AccessToken
+        {
+            get { return _AccessToken; }
+            set { this.SetProperty(ref this._AccessToken, value); }
+        }
+
+        private string _AccessTokenSecret;
+        public string AccessTokenSecret
+        {
+            get { return _AccessTokenSecret; }
+            set { this.SetProperty(ref this._AccessTokenSecret, value); }
+        }
 
         public ObservableCollection<ColumnSetting> Column { get; set; }
 
-        public bool IncludeFollowingsActivity { get; set; }
-        public bool PossiblySensitive { get; set; }
+        private bool _IncludeFollowingsActivity;
+        public bool IncludeFollowingsActivity
+        {
+            get { return _IncludeFollowingsActivity; }
+            set { this.SetProperty(ref this._IncludeFollowingsActivity, value); }
+        }
 
-        public string ProfileImageUrl { get; set; }
-        public string ProfileBannerUrl { get; set; }
+        private bool _PossiblySensitive;
+        public bool PossiblySensitive
+        {
+            get { return _PossiblySensitive; }
+            set { this.SetProperty(ref this._PossiblySensitive, value); }
+        }
 
-        public bool IsEnabled { get; set; }
+        private string _ProfileImageUrl;
+        public string ProfileImageUrl
+        {
+            get { return _ProfileImageUrl; }
+            set { this.SetProperty(ref this._ProfileImageUrl, value); }
+        }
+
+        private string _ProfileBannerUrl;
+        public string ProfileBannerUrl
+        {
+            get { return _ProfileBannerUrl; }
+            set { this.SetProperty(ref this._ProfileBannerUrl, value); }
+        }
+
+        private bool _IsEnabled;
+        public bool IsEnabled
+        {
+            get { return _IsEnabled; }
+            set { this.SetProperty(ref this._IsEnabled, value); }
+        }
     }
 
-    public class ColumnSetting
+    public class ColumnSetting : BindableBase
     {
-        public string Name { get; set; }
-        public SettingSupport.ColumnTypeEnum Action { get; set; }
-        public string Parameter { get; set; }
-        public string Filter { get; set; }
+        private string _Name;
+        public string Name
+        {
+            get { return _Name; }
+            set { this.SetProperty(ref this._Name, value); }
+        }
 
-        public bool DisableStartupRefresh { get; set; }
-        public bool AutoRefresh { get; set; }
-        public double AutoRefreshTimerInterval { get; set; }
-        public bool Streaming { get; set; }
-        public int Index { get; set; }
+        private SettingSupport.ColumnTypeEnum _Action;
+        public SettingSupport.ColumnTypeEnum Action
+        {
+            get { return _Action; }
+            set { this.SetProperty(ref this._Action, value); }
+        }
 
-        public int FetchingNumberOfTweet { get; set; }
+        private string _Parameter;
+        public string Parameter
+        {
+            get { return _Parameter; }
+            set { this.SetProperty(ref this._Parameter, value); }
+        }
+
+        private string _Filter;
+        public string Filter
+        {
+            get { return _Filter; }
+            set { this.SetProperty(ref this._Filter, value); }
+        }
+
+        private bool _DisableStartupRefresh;
+        public bool DisableStartupRefresh
+        {
+            get { return _DisableStartupRefresh; }
+            set { this.SetProperty(ref this._DisableStartupRefresh, value); }
+        }
+
+        private bool _AutoRefresh;
+        public bool AutoRefresh
+        {
+            get { return _AutoRefresh; }
+            set { this.SetProperty(ref this._AutoRefresh, value); }
+        }
+
+        private double _AutoRefreshTimerInterval;
+        public double AutoRefreshTimerInterval
+        {
+            get { return _AutoRefreshTimerInterval; }
+            set { this.SetProperty(ref this._AutoRefreshTimerInterval, value); }
+        }
+        
+        private bool _Streaming;
+        public bool Streaming
+        {
+            get { return _Streaming; }
+            set { this.SetProperty(ref this._Streaming, value); }
+        }
+
+        private int _Index;
+        public int Index
+        {
+            get { return _Index; }
+            set { this.SetProperty(ref this._Index, value); }
+        }
+
+        private int _FetchingNumberOfTweet;
+        public int FetchingNumberOfTweet
+        {
+            get { return _FetchingNumberOfTweet; }
+            set { this.SetProperty(ref this._FetchingNumberOfTweet, value); }
+        }
     }
 
     public class AdvancedSettingService : AdvancedSettingServiceBase<AdvancedSettingService>
@@ -69,7 +194,7 @@ namespace Flantter.MilkyWay.Setting
             this.Dict = new Dictionary<string, object>();
             foreach (JProperty jProperty in jTokens)
             {
-                if (jProperty.Name == "Account")
+                if (jProperty.Name == "Accounts")
                     this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
                 else
                     this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
@@ -77,7 +202,7 @@ namespace Flantter.MilkyWay.Setting
         }
 
         // アカウント,カラム設定
-        public ObservableCollection<AccountSetting> Account { get { return GetValue((ObservableCollection<AccountSetting>)null); } set { SetValue(value); OnPropertyChanged(); } }
+        public ObservableCollection<AccountSetting> Accounts { get { return GetValue((ObservableCollection<AccountSetting>)null); } set { SetValue(value); OnPropertyChanged(); } }
         
         // ミュート設定
         public ObservableCollection<string> MuteUsers { get { return GetValue((ObservableCollection<string>)null); } set { SetValue(value); OnPropertyChanged(); } }

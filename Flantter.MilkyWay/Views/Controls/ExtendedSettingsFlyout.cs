@@ -237,9 +237,7 @@ namespace Flantter.MilkyWay.Views.Controls
                 if (rootBorder.Child != null)
                     rootBorder.Child = null;
             }
-
-
-            await Task.Delay(300);
+            
 
             this.contentPopup.IsOpen = false;
             this.contentPopup.Child = null;

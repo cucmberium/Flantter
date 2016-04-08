@@ -65,6 +65,19 @@ namespace Flantter.MilkyWay.Models
             this._Accounts.Add(accountModel);
         }
 
+        public void ChangeAccount(AccountSetting account)
+        {
+            foreach (var accountModel in this._Accounts)
+            {
+                if (account.UserId == accountModel.UserId)
+                    accountModel.IsEnabled = true;
+                else
+                    accountModel.IsEnabled = false;
+
+                accountModel.LeftSwipeMenuIsOpen = false;
+            }
+        }
+
         #region Instance
         private static MainPageModel _Instance = new MainPageModel();
         public static MainPageModel Instance

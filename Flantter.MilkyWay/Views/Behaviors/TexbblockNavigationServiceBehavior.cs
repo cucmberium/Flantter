@@ -81,10 +81,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 switch (token.Type)
                 {
                     case TextPartType.Plain:
-                        yield return GenerateText(obj, token.RawText);
+                        yield return GenerateText(obj, token.RawText.ResolveEntity());
                         break;
                     case TextPartType.Cashtag:
-                        yield return GenerateText(obj, token.RawText);
+                        yield return GenerateText(obj, token.RawText.ResolveEntity());
                         break;
                     case TextPartType.Hashtag:
                         yield return GenerateLink(obj, token.Text, "hashtag://" + token.RawText);

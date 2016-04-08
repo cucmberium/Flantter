@@ -54,6 +54,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.AddColumnCommand = new ReactiveCommand();
 
             this.ShowLeftSwipeMenuCommand = new ReactiveCommand();
+            this.ShowChangeAccountCommand = new ReactiveCommand();
             this.ChangeAccountCommand = new ReactiveCommand();
             this.ExitAppCommand = new ReactiveCommand();
 
@@ -120,6 +121,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
 
         public ReactiveCommand ShowLeftSwipeMenuCommand { get; private set; }
+        public ReactiveCommand ShowChangeAccountCommand { get; private set; }
         public ReactiveCommand ChangeAccountCommand { get; private set; }
         public ReactiveCommand ExitAppCommand { get; private set; }
 

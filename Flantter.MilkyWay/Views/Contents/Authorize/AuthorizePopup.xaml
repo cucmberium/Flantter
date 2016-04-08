@@ -73,7 +73,7 @@
                     <Button x:Uid="AuthorizePopup_ConfigNextButton" x:Name="AuthorizePopup_ConfigNextButton" Grid.Row="1" Click="AuthorizePopup_ConfigNextButton_Click" Content="Next" Foreground="White" Background="#FF21A4E4" Margin="0,5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="100" Height="40" />
                 </Grid>
 
-                <Grid x:Name="AuthorizePopup_AuthorizeGrid" Visibility="Collapsed" MaxWidth="600" Margin="10,0" RequestedTheme="Light">
+                <Grid x:Name="AuthorizePopup_AuthorizeGrid" Visibility="Collapsed" MaxWidth="600" RequestedTheme="Light">
                     <Grid.Transitions>
                         <TransitionCollection>
                             <EntranceThemeTransition/>

@@ -437,6 +437,20 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     settingsFlyout.Show();
                     break;
+                case "AccountChange":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AccountChangeSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new AccountChangeSettingsFlyout();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    settingsFlyout.Show();
+                    break;
             }
 
             return null;

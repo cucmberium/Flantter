@@ -117,7 +117,7 @@
 
                 <controls:HorizontalBar Margin="50,0,0,0"/>
 
-                <Button Command="{x:Bind ViewModel.Notice.ChangeAccountCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Button Command="{x:Bind ViewModel.Notice.ShowChangeAccountCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="ContactInfo" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         <TextBlock x:Uid="MainSwipeMenu_ChangeAccount" Text="アカウント切り替え" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>

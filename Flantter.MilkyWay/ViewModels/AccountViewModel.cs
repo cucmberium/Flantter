@@ -77,7 +77,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.ProfileBannerUrl = account.ObserveProperty(x => x.ProfileBannerUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
             this.IsEnabled = account.ObserveProperty(x => x.IsEnabled).ToReactiveProperty();
 
-            this.LeftSwipeMenuIsOpen = new ReactiveProperty<bool>();
+            this.LeftSwipeMenuIsOpen = account.ToReactivePropertyAsSynchronized(x => x.LeftSwipeMenuIsOpen);
 
             this.Columns = this._AccountModel.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x));
 

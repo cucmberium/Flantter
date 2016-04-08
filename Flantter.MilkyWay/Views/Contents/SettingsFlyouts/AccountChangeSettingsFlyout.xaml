@@ -1,5 +1,5 @@
 ﻿<controls:ExtendedSettingsFlyout
-    x:Class="Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings.AccountsSettingSettingsFlyout"
+    x:Class="Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings.AccountChangeSettingsFlyout"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Flantter.MilkyWay.Views.Contents.SettingsFlyouts"
@@ -23,6 +23,7 @@
     Padding="0"
     Width="320"
     HeaderBackground="{StaticResource SettingsFlyoutHeaderForegroundBrush}"
+    IsOpenFromLeftEnabled="True"
     d:DesignHeight="720"
     d:DesignWidth="320">
 
@@ -31,17 +32,17 @@
 
             <controls:HorizontalBar/>
             
-            <TextBlock Margin="10,3" TextWrapping="NoWrap" Text="各アカウントの設定"/>
+            <TextBlock Margin="10,3" TextWrapping="NoWrap" Text="アカウント選択"/>
 
             <controls:HorizontalBar/>
 
-            <ItemsControl ItemsSource="{Binding Source={StaticResource AdvancedSetting}, Path=AdvancedSetting.Accounts}">
+            <ItemsControl ItemsSource="{Binding Source={StaticResource AdvancedSetting}, Path=AdvancedSetting.Accounts}" Tapped="ItemsControl_Tapped">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding Notice.ChangeAccountCommand, Source={StaticResource Notice}}" CommandParameter="{Binding UserId, Mode=OneWay}">
                             <Grid>
                                 <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Account" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding ScreenName}" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding ScreenName, Mode=OneWay}" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
                     </DataTemplate>
@@ -50,7 +51,16 @@
 
             <controls:HorizontalBar/>
 
-            <TextBlock Margin="10,3" TextWrapping="NoWrap" Text="アカウント全体の設定"/>
+            <TextBlock Margin="10,3" TextWrapping="NoWrap" Text="アカウント設定"/>
+
+            <controls:HorizontalBar/>
+
+            <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding Notice.ShowAccountsSettingCommand, Source={StaticResource Notice}}">
+                <Grid>
+                    <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="ContactInfo" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <TextBlock Text="アカウント設定" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
 
             <controls:HorizontalBar/>
 

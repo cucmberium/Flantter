@@ -218,9 +218,13 @@ namespace Flantter.MilkyWay.ViewModels
                 var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
                 var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
                 if (statusMatch.Success)
-                { }
+                {
+                    Services.Notice.Instance.ShowStatusDetailCommand.Execute(long.Parse(statusMatch.Groups["Id"].ToString()));
+                }
                 else if (userMatch.Success)
-                { }
+                {
+                    Services.Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"].ToString());
+                }
                 else
                 {
                     await Launcher.LaunchUriAsync(new Uri(linkUrl));
@@ -245,9 +249,15 @@ namespace Flantter.MilkyWay.ViewModels
                 // Todo : 実装
             });
 
-            Services.Notice.Instance.ChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            Services.Notice.Instance.ShowChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
-                // Todo : 実装
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AccountChange" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
+            Services.Notice.Instance.ChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                this._MainPageModel.ChangeAccount(AdvancedSettingService.AdvancedSetting.Accounts.First(y => y.UserId == (long)x));
             });
 
             Services.Notice.Instance.ExitAppCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
@@ -461,13 +471,11 @@ namespace Flantter.MilkyWay.ViewModels
                         IsEnabled = false,
                     };
 
-                    AdvancedSettingService.AdvancedSetting.Accounts.Add(accountSetting);
-
                     Services.Notice.Instance.AddAccountCommand.Execute(accountSetting);
                 }
             });
 
-            Services.Notice.Instance.AuthAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            Services.Notice.Instance.AddAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var accountSetting = x as AccountSetting;
                 if (accountSetting == null)

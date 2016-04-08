@@ -79,6 +79,15 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region LeftSwipeMenuIsOpen変更通知プロパティ
+        private bool _LeftSwipeMenuIsOpen;
+        public bool LeftSwipeMenuIsOpen
+        {
+            get { return this._LeftSwipeMenuIsOpen; }
+            set { this.SetProperty(ref this._LeftSwipeMenuIsOpen, value); }
+        }
+        #endregion
+
         #region Columns
         private ObservableCollection<ColumnModel> _Columns;
         private ReadOnlyObservableCollection<ColumnModel> _ReadOnlyColumns;

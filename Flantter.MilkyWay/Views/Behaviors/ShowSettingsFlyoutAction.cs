@@ -1,5 +1,6 @@
 ﻿using CoreTweet;
 using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Contents;
 using Flantter.MilkyWay.Views.Contents.SettingsFlyouts;
 using Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings;
@@ -423,6 +424,23 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     settingsFlyout.Show();
                     break;
+                case "AccountSetting":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AccountSettingSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new AccountSettingSettingsFlyout();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((AccountSettingSettingsFlyout)settingsFlyout).ViewModel = notification.Content as AccountSetting;
+
+                    settingsFlyout.Show();
+                    break;
+                    
                 case "AppInfo":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AppInfoSettingsFlyout && !x.IsOpen);
                     if (settingsFlyoutList.Count() > 0)

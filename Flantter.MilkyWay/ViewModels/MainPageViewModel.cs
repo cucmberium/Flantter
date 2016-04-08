@@ -319,6 +319,11 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
+            Services.Notice.Instance.ShowAccountSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AccountSetting", Content = x };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
 
             Services.Notice.Instance.ShowAppInfoCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
@@ -480,9 +485,34 @@ namespace Flantter.MilkyWay.ViewModels
                 var accountSetting = x as AccountSetting;
                 if (accountSetting == null)
                     return;
-
+                
                 this._MainPageModel.AddAccount(accountSetting);
             });
+
+            Services.Notice.Instance.DeleteAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var accountSetting = x as AccountSetting;
+                if (accountSetting == null)
+                    return;
+
+                if (AdvancedSettingService.AdvancedSetting.Accounts.Count <= 1)
+                {
+                    await new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_CannotDeleteAccount"), "Confirmation").ShowAsync();
+                    return;
+                }
+                
+                bool result = false;
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_DeleteAccount"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (!result)
+                    return;
+
+                this._MainPageModel.DeleteAccount(accountSetting);
+            });
+
 
             #endregion
         }

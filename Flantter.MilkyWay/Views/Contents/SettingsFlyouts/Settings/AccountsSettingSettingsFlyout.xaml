@@ -30,15 +30,15 @@
         <StackPanel>
 
             <controls:HorizontalBar/>
-            
-            <TextBlock Margin="10,3" TextWrapping="NoWrap" Text="各アカウントの設定"/>
+
+            <TextBlock x:Uid="SettingsFlyout_Settings_Accounts_AccountsSetting_Textblock" Margin="10,3" TextWrapping="NoWrap" Text="各アカウントの設定"/>
 
             <controls:HorizontalBar/>
 
             <ItemsControl ItemsSource="{Binding Source={StaticResource AdvancedSetting}, Path=AdvancedSetting.Accounts}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding Notice.ShowAccountSettingCommand,Source={StaticResource Notice}}" CommandParameter="{Binding}">
                             <Grid>
                                 <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Account" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding ScreenName}" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -50,14 +50,14 @@
 
             <controls:HorizontalBar/>
 
-            <TextBlock Margin="10,3" TextWrapping="NoWrap" Text="アカウント全体の設定"/>
+            <TextBlock x:Uid="SettingsFlyout_Settings_Accounts_AllAccountSetting_Textblock" Margin="10,3" TextWrapping="NoWrap" Text="アカウント全体の設定"/>
 
             <controls:HorizontalBar/>
 
             <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding Notice.AuthAccountCommand, Source={StaticResource Notice}}">
                 <Grid>
                     <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="AddFriend" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                    <TextBlock Text="アカウントの追加,再認証" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="SettingsFlyout_Settings_Accounts_Auth_Textblock" Text="アカウントの追加,再認証" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
 

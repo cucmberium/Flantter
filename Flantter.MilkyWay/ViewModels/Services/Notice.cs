@@ -52,6 +52,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.AuthAccountCommand = new ReactiveCommand();
             this.AddAccountCommand = new ReactiveCommand();
             this.AddColumnCommand = new ReactiveCommand();
+            this.DeleteAccountCommand = new ReactiveCommand();
 
             this.ShowLeftSwipeMenuCommand = new ReactiveCommand();
             this.ShowChangeAccountCommand = new ReactiveCommand();
@@ -65,6 +66,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.ShowNotificationSettingCommand = new ReactiveCommand();
             this.ShowMuteSettingCommand = new ReactiveCommand();
             this.ShowAccountsSettingCommand = new ReactiveCommand();
+            this.ShowAccountSettingCommand = new ReactiveCommand();
             this.ShowAppInfoCommand = new ReactiveCommand();
             this.ShowSupportAccountCommand = new ReactiveCommand();
             this.ChangeBackgroundImageCommand = new ReactiveCommand();
@@ -118,6 +120,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand AuthAccountCommand { get; private set; }
         public ReactiveCommand AddAccountCommand { get; private set; }
         public ReactiveCommand AddColumnCommand { get; private set; }
+        public ReactiveCommand DeleteAccountCommand { get; private set; }
 
 
         public ReactiveCommand ShowLeftSwipeMenuCommand { get; private set; }
@@ -132,6 +135,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowNotificationSettingCommand { get; private set; }
         public ReactiveCommand ShowMuteSettingCommand { get; private set; }
         public ReactiveCommand ShowAccountsSettingCommand { get; private set; }
+        public ReactiveCommand ShowAccountSettingCommand { get; private set; }
         public ReactiveCommand ShowAppInfoCommand { get; private set; }
         public ReactiveCommand ShowSupportAccountCommand { get; private set; }
         public ReactiveCommand ChangeBackgroundImageCommand { get; private set; }

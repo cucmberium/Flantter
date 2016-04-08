@@ -694,4 +694,37 @@
   <data name="SettingsFlyout_Settings_Mute_MuteUsers_Delete_Button.Content" xml:space="preserve">
     <value>削除</value>
   </data>
+  <data name="ConfirmDialog_DeleteAccount" xml:space="preserve">
+    <value>選択したアカウントを削除しますか?</value>
+  </data>
+  <data name="ConfirmDialog_CannotDeleteAccount" xml:space="preserve">
+    <value>アカウントの数が1つ以下の場合アカウントを削除できません</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Accounts_AccountsSetting_Textblock.Text" xml:space="preserve">
+    <value>各アカウントの設定</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Accounts_AllAccountSetting_Textblock.Text" xml:space="preserve">
+    <value>アカウント全体の設定</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Accounts_Auth_Textblock.Text" xml:space="preserve">
+    <value>アカウントの追加,再認証</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Account_DeleteAccount_Textblock.Text" xml:space="preserve">
+    <value>アプリからアカウントを削除</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Account_IncludeFollowingActivity_Textblock.Text" xml:space="preserve">
+    <value>フォローしているユーザーのイベントを受信する</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Account_PossiblySensitive_Textblock.Text" xml:space="preserve">
+    <value>投稿する画像にSensitiveフラグを立てる</value>
+  </data>
+  <data name="SettingsFlyout_AccountChange_AccountSetting_Textblock.Text" xml:space="preserve">
+    <value>アカウント設定</value>
+  </data>
+  <data name="SettingsFlyout_AccountChange_Auth_Textblock.Text" xml:space="preserve">
+    <value>アカウントの追加,再認証</value>
+  </data>
+  <data name="SettingsFlyout_AccountChange_SelectAccount_Textblock.Text" xml:space="preserve">
+    <value>アカウント選択</value>
+  </data>
 </root>

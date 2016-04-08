@@ -76,7 +76,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:AccountViewModel">
-                    <contents:MainArea ViewModel="{x:Bind}" Visibility="{x:Bind IsEnabled.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <contents:MainArea ViewModel="{x:Bind}" IsEnabled="{x:Bind IsEnabled.Value, Mode=OneWay}" Visibility="{x:Bind IsEnabled.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

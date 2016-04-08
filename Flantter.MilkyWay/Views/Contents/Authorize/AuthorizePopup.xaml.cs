@@ -185,7 +185,7 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                 if (url.StartsWith("http://cucmber.net/?oauth_token="))
                 {
                     args.Cancel = true;
-                    var match = Regex.Match(url, @"^http://cucmber.net/\?oauth_token=(?<OauthToken>[0-9a-zA-Z_]*)&oauth_verifier=(?<OauthVerifier>[0-9a-zA-Z_]*)$");
+                    var match = Regex.Match(url, @"^http://cucmber.net/\?oauth_token=(?<OauthToken>.*)&oauth_verifier=(?<OauthVerifier>.*)$");
                     this.AuthorizeWithCallback(match.Groups["OauthToken"].Value, match.Groups["OauthVerifier"].Value);
                 }
             }

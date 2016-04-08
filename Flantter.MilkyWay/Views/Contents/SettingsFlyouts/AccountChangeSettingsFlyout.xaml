@@ -31,8 +31,8 @@
         <StackPanel>
 
             <controls:HorizontalBar/>
-            
-            <TextBlock Margin="10,3" TextWrapping="NoWrap" Text="アカウント選択"/>
+
+            <TextBlock x:Uid="SettingsFlyout_AccountChange_SelectAccount_Textblock" Margin="10,3" TextWrapping="NoWrap" Text="アカウント選択"/>
 
             <controls:HorizontalBar/>
 
@@ -51,14 +51,14 @@
 
             <controls:HorizontalBar/>
 
-            <TextBlock Margin="10,3" TextWrapping="NoWrap" Text="アカウント設定"/>
+            <TextBlock x:Uid="SettingsFlyout_AccountChange_AccountSetting_Textblock" Margin="10,3" TextWrapping="NoWrap" Text="アカウント設定"/>
 
             <controls:HorizontalBar/>
 
             <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding Notice.ShowAccountsSettingCommand, Source={StaticResource Notice}}">
                 <Grid>
                     <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="ContactInfo" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                    <TextBlock Text="アカウント設定" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="SettingsFlyout_AccountChange_AccountSetting_Textblock" Text="アカウント設定" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
 
@@ -67,7 +67,7 @@
             <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding Notice.AuthAccountCommand, Source={StaticResource Notice}}">
                 <Grid>
                     <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="AddFriend" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                    <TextBlock Text="アカウントの追加,再認証" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="SettingsFlyout_AccountChange_Auth_Textblock" Text="アカウントの追加,再認証" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
 

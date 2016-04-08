@@ -7,7 +7,7 @@
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
     "Newtonsoft.Json": "8.0.3",
-    "NotificationsExtensions.Win10": "10586.0.2",
+    "NotificationsExtensions.Win10": "14295.0.0",
     "Prism.Core": "6.1.0",
     "Prism.Windows": "6.0.2-pre1",
     "ReactiveProperty": "2.6.2",

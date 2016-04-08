@@ -694,4 +694,37 @@
   <data name="SettingsFlyout_Settings_Mute_MuteUsers_Delete_Button.Content" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="ConfirmDialog_DeleteAccount" xml:space="preserve">
+    <value>Delete account?</value>
+  </data>
+  <data name="ConfirmDialog_CannotDeleteAccount" xml:space="preserve">
+    <value>You cannot delete account when account count less than 2.</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Accounts_AccountsSetting_Textblock.Text" xml:space="preserve">
+    <value>Account setting</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Accounts_AllAccountSetting_Textblock.Text" xml:space="preserve">
+    <value>All account setting</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Accounts_Auth_Textblock.Text" xml:space="preserve">
+    <value>Add account</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Account_DeleteAccount_Textblock.Text" xml:space="preserve">
+    <value>Delete account from flantter</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Account_IncludeFollowingActivity_Textblock.Text" xml:space="preserve">
+    <value>Include following activity</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Account_PossiblySensitive_Textblock.Text" xml:space="preserve">
+    <value>Possibly sensitive</value>
+  </data>
+  <data name="SettingsFlyout_AccountChange_AccountSetting_Textblock.Text" xml:space="preserve">
+    <value>Account setting</value>
+  </data>
+  <data name="SettingsFlyout_AccountChange_Auth_Textblock.Text" xml:space="preserve">
+    <value>Add account</value>
+  </data>
+  <data name="SettingsFlyout_AccountChange_SelectAccount_Textblock.Text" xml:space="preserve">
+    <value>Select account</value>
+  </data>
 </root>

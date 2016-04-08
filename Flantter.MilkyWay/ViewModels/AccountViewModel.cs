@@ -410,8 +410,7 @@ namespace Flantter.MilkyWay.ViewModels
                     await this._AccountModel.DestroyDirectMessage(directMessage.Id);
                 }
             });
-
-
+            
             Services.Notice.Instance.DeleteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
             {
                 var statusViewModel = x as StatusViewModel;
@@ -468,10 +467,20 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
-            Services.Notice.Instance.AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
             {
                 var setting = x as ColumnSetting;
                 if (setting == null)
+                    return;
+                
+                // Taboo : 禁忌
+                bool result = false;
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_AddColumn"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (!result)
                     return;
 
                 this._AccountModel.AddColumn(setting);

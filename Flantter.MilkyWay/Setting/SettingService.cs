@@ -277,7 +277,7 @@ namespace Flantter.MilkyWay.Setting
         public bool UseExtendedConversation { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
 		
         [LocalValue]
-        public string CustomFontName { get { return GetValue("Global User Interface"); } set { SetValue(value); OnPropertyChanged(); } }
+        public string CustomFontName { get { return GetValue("Yu Gothic UI"); } set { if (!string.IsNullOrWhiteSpace(value)) SetValue(value); OnPropertyChanged(); } }
 
         [LocalValue]
         public bool UseCustomTheme { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }

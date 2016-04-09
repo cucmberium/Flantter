@@ -49,6 +49,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
             this.ShowSettingsFlyoutCommand = new ReactiveCommand();
 
+            this.DonateCommand = new ReactiveCommand();
+
             this.AuthAccountCommand = new ReactiveCommand();
             this.AddAccountCommand = new ReactiveCommand();
             this.AddColumnCommand = new ReactiveCommand();
@@ -67,9 +69,11 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.ShowMuteSettingCommand = new ReactiveCommand();
             this.ShowAccountsSettingCommand = new ReactiveCommand();
             this.ShowAccountSettingCommand = new ReactiveCommand();
+            this.ShowAdvancedSettingCommand = new ReactiveCommand();
             this.ShowAppInfoCommand = new ReactiveCommand();
             this.ShowSupportAccountCommand = new ReactiveCommand();
             this.ChangeBackgroundImageCommand = new ReactiveCommand();
+            this.ChangeThemeCommand = new ReactiveCommand();
 
             this.DeleteMuteUserCommand = new ReactiveCommand();
             this.DeleteMuteClientCommand = new ReactiveCommand();
@@ -116,6 +120,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand SearchSettingsFlyoutDeleteSearchQueryCommand { get; private set; }
 
         public ReactiveCommand ShowSettingsFlyoutCommand { get; private set; }
+        
+        public ReactiveCommand DonateCommand { get; private set; }
 
         public ReactiveCommand AuthAccountCommand { get; private set; }
         public ReactiveCommand AddAccountCommand { get; private set; }
@@ -136,9 +142,12 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowMuteSettingCommand { get; private set; }
         public ReactiveCommand ShowAccountsSettingCommand { get; private set; }
         public ReactiveCommand ShowAccountSettingCommand { get; private set; }
+        public ReactiveCommand ShowAdvancedSettingCommand { get; private set; }
         public ReactiveCommand ShowAppInfoCommand { get; private set; }
         public ReactiveCommand ShowSupportAccountCommand { get; private set; }
         public ReactiveCommand ChangeBackgroundImageCommand { get; private set; }
+        public ReactiveCommand ChangeThemeCommand { get; private set; }
+
 
         public ReactiveCommand DeleteMuteUserCommand { get; private set; }
         public ReactiveCommand DeleteMuteClientCommand { get; private set; }

@@ -31,7 +31,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
         public void Detach()
         {
             if (this.ScrollViewerObject != null)
+            {
                 this.ScrollViewerObject.ViewChanged -= ScrollViewerObject_ViewChanged;
+                this.ScrollViewerObject = null;
+            }
 
             if (this.AssociatedObject != null)
             {

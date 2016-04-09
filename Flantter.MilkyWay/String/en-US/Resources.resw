@@ -727,4 +727,28 @@
   <data name="SettingsFlyout_AccountChange_SelectAccount_Textblock.Text" xml:space="preserve">
     <value>Select account</value>
   </data>
+  <data name="ConfirmDialog_DonateSuccessfully" xml:space="preserve">
+    <value>Thanks for your donation! You can access new feature for donator.</value>
+  </data>
+  <data name="ConfirmDialog_FailedToDonate" xml:space="preserve">
+    <value>Donation progress is canceled.</value>
+  </data>
+  <data name="ConfirmDialog_NeedAppDonation" xml:space="preserve">
+    <value>This future can be used only donator. Donate now?</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_Browse_Button.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_Font_ComboBox.Header" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_UseCustomTheme_ToggleSwitch.Header" xml:space="preserve">
+    <value>Use custom theme</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_UseExtendedConversation_ToggleSwitch.Header" xml:space="preserve">
+    <value>Use search api to show conversation.</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_UseOfficialApi_ToggleSwitch.Header" xml:space="preserve">
+    <value>Use official search api and conversation api (If it can be used)</value>
+  </data>
 </root>

@@ -440,7 +440,20 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     settingsFlyout.Show();
                     break;
-                    
+                case "AdvancedSetting":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AdvancedSettingSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new AdvancedSettingSettingsFlyout();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    settingsFlyout.Show();
+                    break;
                 case "AppInfo":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AppInfoSettingsFlyout && !x.IsOpen);
                     if (settingsFlyoutList.Count() > 0)

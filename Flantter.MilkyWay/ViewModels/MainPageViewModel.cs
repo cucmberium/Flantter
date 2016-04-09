@@ -29,6 +29,7 @@ using Windows.ApplicationModel.Resources;
 using Flantter.MilkyWay.Models.Exceptions;
 using Flantter.MilkyWay.Views.Contents.Authorize;
 using System.Collections.ObjectModel;
+using Flantter.MilkyWay.License;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -139,7 +140,6 @@ namespace Flantter.MilkyWay.ViewModels
                     await this.ShowImagePreviewMessenger.Raise(new Notification() { Content = x });
                 else if (media.Type == "Video")
                     await this.ShowVideoPreviewMessenger.Raise(new Notification() { Content = x });
-
             });
 
             Services.Notice.Instance.TweetAreaOpenCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
@@ -325,6 +325,39 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
+            Services.Notice.Instance.ShowAdvancedSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                if (LicenseService.License.AppDonationIsActive)
+                {
+                    var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AdvancedSetting" };
+                    Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+                }
+                else
+                {
+                    Services.Notice.Instance.DonateCommand.Execute();
+                }
+            });
+
+            Services.Notice.Instance.DonateCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                // Taboo : 禁忌
+                bool result = false;
+                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_NeedAppDonation"), "Confirmation");
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
+                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+                await msg.ShowAsync();
+
+                if (!result)
+                    return;
+
+                var donateResult = await LicenseService.License.PurchaseAppDonation();
+
+                if (donateResult)
+                    await new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_DonateSuccessfully"), "Confirmation").ShowAsync();
+                else
+                    await new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_FailedToDonate"), "Confirmation").ShowAsync();
+            });
+
             Services.Notice.Instance.ShowAppInfoCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AppInfo" };
@@ -352,6 +385,28 @@ namespace Flantter.MilkyWay.ViewModels
                 {
                     await file.CopyAsync(ApplicationData.Current.LocalFolder, "background_image" + file.FileType, NameCollisionOption.ReplaceExisting);
                     SettingService.Setting.BackgroundImagePath = "ms-appdata:///local/" + "background_image" + file.FileType;
+                }
+                catch
+                {
+                }
+            });
+
+            Services.Notice.Instance.ChangeThemeCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var picture = new FileOpenPicker();
+                picture.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                picture.ViewMode = PickerViewMode.List;
+                picture.FileTypeFilter.Clear();
+                picture.FileTypeFilter.Add(".xaml");
+
+                StorageFile file = await picture.PickSingleFileAsync();
+                if (file == null)
+                    return;
+                
+                try
+                {
+                    await file.CopyAsync(ApplicationData.Current.LocalFolder, "Theme.xaml", NameCollisionOption.ReplaceExisting);
+                    SettingService.Setting.CustomThemePath = "ms-appdata:///local/" + "Theme.xaml";
                 }
                 catch
                 {
@@ -512,8 +567,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                 this._MainPageModel.DeleteAccount(accountSetting);
             });
-
-
+            
             #endregion
         }
         #endregion

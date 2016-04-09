@@ -94,58 +94,129 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 if (SettingService.Setting.UseExtendedConversation && this.ConversationStatus.CreatedAt.ToLocalTime() + TimeSpan.FromDays(7) > DateTime.Now)
                 {
+                    var conversation = new List<Status>();
+
                     foreach (var user in ConversationStatus.Entities.UserMentions)
                     {
                         try
                         {
                             var conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + this.ConversationStatus.User.ScreenName + " to:" + user.ScreenName, count => 100);
-                            foreach (var tweet in conversationTweets)
+                            foreach (var status in conversationTweets)
                             {
+                                conversation.Add(status);
                                 // Todo : データベースに登録
                             }
                             conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + user.ScreenName + " to:" + this.ConversationStatus.User.ScreenName, count => 100);
-                            foreach (var tweet in conversationTweets)
+                            foreach (var status in conversationTweets)
                             {
+                                conversation.Add(status);
                                 // Todo : データベースに登録
+                            }
+
+                            while (true)
+                            {
+                                var items = conversation.Where(x => x.InReplyToStatusId == nextId);
+                                if (items.Count() > 0)
+                                {
+                                    var item = items.First();
+
+                                    var status = new Twitter.Objects.Status(item);
+                                    status.InReplyToStatusId = 0;
+
+                                    this.Conversation.Insert(0, status);
+
+                                    nextId = item.Id;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                            nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
+                            while (true)
+                            {
+                                var items = conversation.Where(x => x.Id == nextId);
+                                if (items.Count() > 0)
+                                {
+                                    var item = items.First();
+                                    
+                                    nextId = item.InReplyToStatusId.HasValue ? item.InReplyToStatusId.Value : 0;
+
+                                    var status = new Twitter.Objects.Status(item);
+                                    status.InReplyToStatusId = 0;
+
+                                    this.Conversation.Add(status);
+
+                                    if (nextId == 0)
+                                        break;
+                                }
+                                else
+                                {
+                                    updateCount += 1;
+                                    Status item;
+                                    try
+                                    {
+                                        item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true);
+                                    }
+                                    catch
+                                    {
+                                        this.Updating = false;
+                                        return;
+                                    }
+
+                                    if (item.RetweetedStatus != null)
+                                        nextId = item.RetweetedStatus.InReplyToStatusId.HasValue ? item.RetweetedStatus.InReplyToStatusId.Value : 0;
+                                    else
+                                        nextId = item.InReplyToStatusId.HasValue ? item.InReplyToStatusId.Value : 0;
+
+                                    var status = new Twitter.Objects.Status(item);
+                                    status.InReplyToStatusId = 0;
+
+                                    this.Conversation.Add(status);
+
+                                    if (nextId == 0 || updateCount > 20)
+                                        break;
+                                }
                             }
                         }
                         catch
                         {
                         }
                     }
-
-                    // Todo : データベースから未来のツイートを抽出
                 }
-
-                nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
-                while (true)
+                else
                 {
-                    // Todo : データベースから過去のツイートを抽出
-
-                    updateCount += 1;
-                    Status item;
-                    try
+                    nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
+                    while (true)
                     {
-                        item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true);
+                        // Todo : データベースから過去のツイートを抽出
+
+                        updateCount += 1;
+                        Status item;
+                        try
+                        {
+                            item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true);
+                        }
+                        catch
+                        {
+                            this.Updating = false;
+                            return;
+                        }
+
+                        if (item.RetweetedStatus != null)
+                            nextId = item.RetweetedStatus.InReplyToStatusId.HasValue ? item.RetweetedStatus.InReplyToStatusId.Value : 0;
+                        else
+                            nextId = item.InReplyToStatusId.HasValue ? item.InReplyToStatusId.Value : 0;
+
+                        var status = new Twitter.Objects.Status(item);
+                        status.InReplyToStatusId = 0;
+
+                        this.Conversation.Add(status);
+
+                        if (nextId == 0 || updateCount > 20)
+                            break;
                     }
-                    catch
-                    {
-                        this.Updating = false;
-                        return;
-                    }
-
-                    if (item.RetweetedStatus != null)
-                        nextId = item.RetweetedStatus.InReplyToStatusId.HasValue ? item.RetweetedStatus.InReplyToStatusId.Value : 0;
-                    else
-                        nextId = item.InReplyToStatusId.HasValue ? item.InReplyToStatusId.Value : 0;
-
-                    var status = new Twitter.Objects.Status(item);
-                    status.InReplyToStatusId = 0;
-
-                    this.Conversation.Add(status);
-
-                    if (nextId == 0 || updateCount > 20)
-                        break;
                 }
             }
 

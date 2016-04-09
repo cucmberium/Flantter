@@ -117,6 +117,7 @@
     <Compile Include="Common\IEnumerableExtensions.cs" />
     <Compile Include="Common\SettingServiceBase.cs" />
     <Compile Include="Common\StringExtensions.cs" />
+    <Compile Include="License\LicenseService.cs" />
     <Compile Include="Models\Twitter\ExtractTextParts.cs" />
     <Compile Include="Models\Twitter\TweetRegexPatterns.cs" />
     <Compile Include="Models\Twitter\TwitterConnectionHelper.cs" />
@@ -216,6 +217,9 @@
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\NotificationSettingSettingsFlyout.xaml.cs">
       <DependentUpon>NotificationSettingSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\Settings\AdvancedSettingSettingsFlyout.xaml.cs">
+      <DependentUpon>AdvancedSettingSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\PostingSettingSettingsFlyout.xaml.cs">
       <DependentUpon>PostingSettingSettingsFlyout.xaml</DependentUpon>
@@ -449,6 +453,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\Settings\NotificationSettingSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\Settings\AdvancedSettingSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

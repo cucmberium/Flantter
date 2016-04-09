@@ -727,4 +727,28 @@
   <data name="SettingsFlyout_AccountChange_SelectAccount_Textblock.Text" xml:space="preserve">
     <value>アカウント選択</value>
   </data>
+  <data name="ConfirmDialog_DonateSuccessfully" xml:space="preserve">
+    <value>寄付ありがとうございます! 寄付専用の機能が開放されました!</value>
+  </data>
+  <data name="ConfirmDialog_FailedToDonate" xml:space="preserve">
+    <value>寄付はキャンセルされました。支払いは発生しません</value>
+  </data>
+  <data name="ConfirmDialog_NeedAppDonation" xml:space="preserve">
+    <value>この機能にアクセスするには寄付が必要です。寄付を行いますか?</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_Browse_Button.Content" xml:space="preserve">
+    <value>参照</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_Font_ComboBox.Header" xml:space="preserve">
+    <value>フォント</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_UseCustomTheme_ToggleSwitch.Header" xml:space="preserve">
+    <value>カスタムテーマを使用する</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_UseExtendedConversation_ToggleSwitch.Header" xml:space="preserve">
+    <value>会話の未来表示をする</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_UseOfficialApi_ToggleSwitch.Header" xml:space="preserve">
+    <value>公式APIを使用する(使用できる場合)</value>
+  </data>
 </root>

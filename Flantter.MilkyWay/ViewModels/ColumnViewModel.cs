@@ -249,7 +249,7 @@ namespace Flantter.MilkyWay.ViewModels
                     return new DirectMessageViewModel((DirectMessage)item, this.Model.Tokens.UserId) as object;
                 else
                     return new EventMessageViewModel((EventMessage)item, this.Model.Tokens.UserId) as object;
-            });
+            }).AddTo(this.Disposable);
         }
         #endregion
 

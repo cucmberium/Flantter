@@ -23,8 +23,15 @@ namespace Flantter.MilkyWay.Common
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
-            if (!Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.HasThreadAccess)
+            try
+            {
+                if (!Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.HasThreadAccess)
+                    return;
+            }
+            catch
+            {
                 return;
+            }
 
             var h = PropertyChanged;
             if (h != null) h(this, new PropertyChangedEventArgs(name));

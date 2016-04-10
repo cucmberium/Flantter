@@ -270,17 +270,17 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region AccountSetting
-        private AccountSetting _AccountSetting;
+        private AccountSetting _AccountSetting { get; set; }
         #endregion
 
         #region ColumnSetting
-        private ColumnSetting _ColumnSetting;
+        private ColumnSetting _ColumnSetting { get; set; }
         #endregion
 
         #region AccountModel
-        private AccountModel _AccountModel;
+        private AccountModel _AccountModel { get; set; }
         #endregion
-        
+
         #region Initialize
         public async Task Initialize()
         {

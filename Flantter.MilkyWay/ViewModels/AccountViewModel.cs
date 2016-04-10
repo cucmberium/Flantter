@@ -469,7 +469,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (!msgNotification.Result)
                     return;
 
-                this.Model.AddColumn(setting);
+                await this.Model.AddColumn(setting);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.SendDirectMessageCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>

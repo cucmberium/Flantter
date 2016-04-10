@@ -51,8 +51,6 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveProperty<int> UnreadCount { get; private set; }
         public ReactiveProperty<bool> UnreadCountIncrementalTrigger { get; private set; }
-        public ReactiveProperty<bool> IsScrollControlEnabled { get; private set; }
-        public ReactiveProperty<bool> IsScrollLockEnabled { get; private set; }
         public ReactiveProperty<bool> IsScrollLockToTopEnabled { get; private set; }
 
         public ReactiveCommand StreamingCommand { get; private set; }
@@ -122,8 +120,6 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.UnreadCount = column.ToReactivePropertyAsSynchronized(x => x.UnreadCount).AddTo(this.Disposable);
             this.UnreadCountIncrementalTrigger = column.ToReactivePropertyAsSynchronized(x => x.UnreadCountIncrementalTrigger).AddTo(this.Disposable);
-            this.IsScrollControlEnabled = column.ObserveProperty(x => x.IsScrollControlEnabled).ToReactiveProperty().AddTo(this.Disposable);
-            this.IsScrollLockEnabled = column.ObserveProperty(x => x.IsScrollLockEnabled).ToReactiveProperty().AddTo(this.Disposable);
             this.IsScrollLockToTopEnabled = new ReactiveProperty<bool>().AddTo(this.Disposable);
 
             this.StreamingCommand = column.ObserveProperty(x => x.Action).Select(x =>

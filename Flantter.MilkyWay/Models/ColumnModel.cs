@@ -209,24 +209,6 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
-        #region IsScrollControlEnabled変更通知プロパティ
-        private bool _IsScrollControlEnabled;
-        public bool IsScrollControlEnabled
-        {
-            get { return this._IsScrollControlEnabled; }
-            set { this.SetProperty(ref this._IsScrollControlEnabled, value); }
-        }
-        #endregion
-
-        #region IsScrollLockEnabled変更通知プロパティ
-        private bool _IsScrollLockEnabled;
-        public bool IsScrollLockEnabled
-        {
-            get { return this._IsScrollLockEnabled; }
-            set { this.SetProperty(ref this._IsScrollLockEnabled, value); }
-        }
-        #endregion
-
         #region UnreadCount変更通知プロパティ
         private int _UnreadCount;
         public int UnreadCount
@@ -242,15 +224,6 @@ namespace Flantter.MilkyWay.Models
         {
             get { return this._UnreadCountIncrementalTrigger; }
             set { this.SetProperty(ref this._UnreadCountIncrementalTrigger, value); }
-        }
-        #endregion
-
-        #region DisableNotifyCollectionChanged変更通知プロパティ
-        private bool _DisableNotifyCollectionChanged;
-        public bool DisableNotifyCollectionChanged
-        {
-            get { return this._DisableNotifyCollectionChanged; }
-            set { this.SetProperty(ref this._DisableNotifyCollectionChanged, value); }
         }
         #endregion
 
@@ -395,15 +368,7 @@ namespace Flantter.MilkyWay.Models
             this.Parameter = this._ColumnSetting.Parameter;
             
             if (!this._ColumnSetting.DisableStartupRefresh)
-            {
-                this.DisableNotifyCollectionChanged = true;
-                this.IsScrollControlEnabled = false;
-
                 await Update();
-
-                this.IsScrollControlEnabled = true;
-                this.DisableNotifyCollectionChanged = false;
-            }
             
             this.Streaming = this._ColumnSetting.Streaming;
         }

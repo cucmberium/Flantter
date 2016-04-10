@@ -152,10 +152,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             var verticalOffset = previousVerticalOffset;
             var offset = verticalOffset + ChangedVertialOffset;
-            previousVerticalOffset = offset;
 
-            if (this.ScrollViewerObject.ScrollableHeight - offset <= 0)
+            if (this.ScrollViewerObject.ScrollableHeight + 1 - offset <= 0)
                 return;
+
+            previousVerticalOffset = offset;
 
             if (e.NewStartingIndex >= verticalOffset - 1)
                 return;

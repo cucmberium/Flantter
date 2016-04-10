@@ -106,7 +106,7 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region AccountSetting
-        private AccountSetting _AccountSetting;
+        private AccountSetting _AccountSetting { get; set; }
         #endregion
 
         #region Initialize
@@ -170,7 +170,7 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
-        public void AddColumn(ColumnSetting column)
+        public async Task AddColumn(ColumnSetting column)
         {
             if (column.Index == -1)
                 column.Index = this._Columns.Count;
@@ -181,7 +181,7 @@ namespace Flantter.MilkyWay.Models
             var columnModel = new ColumnModel(column, this._AccountSetting, this);
             this._Columns.Add(columnModel);
 
-            columnModel.Initialize();
+            await columnModel.Initialize();
         }
 
         public void DeleteColumn(ColumnSetting column)

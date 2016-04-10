@@ -43,7 +43,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> IsEnabledStreaming { get; private set; }
         public ReactiveProperty<bool> Updating { get; private set; }
 
-        public ExtendedObservableCollection<object> Tweets { get; private set; }
+        public ReadOnlyReactiveCollection<object> Tweets { get; private set; }
 
         public ReactiveProperty<int> Index { get; private set; }
 
@@ -241,69 +241,14 @@ namespace Flantter.MilkyWay.ViewModels
                         return 5.0 + index * (columnWidth + 10.0) + 352.0;
                 }).ToReactiveProperty().AddTo(this.Disposable);
             
-            this.Tweets = new ExtendedObservableCollection<object>();
-            Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
-                h => (sender, e) => h(e),
-                h => this.Model.Tweets.CollectionChanged += h,
-                h => this.Model.Tweets.CollectionChanged -= h).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
-                {
-                    var e = x as NotifyCollectionChangedEventArgs;
-
-                    if (e.Action == NotifyCollectionChangedAction.Add)
-                    {
-                        var item = e.NewItems[0];
-
-                        if (item is Status)
-                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this.Model.Tokens.UserId));
-                        else if (item is DirectMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this.Model.Tokens.UserId));
-                        else if (item is EventMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this.Model.Tokens.UserId));
-                    }
-                    else if (e.Action == NotifyCollectionChangedAction.Remove)
-                    {
-                        var item = this.Tweets[e.OldStartingIndex] as IDisposable;
-                        if (item != null)
-                            item.Dispose();
-
-                        this.Tweets.RemoveAt(e.OldStartingIndex);
-                    }
-                    else if (e.Action == NotifyCollectionChangedAction.Replace)
-                    {
-                        var olditem = this.Tweets[e.OldStartingIndex] as IDisposable;
-                        if (olditem != null)
-                            olditem.Dispose();
-
-                        var item = e.NewItems[0];
-                        if (item is Status)
-                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this.Model.Tokens.UserId));
-                        else if (item is DirectMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this.Model.Tokens.UserId));
-                        else if (item is EventMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this.Model.Tokens.UserId));
-                    }
-                    else if (e.Action == NotifyCollectionChangedAction.Reset)
-                    {
-                        foreach (var tweet in this.Tweets)
-                        {
-                            var item = tweet as IDisposable;
-                            if (item != null)
-                                item.Dispose();
-                        }
-
-                        this.Tweets.Clear();
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
-                }).AddTo(this.Disposable);
-
-            this.Model.ObserveProperty(x => x.DisableNotifyCollectionChanged).SubscribeOn(ThreadPoolScheduler.Default).Subscribe<bool>(x => 
+            this.Tweets = this.Model.Tweets.ToReadOnlyReactiveCollection(item => 
             {
-                this.Tweets.DisableNotifyCollectionChanged = x;
-                if (!x)
-                    this.Tweets.InvokeCollectionChanged(NotifyCollectionChangedAction.Reset);
+                if (item is Status)
+                    return new StatusViewModel((Status)item, this.Model.Tokens.UserId) as object;
+                else if (item is DirectMessage)
+                    return new DirectMessageViewModel((DirectMessage)item, this.Model.Tokens.UserId) as object;
+                else
+                    return new EventMessageViewModel((EventMessage)item, this.Model.Tokens.UserId) as object;
             }).AddTo(this.Disposable);
         }
         #endregion

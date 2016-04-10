@@ -46,10 +46,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 !args.CurrentPoint.Properties.IsMiddleButtonPressed &&
                 _rightMouseButtonPressed)
             {
-                if (this.IsOpen)
-                    this.BottomAppBar.IsOpen = false;
-                else
-                    this.IsOpen = true;
+                if (!appBarIsOpenChanging)
+                {
+                    if (this.IsOpen)
+                        this.IsOpen = false;
+                    else
+                        this.IsOpen = true;
+                }
 
                 args.Handled = true;
                 _rightMouseButtonPressed = false;
@@ -98,13 +101,17 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (oldBottomAppBar != null)
             {
                 oldBottomAppBar.Closed -= behavior.BottomAppBar_Closed;
-                oldBottomAppBar.Opening -= behavior.BottomAppBar_Opened;
+                oldBottomAppBar.Opened -= behavior.BottomAppBar_Opened;
+                oldBottomAppBar.Opening -= behavior.BottomAppBar_Opening;
+                oldBottomAppBar.Closing -= behavior.BottomAppBar_Closing;
             }
             var newBottomAppBar = e.NewValue as AppBar;
             if (newBottomAppBar != null)
             {
                 newBottomAppBar.Closed += behavior.BottomAppBar_Closed;
-                newBottomAppBar.Opening += behavior.BottomAppBar_Opened;
+                newBottomAppBar.Opened += behavior.BottomAppBar_Opened;
+                newBottomAppBar.Opening -= behavior.BottomAppBar_Opening;
+                newBottomAppBar.Closing -= behavior.BottomAppBar_Closing;
 
                 var page = behavior.AssociatedObject as Page;
                 if (page == null)
@@ -114,13 +121,27 @@ namespace Flantter.MilkyWay.Views.Behaviors
             }
         }
 
+        private bool appBarIsOpenChanging = false;
+
+        private void BottomAppBar_Closing(object sender, object e)
+        {
+            appBarIsOpenChanging = true;
+        }
+
+        private void BottomAppBar_Opening(object sender, object e)
+        {
+            appBarIsOpenChanging = true;
+        }
+
         private void BottomAppBar_Opened(object sender, object e)
         {
+            appBarIsOpenChanging = false;
             this.IsOpen = true;
         }
 
         private void BottomAppBar_Closed(object sender, object e)
         {
+            appBarIsOpenChanging = false;
             this.IsOpen = false;
         }
 
@@ -131,7 +152,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
         }
         public static readonly DependencyProperty IsOpenProperty =
             DependencyProperty.Register("IsOpen", typeof(bool), typeof(BottomAppBarShowBehavior), new PropertyMetadata(false, IsOpenChanged));
-
+        
         private static async void IsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var behavior = d as BottomAppBarShowBehavior;
@@ -139,21 +160,23 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (page == null)
                 return;
 
+            if (behavior.appBarIsOpenChanging)
+                return;
+
+            if (behavior.BottomAppBar.IsOpen == (bool)e.NewValue)
+                return;
+
             var isOpen = (bool)e.NewValue;
             if (isOpen)
             {
                 page.BottomAppBar = behavior.BottomAppBar;
-
                 await Task.Delay(10);
-
-                page.BottomAppBar.IsOpen = true;
+                behavior.BottomAppBar.IsOpen = true;
             }
             else
             {
-                page.BottomAppBar.IsOpen = false;
-
+                behavior.BottomAppBar.IsOpen = false;
                 await Task.Delay(500);
-
                 page.BottomAppBar = null;
             }
         }

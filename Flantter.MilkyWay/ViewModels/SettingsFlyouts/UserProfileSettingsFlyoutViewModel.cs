@@ -3,6 +3,7 @@ using Flantter.MilkyWay.Models.SettingsFlyouts;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -205,19 +206,21 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 await this.Model.UpdateStatuses();
             });
 
+            this.FollowCommand = new ReactiveCommand();
+            this.FollowCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                await this.Model.Follow();
+            });
+
             this.BlockUserCommand = new ReactiveCommand();
             this.BlockUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                // Taboo : 禁忌
-                bool result = false;
-                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Block"), "Confirmation");
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                await msg.ShowAsync();
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_Block"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-                if (!result)
+                if (!msgNotification.Result)
                     return;
-
+                
                 await this.Model.CreateBlock();
             });
 
@@ -230,24 +233,16 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.MuteUserCommand = new ReactiveCommand();
             this.MuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                // Taboo : 禁忌
-                bool result = false;
-                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Mute"), "Confirmation");
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                await msg.ShowAsync();
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_Mute"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-                if (result)
+                if (msgNotification.Result)
                     await this.Model.CreateMute();
-                
-                // Taboo : 禁忌
-                result = false;
-                msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_MuteInFlantter"), "Confirmation");
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                await msg.ShowAsync();
 
-                if (!result)
+                msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_MuteInFlantter"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                if (!msgNotification.Result)
                     return;
 
                 if (!AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(this.Model.ScreenName))
@@ -400,6 +395,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveCommand UpdateCommand { get; set; }
 
         public ReactiveCommand ClearCommand { get; set; }
+
+        public ReactiveCommand FollowCommand { get; set; }
 
         public ReactiveCommand MuteUserCommand { get; set; }
 

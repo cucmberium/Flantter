@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
@@ -25,6 +26,8 @@ namespace Flantter.MilkyWay.Models
 {
     public class ColumnModel : BindableBase, IDisposable
     {
+        protected CompositeDisposable Disposable { get; private set; } = new CompositeDisposable();
+
         #region Action変更通知プロパティ
         private SettingSupport.ColumnTypeEnum _Action;
         public SettingSupport.ColumnTypeEnum Action
@@ -277,23 +280,11 @@ namespace Flantter.MilkyWay.Models
         #region AccountModel
         private AccountModel _AccountModel;
         #endregion
-
-        private IDisposable streamingDisposableObject = null;
-        private IDisposable tweetReceiveDisposableObject = null;
-
-        private IDisposable settingMuteFilterDisposableObject = null;
-        private IDisposable settingAutoRefreshDisposableObject = null;
-        private IDisposable settingAutoRefreshTimerIntervalDisposableObject = null;
-        private IDisposable settingDisableStartupRefreshDisposableObject = null;
-        private IDisposable settingFilterDisposableObject = null;
-        private IDisposable settingFetchingNumberOfTweetDisposableObject = null;
-        private IDisposable settingNameDisposableObject = null;
-        private IDisposable settingScreenNameDisposableObject = null;
-
+        
         #region Initialize
         public async Task Initialize()
         {
-            streamingDisposableObject = this.Stream.SubscribeOn(NewThreadScheduler.Default).Subscribe(
+            this.Stream.SubscribeOn(NewThreadScheduler.Default).Subscribe(
                 (StreamingMessage m) =>
                 {
                     switch (m.Type)
@@ -343,9 +334,9 @@ namespace Flantter.MilkyWay.Models
                             break;
                     }
                 }
-            );
+            ).AddTo(this.Disposable);
 
-            tweetReceiveDisposableObject = Observable.Merge(
+            Observable.Merge(
                 Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
                 h => (sender, e) => h(e),
                 h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetReceive_CommandExecute += h,
@@ -388,16 +379,16 @@ namespace Flantter.MilkyWay.Models
                     else if (e is TweetDeleteEventArgs)
                     {
                     }
-                });
+                }).AddTo(this.Disposable);
 
-            settingMuteFilterDisposableObject = SettingService.Setting.ObserveProperty(x => x.MuteFilter).Subscribe(x => this.MuteFilter = x);
-            settingAutoRefreshDisposableObject = this._ColumnSetting.ObserveProperty(x => x.AutoRefresh).Subscribe(x => this.AutoRefresh = x);
-            settingAutoRefreshTimerIntervalDisposableObject = this._ColumnSetting.ObserveProperty(x => x.AutoRefreshTimerInterval).Subscribe(x => this.AutoRefreshTimerInterval = x);
-            settingDisableStartupRefreshDisposableObject = this._ColumnSetting.ObserveProperty(x => x.DisableStartupRefresh).Subscribe(x => this.DisableStartupRefresh = x);
-            settingFilterDisposableObject = this._ColumnSetting.ObserveProperty(x => x.Filter).Subscribe(x => this.Filter = x);
-            settingFetchingNumberOfTweetDisposableObject = this._ColumnSetting.ObserveProperty(x => x.FetchingNumberOfTweet).Subscribe(x => this.FetchingNumberOfTweet = x);
-            settingNameDisposableObject = this._ColumnSetting.ObserveProperty(x => x.Name).Subscribe(x => this.Name = x);
-            settingScreenNameDisposableObject = this._AccountSetting.ObserveProperty(x => x.ScreenName).Subscribe(x => this.ScreenName = x);
+            SettingService.Setting.ObserveProperty(x => x.MuteFilter).Subscribe(x => this.MuteFilter = x).AddTo(this.Disposable);
+            this._ColumnSetting.ObserveProperty(x => x.AutoRefresh).Subscribe(x => this.AutoRefresh = x).AddTo(this.Disposable);
+            this._ColumnSetting.ObserveProperty(x => x.AutoRefreshTimerInterval).Subscribe(x => this.AutoRefreshTimerInterval = x).AddTo(this.Disposable);
+            this._ColumnSetting.ObserveProperty(x => x.DisableStartupRefresh).Subscribe(x => this.DisableStartupRefresh = x).AddTo(this.Disposable);
+            this._ColumnSetting.ObserveProperty(x => x.Filter).Subscribe(x => this.Filter = x).AddTo(this.Disposable);
+            this._ColumnSetting.ObserveProperty(x => x.FetchingNumberOfTweet).Subscribe(x => this.FetchingNumberOfTweet = x).AddTo(this.Disposable);
+            this._ColumnSetting.ObserveProperty(x => x.Name).Subscribe(x => this.Name = x).AddTo(this.Disposable);
+            this._AccountSetting.ObserveProperty(x => x.ScreenName).Subscribe(x => this.ScreenName = x).AddTo(this.Disposable);
 
             this.Action = this._ColumnSetting.Action;
             this.Index = this._ColumnSetting.Index;
@@ -881,7 +872,16 @@ namespace Flantter.MilkyWay.Models
         {
             if (!param.Contains(this.Action.ToString("F").ToLower() + "://" + this._Parameter))
             {
-                if (this.Action != SettingSupport.ColumnTypeEnum.List || !param.Contains("home://") || !status.User.IsProtected)
+                if (!Setting.SettingService.Setting.ComplementListStream || this.Action != SettingSupport.ColumnTypeEnum.List || !param.Contains("home://") || !status.User.IsProtected)
+                    return false;
+
+                if (listStreamUserIdList == null)
+                    return false;
+
+                if (!listStreamUserIdList.Contains(status.User.Id))
+                    return false;
+
+                if (!this.Streaming)
                     return false;
             }
 
@@ -1029,38 +1029,10 @@ namespace Flantter.MilkyWay.Models
 
         public void Dispose()
         {
-            if (streamingDisposableObject != null)
-                streamingDisposableObject.Dispose();
-
-            if (tweetReceiveDisposableObject != null)
-                tweetReceiveDisposableObject.Dispose();
-
             if (streamingConnectionDisposableObject != null)
                 streamingConnectionDisposableObject.Dispose();
-            
-            if (settingMuteFilterDisposableObject != null)
-                settingMuteFilterDisposableObject.Dispose();
 
-            if (settingAutoRefreshDisposableObject != null)
-                settingAutoRefreshDisposableObject.Dispose();
-
-            if (settingAutoRefreshTimerIntervalDisposableObject != null)
-                settingAutoRefreshTimerIntervalDisposableObject.Dispose();
-
-            if (settingDisableStartupRefreshDisposableObject != null)
-                settingDisableStartupRefreshDisposableObject.Dispose();
-
-            if (settingFilterDisposableObject != null)
-                settingFilterDisposableObject.Dispose();
-
-            if (settingFetchingNumberOfTweetDisposableObject != null)
-                settingFetchingNumberOfTweetDisposableObject.Dispose();
-
-            if (settingNameDisposableObject != null)
-                settingNameDisposableObject.Dispose();
-
-            if (settingScreenNameDisposableObject != null)
-                settingScreenNameDisposableObject.Dispose();
+            this.Disposable.Dispose();
         }
     }
 }

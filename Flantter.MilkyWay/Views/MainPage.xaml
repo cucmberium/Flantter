@@ -37,6 +37,19 @@
             <behaviors:ShowSettingsFlyoutAction/>
         </util:MessengerTriggerBehavior>
 
+        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.Notice.ShowFilePickerMessenger}">
+            <util:FileOpenPickerAction/>
+        </util:MessengerTriggerBehavior>
+        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.Notice.ShowComfirmMessageDialogMessenger}">
+            <util:ConfirmMessageDialogAction/>
+        </util:MessengerTriggerBehavior>
+        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.Notice.ShowMessageDialogMessenger}">
+            <util:MessageDialogAction/>
+        </util:MessengerTriggerBehavior>
+        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.Notice.ShowAuthorizePopupMessenger}">
+            <behaviors:AuthorizeAction/>
+        </util:MessengerTriggerBehavior>
+
         <behaviors:BottomAppBarShowBehavior IsOpen="{x:Bind ViewModel.AppBarIsOpen.Value, Mode=TwoWay}">
             <behaviors:BottomAppBarShowBehavior.BottomAppBar>
                 <AppBar ClosedDisplayMode="Hidden" IsSticky="False">

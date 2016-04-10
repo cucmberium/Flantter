@@ -187,6 +187,7 @@
     <Compile Include="ViewModels\Twitter\Objects\UserViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
     <Compile Include="Views\Behaviors\LeftSwipeMenuShowBehavior.cs" />
+    <Compile Include="Views\Behaviors\AuthorizeAction.cs" />
     <Compile Include="Views\Behaviors\VirtualizingStackPanelRecycleItemResetBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewIncrementalLoadBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewScrollControlBehavior.cs" />
@@ -344,6 +345,8 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Behaviors\TextBoxKeyTriggerBehavior.cs" />
+    <Compile Include="Views\Util\MessageDialogAction.cs" />
+    <Compile Include="Views\Util\ConfirmMessageDialogAction.cs" />
     <Compile Include="Views\Util\FileOpenPickerAction.cs" />
     <Compile Include="Views\Util\KeyTriggerBehavior.cs" />
     <Compile Include="Views\Util\MenuFlyoutExtension.cs" />

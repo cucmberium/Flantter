@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -32,6 +33,22 @@ namespace Flantter.MilkyWay.Views.Contents
             };
         }
 
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(FollowButon), new PropertyMetadata(null));
+
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(FollowButon), new PropertyMetadata(null));
+
         public object ButtonContent
         {
             get { return (object)GetValue(ButtonContentProperty); }
@@ -60,6 +77,12 @@ namespace Flantter.MilkyWay.Views.Contents
                 this.FollowButton.Content = ButtonContent;
             else
                 this.FollowButton.Content = ButtonPointerOverContent;
+        }
+
+        private void FollowButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.Command != null && this.Command.CanExecute(this.CommandParameter))
+                this.Command.Execute(this.CommandParameter);
         }
     }
 }

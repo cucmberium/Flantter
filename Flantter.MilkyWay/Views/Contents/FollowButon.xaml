@@ -9,6 +9,6 @@
     d:DesignHeight="32"
     d:DesignWidth="100">
 
-    <Button x:Name="FollowButton" Width="100" Background="#FF21A4E4" Foreground="White" Margin="1,1"/>
+    <Button x:Name="FollowButton" Click="FollowButton_Click" Width="100" Background="#FF21A4E4" Foreground="White" Margin="1,1"/>
 
 </UserControl>

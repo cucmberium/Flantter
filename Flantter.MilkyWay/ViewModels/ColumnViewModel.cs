@@ -21,12 +21,15 @@ using Windows.UI.Xaml.Controls;
 using System.Reactive.Concurrency;
 using Flantter.MilkyWay.ViewModels.Services;
 using System.Reactive.Subjects;
+using System.Reactive.Disposables;
 
 namespace Flantter.MilkyWay.ViewModels
 {
     public class ColumnViewModel : IDisposable
     {
-        public ColumnModel _ColumnModel { get; set; }
+        protected CompositeDisposable Disposable { get; private set; } = new CompositeDisposable();
+
+        public ColumnModel Model { get; set; }
 
         public ReactiveProperty<double> Height { get; private set; }
         public ReactiveProperty<double> Width { get; private set; }
@@ -62,17 +65,11 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveCommand TweetDoubleTappedActionCommand { get; private set; }
 
-        public IDisposable TweetsCollectionChangedDisposable { get; private set; }
-        public IDisposable DisableNotifyCollectionChangedDisposable { get; private set; }
-
         #region Constructor
-        /*public ColumnViewModel()
-        {
-        }*/
 
         public ColumnViewModel(ColumnModel column)
         {
-            this._ColumnModel = column;
+            this.Model = column;
             
 			this.ActionSymbol = column.ObserveProperty(x => x.Action).Select(x =>
 			{
@@ -99,12 +96,12 @@ namespace Flantter.MilkyWay.ViewModels
 					default:
 						return Symbol.Help;
 				}
-			}).ToReactiveProperty();
-			this.EnableCreateFilterColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Home).ToReactiveProperty();
-            this.Name = column.ObserveProperty(x => x.Name).ToReactiveProperty();
-            this.ScreenName = column.ObserveProperty(x => x.ScreenName).ToReactiveProperty();
-			this.StreamingSymbol = column.ObserveProperty(x => x.Streaming).Select(x => x ? Symbol.Pause : Symbol.Play).ToReactiveProperty();
-            this.Index = column.ObserveProperty(x => x.Index).ToReactiveProperty();
+			}).ToReactiveProperty().AddTo(this.Disposable);
+			this.EnableCreateFilterColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Home).ToReactiveProperty().AddTo(this.Disposable);
+            this.Name = column.ObserveProperty(x => x.Name).ToReactiveProperty().AddTo(this.Disposable);
+            this.ScreenName = column.ObserveProperty(x => x.ScreenName).ToReactiveProperty().AddTo(this.Disposable);
+			this.StreamingSymbol = column.ObserveProperty(x => x.Streaming).Select(x => x ? Symbol.Pause : Symbol.Play).ToReactiveProperty().AddTo(this.Disposable);
+            this.Index = column.ObserveProperty(x => x.Index).ToReactiveProperty().AddTo(this.Disposable);
             this.IsEnabledStreaming = column.ObserveProperty(x => x.Action).Select(x =>
             {
                 switch (x)
@@ -118,16 +115,16 @@ namespace Flantter.MilkyWay.ViewModels
                     default:
                         return false;
                 }
-            }).ToReactiveProperty();
-            this.Updating = column.ObserveProperty(x => x.Updating).ToReactiveProperty();
+            }).ToReactiveProperty().AddTo(this.Disposable);
+            this.Updating = column.ObserveProperty(x => x.Updating).ToReactiveProperty().AddTo(this.Disposable);
 
-            this.SelectedIndex = column.ToReactivePropertyAsSynchronized(x => x.SelectedIndex);
+            this.SelectedIndex = column.ToReactivePropertyAsSynchronized(x => x.SelectedIndex).AddTo(this.Disposable);
 
-            this.UnreadCount = column.ToReactivePropertyAsSynchronized(x => x.UnreadCount);
-            this.UnreadCountIncrementalTrigger = column.ToReactivePropertyAsSynchronized(x => x.UnreadCountIncrementalTrigger);
-            this.IsScrollControlEnabled = column.ObserveProperty(x => x.IsScrollControlEnabled).ToReactiveProperty();
-            this.IsScrollLockEnabled = column.ObserveProperty(x => x.IsScrollLockEnabled).ToReactiveProperty();
-            this.IsScrollLockToTopEnabled = new ReactiveProperty<bool>();
+            this.UnreadCount = column.ToReactivePropertyAsSynchronized(x => x.UnreadCount).AddTo(this.Disposable);
+            this.UnreadCountIncrementalTrigger = column.ToReactivePropertyAsSynchronized(x => x.UnreadCountIncrementalTrigger).AddTo(this.Disposable);
+            this.IsScrollControlEnabled = column.ObserveProperty(x => x.IsScrollControlEnabled).ToReactiveProperty().AddTo(this.Disposable);
+            this.IsScrollLockEnabled = column.ObserveProperty(x => x.IsScrollLockEnabled).ToReactiveProperty().AddTo(this.Disposable);
+            this.IsScrollLockToTopEnabled = new ReactiveProperty<bool>().AddTo(this.Disposable);
 
             this.StreamingCommand = column.ObserveProperty(x => x.Action).Select(x =>
             {
@@ -142,35 +139,35 @@ namespace Flantter.MilkyWay.ViewModels
                     default:
                         return false;
                 }
-            }).ToReactiveCommand();
-            this.StreamingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ => { this._ColumnModel.Streaming = !this._ColumnModel.Streaming; });
+            }).ToReactiveCommand().AddTo(this.Disposable);
+            this.StreamingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ => { this.Model.Streaming = !this.Model.Streaming; }).AddTo(this.Disposable);
 
-            this.ScrollToTopCommand = column.ObserveProperty(x => x.UnreadCount).Select(x => x != 0).ToReactiveCommand();
+            this.ScrollToTopCommand = column.ObserveProperty(x => x.UnreadCount).Select(x => x != 0).ToReactiveCommand().AddTo(this.Disposable);
             this.ScrollToTopCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ => 
             {
                 this.IsScrollLockToTopEnabled.Value = true;
                 await Task.Delay(100);
                 this.IsScrollLockToTopEnabled.Value = false;
-            });
+            }).AddTo(this.Disposable);
 
-            this.IncrementalLoadCommand = new ReactiveCommand();
+            this.IncrementalLoadCommand = new ReactiveCommand().AddTo(this.Disposable);
             this.IncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ => 
             {
-                var id = this._ColumnModel.Tweets.Last().Id;
-                var status = this._ColumnModel.Tweets.Last() as Status;
+                var id = this.Model.Tweets.Last().Id;
+                var status = this.Model.Tweets.Last() as Status;
                 if (status != null && status.HasRetweetInformation)
                     id = status.RetweetInformation.Id;
                 
-                await this._ColumnModel.Update(id);
-            });
+                await this.Model.Update(id);
+            }).AddTo(this.Disposable);
 
-            this.RefreshCommand = new ReactiveCommand();
+            this.RefreshCommand = new ReactiveCommand().AddTo(this.Disposable);
             this.RefreshCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ =>
             {
-                await this._ColumnModel.Update();
-            });
+                await this.Model.Update();
+            }).AddTo(this.Disposable);
 
-            this.TweetDoubleTappedActionCommand = new ReactiveCommand();
+            this.TweetDoubleTappedActionCommand = new ReactiveCommand().AddTo(this.Disposable);
             this.TweetDoubleTappedActionCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ =>
             {
                 if (this.SelectedIndex.Value == -1)
@@ -227,7 +224,7 @@ namespace Flantter.MilkyWay.ViewModels
                         break;
                 }
 
-            });
+            }).AddTo(this.Disposable);
 
             this.Height = LayoutHelper.Instance.ColumnHeight;
 
@@ -243,13 +240,13 @@ namespace Flantter.MilkyWay.ViewModels
                         return index * (columnWidth + 10.0) + 352.0;
                     else
                         return 5.0 + index * (columnWidth + 10.0) + 352.0;
-                }).ToReactiveProperty();
+                }).ToReactiveProperty().AddTo(this.Disposable);
             
             this.Tweets = new ExtendedObservableCollection<object>();
-            this.TweetsCollectionChangedDisposable = Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+            Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                 h => (sender, e) => h(e),
-                h => this._ColumnModel.Tweets.CollectionChanged += h,
-                h => this._ColumnModel.Tweets.CollectionChanged -= h).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
+                h => this.Model.Tweets.CollectionChanged += h,
+                h => this.Model.Tweets.CollectionChanged -= h).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
                 {
                     var e = x as NotifyCollectionChangedEventArgs;
 
@@ -258,11 +255,11 @@ namespace Flantter.MilkyWay.ViewModels
                         var item = e.NewItems[0];
 
                         if (item is Status)
-                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel.Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this.Model.Tokens.UserId));
                         else if (item is DirectMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel.Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this.Model.Tokens.UserId));
                         else if (item is EventMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel.Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this.Model.Tokens.UserId));
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Remove)
                     {
@@ -280,11 +277,11 @@ namespace Flantter.MilkyWay.ViewModels
 
                         var item = e.NewItems[0];
                         if (item is Status)
-                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this._ColumnModel.Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new StatusViewModel((Status)item, this.Model.Tokens.UserId));
                         else if (item is DirectMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this._ColumnModel.Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new DirectMessageViewModel((DirectMessage)item, this.Model.Tokens.UserId));
                         else if (item is EventMessage)
-                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this._ColumnModel.Tokens.UserId));
+                            this.Tweets.Insert(e.NewStartingIndex, new EventMessageViewModel((EventMessage)item, this.Model.Tokens.UserId));
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Reset)
                     {
@@ -301,14 +298,14 @@ namespace Flantter.MilkyWay.ViewModels
                     {
                         throw new NotImplementedException();
                     }
-                });
+                }).AddTo(this.Disposable);
 
-            this.DisableNotifyCollectionChangedDisposable = this._ColumnModel.ObserveProperty(x => x.DisableNotifyCollectionChanged).SubscribeOn(ThreadPoolScheduler.Default).Subscribe<bool>(x => 
+            this.Model.ObserveProperty(x => x.DisableNotifyCollectionChanged).SubscribeOn(ThreadPoolScheduler.Default).Subscribe<bool>(x => 
             {
                 this.Tweets.DisableNotifyCollectionChanged = x;
                 if (!x)
                     this.Tweets.InvokeCollectionChanged(NotifyCollectionChangedAction.Reset);
-            });
+            }).AddTo(this.Disposable);
         }
         #endregion
 
@@ -320,28 +317,7 @@ namespace Flantter.MilkyWay.ViewModels
 
         public void Dispose()
         {
-            this.ActionSymbol.Dispose();
-            this.EnableCreateFilterColumn.Dispose();
-            this.Name.Dispose();
-            this.ScreenName.Dispose();
-            this.StreamingSymbol.Dispose();
-            this.Index.Dispose();
-            this.IsEnabledStreaming.Dispose();
-            this.Updating.Dispose();
-            this.SelectedIndex.Dispose();
-            this.UnreadCount.Dispose();
-            this.UnreadCountIncrementalTrigger.Dispose();
-            this.IsScrollControlEnabled.Dispose();
-            this.IsScrollLockEnabled.Dispose();
-            this.IsScrollLockToTopEnabled.Dispose();
-            this.StreamingCommand.Dispose();
-            this.ScrollToTopCommand.Dispose();
-            this.TweetDoubleTappedActionCommand.Dispose();
-
-            this.Left.Dispose();
-
-            this.TweetsCollectionChangedDisposable.Dispose();
-            this.DisableNotifyCollectionChangedDisposable.Dispose();
+            this.Disposable.Dispose();
         }
     }
 }

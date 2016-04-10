@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
@@ -168,6 +169,16 @@ namespace Flantter.MilkyWay.Models
                 this._Columns.Add(new ColumnModel(column, account, this));
         }
         #endregion
+
+
+        public void MuteUser(string screenName)
+        {
+            if (!AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(screenName))
+            {
+                AdvancedSettingService.AdvancedSetting.MuteUsers.Add(screenName);
+                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            }
+        }
 
         public void AddColumn(ColumnSetting column)
         {

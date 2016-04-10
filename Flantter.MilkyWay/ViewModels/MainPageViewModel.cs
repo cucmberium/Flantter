@@ -35,9 +35,11 @@ namespace Flantter.MilkyWay.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        public MainPageModel _MainPageModel { get; set; }
+        public MainPageModel Model { get; set; }
 
         public SettingService Setting { get; set; }
+
+        public Services.Notice Notice { get; set; }
 
         public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; private set; }
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
@@ -57,8 +59,9 @@ namespace Flantter.MilkyWay.ViewModels
         #region Constructor
         public MainPageViewModel()
         {
-            this._MainPageModel = MainPageModel.Instance;
+            this.Model = MainPageModel.Instance;
             this.Setting = SettingService.Setting;
+            this.Notice = Services.Notice.Instance;
 
             // 設定によってTitlebarの表示を変える
             this.TitleBarVisivility = Observable.CombineLatest<bool, UserInteractionMode, bool>(SettingService.Setting.ObserveProperty(x => x.ExtendTitleBar), WindowSizeHelper.Instance.ObserveProperty(x => x.UserIntaractionMode),
@@ -84,7 +87,7 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             });
 
-            this.Accounts = this._MainPageModel.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
+            this.Accounts = this.Model.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
 
             this.TweetArea = new TweetAreaViewModel(this.Accounts);
 
@@ -146,9 +149,9 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 var isOpen = false;
                 if (!(x is bool))
-                    isOpen = true;
+                    isOpen = !this.AppBarIsOpen.Value;
                 else if (x == null)
-                    isOpen = true;
+                    isOpen = !this.AppBarIsOpen.Value;
                 else
                     isOpen = (bool)x;
 
@@ -162,37 +165,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.CopyTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
-                var status = x as Status;
-                if (status != null)
-                {
-                    try
-                    {
-                        var textPackage = new DataPackage();
-                        textPackage.SetText(status.Text);
-                        Clipboard.SetContent(textPackage);
-                    }
-                    catch
-                    {
-                    }
-
-                    return;
-                }
-
-                var directMessage = x as DirectMessage;
-                if (directMessage != null)
-                {
-                    try
-                    {
-                        var textPackage = new DataPackage();
-                        textPackage.SetText(directMessage.Text);
-                        Clipboard.SetContent(textPackage);
-                    }
-                    catch
-                    {
-                    }
-
-                    return;
-                }
+                this.Model.CopyTweetToClipBoard(x);
             });
 
             Services.Notice.Instance.UrlClickCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
@@ -200,8 +173,7 @@ namespace Flantter.MilkyWay.ViewModels
                 var linkUrl = x as string;
                 if (string.IsNullOrWhiteSpace(linkUrl))
                     return;
-
-
+                
                 if (linkUrl.StartsWith("@"))
                 {
                     var userMention = linkUrl.Replace("@", "");
@@ -257,19 +229,15 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.ChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
-                this._MainPageModel.ChangeAccount(AdvancedSettingService.AdvancedSetting.Accounts.First(y => y.UserId == (long)x));
+                this.Model.ChangeAccount(AdvancedSettingService.AdvancedSetting.Accounts.First(y => y.UserId == (long)x));
             });
 
             Services.Notice.Instance.ExitAppCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                // Taboo : 禁忌
-                bool result = false;
-                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_ExitApp"), "Confirmation");
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                await msg.ShowAsync();
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_ExitApp"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-                if (!result)
+                if (!msgNotification.Result)
                     return;
 
                 AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
@@ -340,22 +308,18 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.DonateCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                // Taboo : 禁忌
-                bool result = false;
-                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_NeedAppDonation"), "Confirmation");
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                await msg.ShowAsync();
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_NeedAppDonation"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-                if (!result)
+                if (!msgNotification.Result)
                     return;
 
                 var donateResult = await LicenseService.License.PurchaseAppDonation();
 
                 if (donateResult)
-                    await new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_DonateSuccessfully"), "Confirmation").ShowAsync();
+                    await Notice.ShowMessageDialogMessenger.Raise(new MessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_DonateSuccessfully"), Title = "Confirmation" });
                 else
-                    await new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_FailedToDonate"), "Confirmation").ShowAsync();
+                    await Notice.ShowMessageDialogMessenger.Raise(new MessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_FailedToDonate"), Title = "Confirmation" });
             });
 
             Services.Notice.Instance.ShowAppInfoCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
@@ -366,51 +330,36 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.ChangeBackgroundImageCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                var picture = new FileOpenPicker();
-                picture.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-                picture.ViewMode = PickerViewMode.Thumbnail;
-                picture.FileTypeFilter.Clear();
-                picture.FileTypeFilter.Add(".bmp");
-                picture.FileTypeFilter.Add(".png");
-                picture.FileTypeFilter.Add(".jpeg");
-                picture.FileTypeFilter.Add(".jpg");
+                var result = await Notice.ShowFilePickerMessenger.Raise(new FileOpenPickerNotification
+                {
+                    FileTypeFilter = new[] { ".bmp", ".jpeg", ".jpg", ".png" },
+                    SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                    ViewMode = PickerViewMode.Thumbnail,
+                });
 
-                StorageFile file = await picture.PickSingleFileAsync();
-                if (file == null)
+                if (result.Result.Count() == 0)
                     return;
 
-                SettingService.Setting.BackgroundImagePath = "";
+                var file = result.Result.First();
 
-                try
-                {
-                    await file.CopyAsync(ApplicationData.Current.LocalFolder, "background_image" + file.FileType, NameCollisionOption.ReplaceExisting);
-                    SettingService.Setting.BackgroundImagePath = "ms-appdata:///local/" + "background_image" + file.FileType;
-                }
-                catch
-                {
-                }
+                await this.Model.ChangeBackgroundImage(file);
             });
 
             Services.Notice.Instance.ChangeThemeCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                var picture = new FileOpenPicker();
-                picture.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-                picture.ViewMode = PickerViewMode.List;
-                picture.FileTypeFilter.Clear();
-                picture.FileTypeFilter.Add(".xaml");
+                var result = await Notice.ShowFilePickerMessenger.Raise(new FileOpenPickerNotification
+                {
+                    FileTypeFilter = new[] { ".xaml" },
+                    SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+                    ViewMode = PickerViewMode.Thumbnail,
+                });
 
-                StorageFile file = await picture.PickSingleFileAsync();
-                if (file == null)
+                if (result.Result.Count() == 0)
                     return;
-                
-                try
-                {
-                    await file.CopyAsync(ApplicationData.Current.LocalFolder, "Theme.xaml", NameCollisionOption.ReplaceExisting);
-                    SettingService.Setting.CustomThemePath = "ms-appdata:///local/" + "Theme.xaml";
-                }
-                catch
-                {
-                }
+
+                var file = result.Result.First();
+
+                await this.Model.ChangeTheme(file);
             });
 
             Services.Notice.Instance.MuteClientCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
@@ -419,21 +368,13 @@ namespace Flantter.MilkyWay.ViewModels
                 if (string.IsNullOrWhiteSpace(client))
                     return;
 
-                // Taboo : 禁忌
-                bool result = false;
-                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_MuteClient"), "Confirmation");
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                await msg.ShowAsync();
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_MuteClient"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-                if (!result)
+                if (!msgNotification.Result)
                     return;
 
-                if (!AdvancedSettingService.AdvancedSetting.MuteClients.Contains(client))
-                {
-                    AdvancedSettingService.AdvancedSetting.MuteClients.Add(client);
-                    AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
-                }
+                this.Model.MuteClient(client);
             });
 
             Services.Notice.Instance.DeleteMuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
@@ -442,11 +383,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (string.IsNullOrWhiteSpace(screenName))
                     return;
 
-                if (AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(screenName))
-                {
-                    AdvancedSettingService.AdvancedSetting.MuteUsers.Remove(screenName);
-                    AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
-                }
+                this.Model.DeleteMuteUser(screenName);
             });
 
             Services.Notice.Instance.DeleteMuteClientCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
@@ -455,11 +392,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (string.IsNullOrWhiteSpace(client))
                     return;
 
-                if (AdvancedSettingService.AdvancedSetting.MuteClients.Contains(client))
-                {
-                    AdvancedSettingService.AdvancedSetting.MuteClients.Remove(client);
-                    AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
-                }
+                this.Model.DeleteMuteUser(client);
             });
 
             Services.Notice.Instance.UpdateMuteFilterCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
@@ -468,37 +401,38 @@ namespace Flantter.MilkyWay.ViewModels
                 if (string.IsNullOrWhiteSpace(filter))
                     return;
 
+                // 禁忌 : Taboo
                 try
                 {
                     Models.Filter.Compiler.Compile(filter);
                 }
                 catch (FilterCompileException fex)
                 {
-                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(fex.Error.ToString() + "\n" + fex.Message, "Compile Error");
-                    await msg.ShowAsync();
+                    var msgNotification = new MessageDialogNotification() { Message = fex.Error.ToString() + "\n" + fex.Message, Title = "Compile Error" };
+                    await Notice.ShowMessageDialogMessenger.Raise(msgNotification);
                     return;
                 }
                 catch (Exception ex)
                 {
-                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(ex.ToString() + "\n" + ex.Message, "Compile Error");
-                    await msg.ShowAsync();
+                    var msgNotification = new MessageDialogNotification() { Message = ex.ToString() + "\n" + ex.Message, Title = "Compile Error" };
+                    await Notice.ShowMessageDialogMessenger.Raise(msgNotification);
                     return;
                 }
 
                 SettingService.Setting.MuteFilter = filter;
-
-                Windows.UI.Popups.MessageDialog msgok = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_CompiledMuteFilterSuccessfully"), "Compile Filter");
-                await msgok.ShowAsync();
+                
+                await Notice.ShowMessageDialogMessenger.Raise(new MessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_CompiledMuteFilterSuccessfully"), Title = "Compile Filter" });
                 return;
             });
             
             Services.Notice.Instance.AuthAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                // Taboo : 禁忌
-                var authorizePopup = new AuthorizePopup();
-                var account = await authorizePopup.ShowAsync();
+                var auth = new AuthorizeNotification();
+                await Notice.ShowAuthorizePopupMessenger.Raise(auth);
+                var account = auth.Result;
+
                 if (account == null)
-                    return;
+                    return;                
 
                 if (AdvancedSettingService.AdvancedSetting.Accounts.Any(y => y.UserId == account.UserId))
                 {
@@ -541,7 +475,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (accountSetting == null)
                     return;
                 
-                this._MainPageModel.AddAccount(accountSetting);
+                this.Model.AddAccount(accountSetting);
             });
 
             Services.Notice.Instance.DeleteAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
@@ -552,20 +486,17 @@ namespace Flantter.MilkyWay.ViewModels
 
                 if (AdvancedSettingService.AdvancedSetting.Accounts.Count <= 1)
                 {
-                    await new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_CannotDeleteAccount"), "Confirmation").ShowAsync();
+                    await Notice.ShowComfirmMessageDialogMessenger.Raise(new MessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_CannotDeleteAccount"), Title = "Error" });
                     return;
                 }
-                
-                bool result = false;
-                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_DeleteAccount"), "Confirmation");
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                await msg.ShowAsync();
 
-                if (!result)
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_DeleteAccount"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                if (!msgNotification.Result)
                     return;
 
-                this._MainPageModel.DeleteAccount(accountSetting);
+                this.Model.DeleteAccount(accountSetting);
             });
             
             #endregion
@@ -583,7 +514,7 @@ namespace Flantter.MilkyWay.ViewModels
         {
             base.OnNavigatedTo(e, viewModelState);
 
-            await Task.Run(() => this._MainPageModel.Initialize());
+            await Task.Run(() => this.Model.Initialize());
 
             Services.Notice.Instance.TweetAreaAccountChangeCommand.Execute(this.Accounts.First(x => x.IsEnabled.Value));
         }

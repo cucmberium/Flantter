@@ -58,8 +58,6 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveCommand ParseClipbordPictureCommand { get; set; }
 
-        public Messenger ShowFilePickerMessenger { get; private set; }
-
         public Messenger SuggestionMessenger { get; private set; }
 
         public Messenger TextBoxFocusMessenger { get; private set; }
@@ -102,7 +100,6 @@ namespace Flantter.MilkyWay.ViewModels
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;
 
-            this.ShowFilePickerMessenger = new Messenger();
             this.SuggestionMessenger = new Messenger();
             this._TweetAreaModel.SuggestionMessenger = this.SuggestionMessenger;
             this.TextBoxFocusMessenger = new Messenger();
@@ -125,7 +122,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.AddPictureCommand = new ReactiveCommand();
             this.AddPictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                var result = await this.ShowFilePickerMessenger.Raise(new FileOpenPickerNotification
+                var result = await Notice.ShowFilePickerMessenger.Raise(new FileOpenPickerNotification
                 {
                     FileTypeFilter = new[] { ".jpg", ".jpeg", ".png", ".gif", ".mp4", ".mov" },
                     IsMultiple = true,
@@ -140,7 +137,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.TweetCommand = this._TweetAreaModel.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand();
             this.TweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
-                await this._TweetAreaModel.Tweet(this.SelectedAccount.Value._AccountModel);
+                await this._TweetAreaModel.Tweet(this.SelectedAccount.Value.Model);
                 
                 if (SettingService.Setting.CloseBottomAppBarAfterTweet)
                 {
@@ -184,7 +181,7 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 var accountVM = x as AccountViewModel;
                 this.SelectedAccount.Value = accountVM;
-                this._TweetAreaModel.SelectedAccountUserId = accountVM._AccountModel.UserId;
+                this._TweetAreaModel.SelectedAccountUserId = accountVM.Model.UserId;
             });
 
             Services.Notice.Instance.TweetAreaDeletePictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>

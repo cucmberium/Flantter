@@ -1,4 +1,6 @@
-﻿using Flantter.MilkyWay.Models.Services;
+﻿using Flantter.MilkyWay.Models.Exceptions;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -6,8 +8,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace Flantter.MilkyWay.Models
 {
@@ -55,6 +60,95 @@ namespace Flantter.MilkyWay.Models
         {
         }
         #endregion
+
+
+        public void CopyTweetToClipBoard(object tweet)
+        {
+            var status = tweet as Status;
+            if (status != null)
+            {
+                try
+                {
+                    var textPackage = new DataPackage();
+                    textPackage.SetText(status.Text);
+                    Clipboard.SetContent(textPackage);
+                }
+                catch
+                {
+                }
+
+                return;
+            }
+
+            var directMessage = tweet as DirectMessage;
+            if (directMessage != null)
+            {
+                try
+                {
+                    var textPackage = new DataPackage();
+                    textPackage.SetText(directMessage.Text);
+                    Clipboard.SetContent(textPackage);
+                }
+                catch
+                {
+                }
+
+                return;
+            }
+        }
+
+        public async Task ChangeBackgroundImage(StorageFile file)
+        {
+            SettingService.Setting.BackgroundImagePath = "";
+
+            try
+            {
+                await file.CopyAsync(ApplicationData.Current.LocalFolder, "background_image" + file.FileType, NameCollisionOption.ReplaceExisting);
+                SettingService.Setting.BackgroundImagePath = "ms-appdata:///local/" + "background_image" + file.FileType;
+            }
+            catch
+            {
+            }
+        }
+
+        public async Task ChangeTheme(StorageFile file)
+        {
+            try
+            {
+                await file.CopyAsync(ApplicationData.Current.LocalFolder, "Theme.xaml", NameCollisionOption.ReplaceExisting);
+                SettingService.Setting.CustomThemePath = "ms-appdata:///local/" + "Theme.xaml";
+            }
+            catch
+            {
+            }
+        }
+
+        public void MuteClient(string client)
+        {
+            if (!AdvancedSettingService.AdvancedSetting.MuteClients.Contains(client))
+            {
+                AdvancedSettingService.AdvancedSetting.MuteClients.Add(client);
+                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            }
+        }
+
+        public void DeleteMuteUser(string screenName)
+        {
+            if (AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(screenName))
+            {
+                AdvancedSettingService.AdvancedSetting.MuteUsers.Remove(screenName);
+                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            }
+        }
+
+        public void DeleteMuteClient(string client)
+        {
+            if (AdvancedSettingService.AdvancedSetting.MuteClients.Contains(client))
+            {
+                AdvancedSettingService.AdvancedSetting.MuteClients.Remove(client);
+                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            }
+        }
 
         public void AddAccount(AccountSetting account)
         {

@@ -363,6 +363,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             this.IsFollowing = relationShip.Source.IsFollowing;
             this.IsFollowedBy = relationShip.Source.IsFollowedBy;
             this.IsBlocking = relationShip.Source.IsBlocking.HasValue ? relationShip.Source.IsBlocking.Value : false;
+            this.IsMuting = relationShip.Source.IsMuting.HasValue ? relationShip.Source.IsMuting.Value : false;
+            this.IsFollowRequestSent = relationShip.Source.IsFollowingRequested.HasValue ? relationShip.Source.IsFollowingRequested.Value : false;
 
             this.UpdatingRelationShip = false;
         }
@@ -555,6 +557,71 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             followingCursor = following.NextCursor;
             this.UpdatingFollowing = false;
+        }
+
+        public async Task Follow()
+        {
+            if (this.IsBlocking)
+            {
+                await this.DestroyBlock();
+            }
+            else if (this.IsFollowing)
+            {
+                await this.DestroyFollow();
+            }
+            else if (this.IsFollowRequestSent)
+            {
+                await this.DestroyFollow();
+            }
+            else
+            {
+                await this.CreateFollow();
+            }
+        }
+
+        public async Task CreateFollow()
+        {
+            UserResponse user = null;
+            try
+            {
+                user = await this.Tokens.Friendships.CreateAsync(screen_name => this._ScreenName);
+            }
+            catch (TwitterException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                return;
+            }
+
+            if (user.IsProtected)
+                this.IsFollowRequestSent = true;
+            else
+                this.IsFollowing = true;
+        }
+
+        public async Task DestroyFollow()
+        {
+            UserResponse user = null;
+            try
+            {
+                user = await this.Tokens.Friendships.DestroyAsync(screen_name => this._ScreenName);
+            }
+            catch (TwitterException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                return;
+            }
+            
+            this.IsFollowing = false;
         }
 
         public async Task CreateBlock()

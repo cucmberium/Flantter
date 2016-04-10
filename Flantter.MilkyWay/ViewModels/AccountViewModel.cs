@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using Windows.ApplicationModel.DataTransfer;
@@ -28,12 +29,13 @@ namespace Flantter.MilkyWay.ViewModels
 {
     public class AccountViewModel : IDisposable
     {
-        public AccountModel _AccountModel { get; set; }
+        protected CompositeDisposable Disposable { get; private set; } = new CompositeDisposable();
+
+        public AccountModel Model { get; set; }
         public Services.Notice Notice { get; set; }
 
         public ReadOnlyReactiveCollection<ColumnViewModel> Columns { get; private set; }
         public ObservableCollection<string> OtherColumnNames { get; private set; }
-        private IDisposable OtherColumnNamesDisposable { get; set; }
         
 
         public ReactiveProperty<bool> LeftSwipeMenuIsOpen { get; private set; }
@@ -70,19 +72,19 @@ namespace Flantter.MilkyWay.ViewModels
 
         public AccountViewModel(AccountModel account)
         {
-            this._AccountModel = account;
-            this.ScreenName = account.ObserveProperty(x => x.ScreenName).ToReactiveProperty();
-            this.Name = account.ObserveProperty(x => x.Name).ToReactiveProperty();
-            this.ProfileImageUrl = account.ObserveProperty(x => x.ProfileImageUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
-            this.ProfileBannerUrl = account.ObserveProperty(x => x.ProfileBannerUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty();
-            this.IsEnabled = account.ObserveProperty(x => x.IsEnabled).ToReactiveProperty();
+            this.Model = account;
+            this.ScreenName = account.ObserveProperty(x => x.ScreenName).ToReactiveProperty().AddTo(this.Disposable);
+            this.Name = account.ObserveProperty(x => x.Name).ToReactiveProperty().AddTo(this.Disposable);
+            this.ProfileImageUrl = account.ObserveProperty(x => x.ProfileImageUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty().AddTo(this.Disposable);
+            this.ProfileBannerUrl = account.ObserveProperty(x => x.ProfileBannerUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty().AddTo(this.Disposable);
+            this.IsEnabled = account.ObserveProperty(x => x.IsEnabled).ToReactiveProperty().AddTo(this.Disposable);
 
-            this.LeftSwipeMenuIsOpen = account.ToReactivePropertyAsSynchronized(x => x.LeftSwipeMenuIsOpen);
+            this.LeftSwipeMenuIsOpen = account.ToReactivePropertyAsSynchronized(x => x.LeftSwipeMenuIsOpen).AddTo(this.Disposable);
 
-            this.Columns = this._AccountModel.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x));
+            this.Columns = this.Model.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x)).AddTo(this.Disposable);
 
-            this.OtherColumnNames = new ObservableCollection<string>(this._AccountModel.ReadOnlyColumns.ToObservable().Where(x => x.Name != "Home" && x.Name != "Mentions" && x.Name != "DirectMessages").Select(x => x.Name).ToEnumerable());
-            this.OtherColumnNamesDisposable = this._AccountModel.ReadOnlyColumns.CollectionChangedAsObservable().SubscribeOnUIDispatcher().Subscribe<NotifyCollectionChangedEventArgs>(e => 
+            this.OtherColumnNames = new ObservableCollection<string>(this.Model.ReadOnlyColumns.ToObservable().Where(x => x.Name != "Home" && x.Name != "Mentions" && x.Name != "DirectMessages").Select(x => x.Name).ToEnumerable());
+            this.Model.ReadOnlyColumns.CollectionChangedAsObservable().SubscribeOnUIDispatcher().Subscribe<NotifyCollectionChangedEventArgs>(e => 
             {
                 switch (e.Action)
                 {
@@ -111,7 +113,7 @@ namespace Flantter.MilkyWay.ViewModels
                     case NotifyCollectionChangedAction.Reset:
                         throw new NotImplementedException();
                 }
-            });
+            }).AddTo(this.Disposable);
 
             this.PanelWidth = Observable.CombineLatest<double, int, double>(
                 LayoutHelper.Instance.ColumnWidth,
@@ -122,15 +124,15 @@ namespace Flantter.MilkyWay.ViewModels
                         return width * count + 352.0 * 2;
                     else
                         return (width + 10.0) * count + 352.0 * 2;
-                }).ToReactiveProperty();
+                }).ToReactiveProperty().AddTo(this.Disposable);
 
-            this.SnapPointsSpaceing = LayoutHelper.Instance.ColumnWidth.Select(x => x + 10.0).ToReactiveProperty();
+            this.SnapPointsSpaceing = LayoutHelper.Instance.ColumnWidth.Select(x => x + 10.0).ToReactiveProperty().AddTo(this.Disposable);
 
-            this.MaxSnapPoint = Observable.CombineLatest<double, double, double>(this.PanelWidth, WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth), (panelWidth, windowWidth) => (panelWidth + 10.0) - windowWidth + 352.0).ToReactiveProperty();
+            this.MaxSnapPoint = Observable.CombineLatest<double, double, double>(this.PanelWidth, WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth), (panelWidth, windowWidth) => (panelWidth + 10.0) - windowWidth + 352.0).ToReactiveProperty().AddTo(this.Disposable);
 
-			this.MinSnapPoint = new ReactiveProperty<double>(352.0);
+			this.MinSnapPoint = new ReactiveProperty<double>(352.0).AddTo(this.Disposable);
 
-            this.ColumnSelectedIndex = new ReactiveProperty<int>(0);
+            this.ColumnSelectedIndex = new ReactiveProperty<int>(0).AddTo(this.Disposable);
 
             this.BottomBarSearchBoxEnabled = Observable.CombineLatest(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth), 
@@ -138,28 +140,28 @@ namespace Flantter.MilkyWay.ViewModels
                 (clientWidth, searchBoxEnabled) =>
                 {
                     return (clientWidth >= 960.0 && searchBoxEnabled && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile");
-                }).ToReactiveProperty();
+                }).ToReactiveProperty().AddTo(this.Disposable);
 
 
             this.Notice = Services.Notice.Instance;
 
             #region Command
 
-            this.ShowMyUserProfileCommand = new ReactiveCommand();
-            this.ShowMyUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            this.ShowMyUserProfileCommand = new ReactiveCommand().AddTo(this.Disposable);
+            this.ShowMyUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            this.ShowMyUserListsCommand = new ReactiveCommand();
-            this.ShowMyUserListsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            this.ShowMyUserListsCommand = new ReactiveCommand().AddTo(this.Disposable);
+            this.ShowMyUserListsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            this.UpdateSearchCommand = new ReactiveCommand();
+            this.UpdateSearchCommand = new ReactiveCommand().AddTo(this.Disposable);
             this.UpdateSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(y =>
             {
                 var e = y as SearchBoxQuerySubmittedEventArgs;
@@ -167,9 +169,9 @@ namespace Flantter.MilkyWay.ViewModels
                     return;
 
                 Notice.ShowSearchCommand.Execute(e.QueryText);
-            });
+            }).AddTo(this.Disposable);
 
-            this.UpdateUserSearchCommand = new ReactiveCommand();
+            this.UpdateUserSearchCommand = new ReactiveCommand().AddTo(this.Disposable);
             this.UpdateUserSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(y =>
             {
                 var e = y as SearchBoxResultSuggestionChosenEventArgs;
@@ -177,9 +179,9 @@ namespace Flantter.MilkyWay.ViewModels
                     return;
 
                 Notice.ShowUserProfileCommand.Execute(e.Tag);
-            });
+            }).AddTo(this.Disposable);
 
-            this.SuggestionsRequestedSearchCommand = new ReactiveCommand();
+            this.SuggestionsRequestedSearchCommand = new ReactiveCommand().AddTo(this.Disposable);
             this.SuggestionsRequestedSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(y =>
             {
                 var e = y as SearchBoxSuggestionsRequestedEventArgs;
@@ -190,10 +192,10 @@ namespace Flantter.MilkyWay.ViewModels
 
                 IEnumerable<string> suggestHashtags = null;
                 IEnumerable<Models.Twitter.Objects.User> suggestUsers = null;
-                lock (Models.Services.Connecter.Instance.TweetCollecter[this._AccountModel.Tokens.UserId].EntitiesObjectsLock)
+                lock (Models.Services.Connecter.Instance.TweetCollecter[this.Model.Tokens.UserId].EntitiesObjectsLock)
                 {
-                    suggestHashtags = Models.Services.Connecter.Instance.TweetCollecter[this._AccountModel.Tokens.UserId].HashTagObjects.Where(x => x.StartsWith(e.QueryText.TrimStart(new char[] { '#' }))).OrderBy(x => x);
-                    suggestUsers = Models.Services.Connecter.Instance.TweetCollecter[this._AccountModel.Tokens.UserId].UserObjects.Where(x => x.ScreenName.StartsWith(e.QueryText.TrimStart(new char[] { '@' }))).OrderBy(x => x.ScreenName);
+                    suggestHashtags = Models.Services.Connecter.Instance.TweetCollecter[this.Model.Tokens.UserId].HashTagObjects.Where(x => x.StartsWith(e.QueryText.TrimStart(new char[] { '#' }))).OrderBy(x => x);
+                    suggestUsers = Models.Services.Connecter.Instance.TweetCollecter[this.Model.Tokens.UserId].UserObjects.Where(x => x.ScreenName.StartsWith(e.QueryText.TrimStart(new char[] { '@' }))).OrderBy(x => x.ScreenName);
                 }
                 if (suggestHashtags.Count() > 0)
                 {
@@ -209,9 +211,9 @@ namespace Flantter.MilkyWay.ViewModels
                 }
 
                 deferral.Complete();
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.LoadMentionCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            Services.Notice.Instance.LoadMentionCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
@@ -222,7 +224,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                 statusViewModel.IsMentionStatusLoading = true;
 
-                await this._AccountModel.GetMentionStatus(statusViewModel.Model);
+                await this.Model.GetMentionStatus(statusViewModel.Model);
 
                 if (statusViewModel.Model.MentionStatus == null)
                 {
@@ -254,175 +256,32 @@ namespace Flantter.MilkyWay.ViewModels
 
                 statusViewModel.OnPropertyChanged("IsMentionStatusLoading");
                 statusViewModel.OnPropertyChanged("IsMentionStatusLoaded");
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.RetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
-            {
-                var statusViewModel = x as StatusViewModel;
-                if (statusViewModel == null)
-                    return;
-
-                // Taboo : 禁忌
-                if (!statusViewModel.Model.IsRetweeted && SettingService.Setting.RetweetConfirmation)
-                {
-                    bool result = false;
-                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Retweet"), "Confirmation");
-                    msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                    msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                    await msg.ShowAsync();
-
-                    if (!result)
-                        return;
-                }
-
-                if (!statusViewModel.Model.IsRetweeted)
-                    await this._AccountModel.Retweet(statusViewModel.Model);
-                else
-                    await this._AccountModel.DestroyRetweet(statusViewModel.Model);
-
-                statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
-                statusViewModel.OnPropertyChanged("IsRetweeted");
-
-                statusViewModel.IsMyRetweet = (statusViewModel.Model.RetweetInformation != null && statusViewModel.Model.RetweetInformation.User.Id == this._AccountModel.UserId) || statusViewModel.Model.IsRetweeted;
-                statusViewModel.OnPropertyChanged("IsMyRetweet");
-
-                if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
-                    statusViewModel.FavoriteTriangleIconVisibility = true;
-                else
-                    statusViewModel.FavoriteTriangleIconVisibility = false;
-                if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
-                    statusViewModel.RetweetTriangleIconVisibility = true;
-                else
-                    statusViewModel.RetweetTriangleIconVisibility = false;
-                if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
-                    statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
-                else
-                    statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
-
-                statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
-                statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
-                statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
-            });
-
-            Services.Notice.Instance.FavoriteCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
-            {
-                var statusViewModel = x as StatusViewModel;
-                if (statusViewModel == null)
-                    return;
-
-                // Taboo : 禁忌
-                if (!statusViewModel.Model.IsFavorited && SettingService.Setting.FavoriteConfirmation)
-                {
-                    bool result = false;
-                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Favorite"), "Confirmation");
-                    msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                    msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                    await msg.ShowAsync();
-
-                    if (!result)
-                        return;
-                }
-
-                if (!statusViewModel.Model.IsFavorited)
-                    await this._AccountModel.Favorite(statusViewModel.Model);
-                else
-                    await this._AccountModel.DestroyFavorite(statusViewModel.Model);
-
-                statusViewModel.IsFavorited = statusViewModel.Model.IsFavorited;
-                statusViewModel.OnPropertyChanged("IsFavorited");
-
-                if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
-                    statusViewModel.FavoriteTriangleIconVisibility = true;
-                else
-                    statusViewModel.FavoriteTriangleIconVisibility = false;
-                if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
-                    statusViewModel.RetweetTriangleIconVisibility = true;
-                else
-                    statusViewModel.RetweetTriangleIconVisibility = false;
-                if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
-                    statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
-                else
-                    statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
-
-                statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
-                statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
-                statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
-            });
-
-            Services.Notice.Instance.RetweetFavoriteCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
-            {
-                var statusViewModel = x as StatusViewModel;
-                if (statusViewModel == null)
-                    return;
-
-                // Taboo : 禁忌
-                if (SettingService.Setting.RetweetConfirmation || SettingService.Setting.FavoriteConfirmation)
-                {
-                    bool result = false;
-                    Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_RetweetFavorite"), "Confirmation");
-                    msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                    msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                    await msg.ShowAsync();
-
-                    if (!result)
-                        return;
-                }
-
-                if (!statusViewModel.Model.IsRetweeted)
-                    await this._AccountModel.Retweet(statusViewModel.Model);
-                if (!statusViewModel.Model.IsFavorited)
-                    await this._AccountModel.Favorite(statusViewModel.Model);
-
-                statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
-                statusViewModel.OnPropertyChanged("IsRetweeted");
-                statusViewModel.IsFavorited = statusViewModel.Model.IsFavorited;
-                statusViewModel.OnPropertyChanged("IsFavorited");
-
-                if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
-                    statusViewModel.FavoriteTriangleIconVisibility = true;
-                else
-                    statusViewModel.FavoriteTriangleIconVisibility = false;
-                if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
-                    statusViewModel.RetweetTriangleIconVisibility = true;
-                else
-                    statusViewModel.RetweetTriangleIconVisibility = false;
-                if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
-                    statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
-                else
-                    statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
-
-                statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
-                statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
-                statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
-            });
-
-
-            Services.Notice.Instance.DeleteTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
-            {
-                if (x is Status)
-                {
-                    var status = x as Status;
-                    await this._AccountModel.DestroyStatus(status.Id);
-                }
-                else if (x is DirectMessage)
-                {
-                    var directMessage = x as DirectMessage;
-                    await this._AccountModel.DestroyDirectMessage(directMessage.Id);
-                }
-            });
-            
-            Services.Notice.Instance.DeleteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            Services.Notice.Instance.RetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
             {
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
                     return;
                 
-                await this._AccountModel.DestroyRetweet(statusViewModel.Model);
+                if (!statusViewModel.Model.IsRetweeted && SettingService.Setting.RetweetConfirmation)
+                {
+                    var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_Retweet"), Title = "Confirmation" };
+                    await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                    if (!msgNotification.Result)
+                        return;
+                }
+
+                if (!statusViewModel.Model.IsRetweeted)
+                    await this.Model.Retweet(statusViewModel.Model);
+                else
+                    await this.Model.DestroyRetweet(statusViewModel.Model);
 
                 statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
                 statusViewModel.OnPropertyChanged("IsRetweeted");
 
-                statusViewModel.IsMyRetweet = (statusViewModel.Model.RetweetInformation != null && statusViewModel.Model.RetweetInformation.User.Id == this._AccountModel.UserId) || statusViewModel.Model.IsRetweeted;
+                statusViewModel.IsMyRetweet = (statusViewModel.Model.RetweetInformation != null && statusViewModel.Model.RetweetInformation.User.Id == this.Model.UserId) || statusViewModel.Model.IsRetweeted;
                 statusViewModel.OnPropertyChanged("IsMyRetweet");
 
                 if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
@@ -441,94 +300,221 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
                 statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
                 statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
-            });
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.FavoriteCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+                
+                if (!statusViewModel.Model.IsFavorited && SettingService.Setting.FavoriteConfirmation)
+                {
+                    var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_Favorite"), Title = "Confirmation" };
+                    await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                    if (!msgNotification.Result)
+                        return;
+                }
+
+                if (!statusViewModel.Model.IsFavorited)
+                    await this.Model.Favorite(statusViewModel.Model);
+                else
+                    await this.Model.DestroyFavorite(statusViewModel.Model);
+
+                statusViewModel.IsFavorited = statusViewModel.Model.IsFavorited;
+                statusViewModel.OnPropertyChanged("IsFavorited");
+
+                if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.FavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.FavoriteTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
+
+                statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.RetweetFavoriteCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+                
+                if (SettingService.Setting.RetweetConfirmation || SettingService.Setting.FavoriteConfirmation)
+                {
+                    var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_RetweetFavorite"), Title = "Confirmation" };
+                    await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                    if (!msgNotification.Result)
+                        return;
+                }
+
+                if (!statusViewModel.Model.IsRetweeted)
+                    await this.Model.Retweet(statusViewModel.Model);
+                if (!statusViewModel.Model.IsFavorited)
+                    await this.Model.Favorite(statusViewModel.Model);
+
+                statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
+                statusViewModel.OnPropertyChanged("IsRetweeted");
+                statusViewModel.IsFavorited = statusViewModel.Model.IsFavorited;
+                statusViewModel.OnPropertyChanged("IsFavorited");
+
+                if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.FavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.FavoriteTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
+
+                statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
+            }).AddTo(this.Disposable);
+
+
+            Services.Notice.Instance.DeleteTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
+            {
+                if (x is Status)
+                {
+                    var status = x as Status;
+                    await this.Model.DestroyStatus(status.Id);
+                }
+                else if (x is DirectMessage)
+                {
+                    var directMessage = x as DirectMessage;
+                    await this.Model.DestroyDirectMessage(directMessage.Id);
+                }
+            }).AddTo(this.Disposable);
             
-            Services.Notice.Instance.ShowUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.DeleteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
-                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+                
+                await this.Model.DestroyRetweet(statusViewModel.Model);
 
-            Services.Notice.Instance.ShowConversationCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+                statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
+                statusViewModel.OnPropertyChanged("IsRetweeted");
+
+                statusViewModel.IsMyRetweet = (statusViewModel.Model.RetweetInformation != null && statusViewModel.Model.RetweetInformation.User.Id == this.Model.UserId) || statusViewModel.Model.IsRetweeted;
+                statusViewModel.OnPropertyChanged("IsMyRetweet");
+
+                if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.FavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.FavoriteTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetTriangleIconVisibility = false;
+                if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
+                else
+                    statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
+
+                statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
+                statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
+            }).AddTo(this.Disposable);
+            
+            Services.Notice.Instance.ShowUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Conversation", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowConversationCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Search", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Conversation", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowStatusDetailCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "StatusDetail", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Search", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            Services.Notice.Instance.ShowStatusDetailCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "StatusDetail", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
             {
                 var setting = x as ColumnSetting;
                 if (setting == null)
                     return;
                 
-                // Taboo : 禁忌
-                bool result = false;
-                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_AddColumn"), "Confirmation");
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                await msg.ShowAsync();
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_AddColumn"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-                if (!result)
+                if (!msgNotification.Result)
                     return;
 
-                this._AccountModel.AddColumn(setting);
-            });
+                this.Model.AddColumn(setting);
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.SendDirectMessageCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.SendDirectMessageCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "DirectMessageConversation", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "DirectMessageConversation", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowUserListsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowUserListsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowListStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowListStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ListStatuses", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ListStatuses", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowListMembersCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowListMembersCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ListMembers", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ListMembers", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowRetweetersCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowRetweetersCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Retweeters", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Retweeters", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowRetweetsOfMeCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowRetweetsOfMeCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "RetweetsOfMe", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "RetweetsOfMe", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowUserFollowInfoCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowUserFollowInfoCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserFollowInfo", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserFollowInfo", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowLeftSwipeMenuCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowLeftSwipeMenuCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
                 var isOpen = false;
                 if (!(x is bool))
@@ -539,46 +525,34 @@ namespace Flantter.MilkyWay.ViewModels
                     isOpen = (bool)x;
 
                 this.LeftSwipeMenuIsOpen.Value = isOpen;
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowSupportAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowSupportAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this._AccountModel.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = "Flantter" };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = "Flantter" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            });
+            }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.MuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this._AccountModel.IsEnabled).Subscribe(async x =>
+            Services.Notice.Instance.MuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
             {
                 var screenName = x as string;
                 if (string.IsNullOrWhiteSpace(screenName))
                     return;
 
-                // Taboo : 禁忌
-                bool result = false;
-                Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_Mute"), "Confirmation");
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                await msg.ShowAsync();
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_Mute"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-                if (result)
-                    await this._AccountModel.CreateMute(screenName);
-                
-                // Taboo : 禁忌
-                result = false;
-                msg = new Windows.UI.Popups.MessageDialog(new ResourceLoader().GetString("ConfirmDialog_MuteInFlantter"), "Confirmation");
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-                msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
-                await msg.ShowAsync();
+                if (msgNotification.Result)
+                    await this.Model.CreateMute(screenName);
 
-                if (!result)
+                msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_MuteInFlantter"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                if (!msgNotification.Result)
                     return;
 
-                if (!AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(screenName))
-                {
-                    AdvancedSettingService.AdvancedSetting.MuteUsers.Add(screenName);
-                    AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
-                }
-            });
+                this.Model.MuteUser(screenName);
+            }).AddTo(this.Disposable);
 
             #endregion
         }
@@ -592,18 +566,7 @@ namespace Flantter.MilkyWay.ViewModels
 
         public void Dispose()
         {
-            this.ScreenName.Dispose();
-            this.Name.Dispose();
-            this.ProfileImageUrl.Dispose();
-            this.ProfileBannerUrl.Dispose();
-            this.IsEnabled.Dispose();
-            this.Columns.Dispose();
-            this.OtherColumnNamesDisposable.Dispose();
-            this.PanelWidth.Dispose();
-            this.SnapPointsSpaceing.Dispose();
-            this.MaxSnapPoint.Dispose();
-            this.MinSnapPoint.Dispose();
-            this.ColumnSelectedIndex.Dispose();
+            this.Disposable.Dispose();
         }
     }
 }

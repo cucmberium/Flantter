@@ -37,6 +37,10 @@
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_ComplementListStream_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ComplementListStream, Mode=TwoWay}" Header="リストのストリームをユーザーストリームで補完する"/>
+
+            <controls:HorizontalBar/>
+
             <ComboBox x:Uid="SettingsFlyout_Settings_Advanced_Font_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="フォント" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=SystemFontFamilies}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.CustomFontName, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
 
             <controls:HorizontalBar/>

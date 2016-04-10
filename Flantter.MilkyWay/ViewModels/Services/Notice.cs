@@ -78,13 +78,24 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.DeleteMuteUserCommand = new ReactiveCommand();
             this.DeleteMuteClientCommand = new ReactiveCommand();
             this.UpdateMuteFilterCommand = new ReactiveCommand();
+
+
+            this.ShowFilePickerMessenger = new Messenger();
+            this.ShowComfirmMessageDialogMessenger = new Messenger();
+            this.ShowMessageDialogMessenger = new Messenger();
+            this.ShowAuthorizePopupMessenger = new Messenger();
         }
 
         public static Notice Instance
         {
             get { return _Instance; }
         }
-        
+
+        public Messenger ShowFilePickerMessenger { get; private set; }
+        public Messenger ShowComfirmMessageDialogMessenger { get; private set; }
+        public Messenger ShowMessageDialogMessenger { get; private set; }
+        public Messenger ShowAuthorizePopupMessenger { get; private set; }
+
         public ReactiveCommand ShowUserProfileCommand { get; private set; }
         public ReactiveCommand ShowConversationCommand { get; private set; }
         public ReactiveCommand ShowMediaCommand { get; private set; }

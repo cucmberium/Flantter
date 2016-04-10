@@ -712,10 +712,10 @@
   <data name="SettingsFlyout_Settings_Account_DeleteAccount_Textblock.Text" xml:space="preserve">
     <value>Delete account from flantter</value>
   </data>
-  <data name="SettingsFlyout_Settings_Account_IncludeFollowingActivity_Textblock.Text" xml:space="preserve">
+  <data name="SettingsFlyout_Settings_Account_IncludeFollowingActivity_ToggleSwitch.Header" xml:space="preserve">
     <value>Include following activity</value>
   </data>
-  <data name="SettingsFlyout_Settings_Account_PossiblySensitive_Textblock.Text" xml:space="preserve">
+  <data name="SettingsFlyout_Settings_Account_PossiblySensitive_ToggleSwitch.Header" xml:space="preserve">
     <value>Possibly sensitive</value>
   </data>
   <data name="SettingsFlyout_AccountChange_AccountSetting_Textblock.Text" xml:space="preserve">
@@ -750,5 +750,8 @@
   </data>
   <data name="SettingsFlyout_Settings_Advanced_UseOfficialApi_ToggleSwitch.Header" xml:space="preserve">
     <value>Use official search api and conversation api (If it can be used)</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Advanced_ComplementListStream_ToggleSwitch.Header" xml:space="preserve">
+    <value>Complement liststream with using userstream</value>
   </data>
 </root>

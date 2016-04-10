@@ -514,7 +514,7 @@ namespace Flantter.MilkyWay.ViewModels
         {
             base.OnNavigatedTo(e, viewModelState);
 
-            await Task.Run(() => this.Model.Initialize());
+            await Task.Run(async () => await this.Model.Initialize());
 
             Services.Notice.Instance.TweetAreaAccountChangeCommand.Execute(this.Accounts.First(x => x.IsEnabled.Value));
         }

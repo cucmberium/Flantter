@@ -15,29 +15,8 @@
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
     xmlns:swipe="using:Flantter.MilkyWay.Views.Contents.SwipeMenu"
     mc:Ignorable="d">
-    
+
     <Grid>
-        <i:Interaction.Behaviors>
-            <util:GlobalKeyTriggerBehavior>
-                <util:KeyTrigger Key="F" Modifiers="Control">
-                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowSearchCommand, Mode=OneWay}"/>
-                </util:KeyTrigger>
-            </util:GlobalKeyTriggerBehavior>
-
-            <util:GlobalKeyTriggerBehavior>
-                <util:KeyTrigger Key="R" Modifiers="Control">
-                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowRetweetsOfMeCommand, Mode=OneWay}"/>
-                </util:KeyTrigger>
-            </util:GlobalKeyTriggerBehavior>
-
-            <util:GlobalKeyTriggerBehavior>
-                <util:KeyTrigger Key="U" Modifiers="Control">
-                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserFollowInfoCommand, Mode=OneWay}"/>
-                </util:KeyTrigger>
-            </util:GlobalKeyTriggerBehavior>
-
-        </i:Interaction.Behaviors>
-        
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>

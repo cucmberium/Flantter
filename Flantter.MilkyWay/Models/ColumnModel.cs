@@ -282,7 +282,7 @@ namespace Flantter.MilkyWay.Models
         #endregion
         
         #region Initialize
-        public async void Initialize()
+        public async Task Initialize()
         {
             this.Stream.SubscribeOn(NewThreadScheduler.Default).Subscribe(
                 (StreamingMessage m) =>
@@ -399,7 +399,7 @@ namespace Flantter.MilkyWay.Models
                 this.DisableNotifyCollectionChanged = true;
                 this.IsScrollControlEnabled = false;
 
-                await Task.Run(async () => await Update());
+                await Update();
 
                 this.IsScrollControlEnabled = true;
                 this.DisableNotifyCollectionChanged = false;

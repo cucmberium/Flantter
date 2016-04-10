@@ -128,7 +128,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.SnapPointsSpaceing = LayoutHelper.Instance.ColumnWidth.Select(x => x + 10.0).ToReactiveProperty().AddTo(this.Disposable);
 
-            this.MaxSnapPoint = Observable.CombineLatest<double, double, double>(this.PanelWidth, WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth), (panelWidth, windowWidth) => (panelWidth + 10.0) - windowWidth + 352.0).ToReactiveProperty().AddTo(this.Disposable);
+            this.MaxSnapPoint = this.PanelWidth.Select(panelWidth => (panelWidth + 10.0) - WindowSizeHelper.Instance.ClientWidth + 352.0).ToReactiveProperty().AddTo(this.Disposable);
 
 			this.MinSnapPoint = new ReactiveProperty<double>(352.0).AddTo(this.Disposable);
 

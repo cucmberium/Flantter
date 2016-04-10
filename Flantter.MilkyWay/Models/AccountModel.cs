@@ -122,10 +122,9 @@ namespace Flantter.MilkyWay.Models
             this.ScreenName = this._AccountSetting.ScreenName;
             this.UserId = this._AccountSetting.UserId;
 
-            foreach (var columnModel in this._Columns)
-                columnModel.Initialize();
+            await Task.WhenAll(this._Columns.Select(x => x.Initialize()));
             
-            await Task.Run(async () =>
+            Task.Run(async () =>
             {
                 var user = await this.Tokens.Users.ShowAsync(user_id => this.UserId);
                 this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");

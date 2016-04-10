@@ -45,6 +45,7 @@
                     </VirtualizingStackPanel>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
+            
             <ItemsControl.ItemTemplateSelector>
                 <common:DataTypeTemplateSelector>
                     <DataTemplate x:Key="StatusViewModel" x:DataType="twitterObjectsViewModel:StatusViewModel">
@@ -68,6 +69,7 @@
                     </DataTemplate>-->
                 </common:DataTypeTemplateSelector>
             </ItemsControl.ItemTemplateSelector>
+            
         </controls:PullToRefreshListView>
     </Grid>
 </UserControl>

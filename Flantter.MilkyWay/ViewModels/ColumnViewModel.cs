@@ -230,13 +230,12 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.Width = LayoutHelper.Instance.ColumnWidth;
 
-            this.Left = Observable.CombineLatest<double, int, double, double>(
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
+            this.Left = Observable.CombineLatest<int, double, double>(
                 this.Index,
                 LayoutHelper.Instance.ColumnWidth,
-                (width, index, columnWidth) =>
+                (index, columnWidth) =>
                 {
-                    if (width < 352.0)
+                    if (WindowSizeHelper.Instance.ClientWidth < 352.0)
                         return index * (columnWidth + 10.0) + 352.0;
                     else
                         return 5.0 + index * (columnWidth + 10.0) + 352.0;

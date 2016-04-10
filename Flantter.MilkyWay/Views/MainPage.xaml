@@ -27,6 +27,18 @@
             <behaviors:TitleBarSwitchAction TitleBarVisibility="{Binding TitleBarVisivility.Value}"/>
         </core:EventTriggerBehavior>-->
 
+        <util:GlobalKeyTriggerBehavior>
+            <util:KeyTrigger Key="F" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowSearchCommand, Mode=OneWay}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="R" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowRetweetsOfMeCommand, Mode=OneWay}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="U" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserFollowInfoCommand, Mode=OneWay}"/>
+            </util:KeyTrigger>
+        </util:GlobalKeyTriggerBehavior>
+
         <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.ShowImagePreviewMessenger}">
             <behaviors:ShowImagePreviewAction/>
         </util:MessengerTriggerBehavior>

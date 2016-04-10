@@ -31,12 +31,11 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region Initialize
-        public void Initialize()
+        public async Task Initialize()
         {
             Connecter.Instance.Initialize();
 
-            foreach (var accountModel in this._Accounts)
-                accountModel.Initialize().ConfigureAwait(false);
+            await Task.WhenAll(this._Accounts.Select(x => x.Initialize()));
 
             Notifications.Core.Instance.Initialize();
         }
@@ -150,14 +149,14 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
-        public void AddAccount(AccountSetting account)
+        public async void AddAccount(AccountSetting account)
         {
-            var accountModel = new AccountModel(account);
-            accountModel.Initialize().ConfigureAwait(false);
-            this._Accounts.Add(accountModel);
-
             AdvancedSettingService.AdvancedSetting.Accounts.Add(account);
             AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+
+            var accountModel = new AccountModel(account);
+            this._Accounts.Add(accountModel);
+            await accountModel.Initialize();
         }
 
         public void ChangeAccount(AccountSetting account)

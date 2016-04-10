@@ -298,6 +298,16 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 await Launcher.LaunchUriAsync(new Uri("http://twitter.com/" + this.Model.ScreenName));
             });
 
+            this.AddColumnCommand = new ReactiveCommand();
+            this.AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                if (string.IsNullOrWhiteSpace(this.Model.ScreenName))
+                    return;
+
+                var columnSetting = new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.UserTimeline, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = ("User : " + this.Model.ScreenName), Parameter = this.Model.UserId.ToString(), Streaming = false, Index = -1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 };
+                Services.Notice.Instance.AddColumnCommand.Execute(columnSetting);
+            });
+
             this.Statuses = this.Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
             this.Favorites = this.Model.Favorites.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
             this.Followers = this.Model.Followers.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
@@ -391,7 +401,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<string> Url { get; set; }
 
-
         public ReactiveCommand UpdateCommand { get; set; }
 
         public ReactiveCommand ClearCommand { get; set; }
@@ -415,6 +424,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveCommand FollowingIncrementalLoadCommand { get; set; }
 
         public ReactiveCommand OpenUserProfileInWebCommand { get; set; }
+
+        public ReactiveCommand AddColumnCommand { get; set; }
 
         public Services.Notice Notice { get; set; }
     }

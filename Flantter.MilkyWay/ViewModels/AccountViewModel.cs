@@ -554,6 +554,16 @@ namespace Flantter.MilkyWay.ViewModels
                 this.Model.MuteUser(screenName);
             }).AddTo(this.Disposable);
 
+            Services.Notice.Instance.AddListColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                var list = x as List;
+                if (list == null)
+                    return;
+
+                var columnSetting = new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.List, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = ("List : " + list.FullName), Parameter = list.Id.ToString(), Streaming = false, Index = -1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 };
+                Services.Notice.Instance.AddColumnCommand.Execute(columnSetting);
+            }).AddTo(this.Disposable);
+
             #endregion
         }
         #endregion

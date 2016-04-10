@@ -102,7 +102,7 @@
                     <controls:HorizontalBar Height="2"/>
                     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
                         <contents:FollowButon Command="{x:Bind ViewModel.FollowCommand}" IsEnabled="{x:Bind ViewModel.IsMyUserProfile.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" ButtonContent="{x:Bind ViewModel.FollowButtonText.Value, Mode=OneWay}" ButtonPointerOverContent="{x:Bind ViewModel.FollowButtonPointerOverText.Value, Mode=OneWay}" FlowDirection="LeftToRight"/>
-                        <Button x:Uid="SettingsFlyout_UserProfile_AddColumnButton" FlowDirection="LeftToRight" Width="100" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1"/>
+                        <Button x:Uid="SettingsFlyout_UserProfile_AddColumnButton" FlowDirection="LeftToRight" Width="100" Content="カラムを追加" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AddColumnCommand}"/>
                         <Button FlowDirection="LeftToRight" HorizontalAlignment="Right" Background="#FF21A4E4" Foreground="White" Margin="1,1">
                             <SymbolIcon Symbol="Add" Foreground="White"/>
                             <Button.Flyout>

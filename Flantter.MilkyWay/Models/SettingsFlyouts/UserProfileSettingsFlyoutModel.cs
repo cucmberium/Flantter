@@ -239,6 +239,15 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
         #endregion
 
+        #region UserId変更通知プロパティ
+        private long _UserId;
+        public long UserId
+        {
+            get { return this._UserId; }
+            set { this.SetProperty(ref this._UserId, value); }
+        }
+        #endregion
+
 
         #region UpdatingUserInformation変更通知プロパティ
         private bool _UpdatingUserInformation;
@@ -335,6 +344,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             this.Url = userObj.Url;
             this.Name = userObj.Name;
             this.IsFollowRequestSent = userObj.IsFollowRequestSent;
+            this.UserId = userObj.Id;
             
             this.UpdatingUserInformation = false;
         }

@@ -282,7 +282,7 @@ namespace Flantter.MilkyWay.Models
         #endregion
         
         #region Initialize
-        public async Task Initialize()
+        public async void Initialize()
         {
             this.Stream.SubscribeOn(NewThreadScheduler.Default).Subscribe(
                 (StreamingMessage m) =>
@@ -399,13 +399,12 @@ namespace Flantter.MilkyWay.Models
                 this.DisableNotifyCollectionChanged = true;
                 this.IsScrollControlEnabled = false;
 
-                await Update();
+                await Task.Run(async () => await Update());
 
                 this.IsScrollControlEnabled = true;
                 this.DisableNotifyCollectionChanged = false;
             }
             
-            //await Task.Delay(100);
             this.Streaming = this._ColumnSetting.Streaming;
         }
         #endregion
@@ -786,13 +785,13 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true }, { "user_id", int.Parse(this._Parameter) } };
+                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true }, { "user_id", long.Parse(this._Parameter) } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
                     param.Add("since_id", sinceid);
 
-                var userTimeline = await this.Tokens.Lists.StatusesAsync(param);
+                var userTimeline = await this.Tokens.Statuses.UserTimelineAsync(param);
 
                 foreach (var status in userTimeline)
                 {
@@ -819,6 +818,7 @@ namespace Flantter.MilkyWay.Models
             // http://api.twitter.com/i/activity/about_me.json
         }
 
+        // 通常ツイートチェック
         private bool Check(Twitter.Objects.Status status)
         {
             if (this.Action != SettingSupport.ColumnTypeEnum.Mentions && this.Action != SettingSupport.ColumnTypeEnum.Favorites)
@@ -868,37 +868,41 @@ namespace Flantter.MilkyWay.Models
             return true;
         }
 
+
+        // Streaming用ツイートチェック
         private bool Check(Twitter.Objects.Status status, List<string> param)
         {
             if (!param.Contains(this.Action.ToString("F").ToLower() + "://" + this._Parameter))
             {
-                if (!Setting.SettingService.Setting.ComplementListStream || this.Action != SettingSupport.ColumnTypeEnum.List || !param.Contains("home://") || !status.User.IsProtected)
+                if (this.Action != SettingSupport.ColumnTypeEnum.List)
                     return false;
 
+                if (!this.Streaming)
+                    return false;
+
+                if (!Setting.SettingService.Setting.ComplementListStream || !param.Contains("home://") || !status.User.IsProtected)
+                    return false;
+            }
+
+            if (this.Action == SettingSupport.ColumnTypeEnum.List)
+            {
                 if (listStreamUserIdList == null)
                     return false;
 
                 if (!listStreamUserIdList.Contains(status.User.Id))
                     return false;
 
-                if (!this.Streaming)
+                if (status.InReplyToUserId != 0 && !listStreamUserIdList.Contains(status.InReplyToUserId))
                     return false;
             }
 
-            if (status.User.IsMuting)
-            {
-                return false;
-            }
-            else
-            {
-                // Todo : NoRetweetIdsの読み込み
+            // Todo : NoRetweetIdsとMuteIdsの読み込み
 
-                /*using (await Connecter.Instance.TweetCollecter[this.OwnerUserId].NoRetweetIdsAsyncLock.LockAsync())
-                {
-                    if (Connecter.Instance.TweetCollecter[this.OwnerUserId].NoRetweetIds.Contains(status.User.Id))
-                        return false;
-                }*/
-            }
+            /*using (await Connecter.Instance.TweetCollecter[this.OwnerUserId].NoRetweetIdsAsyncLock.LockAsync())
+            {
+                if (Connecter.Instance.TweetCollecter[this.OwnerUserId].NoRetweetIds.Contains(status.User.Id))
+                    return false;
+            }*/
 
             if (this.Action == SettingSupport.ColumnTypeEnum.Mentions && !SettingService.Setting.ShowRetweetInMentionColumn)
             {

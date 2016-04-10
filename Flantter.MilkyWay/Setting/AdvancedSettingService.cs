@@ -187,7 +187,7 @@ namespace Flantter.MilkyWay.Setting
         }
         public void LoadFromAppSettings()
         {
-            string json = SettingService.Setting.AdvancedSettingData;
+            var json = SettingService.Setting.AdvancedSettingData;
 
             var jTokens = JToken.Parse(json);
 

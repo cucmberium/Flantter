@@ -36,7 +36,7 @@ namespace Flantter.MilkyWay.Models
             Connecter.Instance.Initialize();
 
             foreach (var accountModel in this._Accounts)
-                accountModel.Initialize();
+                accountModel.Initialize().ConfigureAwait(false);
 
             Notifications.Core.Instance.Initialize();
         }
@@ -153,7 +153,7 @@ namespace Flantter.MilkyWay.Models
         public void AddAccount(AccountSetting account)
         {
             var accountModel = new AccountModel(account);
-            accountModel.Initialize();
+            accountModel.Initialize().ConfigureAwait(false);
             this._Accounts.Add(accountModel);
 
             AdvancedSettingService.AdvancedSetting.Accounts.Add(account);

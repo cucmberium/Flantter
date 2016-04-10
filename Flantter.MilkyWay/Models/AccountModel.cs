@@ -110,7 +110,7 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region Initialize
-        public void Initialize()
+        public async Task Initialize()
         {
             Connecter.Instance.AddAccount(this._AccountSetting);
 
@@ -123,11 +123,9 @@ namespace Flantter.MilkyWay.Models
             this.UserId = this._AccountSetting.UserId;
 
             foreach (var columnModel in this._Columns)
-            {
-                Task.Run(async () => await columnModel.Initialize());
-            }
-
-            Task.Run(async () => 
+                columnModel.Initialize();
+            
+            await Task.Run(async () =>
             {
                 var user = await this.Tokens.Users.ShowAsync(user_id => this.UserId);
                 this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
@@ -146,17 +144,10 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region Constructor
-        public AccountModel()
-        {
-            this._Columns = new ObservableCollection<ColumnModel>();
-            this._ReadOnlyColumns = new ReadOnlyObservableCollection<ColumnModel>(this._Columns);
-
-            this.ProfileImageUrl = "";
-            this.IsEnabled = true;
-        }
-
         public AccountModel(AccountSetting account)
         {
+            this.IsEnabled = account.IsEnabled;
+
             this._Columns = new ObservableCollection<ColumnModel>();
             this._ReadOnlyColumns = new ReadOnlyObservableCollection<ColumnModel>(this._Columns);
             
@@ -182,16 +173,16 @@ namespace Flantter.MilkyWay.Models
 
         public void AddColumn(ColumnSetting column)
         {
-            this._AccountSetting.Column.Add(column);
-            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
-
             if (column.Index == -1)
                 column.Index = this._Columns.Count;
+
+            this._AccountSetting.Column.Add(column);
+            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
             var columnModel = new ColumnModel(column, this._AccountSetting, this);
             this._Columns.Add(columnModel);
 
-            Task.Run(async () => await columnModel.Initialize());
+            columnModel.Initialize();
         }
 
         public void DeleteColumn(ColumnSetting column)

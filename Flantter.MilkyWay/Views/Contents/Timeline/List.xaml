@@ -98,7 +98,7 @@
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="Add" />
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_AddList" Text="&#xE105;    カラムを追加" FontFamily="Segoe UI Symbol"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_AddList" Text="&#xE105;    カラムを追加" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.AddListColumnCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UserProfile" Text="&#xE136;    ユーザープロフィール" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                         <MenuFlyoutSeparator/>

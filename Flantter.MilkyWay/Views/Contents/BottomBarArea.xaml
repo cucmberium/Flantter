@@ -163,58 +163,34 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_TextButtonSelecter" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_ButtonSelecter" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_TweetButton" Storyboard.TargetProperty="Width">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_TweetButton" Storyboard.TargetProperty="IsCompact">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_TweetButton" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,0,-5"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="BottomBarArea_TextButtonSelecter.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomBarArea_ButtonSelecter.Visibility" Value="Visible"/>
+                        <Setter Target="BottomBarArea_TweetButton.Width" Value="0"/>
+                        <Setter Target="BottomBarArea_TweetButton.IsCompact" Value="True"/>
+                        <Setter Target="BottomBarArea_TweetButton.Margin" Value="0,0,0,-5"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Min">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="384" />
                     </VisualState.StateTriggers>
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_TextButtonSelecter" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_ButtonSelecter" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_TweetButton" Storyboard.TargetProperty="Width">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="64"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_TweetButton" Storyboard.TargetProperty="IsCompact">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_TweetButton" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,0,-5"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="BottomBarArea_TextButtonSelecter.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomBarArea_ButtonSelecter.Visibility" Value="Visible"/>
+                        <Setter Target="BottomBarArea_TweetButton.Width" Value="64"/>
+                        <Setter Target="BottomBarArea_TweetButton.IsCompact" Value="True"/>
+                        <Setter Target="BottomBarArea_TweetButton.Margin" Value="0,0,0,-5"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_TextButtonSelecter" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomBarArea_ButtonSelecter" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="BottomBarArea_TextButtonSelecter.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomBarArea_ButtonSelecter.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>

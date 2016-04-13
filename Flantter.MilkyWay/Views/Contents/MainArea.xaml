@@ -32,31 +32,25 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
-                    <Storyboard>
-						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainArea_BottomBar" Storyboard.TargetProperty="Height">
-							<DiscreteObjectKeyFrame KeyTime="0" Value="64"/>
-						</ObjectAnimationUsingKeyFrames>
-					</Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="MainArea_BottomBar.Height" Value="64"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Min">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="352" />
                     </VisualState.StateTriggers>
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainArea_BottomBar" Storyboard.TargetProperty="Height">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="64"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="MainArea_BottomBar.Height" Value="64"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="384" />
                     </VisualState.StateTriggers>
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainArea_BottomBar" Storyboard.TargetProperty="Height">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="64"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="MainArea_BottomBar.Height" Value="64"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>

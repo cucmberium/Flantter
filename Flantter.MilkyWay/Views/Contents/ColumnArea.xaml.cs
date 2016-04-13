@@ -16,6 +16,7 @@ using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Views.Controls;
 using System.Threading.Tasks;
 using Flantter.MilkyWay.ViewModels;
+using Flantter.MilkyWay.Views.Util;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -52,11 +53,15 @@ namespace Flantter.MilkyWay.Views.Contents
         }
 
         private ScrollViewer _ScrollViewer = null;
-
+        
         public ColumnArea()
         {
             this.InitializeComponent();
-            this.SizeChanged += (s, e) => { this.ColumnArea_UpdateView(); };
+
+            this.SizeChanged += (s, e) =>
+            {
+                this.ColumnArea_UpdateView();
+            };
             this.Loaded += (s, e) =>
             {
                 var scrollViewer = this.ColumnArea_ColumnList.GetVisualChild<ScrollViewer>();

@@ -23,9 +23,6 @@
         <core:DataTriggerBehavior Binding="{x:Bind ViewModel.TitleBarVisivility.Value, Mode=OneWay}" Value="False">
             <behaviors:TitleBarSwitchAction TitleBarVisibility="False"/>
         </core:DataTriggerBehavior>
-        <!--<core:EventTriggerBehavior EventName="Loaded">
-            <behaviors:TitleBarSwitchAction TitleBarVisibility="{Binding TitleBarVisivility.Value}"/>
-        </core:EventTriggerBehavior>-->
 
         <util:GlobalKeyTriggerBehavior>
             <util:KeyTrigger Key="F" Modifiers="Control">
@@ -91,9 +88,9 @@
             
         </Grid>
 
-        <Image Grid.Row="1" Source="{Binding Setting.BackgroundImagePath, Mode=OneWay}" Stretch="UniformToFill"/>
-        
-        <ItemsControl Grid.Row="1" ItemsSource="{x:Bind ViewModel.Accounts}">
+        <Image Grid.Row="1" Source="{x:Bind ViewModel.Setting.BackgroundImagePath, Mode=OneWay}" Stretch="UniformToFill"/>
+
+        <ItemsControl Grid.Row="1" ItemsSource="{x:Bind ViewModel.Accounts, Mode=OneWay}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid/>
@@ -109,24 +106,16 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="ApplicationViewState">
                 <VisualState x:Name="TitleBarOpened">
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_TitleBar" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_TitleBar" Storyboard.TargetProperty="Height">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="32"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="Flantter_TitleBar.Visibility" Value="Visible"/>
+                        <Setter Target="Flantter_TitleBar.Height" Value="32"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TitleBarClosed">
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_TitleBar" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Flantter_TitleBar" Storyboard.TargetProperty="Height">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="Flantter_TitleBar.Visibility" Value="Collapsed"/>
+                        <Setter Target="Flantter_TitleBar.Height" Value="0"/>
+                    </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>

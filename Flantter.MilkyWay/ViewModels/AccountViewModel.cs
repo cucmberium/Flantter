@@ -56,6 +56,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveProperty<bool> IsZoomedInViewActive { get; private set; }
 
+        public ReactiveProperty<Orientation> ZoomOutOrientation { get; private set; }
+
         public ReactiveProperty<int> ColumnSelectedIndex { get; private set; }
         
         public ReactiveCommand ShowMyUserProfileCommand { get; private set; }
@@ -195,6 +197,14 @@ namespace Flantter.MilkyWay.ViewModels
                 }).ToReactiveProperty().AddTo(this.Disposable);
 
             this.IsZoomedInViewActive = new ReactiveProperty<bool>(true);
+
+            this.ZoomOutOrientation = WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth).Select(x =>
+            {
+                if (x > 500)
+                    return Orientation.Horizontal;
+                else
+                    return Orientation.Vertical;
+            }).ToReactiveProperty();
 
             this.Notice = Services.Notice.Instance;
 

@@ -107,15 +107,6 @@ namespace Flantter.MilkyWay.Views.Contents
         {
             this.BottomBarArea_ProfileImageButton.Width = e.NewSize.Height;
             this.BottomBarArea_ProfileImageButton.Height = e.NewSize.Height;
-
-            if (e.NewSize.Width < 384)
-                VisualStateManager.GoToState(this, "Under384px", true);
-            else if (e.NewSize.Width < 500)
-                VisualStateManager.GoToState(this, "Under500px", true);
-            else if (e.NewSize.Width < 700)
-                VisualStateManager.GoToState(this, "Under700px", true);
-            else
-                VisualStateManager.GoToState(this, "Default", true);
         }
 
         private void BottomBarArea_HomeButton_Tapped(object sender, TappedRoutedEventArgs e)

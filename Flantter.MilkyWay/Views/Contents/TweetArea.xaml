@@ -205,130 +205,59 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Width">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Height">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,0,0,0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="VerticalAlignment">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TextBox" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,5,5,40"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetSmallButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CommandGrid" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="50,0,72.5,0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CounterTextBlock" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_PictureButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_PictureItemsControl" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_SmallPictureButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="BottomAppBar_AccountButton.Width" Value="40"/>
+                        <Setter Target="BottomAppBar_AccountButton.Height" Value="40"/>
+                        <Setter Target="BottomAppBar_AccountButton.Margin" Value="5,0,0,0"/>
+                        <Setter Target="BottomAppBar_AccountButton.VerticalAlignment" Value="Bottom"/>
+                        <Setter Target="BottomAppBar_TextBox.Margin" Value="5,5,5,40"/>
+                        <Setter Target="BottomAppBar_TweetButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBar_TweetSmallButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBar_CommandGrid.Margin" Value="50,0,72.5,0"/>
+                        <Setter Target="BottomAppBar_CounterTextBlock.Margin" Value="0"/>
+                        <Setter Target="BottomAppBar_PictureButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBar_PictureItemsControl.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBar_SmallPictureButton.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Min">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="384" />
                     </VisualState.StateTriggers>
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Width">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Height">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,0,0,0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="VerticalAlignment">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TextBox" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,5,5,40"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetSmallButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CommandGrid" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="50,0,72.5,0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CounterTextBlock" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_PictureButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_PictureItemsControl" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_SmallPictureButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+
+                    <VisualState.Setters>
+                        <Setter Target="BottomAppBar_AccountButton.Width" Value="40"/>
+                        <Setter Target="BottomAppBar_AccountButton.Height" Value="40"/>
+                        <Setter Target="BottomAppBar_AccountButton.Margin" Value="5,0,0,0"/>
+                        <Setter Target="BottomAppBar_AccountButton.VerticalAlignment" Value="Bottom"/>
+                        <Setter Target="BottomAppBar_TextBox.Margin" Value="5,5,5,40"/>
+                        <Setter Target="BottomAppBar_TweetButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBar_TweetSmallButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBar_CommandGrid.Margin" Value="50,0,72.5,0"/>
+                        <Setter Target="BottomAppBar_CounterTextBlock.Margin" Value="0"/>
+                        <Setter Target="BottomAppBar_PictureButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBar_PictureItemsControl.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBar_SmallPictureButton.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
-                    <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Width">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Height">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="40"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,0,0,0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_AccountButton" Storyboard.TargetProperty="VerticalAlignment">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TextBox" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="5,5,5,40"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_TweetSmallButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CommandGrid" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="50,0,72.5,0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_CounterTextBlock" Storyboard.TargetProperty="Margin">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_PictureButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_PictureItemsControl" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BottomAppBar_SmallPictureButton" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="BottomAppBar_AccountButton.Width" Value="40"/>
+                        <Setter Target="BottomAppBar_AccountButton.Height" Value="40"/>
+                        <Setter Target="BottomAppBar_AccountButton.Margin" Value="5,0,0,0"/>
+                        <Setter Target="BottomAppBar_AccountButton.VerticalAlignment" Value="Bottom"/>
+                        <Setter Target="BottomAppBar_TextBox.Margin" Value="5,5,5,40"/>
+                        <Setter Target="BottomAppBar_TweetButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBar_TweetSmallButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBar_CommandGrid.Margin" Value="50,0,72.5,0"/>
+                        <Setter Target="BottomAppBar_CounterTextBlock.Margin" Value="0"/>
+                        <Setter Target="BottomAppBar_PictureButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBar_PictureItemsControl.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBar_SmallPictureButton.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>

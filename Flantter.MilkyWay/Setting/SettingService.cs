@@ -249,9 +249,9 @@ namespace Flantter.MilkyWay.Setting
             get
             {
                 if (UseBackgroundImage)
-                    return GetValue(string.Empty);
+                    return GetValue("http://localhost/");
                 else
-                    return string.Empty;
+                    return "http://localhost/";
             }
             set { SetValue(value); OnPropertyChanged(); }
         }

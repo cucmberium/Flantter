@@ -36,7 +36,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReadOnlyReactiveCollection<ColumnViewModel> Columns { get; private set; }
         public ObservableCollection<string> OtherColumnNames { get; private set; }
-        
+        public ObservableCollection<ColumnViewModel> ReorderColumns { get; private set; }
+
 
         public ReactiveProperty<bool> LeftSwipeMenuIsOpen { get; private set; }
 
@@ -53,6 +54,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveProperty<bool> BottomBarSearchBoxEnabled { get; private set; }
 
+        public ReactiveProperty<bool> IsZoomedInViewActive { get; private set; }
+
         public ReactiveProperty<int> ColumnSelectedIndex { get; private set; }
         
         public ReactiveCommand ShowMyUserProfileCommand { get; private set; }
@@ -64,6 +67,8 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand UpdateSearchCommand { get; private set; }
 
         public ReactiveCommand SuggestionsRequestedSearchCommand { get; private set; }
+
+        public ReactiveCommand SortColumnCommand { get; private set; }
 
         #region Constructor
         /*public AccountViewModel()
@@ -115,6 +120,53 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             }).AddTo(this.Disposable);
 
+            this.ReorderColumns = new ObservableCollection<ColumnViewModel>(this.Columns.OrderBy(x => x.Index.Value).AsEnumerable());
+            this.Columns.CollectionChangedAsObservable().SubscribeOnUIDispatcher().Subscribe<NotifyCollectionChangedEventArgs>(e =>
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        foreach (var obj in e.NewItems)
+                        {
+                            var column = obj as ColumnViewModel;
+                            this.ReorderColumns.Add(column);
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (var obj in e.OldItems)
+                        {
+                            var column = obj as ColumnViewModel;
+                            this.ReorderColumns.Remove(column);
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Move:
+                    case NotifyCollectionChangedAction.Replace:
+                    case NotifyCollectionChangedAction.Reset:
+                        throw new NotImplementedException();
+                }
+            }).AddTo(this.Disposable);
+
+            this.ReorderColumns.CollectionChangedAsObservable().SubscribeOnUIDispatcher().Subscribe<NotifyCollectionChangedEventArgs>(e =>
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (var column in this.ReorderColumns.Select((x, i) => new { x, i }))
+                            column.x.Model.Index = column.i;
+
+                        AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                        break;
+
+                    case NotifyCollectionChangedAction.Add:
+                        foreach (var column in this.ReorderColumns.Select((x, i) => new { x, i }))
+                            column.x.Model.Index = column.i;
+
+                        AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                        break;
+
+                }
+            }).AddTo(this.Disposable);
+
             this.PanelWidth = Observable.CombineLatest<double, int, double>(
                 LayoutHelper.Instance.ColumnWidth,
                 this.Columns.ObserveProperty(x => x.Count),
@@ -142,6 +194,7 @@ namespace Flantter.MilkyWay.ViewModels
                     return (clientWidth >= 960.0 && searchBoxEnabled && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile");
                 }).ToReactiveProperty().AddTo(this.Disposable);
 
+            this.IsZoomedInViewActive = new ReactiveProperty<bool>(true);
 
             this.Notice = Services.Notice.Instance;
 
@@ -211,6 +264,18 @@ namespace Flantter.MilkyWay.ViewModels
                 }
 
                 deferral.Complete();
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.SortColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(y =>
+            {
+                this.IsZoomedInViewActive.Value = false;
+                this.LeftSwipeMenuIsOpen.Value = false;
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.ChangeColumnSelectedIndexCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                var column = x as ColumnViewModel;
+                this.ColumnSelectedIndex.Value = this.Columns.IndexOf(column);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.LoadMentionCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
@@ -385,8 +450,7 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
                 statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
             }).AddTo(this.Disposable);
-
-
+            
             Services.Notice.Instance.DeleteTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
             {
                 if (x is Status)

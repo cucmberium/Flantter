@@ -100,6 +100,10 @@ namespace Flantter.MilkyWay.ViewModels
             this.DragOverCommand.Subscribe(x =>
             {
                 var e = x as DragEventArgs;
+                
+                if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+                    return;
+
                 e.AcceptedOperation = DataPackageOperation.Copy;
                 e.Handled = true;
             });
@@ -108,6 +112,10 @@ namespace Flantter.MilkyWay.ViewModels
             this.DropCommand.Subscribe(async x =>
             {
                 var e = x as DragEventArgs;
+
+                if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+                    return;
+                
                 var d = e.GetDeferral();
 
                 var files = (await e.DataView.GetStorageItemsAsync()).OfType<StorageFile>();
@@ -432,8 +440,9 @@ namespace Flantter.MilkyWay.ViewModels
                 var account = auth.Result;
 
                 if (account == null)
-                    return;                
+                    return;
 
+                // 禁忌 : Taboo
                 if (AdvancedSettingService.AdvancedSetting.Accounts.Any(y => y.UserId == account.UserId))
                 {
                     var accountSetting = AdvancedSettingService.AdvancedSetting.Accounts.First(y => y.UserId == account.UserId);

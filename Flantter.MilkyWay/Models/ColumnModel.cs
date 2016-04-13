@@ -135,7 +135,7 @@ namespace Flantter.MilkyWay.Models
         public int Index
         {
             get { return this._Index; }
-            set { this.SetProperty(ref this._Index, value); }
+            set { this.SetProperty(ref this._Index, value); this._ColumnSetting.Index = value; }
         }
         #endregion
         
@@ -145,6 +145,15 @@ namespace Flantter.MilkyWay.Models
         {
             get { return this._ScreenName; }
             set { this.SetProperty(ref this._ScreenName, value); }
+        }
+        #endregion
+
+        #region ProfileImageUrl変更通知プロパティ
+        private string _ProfileImageUrl;
+        public string ProfileImageUrl
+        {
+            get { return this._ProfileImageUrl; }
+            set { this.SetProperty(ref this._ProfileImageUrl, value); }
         }
         #endregion
 
@@ -362,10 +371,7 @@ namespace Flantter.MilkyWay.Models
             this._ColumnSetting.ObserveProperty(x => x.FetchingNumberOfTweet).Subscribe(x => this.FetchingNumberOfTweet = x).AddTo(this.Disposable);
             this._ColumnSetting.ObserveProperty(x => x.Name).Subscribe(x => this.Name = x).AddTo(this.Disposable);
             this._AccountSetting.ObserveProperty(x => x.ScreenName).Subscribe(x => this.ScreenName = x).AddTo(this.Disposable);
-
-            this.Action = this._ColumnSetting.Action;
-            this.Index = this._ColumnSetting.Index;
-            this.Parameter = this._ColumnSetting.Parameter;
+            this._AccountSetting.ObserveProperty(x => x.ProfileImageUrl).Subscribe(x => this.ProfileImageUrl = x).AddTo(this.Disposable);
             
             if (!this._ColumnSetting.DisableStartupRefresh)
                 await Update();
@@ -390,6 +396,10 @@ namespace Flantter.MilkyWay.Models
             this._ColumnSetting = column;
 
             this._AccountModel = accountModel;
+
+            this.Action = this._ColumnSetting.Action;
+            this.Index = this._ColumnSetting.Index;
+            this.Parameter = this._ColumnSetting.Parameter;
         }
         #endregion
 

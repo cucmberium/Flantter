@@ -43,12 +43,14 @@
             <Image x:Name="BottomBarArea_ProfileImage" Source="{x:Bind ViewModel.ProfileImageUrl.Value, Mode=OneWay}"/>
             <Button.Flyout>
                 <MenuFlyout>
+                    <MenuFlyoutItem x:Uid="BottomBarArea_ProfileImageButton_Flyout_ColumnSort" Text="&#xE133; カラム並び替え" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SortColumnCommand}"/>
                     <MenuFlyoutItem x:Uid="BottomBarArea_ProfileImageButton_Flyout_AccountChange" Text="&#xE125; アカウント切り替え" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowChangeAccountCommand}"/>
                     <MenuFlyoutItem x:Uid="BottomBarArea_ProfileImageButton_Flyout_Menu" Text="&#xE14C; メニュー" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowLeftSwipeMenuCommand}"/>
                     <MenuFlyoutSeparator/>
                     <MenuFlyoutItem x:Uid="BottomBarArea_ProfileImageButton_Flyout_MyProfile" Text="&#xE181; 自分のプロフィール" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.ShowMyUserProfileCommand}"/>
                 </MenuFlyout>
             </Button.Flyout>
+            
         </Button>
 
         <Grid x:Name="BottomBarArea_ButtonSelecter" Grid.Column="1" Visibility="Collapsed">

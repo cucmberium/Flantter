@@ -135,13 +135,13 @@
   <data name="AuthorizePopup_PincodeIsEmpty" xml:space="preserve">
     <value>Pincodeが空になっています。</value>
   </data>
-  <data name="BottomBar_ProfileImageButton_Flyout_AccountChange.Text" xml:space="preserve">
+  <data name="BottomBarArea_ProfileImageButton_Flyout_AccountChange.Text" xml:space="preserve">
     <value>    アカウント変更</value>
   </data>
-  <data name="BottomBar_ProfileImageButton_Flyout_Menu.Text" xml:space="preserve">
+  <data name="BottomBarArea_ProfileImageButton_Flyout_Menu.Text" xml:space="preserve">
     <value>    メニュー</value>
   </data>
-  <data name="BottomBar_ProfileImageButton_Flyout_MyProfile.Text" xml:space="preserve">
+  <data name="BottomBarArea_ProfileImageButton_Flyout_MyProfile.Text" xml:space="preserve">
     <value>    自分のプロフィール</value>
   </data>
   <data name="TimelineArea_PullToRefreshListView.PullPartTemplate" xml:space="preserve">
@@ -753,5 +753,11 @@
   </data>
   <data name="SettingsFlyout_Settings_Advanced_ComplementListStream_ToggleSwitch.Header" xml:space="preserve">
     <value>リストのストリームをユーザーストリームで補完する</value>
+  </data>
+  <data name="BottomBarArea_ProfileImageButton_Flyout_ColumnSort.Text" xml:space="preserve">
+    <value>    カラム並び替え</value>
+  </data>
+  <data name="MainSwipeMenu_SortColumn.Text" xml:space="preserve">
+    <value>カラム並び替え</value>
   </data>
 </root>

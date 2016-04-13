@@ -9,77 +9,135 @@
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
     xmlns:common="using:Flantter.MilkyWay.Common"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     d:DesignHeight="720"
     d:DesignWidth="400">
 
-    <contents:ColumnAreaListBox x:Name="ColumnArea_ColumnList" Grid.Row="0" Style="{StaticResource ExtendedListBox}" IsTabStop="False" Margin="5,10" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{x:Bind ViewModel.Columns, Mode=OneWay}" ItemContainerStyle="{StaticResource ColumnListBoxItemStyle}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <!-- 本当はここもx:Bindにしたいけどすると "error WMC9999" が発生する -->
-                <contents:ExtendedCanvas x:Name="ColumnListCanvas" Width="{Binding PanelWidth.Value, Mode=OneWay}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value, Mode=OneWay}" MaxSnapPoint="{Binding MaxSnapPoint.Value, Mode=OneWay}" MinSnapPoint="{Binding MinSnapPoint.Value, Mode=OneWay}"/>
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate x:DataType="viewModels:ColumnViewModel">
-                <Grid Background="{StaticResource ColumnViewBackgroundBrush}" Width="{x:Bind Width.Value, Mode=OneWay}" Height="{x:Bind Height.Value, Mode=OneWay}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+    <SemanticZoom x:Name="ColumnArea_SemanticZoom" IsZoomOutButtonEnabled="False" IsZoomedInViewActive="{x:Bind ViewModel.IsZoomedInViewActive.Value, Mode=TwoWay}">
+        <SemanticZoom.ZoomedInView>
+            <contents:ColumnAreaListBox x:Name="ColumnArea_ColumnList" Margin="5,10" Style="{StaticResource ExtendedListBox}" IsTabStop="False" Background="Transparent" ItemsSource="{x:Bind ViewModel.Columns, Mode=OneWay}" ItemContainerStyle="{StaticResource ColumnListBoxItemStyle}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <!-- 本当はここもx:Bindにしたいけどすると "error WMC9999" が発生する -->
+                        <contents:ExtendedCanvas x:Name="ColumnListCanvas" Width="{Binding PanelWidth.Value, Mode=OneWay}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value, Mode=OneWay}" MaxSnapPoint="{Binding MaxSnapPoint.Value, Mode=OneWay}" MinSnapPoint="{Binding MinSnapPoint.Value, Mode=OneWay}"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:ColumnViewModel">
+                        <Grid Background="{StaticResource ColumnViewBackgroundBrush}" Width="{x:Bind Width.Value, Mode=OneWay}" Height="{x:Bind Height.Value, Mode=OneWay}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                    <contents:TimelineArea Grid.Row="0" ViewModel="{x:Bind}"/>
+                            <contents:TimelineArea Grid.Row="0" ViewModel="{x:Bind}"/>
 
-                    <Polygon Grid.Row="0" Visibility="{x:Bind UnreadCount.Value, Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Fill="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}" Points="10,10,20,0,30,10" Width="40" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                            <Polygon Grid.Row="0" Visibility="{x:Bind UnreadCount.Value, Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Fill="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}" Points="10,10,20,0,30,10" Width="40" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
 
-                    <Grid Grid.Row="1" Height="30" Background="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="40"/>
-                        </Grid.ColumnDefinitions>
+                            <Grid Grid.Row="1" Height="30" Background="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Column="0">
-                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="{x:Bind ActionSymbol.Value, Mode=OneWay}" HorizontalAlignment="Left"/>
-                            <TextBlock Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Run Text="{x:Bind Name.Value, Mode=OneWay}"/>
-                                <Run Text=" - "/>
-                                <Run Text="@"/><Run Text="{x:Bind ScreenName.Value, Mode=OneWay}"/>
-                            </TextBlock>
+                                <Grid Grid.Column="0">
+                                    <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="{x:Bind ActionSymbol.Value, Mode=OneWay}" HorizontalAlignment="Left"/>
+                                    <TextBlock Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <Run Text="{x:Bind Name.Value, Mode=OneWay}"/>
+                                        <Run Text=" - "/>
+                                        <Run Text="@"/><Run Text="{x:Bind ScreenName.Value, Mode=OneWay}"/>
+                                    </TextBlock>
+                                </Grid>
+
+                                <Grid Grid.Column="3" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
+                                    <Button Background="Transparent" BorderThickness="0" Width="40" Height="30" Padding="0" Command="{x:Bind ScrollToTopCommand}">
+                                        <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="{x:Bind UnreadCount.Value, Mode=OneWay}" FontSize="14" FontWeight="Bold"/>
+                                    </Button>
+                                </Grid>
+                                <Button Grid.Column="2" ToolTipService.ToolTip="Menu" VerticalAlignment="Stretch" Width="40" BorderThickness="0" Padding="0">
+                                    <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Add"/>
+                                    <Button.Flyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol" Command="{x:Bind RefreshCommand}"/>
+                                            <MenuFlyoutSeparator/>
+                                            <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol"/>
+                                            <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                                <Button Grid.Column="1" ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" Width="40" BorderThickness="0" Padding="0" Visibility="{x:Bind IsEnabledStreaming.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Command="{x:Bind StreamingCommand}">
+                                    <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{x:Bind StreamingSymbol.Value, Mode=OneWay}"/>
+                                </Button>
+                            </Grid>
+
+                            <StackPanel x:Name="TweetMultipulActionStackPanel" Grid.Row="2" Visibility="Collapsed" Height="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
+                                <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare"/>
+                                <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite"/>
+                                <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message"/>
+                                <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel"/>
+                            </StackPanel>
                         </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </contents:ColumnAreaListBox>
+        </SemanticZoom.ZoomedInView>
 
-                        <Grid Grid.Column="3" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
-                            <Button Background="Transparent" BorderThickness="0" Width="40" Height="30" Padding="0" Command="{x:Bind ScrollToTopCommand}">
-                                <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="{x:Bind UnreadCount.Value, Mode=OneWay}" FontSize="14" FontWeight="Bold"/>
-                            </Button>
-                        </Grid>
-                        <Button Grid.Column="2" ToolTipService.ToolTip="Menu" VerticalAlignment="Stretch" Width="40" BorderThickness="0" Padding="0">
-                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Add"/>
-                            <Button.Flyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol" Command="{x:Bind RefreshCommand}"/>
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol"/>
-                                    <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
-                                </MenuFlyout>
-                            </Button.Flyout>
-                        </Button>
-                        <Button Grid.Column="1" ToolTipService.ToolTip="Streaming" VerticalAlignment="Stretch" Width="40" BorderThickness="0" Padding="0" Visibility="{x:Bind IsEnabledStreaming.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Command="{x:Bind StreamingCommand}">
-                            <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{x:Bind StreamingSymbol.Value, Mode=OneWay}"/>
-                        </Button>
-                    </Grid>
+        <SemanticZoom.ZoomedOutView>
+            <ListView ItemsSource="{x:Bind ViewModel.ReorderColumns, Mode=OneWay}" CanReorderItems="True" AllowDrop="True" ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel x:Name="ColumnArea_ReorderVirtualizingStackPanel" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:ColumnViewModel">
+                        <Border Background="Transparent">
 
-                    <StackPanel x:Name="TweetMultipulActionStackPanel" Grid.Row="2" Visibility="Collapsed" Height="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare"/>
-                        <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite"/>
-                        <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message"/>
-                        <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel"/>
-                    </StackPanel>
-                </Grid>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
+                            <i:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Tapped">
+                                    <core:InvokeCommandAction Command="{x:Bind Notice.ChangeColumnSelectedIndexCommand}" CommandParameter="{x:Bind Mode=OneWay}" />
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+
+                            <Grid x:Name="ColumnArea_ReorderGrid" MinWidth="250" MaxWidth="600" MinHeight="200" MaxHeight="500" Padding="6,12">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" Background="{StaticResource ColumnViewBackgroundBrush}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <SymbolIcon Grid.Row="1" Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{x:Bind ActionSymbol.Value, Mode=OneWay}" HorizontalAlignment="Center" Width="50" Height="50"/>
+                                    
+                                    <TextBlock Grid.Row="2" Text="{x:Bind Name.Value}" HorizontalAlignment="Center" />
+                                </Grid>
+                                <Rectangle Grid.Row="1" Height="24" Fill="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}"/>
+                                <TextBlock Grid.Row="1" HorizontalAlignment="Left" Margin="5,0" VerticalAlignment="Center" >
+                                    <Run Text="@"/><Run Text="{x:Bind ScreenName.Value}" />
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ListView>
+        </SemanticZoom.ZoomedOutView>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="SizeStateGroup">
@@ -87,22 +145,35 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
-					<Storyboard>
-						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnArea_ColumnList" Storyboard.TargetProperty="Margin">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnArea_ColumnList" Storyboard.TargetProperty="Margin">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="0,0,0,0"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnArea_ReorderVirtualizingStackPanel" Storyboard.TargetProperty="Orientation">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Vertical"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Min">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="352" />
-					</VisualState.StateTriggers>
-				</VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="352" />
+                    </VisualState.StateTriggers>
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnArea_ReorderVirtualizingStackPanel" Storyboard.TargetProperty="Orientation">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Vertical"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
                 <VisualState x:Name="Normal">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="384" />
-					</VisualState.StateTriggers>
-				</VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="384" />
+                    </VisualState.StateTriggers>
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnArea_ReorderVirtualizingStackPanel" Storyboard.TargetProperty="Orientation">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Vertical"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="500" />
@@ -110,6 +181,6 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-    </contents:ColumnAreaListBox>
+    </SemanticZoom>
 
 </UserControl>

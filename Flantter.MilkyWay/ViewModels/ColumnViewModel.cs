@@ -30,6 +30,7 @@ namespace Flantter.MilkyWay.ViewModels
         protected CompositeDisposable Disposable { get; private set; } = new CompositeDisposable();
 
         public ColumnModel Model { get; set; }
+        public Services.Notice Notice { get; set; }
 
         public ReactiveProperty<double> Height { get; private set; }
         public ReactiveProperty<double> Width { get; private set; }
@@ -38,7 +39,8 @@ namespace Flantter.MilkyWay.ViewModels
 		public ReactiveProperty<Symbol> ActionSymbol { get; private set; }
 		public ReactiveProperty<string> Name { get; private set; }
         public ReactiveProperty<string> ScreenName { get; private set; }
-		public ReactiveProperty<bool> EnableCreateFilterColumn { get; private set; }
+        public ReactiveProperty<string> ProfileImageUrl { get; private set; }
+        public ReactiveProperty<bool> EnableCreateFilterColumn { get; private set; }
 		public ReactiveProperty<Symbol> StreamingSymbol { get; private set; }
         public ReactiveProperty<bool> IsEnabledStreaming { get; private set; }
         public ReactiveProperty<bool> Updating { get; private set; }
@@ -68,8 +70,10 @@ namespace Flantter.MilkyWay.ViewModels
         public ColumnViewModel(ColumnModel column)
         {
             this.Model = column;
-            
-			this.ActionSymbol = column.ObserveProperty(x => x.Action).Select(x =>
+
+            this.Notice = Services.Notice.Instance;
+
+            this.ActionSymbol = column.ObserveProperty(x => x.Action).Select(x =>
 			{
 				switch (x)
 				{
@@ -98,7 +102,8 @@ namespace Flantter.MilkyWay.ViewModels
 			this.EnableCreateFilterColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Home).ToReactiveProperty().AddTo(this.Disposable);
             this.Name = column.ObserveProperty(x => x.Name).ToReactiveProperty().AddTo(this.Disposable);
             this.ScreenName = column.ObserveProperty(x => x.ScreenName).ToReactiveProperty().AddTo(this.Disposable);
-			this.StreamingSymbol = column.ObserveProperty(x => x.Streaming).Select(x => x ? Symbol.Pause : Symbol.Play).ToReactiveProperty().AddTo(this.Disposable);
+            this.ProfileImageUrl = column.ObserveProperty(x => x.ProfileImageUrl).Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/").ToReactiveProperty().AddTo(this.Disposable);
+            this.StreamingSymbol = column.ObserveProperty(x => x.Streaming).Select(x => x ? Symbol.Pause : Symbol.Play).ToReactiveProperty().AddTo(this.Disposable);
             this.Index = column.ObserveProperty(x => x.Index).ToReactiveProperty().AddTo(this.Disposable);
             this.IsEnabledStreaming = column.ObserveProperty(x => x.Action).Select(x =>
             {

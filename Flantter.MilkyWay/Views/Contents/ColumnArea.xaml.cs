@@ -36,10 +36,11 @@ namespace Flantter.MilkyWay.Views.Contents
             get { return (int)GetValue(SelectedIndexProperty); }
             set { SetValue(SelectedIndexProperty, value); }
         }
+
         public static readonly DependencyProperty SelectedIndexProperty =
             DependencyProperty.Register("SelectedIndex", typeof(int), typeof(ColumnArea), new PropertyMetadata(0, SelectedIndex_Changed));
 
-        public volatile int tempSelectedIndex = 0;
+        public volatile int tempSelectedIndex = -1;
         public volatile bool isManualOperation = true;
         private static void SelectedIndex_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -129,10 +130,10 @@ namespace Flantter.MilkyWay.Views.Contents
             try
             {
                 var index = snapPointsList.ToList().IndexOf(snapPointsList.Reverse().FirstOrDefault(x => x <= scrollViewer.HorizontalOffset));
-                if (tempSelectedIndex != 0)
-                    index = tempSelectedIndex;
+                if (tempSelectedIndex != -1)
+                    index = this.ViewModel.Columns[tempSelectedIndex].Index.Value;
 
-                tempSelectedIndex = 0;
+                tempSelectedIndex = -1;
 
                 this.isManualOperation = false;
                 this.SelectedIndex = this.ViewModel.Columns.IndexOf(this.ViewModel.Columns.First(x => x.Index.Value == index));
@@ -167,8 +168,7 @@ namespace Flantter.MilkyWay.Views.Contents
 
             // Taboo : 禁忌
             var selectedIndex = this.ViewModel.Columns[this.SelectedIndex].Index.Value;
-
-
+            
             if (selectedIndex < 0 || snapPointsList.Count == 0)
                 scrollViewer.ChangeView(snapPointsList.First(), null, null, disableAnimation);
             else if (selectedIndex >= snapPointsList.Count)

@@ -755,9 +755,15 @@
     <value>リストのストリームをユーザーストリームで補完する</value>
   </data>
   <data name="BottomBarArea_ProfileImageButton_Flyout_ColumnSort.Text" xml:space="preserve">
-    <value>    カラム並び替え</value>
+    <value>    カラム並び替え</value>
   </data>
   <data name="MainSwipeMenu_SortColumn.Text" xml:space="preserve">
     <value>カラム並び替え</value>
+  </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_DeleteColumn.Text" xml:space="preserve">
+    <value>    カラムを削除</value>
+  </data>
+  <data name="ConfirmDialog_DeleteColumn" xml:space="preserve">
+    <value>カラムを削除しますか?</value>
   </data>
 </root>

@@ -755,9 +755,15 @@
     <value>Complement liststream with using userstream</value>
   </data>
   <data name="BottomBarArea_ProfileImageButton_Flyout_ColumnSort.Text" xml:space="preserve">
-    <value>    Sort column</value>
+    <value>    Sort column</value>
   </data>
   <data name="MainSwipeMenu_SortColumn.Text" xml:space="preserve">
     <value>Sort column</value>
+  </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_DeleteColumn.Text" xml:space="preserve">
+    <value>    Delete column</value>
+  </data>
+  <data name="ConfirmDialog_DeleteColumn" xml:space="preserve">
+    <value>Delete column?</value>
   </data>
 </root>

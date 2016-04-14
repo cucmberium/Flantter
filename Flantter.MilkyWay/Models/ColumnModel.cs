@@ -135,7 +135,7 @@ namespace Flantter.MilkyWay.Models
         public int Index
         {
             get { return this._Index; }
-            set { this.SetProperty(ref this._Index, value); this._ColumnSetting.Index = value; }
+            set { this.SetProperty(ref this._Index, value); this.ColumnSetting.Index = value; }
         }
         #endregion
         
@@ -252,11 +252,11 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region AccountSetting
-        private AccountSetting _AccountSetting { get; set; }
+        public AccountSetting AccountSetting { get; set; }
         #endregion
 
         #region ColumnSetting
-        private ColumnSetting _ColumnSetting { get; set; }
+        public ColumnSetting ColumnSetting { get; set; }
         #endregion
 
         #region AccountModel
@@ -321,12 +321,12 @@ namespace Flantter.MilkyWay.Models
             Observable.Merge(
                 Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
                 h => (sender, e) => h(e),
-                h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetReceive_CommandExecute += h,
-                h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetReceive_CommandExecute -= h).Where(e => e.Streaming).Select(e => (object)e),
+                h => Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].TweetReceive_CommandExecute += h,
+                h => Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].TweetReceive_CommandExecute -= h).Where(e => e.Streaming).Select(e => (object)e),
                 Observable.FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                 h => (sender, e) => h(e),
-                h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetDelete_CommandExecute += h,
-                h => Connecter.Instance.TweetCollecter[this._AccountSetting.UserId].TweetDelete_CommandExecute -= h).Select(e => (object)e)).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(e =>
+                h => Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].TweetDelete_CommandExecute += h,
+                h => Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].TweetDelete_CommandExecute -= h).Select(e => (object)e)).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(e =>
                 {
                     if (e is TweetEventArgs)
                     {
@@ -364,27 +364,25 @@ namespace Flantter.MilkyWay.Models
                 }).AddTo(this.Disposable);
 
             SettingService.Setting.ObserveProperty(x => x.MuteFilter).Subscribe(x => this.MuteFilter = x).AddTo(this.Disposable);
-            this._ColumnSetting.ObserveProperty(x => x.AutoRefresh).Subscribe(x => this.AutoRefresh = x).AddTo(this.Disposable);
-            this._ColumnSetting.ObserveProperty(x => x.AutoRefreshTimerInterval).Subscribe(x => this.AutoRefreshTimerInterval = x).AddTo(this.Disposable);
-            this._ColumnSetting.ObserveProperty(x => x.DisableStartupRefresh).Subscribe(x => this.DisableStartupRefresh = x).AddTo(this.Disposable);
-            this._ColumnSetting.ObserveProperty(x => x.Filter).Subscribe(x => this.Filter = x).AddTo(this.Disposable);
-            this._ColumnSetting.ObserveProperty(x => x.FetchingNumberOfTweet).Subscribe(x => this.FetchingNumberOfTweet = x).AddTo(this.Disposable);
-            this._ColumnSetting.ObserveProperty(x => x.Name).Subscribe(x => this.Name = x).AddTo(this.Disposable);
-            this._AccountSetting.ObserveProperty(x => x.ScreenName).Subscribe(x => this.ScreenName = x).AddTo(this.Disposable);
-            this._AccountSetting.ObserveProperty(x => x.ProfileImageUrl).Subscribe(x => this.ProfileImageUrl = x).AddTo(this.Disposable);
+            this.ColumnSetting.ObserveProperty(x => x.AutoRefresh).Subscribe(x => this.AutoRefresh = x).AddTo(this.Disposable);
+            this.ColumnSetting.ObserveProperty(x => x.AutoRefreshTimerInterval).Subscribe(x => this.AutoRefreshTimerInterval = x).AddTo(this.Disposable);
+            this.ColumnSetting.ObserveProperty(x => x.DisableStartupRefresh).Subscribe(x => this.DisableStartupRefresh = x).AddTo(this.Disposable);
+            this.ColumnSetting.ObserveProperty(x => x.Filter).Subscribe(x => this.Filter = x).AddTo(this.Disposable);
+            this.ColumnSetting.ObserveProperty(x => x.FetchingNumberOfTweet).Subscribe(x => this.FetchingNumberOfTweet = x).AddTo(this.Disposable);
+            this.ColumnSetting.ObserveProperty(x => x.Name).Subscribe(x => this.Name = x).AddTo(this.Disposable);
+            this.AccountSetting.ObserveProperty(x => x.ScreenName).Subscribe(x => this.ScreenName = x).AddTo(this.Disposable);
+            this.AccountSetting.ObserveProperty(x => x.ProfileImageUrl).Subscribe(x => this.ProfileImageUrl = x).AddTo(this.Disposable);
             
-            if (!this._ColumnSetting.DisableStartupRefresh)
+            if (!this.ColumnSetting.DisableStartupRefresh)
                 await Update();
             
-            this.Streaming = this._ColumnSetting.Streaming;
+            this.Streaming = this.ColumnSetting.Streaming;
         }
         #endregion
 
         #region Constructor
         public ColumnModel(ColumnSetting column, AccountSetting account, AccountModel accountModel)
         {
-            this.Name = column.Name;
-
             this._Tweets = new ObservableCollection<ITweet>();
             this.stream = new Subject<StreamingMessage>();
 
@@ -392,14 +390,15 @@ namespace Flantter.MilkyWay.Models
 
             this.Tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName);
 
-            this._AccountSetting = account;
-            this._ColumnSetting = column;
+            this.AccountSetting = account;
+            this.ColumnSetting = column;
 
             this._AccountModel = accountModel;
 
-            this.Action = this._ColumnSetting.Action;
-            this.Index = this._ColumnSetting.Index;
-            this.Parameter = this._ColumnSetting.Parameter;
+            this.Name = this.ColumnSetting.Name;
+            this.Action = this.ColumnSetting.Action;
+            this.Index = this.ColumnSetting.Index;
+            this.Parameter = this.ColumnSetting.Parameter;
         }
         #endregion
 
@@ -419,7 +418,7 @@ namespace Flantter.MilkyWay.Models
             if (this._Action == SettingSupport.ColumnTypeEnum.Home)
             {
                 var param = new Dictionary<string, object>();
-                if (this._AccountSetting.IncludeFollowingsActivity)
+                if (this.AccountSetting.IncludeFollowingsActivity)
                     param.Add("include_followings_activity", true);
 
                 iObservable = this.Tokens.Streaming.UserAsObservable(param);
@@ -433,7 +432,7 @@ namespace Flantter.MilkyWay.Models
                 this._AccountModel.DisconnectAllFilterStreaming(this);
 
                 var param = new Dictionary<string, object>();
-                param.Add("track", this._ColumnSetting.Parameter.ToLower());
+                param.Add("track", this.ColumnSetting.Parameter.ToLower());
 
                 iObservable = this.Tokens.Streaming.FilterAsObservable(param);
                 this.streamingConnectionDisposableObject = iObservable.Catch((Exception ex) =>

@@ -73,10 +73,6 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand SortColumnCommand { get; private set; }
 
         #region Constructor
-        /*public AccountViewModel()
-        {
-        }*/
-
         public AccountViewModel(AccountModel account)
         {
             this.Model = account;
@@ -186,7 +182,7 @@ namespace Flantter.MilkyWay.ViewModels
 
 			this.MinSnapPoint = new ReactiveProperty<double>(352.0).AddTo(this.Disposable);
 
-            this.ColumnSelectedIndex = new ReactiveProperty<int>(0).AddTo(this.Disposable);
+            this.ColumnSelectedIndex = this.Model.ToReactivePropertyAsSynchronized(x => x.ColumnSelectedIndex).AddTo(this.Disposable);
 
             this.BottomBarSearchBoxEnabled = Observable.CombineLatest(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth), 
@@ -536,7 +532,10 @@ namespace Flantter.MilkyWay.ViewModels
                 var setting = x as ColumnSetting;
                 if (setting == null)
                     return;
-                
+
+                if (this.Model.AccountSetting.Column.Any(y => y.Action == setting.Action && y.Parameter == setting.Parameter && y.Name == setting.Name))
+                    return;
+
                 var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_AddColumn"), Title = "Confirmation" };
                 await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
@@ -637,7 +636,21 @@ namespace Flantter.MilkyWay.ViewModels
                 var columnSetting = new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.List, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = ("List : " + list.FullName), Parameter = list.Id.ToString(), Streaming = false, Index = -1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 };
                 Services.Notice.Instance.AddColumnCommand.Execute(columnSetting);
             }).AddTo(this.Disposable);
+            
+            Services.Notice.Instance.DeleteColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
+            {
+                var columnSetting = x as ColumnSetting;
+                if (columnSetting == null)
+                    return;
+                
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_DeleteColumn"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
+                if (!msgNotification.Result)
+                    return;
+
+                this.Model.DeleteColumn(columnSetting);
+            }).AddTo(this.Disposable);
             #endregion
         }
         #endregion

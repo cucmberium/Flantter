@@ -46,8 +46,10 @@ namespace Flantter.MilkyWay.Views.Contents
         private static void SelectedIndex_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var columnArea = d as ColumnArea;
+
             if (columnArea.isManualOperation)
                 columnArea.tempSelectedIndex = (int)e.NewValue;
+
             columnArea.ColumnArea_UpdateView(false);
 			System.Diagnostics.Debug.WriteLine("SelectedIndex : " + e.NewValue);
         }
@@ -57,7 +59,7 @@ namespace Flantter.MilkyWay.Views.Contents
         public ColumnArea()
         {
             this.InitializeComponent();
-
+            
             this.SizeChanged += (s, e) =>
             {
                 this.ColumnArea_UpdateView();
@@ -72,6 +74,9 @@ namespace Flantter.MilkyWay.Views.Contents
 
                 scrollViewer.ViewChanging += ScrollViewer_ViewChanging;
                 scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+
+                extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
+                extendedCanvas.SizeChanged += ExtendedCanvas_SizeChanged;
             };
 
             this.LayoutUpdated += (s, e) =>
@@ -87,7 +92,22 @@ namespace Flantter.MilkyWay.Views.Contents
 
                 scrollViewer.ViewChanging += ScrollViewer_ViewChanging;
                 scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+
+                extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
+                extendedCanvas.SizeChanged += ExtendedCanvas_SizeChanged;
             };
+        }
+
+        private void ExtendedCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_ScrollViewer == null)
+                return;
+
+            if (currentIndex < this.ViewModel.Columns.Count)
+                return;
+
+            var snapPointsList = extendedCanvas.GetIrregularSnapPoints(Orientation.Horizontal, SnapPointsAlignment.Near);
+            _ScrollViewer.ChangeView(snapPointsList.Last(), null, null, false);
         }
 
         private bool _InertialEvent;
@@ -98,23 +118,9 @@ namespace Flantter.MilkyWay.Views.Contents
                 return;
 
             _InertialEvent = e.IsInertial;
-
-            /*
-            var scrollViewer = sender as ScrollViewer;
-            var extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
-            var snapPointsList = extendedCanvas.GetIrregularSnapPoints(Orientation.Horizontal, SnapPointsAlignment.Near);
-
-            try
-            {
-                var index = snapPointsList.ToList().IndexOf(snapPointsList.Reverse().FirstOrDefault(x => x <= e.FinalView.HorizontalOffset));
-                this.SelectedIndex = index;
-            }
-            catch
-            {
-            }
-            */
         }
 
+        private ExtendedCanvas extendedCanvas = null;
         private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             if (scrollViewerControlDisabled)
@@ -127,21 +133,19 @@ namespace Flantter.MilkyWay.Views.Contents
                 return;
 
             _InertialEvent = false;
-
-            var scrollViewer = sender as ScrollViewer;
-            var extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
+            
             var snapPointsList = extendedCanvas.GetIrregularSnapPoints(Orientation.Horizontal, SnapPointsAlignment.Near);
 
             try
             {
-                var index = snapPointsList.ToList().IndexOf(snapPointsList.Reverse().FirstOrDefault(x => x <= scrollViewer.HorizontalOffset));
+                currentIndex = snapPointsList.ToList().IndexOf(snapPointsList.Reverse().FirstOrDefault(x => x <= _ScrollViewer.HorizontalOffset));
                 if (tempSelectedIndex != -1)
-                    index = this.ViewModel.Columns[tempSelectedIndex].Index.Value;
+                    currentIndex = this.ViewModel.Columns[tempSelectedIndex].Index.Value;
 
                 tempSelectedIndex = -1;
 
                 this.isManualOperation = false;
-                this.SelectedIndex = this.ViewModel.Columns.IndexOf(this.ViewModel.Columns.First(x => x.Index.Value == index));
+                this.SelectedIndex = this.ViewModel.Columns.IndexOf(this.ViewModel.Columns.First(x => x.Index.Value == currentIndex));
                 this.isManualOperation = true;
             }
             catch
@@ -150,36 +154,36 @@ namespace Flantter.MilkyWay.Views.Contents
             
         }
 
-        bool scrollViewerControlDisabled = false;
+        private bool scrollViewerControlDisabled = false;
+
+        private int currentIndex = 0;
         public async void ColumnArea_UpdateView(bool disableAnimation = true)
         {
             scrollViewerControlDisabled = true;
-
-            var scrollViewer = this.ColumnArea_ColumnList.GetVisualChild<ScrollViewer>();
-            if (scrollViewer == null)
+            
+            if (_ScrollViewer == null)
                 return;
 
             if (isManualOperation == true)
             {
-                scrollViewer.HorizontalSnapPointsType = SnapPointsType.Mandatory;
+                _ScrollViewer.HorizontalSnapPointsType = SnapPointsType.Mandatory;
                 this.AnimationCooldown(500);
             }
 
             // GetIrregularSnapPointsの更新に少し時間がいる
             await Task.Delay(10);
-
-            var extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
+            
             var snapPointsList = extendedCanvas.GetIrregularSnapPoints(Orientation.Horizontal, SnapPointsAlignment.Near);
 
             // Taboo : 禁忌
-            var selectedIndex = this.ViewModel.Columns[this.SelectedIndex].Index.Value;
-            
-            if (selectedIndex < 0 || snapPointsList.Count == 0)
-                scrollViewer.ChangeView(snapPointsList.First(), null, null, disableAnimation);
-            else if (selectedIndex >= snapPointsList.Count)
-                scrollViewer.ChangeView(snapPointsList.Last(), null, null, disableAnimation);
+            currentIndex = this.ViewModel.Columns[this.SelectedIndex].Index.Value;
+
+            if (currentIndex < 0 || snapPointsList.Count == 0)
+                _ScrollViewer.ChangeView(snapPointsList.First(), null, null, disableAnimation);
+            else if (currentIndex >= snapPointsList.Count)
+                _ScrollViewer.ChangeView(snapPointsList.Last(), null, null, disableAnimation);
             else
-                scrollViewer.ChangeView(snapPointsList[selectedIndex], null, null, disableAnimation);
+                _ScrollViewer.ChangeView(snapPointsList[currentIndex], null, null, disableAnimation);
 
             scrollViewerControlDisabled = false;
 
@@ -219,10 +223,10 @@ namespace Flantter.MilkyWay.Views.Contents
 
             this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => 
             {
-                var scrollViewer = this.ColumnArea_ColumnList.GetVisualChild<ScrollViewer>();
-                if (scrollViewer == null)
+                if (_ScrollViewer == null)
                     return;
-                scrollViewer.HorizontalSnapPointsType = SnapPointsType.MandatorySingle;
+
+                _ScrollViewer.HorizontalSnapPointsType = SnapPointsType.MandatorySingle;
             }).AsTask().Wait();
         }
     }

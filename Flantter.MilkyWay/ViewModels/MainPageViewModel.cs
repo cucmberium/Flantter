@@ -507,7 +507,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                 this.Model.DeleteAccount(accountSetting);
             });
-            
+
             #endregion
         }
         #endregion

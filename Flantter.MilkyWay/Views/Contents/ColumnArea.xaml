@@ -64,7 +64,8 @@
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol" Command="{x:Bind RefreshCommand}"/>
                                             <MenuFlyoutSeparator/>
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol"/>
-                                            <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value,Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
+                                            <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
+                                            <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_DeleteColumn" Visibility="{x:Bind CanDeleteColumn.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE138; カラムの削除" FontFamily="Segoe UI Symbol" Command="{x:Bind Notice.DeleteColumnCommand}" CommandParameter="{x:Bind Model.ColumnSetting, Mode=OneWay}"/>
                                         </MenuFlyout>
                                     </Button.Flyout>
                                 </Button>
@@ -102,7 +103,7 @@
                                 </core:EventTriggerBehavior>
                             </i:Interaction.Behaviors>
 
-                            <Grid x:Name="ColumnArea_ReorderGrid" Background="{StaticResource ColumnViewBackgroundBrush}" MinWidth="250" MaxWidth="600" MinHeight="200" MaxHeight="500" Margin="6,12">
+                            <Grid x:Name="ColumnArea_ReorderGrid" Background="{StaticResource ColumnViewBackgroundBrush}" MinWidth="250" MaxWidth="600" MinHeight="170" MaxHeight="500" Margin="6,12">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
@@ -110,6 +111,10 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="24"/>
                                 </Grid.RowDefinitions>
+
+                                <Button Visibility="{x:Bind CanDeleteColumn.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Top" Command="{x:Bind Notice.DeleteColumnCommand}" CommandParameter="{x:Bind Model.ColumnSetting, Mode=OneWay}">
+                                    <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Cancel" HorizontalAlignment="Center" Width="32" Height="32"/>
+                                </Button>
 
                                 <SymbolIcon Grid.Row="1" Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{x:Bind ActionSymbol.Value, Mode=OneWay}" HorizontalAlignment="Center" Width="50" Height="50"/>
                                 <TextBlock Grid.Row="2" Text="{x:Bind Name.Value, Mode=OneWay}" HorizontalAlignment="Center" />

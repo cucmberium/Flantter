@@ -57,6 +57,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.AddAccountCommand = new ReactiveCommand();
             this.AddColumnCommand = new ReactiveCommand();
             this.DeleteAccountCommand = new ReactiveCommand();
+            this.DeleteColumnCommand = new ReactiveCommand();
 
             this.SortColumnCommand = new ReactiveCommand();
             this.ChangeColumnSelectedIndexCommand = new ReactiveCommand();
@@ -145,6 +146,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand AddAccountCommand { get; private set; }
         public ReactiveCommand AddColumnCommand { get; private set; }
         public ReactiveCommand DeleteAccountCommand { get; private set; }
+        public ReactiveCommand DeleteColumnCommand { get; private set; }
 
         public ReactiveCommand SortColumnCommand { get; private set; }
         public ReactiveCommand ChangeColumnSelectedIndexCommand { get; private set; }

@@ -190,15 +190,17 @@ namespace Flantter.MilkyWay.Models
 
             accountModel.Dispose();
             this._Accounts.Remove(accountModel);
+            
+            AdvancedSettingService.AdvancedSetting.Accounts.Remove(account);
 
             if (accountModel.IsEnabled)
             {
                 accountModel.IsEnabled = false;
                 this._Accounts.First().IsEnabled = true;
+
+                AdvancedSettingService.AdvancedSetting.Accounts.First(x => x.UserId == this._Accounts.First().UserId).IsEnabled = true;
             }
 
-            AdvancedSettingService.AdvancedSetting.Accounts.Remove(account);
-            AdvancedSettingService.AdvancedSetting.Accounts.First(x => x.UserId == this._Accounts.First().UserId).IsEnabled = true;
             AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }
         

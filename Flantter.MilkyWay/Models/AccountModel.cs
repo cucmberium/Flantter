@@ -89,6 +89,15 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region ColumnSelectedIndex変更通知プロパティ
+        private int _ColumnSelectedIndex;
+        public int ColumnSelectedIndex
+        {
+            get { return this._ColumnSelectedIndex; }
+            set { this.SetProperty(ref this._ColumnSelectedIndex, value); }
+        }
+        #endregion
+
         #region Columns
         private ObservableCollection<ColumnModel> _Columns;
         private ReadOnlyObservableCollection<ColumnModel> _ReadOnlyColumns;
@@ -106,21 +115,21 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
         #region AccountSetting
-        private AccountSetting _AccountSetting { get; set; }
+        public AccountSetting AccountSetting { get; set; }
         #endregion
 
         #region Initialize
         public async Task Initialize()
         {
-            Connecter.Instance.AddAccount(this._AccountSetting);
+            Connecter.Instance.AddAccount(this.AccountSetting);
 
-            this.IsEnabled = this._AccountSetting.IsEnabled;
-            this.Name = this._AccountSetting.Name;
-            this.PossiblySensitive = this._AccountSetting.PossiblySensitive;
-            this.ProfileBannerUrl = this._AccountSetting.ProfileBannerUrl;
-            this.ProfileImageUrl = this._AccountSetting.ProfileImageUrl;
-            this.ScreenName = this._AccountSetting.ScreenName;
-            this.UserId = this._AccountSetting.UserId;
+            this.IsEnabled = this.AccountSetting.IsEnabled;
+            this.Name = this.AccountSetting.Name;
+            this.PossiblySensitive = this.AccountSetting.PossiblySensitive;
+            this.ProfileBannerUrl = this.AccountSetting.ProfileBannerUrl;
+            this.ProfileImageUrl = this.AccountSetting.ProfileImageUrl;
+            this.ScreenName = this.AccountSetting.ScreenName;
+            this.UserId = this.AccountSetting.UserId;
 
             await Task.WhenAll(this._Columns.Select(x => x.Initialize()));
             
@@ -132,10 +141,10 @@ namespace Flantter.MilkyWay.Models
                 this.Name = user.Name;
                 this.ScreenName = user.ScreenName;
 
-                this._AccountSetting.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
-                this._AccountSetting.ProfileBannerUrl = user.ProfileBannerUrl;
-                this._AccountSetting.Name = user.Name;
-                this._AccountSetting.ScreenName = user.ScreenName;
+                this.AccountSetting.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
+                this.AccountSetting.ProfileBannerUrl = user.ProfileBannerUrl;
+                this.AccountSetting.Name = user.Name;
+                this.AccountSetting.ScreenName = user.ScreenName;
 
                 AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
             });
@@ -153,7 +162,7 @@ namespace Flantter.MilkyWay.Models
             this.Tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName);
             this.Tokens.ConnectionOptions.UserAgent = TwitterConnectionHelper.GetUserAgent(this.Tokens);
             
-            this._AccountSetting = account;
+            this.AccountSetting = account;
             
             foreach (var column in account.Column)
                 this._Columns.Add(new ColumnModel(column, account, this));
@@ -175,10 +184,10 @@ namespace Flantter.MilkyWay.Models
             if (column.Index == -1)
                 column.Index = this._Columns.Count;
 
-            this._AccountSetting.Column.Add(column);
+            this.AccountSetting.Column.Add(column);
             AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
-            var columnModel = new ColumnModel(column, this._AccountSetting, this);
+            var columnModel = new ColumnModel(column, this.AccountSetting, this);
             this._Columns.Add(columnModel);
 
             await columnModel.Initialize();
@@ -186,7 +195,14 @@ namespace Flantter.MilkyWay.Models
 
         public void DeleteColumn(ColumnSetting column)
         {
-            // Todo : カラム削除の実装
+            var columnModel = this._Columns.First(x => x.Action == column.Action && x.Name == column.Name && x.Parameter == column.Parameter);
+
+            columnModel.Dispose();
+            this._Columns.Remove(columnModel);
+            
+            this.AccountSetting.Column.Remove(column);
+
+            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }
 
         public void DisconnectAllFilterStreaming(object sender = null)

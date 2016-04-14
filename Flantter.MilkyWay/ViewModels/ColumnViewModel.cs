@@ -55,6 +55,8 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> UnreadCountIncrementalTrigger { get; private set; }
         public ReactiveProperty<bool> IsScrollLockToTopEnabled { get; private set; }
 
+        public ReactiveProperty<bool> CanDeleteColumn { get; private set; }
+
         public ReactiveCommand StreamingCommand { get; private set; }
 
         public ReactiveCommand ScrollToTopCommand { get; private set; }
@@ -64,6 +66,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand RefreshCommand { get; private set; }
 
         public ReactiveCommand TweetDoubleTappedActionCommand { get; private set; }
+
 
         #region Constructor
 
@@ -120,6 +123,7 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             }).ToReactiveProperty().AddTo(this.Disposable);
             this.Updating = column.ObserveProperty(x => x.Updating).ToReactiveProperty().AddTo(this.Disposable);
+            this.CanDeleteColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Filter || x == SettingSupport.ColumnTypeEnum.List || x == SettingSupport.ColumnTypeEnum.Search || x == SettingSupport.ColumnTypeEnum.UserTimeline).ToReactiveProperty();
 
             this.SelectedIndex = column.ToReactivePropertyAsSynchronized(x => x.SelectedIndex).AddTo(this.Disposable);
 

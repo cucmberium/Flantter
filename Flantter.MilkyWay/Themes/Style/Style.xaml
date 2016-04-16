@@ -4029,7 +4029,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ExtendedAppBarButtonStyle"  TargetType="AppBarButton">
+    <Style x:Key="ExtendedAppBarButtonStyle" TargetType="AppBarButton">
         <Setter Property="Foreground" Value="{StaticResource AppBarButtonItemForegroundThemeBrush}"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -4169,7 +4169,7 @@
         </Setter>
     </Style>
     
-    <Style x:Key="ExtendedBottomAppBarButtonStyle"  TargetType="AppBarButton">
+    <Style x:Key="ExtendedBottomAppBarButtonStyle" TargetType="AppBarButton">
         <Setter Property="Foreground" Value="{StaticResource BottomBarAppBarButtonItemForegroundThemeBrush}"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>

@@ -52,7 +52,6 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<int> SelectedIndex { get; private set; }
 
         public ReactiveProperty<int> UnreadCount { get; private set; }
-        public ReactiveProperty<bool> UnreadCountIncrementalTrigger { get; private set; }
         public ReactiveProperty<bool> IsScrollLockToTopEnabled { get; private set; }
         public ReactiveProperty<bool> IsScrollLockEnabled { get; private set; }
 
@@ -129,7 +128,6 @@ namespace Flantter.MilkyWay.ViewModels
             this.SelectedIndex = column.ToReactivePropertyAsSynchronized(x => x.SelectedIndex).AddTo(this.Disposable);
 
             this.UnreadCount = column.ToReactivePropertyAsSynchronized(x => x.UnreadCount).AddTo(this.Disposable);
-            this.UnreadCountIncrementalTrigger = column.ToReactivePropertyAsSynchronized(x => x.UnreadCountIncrementalTrigger).AddTo(this.Disposable);
             this.IsScrollLockToTopEnabled = new ReactiveProperty<bool>().AddTo(this.Disposable);
             this.IsScrollLockEnabled = new ReactiveProperty<bool>().AddTo(this.Disposable);
 

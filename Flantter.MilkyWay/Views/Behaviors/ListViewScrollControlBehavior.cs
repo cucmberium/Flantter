@@ -104,15 +104,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         DependencyProperty.RegisterAttached("UnreadCount", typeof(int),
                         typeof(ListViewScrollControlBehavior), new PropertyMetadata(0));
 
-        public bool UnreadCountIncrementalTrigger
-        {
-            get { return (bool)this.GetValue(UnreadCountIncrementalTriggerProperty); }
-            set { this.SetValue(UnreadCountIncrementalTriggerProperty, value); }
-        }
-        public static readonly DependencyProperty UnreadCountIncrementalTriggerProperty =
-                        DependencyProperty.RegisterAttached("UnreadCountIncrementalTrigger", typeof(bool),
-                        typeof(ListViewScrollControlBehavior), new PropertyMetadata(false, UnreadCountIncrementalTriggerChanged));
-
         private INotifyCollectionChanged previousItemsSource = null;
         private void ListView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs e)
         {
@@ -164,6 +155,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (SettingService.Setting.DisableStreamingScroll || this.IsScrollLockEnabled)
             {
                 this.ScrollViewerObject.ChangeView(null, offset, null, true);
+                this.IncrementUnreadCount(offset);
                 return;
             }
 
@@ -175,7 +167,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     else if (verticalOffset <= 2.5 && !isAnimationCooldown)
                         this.RunAnimation(offset);
                     else
+                    {
                         this.ScrollViewerObject.ChangeView(null, offset, null, true);
+                        this.IncrementUnreadCount(offset);
+                    }
 
                     break;
                 case SettingSupport.TweetAnimationEnum.Expand:
@@ -183,6 +178,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     if (verticalOffset > 2.5 || isAnimationCooldown)
                     {
                         this.ScrollViewerObject.ChangeView(null, offset, null, true);
+                        this.IncrementUnreadCount(offset);
                         return;
                     }
 
@@ -204,6 +200,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     if (verticalOffset > 2.5)
                     {
                         this.ScrollViewerObject.ChangeView(null, offset, null, true);
+                        this.IncrementUnreadCount(offset);
                     }
                     else
                     {
@@ -359,34 +356,22 @@ namespace Flantter.MilkyWay.Views.Behaviors
             isAnimationCooldown = false;
         }
 
-        private static void UnreadCountIncrementalTriggerChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private void IncrementUnreadCount(double offset)
         {
-            var behavior = obj as ListViewScrollControlBehavior;
-            if (behavior == null)
+            if (this.ScrollViewerObject == null)
                 return;
 
-            if (behavior.ScrollViewerObject == null)
-                return;
+            var unreadCount = 0;
+            if (this.ScrollViewerObject.ScrollableHeight <= 2)
+                unreadCount = 0;
+            else if (this.isAnimationRunning)
+                unreadCount = 0;
+            else if (!this.IsScrollControlEnabled)
+                unreadCount = 0;
+            else
+                unreadCount = this.UnreadCount > offset - 2 ? (int)offset - 2 : this.UnreadCount + 1;
 
-            if ((bool)e.NewValue == true)
-            {
-                var verticalOffset = behavior.ScrollViewerObject.VerticalOffset;
-                var maxVerticalOffset = behavior.ScrollViewerObject.ExtentHeight - behavior.ScrollViewerObject.ViewportHeight;
-                
-                var unreadCount = 0;
-                if (behavior.ScrollViewerObject.ScrollableHeight <= 2)
-                    unreadCount = 0;
-                else if (behavior.isAnimationRunning)
-                    unreadCount = 0;
-                else if (!behavior.IsScrollControlEnabled)
-                    unreadCount = 0;
-                else
-                    unreadCount = behavior.UnreadCount > verticalOffset - 2 ? (int)verticalOffset - 2 : behavior.UnreadCount + 1;
-
-                behavior.UnreadCount = unreadCount >= 0 ? unreadCount : 0;
-
-                behavior.UnreadCountIncrementalTrigger = false;
-            }
+            this.UnreadCount = unreadCount >= 0 ? unreadCount : 0;
         }
 
         private static void IsScrollLockToTopEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

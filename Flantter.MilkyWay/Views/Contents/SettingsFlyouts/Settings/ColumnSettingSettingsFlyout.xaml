@@ -53,7 +53,7 @@
 
                 <controls:HorizontalBar/>
 
-                <Slider Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイート取得件数" IsEnabled="{x:Bind ViewModel.AutoRefresh.Value, Mode=OneWay}" Maximum="200" Minimum="20" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{x:Bind ViewModel.FetchingNumberOfTweet.Value, Converter={StaticResource DoubleToIntConverter}, Mode=TwoWay}" />
+                <Slider Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイート取得件数" Maximum="200" Minimum="20" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{x:Bind ViewModel.FetchingNumberOfTweet.Value, Converter={StaticResource DoubleToIntConverter}, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 

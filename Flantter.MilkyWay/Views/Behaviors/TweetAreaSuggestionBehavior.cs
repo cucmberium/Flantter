@@ -151,12 +151,14 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (!notification.IsOpen || notification.SuggestWords == null || notification.SuggestWords.Count() == 0)
             {
                 this.SuggestionPopup.Hide();
+                e.Callback();
                 return;
             }
 
             if (((ExtendedTextBox)this.AssociatedObject).SelectionStart < 1)
             {
                 this.SuggestionPopup.Hide();
+                e.Callback();
                 return;
             }
 
@@ -184,6 +186,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
             }
 
             this.SuggestionPopup.Show();
+
+            e.Callback();
         }
     }
 

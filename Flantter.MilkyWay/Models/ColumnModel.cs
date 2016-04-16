@@ -227,15 +227,6 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
-        #region UnreadCountIncrementalTrigger変更通知プロパティ
-        private bool _UnreadCountIncrementalTrigger;
-        public bool UnreadCountIncrementalTrigger
-        {
-            get { return this._UnreadCountIncrementalTrigger; }
-            set { this.SetProperty(ref this._UnreadCountIncrementalTrigger, value); }
-        }
-        #endregion
-
         #region Columns
         private ObservableCollection<ITweet> _Tweets;
         public ObservableCollection<ITweet> Tweets
@@ -936,7 +927,6 @@ namespace Flantter.MilkyWay.Models
             if (streaming)
             {
                 this._Tweets.Insert(0, status);
-                this.UnreadCountIncrementalTrigger = true;
             }
             else
             {
@@ -953,9 +943,6 @@ namespace Flantter.MilkyWay.Models
                         this._Tweets.Add(status);
                     else
                         this._Tweets.Insert(index, status);
-
-                    if (index <= this.UnreadCount && index != -1)
-                        this.UnreadCountIncrementalTrigger = true;
                 }
             }
         }
@@ -965,7 +952,6 @@ namespace Flantter.MilkyWay.Models
             if (streaming)
             {
                 this._Tweets.Insert(0, directMessage);
-                this.UnreadCountIncrementalTrigger = true;
             }
             else
             {
@@ -977,9 +963,6 @@ namespace Flantter.MilkyWay.Models
                         this._Tweets.Add(directMessage);
                     else
                         this._Tweets.Insert(index, directMessage);
-
-                    if (index <= this.UnreadCount && index != -1)
-                        this.UnreadCountIncrementalTrigger = true;
                 }
             }
         }
@@ -1001,8 +984,6 @@ namespace Flantter.MilkyWay.Models
             }
 
             this._Tweets.Insert(0, eventMessage);
-
-            this.UnreadCountIncrementalTrigger = true;
         }
 
         public void Dispose()

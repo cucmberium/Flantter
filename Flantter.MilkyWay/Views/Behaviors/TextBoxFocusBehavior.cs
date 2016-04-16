@@ -70,6 +70,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 return;
 
             textBox.Focus(FocusState.Programmatic);
+            e.Callback();
         }
     }
 }

@@ -164,6 +164,8 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\LayoutHelper.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\Settings\ColumnSettingSettingsFlyoutViewModel.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\Settings\MuteSettingSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserFollowInfoSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\RetweetsOfMeSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\RetweetersSettingsFlyoutViewModel.cs" />
@@ -202,6 +204,9 @@
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\AccountChangeSettingsFlyout.xaml.cs">
       <DependentUpon>AccountChangeSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\Settings\ColumnSettingSettingsFlyout.xaml.cs">
+      <DependentUpon>ColumnSettingSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\AccountSettingSettingsFlyout.xaml.cs">
       <DependentUpon>AccountSettingSettingsFlyout.xaml</DependentUpon>
@@ -325,6 +330,7 @@
     <Compile Include="Views\Controls\PullToRefreshListView.cs" />
     <Compile Include="Views\Controls\TriangleButton.cs" />
     <Compile Include="Views\Controls\VerticalBar.cs" />
+    <Compile Include="Views\Converters\DoubleToIntConverter.cs" />
     <Compile Include="Views\Converters\ColorCodeToBrushConverter.cs" />
     <Compile Include="Views\Converters\EnumToDoubleConverter.cs" />
     <Compile Include="Views\Converters\IntToStringConverter.cs" />
@@ -381,9 +387,6 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="Microsoft.NET.Native.Runtime.1.1, Version=1.1">
-      <Name>Microsoft .NET Core Runtime Package for Windows</Name>
-    </SDKReference>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
@@ -435,6 +438,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\AccountChangeSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\Settings\ColumnSettingSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

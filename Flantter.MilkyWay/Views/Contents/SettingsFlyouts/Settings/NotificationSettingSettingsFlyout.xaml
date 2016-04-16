@@ -29,7 +29,7 @@
     <ScrollViewer Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Auto">
         <StackPanel>
 
-            <TextBlock x:Uid="SettingsFlyout_Settings_Notification_Message_TextBlock" Margin="10" TextWrapping="Wrap" Text="各通知はUserStreamに接続している場合に有効になります"/>
+            <TextBlock x:Uid="SettingsFlyout_Settings_Notification_Message_TextBlock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="10" TextWrapping="Wrap" Text="各通知はUserStreamに接続している場合に有効になります"/>
 
             <controls:HorizontalBar/>
 

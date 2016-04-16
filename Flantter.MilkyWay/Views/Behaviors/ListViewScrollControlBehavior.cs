@@ -305,7 +305,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
         
         private void ListView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
         {
-            if (e.GetCurrentPoint((ListView)this.AssociatedObject).Properties.MouseWheelDelta < 0 && this.isAnimationRunning)
+            if (e.GetCurrentPoint((ListView)this.AssociatedObject).Properties.MouseWheelDelta < 0 && this.isAnimationRunning && this.ScrollViewerObject?.ScrollableHeight > 0.0)
                 this.AnimationCooldown(200);
         }
 
@@ -372,9 +372,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             {
                 var verticalOffset = behavior.ScrollViewerObject.VerticalOffset;
                 var maxVerticalOffset = behavior.ScrollViewerObject.ExtentHeight - behavior.ScrollViewerObject.ViewportHeight;
-
-                var selectedItemIndex = ((ListView)behavior.AssociatedObject).SelectedIndex;
-
+                
                 var unreadCount = 0;
                 if (behavior.ScrollViewerObject.ScrollableHeight <= 2)
                     unreadCount = 0;
@@ -382,10 +380,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     unreadCount = 0;
                 else if (!behavior.IsScrollControlEnabled)
                     unreadCount = 0;
-                else if (selectedItemIndex != -1)
-                    unreadCount = behavior.UnreadCount + 1;
                 else
-                    unreadCount = behavior.UnreadCount > verticalOffset - 2.5 ? (int)verticalOffset - 2 : behavior.UnreadCount + 1;
+                    unreadCount = behavior.UnreadCount > verticalOffset - 2 ? (int)verticalOffset - 2 : behavior.UnreadCount + 1;
 
                 behavior.UnreadCount = unreadCount >= 0 ? unreadCount : 0;
 

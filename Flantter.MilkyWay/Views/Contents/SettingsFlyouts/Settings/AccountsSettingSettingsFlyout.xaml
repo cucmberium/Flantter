@@ -31,7 +31,7 @@
 
             <controls:HorizontalBar/>
 
-            <TextBlock x:Uid="SettingsFlyout_Settings_Accounts_AccountsSetting_Textblock" Margin="10,3" TextWrapping="NoWrap" Text="各アカウントの設定"/>
+            <TextBlock x:Uid="SettingsFlyout_Settings_Accounts_AccountsSetting_Textblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="10,3" TextWrapping="NoWrap" Text="各アカウントの設定"/>
 
             <controls:HorizontalBar/>
 

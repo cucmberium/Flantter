@@ -314,6 +314,12 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             });
 
+            Services.Notice.Instance.ShowColumnSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ColumnSetting", Content = x };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
             Services.Notice.Instance.DonateCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_NeedAppDonation"), Title = "Confirmation" };

@@ -405,9 +405,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     else
                     {
                         settingsFlyout = new MuteSettingSettingsFlyout();
+                        ((MuteSettingSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.Settings.MuteSettingSettingsFlyoutViewModel();
+                        settingsFlyout.DataContext = ((MuteSettingSettingsFlyout)settingsFlyout).ViewModel;
                         this._SettingsFlyoutList.Add(settingsFlyout);
                     }
 
+                    ((MuteSettingSettingsFlyout)settingsFlyout).ViewModel.MuteFilter.Value = Setting.SettingService.Setting.MuteFilter;
                     settingsFlyout.Show();
                     break;
                 case "AccountsSetting":
@@ -451,6 +454,24 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         settingsFlyout = new AdvancedSettingSettingsFlyout();
                         this._SettingsFlyoutList.Add(settingsFlyout);
                     }
+
+                    settingsFlyout.Show();
+                    break;
+                case "ColumnSetting":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is ColumnSettingSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new ColumnSettingSettingsFlyout();
+                        ((ColumnSettingSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.Settings.ColumnSettingSettingsFlyoutViewModel();
+                        settingsFlyout.DataContext = ((ColumnSettingSettingsFlyout)settingsFlyout).ViewModel;
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((ColumnSettingSettingsFlyout)settingsFlyout).ViewModel.ColumnSetting.Value = notification.Content as ColumnSetting;
 
                     settingsFlyout.Show();
                     break;

@@ -1,4 +1,5 @@
-﻿using Flantter.MilkyWay.ViewModels.SettingsFlyouts;
+﻿using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.SettingsFlyouts;
 using Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings;
 using Flantter.MilkyWay.Views.Controls;
 using System;
@@ -20,20 +21,19 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings
 {
-    public sealed partial class MuteSettingSettingsFlyout : ExtendedSettingsFlyout
+    public sealed partial class ColumnSettingSettingsFlyout : ExtendedSettingsFlyout
     {
-        public MuteSettingSettingsFlyout()
+        public ColumnSettingSettingsFlyout()
         {
             this.InitializeComponent();
         }
 
-        public MuteSettingSettingsFlyoutViewModel ViewModel
+        public ColumnSettingSettingsFlyoutViewModel ViewModel
         {
-            get { return (MuteSettingSettingsFlyoutViewModel)GetValue(ViewModelProperty); }
+            get { return (ColumnSettingSettingsFlyoutViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(MuteSettingSettingsFlyoutViewModel), typeof(MuteSettingSettingsFlyout), null);
-
+            DependencyProperty.Register("ViewModel", typeof(ColumnSettingSettingsFlyoutViewModel), typeof(ColumnSettingSettingsFlyout), null);
     }
 }

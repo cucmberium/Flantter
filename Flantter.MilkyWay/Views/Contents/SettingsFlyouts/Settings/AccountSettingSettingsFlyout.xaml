@@ -31,7 +31,7 @@
 
             <controls:HorizontalBar/>
 
-            <TextBlock Margin="10,3" TextWrapping="NoWrap">
+            <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="10,3" TextWrapping="NoWrap">
                 <Run Text="{x:Bind ViewModel.Name, Mode=OneWay}"/><Run Text=" (@"/><Run Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/><Run Text=")"/>
             </TextBlock>
 

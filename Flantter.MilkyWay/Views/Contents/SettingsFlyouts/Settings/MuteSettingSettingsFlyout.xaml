@@ -61,9 +61,11 @@
 
             <controls:HorizontalBar/>
 
-            <TextBox x:Uid="SettingsFlyout_Settings_Mute_MuteFilter_TextBox" x:Name="MuteFilterTextBox" MinHeight="128" MaxHeight="384" AcceptsReturn="True" Margin="10" Header="ミュートフィルター" HorizontalAlignment="Stretch" Text="{Binding Source={StaticResource Setting}, Path=Setting.MuteFilter}" />
+            <TextBox x:Uid="SettingsFlyout_Settings_Mute_MuteFilter_TextBox" x:Name="MuteFilterTextBox" MinHeight="128" MaxHeight="384" AcceptsReturn="True" Margin="10" Header="ミュートフィルター" HorizontalAlignment="Stretch" Text="{Binding MuteFilter.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Button x:Uid="SettingsFlyout_Settings_Mute_MuteFilter_Update_Button" Grid.Column="1" Width="64" Content="更新" Background="#FF21A4E4" Foreground="White" Margin="10" HorizontalAlignment="Right" Command="{Binding Source={StaticResource Notice}, Path=Notice.UpdateMuteFilterCommand}" CommandParameter="{Binding ElementName=MuteFilterTextBox, Path=Text}" />
+            <TextBlock Margin="10" TextWrapping="Wrap" Text="{x:Bind ViewModel.MuteFilterCompileErrorMessage.Value, Mode=OneWay}"/>
+
+            <Button x:Uid="SettingsFlyout_Settings_Mute_MuteFilter_Update_Button" IsEnabled="{x:Bind ViewModel.MuteFilterUpdateButtonEnabled.Value, Mode=OneWay}" Width="64" Content="更新" Background="#FF21A4E4" Foreground="White" Margin="10" HorizontalAlignment="Right" Command="{Binding Source={StaticResource Notice}, Path=Notice.UpdateMuteFilterCommand}" CommandParameter="{Binding ElementName=MuteFilterTextBox, Path=Text}" />
             
         </StackPanel>
     </ScrollViewer>

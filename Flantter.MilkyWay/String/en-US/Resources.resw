@@ -766,4 +766,73 @@
   <data name="ConfirmDialog_DeleteColumn" xml:space="preserve">
     <value>Delete column?</value>
   </data>
+  <data name="Filter_CompileError_AndMustUseWithOtherTokens" xml:space="preserve">
+    <value>"And" must use with other tokens.</value>
+  </data>
+  <data name="Filter_CompileError_ArrayIncomplete" xml:space="preserve">
+    <value>Array incomplete.</value>
+  </data>
+  <data name="Filter_CompileError_ArrayPositionIsWrong" xml:space="preserve">
+    <value>Array position is wrong.</value>
+  </data>
+  <data name="Filter_CompileError_CloseBracketCountAndOpenBracketCountDiffer" xml:space="preserve">
+    <value>Close bracket count and open bracket count differ.</value>
+  </data>
+  <data name="Filter_CompileError_CloseBracketNotExist" xml:space="preserve">
+    <value>Close bracket not exist.</value>
+  </data>
+  <data name="Filter_CompileError_CloseBracketPositionIsWrong" xml:space="preserve">
+    <value>Close bracket position is wrong.</value>
+  </data>
+  <data name="Filter_CompileError_EqualMustUseWithOtherTokens" xml:space="preserve">
+    <value>"Equal" must use with other tokens.</value>
+  </data>
+  <data name="Filter_CompileError_FailedToTokenize" xml:space="preserve">
+    <value>Failed to tokenize.</value>
+  </data>
+  <data name="Filter_CompileError_FilterEndWithBacksrash" xml:space="preserve">
+    <value>Filter end with backsrash.</value>
+  </data>
+  <data name="Filter_CompileError_InternalError" xml:space="preserve">
+    <value>Internal error.</value>
+  </data>
+  <data name="Filter_CompileError_LiteralCannotAccessDirectly" xml:space="preserve">
+    <value>You cannot access literal directly.</value>
+  </data>
+  <data name="Filter_CompileError_LiteralEndWithPeriod" xml:space="preserve">
+    <value>Literal end with period.</value>
+  </data>
+  <data name="Filter_CompileError_OpenBracketNotExist" xml:space="preserve">
+    <value>Open bracket not exist.</value>
+  </data>
+  <data name="Filter_CompileError_StringTokenIncomplete" xml:space="preserve">
+    <value>String token incomplete.</value>
+  </data>
+  <data name="Filter_CompileError_VerticalBarMustUseWithOtherTokens" xml:space="preserve">
+    <value>"VerticalBar" must use with other tokens.</value>
+  </data>
+  <data name="Filter_CompileError_WrongArray" xml:space="preserve">
+    <value>Wrong array.</value>
+  </data>
+  <data name="Filter_CompileError_WrongLiteral" xml:space="preserve">
+    <value>Wrong literal.</value>
+  </data>
+  <data name="Filter_CompileError_WrongOperation" xml:space="preserve">
+    <value>Wrong operation.</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError" xml:space="preserve">
+    <value>Filter compile error.</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteFilter_FilterIsEmpty" xml:space="preserve">
+    <value>Mute filter is empty.</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_Filter_FilterIsEmpty" xml:space="preserve">
+    <value>Filter is empty</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_Name_NameIsEmpty" xml:space="preserve">
+    <value>Name is empty</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_SaveOK" xml:space="preserve">
+    <value>Can save</value>
+  </data>
 </root>

@@ -262,19 +262,19 @@
     <value>削除</value>
   </data>
   <data name="Event_Favorite" xml:space="preserve">
-    <value>{0} が {1} のツイートをお気に入りに登録しました.</value>
+    <value>{0} が {1} のツイートをお気に入りに登録しました。</value>
     <comment>(user) favorite your tweet.</comment>
   </data>
   <data name="Event_Follow" xml:space="preserve">
-    <value>{0} が {1} をフォローしました.</value>
+    <value>{0} が {1} をフォローしました。</value>
     <comment>(user) follow you.</comment>
   </data>
   <data name="Event_Unfavorite" xml:space="preserve">
-    <value>{0} が {1} のツイートをお気に入りから削除しました.</value>
+    <value>{0} が {1} のツイートをお気に入りから削除しました。</value>
     <comment>(user) unfavorite your tweet.</comment>
   </data>
   <data name="Event_UserUpdate" xml:space="preserve">
-    <value>{0} さんがBioをアップデートしました.</value>
+    <value>{0} さんがBioをアップデートしました。</value>
     <comment>(user) update bio.</comment>
   </data>
   <data name="SettingsFlyout_UserProfile_AddColumnButton.Content" xml:space="preserve">
@@ -299,15 +299,15 @@
     <value>フォローされています</value>
   </data>
   <data name="Event_FavoritedRetweet" xml:space="preserve">
-    <value>{0} が {1} のリツイートをお気に入りに登録しました.</value>
+    <value>{0} が {1} のリツイートをお気に入りに登録しました。</value>
     <comment>(user) favorited your retweet.</comment>
   </data>
   <data name="Event_QuotedTweet" xml:space="preserve">
-    <value>{0} が {1} のツイートをコメント付きでリツイートしました.</value>
+    <value>{0} が {1} のツイートをコメント付きでリツイートしました。</value>
     <comment>(user) quoted your tweet.</comment>
   </data>
   <data name="Event_RetweetedRetweet" xml:space="preserve">
-    <value>{0} が {1} のリツイートをリツイートしました.</value>
+    <value>{0} が {1} のリツイートをリツイートしました。</value>
     <comment>(user) retweeted your retweet.</comment>
   </data>
   <data name="SettingsFlyout_Search_AdvancedSearch_ContentTextblock.Text" xml:space="preserve">
@@ -608,25 +608,25 @@
     <value>アプリを終了しますか?</value>
   </data>
   <data name="Notification_DirectMessage_DirectMessage" xml:space="preserve">
-    <value>{0} がダイレクトメッセージを送りました.</value>
+    <value>{0} がダイレクトメッセージを送りました</value>
   </data>
   <data name="Notification_Favorite_Favorite" xml:space="preserve">
-    <value>{0} がお気に入りに登録しました.</value>
+    <value>{0} がお気に入りに登録しました</value>
   </data>
   <data name="Notification_Follow_Follow" xml:space="preserve">
-    <value>{0} がフォローしました.</value>
+    <value>{0} がフォローしました</value>
   </data>
   <data name="Notification_Mention_Mention" xml:space="preserve">
-    <value>{0} がリプライしました.</value>
+    <value>{0} がリプライしました</value>
   </data>
   <data name="Notification_QuotedTweet_QuotedTweet" xml:space="preserve">
-    <value>{0} がコメント付きリツイートしました.</value>
+    <value>{0} がコメント付きリツイートしました</value>
   </data>
   <data name="Notification_Retweet_Retweet" xml:space="preserve">
-    <value>{0} がリツイートしました.</value>
+    <value>{0} がリツイートしました</value>
   </data>
   <data name="Notification_Unfavorite_Unfavorite" xml:space="preserve">
-    <value>{0} がお気に入りを解除しました.</value>
+    <value>{0} がお気に入りを解除しました</value>
   </data>
   <data name="SettingsFlyout_Settings_Notification_DirectMessage_ToggleSwitch.Header" xml:space="preserve">
     <value>ダイレクトメッセージ通知</value>
@@ -683,7 +683,7 @@
     <value>削除</value>
   </data>
   <data name="SettingsFlyout_Settings_Mute_MuteFilter_TextBox.Header" xml:space="preserve">
-    <value>ミュートフィルター</value>
+    <value>ミュートフィルタ</value>
   </data>
   <data name="SettingsFlyout_Settings_Mute_MuteFilter_Update_Button.Content" xml:space="preserve">
     <value>更新</value>
@@ -765,5 +765,74 @@
   </data>
   <data name="ConfirmDialog_DeleteColumn" xml:space="preserve">
     <value>カラムを削除しますか?</value>
+  </data>
+  <data name="Filter_CompileError_AndMustUseWithOtherTokens" xml:space="preserve">
+    <value>"&amp;"は他のトークンと使用する必要があります</value>
+  </data>
+  <data name="Filter_CompileError_ArrayIncomplete" xml:space="preserve">
+    <value>配列が終了していません</value>
+  </data>
+  <data name="Filter_CompileError_ArrayPositionIsWrong" xml:space="preserve">
+    <value>配列の位置が正しくありません</value>
+  </data>
+  <data name="Filter_CompileError_CloseBracketCountAndOpenBracketCountDiffer" xml:space="preserve">
+    <value>閉じ括弧と開き括弧の数が異なります</value>
+  </data>
+  <data name="Filter_CompileError_CloseBracketNotExist" xml:space="preserve">
+    <value>閉じ括弧が存在しません</value>
+  </data>
+  <data name="Filter_CompileError_CloseBracketPositionIsWrong" xml:space="preserve">
+    <value>閉じ括弧の位置が正しくありません</value>
+  </data>
+  <data name="Filter_CompileError_EqualMustUseWithOtherTokens" xml:space="preserve">
+    <value>"="は他のトークンと使用する必要があります</value>
+  </data>
+  <data name="Filter_CompileError_FailedToTokenize" xml:space="preserve">
+    <value>解析に失敗しました</value>
+  </data>
+  <data name="Filter_CompileError_FilterEndWithBacksrash" xml:space="preserve">
+    <value>フィルタがバックスラッシュで終了しています</value>
+  </data>
+  <data name="Filter_CompileError_InternalError" xml:space="preserve">
+    <value>内部エラー</value>
+  </data>
+  <data name="Filter_CompileError_LiteralCannotAccessDirectly" xml:space="preserve">
+    <value>リテラルに直接アクセスすることはできません</value>
+  </data>
+  <data name="Filter_CompileError_LiteralEndWithPeriod" xml:space="preserve">
+    <value>リテラルがピリオドで終了しています</value>
+  </data>
+  <data name="Filter_CompileError_OpenBracketNotExist" xml:space="preserve">
+    <value>開き括弧が存在しません</value>
+  </data>
+  <data name="Filter_CompileError_StringTokenIncomplete" xml:space="preserve">
+    <value>文字列が終了していません</value>
+  </data>
+  <data name="Filter_CompileError_VerticalBarMustUseWithOtherTokens" xml:space="preserve">
+    <value>"|"は他のトークンと使用する必要があります</value>
+  </data>
+  <data name="Filter_CompileError_WrongArray" xml:space="preserve">
+    <value>間違った配列</value>
+  </data>
+  <data name="Filter_CompileError_WrongLiteral" xml:space="preserve">
+    <value>間違ったリテラル</value>
+  </data>
+  <data name="Filter_CompileError_WrongOperation" xml:space="preserve">
+    <value>間違った演算を行っています</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError" xml:space="preserve">
+    <value>フィルタコンパイルエラー</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteFilter_FilterIsEmpty" xml:space="preserve">
+    <value>ミュートフィルタが空になっています</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_Filter_FilterIsEmpty" xml:space="preserve">
+    <value>フィルタが空になっています</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_Name_NameIsEmpty" xml:space="preserve">
+    <value>名前が空になっています</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_SaveOK" xml:space="preserve">
+    <value>正常に保存できます</value>
   </data>
 </root>

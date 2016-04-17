@@ -396,7 +396,7 @@ namespace Flantter.MilkyWay.Models
                     }
                     
                     param.Add("media_ids", resultList.Select(x => x.MediaId));
-                    param.Add("possibly_sensitive", account.PossiblySensitive);
+                    param.Add("possibly_sensitive", account.AccountSetting.PossiblySensitive);
                 }
 
                 param.Add("status", text);

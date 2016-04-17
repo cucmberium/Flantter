@@ -37,33 +37,6 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
-        #region AutoRefresh変更通知プロパティ
-        private bool _AutoRefresh;
-        public bool AutoRefresh
-        {
-            get { return this._AutoRefresh; }
-            set { this.SetProperty(ref this._AutoRefresh, value); }
-        }
-        #endregion
-
-        #region AutoRefreshTimerInterval変更通知プロパティ
-        private double _AutoRefreshTimerInterval;
-        public double AutoRefreshTimerInterval
-        {
-            get { return this._AutoRefreshTimerInterval; }
-            set { this.SetProperty(ref this._AutoRefreshTimerInterval, value); }
-        }
-        #endregion
-
-        #region DisableStartupRefresh変更通知プロパティ
-        private bool _DisableStartupRefresh;
-        public bool DisableStartupRefresh
-        {
-            get { return this._DisableStartupRefresh; }
-            set { this.SetProperty(ref this._DisableStartupRefresh, value); }
-        }
-        #endregion
-
         #region Filter変更通知プロパティ
         private Delegate MuteFilterDelegate { get; set; }
         private Delegate FilterDelegate { get; set; }
@@ -191,15 +164,6 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
-        #region FetchingNumberOfTweet変更通知プロパティ
-        private int _FetchingNumberOfTweet;
-        public int FetchingNumberOfTweet
-        {
-            get { return this._FetchingNumberOfTweet; }
-            set { this.SetProperty(ref this._FetchingNumberOfTweet, value); }
-        }
-        #endregion
-
         #region SelectedIndex変更通知プロパティ
         private int _SelectedIndex;
         public int SelectedIndex
@@ -268,6 +232,7 @@ namespace Flantter.MilkyWay.Models
                             if (this._Action == SettingSupport.ColumnTypeEnum.Home)
                             {
                                 paramList.Add("home://");
+                                paramList.Add("filter://");
                                 if (tweet.Status.Entities.UserMentions != null && tweet.Status.Entities.UserMentions.Any(x => x.Id == this.Tokens.UserId))
                                     paramList.Add("mentions://");
                             }
@@ -313,7 +278,7 @@ namespace Flantter.MilkyWay.Models
                 Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
                 h => (sender, e) => h(e),
                 h => Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].TweetReceive_CommandExecute += h,
-                h => Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].TweetReceive_CommandExecute -= h).Where(e => e.Streaming).Select(e => (object)e),
+                h => Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].TweetReceive_CommandExecute -= h).Select(e => (object)e),
                 Observable.FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                 h => (sender, e) => h(e),
                 h => Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].TweetDelete_CommandExecute += h,
@@ -323,6 +288,9 @@ namespace Flantter.MilkyWay.Models
                     {
                         var tweetEventArgs = (TweetEventArgs)e;
 
+                        if (tweetEventArgs.Streaming == false && this.Action != SettingSupport.ColumnTypeEnum.Filter)
+                            return;
+
                         switch (tweetEventArgs.Type)
                         {
                             case TweetEventArgs.TypeEnum.Status:
@@ -330,7 +298,7 @@ namespace Flantter.MilkyWay.Models
                                     return;
 
                                 if (this.Action == SettingSupport.ColumnTypeEnum.Favorites)
-                                    this.Add(tweetEventArgs.Status);
+                                    this.Add(tweetEventArgs.Status, false);
                                 else
                                     this.Add(tweetEventArgs.Status, tweetEventArgs.Streaming);
 
@@ -355,11 +323,7 @@ namespace Flantter.MilkyWay.Models
                 }).AddTo(this.Disposable);
 
             SettingService.Setting.ObserveProperty(x => x.MuteFilter).Subscribe(x => this.MuteFilter = x).AddTo(this.Disposable);
-            this.ColumnSetting.ObserveProperty(x => x.AutoRefresh).Subscribe(x => this.AutoRefresh = x).AddTo(this.Disposable);
-            this.ColumnSetting.ObserveProperty(x => x.AutoRefreshTimerInterval).Subscribe(x => this.AutoRefreshTimerInterval = x).AddTo(this.Disposable);
-            this.ColumnSetting.ObserveProperty(x => x.DisableStartupRefresh).Subscribe(x => this.DisableStartupRefresh = x).AddTo(this.Disposable);
             this.ColumnSetting.ObserveProperty(x => x.Filter).Subscribe(x => this.Filter = x).AddTo(this.Disposable);
-            this.ColumnSetting.ObserveProperty(x => x.FetchingNumberOfTweet).Subscribe(x => this.FetchingNumberOfTweet = x).AddTo(this.Disposable);
             this.ColumnSetting.ObserveProperty(x => x.Name).Subscribe(x => this.Name = x).AddTo(this.Disposable);
             this.AccountSetting.ObserveProperty(x => x.ScreenName).Subscribe(x => this.ScreenName = x).AddTo(this.Disposable);
             this.AccountSetting.ObserveProperty(x => x.ProfileImageUrl).Subscribe(x => this.ProfileImageUrl = x).AddTo(this.Disposable);
@@ -527,7 +491,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -541,7 +505,7 @@ namespace Flantter.MilkyWay.Models
                     if (this.Check(statusObject))
                         Add(statusObject);
 
-                    var paramList = new List<string>() { "home://" };
+                    var paramList = new List<string>() { "home://", "filter://" };
                     Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this.Tokens.UserId, paramList, false));
                 }
             }
@@ -559,7 +523,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -591,7 +555,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true }, { "full_text", true } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "full_text", true } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -624,7 +588,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -656,7 +620,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true }, { "list_id", long.Parse(this._Parameter) } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "list_id", long.Parse(this._Parameter) } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -692,7 +656,7 @@ namespace Flantter.MilkyWay.Models
 
                 if (SettingService.Setting.UseOfficialApi && TwitterConnectionHelper.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
                 {
-                    var param = new Dictionary<string, object>() { { "q", this._Parameter }, { "count", this._FetchingNumberOfTweet }, { "result_type", "recent" }, { "modules", "status" } };
+                    var param = new Dictionary<string, object>() { { "q", this._Parameter }, { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "result_type", "recent" }, { "modules", "status" } };
                     if (maxid != 0)
                         param["q"] = param["q"] + " max_id:" + maxid;
                     if (sinceid != 0)
@@ -717,7 +681,7 @@ namespace Flantter.MilkyWay.Models
                 }
                 else
                 {
-                    var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true }, { "q", this._Parameter } };
+                    var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "q", this._Parameter } };
                     if (maxid != 0)
                         param.Add("max_id", maxid);
                     if (sinceid != 0)
@@ -750,7 +714,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this._FetchingNumberOfTweet }, { "include_entities", true }, { "user_id", long.Parse(this._Parameter) } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "user_id", long.Parse(this._Parameter) } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)

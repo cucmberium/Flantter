@@ -651,6 +651,25 @@ namespace Flantter.MilkyWay.ViewModels
 
                 this.Model.DeleteColumn(columnSetting);
             }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.AddFilterColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
+            {
+                var columnSetting = new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Filter, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = ("Filter : " + "Fil1"), Streaming = false, Index = -1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 };
+
+                if (this.Model.AccountSetting.Column.Any(y => y.Action == columnSetting.Action && y.Parameter == columnSetting.Parameter && y.Name == columnSetting.Name))
+                    return;
+
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_AddColumn"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                if (!msgNotification.Result)
+                    return;
+
+                await this.Model.AddColumn(columnSetting);
+
+                Services.Notice.Instance.ShowColumnSettingCommand.Execute(columnSetting);
+            }).AddTo(this.Disposable);
+            
             #endregion
         }
         #endregion

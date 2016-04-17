@@ -147,15 +147,13 @@
             </Grid>
         </Grid>
         
-        <Grid x:Name="StatusGrid" Margin="0,0,12,0">
+        <Grid x:Name="StatusGrid" Margin="0,0,7,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="1">
+            <StackPanel Grid.Column="0" Margin="5,0">
                 <Border Height="{x:Bind ViewModel.Setting.IconSize, Mode=OneWay, Converter={StaticResource EnumToDoubleConverter}}" Width="{x:Bind ViewModel.Setting.IconSize, Mode=OneWay, Converter={StaticResource EnumToDoubleConverter}}" CornerRadius="4">
                     <Border.Background>
                         <ImageBrush ImageSource="{x:Bind ViewModel.ProfileImageUrl, Mode=OneWay}" />
@@ -170,7 +168,7 @@
                 <SymbolIcon Visibility="{x:Bind ViewModel.RetweetInformationVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{StaticResource TweetRetweetSymbolIconForegroundBrush}" Symbol="ReShare" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="3" x:Name="StatusBox">
+            <StackPanel x:Name="StatusBox" Grid.Column="1" Margin="5,0">
                 <TextBlock HorizontalAlignment="Left">
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.ProtectedText, Mode=OneWay}" FontWeight="Bold" /><Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
@@ -218,12 +216,12 @@
                 <TextBlock Grid.Row="2" Visibility="{x:Bind ViewModel.RetweetCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,2,0,0" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetCounterText, Mode=OneWay}"/>
             </StackPanel>
 
-            <ContentControl x:Name="RetweetTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource RetweetTriangleIcon}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
-            <ContentControl x:Name="FavoriteTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource FavoriteTriangleIcon}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
-            <ContentControl x:Name="RetweetFavoriteTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource RetweetFavoriteTriangleIcon}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-5"/>
+            <ContentControl x:Name="RetweetTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource RetweetTriangleIcon}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-5"/>
+            <ContentControl x:Name="FavoriteTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource FavoriteTriangleIcon}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-5"/>
+            <ContentControl x:Name="RetweetFavoriteTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource RetweetFavoriteTriangleIcon}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-5"/>
         </Grid>
 
-        <Border x:DeferLoadStrategy="Lazy" x:Name="QuotedStatusBorder" Visibility="Collapsed" Margin="30,4,12,0" Background="{StaticResource TweetQuotedStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">
+        <Border x:DeferLoadStrategy="Lazy" x:Name="QuotedStatusBorder" Visibility="Collapsed" Margin="30,6,12,2" Background="{StaticResource TweetQuotedStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">
 
             <i:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="Tapped">

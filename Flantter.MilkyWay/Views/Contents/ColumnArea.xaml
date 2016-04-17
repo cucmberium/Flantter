@@ -17,7 +17,7 @@
 
     <SemanticZoom x:Name="ColumnArea_SemanticZoom" IsZoomOutButtonEnabled="False" IsZoomedInViewActive="{x:Bind ViewModel.IsZoomedInViewActive.Value, Mode=TwoWay}">
         <SemanticZoom.ZoomedInView>
-            <contents:ColumnAreaListBox x:Name="ColumnArea_ColumnList" Margin="5,10" Style="{StaticResource ExtendedListBox}" IsTabStop="False" Background="Transparent" ItemsSource="{x:Bind ViewModel.Columns, Mode=OneWay}" ItemContainerStyle="{StaticResource ColumnListBoxItemStyle}">
+            <contents:ColumnAreaListBox x:Name="ColumnArea_ColumnList" Margin="5,10" Style="{StaticResource ExtendedListBox}" IsTabStop="False" Background="Transparent" ItemsSource="{x:Bind ViewModel.Columns}" ItemContainerStyle="{StaticResource ColumnListBoxItemStyle}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <!-- 本当はここもx:Bindにしたいけどすると "error WMC9999" が発生する -->
@@ -46,17 +46,19 @@
                                 </Grid.ColumnDefinitions>
 
                                 <SymbolIcon Grid.Column="0" Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="{x:Bind ActionSymbol.Value, Mode=OneWay}" HorizontalAlignment="Left"/>
+                                
                                 <TextBlock Grid.Column="0" Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                        <Run Text="{x:Bind Name.Value, Mode=OneWay}"/>
-                                        <Run Text=" - "/>
-                                        <Run Text="@"/><Run Text="{x:Bind ScreenName.Value, Mode=OneWay}"/>
+                                    <Run Text="{x:Bind Name.Value, Mode=OneWay}"/>
+                                    <Run Text=" - "/>
+                                    <Run Text="@"/><Run Text="{x:Bind ScreenName.Value, Mode=OneWay}"/>
                                 </TextBlock>
 
-                                <Border Grid.Column="3" Visibility="{x:Bind UnreadCount.Value,Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
+                                <Border Grid.Column="3" Visibility="{x:Bind UnreadCount.Value, Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
                                     <Button Background="Transparent" BorderThickness="0" Width="40" Height="30" Padding="0" Command="{x:Bind ScrollToTopCommand}">
                                         <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="{x:Bind UnreadCount.Value, Mode=OneWay}" FontSize="14" FontWeight="Bold"/>
                                     </Button>
                                 </Border>
+                                
                                 <Button Grid.Column="2" ToolTipService.ToolTip="Menu" VerticalAlignment="Stretch" Width="40" BorderThickness="0" Padding="0">
                                     <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Add"/>
                                     <Button.Flyout>
@@ -64,7 +66,7 @@
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol" Command="{x:Bind RefreshCommand}"/>
                                             <MenuFlyoutSeparator/>
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol" Command="{x:Bind Notice.ShowColumnSettingCommand}" CommandParameter="{x:Bind Model.ColumnSetting, Mode=OneWay}"/>
-                                            <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol"/>
+                                            <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol" Command="{x:Bind Notice.AddFilterColumnCommand}"/>
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_DeleteColumn" Visibility="{x:Bind CanDeleteColumn.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE138; カラムの削除" FontFamily="Segoe UI Symbol" Command="{x:Bind Notice.DeleteColumnCommand}" CommandParameter="{x:Bind Model.ColumnSetting, Mode=OneWay}"/>
                                         </MenuFlyout>
                                     </Button.Flyout>

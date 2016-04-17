@@ -22,8 +22,7 @@ namespace Flantter.MilkyWay.ViewModels
 {
     public class TweetAreaViewModel
     {
-        public MainPageModel _MainPageModel { get; set; }
-        public TweetAreaModel _TweetAreaModel { get; set; }
+        public TweetAreaModel Model { get; set; }
         public Services.Notice Notice { get; set; }
         public Setting.SettingService Setting { get; set; }
 
@@ -64,21 +63,20 @@ namespace Flantter.MilkyWay.ViewModels
 
         public TweetAreaViewModel(ReadOnlyReactiveCollection<AccountViewModel> accounts)
         {
-            this._MainPageModel = MainPageModel.Instance;
-            this._TweetAreaModel = new TweetAreaModel();
+            this.Model = new TweetAreaModel();
 
             this.Accounts = accounts;
             this.SelectedAccount = new ReactiveProperty<AccountViewModel>();
 
-            this.SelectionStart = this._TweetAreaModel.ToReactivePropertyAsSynchronized(x => x.SelectionStart);
-            this.Text = this._TweetAreaModel.ToReactivePropertyAsSynchronized(x => x.Text);
-            this.CharacterCount = this._TweetAreaModel.ObserveProperty(x => x.CharacterCount).Select(x => x.ToString()).ToReactiveProperty();
+            this.SelectionStart = this.Model.ToReactivePropertyAsSynchronized(x => x.SelectionStart);
+            this.Text = this.Model.ToReactivePropertyAsSynchronized(x => x.Text);
+            this.CharacterCount = this.Model.ObserveProperty(x => x.CharacterCount).Select(x => x.ToString()).ToReactiveProperty();
 
-            this.Message = this._TweetAreaModel.ObserveProperty(x => x.Message).ToReactiveProperty();
+            this.Message = this.Model.ObserveProperty(x => x.Message).ToReactiveProperty();
 
-            this.LockingHashTagsSymbol = this._TweetAreaModel.ObserveProperty(x => x.LockingHashTags).Select(x => x ? Symbol.UnPin : Symbol.Pin).ToReactiveProperty();
+            this.LockingHashTagsSymbol = this.Model.ObserveProperty(x => x.LockingHashTags).Select(x => x ? Symbol.UnPin : Symbol.Pin).ToReactiveProperty();
 
-            this.StateSymbol = this._TweetAreaModel.ObserveProperty(x => x.State).Select(x =>
+            this.StateSymbol = this.Model.ObserveProperty(x => x.State).Select(x =>
             {
                 switch (x)
                 {
@@ -91,22 +89,22 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             }).ToReactiveProperty();
 
-            this.Updating = this._TweetAreaModel.ObserveProperty(x => x.Updating).ToReactiveProperty();
+            this.Updating = this.Model.ObserveProperty(x => x.Updating).ToReactiveProperty();
 
             this.ReplyOrQuotedStatus = new ReactiveProperty<StatusViewModel>();
-            this.IsQuotedRetweet = this._TweetAreaModel.ObserveProperty(x => x.IsQuotedRetweet).ToReactiveProperty();
-            this.IsReply = this._TweetAreaModel.ObserveProperty(x => x.IsReply).ToReactiveProperty();
+            this.IsQuotedRetweet = this.Model.ObserveProperty(x => x.IsQuotedRetweet).ToReactiveProperty();
+            this.IsReply = this.Model.ObserveProperty(x => x.IsReply).ToReactiveProperty();
 
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;
 
             this.SuggestionMessenger = new Messenger();
-            this._TweetAreaModel.SuggestionMessenger = this.SuggestionMessenger;
+            this.Model.SuggestionMessenger = this.SuggestionMessenger;
             this.TextBoxFocusMessenger = new Messenger();
 
-            this.Pictures = this._TweetAreaModel.ReadonlyPictures.ToReadOnlyReactiveCollection(x => new PictureViewModel(x));
+            this.Pictures = this.Model.ReadonlyPictures.ToReadOnlyReactiveCollection(x => new PictureViewModel(x));
 
-            this._TweetAreaModel.ObserveProperty(x => x.ReplyOrQuotedStatus).Subscribe(x => 
+            this.Model.ObserveProperty(x => x.ReplyOrQuotedStatus).Subscribe(x => 
             {
                 var status = x as Status;
                 if (status == null)
@@ -116,7 +114,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.ChangeLockHashTagsCommand = new ReactiveCommand();
             this.ChangeLockHashTagsCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
             {
-                this._TweetAreaModel.LockingHashTags = !this._TweetAreaModel.LockingHashTags;
+                this.Model.LockingHashTags = !this.Model.LockingHashTags;
             });
 
             this.AddPictureCommand = new ReactiveCommand();
@@ -131,13 +129,13 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
 
                 foreach (var pic in result.Result)
-                    await this._TweetAreaModel.AddPicture(pic);
+                    await this.Model.AddPicture(pic);
             });
 
-            this.TweetCommand = this._TweetAreaModel.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand();
+            this.TweetCommand = this.Model.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand();
             this.TweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
-                await this._TweetAreaModel.Tweet(this.SelectedAccount.Value.Model);
+                await this.Model.Tweet(this.SelectedAccount.Value.Model);
                 
                 if (SettingService.Setting.CloseBottomAppBarAfterTweet)
                 {
@@ -153,7 +151,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.SuggestSelectedCommand = new ReactiveCommand();
             this.SuggestSelectedCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
             {
-                this._TweetAreaModel.SuggestionSelected((string)x);
+                this.Model.SuggestionSelected((string)x);
             });
 
             this.DeleteReplyOrQuotedStatusCommand = new ReactiveCommand();
@@ -161,11 +159,11 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 this.ReplyOrQuotedStatus.Value = null;
 
-                this._TweetAreaModel.IsQuotedRetweet = false;
-                this._TweetAreaModel.IsReply = false;
-                this._TweetAreaModel.ReplyOrQuotedStatus = null;
+                this.Model.IsQuotedRetweet = false;
+                this.Model.IsReply = false;
+                this.Model.ReplyOrQuotedStatus = null;
 
-                this._TweetAreaModel.Text = string.Empty;
+                this.Model.Text = string.Empty;
 
                 await Task.Delay(50);
                 await this.TextBoxFocusMessenger.Raise(new Notification());
@@ -174,20 +172,20 @@ namespace Flantter.MilkyWay.ViewModels
             this.ParseClipbordPictureCommand = new ReactiveCommand();
             this.ParseClipbordPictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
-                await this._TweetAreaModel.AddPictureFromClipboard();
+                await this.Model.AddPictureFromClipboard();
             });
 
             Services.Notice.Instance.TweetAreaAccountChangeCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
             {
                 var accountVM = x as AccountViewModel;
                 this.SelectedAccount.Value = accountVM;
-                this._TweetAreaModel.SelectedAccountUserId = accountVM.Model.UserId;
+                this.Model.SelectedAccountUserId = accountVM.Model.UserId;
             });
 
             Services.Notice.Instance.TweetAreaDeletePictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var pictureViewModel = x as PictureViewModel;
-                this._TweetAreaModel.DeletePicture(pictureViewModel._PictureModel);
+                this.Model.DeletePicture(pictureViewModel._PictureModel);
             });
 
             Services.Notice.Instance.ReplyCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
@@ -198,17 +196,17 @@ namespace Flantter.MilkyWay.ViewModels
 
                     this.ReplyOrQuotedStatus.Value = statusViewModel;
 
-                    this._TweetAreaModel.IsQuotedRetweet = false;
-                    this._TweetAreaModel.IsReply = true;
-                    this._TweetAreaModel.ReplyOrQuotedStatus = statusViewModel.Model;
+                    this.Model.IsQuotedRetweet = false;
+                    this.Model.IsReply = true;
+                    this.Model.ReplyOrQuotedStatus = statusViewModel.Model;
 
-                    this._TweetAreaModel.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
+                    this.Model.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
 
                     Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
 
                     await Task.Delay(50);
 
-                    this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
+                    this.Model.SelectionStart = this.Model.Text.Length;
 
                     return;
                 }
@@ -216,13 +214,13 @@ namespace Flantter.MilkyWay.ViewModels
                 var screenName = x as string;
                 if (!string.IsNullOrWhiteSpace(screenName))
                 {
-                    this._TweetAreaModel.Text = "@" + screenName + " ";
+                    this.Model.Text = "@" + screenName + " ";
 
                     Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
 
                     await Task.Delay(50);
 
-                    this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
+                    this.Model.SelectionStart = this.Model.Text.Length;
 
                     return;
                 }
@@ -236,13 +234,13 @@ namespace Flantter.MilkyWay.ViewModels
 
                 this.ReplyOrQuotedStatus.Value = statusViewModel;
 
-                this._TweetAreaModel.IsQuotedRetweet = false;
-                this._TweetAreaModel.IsReply = true;
-                this._TweetAreaModel.ReplyOrQuotedStatus = statusViewModel.Model;
+                this.Model.IsQuotedRetweet = false;
+                this.Model.IsReply = true;
+                this.Model.ReplyOrQuotedStatus = statusViewModel.Model;
 
                 var userList = new List<string>();
 
-                this._TweetAreaModel.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
+                this.Model.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
                 userList.Add(statusViewModel.Model.User.ScreenName);
 
                 foreach (var user in statusViewModel.Model.Entities.UserMentions)
@@ -250,7 +248,7 @@ namespace Flantter.MilkyWay.ViewModels
                     if (userList.Contains(user.ScreenName) || user.ScreenName == this.SelectedAccount.Value.ScreenName.Value)
                         continue;
 
-                    this._TweetAreaModel.Text += "@" + user.ScreenName + " ";
+                    this.Model.Text += "@" + user.ScreenName + " ";
                     userList.Add(user.ScreenName);
                 }
 
@@ -258,7 +256,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                 await Task.Delay(50);
 
-                this._TweetAreaModel.SelectionStart = this._TweetAreaModel.Text.Length;
+                this.Model.SelectionStart = this.Model.Text.Length;
             });
 
             Services.Notice.Instance.UrlQuoteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
@@ -269,17 +267,17 @@ namespace Flantter.MilkyWay.ViewModels
 
                 this.ReplyOrQuotedStatus.Value = statusViewModel;
 
-                this._TweetAreaModel.IsQuotedRetweet = true;
-                this._TweetAreaModel.IsReply = false;
-                this._TweetAreaModel.ReplyOrQuotedStatus = statusViewModel.Model;
+                this.Model.IsQuotedRetweet = true;
+                this.Model.IsReply = false;
+                this.Model.ReplyOrQuotedStatus = statusViewModel.Model;
 
-                this._TweetAreaModel.Text = "";
+                this.Model.Text = "";
 
                 Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
 
                 await Task.Delay(50);
 
-                this._TweetAreaModel.SelectionStart = 0;
+                this.Model.SelectionStart = 0;
             });
         }
     }

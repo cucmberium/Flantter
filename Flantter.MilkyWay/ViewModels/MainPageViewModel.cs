@@ -132,7 +132,7 @@ namespace Flantter.MilkyWay.ViewModels
                     if (!supportedFormat.Contains(file.FileType))
                         continue;
 
-                    await this.TweetArea._TweetAreaModel.AddPicture(file);
+                    await this.TweetArea.Model.AddPicture(file);
                 }
 
                 this.AppBarIsOpen.Value = true;

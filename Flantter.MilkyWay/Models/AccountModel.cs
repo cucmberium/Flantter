@@ -4,11 +4,14 @@ using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
+using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
@@ -17,6 +20,8 @@ namespace Flantter.MilkyWay.Models
 {
     public class AccountModel : BindableBase, IDisposable
     {
+        protected CompositeDisposable Disposable { get; private set; } = new CompositeDisposable();
+
         #region IsEnabled変更通知プロパティ
         private bool _IsEnabled;
         public bool IsEnabled
@@ -71,15 +76,6 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
-        #region PossiblySensitive変更通知プロパティ
-        private bool _PossiblySensitive;
-        public bool PossiblySensitive
-        {
-            get { return this._PossiblySensitive; }
-            set { this.SetProperty(ref this._PossiblySensitive, value); }
-        }
-        #endregion
-
         #region LeftSwipeMenuIsOpen変更通知プロパティ
         private bool _LeftSwipeMenuIsOpen;
         public bool LeftSwipeMenuIsOpen
@@ -122,40 +118,26 @@ namespace Flantter.MilkyWay.Models
         public async Task Initialize()
         {
             Connecter.Instance.AddAccount(this.AccountSetting);
-
-            this.IsEnabled = this.AccountSetting.IsEnabled;
-            this.Name = this.AccountSetting.Name;
-            this.PossiblySensitive = this.AccountSetting.PossiblySensitive;
-            this.ProfileBannerUrl = this.AccountSetting.ProfileBannerUrl;
-            this.ProfileImageUrl = this.AccountSetting.ProfileImageUrl;
-            this.ScreenName = this.AccountSetting.ScreenName;
-            this.UserId = this.AccountSetting.UserId;
-
+            
             await Task.WhenAll(this._Columns.Select(x => x.Initialize()));
             
-            Task.Run(async () =>
-            {
-                var user = await this.Tokens.Users.ShowAsync(user_id => this.UserId);
-                this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
-                this.ProfileBannerUrl = user.ProfileBannerUrl;
-                this.Name = user.Name;
-                this.ScreenName = user.ScreenName;
+            Observable.Timer(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1))
+                .SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async t =>
+                {
+                    foreach (var columnModel in this._Columns)
+                    {
+                        if (t % (int)columnModel.ColumnSetting.AutoRefreshTimerInterval == 0 && columnModel.ColumnSetting.AutoRefresh && !columnModel.Streaming)
+                            await columnModel.Update();
+                    }
+                }).AddTo(this.Disposable);
 
-                this.AccountSetting.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
-                this.AccountSetting.ProfileBannerUrl = user.ProfileBannerUrl;
-                this.AccountSetting.Name = user.Name;
-                this.AccountSetting.ScreenName = user.ScreenName;
-
-                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
-            });
+            this.RefreshProfile();
         }
         #endregion
 
         #region Constructor
         public AccountModel(AccountSetting account)
         {
-            this.IsEnabled = account.IsEnabled;
-
             this._Columns = new ObservableCollection<ColumnModel>();
             this._ReadOnlyColumns = new ReadOnlyObservableCollection<ColumnModel>(this._Columns);
             
@@ -164,6 +146,13 @@ namespace Flantter.MilkyWay.Models
             
             this.AccountSetting = account;
             
+            this.IsEnabled = this.AccountSetting.IsEnabled;
+            this.Name = this.AccountSetting.Name;
+            this.ProfileBannerUrl = this.AccountSetting.ProfileBannerUrl;
+            this.ProfileImageUrl = this.AccountSetting.ProfileImageUrl;
+            this.ScreenName = this.AccountSetting.ScreenName;
+            this.UserId = this.AccountSetting.UserId;
+
             foreach (var column in account.Column)
                 this._Columns.Add(new ColumnModel(column, account, this));
         }
@@ -360,12 +349,30 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
+        public async void RefreshProfile()
+        {
+            var user = await this.Tokens.Users.ShowAsync(user_id => this.UserId);
+            this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
+            this.ProfileBannerUrl = user.ProfileBannerUrl;
+            this.Name = user.Name;
+            this.ScreenName = user.ScreenName;
+
+            this.AccountSetting.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
+            this.AccountSetting.ProfileBannerUrl = user.ProfileBannerUrl;
+            this.AccountSetting.Name = user.Name;
+            this.AccountSetting.ScreenName = user.ScreenName;
+
+            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+        }
+
         public void Dispose()
         {
             foreach (var column in this._Columns)
             {
                 column.Dispose();
             }
+
+            this.Disposable.Dispose();
         }
     }
 }

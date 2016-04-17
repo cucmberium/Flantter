@@ -36,7 +36,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
             ((ListView)this.AssociatedObject).Loaded += ListView_Loaded;
             ((ListView)this.AssociatedObject).LayoutUpdated += ListView_LayoutUpdated;
             ((ListView)this.AssociatedObject).DataContextChanged += ListView_DataContextChanged;
-            ((ListView)this.AssociatedObject).PointerWheelChanged += ListView_PointerWheelChanged;
 
             this._PointerWheelChangedEventHandler = new PointerEventHandler(ListView_PointerWheelChanged);
             ((ListView)this.AssociatedObject).AddHandler(ListView.PointerWheelChangedEvent, _PointerWheelChangedEventHandler, true);
@@ -55,7 +54,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 ((ListView)this.AssociatedObject).Loaded -= ListView_Loaded;
                 ((ListView)this.AssociatedObject).LayoutUpdated -= ListView_LayoutUpdated;
                 ((ListView)this.AssociatedObject).DataContextChanged -= ListView_DataContextChanged;
-                ((ListView)this.AssociatedObject).PointerWheelChanged -= ListView_PointerWheelChanged;
 
                 ((ListView)this.AssociatedObject).RemoveHandler(ListView.PointerWheelChangedEvent, _PointerWheelChangedEventHandler);
             }
@@ -147,10 +145,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (this.ScrollViewerObject.ScrollableHeight + 1 - offset <= 0)
                 return;
 
-            previousVerticalOffset = offset;
-
-            if (e.NewStartingIndex >= verticalOffset - 1)
+            if (e.NewStartingIndex >= verticalOffset - 0.5)
                 return;
+
+            previousVerticalOffset = offset;
 
             if (SettingService.Setting.DisableStreamingScroll || this.IsScrollLockEnabled)
             {
@@ -233,7 +231,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             }
             else
             {
-                tickCount = 26;
+                tickCount = 27;
 
                 isAnimationRunning = true;
                 await Task.Run(() => RunAnimationTask()).ConfigureAwait(false);

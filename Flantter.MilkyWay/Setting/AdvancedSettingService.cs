@@ -176,6 +176,13 @@ namespace Flantter.MilkyWay.Setting
             get { return _FetchingNumberOfTweet; }
             set { this.SetProperty(ref this._FetchingNumberOfTweet, value); }
         }
+
+        private long _Identifier;
+        public long Identifier
+        {
+            get { return _Identifier; }
+            set { this.SetProperty(ref this._Identifier, value); }
+        }
     }
 
     public class AdvancedSettingService : AdvancedSettingServiceBase<AdvancedSettingService>

@@ -835,4 +835,28 @@
   <data name="SettingsFlyout_Settings_Column_SaveOK" xml:space="preserve">
     <value>正常に保存できます</value>
   </data>
+  <data name="ConfirmDialog_UpdateColumnSettingSuccessfully" xml:space="preserve">
+    <value>正常に保存しました</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_AutoRefreshTimerInterval_Slider.Header" xml:space="preserve">
+    <value>自動更新の間隔 (分)</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_AutoRefresh_ToggleSwitch.Header" xml:space="preserve">
+    <value>自動更新</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_DisableStartupRefresh_ToggleSwitch.Header" xml:space="preserve">
+    <value>起動時の更新を無効化</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_FetchingNumberOfTweet_Slider.Header" xml:space="preserve">
+    <value>取得件数</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_Filter_TextBox.Header" xml:space="preserve">
+    <value>フィルタ</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_Name_TextBox.Header" xml:space="preserve">
+    <value>カラム名</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_Save_TextBlock.Text" xml:space="preserve">
+    <value>保存</value>
+  </data>
 </root>

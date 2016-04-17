@@ -47,6 +47,14 @@
             <behaviors:AuthorizeAction/>
         </util:MessengerTriggerBehavior>
 
+        <behaviors:BottomAppBarShowBehavior IsOpen="{x:Bind ViewModel.AppBarIsOpen.Value, Mode=TwoWay}">
+            <behaviors:BottomAppBarShowBehavior.BottomAppBar>
+                <AppBar ClosedDisplayMode="Hidden" IsSticky="False">
+                    <contents:TweetArea ViewModel="{x:Bind ViewModel.TweetArea, Mode=OneWay}" />
+                </AppBar>
+            </behaviors:BottomAppBarShowBehavior.BottomAppBar>
+        </behaviors:BottomAppBarShowBehavior>
+
         <util:GlobalKeyTriggerBehavior>
             <util:KeyTrigger Key="F" Modifiers="Control">
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowSearchCommand, Mode=OneWay}"/>
@@ -58,15 +66,6 @@
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserFollowInfoCommand, Mode=OneWay}"/>
             </util:KeyTrigger>
         </util:GlobalKeyTriggerBehavior>
-
-        <behaviors:BottomAppBarShowBehavior IsOpen="{x:Bind ViewModel.AppBarIsOpen.Value, Mode=TwoWay}">
-            <behaviors:BottomAppBarShowBehavior.BottomAppBar>
-                <AppBar ClosedDisplayMode="Hidden" IsSticky="False">
-                    <contents:TweetArea ViewModel="{x:Bind ViewModel.TweetArea, Mode=OneWay}" />
-                </AppBar>
-            </behaviors:BottomAppBarShowBehavior.BottomAppBar>
-        </behaviors:BottomAppBarShowBehavior>
-
     </i:Interaction.Behaviors>
 
     <Grid x:Name="Flantter_MainContents" Background="{StaticResource PageBackgroundBrush}" AllowDrop="True">

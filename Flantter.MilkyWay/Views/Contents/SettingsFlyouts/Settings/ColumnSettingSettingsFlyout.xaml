@@ -37,27 +37,27 @@
 
                 <controls:HorizontalBar/>
 
-                <TextBox IsEnabled="{x:Bind ViewModel.CanChangeSetting.Value, Mode=OneWay}" Margin="10" Header="カラム名" Text="{Binding Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Uid="SettingsFlyout_Settings_Column_Name_TextBox" Margin="10" IsEnabled="{x:Bind ViewModel.CanChangeSetting.Value, Mode=OneWay}" Header="カラム名" Text="{Binding Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <controls:HorizontalBar/>
 
-                <ToggleSwitch Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{x:Bind ViewModel.DisableStartupRefresh.Value, Mode=TwoWay}" Header="起動時の更新を無効化"/>
+                <ToggleSwitch x:Uid="SettingsFlyout_Settings_Column_DisableStartupRefresh_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{x:Bind ViewModel.DisableStartupRefresh.Value, Mode=TwoWay}" Header="起動時の更新を無効化"/>
 
                 <controls:HorizontalBar/>
 
-                <ToggleSwitch Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{x:Bind ViewModel.AutoRefresh.Value, Mode=TwoWay}" Header="自動更新"/>
+                <ToggleSwitch x:Uid="SettingsFlyout_Settings_Column_AutoRefresh_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{x:Bind ViewModel.AutoRefresh.Value, Mode=TwoWay}" Header="自動更新"/>
 
                 <controls:HorizontalBar/>
 
-                <Slider Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="自動更新の間隔 (分)" IsEnabled="{x:Bind ViewModel.AutoRefresh.Value, Mode=OneWay}" Maximum="15" Minimum="1" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{x:Bind ViewModel.AutoRefreshTimerInterval.Value, Mode=TwoWay}" />
+                <Slider x:Uid="SettingsFlyout_Settings_Column_AutoRefreshTimerInterval_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="自動更新の間隔 (分)" IsEnabled="{x:Bind ViewModel.AutoRefresh.Value, Mode=OneWay}" Maximum="15" Minimum="1" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{x:Bind ViewModel.AutoRefreshTimerInterval.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <Slider Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイート取得件数" Maximum="200" Minimum="20" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{x:Bind ViewModel.FetchingNumberOfTweet.Value, Converter={StaticResource DoubleToIntConverter}, Mode=TwoWay}" />
+                <Slider x:Uid="SettingsFlyout_Settings_Column_FetchingNumberOfTweet_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイート取得件数" Maximum="200" Minimum="20" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{x:Bind ViewModel.FetchingNumberOfTweet.Value, Converter={StaticResource DoubleToIntConverter}, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <TextBox IsEnabled="{x:Bind ViewModel.CanChangeSetting.Value, Mode=OneWay}" MinHeight="128" MaxHeight="384" AcceptsReturn="True" Margin="10" Header="フィルター" HorizontalAlignment="Stretch" Text="{Binding Filter.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Uid="SettingsFlyout_Settings_Column_Filter_TextBox" IsEnabled="{x:Bind ViewModel.CanChangeSetting.Value, Mode=OneWay}" MinHeight="128" MaxHeight="384" AcceptsReturn="True" Margin="10" Header="フィルター" HorizontalAlignment="Stretch" Text="{Binding Filter.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             </StackPanel>
         </ScrollViewer>
@@ -69,10 +69,10 @@
             
             <controls:HorizontalBar/>
 
-            <Button IsEnabled="{x:Bind ViewModel.UpdateButtonEnabled.Value, Mode=OneWay}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <Button IsEnabled="{x:Bind ViewModel.UpdateButtonEnabled.Value, Mode=OneWay}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.SaveColumnSettingCommand, Mode=OneWay}">
                 <Grid>
                     <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Save" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                    <TextBlock Text="保存" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="SettingsFlyout_Settings_Column_Save_TextBlock" Text="保存" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
 

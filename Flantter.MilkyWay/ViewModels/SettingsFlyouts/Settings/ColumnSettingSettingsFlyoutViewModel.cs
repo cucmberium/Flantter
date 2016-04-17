@@ -1,6 +1,8 @@
 ﻿using Flantter.MilkyWay.Models.Exceptions;
 using Flantter.MilkyWay.Models.Filter;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Services;
+using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
@@ -78,10 +80,28 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                 {
                     this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") + "\n" + e.Message;
                     this.UpdateButtonEnabled.Value = false;
+                    return;
                 }
 
                 this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Column_SaveOK");
                 this.UpdateButtonEnabled.Value = true;
+            });
+
+
+            this.SaveColumnSettingCommand = new ReactiveCommand();
+            this.SaveColumnSettingCommand.Subscribe(async x => 
+            {
+                this.ColumnSetting.Value.Name = this.Name.Value;
+                this.ColumnSetting.Value.Filter = this.Filter.Value;
+                this.ColumnSetting.Value.DisableStartupRefresh = this.DisableStartupRefresh.Value;
+                this.ColumnSetting.Value.AutoRefresh = this.AutoRefresh.Value;
+                this.ColumnSetting.Value.AutoRefreshTimerInterval = this.AutoRefreshTimerInterval.Value;
+                this.ColumnSetting.Value.FetchingNumberOfTweet = this.FetchingNumberOfTweet.Value;
+
+                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+
+                await Services.Notice.Instance.ShowMessageDialogMessenger.Raise(new MessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_UpdateColumnSettingSuccessfully"), Title = "Message" });
+                return;
             });
         }
 
@@ -99,5 +119,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
         public ReactiveProperty<string> ErrorMessage { get; set; }
 
         public ReactiveProperty<bool> UpdateButtonEnabled { get; set; }
+
+
+        public ReactiveCommand SaveColumnSettingCommand { get; set; }
     }
 }

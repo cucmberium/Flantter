@@ -184,6 +184,8 @@ namespace Flantter.MilkyWay.Models
             if (column.Index == -1)
                 column.Index = this._Columns.Count;
 
+            column.Identifier = DateTime.Now.Ticks;
+
             this.AccountSetting.Column.Add(column);
             AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
@@ -195,7 +197,7 @@ namespace Flantter.MilkyWay.Models
 
         public void DeleteColumn(ColumnSetting column)
         {
-            var columnModel = this._Columns.First(x => x.Action == column.Action && x.Name == column.Name && x.Parameter == column.Parameter);
+            var columnModel = this._Columns.First(x => x.Action == column.Action && x.Name == column.Name && x.Parameter == column.Parameter && x.ColumnSetting.Identifier == column.Identifier);
 
             columnModel.Dispose();
             this._Columns.Remove(columnModel);

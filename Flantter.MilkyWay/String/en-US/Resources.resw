@@ -835,4 +835,28 @@
   <data name="SettingsFlyout_Settings_Column_SaveOK" xml:space="preserve">
     <value>Can save</value>
   </data>
+  <data name="ConfirmDialog_UpdateColumnSettingSuccessfully" xml:space="preserve">
+    <value>Update column setting successfully</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_AutoRefreshTimerInterval_Slider.Header" xml:space="preserve">
+    <value>Timer interval of auto refresh (min)</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_AutoRefresh_ToggleSwitch.Header" xml:space="preserve">
+    <value>Auto refresh</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_DisableStartupRefresh_ToggleSwitch.Header" xml:space="preserve">
+    <value>Disable startup refresh</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_FetchingNumberOfTweet_Slider.Header" xml:space="preserve">
+    <value>Fetching number of tweet</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_Filter_TextBox.Header" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_Name_TextBox.Header" xml:space="preserve">
+    <value>Column name</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Column_Save_TextBlock.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
 </root>

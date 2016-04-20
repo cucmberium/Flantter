@@ -52,6 +52,9 @@ namespace Flantter.MilkyWay.Models.Notifications
                     switch (e.Type)
                     {
                         case TweetEventArgs.TypeEnum.Status:
+                            if (e.Parameter.Contains("favorites://"))
+                                break;
+
                             if (e.Status.HasRetweetInformation && e.Status.User.Id == e.UserId)
                                 this.PopupToastNotification(NotificationType.Retweet, string.Format(_ResourceLoader.GetString("Notification_Retweet_Retweet"), e.Status.RetweetInformation.User.Name), e.Status.Text, e.Status.RetweetInformation.User.ProfileImageUrl);
 

@@ -137,10 +137,12 @@ namespace Flantter.MilkyWay.Models.Services
             public event EventHandler<TweetEventArgs> TweetReceive_CommandExecute;
 
             public long UserId { get; set; }
+            
+            public object MuteIdsLock { get; set; } = new object();
 
-            //public AsyncLock NoRetweetIdsAsyncLock { get; set; }
-            public object NoRetweetIdsLock = new object();
+            public List<long> MuteIds { get; set; }
             public List<long> NoRetweetIds { get; set; }
+            public List<long> BlockIds { get; set; }
 
             public object EntitiesObjectsLock = new object();
             public List<string> ScreenNameObjects { get; set; }
@@ -154,8 +156,9 @@ namespace Flantter.MilkyWay.Models.Services
                 this.UserId = userId;
 
                 this.NoRetweetIds = new List<long>();
-                //this.NoRetweetIdsAsyncLock = new AsyncLock();
-                
+                this.MuteIds = new List<long>();
+                this.BlockIds = new List<long>();
+
                 this.ScreenNameObjects = new List<string>();
                 this.HashTagObjects = new List<string>();
                 this.UserObjects = new List<User>();

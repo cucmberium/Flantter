@@ -132,6 +132,7 @@ namespace Flantter.MilkyWay.Models
                 }).AddTo(this.Disposable);
 
             this.RefreshProfile();
+            this.RefreshMuteIds();
         }
         #endregion
 
@@ -351,18 +352,75 @@ namespace Flantter.MilkyWay.Models
 
         public async void RefreshProfile()
         {
-            var user = await this.Tokens.Users.ShowAsync(user_id => this.UserId);
-            this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
-            this.ProfileBannerUrl = user.ProfileBannerUrl;
-            this.Name = user.Name;
-            this.ScreenName = user.ScreenName;
+            try
+            {
+                var user = await this.Tokens.Users.ShowAsync(user_id => this.UserId);
+                this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
+                this.ProfileBannerUrl = user.ProfileBannerUrl;
+                this.Name = user.Name;
+                this.ScreenName = user.ScreenName;
 
-            this.AccountSetting.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
-            this.AccountSetting.ProfileBannerUrl = user.ProfileBannerUrl;
-            this.AccountSetting.Name = user.Name;
-            this.AccountSetting.ScreenName = user.ScreenName;
+                this.AccountSetting.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
+                this.AccountSetting.ProfileBannerUrl = user.ProfileBannerUrl;
+                this.AccountSetting.Name = user.Name;
+                this.AccountSetting.ScreenName = user.ScreenName;
+            }
+            catch
+            {
+            }
 
             AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+        }
+
+        public async void RefreshMuteIds()
+        {
+            try
+            {
+                var noRetweetIds = await this.Tokens.Friendships.NoRetweetsIdsAsync();
+
+                lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
+                {
+                    Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Clear();
+
+                    foreach (var id in noRetweetIds)
+                        Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Add(id);
+                }
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                var muteIds = await this.Tokens.Mutes.Users.IdsAsync();
+
+                lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
+                {
+                    Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Clear();
+
+                    foreach (var id in muteIds)
+                        Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Add(id);
+                }
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                var blockIds = await this.Tokens.Blocks.IdsAsync();
+
+                lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds)
+                {
+                    Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Clear();
+
+                    foreach (var id in blockIds)
+                        Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Add(id);
+                }
+            }
+            catch
+            {
+            }
         }
 
         public void Dispose()

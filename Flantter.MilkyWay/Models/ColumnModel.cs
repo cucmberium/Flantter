@@ -825,13 +825,19 @@ namespace Flantter.MilkyWay.Models
                     return false;
             }
 
-            // Todo : NoRetweetIdsとMuteIdsの読み込み
+            // Todo : NoRetweetIdsとMuteIds,BlockIdsの読み込み
 
-            /*using (await Connecter.Instance.TweetCollecter[this.OwnerUserId].NoRetweetIdsAsyncLock.LockAsync())
+            lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
             {
-                if (Connecter.Instance.TweetCollecter[this.OwnerUserId].NoRetweetIds.Contains(status.User.Id))
+                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Contains(status.User.Id))
                     return false;
-            }*/
+
+                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Contains(status.User.Id))
+                    return false;
+
+                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Contains(status.User.Id))
+                    return false;
+            }
 
             if (this.Action == SettingSupport.ColumnTypeEnum.Mentions && !SettingService.Setting.ShowRetweetInMentionColumn)
             {

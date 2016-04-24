@@ -42,18 +42,28 @@ namespace Flantter.MilkyWay.ViewModels.Services
                         return (width - 5.0 * 2) / count - 10.0;
                 }).ToReactiveProperty();
 
-            this.ColumnHeight = Observable.CombineLatest<double, double, double>(
+            this.ColumnHeight = Observable.CombineLatest<double, double, bool, UserInteractionMode, double>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
-                (width, height) =>
+                SettingService.Setting.ObserveProperty(x => x.ExtendTitleBar),
+                WindowSizeHelper.Instance.ObserveProperty(x => x.UserInteractionMode),
+                (width, height, extendTitleBar, userInteractionMode) =>
                 {
+                    var titleBarVisiblity = false;
+                    if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                        titleBarVisiblity = false;
+                    else if (userInteractionMode == UserInteractionMode.Mouse)
+                        titleBarVisiblity = true;
+                    else
+                        titleBarVisiblity = extendTitleBar;
+
                     var retheight = 0.0;
                     if (width < 352.0)
-                        retheight = height - 64.0;
+                        retheight = height - 64.0 - (titleBarVisiblity ? 32.0 : 0.0);
                     else if (width < 500.0)
-                        retheight = height - 64.0 - 20.0;
+                        retheight = height - 64.0 - 20.0 - (titleBarVisiblity ? 32.0 : 0.0);
                     else
-                        retheight = height - 75.0 - 20.0;
+                        retheight = height - 75.0 - 20.0 - (titleBarVisiblity ? 32.0 : 0.0);
 
                     return retheight;
                 }).ToReactiveProperty();

@@ -30,39 +30,20 @@ namespace Flantter.MilkyWay.Views.Util
                 this.ClientWidth = Window.Current.Bounds.Width;
                 this.ClientHeight = Window.Current.Bounds.Height;
                 this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
-                this.UserIntaractionMode = (UserInteractionMode)((int)Windows.UI.ViewManagement.UIViewSettings.GetForCurrentView().UserInteractionMode);
+                this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
 
-                Observable.CombineLatest<WindowSizeChangedEventArgs, CoreApplicationViewTitleBar, bool>(
                 Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
-                    h => (sender, e) => h(e),
-                    h => Window.Current.SizeChanged += h,
-                    h => Window.Current.SizeChanged -= h),
-                Observable.FromEvent<TypedEventHandler<CoreApplicationViewTitleBar, object>, CoreApplicationViewTitleBar>(
-                    h => (sender, e) => h(sender),
-                    h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += h,
-                    h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged -= h),
-                (size, titleBar) => titleBar.IsVisible).Subscribe(x =>
-                {
-                    if (x)
-                    {
-                        var applicationView = ApplicationView.GetForCurrentView();
-                        this.WindowWidth = Window.Current.Bounds.Width;
-                        this.WindowHeight = Window.Current.Bounds.Height;
-                        this.ClientWidth = Window.Current.Bounds.Width;
-                        this.ClientHeight = Window.Current.Bounds.Height - CoreApplication.GetCurrentView().TitleBar.Height;
-                        this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
-                        this.UserIntaractionMode = (UserInteractionMode)((int)Windows.UI.ViewManagement.UIViewSettings.GetForCurrentView().UserInteractionMode);
-                    }
-                    else
-                    {
-                        this.WindowWidth = Window.Current.Bounds.Width;
-                        this.WindowHeight = Window.Current.Bounds.Height;
-                        this.ClientWidth = Window.Current.Bounds.Width;
-                        this.ClientHeight = Window.Current.Bounds.Height;
-                        this._TitleBarHeight = 0.0;
-                        this.UserIntaractionMode = (UserInteractionMode)((int)Windows.UI.ViewManagement.UIViewSettings.GetForCurrentView().UserInteractionMode);
-                    }
-                });
+                     h => (sender, e) => h(e),
+                     h => Window.Current.SizeChanged += h,
+                     h => Window.Current.SizeChanged -= h).Subscribe(x =>
+                     {
+                         this.WindowWidth = Window.Current.Bounds.Width;
+                         this.WindowHeight = Window.Current.Bounds.Height;
+                         this.ClientWidth = Window.Current.Bounds.Width;
+                         this.ClientHeight = Window.Current.Bounds.Height;
+                         this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
+                         this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
+                     });
             }
             else if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
             {
@@ -75,7 +56,7 @@ namespace Flantter.MilkyWay.Views.Util
                 this.ClientWidth = Window.Current.Bounds.Width;
                 this.ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
                 this.TitleBarHeight = statusBarHeight;
-                this.UserIntaractionMode = UserInteractionMode.Touch;
+                this.UserInteractionMode = UserInteractionMode.Touch;
 
                 Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
                     h => (sender, e) => h(e),
@@ -87,7 +68,7 @@ namespace Flantter.MilkyWay.Views.Util
                         this.ClientWidth = Window.Current.Bounds.Width;
                         this.ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
                         this.TitleBarHeight = statusBarHeight;
-                        this.UserIntaractionMode = UserInteractionMode.Touch;
+                        this.UserInteractionMode = UserInteractionMode.Touch;
                     });
             }
         }
@@ -127,11 +108,11 @@ namespace Flantter.MilkyWay.Views.Util
             set { this.SetProperty(ref this._TitleBarHeight, value); }
         }
 
-        private UserInteractionMode _UserIntaractionMode;
-        public UserInteractionMode UserIntaractionMode
+        private UserInteractionMode _UserInteractionMode;
+        public UserInteractionMode UserInteractionMode
         {
-            get { return this._UserIntaractionMode; }
-            set { this.SetProperty(ref this._UserIntaractionMode, value); }
+            get { return this._UserInteractionMode; }
+            set { this.SetProperty(ref this._UserInteractionMode, value); }
         }
     }
 

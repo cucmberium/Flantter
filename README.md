@@ -17,7 +17,7 @@ FlantterはWindowsで使用できるストアアプリのツイッタークラ�
 
 * [CoreTweet](https://github.com/CoreTweet/CoreTweet)
 * [CoreTweetSupplement](https://github.com/CoreTweet/CoreTweetSupplement)
-* [Azyobuzi.TwitterUrlExtractor](https://github.com/azyobuzin/Azyobuzi.TwitterUrlExtractor)
+* [ToriatamaText](https://github.com/azyobuzin/ToriatamaText)
 * [The Prism Mvvm library](https://github.com/PrismLibrary/Prism)
 * [ReactiveProperty](https://github.com/runceel/ReactiveProperty)
 * [NotificationsExtensions](https://github.com/WindowsNotifications/NotificationsExtensions)

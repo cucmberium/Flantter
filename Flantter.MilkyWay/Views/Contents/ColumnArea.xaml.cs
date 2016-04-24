@@ -78,6 +78,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
                 extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
                 extendedCanvas.SizeChanged += ExtendedCanvas_SizeChanged;
+
+                this.ColumnArea_UpdateView();
             };
 
             this.LayoutUpdated += (s, e) =>

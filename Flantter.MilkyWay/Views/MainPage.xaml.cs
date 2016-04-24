@@ -50,7 +50,7 @@ namespace Flantter.MilkyWay.Views
             var titleBarVisiblity = false;
             if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                 titleBarVisiblity = false;
-            else if (WindowSizeHelper.Instance.UserIntaractionMode == Util.UserInteractionMode.Mouse)
+            else if (WindowSizeHelper.Instance.UserInteractionMode == Util.UserInteractionMode.Mouse)
                 titleBarVisiblity = true;
             else
                 titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
@@ -65,7 +65,7 @@ namespace Flantter.MilkyWay.Views
                 var titleBarVisiblity = false;
                 if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                     titleBarVisiblity = false;
-                else if (WindowSizeHelper.Instance.UserIntaractionMode == Util.UserInteractionMode.Mouse)
+                else if (WindowSizeHelper.Instance.UserInteractionMode == Util.UserInteractionMode.Mouse)
                     titleBarVisiblity = true;
                 else
                     titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
@@ -81,7 +81,7 @@ namespace Flantter.MilkyWay.Views
                 var titleBarVisiblity = false;
                 if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                     titleBarVisiblity = false;
-                else if (WindowSizeHelper.Instance.UserIntaractionMode == Util.UserInteractionMode.Mouse)
+                else if (WindowSizeHelper.Instance.UserInteractionMode == Util.UserInteractionMode.Mouse)
                     titleBarVisiblity = true;
                 else
                     titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
@@ -95,7 +95,7 @@ namespace Flantter.MilkyWay.Views
             var titleBarVisiblity = false;
             if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                 titleBarVisiblity = false;
-            else if (WindowSizeHelper.Instance.UserIntaractionMode == Util.UserInteractionMode.Mouse)
+            else if (WindowSizeHelper.Instance.UserInteractionMode == Util.UserInteractionMode.Mouse)
                 titleBarVisiblity = true;
             else
                 titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
@@ -109,6 +109,7 @@ namespace Flantter.MilkyWay.Views
 
             if (isVisible)
             {
+                applicationView.TitleBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
                 applicationView.TitleBar.ButtonBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
                 applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
                 applicationView.TitleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
@@ -116,6 +117,7 @@ namespace Flantter.MilkyWay.Views
             }
             else
             {
+                applicationView.TitleBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
                 applicationView.TitleBar.ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonBackgroundBrush"]).Color;
                 applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
                 applicationView.TitleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveBackgroundBrush"]).Color;

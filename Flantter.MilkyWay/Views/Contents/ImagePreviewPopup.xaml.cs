@@ -1,5 +1,6 @@
 ﻿using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Services;
 using Flantter.MilkyWay.Views.Util;
 using NotificationsExtensions.Toasts;
 using System;
@@ -47,17 +48,17 @@ namespace Flantter.MilkyWay.Views.Contents
 
             Window.Current.SizeChanged += ImagePreviewPopup_SizeChanged;
 
-            this.Width = WindowSizeHelper.Instance.ClientWidth;
-            this.Height = WindowSizeHelper.Instance.ClientHeight;
-
             this.ImagePreview = new Popup
             {
                 Child = this,
                 IsLightDismissEnabled = false,
                 Opacity = 1
             };
+            
+            this.Width = WindowSizeHelper.Instance.ClientWidth;
+            this.Height = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
 
-            Canvas.SetTop(this.ImagePreview, WindowSizeHelper.Instance.TitleBarHeight);
+            Canvas.SetTop(this.ImagePreview, LayoutHelper.Instance.TitleBarHeight.Value);
             Canvas.SetLeft(this.ImagePreview, 0);
 
             //this.ImagePreviewImage.Source = new BitmapImage(new Uri("http://localhost"));
@@ -70,11 +71,11 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private void ImagePreviewPopup_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            Canvas.SetTop(this.ImagePreview, WindowSizeHelper.Instance.TitleBarHeight);
+            Canvas.SetTop(this.ImagePreview, LayoutHelper.Instance.TitleBarHeight.Value);
             Canvas.SetLeft(this.ImagePreview, 0);
 
             this.Width = WindowSizeHelper.Instance.ClientWidth;
-            this.Height = WindowSizeHelper.Instance.ClientHeight;
+            this.Height = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
 
             this.ImagePreviewCanvas.Clip = new RectangleGeometry()
             {
@@ -192,7 +193,7 @@ namespace Flantter.MilkyWay.Views.Contents
 
         public void Show()
         {
-            Canvas.SetTop(this.ImagePreview, WindowSizeHelper.Instance.TitleBarHeight);
+            Canvas.SetTop(this.ImagePreview, LayoutHelper.Instance.TitleBarHeight.Value);
             Canvas.SetLeft(this.ImagePreview, 0);
 
             this.ImagePreviewCanvas.Clip = new RectangleGeometry()
@@ -317,7 +318,7 @@ namespace Flantter.MilkyWay.Views.Contents
             transform.TranslateY += e.Delta.Translation.Y;
 
             transform.TranslateX = transform.TranslateX + (e.Position.X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) * (1 - e.Delta.Scale);
-            transform.TranslateY = transform.TranslateY + (e.Position.Y - (Canvas.GetTop(element) + WindowSizeHelper.Instance.TitleBarHeight + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - e.Delta.Scale);
+            transform.TranslateY = transform.TranslateY + (e.Position.Y - (Canvas.GetTop(element) + LayoutHelper.Instance.TitleBarHeight.Value + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - e.Delta.Scale);
             
             element.RenderTransform = transform;
 
@@ -381,7 +382,7 @@ namespace Flantter.MilkyWay.Views.Contents
             Storyboard.SetTargetProperty(scaleAnimY, "(UIElement.RenderTransform).(CompositeTransform.ScaleY)");
 
             var translateAnimXVal = transform.TranslateX + (e.GetPosition(Window.Current.Content).X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) * (1 - scale / transform.ScaleX);
-            var translateAnimYVal = transform.TranslateY + (e.GetPosition(Window.Current.Content).Y - (Canvas.GetTop(element) + WindowSizeHelper.Instance.TitleBarHeight + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - scale / transform.ScaleY);
+            var translateAnimYVal = transform.TranslateY + (e.GetPosition(Window.Current.Content).Y - (Canvas.GetTop(element) + LayoutHelper.Instance.TitleBarHeight.Value + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - scale / transform.ScaleY);
             if (scale <= 1.0)
             {
                 translateAnimYVal = 0.0;

@@ -32,18 +32,27 @@ namespace Flantter.MilkyWay.Views.Util
                 this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
                 this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
 
+                Observable.CombineLatest<WindowSizeChangedEventArgs, CoreApplicationViewTitleBar, bool>(
                 Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
-                     h => (sender, e) => h(e),
-                     h => Window.Current.SizeChanged += h,
-                     h => Window.Current.SizeChanged -= h).Subscribe(x =>
-                     {
-                         this.WindowWidth = Window.Current.Bounds.Width;
-                         this.WindowHeight = Window.Current.Bounds.Height;
-                         this.ClientWidth = Window.Current.Bounds.Width;
-                         this.ClientHeight = Window.Current.Bounds.Height;
-                         this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
-                         this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
-                     });
+                    h => (sender, e) => h(e),
+                    h => Window.Current.SizeChanged += h,
+                    h => Window.Current.SizeChanged -= h),
+                Observable.FromEvent<TypedEventHandler<CoreApplicationViewTitleBar, object>, CoreApplicationViewTitleBar>(
+                    h => (sender, e) => h(sender),
+                    h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += h,
+                    h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged -= h),
+                (size, titleBar) => titleBar.IsVisible).Subscribe(x =>
+                {
+                    if (x)
+                    {
+                        this.WindowWidth = Window.Current.Bounds.Width;
+                        this.WindowHeight = Window.Current.Bounds.Height;
+                        this.ClientWidth = Window.Current.Bounds.Width;
+                        this.ClientHeight = Window.Current.Bounds.Height;
+                        this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
+                        this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
+                    }
+                });
             }
             else if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
             {

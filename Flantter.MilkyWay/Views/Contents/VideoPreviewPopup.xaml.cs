@@ -1,5 +1,7 @@
 ﻿using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Twitter.Video;
+using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Services;
 using Flantter.MilkyWay.Views.Util;
 using System;
 using System.Collections.Generic;
@@ -108,7 +110,7 @@ namespace Flantter.MilkyWay.Views.Contents
                 if (_IsBottomBarOpen)
                     bottomMargin = (_BottomAppBar.Content as FrameworkElement).ActualHeight;
 
-                Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.TitleBarHeight + WindowSizeHelper.Instance.ClientHeight - videoHeight - bottomMargin);
+                Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.ClientHeight - videoHeight - bottomMargin);
                 Canvas.SetLeft(this.VideoPreview, WindowSizeHelper.Instance.ClientWidth - videoWidth - rightMargin);
 
                 this.Width = videoWidth;
@@ -119,11 +121,11 @@ namespace Flantter.MilkyWay.Views.Contents
             }
             else
             {
-                Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.TitleBarHeight);
+                Canvas.SetTop(this.VideoPreview, LayoutHelper.Instance.TitleBarHeight.Value);
                 Canvas.SetLeft(this.VideoPreview, 0);
 
                 this.Width = WindowSizeHelper.Instance.ClientWidth;
-                this.Height = WindowSizeHelper.Instance.ClientHeight;
+                this.Height = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
 
                 var videoWidth = WindowSizeHelper.Instance.ClientWidth;
                 if (WindowSizeHelper.Instance.ClientWidth - 20 > 960)

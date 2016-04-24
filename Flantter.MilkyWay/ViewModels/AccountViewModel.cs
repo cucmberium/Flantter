@@ -9,6 +9,7 @@ using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -585,6 +586,103 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserFollowInfo", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.RetweetStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
+            {
+                var items = x as IEnumerable;
+                if (items == null)
+                    return;
+
+                var statusViewModels = items.Cast<StatusViewModel>();
+                if (statusViewModels.Count() == 0)
+                    return;
+
+                if (SettingService.Setting.RetweetConfirmation)
+                {
+                    var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_RetweetFavorite"), Title = "Confirmation" };
+                    await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                    if (!msgNotification.Result)
+                        return;
+                }
+
+                foreach (var statusViewModel in statusViewModels)
+                {
+                    if (!statusViewModel.Model.IsRetweeted)
+                        await this.Model.Retweet(statusViewModel.Model);
+
+                    statusViewModel.IsRetweeted = statusViewModel.Model.IsRetweeted;
+                    statusViewModel.OnPropertyChanged("IsRetweeted");
+
+                    statusViewModel.IsMyRetweet = (statusViewModel.Model.RetweetInformation != null && statusViewModel.Model.RetweetInformation.User.Id == this.Model.UserId) || statusViewModel.Model.IsRetweeted;
+                    statusViewModel.OnPropertyChanged("IsMyRetweet");
+
+                    if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                        statusViewModel.FavoriteTriangleIconVisibility = true;
+                    else
+                        statusViewModel.FavoriteTriangleIconVisibility = false;
+                    if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
+                        statusViewModel.RetweetTriangleIconVisibility = true;
+                    else
+                        statusViewModel.RetweetTriangleIconVisibility = false;
+                    if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                        statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
+                    else
+                        statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
+
+                    statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
+                    statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
+                    statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
+                }
+
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.FavoriteStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
+            {
+                var items = x as IEnumerable;
+                if (items == null)
+                    return;
+
+                var statusViewModels = items.Cast<StatusViewModel>();
+                if (statusViewModels.Count() == 0)
+                    return;
+
+                if (SettingService.Setting.FavoriteConfirmation)
+                {
+                    var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_Favorite"), Title = "Confirmation" };
+                    await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                    if (!msgNotification.Result)
+                        return;
+                }
+
+                foreach (var statusViewModel in statusViewModels)
+                {
+                    if (!statusViewModel.Model.IsFavorited)
+                        await this.Model.Favorite(statusViewModel.Model);
+
+                    statusViewModel.IsFavorited = statusViewModel.Model.IsFavorited;
+                    statusViewModel.OnPropertyChanged("IsFavorited");
+
+                    if (!statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                        statusViewModel.FavoriteTriangleIconVisibility = true;
+                    else
+                        statusViewModel.FavoriteTriangleIconVisibility = false;
+                    if (statusViewModel.Model.IsRetweeted && !statusViewModel.Model.IsFavorited)
+                        statusViewModel.RetweetTriangleIconVisibility = true;
+                    else
+                        statusViewModel.RetweetTriangleIconVisibility = false;
+                    if (statusViewModel.Model.IsRetweeted && statusViewModel.Model.IsFavorited)
+                        statusViewModel.RetweetFavoriteTriangleIconVisibility = true;
+                    else
+                        statusViewModel.RetweetFavoriteTriangleIconVisibility = false;
+
+                    statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
+                    statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
+                    statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
+                }
+
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowLeftSwipeMenuCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>

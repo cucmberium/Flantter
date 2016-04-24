@@ -131,8 +131,8 @@ namespace Flantter.MilkyWay.Models
                     }
                 }).AddTo(this.Disposable);
 
-            this.RefreshProfile();
             this.RefreshMuteIds();
+            this.RefreshProfile();
         }
         #endregion
 

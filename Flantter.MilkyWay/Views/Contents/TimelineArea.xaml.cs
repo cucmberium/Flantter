@@ -31,6 +31,18 @@ namespace Flantter.MilkyWay.Views.Contents
         public TimelineArea()
         {
             this.InitializeComponent();
+            this.PointerReleased += TimelineArea_PointerReleased;
+            this.PointerPressed += TimelineArea_PointerPressed;
+        }
+
+        private void TimelineArea_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void TimelineArea_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

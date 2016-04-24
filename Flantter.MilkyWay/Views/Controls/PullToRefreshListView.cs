@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,8 +28,10 @@ namespace Flantter.MilkyWay.Views.Controls
             _RenderTimer = new DispatcherTimer();
             _RenderTimer.Interval = TimeSpan.FromMilliseconds(0);
             _RenderTimer.Tick += RenderTimer_Tick;
-        }
 
+            this.SelectionChanged += (s, e) => this.SelectedItemsList = this.SelectedItems;
+        }
+        
         #region Event
         public event EventHandler RefreshContent;
         public event EventHandler MoreContent;
@@ -44,7 +48,10 @@ namespace Flantter.MilkyWay.Views.Controls
             DependencyProperty.Register("ArrowColor", typeof(Brush), typeof(PullToRefreshListView), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
         private static readonly DependencyProperty IndicatorForegroundBrushProperty =
             DependencyProperty.Register("IndicatorForegroundBrush", typeof(Brush), typeof(PullToRefreshListView), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+        public static readonly DependencyProperty SelectedItemsListProperty =
+            DependencyProperty.Register("SelectedItemsList", typeof(IEnumerable), typeof(PullToRefreshListView), new PropertyMetadata(null));
         #endregion
+        
 
         #region Property
         public string PullPartTemplate
@@ -113,6 +120,13 @@ namespace Flantter.MilkyWay.Views.Controls
             {
                 base.SetValue(PullToRefreshListView.IndicatorForegroundBrushProperty, value);
             }
+        }
+
+        
+        public IEnumerable SelectedItemsList
+        {
+            get { return (IEnumerable)GetValue(SelectedItemsListProperty); }
+            set { SetValue(SelectedItemsListProperty, value); }
         }
         #endregion
 
@@ -271,18 +285,12 @@ namespace Flantter.MilkyWay.Views.Controls
             _IsReadyToRefresh = false;
             VisualStateManager.GoToState(this, "Normal", true);
 
-            if (RefreshContent != null)
-            {
-                RefreshContent(this, EventArgs.Empty);
-            }
+            RefreshContent?.Invoke(this, EventArgs.Empty);
         }
 
         private void InvokeMore()
         {
-            if (MoreContent != null)
-            {
-                MoreContent(this, EventArgs.Empty);
-            }
+            MoreContent?.Invoke(this, EventArgs.Empty);
         }
         #endregion
 

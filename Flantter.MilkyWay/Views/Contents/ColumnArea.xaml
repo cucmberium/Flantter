@@ -11,6 +11,7 @@
     xmlns:common="using:Flantter.MilkyWay.Common"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     mc:Ignorable="d"
     d:DesignHeight="720"
     d:DesignWidth="400">
@@ -26,7 +27,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewModels:ColumnViewModel">
-                        <Grid Background="{StaticResource ColumnViewBackgroundBrush}" Width="{x:Bind Width.Value, Mode=OneWay}" Height="{x:Bind Height.Value, Mode=OneWay}">
+                        <Grid Background="{StaticResource ColumnViewBackgroundBrush}" Width="{x:Bind Width.Value, Mode=OneWay}" Height="{x:Bind Height.Value, Mode=OneWay}" behaviors:TweetMultipulSelectBehavior.IsMultipulSelectOpened="{x:Bind IsMultipulSelectOpened.Value, Mode=OneWay}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
@@ -64,6 +65,7 @@
                                     <Button.Flyout>
                                         <MenuFlyout>
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_Refresh" Text="&#xE149; 更新" FontFamily="Segoe UI Symbol" Command="{x:Bind RefreshCommand}"/>
+                                            <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_MultipulSelect" Visibility="{x:Bind IsEnabledMultipulSelect.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE15C; 複数選択" FontFamily="Segoe UI Symbol" Command="{x:Bind OpenStatusMultipulSelectCommand}"/>
                                             <MenuFlyoutSeparator/>
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol" Command="{x:Bind Notice.ShowColumnSettingCommand}" CommandParameter="{x:Bind Model.ColumnSetting, Mode=OneWay}"/>
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol" Command="{x:Bind Notice.AddFilterColumnCommand}"/>
@@ -76,11 +78,38 @@
                                 </Button>
                             </Grid>
 
-                            <StackPanel x:Name="TweetMultipulActionStackPanel" Grid.Row="2" Visibility="Collapsed" Height="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
-                                <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare"/>
-                                <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite"/>
-                                <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message"/>
-                                <AppBarButton Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel"/>
+                            <StackPanel x:Name="TweetMultipulActionStackPanel" x:DeferLoadStrategy="Lazy" Grid.Row="2" Visibility="Collapsed" Height="0" HorizontalAlignment="Center" Orientation="Horizontal">
+                                <StackPanel.Resources>
+                                    <Storyboard x:Name="TweetMultipulActionStackPanelOpenAnimation">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetMultipulActionStackPanel" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="TweetMultipulActionStackPanel">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="75">
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <SineEase EasingMode="EaseInOut"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <Storyboard x:Name="TweetMultipulActionStackPanelCloseAnimation">
+                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="TweetMultipulActionStackPanel">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0">
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <SineEase EasingMode="EaseInOut"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetMultipulActionStackPanel" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </StackPanel.Resources>
+
+                                <AppBarButton Style="{StaticResource ExtendedAppBarButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare" Command="{x:Bind Notice.RetweetStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
+                                <AppBarButton Style="{StaticResource ExtendedAppBarButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite" Command="{x:Bind Notice.FavoriteStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
+                                <AppBarButton Style="{StaticResource ExtendedAppBarButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message" Command="{x:Bind Notice.ReplyToStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}" />
+                                <AppBarButton Style="{StaticResource ExtendedAppBarButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel" Command="{x:Bind CloseStatusMultipulSelectCommand}"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>

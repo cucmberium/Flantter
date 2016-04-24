@@ -22,6 +22,8 @@ using System.Reactive.Concurrency;
 using Flantter.MilkyWay.ViewModels.Services;
 using System.Reactive.Subjects;
 using System.Reactive.Disposables;
+using Windows.UI.Xaml.Input;
+using System.Collections;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -43,6 +45,7 @@ namespace Flantter.MilkyWay.ViewModels
 		public ReactiveProperty<Symbol> StreamingSymbol { get; private set; }
         public ReactiveProperty<bool> IsEnabledStreaming { get; private set; }
         public ReactiveProperty<bool> Updating { get; private set; }
+        public ReactiveProperty<bool> IsEnabledMultipulSelect { get; private set; }
 
         public ReadOnlyReactiveCollection<object> Tweets { get; private set; }
 
@@ -55,6 +58,10 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> IsScrollLockEnabled { get; private set; }
 
         public ReactiveProperty<bool> CanDeleteColumn { get; private set; }
+        
+        public ReactiveProperty<bool> IsMultipulSelectOpened { get; private set; }
+        public ReactiveProperty<ListViewSelectionMode> ListViewSelectionMode { get; private set; }
+        public ReactiveProperty<IEnumerable> SelectedItemsList { get; private set; }
 
         public ReactiveCommand StreamingCommand { get; private set; }
 
@@ -65,6 +72,10 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand RefreshCommand { get; private set; }
 
         public ReactiveCommand TweetDoubleTappedActionCommand { get; private set; }
+
+        public ReactiveCommand OpenStatusMultipulSelectCommand { get; private set; }
+
+        public ReactiveCommand CloseStatusMultipulSelectCommand { get; private set; }
 
 
         #region Constructor
@@ -122,6 +133,11 @@ namespace Flantter.MilkyWay.ViewModels
             }).ToReactiveProperty().AddTo(this.Disposable);
             this.Updating = column.ObserveProperty(x => x.Updating).ToReactiveProperty().AddTo(this.Disposable);
             this.CanDeleteColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Filter || x == SettingSupport.ColumnTypeEnum.List || x == SettingSupport.ColumnTypeEnum.Search || x == SettingSupport.ColumnTypeEnum.UserTimeline).ToReactiveProperty();
+            this.IsEnabledMultipulSelect = column.ObserveProperty(x => x.Action).Select(x => x != SettingSupport.ColumnTypeEnum.Events && x != SettingSupport.ColumnTypeEnum.DirectMessages).ToReactiveProperty();
+
+            this.IsMultipulSelectOpened = new ReactiveProperty<bool>();
+            this.ListViewSelectionMode = new ReactiveProperty<ListViewSelectionMode>(Windows.UI.Xaml.Controls.ListViewSelectionMode.Single);
+            this.SelectedItemsList = new ReactiveProperty<IEnumerable>();
 
             this.SelectedIndex = column.ToReactivePropertyAsSynchronized(x => x.SelectedIndex).AddTo(this.Disposable);
 
@@ -231,6 +247,21 @@ namespace Flantter.MilkyWay.ViewModels
                 }
 
             }).AddTo(this.Disposable);
+
+            this.OpenStatusMultipulSelectCommand = new ReactiveCommand().AddTo(this.Disposable);
+            this.OpenStatusMultipulSelectCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                this.ListViewSelectionMode.Value = Windows.UI.Xaml.Controls.ListViewSelectionMode.Multiple;
+                this.IsMultipulSelectOpened.Value = true;
+            }).AddTo(this.Disposable);
+
+            this.CloseStatusMultipulSelectCommand = new ReactiveCommand().AddTo(this.Disposable);
+            this.CloseStatusMultipulSelectCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                this.IsMultipulSelectOpened.Value = false;
+                this.ListViewSelectionMode.Value = Windows.UI.Xaml.Controls.ListViewSelectionMode.Single;
+            }).AddTo(this.Disposable);
+            
 
             this.Height = LayoutHelper.Instance.ColumnHeight;
 

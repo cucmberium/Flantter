@@ -24,6 +24,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.RetweetFavoriteCommand = new ReactiveCommand();
             this.UrlClickCommand = new ReactiveCommand();
             this.ReplyToAllCommand = new ReactiveCommand();
+            this.ReplyToStatusesCommand = new ReactiveCommand();
             this.SendDirectMessageCommand = new ReactiveCommand();
             this.UrlQuoteRetweetCommand = new ReactiveCommand();
             this.CopyTweetCommand = new ReactiveCommand();
@@ -40,6 +41,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.ShowListStatusesCommand = new ReactiveCommand();
             this.ShowRetweetsOfMeCommand = new ReactiveCommand();
             this.ShowUserFollowInfoCommand = new ReactiveCommand();
+            this.RetweetStatusesCommand = new ReactiveCommand();
+            this.FavoriteStatusesCommand = new ReactiveCommand();
 
             this.AddListColumnCommand = new ReactiveCommand();
             this.AddFilterColumnCommand = new ReactiveCommand();
@@ -115,6 +118,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand RetweetFavoriteCommand { get; private set; }
         public ReactiveCommand UrlClickCommand { get; private set; }
         public ReactiveCommand ReplyToAllCommand { get; private set; }
+        public ReactiveCommand ReplyToStatusesCommand { get; private set; }
         public ReactiveCommand SendDirectMessageCommand { get; private set; }
         public ReactiveCommand UrlQuoteRetweetCommand { get; private set; }
         public ReactiveCommand CopyTweetCommand { get; private set; }
@@ -131,7 +135,10 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowListStatusesCommand { get; private set; }
         public ReactiveCommand ShowRetweetsOfMeCommand { get; private set; }
         public ReactiveCommand ShowUserFollowInfoCommand { get; private set; }
-        
+        public ReactiveCommand RetweetStatusesCommand { get; private set; }
+        public ReactiveCommand FavoriteStatusesCommand { get; private set; }
+
+
         public ReactiveCommand AddListColumnCommand { get; private set; }
         public ReactiveCommand AddFilterColumnCommand { get; private set; }
 

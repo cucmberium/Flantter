@@ -859,4 +859,7 @@
   <data name="SettingsFlyout_Settings_Column_Save_TextBlock.Text" xml:space="preserve">
     <value>保存</value>
   </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_MultipulSelect.Text" xml:space="preserve">
+    <value>    複数選択</value>
+  </data>
 </root>

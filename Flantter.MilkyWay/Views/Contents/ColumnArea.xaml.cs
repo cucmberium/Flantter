@@ -17,6 +17,7 @@ using Flantter.MilkyWay.Views.Controls;
 using System.Threading.Tasks;
 using Flantter.MilkyWay.ViewModels;
 using Flantter.MilkyWay.Views.Util;
+using Windows.UI.Xaml.Media.Animation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -31,13 +32,13 @@ namespace Flantter.MilkyWay.Views.Contents
         }
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(AccountViewModel), typeof(ColumnArea), null);
+        
 
         public int SelectedIndex
         {
             get { return (int)GetValue(SelectedIndexProperty); }
             set { SetValue(SelectedIndexProperty, value); }
         }
-
         public static readonly DependencyProperty SelectedIndexProperty =
             DependencyProperty.Register("SelectedIndex", typeof(int), typeof(ColumnArea), new PropertyMetadata(0, SelectedIndex_Changed));
 

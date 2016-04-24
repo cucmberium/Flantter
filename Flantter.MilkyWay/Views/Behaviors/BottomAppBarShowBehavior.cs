@@ -28,8 +28,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
         public void Attach(DependencyObject AssociatedObject)
         {
             this.AssociatedObject = AssociatedObject;
-            Window.Current.CoreWindow.PointerPressed += OnCoreWindowPointerPressed;
-            Window.Current.CoreWindow.PointerReleased += OnCoreWindowPointerReleased;
+            ((UIElement)this.AssociatedObject).PointerPressed += BottomAppBarShowBehavior_PointerPressed; ;
+            ((UIElement)this.AssociatedObject).PointerReleased += BottomAppBarShowBehavior_PointerReleased; ;
 
             var page = this.AssociatedObject as Page;
             if (page == null)
@@ -37,14 +37,15 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             page.Tag = this.BottomAppBar;
         }
-        
+
         private bool _rightMouseButtonPressed;
-        private void OnCoreWindowPointerReleased(CoreWindow sender, PointerEventArgs args)
+        private void BottomAppBarShowBehavior_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (args.CurrentPoint.PointerDevice.PointerDeviceType == PointerDeviceType.Mouse &&
-                !args.CurrentPoint.Properties.IsLeftButtonPressed &&
-                !args.CurrentPoint.Properties.IsMiddleButtonPressed &&
-                _rightMouseButtonPressed)
+            if (e.GetCurrentPoint(((UIElement)this.AssociatedObject)).PointerDevice.PointerDeviceType == PointerDeviceType.Mouse &&
+                !e.GetCurrentPoint(((UIElement)this.AssociatedObject)).Properties.IsLeftButtonPressed &&
+                !e.GetCurrentPoint(((UIElement)this.AssociatedObject)).Properties.IsMiddleButtonPressed &&
+                _rightMouseButtonPressed &&
+                !e.Handled)
             {
                 if (!appBarIsOpenChanging)
                 {
@@ -54,24 +55,26 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         this.IsOpen = true;
                 }
 
-                args.Handled = true;
+                e.Handled = true;
                 _rightMouseButtonPressed = false;
             }
-
         }
 
-        private void OnCoreWindowPointerPressed(CoreWindow sender, PointerEventArgs args)
+        private void BottomAppBarShowBehavior_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (args.CurrentPoint.PointerDevice.PointerDeviceType == PointerDeviceType.Mouse)
+            if (e.Handled)
+                return;
+
+            if (e.GetCurrentPoint(((UIElement)this.AssociatedObject)).PointerDevice.PointerDeviceType == PointerDeviceType.Mouse)
             {
                 _rightMouseButtonPressed =
-                    args.CurrentPoint.Properties.IsRightButtonPressed &&
-                    !args.CurrentPoint.Properties.IsLeftButtonPressed &&
-                    !args.CurrentPoint.Properties.IsMiddleButtonPressed;
+                    e.GetCurrentPoint(((UIElement)this.AssociatedObject)).Properties.IsRightButtonPressed &&
+                    !e.GetCurrentPoint(((UIElement)this.AssociatedObject)).Properties.IsLeftButtonPressed &&
+                    !e.GetCurrentPoint(((UIElement)this.AssociatedObject)).Properties.IsMiddleButtonPressed;
 
                 if (_rightMouseButtonPressed)
                 {
-                    args.Handled = true;
+                    e.Handled = true;
                 }
             }
         }
@@ -143,6 +146,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
         {
             appBarIsOpenChanging = false;
             this.IsOpen = false;
+
+            var page = this.AssociatedObject as Page;
+            if (page == null)
+                return;
+
+            page.BottomAppBar = null;
         }
 
         public bool IsOpen
@@ -171,7 +180,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             {
                 page.BottomAppBar = behavior.BottomAppBar;
                 await Task.Delay(10);
-                behavior.BottomAppBar.IsOpen = true;
+                page.BottomAppBar.IsOpen = true;
             }
             else
             {

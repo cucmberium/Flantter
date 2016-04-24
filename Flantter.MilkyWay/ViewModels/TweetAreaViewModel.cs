@@ -17,6 +17,7 @@ using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using System.Reactive.Concurrency;
 using Flantter.MilkyWay.Setting;
+using System.Collections;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -252,6 +253,51 @@ namespace Flantter.MilkyWay.ViewModels
                     userList.Add(user.ScreenName);
                 }
 
+                Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                await Task.Delay(50);
+
+                this.Model.SelectionStart = this.Model.Text.Length;
+            });
+
+            Services.Notice.Instance.ReplyToStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var items = x as IEnumerable;
+                if (items == null)
+                    return;
+
+                var statusViewModels = items.Cast<StatusViewModel>();
+                if (statusViewModels.Count() == 0)
+                    return;
+                
+                var statusViewModel = statusViewModels.First();
+
+                this.ReplyOrQuotedStatus.Value = statusViewModels.First();
+
+                this.Model.IsQuotedRetweet = false;
+                this.Model.IsReply = true;
+                this.Model.ReplyOrQuotedStatus = statusViewModel.Model;
+
+                var userList = new List<string>();
+                foreach (var sVM in statusViewModels)
+                {
+                    if (userList.Contains(sVM.ScreenName) || sVM.ScreenName == this.SelectedAccount.Value.ScreenName.Value)
+                        continue;
+
+                    userList.Add(sVM.Model.User.ScreenName);
+
+                    foreach (var user in sVM.Model.Entities.UserMentions)
+                    {
+                        if (userList.Contains(user.ScreenName) || user.ScreenName == this.SelectedAccount.Value.ScreenName.Value)
+                            continue;
+
+                        this.Model.Text += "@" + user.ScreenName + " ";
+                        userList.Add(user.ScreenName);
+                    }
+                }
+
+                this.Model.Text = string.Join(" ", userList.Select(screenName => "@" + screenName)) + " ";
+                
                 Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
 
                 await Task.Delay(50);

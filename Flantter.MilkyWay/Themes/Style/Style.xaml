@@ -4352,7 +4352,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    
     <Style x:Key="PivotStyleDynamicHeader" TargetType="Pivot">
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Padding" Value="0"/>

@@ -65,6 +65,7 @@ namespace Flantter.MilkyWay.Views.Contents
             {
                 this.ColumnArea_UpdateView();
             };
+
             this.Loaded += (s, e) =>
             {
                 var scrollViewer = this.ColumnArea_ColumnList.GetVisualChild<ScrollViewer>();
@@ -98,6 +99,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
                 extendedCanvas = this.ColumnArea_ColumnList.GetVisualChild<ExtendedCanvas>();
                 extendedCanvas.SizeChanged += ExtendedCanvas_SizeChanged;
+
+                this.ColumnArea_UpdateView();
             };
         }
 

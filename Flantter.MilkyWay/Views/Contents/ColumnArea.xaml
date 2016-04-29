@@ -18,7 +18,7 @@
 
     <SemanticZoom x:Name="ColumnArea_SemanticZoom" IsZoomOutButtonEnabled="False" IsZoomedInViewActive="{x:Bind ViewModel.IsZoomedInViewActive.Value, Mode=TwoWay}">
         <SemanticZoom.ZoomedInView>
-            <contents:ColumnAreaListBox x:Name="ColumnArea_ColumnList" Margin="5,10" Style="{StaticResource ExtendedListBox}" Background="Transparent" ItemsSource="{x:Bind ViewModel.Columns}" ItemContainerStyle="{StaticResource ColumnListBoxItemStyle}">
+            <contents:ColumnAreaListBox x:Name="ColumnArea_ColumnList" Margin="5,10" Style="{StaticResource ExtendedListBox}" Background="Transparent" ItemsSource="{x:Bind ViewModel.Columns}" ItemContainerStyle="{StaticResource ColumnListBoxItemStyle}" SelectedIndex="{x:Bind ViewModel.ColumnSelectedIndex.Value, Mode=OneWay}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <!-- 本当はここもx:Bindにしたいけどすると "error WMC9999" が発生する -->

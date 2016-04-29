@@ -53,6 +53,9 @@
         <ListView Grid.Row="1" x:Name="ListStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.ListStatuses}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
             <i:Interaction.Behaviors>
                 <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.ListStatusesIncrementalLoadCommand}" />
+                <core:EventTriggerBehavior EventName="SelectionChanged">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeSelectedTweetCommand}" CommandParameter="{Binding ElementName=ListStatusesListView, Path=SelectedItem, Mode=OneWay}" />
+                </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

@@ -56,7 +56,7 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveCommand DeleteReplyOrQuotedStatusCommand { get; set; }
 
-        public ReactiveCommand ParseClipbordPictureCommand { get; set; }
+        public ReactiveCommand PasteClipbordPictureCommand { get; set; }
 
         public Messenger SuggestionMessenger { get; private set; }
 
@@ -170,8 +170,8 @@ namespace Flantter.MilkyWay.ViewModels
                 await this.TextBoxFocusMessenger.Raise(new Notification());
             });
 
-            this.ParseClipbordPictureCommand = new ReactiveCommand();
-            this.ParseClipbordPictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
+            this.PasteClipbordPictureCommand = new ReactiveCommand();
+            this.PasteClipbordPictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
             {
                 await this.Model.AddPictureFromClipboard();
             });
@@ -194,7 +194,6 @@ namespace Flantter.MilkyWay.ViewModels
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel != null)
                 {
-
                     this.ReplyOrQuotedStatus.Value = statusViewModel;
 
                     this.Model.IsQuotedRetweet = false;

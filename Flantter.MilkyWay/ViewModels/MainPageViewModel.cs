@@ -44,6 +44,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; private set; }
         public ReactiveProperty<bool> TitleBarVisivility { get; private set; }
         public ReactiveProperty<bool> AppBarIsOpen { get; private set; }
+        public ReactiveProperty<object> SelectedTweet { get; private set; }
 
         public TweetAreaViewModel TweetArea { get; private set; }
 
@@ -86,6 +87,8 @@ namespace Flantter.MilkyWay.ViewModels
                     await this.TweetArea.TextBoxFocusMessenger.Raise(new Notification());
                 }
             });
+
+            this.SelectedTweet = new ReactiveProperty<object>();
 
             this.Accounts = this.Model.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
 
@@ -514,6 +517,112 @@ namespace Flantter.MilkyWay.ViewModels
                 this.Model.DeleteAccount(accountSetting);
             });
 
+            Services.Notice.Instance.ChangeSelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var tweet = x;
+                if (!(tweet is StatusViewModel || tweet is DirectMessageViewModel || tweet is EventMessageViewModel))
+                    return;
+
+                this.SelectedTweet.Value = tweet;
+            });
+
+            Services.Notice.Instance.CopySelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                if (this.SelectedTweet.Value == null)
+                    return;
+
+                if (this.SelectedTweet.Value is StatusViewModel)
+                    Services.Notice.Instance.CopyTweetCommand.Execute(((StatusViewModel)this.SelectedTweet.Value).Model);
+                else if (this.SelectedTweet.Value is DirectMessageViewModel)
+                    Services.Notice.Instance.CopyTweetCommand.Execute(((DirectMessageViewModel)this.SelectedTweet.Value).Model);
+            });
+
+            Services.Notice.Instance.ReplyToSelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                if (this.SelectedTweet.Value == null)
+                    return;
+
+                if (this.SelectedTweet.Value is StatusViewModel)
+                {
+                    var tweet = this.SelectedTweet.Value;
+                    Services.Notice.Instance.ReplyCommand.Execute(tweet);
+                }
+                else
+                {
+                    var tweet = this.SelectedTweet.Value;
+                    string screenName = string.Empty;
+                    if (tweet is StatusViewModel)
+                        screenName = ((StatusViewModel)tweet).ScreenName;
+                    else if (tweet is DirectMessageViewModel)
+                        screenName = ((DirectMessageViewModel)tweet).ScreenName;
+                    else if (tweet is EventMessageViewModel)
+                        screenName = ((EventMessageViewModel)tweet).ScreenName;
+
+                    Services.Notice.Instance.ReplyCommand.Execute(screenName);
+                }
+            });
+
+            Services.Notice.Instance.SendDirectMessageToSelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                if (this.SelectedTweet.Value == null)
+                    return;
+
+                var tweet = this.SelectedTweet.Value;
+                string screenName = string.Empty;
+                if (tweet is StatusViewModel)
+                    screenName = ((StatusViewModel)tweet).ScreenName;
+                else if (tweet is DirectMessageViewModel)
+                    screenName = ((DirectMessageViewModel)tweet).ScreenName;
+                else if (tweet is EventMessageViewModel)
+                    screenName = ((EventMessageViewModel)tweet).ScreenName;
+
+                Services.Notice.Instance.SendDirectMessageCommand.Execute(screenName);
+            });
+
+            Services.Notice.Instance.FavoriteSelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var tweet = this.SelectedTweet.Value as StatusViewModel;
+                if (tweet == null)
+                    return;
+
+                Services.Notice.Instance.FavoriteCommand.Execute(tweet);
+            });
+
+            Services.Notice.Instance.RetweetSelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var tweet = this.SelectedTweet.Value as StatusViewModel;
+                if (tweet == null)
+                    return;
+
+                Services.Notice.Instance.RetweetCommand.Execute(tweet);
+            });
+
+            Services.Notice.Instance.ShowUserProfileOfSelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                if (this.SelectedTweet.Value == null)
+                    return;
+
+                var tweet = this.SelectedTweet.Value;
+                string screenName = string.Empty;
+                if (tweet is StatusViewModel)
+                    screenName = ((StatusViewModel)tweet).ScreenName;
+                else if (tweet is DirectMessageViewModel)
+                    screenName = ((DirectMessageViewModel)tweet).ScreenName;
+                else if (tweet is EventMessageViewModel)
+                    screenName = ((EventMessageViewModel)tweet).ScreenName;
+
+                Services.Notice.Instance.ShowUserProfileCommand.Execute(screenName);
+            });
+
+            Services.Notice.Instance.ShowConversationOfSelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var tweet = this.SelectedTweet.Value as StatusViewModel;
+                if (tweet == null)
+                    return;
+
+                Services.Notice.Instance.ShowConversationCommand.Execute(tweet.Model);
+            });
+            
             #endregion
         }
         #endregion

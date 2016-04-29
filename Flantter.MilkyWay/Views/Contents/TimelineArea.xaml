@@ -19,7 +19,7 @@
     <Grid>
         <ProgressBar Foreground="{StaticResource ProgressBarForegroundBrush}" VerticalAlignment="Top" Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.Updating.Value, Mode=OneWay}" />
 
-        <controls:PullToRefreshListView x:Uid="TimelineArea_PullToRefreshListView" DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=TwoWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="{x:Bind ViewModel.ListViewSelectionMode.Value, Mode=OneWay}" PullPartTemplate="Pull to Refresh" ReleasePartTemplate="Release to Refresh" IndicatorForegroundBrush="{StaticResource PullToRefreshCharacterBrush}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}" SelectedItemsList="{x:Bind ViewModel.SelectedItemsList.Value, Mode=TwoWay}" IsMultiSelectCheckBoxEnabled="False">
+        <controls:PullToRefreshListView x:Uid="TimelineArea_PullToRefreshListView" x:Name="TimelineArea_PullToRefreshListView" DataContext="{x:Bind ViewModel, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Tweets}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=TwoWay}" Foreground="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="{x:Bind ViewModel.ListViewSelectionMode.Value, Mode=OneWay}" PullPartTemplate="Pull to Refresh" ReleasePartTemplate="Release to Refresh" IndicatorForegroundBrush="{StaticResource PullToRefreshCharacterBrush}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}" SelectedItemsList="{x:Bind ViewModel.SelectedItemsList.Value, Mode=TwoWay}" IsMultiSelectCheckBoxEnabled="False">
             <i:Interaction.Behaviors>
                 <behaviors:ListViewScrollControlBehavior IsScrollLockEnabled="{x:Bind ViewModel.IsScrollLockEnabled.Value, Mode=OneWay}" IsScrollLockToTopEnabled="{x:Bind ViewModel.IsScrollLockToTopEnabled.Value, Mode=OneWay}" UnreadCount="{x:Bind ViewModel.UnreadCount.Value, Mode=TwoWay}" />
                 <core:EventTriggerBehavior EventName="MoreContent">
@@ -30,6 +30,9 @@
                 </core:EventTriggerBehavior>
                 <core:EventTriggerBehavior EventName="DoubleTapped">
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.TweetDoubleTappedActionCommand}" />
+                </core:EventTriggerBehavior>
+                <core:EventTriggerBehavior EventName="SelectionChanged">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeSelectedTweetCommand}" CommandParameter="{Binding ElementName=TimelineArea_PullToRefreshListView, Path=SelectedItem, Mode=OneWay}" />
                 </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
 

@@ -51,6 +51,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="MainArea_BottomBar.Height" Value="64"/>
+                        <Setter Target="MainArea_TweetButton.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">

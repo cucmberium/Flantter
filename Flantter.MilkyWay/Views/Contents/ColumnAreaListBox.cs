@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
 
 namespace Flantter.MilkyWay.Views.Contents
 {
@@ -30,6 +31,15 @@ namespace Flantter.MilkyWay.Views.Contents
             };
 
             container.SetBinding(Canvas.LeftProperty, binding);
+        }
+
+        protected override void OnKeyDown(KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Left || e.Key == Windows.System.VirtualKey.Right || 
+                e.Key == Windows.System.VirtualKey.Up || e.Key == Windows.System.VirtualKey.Down)
+                e.Handled = true;
+
+            base.OnKeyDown(e);
         }
 
         bool ISemanticZoomInformation.IsActiveView { get; set; }

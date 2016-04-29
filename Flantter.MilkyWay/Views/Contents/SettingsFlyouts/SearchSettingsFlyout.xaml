@@ -357,6 +357,9 @@
                 <ListView Grid.Row="4" x:Name="SearchSettingsFlyoutStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses}"  ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                     <i:Interaction.Behaviors>
                         <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand}" />
+                        <core:EventTriggerBehavior EventName="SelectionChanged">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeSelectedTweetCommand}" CommandParameter="{Binding ElementName=SearchSettingsFlyoutStatusesListView, Path=SelectedItem, Mode=OneWay}" />
+                        </core:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

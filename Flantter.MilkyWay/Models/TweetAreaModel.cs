@@ -266,9 +266,6 @@ namespace Flantter.MilkyWay.Models
             {
                 var clipboardContent = Clipboard.GetContent();
 
-                foreach (var t in clipboardContent.AvailableFormats)
-                    System.Diagnostics.Debug.WriteLine(t);
-
                 if (!clipboardContent.AvailableFormats.Contains("Bitmap"))
                     return;
             }

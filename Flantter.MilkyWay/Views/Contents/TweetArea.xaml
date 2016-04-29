@@ -92,8 +92,8 @@
                         <util:KeyTrigger Key="Enter" Modifiers="Control">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.TweetCommand}"/>
                         </util:KeyTrigger>
-                        <util:KeyTrigger Key="V" Modifiers="Control">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.ParseClipbordPictureCommand}"/>
+                        <util:KeyTrigger Key="V" Modifiers="Control" Handled="False">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.PasteClipbordPictureCommand}"/>
                         </util:KeyTrigger>
                     </behaviors:TextBoxKeyTriggerBehavior>
                     <behaviors:TweetAreaSuggestionBehavior Messenger="{x:Bind ViewModel.SuggestionMessenger}" Command="{x:Bind ViewModel.SuggestSelectedCommand}"/>

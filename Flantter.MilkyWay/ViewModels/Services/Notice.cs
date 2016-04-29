@@ -43,6 +43,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.ShowUserFollowInfoCommand = new ReactiveCommand();
             this.RetweetStatusesCommand = new ReactiveCommand();
             this.FavoriteStatusesCommand = new ReactiveCommand();
+            this.ShowMyListsCommand = new ReactiveCommand();
 
             this.AddListColumnCommand = new ReactiveCommand();
             this.AddFilterColumnCommand = new ReactiveCommand();
@@ -90,6 +91,17 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.DeleteMuteClientCommand = new ReactiveCommand();
             this.UpdateMuteFilterCommand = new ReactiveCommand();
 
+            this.CopySelectedTweetCommand = new ReactiveCommand();
+            this.ReplyToSelectedTweetCommand = new ReactiveCommand();
+            this.SendDirectMessageToSelectedTweetCommand = new ReactiveCommand();
+            this.FavoriteSelectedTweetCommand = new ReactiveCommand();
+            this.RetweetSelectedTweetCommand = new ReactiveCommand();
+            this.ShowUserProfileOfSelectedTweetCommand = new ReactiveCommand();
+            this.ShowConversationOfSelectedTweetCommand = new ReactiveCommand();
+            this.ChangeSelectedTweetCommand = new ReactiveCommand();
+
+            this.IncrementColumnSelectedIndexCommand = new ReactiveCommand();
+            this.DecrementColumnSelectedIndexCommand = new ReactiveCommand();
 
             this.ShowFilePickerMessenger = new Messenger();
             this.ShowComfirmMessageDialogMessenger = new Messenger();
@@ -137,8 +149,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowUserFollowInfoCommand { get; private set; }
         public ReactiveCommand RetweetStatusesCommand { get; private set; }
         public ReactiveCommand FavoriteStatusesCommand { get; private set; }
-
-
+        public ReactiveCommand ShowMyListsCommand { get; private set; }
+        
         public ReactiveCommand AddListColumnCommand { get; private set; }
         public ReactiveCommand AddFilterColumnCommand { get; private set; }
 
@@ -180,11 +192,21 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowColumnSettingCommand { get; private set; }
         public ReactiveCommand ChangeBackgroundImageCommand { get; private set; }
         public ReactiveCommand ChangeThemeCommand { get; private set; }
-
-
+        
         public ReactiveCommand DeleteMuteUserCommand { get; private set; }
         public ReactiveCommand DeleteMuteClientCommand { get; private set; }
         public ReactiveCommand UpdateMuteFilterCommand { get; private set; }
+
+        public ReactiveCommand CopySelectedTweetCommand { get; private set; }
+        public ReactiveCommand ReplyToSelectedTweetCommand { get; private set; }
+        public ReactiveCommand SendDirectMessageToSelectedTweetCommand { get; private set; }
+        public ReactiveCommand FavoriteSelectedTweetCommand { get; private set; }
+        public ReactiveCommand RetweetSelectedTweetCommand { get; private set; }
+        public ReactiveCommand ShowUserProfileOfSelectedTweetCommand { get; private set; }
+        public ReactiveCommand ShowConversationOfSelectedTweetCommand { get; private set; }
+        public ReactiveCommand ChangeSelectedTweetCommand { get; private set; }
+        public ReactiveCommand IncrementColumnSelectedIndexCommand { get; private set; }
+        public ReactiveCommand DecrementColumnSelectedIndexCommand { get; private set; }
     }
 
     public class NoticeProvider

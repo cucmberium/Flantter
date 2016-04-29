@@ -422,7 +422,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.7.1": {
+      "ReactiveProperty/2.7.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
@@ -2538,7 +2538,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.7.1": {
+      "ReactiveProperty/2.7.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
@@ -4569,7 +4569,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.7.1": {
+      "ReactiveProperty/2.7.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
@@ -6567,7 +6567,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.7.1": {
+      "ReactiveProperty/2.7.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
@@ -8601,7 +8601,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.7.1": {
+      "ReactiveProperty/2.7.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
@@ -10599,7 +10599,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.7.1": {
+      "ReactiveProperty/2.7.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
@@ -12633,7 +12633,7 @@
           "lib/uap10.0/Prism.Windows.dll": {}
         }
       },
-      "ReactiveProperty/2.7.1": {
+      "ReactiveProperty/2.7.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
@@ -15053,13 +15053,13 @@
         "package/services/metadata/core-properties/ad34d65d2a3a46d49347cdda0ef0c7f0.psmdcp"
       ]
     },
-    "ReactiveProperty/2.7.1": {
-      "sha512": "ES0Dej5c2+LpPGZ8unZsZ83B7XJ3eLxjD7Xpnb47ZIT5nS7uxC0E9BCC/S4yUfEjo6J+9oLAc7mbyATYqtOs0A==",
+    "ReactiveProperty/2.7.2": {
+      "sha512": "5VoS1u1dbuK0BGhb/BDHnpMfKdkNWk4wKtgmw88MjjlZt4xNfg5O5Kll9QZvCdPe0FKGtYGDWPor3AZDPNbhaQ==",
       "type": "package",
       "files": [
         "Docs/ReadMe.txt",
         "LICENSE.txt",
-        "ReactiveProperty.2.7.1.nupkg.sha512",
+        "ReactiveProperty.2.7.2.nupkg.sha512",
         "ReactiveProperty.nuspec",
         "Snippet/csharp5/ReactiveCollection.snippet",
         "Snippet/csharp5/ReactiveCommand.snippet",
@@ -18690,7 +18690,7 @@
       "NotificationsExtensions.Win10 >= 14295.0.1",
       "Prism.Core >= 6.1.0",
       "Prism.Windows >= 6.0.2-pre1",
-      "ReactiveProperty >= 2.7.1",
+      "ReactiveProperty >= 2.7.2",
       "Rx-Core >= 2.3.0-beta2",
       "Rx-Interfaces >= 2.3.0-beta2",
       "Rx-Linq >= 2.3.0-beta2",

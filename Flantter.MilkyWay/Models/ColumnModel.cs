@@ -319,6 +319,8 @@ namespace Flantter.MilkyWay.Models
                     }
                     else if (e is TweetDeleteEventArgs)
                     {
+                        var tweetDeleteEventArgs = (TweetDeleteEventArgs)e;
+                        this.Delete(tweetDeleteEventArgs.Id);
                     }
                 }).AddTo(this.Disposable);
 
@@ -954,6 +956,11 @@ namespace Flantter.MilkyWay.Models
             }
 
             this._Tweets.Insert(0, eventMessage);
+        }
+
+        public void Delete(long id)
+        {
+
         }
 
         public void Dispose()

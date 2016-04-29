@@ -32,6 +32,9 @@
         <ListView x:Name="RetweetsOfMeListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.RetweetsOfMe}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
             <i:Interaction.Behaviors>
                 <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.RetweetsOfMeIncrementalLoadCommand}" />
+                <core:EventTriggerBehavior EventName="SelectionChanged">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeSelectedTweetCommand}" CommandParameter="{Binding ElementName=RetweetsOfMeListView, Path=SelectedItem, Mode=OneWay}" />
+                </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

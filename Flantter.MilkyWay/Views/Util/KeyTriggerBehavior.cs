@@ -88,8 +88,11 @@ namespace Flantter.MilkyWay.Views.Util
         
         private void UIElement_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter && e.KeyStatus.RepeatCount == 1)
+            if (e.Key == VirtualKey.Enter)
             {
+                if (e.KeyStatus.RepeatCount != 1)
+                    return;
+
                 if (!keysEventArgs.KeyCollection.Any(x => x == e.Key))
                     keysEventArgs.KeyCollection.Add(e.Key);
 
@@ -102,6 +105,9 @@ namespace Flantter.MilkyWay.Views.Util
 
                 e.Handled = Interaction.ExecuteActions(AssociatedObject, this.Triggers, keysEventArgs).Any(x => (bool)x == true);
             }
+
+            if (e.Handled)
+                keysEventArgs.KeyCollection.Clear();
         }
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -109,8 +115,6 @@ namespace Flantter.MilkyWay.Views.Util
             if (keysEventArgs.KeyCollection.Any(x => x == e.Key))
                 keysEventArgs.KeyCollection.Remove(e.Key);
         }
-
-
 
         private void Control_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -147,26 +151,36 @@ namespace Flantter.MilkyWay.Views.Util
 
         private KeysEventArgs keysEventArgs;
 
+        private KeyEventHandler keydownHandler = null;
+        private KeyEventHandler keyUpHandler = null;
         public void Attach(DependencyObject AssociatedObject)
         {
             this.AssociatedObject = AssociatedObject;
 
             keysEventArgs = new KeysEventArgs();
 
-            Window.Current.Content.KeyDown += UIElement_KeyDown;
-            Window.Current.Content.KeyUp += UIElement_KeyUp;
+            keydownHandler = new KeyEventHandler(UIElement_KeyDown);
+            keyUpHandler = new KeyEventHandler(UIElement_KeyUp);
+            Window.Current.Content.AddHandler(UIElement.KeyDownEvent, keydownHandler, true);
+            Window.Current.Content.AddHandler(UIElement.KeyUpEvent, keyUpHandler, true);
         }
 
         public void Detach()
         {
-            Window.Current.Content.KeyDown -= UIElement_KeyDown;
-            Window.Current.Content.KeyUp -= UIElement_KeyUp;
+            Window.Current.Content.RemoveHandler(UIElement.KeyDownEvent, keydownHandler);
+            Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, keyUpHandler);
         }
 
         private void UIElement_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter && e.KeyStatus.RepeatCount == 1)
+            if (e.OriginalSource is TextBox || e.OriginalSource is SearchBox || e.OriginalSource is PasswordBox || e.OriginalSource is RichEditBox)
+                return;
+
+            if (e.Key == VirtualKey.Enter)
             {
+                if (e.KeyStatus.RepeatCount != 1)
+                    return;
+
                 if (!keysEventArgs.KeyCollection.Any(x => x == e.Key))
                     keysEventArgs.KeyCollection.Add(e.Key);
 
@@ -179,6 +193,9 @@ namespace Flantter.MilkyWay.Views.Util
 
                 e.Handled = Interaction.ExecuteActions(AssociatedObject, this.Triggers, keysEventArgs).Any(x => (bool)x == true);
             }
+
+            if (e.Handled)
+                keysEventArgs.KeyCollection.Clear();
         }
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -240,6 +257,22 @@ namespace Flantter.MilkyWay.Views.Util
                 base.SetValue(ModifiersProperty, value);
             }
         }
+        
+        public static readonly DependencyProperty HandledProperty =
+            DependencyProperty.Register("Handled", typeof(bool), typeof(KeyTrigger),
+                new PropertyMetadata(true));
+
+        public bool Handled
+        {
+            get
+            {
+                return (bool)base.GetValue(HandledProperty);
+            }
+            set
+            {
+                base.SetValue(HandledProperty, value);
+            }
+        }
 
         public object Execute(object sender, object parameter)
         {
@@ -255,7 +288,7 @@ namespace Flantter.MilkyWay.Views.Util
 
             Interaction.ExecuteActions(sender, this.Actions, null);
 
-            return true;
+            return this.Handled;
         }
     }
 

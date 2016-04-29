@@ -56,14 +56,49 @@
         </behaviors:BottomAppBarShowBehavior>
 
         <util:GlobalKeyTriggerBehavior>
+            <util:KeyTrigger Key="T">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.TweetAreaOpenCommand}"/>
+            </util:KeyTrigger>
             <util:KeyTrigger Key="F" Modifiers="Control">
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowSearchCommand}"/>
             </util:KeyTrigger>
-            <util:KeyTrigger Key="R" Modifiers="Control">
-                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowRetweetsOfMeCommand}"/>
-            </util:KeyTrigger>
             <util:KeyTrigger Key="U" Modifiers="Control">
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserFollowInfoCommand}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Q" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.TweetAreaOpenCommand}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="L" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowMyListsCommand}"/>
+            </util:KeyTrigger>
+            
+            <util:KeyTrigger Key="C" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.CopySelectedTweetCommand}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="R" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ReplyToSelectedTweetCommand}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="M" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.SendDirectMessageToSelectedTweetCommand}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="S" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.FavoriteSelectedTweetCommand}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="D" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.RetweetSelectedTweetCommand}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="H" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserProfileOfSelectedTweetCommand}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="I" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowConversationOfSelectedTweetCommand}"/>
+            </util:KeyTrigger>
+
+            <util:KeyTrigger Key="Right">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.IncrementColumnSelectedIndexCommand}"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Left">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.DecrementColumnSelectedIndexCommand}"/>
             </util:KeyTrigger>
         </util:GlobalKeyTriggerBehavior>
     </i:Interaction.Behaviors>

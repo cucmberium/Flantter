@@ -72,6 +72,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 keysEventArgs.KeyCollection.Add(e.Key);
 
             e.Handled = Interaction.ExecuteActions(AssociatedObject, this.Triggers, keysEventArgs).Any(x => (bool)x == true);
+
+            if (e.Handled)
+                keysEventArgs.KeyCollection.Clear();
         }
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)

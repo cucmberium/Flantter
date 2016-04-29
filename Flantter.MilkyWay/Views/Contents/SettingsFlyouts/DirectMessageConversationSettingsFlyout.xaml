@@ -28,7 +28,6 @@
     d:DesignWidth="320">
 
     <Grid x:Name="DirectMessageConversationGrid" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -72,6 +71,9 @@
         <ListView Grid.Row="2" x:Name="DirectMessageConversationListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.DirectMessages}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
             <i:Interaction.Behaviors>
                 <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.DirectMessagesIncrementalLoadCommand}" />
+                <core:EventTriggerBehavior EventName="SelectionChanged">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeSelectedTweetCommand}" CommandParameter="{Binding ElementName=DirectMessageConversationListView, Path=SelectedItem, Mode=OneWay}" />
+                </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

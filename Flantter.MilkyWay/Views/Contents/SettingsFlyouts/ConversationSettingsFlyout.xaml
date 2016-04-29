@@ -30,6 +30,11 @@
     <Grid x:Name="ConversationGrid" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
 
         <ListView x:Name="ConversationListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Conversation}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+            <i:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="SelectionChanged">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeSelectedTweetCommand}" CommandParameter="{Binding ElementName=ConversationListView, Path=SelectedItem, Mode=OneWay}" />
+                </core:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel>

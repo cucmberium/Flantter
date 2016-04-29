@@ -60,10 +60,8 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<Orientation> ZoomOutOrientation { get; private set; }
 
         public ReactiveProperty<int> ColumnSelectedIndex { get; private set; }
-        
-        public ReactiveCommand ShowMyUserProfileCommand { get; private set; }
 
-        public ReactiveCommand ShowMyUserListsCommand { get; private set; }
+        public ReactiveCommand ShowMyUserProfileCommand { get; private set; }
 
         public ReactiveCommand UpdateUserSearchCommand { get; private set; }
 
@@ -214,13 +212,6 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
-            this.ShowMyUserListsCommand = new ReactiveCommand().AddTo(this.Disposable);
-            this.ShowMyUserListsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
-            {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
-                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
-            }).AddTo(this.Disposable);
-
             this.UpdateSearchCommand = new ReactiveCommand().AddTo(this.Disposable);
             this.UpdateSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(y =>
             {
@@ -335,7 +326,10 @@ namespace Flantter.MilkyWay.ViewModels
                 var statusViewModel = x as StatusViewModel;
                 if (statusViewModel == null)
                     return;
-                
+
+                if (statusViewModel.ScreenName == this.ScreenName.Value)
+                    return;
+
                 if (!statusViewModel.Model.IsRetweeted && SettingService.Setting.RetweetConfirmation)
                 {
                     var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_Retweet"), Title = "Confirmation" };
@@ -588,6 +582,12 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
+            Services.Notice.Instance.ShowMyListsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            }).AddTo(this.Disposable);
+            
             Services.Notice.Instance.RetweetStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
             {
                 var items = x as IEnumerable;
@@ -767,7 +767,23 @@ namespace Flantter.MilkyWay.ViewModels
 
                 Services.Notice.Instance.ShowColumnSettingCommand.Execute(columnSetting);
             }).AddTo(this.Disposable);
-            
+
+            Services.Notice.Instance.IncrementColumnSelectedIndexCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                if (this.ColumnSelectedIndex.Value >= this.Columns.Count - 1)
+                    return;
+
+                this.ColumnSelectedIndex.Value += 1;
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.DecrementColumnSelectedIndexCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                if (this.ColumnSelectedIndex.Value <= 0)
+                    return;
+
+                this.ColumnSelectedIndex.Value -= 1;
+            }).AddTo(this.Disposable);
+
             #endregion
         }
         #endregion

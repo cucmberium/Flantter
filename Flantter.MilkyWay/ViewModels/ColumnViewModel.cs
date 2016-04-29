@@ -272,7 +272,7 @@ namespace Flantter.MilkyWay.ViewModels
                 LayoutHelper.Instance.ColumnWidth,
                 (index, columnWidth) =>
                 {
-                    if (WindowSizeHelper.Instance.ClientWidth < 352.0)
+                    if (WindowSizeHelper.Instance.ClientWidth < 384.0)
                         return index * (columnWidth + 10.0) + 352.0;
                     else
                         return 5.0 + index * (columnWidth + 10.0) + 352.0;

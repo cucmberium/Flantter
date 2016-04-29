@@ -960,7 +960,21 @@ namespace Flantter.MilkyWay.Models
 
         public void Delete(long id)
         {
+            var index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x =>
+            {
+                if (x is Twitter.Objects.Status)
+                {
+                    var status = x as Twitter.Objects.Status;
+                    return ((status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id) == id);
+                }
+                else
+                {
+                    return x.Id == id;
+                }
+            }));
 
+            if (index != -1)
+                this._Tweets.RemoveAt(index);
         }
 
         public void Dispose()

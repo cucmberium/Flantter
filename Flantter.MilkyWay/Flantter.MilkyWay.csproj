@@ -117,6 +117,7 @@
     <Compile Include="Common\SettingServiceBase.cs" />
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="License\LicenseService.cs" />
+    <Compile Include="Models\ShareContract\StatusShareContractModel.cs" />
     <Compile Include="Models\Twitter\ExtractTextParts.cs" />
     <Compile Include="Models\Twitter\TweetRegexPatterns.cs" />
     <Compile Include="Models\Twitter\TwitterConnectionHelper.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="ViewModels\SettingsFlyouts\StatusDetailSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\SearchSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserProfileSettingsFlyoutViewModel.cs" />
+    <Compile Include="ViewModels\ShareContract\StatusShareContractViewModel.cs" />
     <Compile Include="ViewModels\TweetAreaViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EventMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\DirectMessageViewModel.cs" />
@@ -238,6 +240,9 @@
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\MainSettingSettingsFlyout.xaml.cs">
       <DependentUpon>MainSettingSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\ShareContract\StatusShareContract.xaml.cs">
+      <DependentUpon>StatusShareContract.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SwipeMenu\MainSwipeMenu.xaml.cs">
       <DependentUpon>MainSwipeMenu.xaml</DependentUpon>
@@ -485,6 +490,10 @@
     <Page Include="Views\Contents\SettingsFlyouts\Settings\MainSettingSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\ShareContract\StatusShareContract.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\SwipeMenu\MainSwipeMenu.xaml">
       <SubType>Designer</SubType>

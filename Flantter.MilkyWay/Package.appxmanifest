@@ -26,6 +26,26 @@
           <uap:Rotation Preference="landscapeFlipped" />
         </uap:InitialRotationPreference>
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.shareTarget">
+          <uap:ShareTarget>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.jpg</uap:FileType>
+              <uap:FileType>.jpeg</uap:FileType>
+              <uap:FileType>.png</uap:FileType>
+              <uap:FileType>.gif</uap:FileType>
+              <uap:FileType>.mp3</uap:FileType>
+              <uap:FileType>.wav</uap:FileType>
+              <uap:FileType>.m4a</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap:DataFormat>text</uap:DataFormat>
+            <uap:DataFormat>bitmap</uap:DataFormat>
+            <uap:DataFormat>weblink</uap:DataFormat>
+            <uap:DataFormat>applicationlink</uap:DataFormat>
+            <uap:DataFormat>html</uap:DataFormat>
+          </uap:ShareTarget>
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>

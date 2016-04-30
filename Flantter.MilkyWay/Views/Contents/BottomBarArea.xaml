@@ -166,7 +166,7 @@
                         <Setter Target="BottomBarArea_ButtonSelecter.Visibility" Value="Visible"/>
                         <Setter Target="BottomBarArea_TweetButton.Width" Value="0"/>
                         <Setter Target="BottomBarArea_TweetButton.IsCompact" Value="True"/>
-                        <Setter Target="BottomBarArea_TweetButton.Margin" Value="0,0,0,-5"/>
+                        <Setter Target="BottomBarArea_TweetButton.Margin" Value="0,-2,0,-3"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Min">
@@ -178,7 +178,7 @@
                         <Setter Target="BottomBarArea_ButtonSelecter.Visibility" Value="Visible"/>
                         <Setter Target="BottomBarArea_TweetButton.Width" Value="64"/>
                         <Setter Target="BottomBarArea_TweetButton.IsCompact" Value="True"/>
-                        <Setter Target="BottomBarArea_TweetButton.Margin" Value="0,0,0,-5"/>
+                        <Setter Target="BottomBarArea_TweetButton.Margin" Value="0,-2,0,-3"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">

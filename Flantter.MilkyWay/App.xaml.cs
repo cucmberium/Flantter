@@ -1,4 +1,5 @@
 ﻿using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.Views.Contents.ShareContract;
 using Prism.Windows;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace Flantter.MilkyWay
             }
         }
 
-        void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var stacktrace = e.Exception.StackTrace; // 別変数に最初に入れないと次アクセスからNull , 一番最初のUnhandledExceptionじゃないとNull
             if (SettingService.Setting.PreventForcedTermination)
@@ -83,6 +84,13 @@ namespace Flantter.MilkyWay
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             return base.OnInitializeAsync(args);
+        }
+
+        protected override void OnShareTargetActivated(ShareTargetActivatedEventArgs e)
+        {
+            //base.OnShareTargetActivated(e);
+            var shareTargetPage = new StatusShareContract();
+            shareTargetPage.Activate(e);
         }
     }
 }

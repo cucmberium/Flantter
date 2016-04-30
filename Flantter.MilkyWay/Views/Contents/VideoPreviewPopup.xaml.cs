@@ -134,9 +134,9 @@ namespace Flantter.MilkyWay.Views.Contents
                     videoWidth = WindowSizeHelper.Instance.ClientWidth - 20;
 
                 var videoHeight = videoWidth * 9 / 16;
-                if (videoHeight > WindowSizeHelper.Instance.ClientHeight)
+                if (videoHeight > WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value)
                 {
-                    videoHeight = WindowSizeHelper.Instance.ClientHeight;
+                    videoHeight = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
                     videoWidth = videoHeight * 16 / 9;
                 }
 
@@ -145,8 +145,8 @@ namespace Flantter.MilkyWay.Views.Contents
                     var size = videoWidth;
                     if (size > 600)
                         size = 600;
-                    if (size > WindowSizeHelper.Instance.ClientHeight)
-                        size = WindowSizeHelper.Instance.ClientHeight;
+                    if (size > WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value)
+                        size = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
                     
                     videoHeight = size;
                     videoWidth = size;

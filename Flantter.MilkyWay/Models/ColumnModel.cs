@@ -827,8 +827,6 @@ namespace Flantter.MilkyWay.Models
                     return false;
             }
 
-            // Todo : NoRetweetIdsとMuteIds,BlockIdsの読み込み
-
             lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
             {
                 if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Contains(status.User.Id))

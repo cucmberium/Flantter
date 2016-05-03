@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -43,66 +44,12 @@ namespace Flantter.MilkyWay.Views
         {
             this.InitializeComponent();
 
-            Themes.ThemeService.Theme.PropertyChanged += Theme_PropertyChanged;
-            Setting.SettingService.Setting.PropertyChanged += Setting_PropertyChanged;
-            WindowSizeHelper.Instance.PropertyChanged += WindowSizeHelper_PropertyChanged;
-
-            var titleBarVisiblity = false;
-            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
-                titleBarVisiblity = false;
-            else if (WindowSizeHelper.Instance.UserInteractionMode == Util.UserInteractionMode.Mouse)
-                titleBarVisiblity = true;
-            else
-                titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
-
-            this.UpdateTitleBar(titleBarVisiblity);
+            Themes.ThemeService.Theme.ChangeTheme();
+            
+            this.UpdateTitleBar(ViewModels.Services.LayoutHelper.Instance.TitleBarHeight.Value > 0);
+            ViewModels.Services.LayoutHelper.Instance.TitleBarHeight.SubscribeOnUIDispatcher().Subscribe(x => this.UpdateTitleBar(x > 0));
         }
-
-        private void WindowSizeHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "UserIntaractionMode")
-            {
-                var titleBarVisiblity = false;
-                if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
-                    titleBarVisiblity = false;
-                else if (WindowSizeHelper.Instance.UserInteractionMode == Util.UserInteractionMode.Mouse)
-                    titleBarVisiblity = true;
-                else
-                    titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
-
-                this.UpdateTitleBar(titleBarVisiblity);
-            }
-        }
-
-        private void Setting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ExtendTitleBar")
-            {
-                var titleBarVisiblity = false;
-                if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
-                    titleBarVisiblity = false;
-                else if (WindowSizeHelper.Instance.UserInteractionMode == Util.UserInteractionMode.Mouse)
-                    titleBarVisiblity = true;
-                else
-                    titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
-
-                this.UpdateTitleBar(titleBarVisiblity);
-            }
-        }
-
-        private void Theme_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            var titleBarVisiblity = false;
-            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
-                titleBarVisiblity = false;
-            else if (WindowSizeHelper.Instance.UserInteractionMode == Util.UserInteractionMode.Mouse)
-                titleBarVisiblity = true;
-            else
-                titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
-
-            this.UpdateTitleBar(titleBarVisiblity);
-        }
-
+        
         private void UpdateTitleBar(bool isVisible)
         {
             var applicationView = ApplicationView.GetForCurrentView();

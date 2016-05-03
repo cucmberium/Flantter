@@ -43,15 +43,12 @@ namespace Flantter.MilkyWay.Views.Util
                     h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged -= h),
                 (size, titleBar) => titleBar.IsVisible).Subscribe(x =>
                 {
-                    if (x)
-                    {
-                        this.WindowWidth = Window.Current.Bounds.Width;
-                        this.WindowHeight = Window.Current.Bounds.Height;
-                        this.ClientWidth = Window.Current.Bounds.Width;
-                        this.ClientHeight = Window.Current.Bounds.Height;
-                        this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
-                        this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
-                    }
+                    this.WindowWidth = Window.Current.Bounds.Width;
+                    this.WindowHeight = Window.Current.Bounds.Height;
+                    this.ClientWidth = Window.Current.Bounds.Width;
+                    this.ClientHeight = Window.Current.Bounds.Height;
+                    this.TitleBarHeight = CoreApplication.GetCurrentView().TitleBar.Height;
+                    this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
                 });
             }
             else if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")

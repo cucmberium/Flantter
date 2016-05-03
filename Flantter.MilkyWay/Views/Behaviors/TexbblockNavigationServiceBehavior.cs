@@ -76,7 +76,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         private static IEnumerable<Inline> GenerateInlines(DependencyObject obj, string text, Entities entities = null)
         {
-            foreach (var token in Tokenize(text, entities))
+            foreach (var token in Tokenize(obj, text, entities))
             {
                 switch (token.Type)
                 {
@@ -196,12 +196,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
             }
         }
 
-        private static IEnumerable<TextPart> Tokenize(string text, Entities entities)
+        private static IEnumerable<TextPart> Tokenize(DependencyObject sender, string text, Entities entities)
         {
             if (string.IsNullOrEmpty(text))
                 yield break;
 
-            if (entities == null)
+            if (entities == null || GetDeficientEntity(sender))
             {
                 foreach (var token in TokenizeImpl(text))
                     yield return token;

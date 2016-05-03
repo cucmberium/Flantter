@@ -191,6 +191,7 @@
     <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
     <Compile Include="Views\Behaviors\LeftSwipeMenuShowBehavior.cs" />
     <Compile Include="Views\Behaviors\AuthorizeAction.cs" />
+    <Compile Include="Views\Behaviors\ShareDataBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetMultipulSelectBehavior.cs" />
     <Compile Include="Views\Behaviors\VirtualizingStackPanelRecycleItemResetBehavior.cs" />
     <Compile Include="Views\Behaviors\ListViewIncrementalLoadBehavior.cs" />

@@ -47,6 +47,8 @@
             <behaviors:AuthorizeAction/>
         </util:MessengerTriggerBehavior>
 
+        <behaviors:ShareDataBehavior Messenger="{x:Bind ViewModel.ShowShareUIMessenger}"/>
+
         <behaviors:BottomAppBarShowBehavior IsOpen="{x:Bind ViewModel.AppBarIsOpen.Value, Mode=TwoWay}">
             <behaviors:BottomAppBarShowBehavior.BottomAppBar>
                 <AppBar ClosedDisplayMode="Hidden" IsSticky="False">

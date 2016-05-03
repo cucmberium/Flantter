@@ -57,6 +57,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public Messenger ShowSettingsFlyoutMessenger { get; private set; }
 
+        public Messenger ShowShareUIMessenger { get; private set; }
+
         #region Constructor
         public MainPageViewModel()
         {
@@ -97,6 +99,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.ShowImagePreviewMessenger = new Messenger();
             this.ShowVideoPreviewMessenger = new Messenger();
             this.ShowSettingsFlyoutMessenger = new Messenger();
+            this.ShowShareUIMessenger = new Messenger();
 
             #region Command
             this.DragOverCommand = new ReactiveCommand();
@@ -223,13 +226,18 @@ namespace Flantter.MilkyWay.ViewModels
                 await Launcher.LaunchUriAsync(new Uri("https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id.ToString()));
             });
 
-            Services.Notice.Instance.ShareStatusCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            Services.Notice.Instance.ShareStatusCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var status = x as Status;
                 if (status == null)
                     return;
 
-                // Todo : 実装
+                var notification = new ShareDataNotification();
+                notification.Title = "Twitter : " + status.User.ScreenName;
+                notification.Description = status.Text;
+                notification.Url = "https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id.ToString();
+                notification.Text = status.Text;
+                this.ShowShareUIMessenger.Raise(notification);
             });
 
             Services.Notice.Instance.ShowChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>

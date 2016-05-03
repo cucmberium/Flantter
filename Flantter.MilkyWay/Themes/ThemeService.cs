@@ -37,8 +37,6 @@ namespace Flantter.MilkyWay.Themes
         {
             this.ThemeString = SettingService.Setting.Theme.ToString();
             DefaultResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + "Default" + ".xaml", UriKind.Absolute);
-
-            ChangeTheme();
         }
 
         protected T GetValue<T>([CallerMemberName] string name = null)

@@ -770,18 +770,28 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.IncrementColumnSelectedIndexCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                if (this.ColumnSelectedIndex.Value >= this.Columns.Count - 1)
+                var columnIndex = this.Columns.ElementAt(this.ColumnSelectedIndex.Value).Index.Value;
+
+                if (columnIndex >= this.Columns.Count - 1)
                     return;
 
-                this.ColumnSelectedIndex.Value += 1;
+                if (!this.Columns.Any(y => y.Index.Value == columnIndex + 1))
+                    return;
+
+                this.ColumnSelectedIndex.Value = this.Columns.IndexOf(this.Columns.First(y => y.Index.Value == columnIndex + 1));
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.DecrementColumnSelectedIndexCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                if (this.ColumnSelectedIndex.Value <= 0)
+                var columnIndex = this.Columns.ElementAt(this.ColumnSelectedIndex.Value).Index.Value;
+
+                if (columnIndex <= 0)
                     return;
 
-                this.ColumnSelectedIndex.Value -= 1;
+                if (!this.Columns.Any(y => y.Index.Value == columnIndex - 1))
+                    return;
+
+                this.ColumnSelectedIndex.Value = this.Columns.IndexOf(this.Columns.First(y => y.Index.Value == columnIndex - 1));
             }).AddTo(this.Disposable);
 
             #endregion

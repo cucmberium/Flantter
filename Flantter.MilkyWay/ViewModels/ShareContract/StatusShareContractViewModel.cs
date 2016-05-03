@@ -11,6 +11,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
@@ -46,15 +47,17 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
 
         public StatusShareContractViewModel()
         {
+            var uiThreadScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current);
+
             this.Model = new StatusShareContractModel();
 
             this.Accounts = AdvancedSettingService.AdvancedSetting.Accounts;
             this.SelectedAccount = new ReactiveProperty<AccountSetting>();
             
-            this.Text = this.Model.ToReactivePropertyAsSynchronized(x => x.Text).AddTo(this.Disposable);
-            this.CharacterCount = this.Model.ObserveProperty(x => x.CharacterCount).Select(x => x.ToString()).ToReactiveProperty().AddTo(this.Disposable);
+            this.Text = this.Model.ToReactivePropertyAsSynchronized(x => x.Text, uiThreadScheduler).AddTo(this.Disposable);
+            this.CharacterCount = this.Model.ObserveProperty(x => x.CharacterCount).Select(x => x.ToString()).ToReactiveProperty(uiThreadScheduler).AddTo(this.Disposable);
 
-            this.Message = this.Model.ObserveProperty(x => x.Message).ToReactiveProperty().AddTo(this.Disposable);
+            this.Message = this.Model.ObserveProperty(x => x.Message).ToReactiveProperty(uiThreadScheduler).AddTo(this.Disposable);
             
             this.StateSymbol = this.Model.ObserveProperty(x => x.State).Select(x =>
             {
@@ -67,25 +70,24 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
                     default:
                         return Symbol.Accept;
                 }
-            }).ToReactiveProperty().AddTo(this.Disposable);
+            }).ToReactiveProperty(uiThreadScheduler).AddTo(this.Disposable);
 
-            this.Updating = this.Model.ObserveProperty(x => x.Updating).ToReactiveProperty().AddTo(this.Disposable);
+            this.Updating = this.Model.ObserveProperty(x => x.Updating).ToReactiveProperty(uiThreadScheduler).AddTo(this.Disposable);
             
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;
             
             this.TextBoxFocusMessenger = new Messenger();
 
-            this.Pictures = this.Model.ReadonlyPictures.ToReadOnlyReactiveCollection(x => new PictureViewModel(x)).AddTo(this.Disposable);
+            this.Pictures = this.Model.ReadonlyPictures.ToReadOnlyReactiveCollection(x => new PictureViewModel(x), uiThreadScheduler).AddTo(this.Disposable);
             
-
-            this.TweetCommand = this.Model.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand().AddTo(this.Disposable);
+            this.TweetCommand = this.Model.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand(uiThreadScheduler).AddTo(this.Disposable);
             this.TweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 await this.Model.Tweet(this.SelectedAccount.Value);
             }).AddTo(this.Disposable);
 
-            this.AccountChangeCommand = new ReactiveCommand();
+            this.AccountChangeCommand = new ReactiveCommand(uiThreadScheduler);
             this.AccountChangeCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var accountSetting = x as AccountSetting;
@@ -95,7 +97,7 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.Disposable.Dispose();
         }
     }
 }

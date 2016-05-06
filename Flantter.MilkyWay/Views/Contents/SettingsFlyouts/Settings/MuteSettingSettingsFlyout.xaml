@@ -29,7 +29,7 @@
     <ScrollViewer Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Auto">
         <StackPanel>
 
-            <TextBlock x:Uid="SettingsFlyout_Settings_Mute_Message_TextBlock" Margin="10" TextWrapping="Wrap" Text="この設定はアプリ内でのみ有効なものです。公式ミュートの解除はメニュー内のフォロー関連からユーザープロフィールを開き行ってください。"/>
+            <TextBlock x:Uid="SettingsFlyout_Settings_Mute_Message_TextBlock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="10" TextWrapping="Wrap" Text="この設定はアプリ内でのみ有効なものです。公式ミュートの解除はメニュー内のフォロー関連からユーザープロフィールを開き行ってください。"/>
 
             <controls:HorizontalBar/>
 

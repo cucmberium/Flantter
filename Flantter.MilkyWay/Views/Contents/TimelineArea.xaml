@@ -67,9 +67,9 @@
                     <DataTemplate x:Key="EventMessageViewModel" x:DataType="twitterObjectsViewModel:EventMessageViewModel">
                         <timeline:EventMessage ViewModel="{x:Bind}" TargetStatusVisibility="{x:Bind TargetStatusVisibility, Mode=OneWay}"/>
                     </DataTemplate>
-                    <!--<DataTemplate x:Key="GViewModel">
-                        <timeline:Gap DataContext="{Binding}"/>
-                    </DataTemplate>-->
+                    <DataTemplate x:Key="GapViewModel" x:DataType="twitterObjectsViewModel:GapViewModel">
+                        <timeline:Gap ViewModel="{x:Bind}"/>
+                    </DataTemplate>
                 </common:DataTypeTemplateSelector>
             </ItemsControl.ItemTemplateSelector>
             

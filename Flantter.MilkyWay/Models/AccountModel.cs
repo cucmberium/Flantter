@@ -160,12 +160,12 @@ namespace Flantter.MilkyWay.Models
         #endregion
 
 
-        public void MuteUser(string screenName)
+        public async Task MuteUser(string screenName)
         {
             if (!AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(screenName))
             {
                 AdvancedSettingService.AdvancedSetting.MuteUsers.Add(screenName);
-                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
             }
         }
 
@@ -177,7 +177,7 @@ namespace Flantter.MilkyWay.Models
             column.Identifier = DateTime.Now.Ticks;
 
             this.AccountSetting.Column.Add(column);
-            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
             var columnModel = new ColumnModel(column, this.AccountSetting, this);
             this._Columns.Add(columnModel);
@@ -185,7 +185,7 @@ namespace Flantter.MilkyWay.Models
             await columnModel.Initialize();
         }
 
-        public void DeleteColumn(ColumnSetting column)
+        public async Task DeleteColumn(ColumnSetting column)
         {
             var columnModel = this._Columns.First(x => x.Action == column.Action && x.Name == column.Name && x.Parameter == column.Parameter && x.ColumnSetting.Identifier == column.Identifier);
 
@@ -194,7 +194,7 @@ namespace Flantter.MilkyWay.Models
             
             this.AccountSetting.Column.Remove(column);
 
-            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }
 
         public void DisconnectAllFilterStreaming(object sender = null)
@@ -350,7 +350,7 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
-        public async void RefreshProfile()
+        public async Task RefreshProfile()
         {
             try
             {
@@ -369,7 +369,7 @@ namespace Flantter.MilkyWay.Models
             {
             }
 
-            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }
 
         public async void RefreshMuteIds()

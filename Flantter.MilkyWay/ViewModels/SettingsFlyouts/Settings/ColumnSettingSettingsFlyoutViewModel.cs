@@ -98,7 +98,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                 this.ColumnSetting.Value.AutoRefreshTimerInterval = this.AutoRefreshTimerInterval.Value;
                 this.ColumnSetting.Value.FetchingNumberOfTweet = this.FetchingNumberOfTweet.Value;
 
-                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
                 await Services.Notice.Instance.ShowMessageDialogMessenger.Raise(new MessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_UpdateColumnSettingSuccessfully"), Title = "Message" });
                 return;

@@ -277,7 +277,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             this.ScrollViewerObject = listViewScroll;
             this.ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
-            previousVerticalOffset = this.ScrollViewerObject.VerticalOffset;
+            previousVerticalOffset = this.ScrollViewerObject.VerticalOffset <= 2 ? 2 : this.ScrollViewerObject.VerticalOffset;
         }
 
         private void ListView_Loaded(object sender, RoutedEventArgs e)
@@ -295,7 +295,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             this.ScrollViewerObject = listViewScroll;
             this.ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
-            previousVerticalOffset = this.ScrollViewerObject.VerticalOffset;
+            previousVerticalOffset = this.ScrollViewerObject.VerticalOffset <= 2 ? 2 : this.ScrollViewerObject.VerticalOffset;
         }
         
         private void ListView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
@@ -304,7 +304,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 this.AnimationCooldown(200);
         }
 
-        private double previousVerticalOffset = 0.0;
+        private double previousVerticalOffset = 2.0;
         private void ScrollViewerObject_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             if (e != null && e.IsIntermediate && this.isAnimationRunning)

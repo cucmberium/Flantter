@@ -249,7 +249,13 @@ namespace Flantter.MilkyWay.Setting
             get
             {
                 if (UseBackgroundImage)
-                    return GetValue("http://localhost/");
+                {
+                    var str = GetValue("http://localhost/");
+                    if (string.IsNullOrWhiteSpace(str))
+                        return "http://localhost/";
+                    else
+                        return str;
+                }
                 else
                     return "http://localhost/";
             }
@@ -287,7 +293,7 @@ namespace Flantter.MilkyWay.Setting
         public string CustomThemePath { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
 
         // その他
-        public string AdvancedSettingData { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); } }
+        //public string AdvancedSettingData { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); } }
     }
 
     public class SettingProvider

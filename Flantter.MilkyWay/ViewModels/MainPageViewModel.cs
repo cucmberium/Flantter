@@ -246,9 +246,9 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
-            Services.Notice.Instance.ChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            Services.Notice.Instance.ChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
-                this.Model.ChangeAccount(AdvancedSettingService.AdvancedSetting.Accounts.First(y => y.UserId == (long)x));
+                await this.Model.ChangeAccount(AdvancedSettingService.AdvancedSetting.Accounts.First(y => y.UserId == (long)x));
             });
 
             Services.Notice.Instance.ExitAppCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
@@ -259,7 +259,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (!msgNotification.Result)
                     return;
 
-                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
                 Application.Current.Exit();
             });
@@ -399,25 +399,25 @@ namespace Flantter.MilkyWay.ViewModels
                 if (!msgNotification.Result)
                     return;
 
-                this.Model.MuteClient(client);
+                await this.Model.MuteClient(client);
             });
 
-            Services.Notice.Instance.DeleteMuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            Services.Notice.Instance.DeleteMuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 var screenName = x as string;
                 if (string.IsNullOrWhiteSpace(screenName))
                     return;
 
-                this.Model.DeleteMuteUser(screenName);
+                await this.Model.DeleteMuteUser(screenName);
             });
 
-            Services.Notice.Instance.DeleteMuteClientCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            Services.Notice.Instance.DeleteMuteClientCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 var client = x as string;
                 if (string.IsNullOrWhiteSpace(client))
                     return;
 
-                this.Model.DeleteMuteUser(client);
+                await this.Model.DeleteMuteUser(client);
             });
 
             Services.Notice.Instance.UpdateMuteFilterCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
@@ -495,13 +495,13 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             });
 
-            Services.Notice.Instance.AddAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            Services.Notice.Instance.AddAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 var accountSetting = x as AccountSetting;
                 if (accountSetting == null)
                     return;
                 
-                this.Model.AddAccount(accountSetting);
+                await this.Model.AddAccount(accountSetting);
             });
 
             Services.Notice.Instance.DeleteAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
@@ -522,7 +522,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (!msgNotification.Result)
                     return;
 
-                this.Model.DeleteAccount(accountSetting);
+                await this.Model.DeleteAccount(accountSetting);
             });
 
             Services.Notice.Instance.ChangeSelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>

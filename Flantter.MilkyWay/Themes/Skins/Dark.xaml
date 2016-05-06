@@ -296,8 +296,9 @@
     <SolidColorBrush x:Key="TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush" Color="Yellow" />
     <SolidColorBrush x:Key="TweetCommandBarUrlSymbolIconForegroundBrush" Color="Gray" />
     <SolidColorBrush x:Key="TweetCommandBarMenuSymbolIconForegroundBrush" Color="Gray" />
-	
-	<SolidColorBrush x:Key="TweetGetGapTextblockForegroundBrush" Color="#FFA6A6A6" />
+
+    <SolidColorBrush x:Key="TweetGapTextblockForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="TweetGapBackgroundBrush" Color="#19808080" />
 
     <!-- SettingsFlyout -->
     <SolidColorBrush x:Key="SettingsFlyoutHeaderForegroundBrush" Color="#FF131A26" />

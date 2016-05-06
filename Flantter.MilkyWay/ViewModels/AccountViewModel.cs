@@ -143,7 +143,7 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             }).AddTo(this.Disposable);
 
-            this.ReorderColumns.CollectionChangedAsObservable().SubscribeOnUIDispatcher().Subscribe<NotifyCollectionChangedEventArgs>(e =>
+            this.ReorderColumns.CollectionChangedAsObservable().SubscribeOnUIDispatcher().Subscribe<NotifyCollectionChangedEventArgs>(async e =>
             {
                 switch (e.Action)
                 {
@@ -151,14 +151,14 @@ namespace Flantter.MilkyWay.ViewModels
                         foreach (var column in this.ReorderColumns.Select((x, i) => new { x, i }))
                             column.x.Model.Index = column.i;
 
-                        AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                        await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
                         break;
 
                     case NotifyCollectionChangedAction.Add:
                         foreach (var column in this.ReorderColumns.Select((x, i) => new { x, i }))
                             column.x.Model.Index = column.i;
 
-                        AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                        await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
                         break;
 
                 }

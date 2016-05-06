@@ -35,14 +35,7 @@ namespace Flantter.MilkyWay
             this.UnhandledException += App_UnhandledException;
             
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(Microsoft.ApplicationInsights.WindowsCollectors.Metadata | Microsoft.ApplicationInsights.WindowsCollectors.Session);
-
-            try
-            {
-                AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
-            }
-            catch
-            {
-            }
+            
         }
 
         private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -54,7 +47,7 @@ namespace Flantter.MilkyWay
             System.Diagnostics.Debug.WriteLine(stacktrace);
         }
 
-        protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
+        protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
 #if _DEBUG
             // デバッグ用コードをここに突っ込む
@@ -70,6 +63,7 @@ namespace Flantter.MilkyWay
             sw.Stop();
             System.Diagnostics.Debug.WriteLine(sw.Elapsed);
 #endif
+            await AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
 
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 500 });
 
@@ -78,7 +72,7 @@ namespace Flantter.MilkyWay
             else
                 this.NavigationService.Navigate("Main", args.Arguments);
 
-            return Task.FromResult<object>(null);
+            //return Task.FromResult<object>(null);
         }
 
         protected override Task OnInitializeAsync(IActivatedEventArgs args)

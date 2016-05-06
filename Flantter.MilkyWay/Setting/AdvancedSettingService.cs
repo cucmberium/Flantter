@@ -187,24 +187,48 @@ namespace Flantter.MilkyWay.Setting
 
     public class AdvancedSettingService : AdvancedSettingServiceBase<AdvancedSettingService>
     {
-        public void SaveToAppSettings()
+        public async Task SaveToAppSettings()
         {
-            string json = JsonConvert.SerializeObject(Dict);
-            SettingService.Setting.AdvancedSettingData = json;
-        }
-        public void LoadFromAppSettings()
-        {
-            var json = SettingService.Setting.AdvancedSettingData;
-
-            var jTokens = JToken.Parse(json);
-
-            this.Dict = new Dictionary<string, object>();
-            foreach (JProperty jProperty in jTokens)
+            try
             {
-                if (jProperty.Name == "Accounts")
-                    this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
-                else
-                    this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
+                var json = JsonConvert.SerializeObject(Dict);
+                var writeStorageFile = await ApplicationData.Current.RoamingFolder.CreateFileAsync("setting.xml", CreationCollisionOption.ReplaceExisting);
+                using (var s = await writeStorageFile.OpenStreamForWriteAsync())
+                using (var st = new System.IO.StreamWriter(s))
+                {
+                    st.Write(json);
+                }
+            }
+            catch
+            {
+            }
+        }
+        public async Task LoadFromAppSettings()
+        {
+            try
+            {
+                var json = string.Empty;
+
+                var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
+                using (var s = await readStorageFile.OpenStreamForReadAsync())
+                using (var st = new System.IO.StreamReader(s))
+                {
+                    json = st.ReadToEnd();
+                }
+                
+                var jTokens = JToken.Parse(json);
+
+                this.Dict = new Dictionary<string, object>();
+                foreach (JProperty jProperty in jTokens)
+                {
+                    if (jProperty.Name == "Accounts")
+                        this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
+                    else
+                        this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
+                }
+            }
+            catch
+            {
             }
         }
 

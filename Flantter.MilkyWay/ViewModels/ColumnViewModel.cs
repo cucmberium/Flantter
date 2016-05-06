@@ -184,8 +184,9 @@ namespace Flantter.MilkyWay.ViewModels
             this.RefreshCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ =>
             {
                 this.IsScrollLockEnabled.Value = true;
-                await this.Model.Update();
                 await Task.Delay(100);
+                await this.Model.Update();
+                await Task.Delay(250);
                 this.IsScrollLockEnabled.Value = false;
             }).AddTo(this.Disposable);
 
@@ -284,8 +285,11 @@ namespace Flantter.MilkyWay.ViewModels
                     return new StatusViewModel((Status)item, this.Model.Tokens.UserId) as object;
                 else if (item is DirectMessage)
                     return new DirectMessageViewModel((DirectMessage)item, this.Model.Tokens.UserId) as object;
-                else
+                else if (item is EventMessage)
                     return new EventMessageViewModel((EventMessage)item, this.Model.Tokens.UserId) as object;
+                else
+                    return new GapViewModel((Gap)item) as object;
+
             }).AddTo(this.Disposable);
         }
         #endregion

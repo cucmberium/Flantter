@@ -122,44 +122,44 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
-        public void MuteClient(string client)
+        public async Task MuteClient(string client)
         {
             if (!AdvancedSettingService.AdvancedSetting.MuteClients.Contains(client))
             {
                 AdvancedSettingService.AdvancedSetting.MuteClients.Add(client);
-                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
             }
         }
 
-        public void DeleteMuteUser(string screenName)
+        public async Task DeleteMuteUser(string screenName)
         {
             if (AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(screenName))
             {
                 AdvancedSettingService.AdvancedSetting.MuteUsers.Remove(screenName);
-                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
             }
         }
 
-        public void DeleteMuteClient(string client)
+        public async Task DeleteMuteClient(string client)
         {
             if (AdvancedSettingService.AdvancedSetting.MuteClients.Contains(client))
             {
                 AdvancedSettingService.AdvancedSetting.MuteClients.Remove(client);
-                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
             }
         }
 
-        public async void AddAccount(AccountSetting account)
+        public async Task AddAccount(AccountSetting account)
         {
             AdvancedSettingService.AdvancedSetting.Accounts.Add(account);
-            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
             var accountModel = new AccountModel(account);
             this._Accounts.Add(accountModel);
             await accountModel.Initialize();
         }
 
-        public void ChangeAccount(AccountSetting account)
+        public async Task ChangeAccount(AccountSetting account)
         {
             foreach (var accountModel in this._Accounts)
             {
@@ -179,10 +179,10 @@ namespace Flantter.MilkyWay.Models
                     accountSetting.IsEnabled = false;
             }
 
-            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }
 
-        public void DeleteAccount(AccountSetting account)
+        public async Task DeleteAccount(AccountSetting account)
         {
             var accountModel = this._Accounts.First(x => x.UserId == account.UserId);
 
@@ -201,7 +201,7 @@ namespace Flantter.MilkyWay.Models
                 AdvancedSettingService.AdvancedSetting.Accounts.First(x => x.UserId == this._Accounts.First().UserId).IsEnabled = true;
             }
 
-            AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }
         
         #region Instance

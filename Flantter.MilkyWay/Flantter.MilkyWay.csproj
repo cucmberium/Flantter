@@ -119,6 +119,7 @@
     <Compile Include="License\LicenseService.cs" />
     <Compile Include="Models\ShareContract\StatusShareContractModel.cs" />
     <Compile Include="Models\Twitter\ExtractTextParts.cs" />
+    <Compile Include="Models\Twitter\Objects\Gap.cs" />
     <Compile Include="Models\Twitter\TweetRegexPatterns.cs" />
     <Compile Include="Models\Twitter\TwitterConnectionHelper.cs" />
     <Compile Include="Common\VisualTreeHelperExtensions.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="ViewModels\Twitter\Objects\EventMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\DirectMessageViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />
+    <Compile Include="ViewModels\Twitter\Objects\GapViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\ITweetViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\ListViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\SearchQueryViewModel.cs" />
@@ -283,6 +285,9 @@
     </Compile>
     <Compile Include="Views\Contents\TabHeader.xaml.cs">
       <DependentUpon>TabHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\Timeline\Gap.xaml.cs">
+      <DependentUpon>Gap.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\Timeline\List.xaml.cs">
       <DependentUpon>List.xaml</DependentUpon>
@@ -545,6 +550,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Contents\TabHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\Timeline\Gap.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

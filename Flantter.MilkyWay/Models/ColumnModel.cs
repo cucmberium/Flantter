@@ -500,6 +500,8 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var home = await this.Tokens.Statuses.HomeTimelineAsync(param);
+                var lastId = home.Count > 0 ? home.OrderByDescending(x => x.Id).Last().Id : -1;
+                var gapCheck = GapCheck(lastId);
                 
                 foreach (var status in home)
                 {
@@ -510,6 +512,9 @@ namespace Flantter.MilkyWay.Models
                     var paramList = new List<string>() { "home://", "filter://" };
                     Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this.Tokens.UserId, paramList, false));
                 }
+
+                if (gapCheck)
+                    Add(new Twitter.Objects.Gap(0, lastId - 1, DateTime.Now));
             }
             catch (TwitterException ex)
             {
@@ -532,6 +537,8 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var mentions = await this.Tokens.Statuses.MentionsTimelineAsync(param);
+                var lastId = mentions.Count > 0 ? mentions.OrderByDescending(x => x.Id).Last().Id : -1;
+                var gapCheck = GapCheck(lastId);
 
                 foreach (var status in mentions)
                 {
@@ -542,6 +549,9 @@ namespace Flantter.MilkyWay.Models
                     var paramList = new List<string>() { "mentions://" };
                     Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this.Tokens.UserId, paramList, false));
                 }
+
+                if (gapCheck)
+                    Add(new Twitter.Objects.Gap(0, lastId - 1, DateTime.Now));
             }
             catch (TwitterException ex)
             {
@@ -597,6 +607,8 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var favorites = await this.Tokens.Favorites.ListAsync(param);
+                var lastId = favorites.Count > 0 ? favorites.OrderByDescending(x => x.Id).Last().Id : -1;
+                var gapCheck = GapCheck(lastId);
 
                 foreach (var status in favorites)
                 {
@@ -607,6 +619,9 @@ namespace Flantter.MilkyWay.Models
                     var paramList = new List<string>() { "favorites://" };
                     Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, paramList, false));
                 }
+
+                if (gapCheck)
+                    Add(new Twitter.Objects.Gap(0, lastId - 1, DateTime.Now));
             }
             catch (TwitterException ex)
             {
@@ -629,6 +644,8 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var lists = await this.Tokens.Lists.StatusesAsync(param);
+                var lastId = lists.Count > 0 ? lists.OrderByDescending(x => x.Id).Last().Id : -1;
+                var gapCheck = GapCheck(lastId);
 
                 foreach (var status in lists)
                 {
@@ -639,6 +656,9 @@ namespace Flantter.MilkyWay.Models
                     var paramList = new List<string>() { "list://" + this._Parameter };
                     Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, paramList, false));
                 }
+
+                if (gapCheck)
+                    Add(new Twitter.Objects.Gap(0, lastId - 1, DateTime.Now));
             }
             catch (TwitterException ex)
             {
@@ -691,7 +711,10 @@ namespace Flantter.MilkyWay.Models
 
                     search = await this.Tokens.Search.TweetsAsync(param);
                 }
-                
+
+                var lastId = search.Count() > 0 ? search.OrderByDescending(x => x.Id).Last().Id : -1;
+                var gapCheck = GapCheck(lastId);
+
                 foreach (var status in search)
                 {
                     var statusObject = new Twitter.Objects.Status(status);
@@ -701,6 +724,9 @@ namespace Flantter.MilkyWay.Models
                     var paramList = new List<string>() { "search://" + this._Parameter };
                     Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, paramList, false));
                 }
+
+                if (gapCheck)
+                    Add(new Twitter.Objects.Gap(0, lastId - 1, DateTime.Now));
             }
             catch (TwitterException ex)
             {
@@ -723,6 +749,8 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var userTimeline = await this.Tokens.Statuses.UserTimelineAsync(param);
+                var lastId = userTimeline.Count > 0 ? userTimeline.OrderByDescending(x => x.Id).Last().Id : -1;
+                var gapCheck = GapCheck(lastId);
 
                 foreach (var status in userTimeline)
                 {
@@ -733,6 +761,9 @@ namespace Flantter.MilkyWay.Models
                     var paramList = new List<string>() { "usertimeline://" + this._Parameter };
                     Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, paramList, false));
                 }
+
+                if (gapCheck)
+                    Add(new Twitter.Objects.Gap(0, lastId - 1, DateTime.Now));
             }
             catch (TwitterException ex)
             {
@@ -798,8 +829,7 @@ namespace Flantter.MilkyWay.Models
 
             return true;
         }
-
-
+        
         // Streaming用ツイートチェック
         private bool Check(Twitter.Objects.Status status, List<string> param)
         {
@@ -956,6 +986,23 @@ namespace Flantter.MilkyWay.Models
             this._Tweets.Insert(0, eventMessage);
         }
 
+        private void Add(Twitter.Objects.Gap gap, bool streaming = false)
+        {
+            var index = this.Tweets.IndexOf(this.Tweets.FirstOrDefault(x =>
+            {
+                var tid = ((ITweet)x).Id;
+                if (x is Twitter.Objects.Status)
+                    tid = ((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((ITweet)x).Id;
+
+                return tid <= gap.MaxId;
+            }));
+            
+            if (index == -1)
+                return;
+
+            this.Tweets.Insert(index, gap);
+        }
+
         public void Delete(long id)
         {
             var index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x =>
@@ -973,6 +1020,19 @@ namespace Flantter.MilkyWay.Models
 
             if (index != -1)
                 this._Tweets.RemoveAt(index);
+        }
+
+        public bool GapCheck(long id)
+        {
+            var index = this.Tweets.IndexOf(this.Tweets.FirstOrDefault(x => 
+            {
+                var tid = ((ITweet)x).Id;
+                if (x is Twitter.Objects.Status)
+                    tid = ((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((ITweet)x).Id;
+
+                return tid == id;
+            }));
+            return (index == -1 && index != this.Tweets.Count - 1);
         }
 
         public void Dispose()

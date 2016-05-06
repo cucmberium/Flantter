@@ -248,7 +248,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 if (!AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(this.Model.ScreenName))
                 {
                     AdvancedSettingService.AdvancedSetting.MuteUsers.Add(this.Model.ScreenName);
-                    AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                    await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
                 }
             });
 

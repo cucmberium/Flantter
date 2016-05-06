@@ -862,4 +862,7 @@
   <data name="ColumnView_ControlBar_MenuFlyout_MultipulSelect.Text" xml:space="preserve">
     <value>    複数選択</value>
   </data>
+  <data name="ShareContract_NeedAuthorize.Text" xml:space="preserve">
+    <value>この機能を使うには一度アプリを立ち上げてアカウントの認証を行う必要があります。</value>
+  </data>
 </root>

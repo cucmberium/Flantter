@@ -3,7 +3,9 @@ using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.ViewModels.Services
@@ -212,5 +214,28 @@ namespace Flantter.MilkyWay.ViewModels.Services
     public class NoticeProvider
     {
         public Notice Notice { get { return Notice.Instance; } }
+    }
+
+
+    public class ShareNotice
+    {
+        private static ShareNotice _Instance = new ShareNotice();
+        private ShareNotice()
+        {
+            this.ShareContractAccountChangeCommand = new ReactiveCommand(new SynchronizationContextScheduler(SynchronizationContext.Current));
+        }
+
+        public static ShareNotice Instance
+        {
+            get { return _Instance; }
+        }
+
+        public ReactiveCommand ShareContractAccountChangeCommand { get; private set; }
+        
+    }
+
+    public class ShareNoticeProvider
+    {
+        public ShareNotice Notice { get { return ShareNotice.Instance; } }
     }
 }

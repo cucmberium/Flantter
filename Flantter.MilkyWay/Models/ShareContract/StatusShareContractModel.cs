@@ -166,40 +166,40 @@ namespace Flantter.MilkyWay.Models.ShareContract
             CharacterCountChanged();
         }
 
-        public async Task Tweet(AccountSetting account)
+        public async Task<bool> Tweet(AccountSetting account)
         {
             if (this.Updating)
-                return;
+                return false;
 
             if (this.CharacterCount < 0)
             {
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_Over140Character");
-                return;
+                return false;
             }
             else if (this._Pictures.Count == 0 && string.IsNullOrWhiteSpace(this.Text))
             {
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_TextIsEmptyOrWhiteSpace");
-                return;
+                return false;
             }
             else if (this._Pictures.Where(x => !x.IsVideo && !x.IsGifAnimation).Count() > 4 || this._Pictures.Where(x => x.IsVideo || x.IsGifAnimation).Count() > 1 || this._Pictures.Where(x => !x.IsVideo && x.IsGifAnimation).Count() > 1)
             {
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
-                return;
+                return false;
             }
             else if (this._Pictures.Where(x => x.IsVideo || x.IsGifAnimation).Count() > 0 && this._Pictures.Where(x => !x.IsVideo && !x.IsGifAnimation).Count() > 0)
             {
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
-                return;
+                return false;
             }
             else if (this._Pictures.Where(x => !x.IsVideo).Any(x => x.Stream.Size > 3145728) || this._Pictures.Where(x => x.IsVideo).Any(x => x.Stream.Size > 15728640))
             {
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
-                return;
+                return false;
             }
 
             this.Updating = true;
@@ -253,14 +253,14 @@ namespace Flantter.MilkyWay.Models.ShareContract
                 Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
-                return;
+                return false;
             }
             catch (Exception ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
-                return;
+                return false;
             }
             finally
             {
@@ -269,12 +269,15 @@ namespace Flantter.MilkyWay.Models.ShareContract
 
             foreach (var pic in this._Pictures)
                 pic.Dispose();
+
             this._Pictures.Clear();
 
             this.Text = string.Empty;
             
             this.State = "Accept";
             this.Message = _ResourceLoader.GetString("TweetArea_Message_AllSet");
+
+            return true;
         }
     }
 }

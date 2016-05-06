@@ -88,7 +88,7 @@ namespace Flantter.MilkyWay
 
         protected override void OnShareTargetActivated(ShareTargetActivatedEventArgs e)
         {
-            //base.OnShareTargetActivated(e);
+            base.OnShareTargetActivated(e);
             var shareTargetPage = new StatusShareContract();
             shareTargetPage.Activate(e);
         }

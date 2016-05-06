@@ -990,6 +990,9 @@ namespace Flantter.MilkyWay.Models
         {
             var index = this.Tweets.IndexOf(this.Tweets.FirstOrDefault(x =>
             {
+                if (x is Twitter.Objects.Gap)
+                    return false;
+
                 var tid = ((ITweet)x).Id;
                 if (x is Twitter.Objects.Status)
                     tid = ((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((ITweet)x).Id;
@@ -1020,6 +1023,14 @@ namespace Flantter.MilkyWay.Models
 
             if (index != -1)
                 this._Tweets.RemoveAt(index);
+        }
+
+        public void Delete(Twitter.Objects.Gap gap)
+        {
+            if (!this.Tweets.Contains(gap))
+                return;
+
+            this.Tweets.Remove(gap);
         }
 
         public bool GapCheck(long id)

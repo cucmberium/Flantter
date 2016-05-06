@@ -149,10 +149,10 @@
                                 </Button>
 
                                 <SymbolIcon Grid.Row="1" Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{x:Bind ActionSymbol.Value, Mode=OneWay}" HorizontalAlignment="Center" Width="50" Height="50"/>
-                                <TextBlock Grid.Row="2" Text="{x:Bind Name.Value, Mode=OneWay}" HorizontalAlignment="Center" />
+                                <TextBlock Grid.Row="2" Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Text="{x:Bind Name.Value, Mode=OneWay}" HorizontalAlignment="Center" />
                                 
                                 <Rectangle Grid.Row="4" Fill="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}"/>
-                                <TextBlock Grid.Row="4" HorizontalAlignment="Left" Margin="5,0" VerticalAlignment="Center">
+                                <TextBlock Grid.Row="4" Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" HorizontalAlignment="Left" Margin="5,0" VerticalAlignment="Center">
                                     <Run Text="@"/><Run Text="{x:Bind ScreenName.Value, Mode=OneWay}" />
                                 </TextBlock>
                             </Grid>

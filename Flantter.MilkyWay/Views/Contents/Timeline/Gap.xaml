@@ -18,7 +18,7 @@
     
     <UserControl.Resources>
         <Storyboard x:Name="TweetSlideAnimation">
-            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TweetStackPanel">
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TweetGrid">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-40">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <QuarticEase EasingMode="EaseOut"/>
@@ -30,25 +30,26 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="TweetStackPanel">
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="TweetGrid">
                 <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
                 <LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="TweetExpandAnimation">
-            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="TweetStackPanel">
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="TweetGrid">
                 <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
                 <LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
 
-    <StackPanel x:Name="TweetStackPanel" Background="{StaticResource TweetGapBackgroundBrush}" RenderTransformOrigin="0.5,0.5">
-        <StackPanel.RenderTransform>
+    <Grid x:Name="TweetGrid" Background="{StaticResource TweetGapBackgroundBrush}" RenderTransformOrigin="0.5,0.5" Height="32">
+        <Grid.RenderTransform>
             <CompositeTransform/>
-        </StackPanel.RenderTransform>
+        </Grid.RenderTransform>
 
-        <TextBlock  Foreground="{StaticResource TweetGapTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Margin="0,5" Text="ギャップツイートを取得" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="GapTextblock" x:Uid="Tweet_Gap_GetGapStatus_Textblock" Foreground="{StaticResource TweetGapTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="ギャップツイートを取得" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ProgressBar x:Name="GapProgressBar" Background="Transparent" Foreground="{StaticResource ProgressBarForegroundBrush}" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
-    </StackPanel>
+    </Grid>
 </UserControl>

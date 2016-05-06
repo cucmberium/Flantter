@@ -141,12 +141,23 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             var verticalOffset = previousVerticalOffset;
             var offset = verticalOffset + ChangedVertialOffset;
-
-            if (this.ScrollViewerObject.ScrollableHeight + 1 - offset <= 0)
-                return;
-
+            
             if (e.NewStartingIndex >= verticalOffset - 0.5)
                 return;
+            
+            if (this.ScrollViewerObject.ScrollableHeight + 1 - offset <= 0)
+            {
+                try
+                {
+                    this.ScrollViewerObject.UpdateLayout();
+                }
+                catch
+                {
+                }
+
+                if (this.ScrollViewerObject.ScrollableHeight + 1 - offset <= 0)
+                    return;
+            }
 
             previousVerticalOffset = offset;
 
@@ -191,7 +202,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     story.Begin();
 
                     this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
-                    previousVerticalOffset = 0;
+                    previousVerticalOffset = 2;
 
                     break;
                 case SettingSupport.TweetAnimationEnum.None:
@@ -203,7 +214,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     else
                     {
                         this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
-                        previousVerticalOffset = 0;
+                        previousVerticalOffset = 2;
                     }
 
                     break;

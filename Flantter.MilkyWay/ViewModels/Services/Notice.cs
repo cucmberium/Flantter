@@ -46,6 +46,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.RetweetStatusesCommand = new ReactiveCommand();
             this.FavoriteStatusesCommand = new ReactiveCommand();
             this.ShowMyListsCommand = new ReactiveCommand();
+            this.GetGapStatusCommand = new ReactiveCommand();
 
             this.AddListColumnCommand = new ReactiveCommand();
             this.AddFilterColumnCommand = new ReactiveCommand();
@@ -152,7 +153,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand RetweetStatusesCommand { get; private set; }
         public ReactiveCommand FavoriteStatusesCommand { get; private set; }
         public ReactiveCommand ShowMyListsCommand { get; private set; }
-        
+        public ReactiveCommand GetGapStatusCommand { get; private set; }
+
         public ReactiveCommand AddListColumnCommand { get; private set; }
         public ReactiveCommand AddFilterColumnCommand { get; private set; }
 

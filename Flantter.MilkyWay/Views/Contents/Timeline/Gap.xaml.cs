@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -45,8 +46,45 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register("IsSelected", typeof(bool), typeof(EventMessage), new PropertyMetadata(false, IsSelectedPropertyChanged));
 
+        public static ICommand GetCommand(DependencyObject obj)
+        {
+            return (ICommand)obj.GetValue(CommandProperty);
+        }
+        public static void SetCommand(DependencyObject obj, ICommand value)
+        {
+            obj.SetValue(CommandProperty, value);
+        }
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(Status), new PropertyMetadata(null));
+
+        public static object GetCommandParameter(DependencyObject obj)
+        {
+            return (object)obj.GetValue(CommandParameterProperty);
+        }
+        public static void SetCommandParameter(DependencyObject obj, object value)
+        {
+            obj.SetValue(CommandParameterProperty, value);
+        }
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(Status), new PropertyMetadata(null));
+
         private static void IsSelectedPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
+            var gap = obj as Gap;
+            var textblock = gap.FindName("GapTextblock") as TextBlock;
+            var progressBar = gap.FindName("GapProgressBar") as ProgressBar;
+
+            if (progressBar.IsIndeterminate)
+                return;
+
+            var cmd = GetCommand(obj);
+            var param = GetCommandParameter(obj);
+            if (cmd != null && cmd.CanExecute(param))
+                cmd.Execute(param);
+
+            textblock.Visibility = Visibility.Collapsed;
+            progressBar.Visibility = Visibility.Visible;
+            progressBar.IsIndeterminate = true;
         }
         
         public Gap()

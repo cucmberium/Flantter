@@ -865,4 +865,7 @@
   <data name="ShareContract_NeedAuthorize.Text" xml:space="preserve">
     <value>You need authorization in main app if you want to use this feature.</value>
   </data>
+  <data name="Tweet_Gap_GetGapStatus_Textblock.Text" xml:space="preserve">
+    <value>Get gap tweet</value>
+  </data>
 </root>

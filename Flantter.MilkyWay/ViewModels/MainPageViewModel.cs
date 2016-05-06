@@ -30,6 +30,7 @@ using Flantter.MilkyWay.Models.Exceptions;
 using Flantter.MilkyWay.Views.Contents.Authorize;
 using System.Collections.ObjectModel;
 using Flantter.MilkyWay.License;
+using Windows.ApplicationModel;
 
 namespace Flantter.MilkyWay.ViewModels
 {
@@ -649,6 +650,48 @@ namespace Flantter.MilkyWay.ViewModels
             await Task.Run(async () => await this.Model.Initialize());
 
             Services.Notice.Instance.TweetAreaAccountChangeCommand.Execute(this.Accounts.First(x => x.IsEnabled.Value));
+
+            Application.Current.Resuming += Application_OnResuming;
+        }
+
+        public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
+        {
+            base.OnNavigatingFrom(e, viewModelState, suspending);
+            
+            Application.Current.Resuming -= Application_OnResuming;
+        }
+
+        private async void Application_OnResuming(object sender, object e)
+        {
+            foreach (var account in this.Accounts)
+            {
+                foreach (var column in account.Columns)
+                {
+                    column.IsScrollLockEnabled.Value = false;
+                }
+            }
+
+            foreach (var account in this.Accounts)
+            {
+                foreach (var column in account.Columns)
+                {
+                    if (column.IsEnabledStreaming.Value && column.Model.Streaming)
+                    {
+                        column.Model.Streaming = false;
+                        column.Model.Streaming = true;
+                    }
+                }
+            }
+
+            await Task.Delay(500);
+
+            foreach (var account in this.Accounts)
+            {
+                foreach (var column in account.Columns)
+                {
+                    column.IsScrollLockEnabled.Value = false;
+                }
+            }
         }
         #endregion
     }

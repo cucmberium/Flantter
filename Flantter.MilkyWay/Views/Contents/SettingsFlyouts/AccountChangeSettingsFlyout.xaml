@@ -32,7 +32,7 @@
 
             <controls:HorizontalBar/>
 
-            <TextBlock x:Uid="SettingsFlyout_AccountChange_SelectAccount_Textblock" Margin="10,3" TextWrapping="NoWrap" Text="アカウント選択"/>
+            <TextBlock x:Uid="SettingsFlyout_AccountChange_SelectAccount_Textblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="10,3" TextWrapping="NoWrap" Text="アカウント選択"/>
 
             <controls:HorizontalBar/>
 
@@ -51,7 +51,7 @@
 
             <controls:HorizontalBar/>
 
-            <TextBlock x:Uid="SettingsFlyout_AccountChange_AccountSetting_Textblock" Margin="10,3" TextWrapping="NoWrap" Text="アカウント設定"/>
+            <TextBlock x:Uid="SettingsFlyout_AccountChange_AccountSetting_Textblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="10,3" TextWrapping="NoWrap" Text="アカウント設定"/>
 
             <controls:HorizontalBar/>
 

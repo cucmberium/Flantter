@@ -722,7 +722,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (!msgNotification.Result)
                     return;
 
-                this.Model.MuteUser(screenName);
+                await this.Model.MuteUser(screenName);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.AddListColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
@@ -747,7 +747,7 @@ namespace Flantter.MilkyWay.ViewModels
                 if (!msgNotification.Result)
                     return;
 
-                this.Model.DeleteColumn(columnSetting);
+                await this.Model.DeleteColumn(columnSetting);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.AddFilterColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
@@ -792,6 +792,18 @@ namespace Flantter.MilkyWay.ViewModels
                     return;
 
                 this.ColumnSelectedIndex.Value = this.Columns.IndexOf(this.Columns.First(y => y.Index.Value == columnIndex - 1));
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.GetGapStatusCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
+            {
+                var gapViewModel = x as GapViewModel;
+                if (gapViewModel == null)
+                    return;
+
+                var column = this.Columns.First(y => y.Tweets.Contains(gapViewModel));
+                await column.Model.Update(maxid: gapViewModel.Model.MaxId);
+                column.Model.Delete(gapViewModel.Model);
+
             }).AddTo(this.Disposable);
 
             #endregion

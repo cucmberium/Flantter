@@ -159,7 +159,12 @@ namespace Flantter.MilkyWay.ViewModels
                         return false;
                 }
             }).ToReactiveCommand().AddTo(this.Disposable);
-            this.StreamingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ => { this.Model.Streaming = !this.Model.Streaming; }).AddTo(this.Disposable);
+            this.StreamingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ => 
+            {
+                this.Model.Streaming = !this.Model.Streaming;
+                this.Model.ColumnSetting.Streaming = this.Model.Streaming;
+                await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            }).AddTo(this.Disposable);
 
             this.ScrollToTopCommand = column.ObserveProperty(x => x.UnreadCount).Select(x => x != 0).ToReactiveCommand().AddTo(this.Disposable);
             this.ScrollToTopCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ => 
@@ -184,9 +189,9 @@ namespace Flantter.MilkyWay.ViewModels
             this.RefreshCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ =>
             {
                 this.IsScrollLockEnabled.Value = true;
-                await Task.Delay(100);
+                await Task.Delay(50);
                 await this.Model.Update();
-                await Task.Delay(250);
+                await Task.Delay(200);
                 this.IsScrollLockEnabled.Value = false;
             }).AddTo(this.Disposable);
 

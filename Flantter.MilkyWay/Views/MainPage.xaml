@@ -120,8 +120,22 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="Flantter_TitleBar" Background="{StaticResource TitleBarBackgroundBrush}" Grid.Row="0" Height="0" Visibility="Collapsed">
-            
+        <Grid x:Name="Flantter_TitleBar" Background="{StaticResource TitleBarBackgroundBrush}" Grid.Row="0" Height="0" Visibility="Collapsed" Padding="0,0,180,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="Flantter_TitleBarMain" Grid.Column="0" Background="Transparent">
+                <TextBlock FontSize="11.5" Text="Flantter" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16,0"/>
+            </Grid>
+            <Button x:Name="Flantter_TitleBarAccountButton" Grid.Column="1" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowChangeAccountCommand}">
+                <TextBlock FontSize="11" FontFamily="Segoe UI Symbol" Text="&#xE125;    Account"/>
+            </Button>
+            <Button x:Name="Flantter_TitleBarSettingButton" Grid.Column="2" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowMainSettingCommand}">
+                <TextBlock FontSize="11" FontFamily="Segoe UI Symbol" Text="&#xE115;    Setting"/>
+            </Button>
         </Grid>
 
         <Image Grid.Row="1" Source="{x:Bind ViewModel.Setting.BackgroundImagePath, Mode=OneWay}" Stretch="UniformToFill"/>
@@ -152,6 +166,40 @@
                         <Setter Target="Flantter_TitleBar.Visibility" Value="Collapsed"/>
                         <Setter Target="Flantter_TitleBar.Height" Value="0"/>
                     </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            
+            <VisualStateGroup x:Name="SizeStateGroup">
+                <VisualState x:Name="Minimal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Flantter_TitleBarAccountButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="Flantter_TitleBarSettingButton.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Min">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="352" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Flantter_TitleBarAccountButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="Flantter_TitleBarSettingButton.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="384" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Flantter_TitleBarAccountButton.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>

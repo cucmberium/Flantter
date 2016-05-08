@@ -1,72 +1,31 @@
+ï»¿
+-- Flantter.MilkyWay Todo(ä¸Šã‹ã‚‰é †ç•ªã«è¡Œã†)
 
--- “d˜b‚Å“®ì‚ð’¼‚·‚Æ‚±‚ëƒŠƒXƒg
-ƒAƒJƒEƒ“ƒg‚Ì”FØ(‚Å‚«‚ê‚Îpin‚¶‚á‚È‚¢‚â‚Â‚Å)
-ƒXƒe[ƒ^ƒXƒo[ŠÖ˜A
+ãƒ»ãƒãƒƒã‚¯ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰ã«è¡Œã£ãŸæ™‚ã®ä¸­æ–­å‡¦ç†
+ãƒ»è»½é‡åŒ–
+ãƒ»ã‚¿ã‚¤ãƒ«é€šçŸ¥
+ãƒ»DBã®å®Ÿè£…
+ãƒ»BottomBar ä¸¦ã³æ›¿ãˆã§ãã‚‹ã‚ˆã†ã« (3ã¤é¸æŠžã—ã¦è¡¨ç¤º)
+ãƒ»èƒŒæ™¯ç”»åƒã®ã‚¹ãƒ©ã‚¤ãƒ‰ã‚·ãƒ§ãƒ¼æ©Ÿèƒ½
+ãƒ»æ™‚åˆ»ã‚’åå‰ã®æ¨ªã«è¡¨ç¤ºã—ã€viaã‚’è¡¨ç¤ºã—ãªã„ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¿½åŠ 
+ãƒ»ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ†ãƒ¼ãƒžã®è¿½åŠ (ã‚‚ã†ã¡ã‚‡ã£ã¨ã‚ã‹ã‚Šã‚„ã™ã„ã‚„ã¤)
+ãƒ»ãƒ—ãƒ©ã‚°ã‚¤ãƒ³æ©Ÿèƒ½(jint)
+ãƒ»Achievementæ©Ÿèƒ½
+ãƒ»ãƒ•ã‚£ãƒ«ã‚¿ã®ç°¡æ˜“ã‚¦ã‚£ã‚¶ãƒ¼ãƒ‰ã‚’è¿½åŠ 
+ãƒ»ãƒ•ã‚£ãƒ«ã‚¿ã®è‰²åˆ†ã‘è¡¨ç¤º
+ãƒ»APIã®ä½¿ç”¨çŠ¶æ³è¡¨ç¤ºSettingsFlyout
+ãƒ»ãƒªã‚¹ãƒˆã®ç·¨é›†æ©Ÿèƒ½, SavedSearchã®ç·¨é›†æ©Ÿèƒ½
+ãƒ»ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ³å°åˆ·æ©Ÿèƒ½
 
--- V Memo.txt
+-- ã¤ãã‚ŠãŸã„ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
 
-E”wŒi‰æ‘œ‚ÌƒXƒ‰ƒCƒhƒVƒ‡[‹@”\
+ãƒ»ã‚¹ãƒ‘ãƒ ãƒã‚§ãƒƒã‚«ãƒ¼
+ãƒ»ãŠæ°—ã«å…¥ã‚Šã«ç™»éŒ²ã•ã‚ŒãŸãƒ„ã‚¤ãƒ¼ãƒˆå†…ã®ç”»åƒã‚’è‡ªå‹•ä¿å­˜
+ãƒ»ã‚¢ãƒ‹ãƒ¡ã‚’ãƒã‚§ãƒƒã‚¯ã—ã¦å®Ÿæ³ã‚¿ãƒ–ã‚’è‡ªå‹•è¿½åŠ ã™ã‚‹ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
 
--- ‹Œ Memo.txt
+-- é›»è©±ã§å‹•ä½œã‚’ç›´ã™ã¨ã“ã‚ãƒªã‚¹ãƒˆ
+ãƒ»ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒ¼é–¢é€£
+ãƒ»ãƒãƒƒã‚¯ãƒœã‚¿ãƒ³ã®å‹•ä½œ
+ãƒ»ä¸€éƒ¨ãƒ‡ã‚¶ã‚¤ãƒ³
+ãƒ»ã‚¹ãƒ¯ã‚¤ãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®å‹•ä½œ
 
-Todo : ã‚©‚ç‡‚És‚¤
-
-EŽæ“¾Œ”‚Ì•ÏX‹@”\
-
-E·•ªŽæ“¾•”•ª‚ÌŒ©‚½–Ú‚ð‰ü‘P
-
-EŽž‚ð–¼‘O‚Ì‰¡‚É•\Ž¦‚µAvia‚ð•\Ž¦‚µ‚È‚¢ƒIƒvƒVƒ‡ƒ“‚ð’Ç‰Á
-
-EƒtƒBƒ‹ƒ^‚ÌŠÈˆÕƒEƒBƒU[ƒh‚ð’Ç‰Á
-EƒtƒBƒ‹ƒ^‚ÌF•ª‚¯•\Ž¦
-
-EŠÖ˜A”­Œ¾‚ðŒ©‚ê‚é‚æ‚¤‚É
-
--- ver 2.2.1
-
-EƒŠƒXƒg‚Ì•ÒW‹@”\, SavedSearch‚Ì•ÒW‹@”\
-
--- ver 2.2.2
-
-EƒfƒtƒHƒ‹ƒgƒe[ƒ}‚Ì’Ç‰Á(‚à‚¤‚¿‚å‚Á‚Æ‚í‚©‚è‚â‚·‚¢‚â‚Â)
-Eƒhƒ‰ƒbƒO‚Åƒ^ƒu‚ÌˆÚ“®‚È‚Ç‚ð‰Â”\‚É‚·‚éH
-Eƒvƒ‰ƒOƒCƒ“‹@”\(Python)
-EAPI‚ÌŽg—pó‹µ•\Ž¦SettingsFlyout
-EWindows 10‚ÉŒü‚¯‚½ƒ}ƒEƒXAƒL[ƒ{[ƒh‚Å‚Ì“®ì‚Ì‰ü‘P
-EUI‚ð‚©‚Á‚±—Ç‚­‚·‚é(‚Å‚«‚ê‚Î”ñƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚à˜M‚è‚½‚¢)
-E‘¼ƒvƒ‰ƒbƒgƒtƒH[ƒ€‚Ö‚ÌˆÚA(‘‹“d˜b)
-Eƒuƒ‰ƒEƒU‚Ý‚½‚¢‚ÈŠ´Šo‚ÅƒAƒJƒEƒ“ƒg‚ÌØ‚è‘Ö‚¦‚ª‚Å‚«‚é‚æ‚¤‚É(ƒuƒ‰ƒEƒU‚Ìƒ^ƒu‚ð‚¢‚¶‚é‚â‚Â)
-
--- ver 3.0 (Windows 10 ”­”„ )
-
-Eƒ^ƒCƒ€ƒ‰ƒCƒ“ˆóü‹@”\
-EAchievement‹@”\
-
-
-Bug , Enhancement : ’¼‚·(Å—Dæ)
-
-EAzureMobileService‚ðŒ©‚ÄA“K‹X’¼‚·(Œ´ˆö‚ª‚í‚©‚ç‚È‚¢‚à‚Ì‚Í.dmp‚ªã‚ª‚Á‚Ä‚­‚é‚Ü‚Å‘Ò‚Â)
-Eimg.ly‚ÌƒTƒ€ƒl•\Ž¦ © API Documentã‚Å‚Í³‚µ‚¢‚©‚ç—lŽqŒ©
-
-—lŽqŒ© : •Û—¯
-
-E‹¤—LƒRƒ“ƒgƒ‰ƒNƒg‚©‚çƒcƒC[ƒg‚ÌÚ×‚âƒ†[ƒU[ƒvƒƒtƒB[ƒ‹‚ðŠJ‚¯‚é‚æ‚¤‚É © •Ö—˜‚¾‚ª‹¤—LƒRƒ“ƒgƒ‰ƒNƒg‚Éƒ†[ƒU[‚ÌƒŠƒ“ƒN‚ª—ˆ‚é‚±‚Æ‚ª‚Ù‚Ú‚È‚¢
-E‚à‚¤­‚µƒcƒC[ƒg‚Ì•\Ž¦‚ðŒy‚­ © Xaml‚ªd‚¢‚½‚ß‚±‚Ì‚æ‚¤‚É‚È‚éAXaml‚ðŒy—Ê‰»‚·‚é‚±‚Æ
-E‚©‚Á‚±‚¢‚¢’Ê’m © ‚»‚à‚»‚à•K—v‚©H
-E’Ê’m—š—ð‚ðŒ©‚ê‚é‚æ‚¤‚È‰æ–Ê‚ðŽÀ‘•‚·‚é © Eventƒ^ƒu‚ ‚éB‘‹10‚Å‚Í’Ê’m—š—ð‚ªŒ©‚ê‚é
-E‚¨‹C‚É“ü‚è+ƒŠƒcƒC[ƒgƒRƒ}ƒ“ƒh 
-E‰º•”‚Éƒƒjƒ…[•\Ž¦ƒ{ƒ^ƒ“’Ç‰Á
-
-Œy—Ê‰»
-
-EPullToRefreshŠÖ˜A‚ÌUI—v‘f‚ðŒ¸‚ç‚·
-
-ƒ{ƒc
-
-EƒZƒ}ƒ“ƒeƒBƒbƒNƒY[ƒ€ © ‚¢‚ç‚È‚¢
-
-‚Â‚­‚è‚½‚¢Pythonƒvƒ‰ƒOƒCƒ“
-
-EƒXƒpƒ€ƒ`ƒFƒbƒJ[
-E‚¨‹C‚É“ü‚è‚É“o˜^‚³‚ê‚½ƒcƒC[ƒg“à‚Ì‰æ‘œ‚ðŽ©“®•Û‘¶
-EƒAƒjƒ‚ðƒ`ƒFƒbƒN‚µ‚ÄŽÀ‹µƒ^ƒu‚ðŽ©“®’Ç‰Á‚·‚éƒvƒ‰ƒOƒCƒ“

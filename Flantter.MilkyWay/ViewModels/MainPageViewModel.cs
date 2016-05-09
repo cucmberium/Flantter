@@ -631,14 +631,19 @@ namespace Flantter.MilkyWay.ViewModels
 
                 Services.Notice.Instance.ShowConversationCommand.Execute(tweet.Model);
             });
-            
+
             #endregion
+
+            Application.Current.Resuming += Application_Resuming;
+            Application.Current.Suspending += Application_Suspending;
         }
         #endregion
 
         #region Destructor
         ~MainPageViewModel()
         {
+            Application.Current.Resuming -= Application_Resuming;
+            Application.Current.Suspending -= Application_Suspending;
         }
         #endregion
 
@@ -650,28 +655,29 @@ namespace Flantter.MilkyWay.ViewModels
             await Task.Run(async () => await this.Model.Initialize());
 
             Services.Notice.Instance.TweetAreaAccountChangeCommand.Execute(this.Accounts.First(x => x.IsEnabled.Value));
-
-            Application.Current.Resuming += Application_OnResuming;
         }
 
         public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
         {
             base.OnNavigatingFrom(e, viewModelState, suspending);
-            
-            Application.Current.Resuming -= Application_OnResuming;
         }
-
-        private async void Application_OnResuming(object sender, object e)
+        
+        private void Application_Suspending(object sender, object e)
         {
-            foreach (var account in this.Accounts)
+            System.Diagnostics.Debug.WriteLine("Suspending...");
+            /*foreach (var account in this.Accounts)
             {
                 foreach (var column in account.Columns)
                 {
-                    column.IsScrollLockEnabled.Value = false;
+                    column.IsScrollLockEnabled.Value = true;
                 }
-            }
+            }*/
+        }
 
-            foreach (var account in this.Accounts)
+        private async void Application_Resuming(object sender, object e)
+        {
+            System.Diagnostics.Debug.WriteLine("Resuming...");
+            /*foreach (var account in this.Accounts)
             {
                 foreach (var column in account.Columns)
                 {
@@ -691,7 +697,7 @@ namespace Flantter.MilkyWay.ViewModels
                 {
                     column.IsScrollLockEnabled.Value = false;
                 }
-            }
+            }*/
         }
         #endregion
     }

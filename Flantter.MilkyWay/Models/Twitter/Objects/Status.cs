@@ -10,7 +10,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
     public class Status : ITweet
     {
-        private static readonly Regex SourceRegex = new Regex("<(\"[^\"]*\"|'[^']*'|[^'\">])*>", RegexOptions.Compiled);
+        private static readonly Regex SourceRegex = new Regex(@"^<a href=""(.+)"" rel=""nofollow"">(.+)</a>$", RegexOptions.Compiled);
         
         public Status(CoreTweet.Status cOrigStatus)
         {
@@ -26,7 +26,6 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.InReplyToScreenName = cStatus.InReplyToScreenName;
             this.InReplyToUserId = cStatus.InReplyToUserId.HasValue ? cStatus.InReplyToUserId.Value : 0;
             this.Id = cStatus.Id;
-            this.Source = SourceRegex.Replace(cStatus.Source, "");
             this.Text = cStatus.Text;
             this.User = (cStatus.User != null) ? new User(cStatus.User) : null;
             this.IsFavorited = cStatus.IsFavorited.HasValue ? cStatus.IsFavorited.Value : false;
@@ -36,6 +35,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.MentionStatus = null;
             this.QuotedStatus = cStatus.QuotedStatus != null && cStatus.QuotedStatus.User != null ? new Status(cStatus.QuotedStatus) : null;
             this.QuotedStatusId = (cStatus.QuotedStatusId.HasValue && this.QuotedStatus != null) ? cStatus.QuotedStatusId.Value : 0;
+
+            var sourceMatch = SourceRegex.Match(cStatus.Source);
+            if (sourceMatch.Success)
+                this.Source = sourceMatch.Groups[2].Value;
+            else
+                this.Source = cStatus.Source;
         }
 
         #region CreatedAt変更通知プロパティ

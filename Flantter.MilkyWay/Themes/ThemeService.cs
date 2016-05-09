@@ -36,7 +36,7 @@ namespace Flantter.MilkyWay.Themes
         private ThemeService()
         {
             this.ThemeString = SettingService.Setting.Theme.ToString();
-            DefaultResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + "Default" + ".xaml", UriKind.Absolute);
+            DefaultResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/Default.xaml", UriKind.Absolute);
         }
 
         protected T GetValue<T>([CallerMemberName] string name = null)
@@ -83,14 +83,12 @@ namespace Flantter.MilkyWay.Themes
                 {
                     this.ThemeString = supportedThemeNames.Contains(name.ToString()) ? name.ToString() : "Dark";
                     ResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + this.ThemeString + ".xaml", UriKind.Absolute);
-                    DefaultResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + this.ThemeString + ".xaml", UriKind.Absolute);
                 }
             }
             else
             {
                 this.ThemeString = supportedThemeNames.Contains(name.ToString()) ? name.ToString() : "Dark";
                 ResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + this.ThemeString + ".xaml", UriKind.Absolute);
-                DefaultResourceDictionary.Source = new Uri("ms-appx:///Themes/Skins/" + this.ThemeString + ".xaml", UriKind.Absolute);
             }
 
             try

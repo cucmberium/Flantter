@@ -115,7 +115,6 @@
     <Compile Include="Common\AdvancedSettingBase.cs" />
     <Compile Include="Common\ExtendedBindableBase.cs" />
     <Compile Include="Common\DataTypeTempleteSelector.cs" />
-    <Compile Include="Common\FontServiceBase.cs" />
     <Compile Include="Common\GetMethodHelper.cs" />
     <Compile Include="Common\IEnumerableExtensions.cs" />
     <Compile Include="Common\SettingServiceBase.cs" />

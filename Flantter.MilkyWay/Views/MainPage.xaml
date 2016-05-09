@@ -13,8 +13,7 @@
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
-    mc:Ignorable="d"
-    ManipulationMode="TranslateX">
+    mc:Ignorable="d">
 
     <i:Interaction.Behaviors>
         <core:DataTriggerBehavior Binding="{x:Bind ViewModel.TitleBarVisivility.Value, Mode=OneWay}" Value="True" >
@@ -127,9 +126,9 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Grid x:Name="Flantter_TitleBarMain" Grid.Column="0" Background="Transparent">
-                <TextBlock FontSize="11.5" Text="Flantter" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16,0"/>
-            </Grid>
+            <Border x:Name="Flantter_TitleBarMain" Grid.Column="0" Background="Transparent">
+                <TextBlock FontSize="11.5" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Text="Flantter" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16,0"/>
+            </Border>
             <Button x:Name="Flantter_TitleBarAccountButton" Grid.Column="1" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowChangeAccountCommand}">
                 <TextBlock FontSize="11" FontFamily="Segoe UI Symbol" Text="&#xE125;    Account"/>
             </Button>

@@ -149,9 +149,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public bool TargetStatusVisibility { get; set;}
 
         public long TargetStatusId { get; set; }
-
-        public string TargetStatusCreatedAt { get; set; }
-
+        
         public string TargetStatusText { get; set; }
 
         public string TargetStatusScreenName { get; set; }

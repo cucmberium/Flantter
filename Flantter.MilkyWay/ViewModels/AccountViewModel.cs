@@ -191,7 +191,7 @@ namespace Flantter.MilkyWay.ViewModels
                     return (clientWidth >= 960.0 && searchBoxEnabled && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile");
                 }).ToReactiveProperty().AddTo(this.Disposable);
 
-            this.IsZoomedInViewActive = new ReactiveProperty<bool>(true);
+            this.IsZoomedInViewActive = new ReactiveProperty<bool>(true).AddTo(this.Disposable);
 
             this.ZoomOutOrientation = WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth).Select(x =>
             {
@@ -199,7 +199,7 @@ namespace Flantter.MilkyWay.ViewModels
                     return Orientation.Horizontal;
                 else
                     return Orientation.Vertical;
-            }).ToReactiveProperty();
+            }).ToReactiveProperty().AddTo(this.Disposable);
 
             this.Notice = Services.Notice.Instance;
 
@@ -301,14 +301,12 @@ namespace Flantter.MilkyWay.ViewModels
                 // この設計はメモリ使用量削減に貢献しているのだろうか・・・？
 
                 statusViewModel.MentionStatusEntities = statusViewModel.Model.MentionStatus.Entities;
-                statusViewModel.MentionStatusId = statusViewModel.Model.MentionStatus.Id;
                 statusViewModel.MentionStatusName = statusViewModel.Model.MentionStatus.User.Name;
                 statusViewModel.MentionStatusProfileImageUrl = string.IsNullOrWhiteSpace(statusViewModel.Model.MentionStatus.User.ProfileImageUrl) ? "http://localhost/" : statusViewModel.Model.MentionStatus.User.ProfileImageUrl;
                 statusViewModel.MentionStatusScreenName = statusViewModel.Model.MentionStatus.User.ScreenName;
                 statusViewModel.MentionStatusText = statusViewModel.Model.MentionStatus.Text;
 
                 statusViewModel.OnPropertyChanged("MentionStatusEntities");
-                statusViewModel.OnPropertyChanged("MentionStatusId");
                 statusViewModel.OnPropertyChanged("MentionStatusName");
                 statusViewModel.OnPropertyChanged("MentionStatusProfileImageUrl");
                 statusViewModel.OnPropertyChanged("MentionStatusScreenName");

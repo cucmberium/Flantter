@@ -41,6 +41,7 @@
             </i:Interaction.Behaviors>
             
             <Image x:Name="BottomBarArea_ProfileImage" Source="{x:Bind ViewModel.ProfileImageUrl.Value, Mode=OneWay}"/>
+            
             <Button.Flyout>
                 <MenuFlyout>
                     <MenuFlyoutItem x:Uid="BottomBarArea_ProfileImageButton_Flyout_ColumnSort" Text="&#xE133; カラム並び替え" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SortColumnCommand}"/>
@@ -60,12 +61,6 @@
                 <ColumnDefinition Width="0.25*" MinWidth="64"/>
                 <ColumnDefinition Width="0.25*" MinWidth="64"/>
             </Grid.ColumnDefinitions>
-
-            <Grid.Transitions>
-                <TransitionCollection>
-                    <EntranceThemeTransition IsStaggeringEnabled="True"/>
-                </TransitionCollection>
-            </Grid.Transitions>
 
             <Button x:Name="BottomBarArea_HomeButton" Grid.Column="0" Template="{StaticResource ButtonPressedAnimTemplete}" Tapped="BottomBarArea_HomeButton_Tapped" BorderThickness="0" MinWidth="0" MinHeight="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <SymbolIcon x:Name="BottomBarArea_HomeIcon" Symbol="Home" RenderTransformOrigin="0.5,0.5">
@@ -104,7 +99,7 @@
             </Button>
         </Grid>
         
-        <Grid x:Name="BottomBarArea_TextButtonSelecter" Grid.Column="1" HorizontalAlignment="Stretch">
+        <Grid x:Name="BottomBarArea_TextButtonSelecter" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="Auto"/>
@@ -113,12 +108,6 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
-            <Grid.Transitions>
-                <TransitionCollection>
-                    <EntranceThemeTransition IsStaggeringEnabled="True"/>
-                </TransitionCollection>
-            </Grid.Transitions>
 
             <Button x:Name="BottomBarArea_HomeTextButton" Grid.Column="1" Style="{StaticResource TextBlockButtonStyle}" Template="{StaticResource TextblockButtonPressedAnimTemplete}" Tapped="BottomBarArea_HomeButton_Tapped" BorderThickness="0" Content="Home" FontSize="24" Margin="14,0"/>
             <Button x:Name="BottomBarArea_MentionsTextButton" Grid.Column="2" Style="{StaticResource TextBlockButtonStyle}" Template="{StaticResource TextblockButtonPressedAnimTemplete}" Tapped="BottomBarArea_MentionsButton_Tapped" BorderThickness="0" Content="Mentions" FontSize="24" Margin="14,0"/>

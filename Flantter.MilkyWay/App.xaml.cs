@@ -1,5 +1,6 @@
 ﻿using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Contents.ShareContract;
+using Flantter.MilkyWay.Views.Util;
 using Prism.Windows;
 using System;
 using System.Collections.Generic;
@@ -33,10 +34,20 @@ namespace Flantter.MilkyWay
             this.InitializeComponent();
 
             this.UnhandledException += App_UnhandledException;
+            //this.Suspending += App_Suspending;
+            //this.Resuming += App_Resuming;
             
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(Microsoft.ApplicationInsights.WindowsCollectors.Metadata | Microsoft.ApplicationInsights.WindowsCollectors.Session);
             
         }
+
+        /*private void App_Suspending(object sender, SuspendingEventArgs e)
+        {
+        }
+
+        private void App_Resuming(object sender, object e)
+        {
+        }*/
 
         private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {

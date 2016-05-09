@@ -31,7 +31,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
             this.IsMuting = user.IsMuting;
             this.IsProtected = user.IsProtected;
-            this.IsVerified = user.IsVerified;
             this.Name = user.Name;
             this.ProfileImageUrl = string.IsNullOrWhiteSpace(user.ProfileImageUrl) ? "http://localhost/" : user.ProfileImageUrl;
             this.ScreenName = user.ScreenName;
@@ -59,10 +58,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         #region IsProtected変更通知プロパティ
         public bool IsProtected { get; set; }
-        #endregion
-
-        #region IsVerified変更通知プロパティ
-        public bool IsVerified { get; set; }
         #endregion
 
         #region Name変更通知プロパティ

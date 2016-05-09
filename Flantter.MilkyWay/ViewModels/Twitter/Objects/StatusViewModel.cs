@@ -154,7 +154,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 this.RetweetFavoriteTriangleIconVisibility = false;
 
             this.QuotedStatusVisibility = status.QuotedStatusId != 0 && status.QuotedStatus != null ? true : false;
-            this.QuotedStatusId = status.QuotedStatusId;
             if (status.QuotedStatus != null)
             {
                 this.QuotedStatusName = status.QuotedStatus.User.Name;
@@ -272,7 +271,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 this.RetweetFavoriteTriangleIconVisibility = false;
             
             this.QuotedStatusVisibility = status.QuotedStatusId != 0 ? true : false;
-            this.QuotedStatusId = status.QuotedStatusId;
             if (status.QuotedStatus != null)
             {
                 this.QuotedStatusName = status.QuotedStatus.User.Name;
@@ -364,8 +362,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public string QuotedStatusProfileImageUrl { get; set; }
 
-        public long QuotedStatusId { get; set; }
-
         public Entities QuotedStatusEntities { get; set; }
 
 
@@ -382,8 +378,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public string MentionStatusText { get; set; }
 
         public string MentionStatusProfileImageUrl { get; set; }
-
-        public long MentionStatusId { get; set; }
 
         public Entities MentionStatusEntities { get; set; }
         

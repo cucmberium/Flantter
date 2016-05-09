@@ -132,12 +132,12 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             }).ToReactiveProperty().AddTo(this.Disposable);
             this.Updating = column.ObserveProperty(x => x.Updating).ToReactiveProperty().AddTo(this.Disposable);
-            this.CanDeleteColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Filter || x == SettingSupport.ColumnTypeEnum.List || x == SettingSupport.ColumnTypeEnum.Search || x == SettingSupport.ColumnTypeEnum.UserTimeline).ToReactiveProperty();
-            this.IsEnabledMultipulSelect = column.ObserveProperty(x => x.Action).Select(x => x != SettingSupport.ColumnTypeEnum.Events && x != SettingSupport.ColumnTypeEnum.DirectMessages).ToReactiveProperty();
+            this.CanDeleteColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Filter || x == SettingSupport.ColumnTypeEnum.List || x == SettingSupport.ColumnTypeEnum.Search || x == SettingSupport.ColumnTypeEnum.UserTimeline).ToReactiveProperty().AddTo(this.Disposable);
+            this.IsEnabledMultipulSelect = column.ObserveProperty(x => x.Action).Select(x => x != SettingSupport.ColumnTypeEnum.Events && x != SettingSupport.ColumnTypeEnum.DirectMessages).ToReactiveProperty().AddTo(this.Disposable);
 
-            this.IsMultipulSelectOpened = new ReactiveProperty<bool>();
-            this.ListViewSelectionMode = new ReactiveProperty<ListViewSelectionMode>(Windows.UI.Xaml.Controls.ListViewSelectionMode.Single);
-            this.SelectedItemsList = new ReactiveProperty<IEnumerable>();
+            this.IsMultipulSelectOpened = new ReactiveProperty<bool>().AddTo(this.Disposable);
+            this.ListViewSelectionMode = new ReactiveProperty<ListViewSelectionMode>(Windows.UI.Xaml.Controls.ListViewSelectionMode.Single).AddTo(this.Disposable);
+            this.SelectedItemsList = new ReactiveProperty<IEnumerable>().AddTo(this.Disposable);
 
             this.SelectedIndex = column.ToReactivePropertyAsSynchronized(x => x.SelectedIndex).AddTo(this.Disposable);
 

@@ -404,7 +404,6 @@ namespace Flantter.MilkyWay.Models.Twitter
             #region Twitter公式
             if (cEntities != null && cEntities.Media != null && cExtendedEntities == null)
             {
-                
                 foreach (var media in cEntities.Media)
                 {
                     yield return new Media()

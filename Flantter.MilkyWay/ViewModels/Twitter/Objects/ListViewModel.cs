@@ -19,10 +19,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
             this.Description = list.Description;
             this.Name = list.Name;
-            this.FullName = list.FullName;
             this.SubscriberCount = list.SubscriberCount;
             this.MemberCount = list.MemberCount;
-            this.Id = list.Id;
             this.ScreenName = list.User.ScreenName;
             this.ProfileImageUrl = list.User.ProfileImageUrl;
 
@@ -38,13 +36,9 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         
         public string Name { get; set; }
 
-        public string FullName { get; set; }
-
         public int SubscriberCount { get; set; }
         
         public int MemberCount { get; set; }
-        
-        public long Id { get; set; }
 
         public string ScreenName { get; set; }
 

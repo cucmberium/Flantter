@@ -33,7 +33,7 @@ namespace Flantter.MilkyWay.Models.Services
             cmd.ExecuteNonQuery();
         }
 
-        public void Uninitialize()
+        public void Free()
         {
             sqliteDisposableTimer.Dispose();
             if (sqliteConnection.IsInTransaction)

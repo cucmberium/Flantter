@@ -250,14 +250,14 @@ namespace Flantter.MilkyWay.Models.ShareContract
             }
             catch (TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
                 return false;
             }
             catch (Exception ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.NotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
                 return false;

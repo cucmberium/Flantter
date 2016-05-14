@@ -1,4 +1,5 @@
-﻿using Flantter.MilkyWay.ViewModels;
+﻿using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels;
 using Flantter.MilkyWay.Views.Util;
 using Prism.Windows.Mvvm;
 using Reactive.Bindings.Extensions;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -72,11 +74,16 @@ namespace Flantter.MilkyWay.Views
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             this.Frame.BackStack.Clear();
             this.Frame.ForwardStack.Clear();
+
+            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None)
+                return;
+
+            await BackgroundExecutionManager.RequestAccessAsync();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

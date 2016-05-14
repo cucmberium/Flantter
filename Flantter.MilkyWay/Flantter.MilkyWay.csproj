@@ -102,6 +102,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\Square71x71Logo.scale-200.png" />
     <None Include="ReleaseNotes.md" />
     <None Include="project.json" />
@@ -613,7 +614,12 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Flantter.MilkyWay.BackgroundTask\Flantter.MilkyWay.BackgroundTask.csproj">
+      <Project>{7bf7968d-b999-43f9-b34f-3e6c5bb80440}</Project>
+      <Name>Flantter.MilkyWay.BackgroundTask</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -868,4 +868,7 @@
   <data name="Tweet_Gap_GetGapStatus_Textblock.Text" xml:space="preserve">
     <value>Get gap tweet</value>
   </data>
+  <data name="SettingsFlyout_Settings_Notification_TileNotification_ComboBox.Header" xml:space="preserve">
+    <value>Tile notification</value>
+  </data>
 </root>

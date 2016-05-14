@@ -274,7 +274,7 @@ namespace Flantter.MilkyWay.Setting
         public bool AchievementNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool NotificationSound { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public SettingSupport.TileNotificationEnum TileNotification { get { return (SettingSupport.TileNotificationEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
-                
+                      
         // Mute設定
         public string MuteFilter { get { return GetValue("(False)"); } set { SetValue(value); OnPropertyChanged(); } }
 
@@ -293,7 +293,8 @@ namespace Flantter.MilkyWay.Setting
         public string CustomThemePath { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
 
         // その他
-        //public string AdvancedSettingData { get { return GetValue(string.Empty); } set { SetValue(value); OnPropertyChanged(); } }
+        [LocalValue]
+        public DateTimeOffset LatestNotificationDate { get { return new DateTimeOffset(GetValue(DateTimeOffset.Now.Ticks), DateTimeOffset.Now.Offset); } set { SetValue(value.Ticks); OnPropertyChanged(); } }
     }
 
     public class SettingProvider

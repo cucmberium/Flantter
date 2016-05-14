@@ -68,6 +68,10 @@
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Notification_EnableNotificationSound_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.NotificationSound, Mode=TwoWay}" Header="通知音を有効にする"/>
 
             <controls:HorizontalBar/>
+
+            <ComboBox x:Uid="SettingsFlyout_Settings_Notification_TileNotification_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="タイル通知" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=TileNotificationListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.TileNotification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            
+            <controls:HorizontalBar/>
             
         </StackPanel>
     </ScrollViewer>

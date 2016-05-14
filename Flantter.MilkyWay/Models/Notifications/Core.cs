@@ -1,5 +1,6 @@
 ﻿using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Setting;
+using NotificationsExtensions.Tiles;
 using NotificationsExtensions.Toasts;
 using Reactive.Bindings.Extensions;
 using System;
@@ -14,7 +15,7 @@ using Windows.UI.Notifications;
 
 namespace Flantter.MilkyWay.Models.Notifications
 {
-    public enum NotificationType
+    public enum PopupNotificationType
     {
         System,
         Retweet,
@@ -24,6 +25,12 @@ namespace Flantter.MilkyWay.Models.Notifications
         Unfavorite,
         Follow,
         QuotedTweet,
+    }
+
+    public enum TileNotificationType
+    {
+        Images,
+        Mentions,
     }
 
     public class Core
@@ -39,6 +46,8 @@ namespace Flantter.MilkyWay.Models.Notifications
         private IDisposable observeTweetReceive;
         public void Initialize()
         {
+            TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
+
             _ResourceLoader = new ResourceLoader();
 
             observeTweetReceive = Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
@@ -56,84 +65,141 @@ namespace Flantter.MilkyWay.Models.Notifications
                                 break;
 
                             if (e.Status.HasRetweetInformation && e.Status.User.Id == e.UserId)
-                                this.PopupToastNotification(NotificationType.Retweet, string.Format(_ResourceLoader.GetString("Notification_Retweet_Retweet"), e.Status.RetweetInformation.User.Name), e.Status.Text, e.Status.RetweetInformation.User.ProfileImageUrl);
+                                this.PopupToastNotification(PopupNotificationType.Retweet, string.Format(_ResourceLoader.GetString("Notification_Retweet_Retweet"), e.Status.RetweetInformation.User.Name), e.Status.Text, e.Status.RetweetInformation.User.ProfileImageUrl);
 
                             if (e.Status.InReplyToUserId == e.UserId)
-                                this.PopupToastNotification(NotificationType.Mention, string.Format(_ResourceLoader.GetString("Notification_Mention_Mention"), e.Status.User.Name), e.Status.Text, e.Status.User.ProfileImageUrl);
+                                this.PopupToastNotification(PopupNotificationType.Mention, string.Format(_ResourceLoader.GetString("Notification_Mention_Mention"), e.Status.User.Name), e.Status.Text, e.Status.User.ProfileImageUrl);
 
+                            if (e.Status.Entities.Media.Where(x => x.Type == "Image").Count() > 0 && !e.Status.User.IsProtected)
+                                this.UpdateTileNotification(TileNotificationType.Images, e.Status.User.Name + "(@" + e.Status.User.ScreenName + ")" + "\n" + e.Status.Text, e.Status.Entities.Media.Where(x => x.Type == "Image").First().MediaUrl);
+
+                            if (e.Status.InReplyToUserId == e.UserId)
+                                this.UpdateTileNotification(TileNotificationType.Mentions, e.Status.User.Name + "(@" + e.Status.User.ScreenName + ")" + "\n" + e.Status.Text);
+                            
                             break;
 
                         case TweetEventArgs.TypeEnum.DirectMessage:
                             if (e.DirectMessage.Recipient.Id == e.UserId)
-                                this.PopupToastNotification(NotificationType.DirectMessage, string.Format(_ResourceLoader.GetString("Notification_DirectMessage_DirectMessage"), e.DirectMessage.Sender.Name), e.DirectMessage.Text, e.DirectMessage.Sender.ProfileImageUrl);
+                                this.PopupToastNotification(PopupNotificationType.DirectMessage, string.Format(_ResourceLoader.GetString("Notification_DirectMessage_DirectMessage"), e.DirectMessage.Sender.Name), e.DirectMessage.Text, e.DirectMessage.Sender.ProfileImageUrl);
 
                             break;
 
                         case TweetEventArgs.TypeEnum.EventMessage:
                             if (e.EventMessage.Target.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "Favorite")
-                                this.PopupToastNotification(NotificationType.Favorite, string.Format(_ResourceLoader.GetString("Notification_Favorite_Favorite"), e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text, e.EventMessage.Source.ProfileImageUrl);
+                                this.PopupToastNotification(PopupNotificationType.Favorite, string.Format(_ResourceLoader.GetString("Notification_Favorite_Favorite"), e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text, e.EventMessage.Source.ProfileImageUrl);
 
                             else if (e.EventMessage.Target.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "QuotedTweet")
-                                this.PopupToastNotification(NotificationType.QuotedTweet, string.Format(_ResourceLoader.GetString("Notification_QuotedTweet_QuotedTweet"), e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text, e.EventMessage.Source.ProfileImageUrl);
+                                this.PopupToastNotification(PopupNotificationType.QuotedTweet, string.Format(_ResourceLoader.GetString("Notification_QuotedTweet_QuotedTweet"), e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text, e.EventMessage.Source.ProfileImageUrl);
 
                             else if (e.EventMessage.Target.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "Unfavorite")
-                                this.PopupToastNotification(NotificationType.Unfavorite, string.Format(_ResourceLoader.GetString("Notification_Unfavorite_Unfavorite"), e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text, e.EventMessage.Source.ProfileImageUrl);
+                                this.PopupToastNotification(PopupNotificationType.Unfavorite, string.Format(_ResourceLoader.GetString("Notification_Unfavorite_Unfavorite"), e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text, e.EventMessage.Source.ProfileImageUrl);
 
                             else if (e.EventMessage.Target.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "Follow")
-                                this.PopupToastNotification(NotificationType.Follow, string.Format(_ResourceLoader.GetString("Notification_Follow_Follow"), e.EventMessage.Source.Name), imageUrl: e.EventMessage.Source.ProfileImageUrl);
+                                this.PopupToastNotification(PopupNotificationType.Follow, string.Format(_ResourceLoader.GetString("Notification_Follow_Follow"), e.EventMessage.Source.Name), imageUrl: e.EventMessage.Source.ProfileImageUrl);
 
                             break;
                     }
                 });
         }
 
-        public void PopupToastNotification(NotificationType type, string text, string text2 = "", string imageUrl = "")
+        public void UpdateTileNotification(TileNotificationType type, string text, string imageUrl = "")
         {
             switch (type)
             {
-                case NotificationType.DirectMessage:
+                case TileNotificationType.Images:
+                    if (SettingService.Setting.TileNotification != SettingSupport.TileNotificationEnum.Images)
+                        return;
+
+                    break;
+
+                case TileNotificationType.Mentions:
+                    if (SettingService.Setting.TileNotification != SettingSupport.TileNotificationEnum.Mentions)
+                        return;
+
+                    break;
+            }
+            
+            var tileBindingContent = new TileBindingContentAdaptive
+            {
+                Children =
+                {
+                    new TileText { Text = text, Style = TileTextStyle.Caption, Wrap = true },
+                }
+            };
+
+            if (!string.IsNullOrWhiteSpace(imageUrl))
+                tileBindingContent.PeekImage = new TilePeekImage { Source = new TileImageSource(imageUrl) };
+
+            var tileBinding = new TileBinding
+            {
+                Branding = TileBranding.Auto,
+                Content = tileBindingContent,
+                DisplayName = "Flantter.MilkyWay",
+            };
+
+            var tileContent = new TileContent
+            {
+                Visual = new TileVisual
+                {
+                    TileSmall = tileBinding,
+                    TileMedium = tileBinding,
+                    TileLarge = tileBinding,
+                    TileWide = tileBinding,
+                }
+            };
+
+            var n = new TileNotification(tileContent.GetXml());
+            TileUpdateManager.CreateTileUpdaterForApplication().Update(n);
+            
+        }
+
+        public void PopupToastNotification(PopupNotificationType type, string text, string text2 = "", string imageUrl = "")
+        {
+            switch (type)
+            {
+                case PopupNotificationType.DirectMessage:
                     if (!SettingService.Setting.DirectMessageNotification)
                         return;
 
                     break;
                     
-                case NotificationType.Favorite:
+                case PopupNotificationType.Favorite:
                     if (!SettingService.Setting.FavoriteNotification)
                         return;
 
                     break;
 
-                case NotificationType.Follow:
+                case PopupNotificationType.Follow:
                     if (!SettingService.Setting.FollowNotification)
                         return;
 
                     break;
 
-                case NotificationType.Mention:
+                case PopupNotificationType.Mention:
                     if (!SettingService.Setting.MentionNotification)
                         return;
 
                     break;
 
-                case NotificationType.QuotedTweet:
+                case PopupNotificationType.QuotedTweet:
                     if (!SettingService.Setting.QuotedTweetNotification)
                         return;
 
                     break;
 
-                case NotificationType.Retweet:
+                case PopupNotificationType.Retweet:
                     if (!SettingService.Setting.RetweetNotification)
                         return;
 
                     break;
 
-                case NotificationType.System:
+                case PopupNotificationType.System:
                     if (!SettingService.Setting.SystemNotification)
                         return;
 
                     break;
 
-                case NotificationType.Unfavorite:
+                case PopupNotificationType.Unfavorite:
                     if (!SettingService.Setting.UnfavoriteNotification)
                         return;
 

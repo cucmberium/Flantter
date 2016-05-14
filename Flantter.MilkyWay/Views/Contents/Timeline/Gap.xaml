@@ -18,13 +18,13 @@
     
     <UserControl.Resources>
         <Storyboard x:Name="TweetSlideAnimation">
-            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TweetGrid">
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TweetStackPanel">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-40">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <QuarticEase EasingMode="EaseOut"/>
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <QuarticEase EasingMode="EaseOut"/>
                     </EasingDoubleKeyFrame.EasingFunction>
@@ -32,7 +32,7 @@
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="TweetGrid">
                 <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
-                <LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                <LinearDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="TweetExpandAnimation">

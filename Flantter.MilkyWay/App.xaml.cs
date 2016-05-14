@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
@@ -34,20 +35,41 @@ namespace Flantter.MilkyWay
             this.InitializeComponent();
 
             this.UnhandledException += App_UnhandledException;
-            //this.Suspending += App_Suspending;
-            //this.Resuming += App_Resuming;
+            this.Suspending += App_Suspending;
+            this.Resuming += App_Resuming;
             
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(Microsoft.ApplicationInsights.WindowsCollectors.Metadata | Microsoft.ApplicationInsights.WindowsCollectors.Session);
             
         }
 
-        /*private void App_Suspending(object sender, SuspendingEventArgs e)
+        private void App_Suspending(object sender, SuspendingEventArgs e)
         {
+            if (BackgroundTaskRegistration.AllTasks.Count > 1)
+            {
+                foreach (var task in BackgroundTaskRegistration.AllTasks)
+                    task.Value.Unregister(true);
+            }
+
+            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None)
+                return;
+
+            var trigger = new TimeTrigger(15, false);
+            var taskBuilder = new BackgroundTaskBuilder();
+
+            taskBuilder.Name = "Flantter_BackgroundTask";
+            taskBuilder.TaskEntryPoint = "Flantter.MilkyWay.BackgroundTask.BackgroundWorker";
+            taskBuilder.SetTrigger(trigger);
+            taskBuilder.Register();
         }
 
         private void App_Resuming(object sender, object e)
         {
-        }*/
+            if (BackgroundTaskRegistration.AllTasks.Count > 1)
+            {
+                foreach (var task in BackgroundTaskRegistration.AllTasks)
+                    task.Value.Unregister(true);
+            }
+        }
 
         private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
@@ -74,6 +96,12 @@ namespace Flantter.MilkyWay
             sw.Stop();
             System.Diagnostics.Debug.WriteLine(sw.Elapsed);
 #endif
+            if (BackgroundTaskRegistration.AllTasks.Count > 1)
+            {
+                foreach (var task in BackgroundTaskRegistration.AllTasks)
+                    task.Value.Unregister(true);
+            }
+
             await AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
 
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 500 });

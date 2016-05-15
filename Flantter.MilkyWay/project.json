@@ -17,7 +17,6 @@
     "Rx-Main": "2.3.0-beta2",
     "Rx-PlatformServices": "2.3.0-beta2",
     "SharpDX.Direct2D1": "3.0.2",
-    "SQLite.Net-PCL": "3.1.1",
     "ToriatamaText": "1.1.0",
     "WinRTXamlToolkit.UWP": "2.0.0"
   },

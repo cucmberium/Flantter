@@ -115,14 +115,14 @@ namespace Flantter.MilkyWay.Models.Services
 
         public void AddAccount(AccountSetting account)
         {
-            Databases.Instance.CreateUserTable(account);
+            //Databases.Instance.CreateUserTable(account);
             if (!this.TweetCollecter.ContainsKey(account.UserId))
                 this.TweetCollecter[account.UserId] = new TweetCollecterService(account.UserId);
         }
 
         public void RemoveAccount(AccountSetting account)
         {
-            Databases.Instance.RemoveUserTable(account);
+            //Databases.Instance.RemoveUserTable(account);
 
             if (this.TweetCollecter.ContainsKey(account.UserId))
             {
@@ -175,8 +175,8 @@ namespace Flantter.MilkyWay.Models.Services
                         if (this.TweetDelete_CommandExecute != null)
                             this.TweetDelete_CommandExecute(this, e);
 
-                        if (SettingService.Setting.EnableDatabase)
-                            Databases.Instance.RemoveTweet(e);
+                        //if (SettingService.Setting.EnableDatabase)
+                        //    Databases.Instance.RemoveTweet(e);
                     },
                     ex => Debug.WriteLine(ex.ToString() + "\nMessage:" + ex.Message),
                     () => Debug.WriteLine("Flantter.MilkyWay.Models.Services.Connecter.TweetCollecterService.OnCompleted"));
@@ -194,8 +194,8 @@ namespace Flantter.MilkyWay.Models.Services
                         if (this.TweetReceive_CommandExecute != null)
                             this.TweetReceive_CommandExecute(this, e);
 
-                        if (SettingService.Setting.EnableDatabase)
-                            Databases.Instance.StoreTweet(e);
+                        //if (SettingService.Setting.EnableDatabase)
+                        //    Databases.Instance.StoreTweet(e);
 
                         // Todo : 起動時の軽量化必須？
 

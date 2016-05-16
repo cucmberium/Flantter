@@ -80,7 +80,7 @@ namespace Flantter.MilkyWay.Views
             this.Frame.BackStack.Clear();
             this.Frame.ForwardStack.Clear();
 
-            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None)
+            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None && !SettingService.Setting.BackgroundNotification)
                 return;
 
             await BackgroundExecutionManager.RequestAccessAsync();

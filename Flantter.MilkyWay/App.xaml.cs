@@ -50,7 +50,9 @@ namespace Flantter.MilkyWay
                     task.Value.Unregister(true);
             }
 
-            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None)
+            SettingService.Setting.LatestNotificationDate = DateTimeOffset.Now;
+
+            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None && !SettingService.Setting.BackgroundNotification)
                 return;
 
             var trigger = new TimeTrigger(15, false);
@@ -69,6 +71,8 @@ namespace Flantter.MilkyWay
                 foreach (var task in BackgroundTaskRegistration.AllTasks)
                     task.Value.Unregister(true);
             }
+
+            SettingService.Setting.LatestNotificationDate = DateTimeOffset.Now;
         }
 
         private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -104,6 +108,8 @@ namespace Flantter.MilkyWay
 
             await AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
 
+            SettingService.Setting.LatestNotificationDate = DateTimeOffset.Now;
+
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 500 });
 
             if (AdvancedSettingService.AdvancedSetting.Accounts == null || AdvancedSettingService.AdvancedSetting.Accounts.Count == 0)
@@ -124,6 +130,11 @@ namespace Flantter.MilkyWay
             base.OnShareTargetActivated(e);
             var shareTargetPage = new StatusShareContract();
             shareTargetPage.Activate(e);
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
         }
     }
 }

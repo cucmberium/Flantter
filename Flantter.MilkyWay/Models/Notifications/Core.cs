@@ -68,7 +68,7 @@ namespace Flantter.MilkyWay.Models.Notifications
                                 this.PopupToastNotification(PopupNotificationType.Retweet, string.Format(_ResourceLoader.GetString("Notification_Retweet_Retweet"), e.Status.RetweetInformation.User.Name), e.Status.Text, e.Status.RetweetInformation.User.ProfileImageUrl);
 
                             if (e.Status.InReplyToUserId == e.UserId)
-                                this.PopupToastNotification(PopupNotificationType.Mention, string.Format(_ResourceLoader.GetString("Notification_Mention_Mention"), e.Status.User.Name), e.Status.Text, e.Status.User.ProfileImageUrl);
+                                this.PopupToastNotification(PopupNotificationType.Mention, string.Format(_ResourceLoader.GetString("Notification_Mention_Mention"), e.Status.User.Name), e.Status.Text, e.Status.User.ProfileImageUrl, e.Status.Entities.Media.Count != 0 ? e.Status.Entities.Media.First().MediaThumbnailUrl : "");
 
                             if (e.Status.Entities.Media.Where(x => x.Type == "Image").Count() > 0 && !e.Status.User.IsProtected)
                                 this.UpdateTileNotification(TileNotificationType.Images, e.Status.User.Name + "(@" + e.Status.User.ScreenName + ")" + "\n" + e.Status.Text, e.Status.Entities.Media.Where(x => x.Type == "Image").First().MediaUrl);
@@ -134,7 +134,7 @@ namespace Flantter.MilkyWay.Models.Notifications
             {
                 Branding = TileBranding.Auto,
                 Content = tileBindingContent,
-                DisplayName = "Flantter.MilkyWay",
+                DisplayName = "Flantter",
             };
 
             var tileContent = new TileContent
@@ -153,7 +153,7 @@ namespace Flantter.MilkyWay.Models.Notifications
             
         }
 
-        public void PopupToastNotification(PopupNotificationType type, string text, string text2 = "", string imageUrl = "")
+        public void PopupToastNotification(PopupNotificationType type, string text, string text2 = "", string imageUrl = "", string inlineImageUrl = "")
         {
             switch (type)
             {
@@ -216,6 +216,9 @@ namespace Flantter.MilkyWay.Models.Notifications
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
                 toastContent.Visual.AppLogoOverride = new ToastAppLogo() { Source = new ToastImageSource(imageUrl) };
+
+            if (!string.IsNullOrWhiteSpace(inlineImageUrl))
+                toastContent.Visual.InlineImages.Add(new ToastImage() { Source = new ToastImageSource(inlineImageUrl) });
 
             if (!SettingService.Setting.NotificationSound)
                 toastContent.Audio = new ToastAudio() { Silent = true };

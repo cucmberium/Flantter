@@ -41,6 +41,10 @@
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_BackgroundNotification_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.BackgroundNotification, Mode=TwoWay}" Header="バックグラウンド通知"/>
+
+            <controls:HorizontalBar/>
+
             <ComboBox x:Uid="SettingsFlyout_Settings_Advanced_Font_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="フォント" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=SystemFontFamilies}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.CustomFontName, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
 
             <controls:HorizontalBar/>

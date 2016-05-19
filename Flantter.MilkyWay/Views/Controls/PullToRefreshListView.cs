@@ -174,7 +174,7 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void PullToRefreshScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
-            _OffsetTreshhold = this.ActualHeight * 40 / 570;
+            _OffsetTreshhold = this.ActualHeight * 40 / 640;
         }
 
         private bool _DirectManipulationDelta = false;

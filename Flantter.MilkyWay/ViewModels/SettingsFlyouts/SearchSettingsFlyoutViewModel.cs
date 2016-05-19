@@ -97,7 +97,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                         searchWords += " filter:vine";
                         break;
                     case 4:
-                        searchWords += " (filter:videos OR filter:images)";
+                        searchWords += " filter:media";
                         break;
                     case 5:
                         searchWords += " filter:links";
@@ -124,8 +124,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 if (this.AdvancedSearchEngagementRetweetsCount.Value != 0)
                     searchWords += " min_retweets:" + this.AdvancedSearchEngagementRetweetsCount.Value.ToString();
 
-                if (this.AdvancedSearchEngagementRetweetsCount.Value != 0)
-                    searchWords += " min_faves:" + this.AdvancedSearchEngagementRetweetsCount.Value.ToString();
+                if (this.AdvancedSearchEngagementFavoritesCount.Value != 0)
+                    searchWords += " min_faves:" + this.AdvancedSearchEngagementFavoritesCount.Value.ToString();
 
                 if (this.Model.StatusSearchWords == searchWords)
                 {

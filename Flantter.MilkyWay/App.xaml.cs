@@ -1,6 +1,8 @@
-﻿using Flantter.MilkyWay.Setting;
+﻿using CoreTweet;
+using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Contents.ShareContract;
 using Flantter.MilkyWay.Views.Util;
+using Newtonsoft.Json.Linq;
 using Prism.Windows;
 using System;
 using System.Collections.Generic;
@@ -132,9 +134,51 @@ namespace Flantter.MilkyWay
             shareTargetPage.Activate(e);
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
+        protected async override void OnActivated(IActivatedEventArgs e)
         {
-            base.OnActivated(args);
+            base.OnActivated(e);
+
+            if (e is ToastNotificationActivatedEventArgs)
+            {
+                var args = e as ToastNotificationActivatedEventArgs;
+
+                if (string.IsNullOrWhiteSpace(args.Argument))
+                    return;
+
+                var data = args.Argument.Split(new char[] { ',' });
+                var type = data.ElementAt(0);
+                var screenName = data.ElementAt(1);
+                var targetScreenName = data.ElementAt(2);
+                var tweet = args.UserInput["tweet"] as string;
+
+                var json = string.Empty;
+
+                var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
+                using (var s = await readStorageFile.OpenStreamForReadAsync())
+                using (var st = new System.IO.StreamReader(s))
+                {
+                    json = st.ReadToEnd();
+                }
+
+                var jTokens = JToken.Parse(json);
+                var jaccounts = jTokens.First(x => (x as JProperty)?.Name == "Accounts") as JProperty;
+                var accounts = jaccounts.Value.ToObject<List<AccountSetting>>();
+
+                var account = accounts.First(x => x.ScreenName == screenName);
+                var tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret);
+                if (type == "mention")
+                {
+                    var id = long.Parse(data.ElementAt(3));
+                    await tokens.Statuses.UpdateAsync(status => "@" + targetScreenName + " " + tweet, in_reply_to_status_id => id);
+                }
+                else if (type == "dm")
+                {
+                    await tokens.DirectMessages.NewAsync(text => tweet, screen_name => targetScreenName);
+                }
+            }
+
+
+            
         }
     }
 }

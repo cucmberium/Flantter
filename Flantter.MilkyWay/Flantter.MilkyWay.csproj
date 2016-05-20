@@ -357,6 +357,7 @@
     <Compile Include="Views\Converters\BooleanNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\DateTimeToStringConverter.cs" />
+    <Compile Include="Views\Converters\IntNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\LongToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\ObjectToVisibilityConverter.cs" />

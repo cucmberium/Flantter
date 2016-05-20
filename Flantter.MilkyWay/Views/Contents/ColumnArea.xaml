@@ -59,7 +59,11 @@
                                         <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="{x:Bind UnreadCount.Value, Mode=OneWay}" FontSize="14" FontWeight="Bold"/>
                                     </Button>
                                 </Border>
-                                
+
+                                <Button Grid.Column="3" Visibility="{x:Bind UnreadCount.Value, Converter={StaticResource IntNegationToVisibilityConverter}, Mode=OneWay}" BorderThickness="0" Width="40" Height="30" Padding="0" Command="{x:Bind ScrollToTopCommand}">
+                                    <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Up"/>
+                                </Button>
+
                                 <Button Grid.Column="2" ToolTipService.ToolTip="Menu" VerticalAlignment="Stretch" Width="40" BorderThickness="0" Padding="0">
                                     <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Add"/>
                                     <Button.Flyout>

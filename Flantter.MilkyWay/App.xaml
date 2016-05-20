@@ -32,6 +32,7 @@
             <converters:ColorCodeToBrushConverter x:Key="ColorCodeToBrushConverter"/>
             <converters:LongToVisibilityConverter x:Key="LongToVisibilityConverter"/>
             <converters:DoubleToIntConverter x:Key="DoubleToIntConverter"/>
+            <converters:IntNegationToVisibilityConverter x:Key="IntNegationToVisibilityConverter"/>
 
             <setting:SettingProvider x:Key="Setting"/>
             <setting:AdvancedSettingProvider x:Key="AdvancedSetting" />

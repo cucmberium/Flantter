@@ -20,6 +20,7 @@ namespace Flantter.MilkyWay.Views.Controls
         {
             this.DefaultStyleKey = typeof(PullToRefreshListView);
             this.Loaded += PullToRefreshScrollViewer_Loaded;
+            this.SizeChanged += PullToRefreshScrollViewer_SizeChanged;
             
             _Timer = new DispatcherTimer();
             _Timer.Interval = TimeSpan.FromMilliseconds(100);
@@ -31,7 +32,7 @@ namespace Flantter.MilkyWay.Views.Controls
 
             this.SelectionChanged += (s, e) => this.SelectedItemsList = this.SelectedItems;
         }
-        
+
         #region Event
         public event EventHandler RefreshContent;
         public event EventHandler MoreContent;
@@ -173,6 +174,11 @@ namespace Flantter.MilkyWay.Views.Controls
         }
 
         private void PullToRefreshScrollViewer_Loaded(object sender, RoutedEventArgs e)
+        {
+            _OffsetTreshhold = this.ActualHeight * 40 / 640;
+        }
+
+        private void PullToRefreshScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _OffsetTreshhold = this.ActualHeight * 40 / 640;
         }

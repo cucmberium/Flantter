@@ -86,18 +86,16 @@ namespace Flantter.MilkyWay.BackgroundTask
 
                         var statuses = (await tokens.Statuses.MentionsTimelineAsync(count => 10)).Where(x => x.CreatedAt.ToLocalTime() > latestNotificationDate);
                         foreach (var status in statuses)
-                            this.PopupToastNotification("Mention", string.Format(resourceLoader.GetString("Notification_Mention_Mention"), status.User.Name), status.Text, status.User.ProfileImageUrl, "Reply to @" + status.User.ScreenName, "Assets/Tweet.png", "mention" + "," + account.ScreenName + "," + status.Id.ToString(), status.Entities?.Media?.Length != 0 ? status.Entities.Media.First().MediaUrl : "");
+                            this.PopupToastNotification("Mention", string.Format(resourceLoader.GetString("Notification_Mention_Mention"), status.User.Name), status.Text, status.User.ProfileImageUrl, "Reply to @" + status.User.ScreenName, "Assets/Tweet.png", "mention" + "," + account.ScreenName + "," + status.User.ScreenName + "," + status.Id.ToString(), status.Entities?.Media?.Length != 0 ? status.Entities.Media.First().MediaUrl : "");
 
                         var directMessages = (await tokens.DirectMessages.ReceivedAsync(count => 10)).Where(x => x.CreatedAt.ToLocalTime() > latestNotificationDate);
                         foreach (var dm in directMessages)
-                            this.PopupToastNotification("DirectMessage", string.Format(resourceLoader.GetString("Notification_DirectMessage_DirectMessage"), dm.Sender.Name), dm.Text, dm.Sender.ProfileImageUrl, "Send DM to @" + dm.Sender.ScreenName, "Assets/DM.png", "dm" + "," + account.ScreenName);
+                            this.PopupToastNotification("DirectMessage", string.Format(resourceLoader.GetString("Notification_DirectMessage_DirectMessage"), dm.Sender.Name), dm.Text, dm.Sender.ProfileImageUrl, "Send DM to @" + dm.Sender.ScreenName, "Assets/DM.png", "dm" + "," + account.ScreenName + "," + dm.Sender.ScreenName);
 
                     }
 
                     Windows.Storage.ApplicationData.Current.LocalSettings.Values["LatestNotificationDate"] = DateTimeOffset.Now.Ticks;
                 }
-
-                this.PopupToastNotification("Mention", string.Format(resourceLoader.GetString("Notification_Mention_Mention"), "きゅうりうむ"), "てすと", "", "Reply to @" + "cucmberium_sub", "Assets/Tweet.png", "mention" + "," + "cucmberium_sub" + "," + "732207036092452865", "");
             }
             catch
             {

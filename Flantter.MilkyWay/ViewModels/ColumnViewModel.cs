@@ -166,7 +166,7 @@ namespace Flantter.MilkyWay.ViewModels
                 await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
             }).AddTo(this.Disposable);
 
-            this.ScrollToTopCommand = column.ObserveProperty(x => x.UnreadCount).Select(x => x != 0).ToReactiveCommand().AddTo(this.Disposable);
+            this.ScrollToTopCommand = new ReactiveCommand().AddTo(this.Disposable);
             this.ScrollToTopCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ => 
             {
                 this.IsScrollLockToTopEnabled.Value = true;

@@ -23,7 +23,7 @@ namespace Flantter.MilkyWay.Views.Controls
             this.SizeChanged += PullToRefreshScrollViewer_SizeChanged;
             
             _Timer = new DispatcherTimer();
-            _Timer.Interval = TimeSpan.FromMilliseconds(100);
+            _Timer.Interval = TimeSpan.FromMilliseconds(50);
             _Timer.Tick += Timer_Tick;
 
             _RenderTimer = new DispatcherTimer();
@@ -274,7 +274,7 @@ namespace Flantter.MilkyWay.Views.Controls
                 VisualStateManager.GoToState(this, "ReadyToRefresh", true);
                 _IsReadyToRefresh = true;
             }
-            else if (compressionOffset == 0 && _IsReadyToRefresh == true)
+            else if (compressionOffset > -0.5 && _IsReadyToRefresh == true)
             {
                 InvokeRefresh();
             }
@@ -292,6 +292,10 @@ namespace Flantter.MilkyWay.Views.Controls
             VisualStateManager.GoToState(this, "Normal", true);
 
             RefreshContent?.Invoke(this, EventArgs.Empty);
+
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("InvokeRefresh");
+#endif
         }
 
         private void InvokeMore()

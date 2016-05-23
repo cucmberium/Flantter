@@ -22,6 +22,14 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
+      "Jint/2.8.0": {
+        "compile": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        }
+      },
       "Microsoft.ApplicationInsights/2.0.1": {
         "dependencies": {
           "System.Collections": "4.0.10",
@@ -343,15 +351,15 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.3": {
+      "Newtonsoft.Json/8.0.4-beta1": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14295.0.1": {
+      "NotificationsExtensions.Win10/14332.0.0": {
         "compile": {
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         },
@@ -2047,6 +2055,14 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
+      "Jint/2.8.0": {
+        "compile": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        }
+      },
       "Microsoft.ApplicationInsights/2.0.1": {
         "dependencies": {
           "System.Collections": "4.0.10",
@@ -2318,15 +2334,15 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.3": {
+      "Newtonsoft.Json/8.0.4-beta1": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14295.0.1": {
+      "NotificationsExtensions.Win10/14332.0.0": {
         "compile": {
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         },
@@ -3933,6 +3949,14 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
+      "Jint/2.8.0": {
+        "compile": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        }
+      },
       "Microsoft.ApplicationInsights/2.0.1": {
         "dependencies": {
           "System.Collections": "4.0.10",
@@ -4201,15 +4225,15 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.3": {
+      "Newtonsoft.Json/8.0.4-beta1": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14295.0.1": {
+      "NotificationsExtensions.Win10/14332.0.0": {
         "compile": {
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         },
@@ -5777,6 +5801,14 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
+      "Jint/2.8.0": {
+        "compile": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        }
+      },
       "Microsoft.ApplicationInsights/2.0.1": {
         "dependencies": {
           "System.Collections": "4.0.10",
@@ -6053,15 +6085,15 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.3": {
+      "Newtonsoft.Json/8.0.4-beta1": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14295.0.1": {
+      "NotificationsExtensions.Win10/14332.0.0": {
         "compile": {
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         },
@@ -7671,6 +7703,14 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
+      "Jint/2.8.0": {
+        "compile": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        }
+      },
       "Microsoft.ApplicationInsights/2.0.1": {
         "dependencies": {
           "System.Collections": "4.0.10",
@@ -7939,15 +7979,15 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.3": {
+      "Newtonsoft.Json/8.0.4-beta1": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14295.0.1": {
+      "NotificationsExtensions.Win10/14332.0.0": {
         "compile": {
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         },
@@ -9515,6 +9555,14 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
+      "Jint/2.8.0": {
+        "compile": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        }
+      },
       "Microsoft.ApplicationInsights/2.0.1": {
         "dependencies": {
           "System.Collections": "4.0.10",
@@ -9791,15 +9839,15 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.3": {
+      "Newtonsoft.Json/8.0.4-beta1": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14295.0.1": {
+      "NotificationsExtensions.Win10/14332.0.0": {
         "compile": {
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         },
@@ -11409,6 +11457,14 @@
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
         }
       },
+      "Jint/2.8.0": {
+        "compile": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
+        }
+      },
       "Microsoft.ApplicationInsights/2.0.1": {
         "dependencies": {
           "System.Collections": "4.0.10",
@@ -11677,15 +11733,15 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.3": {
+      "Newtonsoft.Json/8.0.4-beta1": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14295.0.1": {
+      "NotificationsExtensions.Win10/14332.0.0": {
         "compile": {
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         },
@@ -13274,6 +13330,15 @@
         "package/services/metadata/core-properties/9240a3c95a164a83a7bc3badd465a2db.psmdcp"
       ]
     },
+    "Jint/2.8.0": {
+      "sha512": "QKx6thHm8iWHhyxURaRoFzi/rczDn9iMfQNmWCWiwQi3B//J6Ocu0V/BMzUSLLBCu1XvlnVvrwf2gqVbQUiAbg==",
+      "type": "package",
+      "files": [
+        "Jint.2.8.0.nupkg.sha512",
+        "Jint.nuspec",
+        "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll"
+      ]
+    },
     "Microsoft.ApplicationInsights/2.0.1": {
       "sha512": "iZjOx8ysupwITjhCl6suEOBQ+yTUBlJhQ2lfXBJkpS66gjB5TDJxIPrqKJ17/v4QqiFw//eHTGtMUCtoMN6WDQ==",
       "type": "package",
@@ -13949,13 +14014,12 @@
         "package/services/metadata/core-properties/aa8a385ed5b94b29a44c3a4ace39232c.psmdcp"
       ]
     },
-    "Newtonsoft.Json/8.0.3": {
-      "sha512": "KGsYQdS2zLH+H8x2cZaSI7e+YZ4SFIbyy1YJQYl6GYBWjf5o4H1A68nxyq+WTyVSOJQ4GqS/DiPE+UseUizgMg==",
-      "type": "Package",
+    "Newtonsoft.Json/8.0.4-beta1": {
+      "sha512": "GqF30CGzAlNEK7bvCUcf7pjZpQDXqS7tNLflNPus5yJKXW6nrzjTiqgcHs/lIPaeVxvpFIqQgqQNL+4TmgxCjQ==",
+      "type": "package",
       "files": [
+        "Newtonsoft.Json.8.0.4-beta1.nupkg.sha512",
         "Newtonsoft.Json.nuspec",
-        "[Content_Types].xml",
-        "_rels/.rels",
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
         "lib/net35/Newtonsoft.Json.dll",
@@ -13964,19 +14028,20 @@
         "lib/net40/Newtonsoft.Json.xml",
         "lib/net45/Newtonsoft.Json.dll",
         "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.dll",
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
-        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
-        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
-        "package/services/metadata/core-properties/199d932507f04f0285dade0302b87d22.psmdcp",
+        "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.xml",
         "tools/install.ps1"
       ]
     },
-    "NotificationsExtensions.Win10/14295.0.1": {
-      "sha512": "7guXcl341xsRlepVXP2bUPHGPDiSppHovo2nuV3u1Adf3GetT8aVKjvViXTP0SyJuGWA90ngvrbl+Z3G/PEDdA==",
+    "NotificationsExtensions.Win10/14332.0.0": {
+      "sha512": "CF/mvG1M5UZrZFEIgnrdzxhgy8qUL7Tt2dlg+DIy7P2in9Xo+4HINnh6s7JO/uFQ6fHKVnrTxIRQVYp91Jq9Dg==",
       "type": "package",
       "files": [
-        "NotificationsExtensions.Win10.14295.0.1.nupkg.sha512",
+        "NotificationsExtensions.Win10.14332.0.0.nupkg.sha512",
         "NotificationsExtensions.Win10.nuspec",
         "lib/dotnet/NotificationsExtensions.Win10.NETCore.XML",
         "lib/dotnet/NotificationsExtensions.Win10.NETCore.dll",
@@ -17627,13 +17692,14 @@
   "projectFileDependencyGroups": {
     "": [
       "CoreTweet >= 0.7.0-beta2",
+      "Jint >= 2.8.0",
       "Microsoft.ApplicationInsights >= 2.0.1",
       "Microsoft.ApplicationInsights.PersistenceChannel >= 2.0.0-beta3",
       "Microsoft.ApplicationInsights.WindowsApps >= 1.1.1",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.1.0",
       "Microsoft.Xaml.Behaviors.Uwp.Managed >= 1.1.0",
-      "Newtonsoft.Json >= 8.0.3",
-      "NotificationsExtensions.Win10 >= 14295.0.1",
+      "Newtonsoft.Json >= 8.0.4-beta1",
+      "NotificationsExtensions.Win10 >= 14332.0.0",
       "Prism.Core >= 6.1.0",
       "Prism.Windows >= 6.0.2-pre1",
       "ReactiveProperty >= 2.7.2",

@@ -12,14 +12,59 @@ using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Models.Filter
 {
-    public static class FilterFunction
+    public static class FilterFunctions
     {
-        private static readonly Random random = new Random();
-        private static readonly object syncLock = new object();
-        public static long Random(long min, long max)
+        public struct Function
         {
-            lock (syncLock)
-                return random.Next((int)min, (int)max);
+            public string Name;
+            public int ArgumentCount;
+            public Delegate Delegate;
+
+            public Function(string Name, int ArgumentCount, Delegate Delegate)
+                : this()
+            {
+                this.Name = Name;
+                this.ArgumentCount = ArgumentCount;
+                this.Delegate = Delegate;
+            }
+        }
+
+        public static Dictionary<string, Function> Functions = new Dictionary<string, Function>();
+
+        public static void Register(string functionName, int argumentCount, Delegate dele)
+        {
+            if (Functions.ContainsKey(functionName))
+                return;
+
+            var function = new Function(functionName, argumentCount, dele);
+            Functions.Add(functionName, function);
+        }
+
+        public static void Unregister(string functionName)
+        {
+            if (!Functions.ContainsKey(functionName))
+                return;
+
+            Functions.Remove(functionName);
+        }
+
+        public static bool Invoke(string functionName, params object[] param)
+        {
+            if (!Functions.ContainsKey(functionName))
+                return true;
+
+            var function = Functions[functionName];
+            var target = function.Delegate.Target as Jint.Native.Function.ScriptFunctionInstance;
+            try
+            {
+                var jsparams = param.Select(x => Jint.Native.JsValue.FromObject(target.Engine, x)).ToArray();
+                var result = function.Delegate.DynamicInvoke(Jint.Native.JsValue.Undefined, jsparams);
+            }
+            catch
+            {
+            }
+
+            return true;
         }
     }
 
@@ -74,25 +119,6 @@ namespace Flantter.MilkyWay.Models.Filter
                                                                                 TokenId.ExpressionParam // Expressionのパラメータ
                                                                             };
         #endregion
-
-        public struct Function
-        {
-            public string Name;
-            public int ArgumentCount;
-            public Type Type;
-
-            public Function(string Name, Type Type, int ArgumentCount)
-                : this()
-            {
-                this.Name = Name;
-                this.Type = Type;
-                this.ArgumentCount = ArgumentCount;
-            }
-        }
-
-        public static readonly List<Function> FunctionList = new List<Function> {
-                                                                                new Function("Random", typeof(FilterFunction), 2)
-                                                                            };
 
         public enum TokenId
         {
@@ -402,7 +428,6 @@ namespace Flantter.MilkyWay.Models.Filter
                             if (TryGetFunction(filter, ref strPos, ref keywordToken, ref value))
                             {
                                 yield return new Token(keywordToken, value, begin);
-                                strPos++;
                             }
                             else
                             {
@@ -413,9 +438,20 @@ namespace Flantter.MilkyWay.Models.Filter
                                         yield return new Token(Token.TokenId.Literal, filter.Substring(begin, strPos - begin), begin);
                                         break;
                                     }
+                                    else if (strPos + 1 >= filter.Length)
+                                    {
+                                        strPos++;
+                                        yield return new Token(Token.TokenId.Literal, filter.Substring(begin, strPos - begin), begin);
+                                        break;
+                                    }
+
                                     strPos++;
+
                                 } while (strPos < filter.Length);
+
+
                             }
+
                             break;
                     }
                 } while (strPos < filter.Length);
@@ -461,19 +497,48 @@ namespace Flantter.MilkyWay.Models.Filter
 
             private static bool TryGetFunction(string filter, ref int cursor, ref Token.TokenId token, ref object value)
             {
-                foreach (var function in Token.FunctionList)
-                {
-                    if (cursor + function.Name.Length < filter.Length && filter.Substring(cursor, function.Name.Length).Contains(function.Name))
-                    {
-                        if (cursor + function.Name.Length + 1 < filter.Length && !Tokens.Contains(filter.Substring(cursor + function.Name.Length, 1)))
-                            continue;
+                var strPos = cursor;
+                var begin = strPos;
 
-                        token = Token.TokenId.Function;
-                        value = function;
-                        cursor += function.Name.Length - 1;
-                        return true;
+                do
+                {
+                    if (Tokens.Contains(filter[strPos].ToString()))
+                    {
+                        if (filter[strPos].ToString() == "(")
+                        {
+                            var commaCount = 0;
+                            var tempStrPos = strPos + 1;
+                            var existLiteral = false;
+                            do
+                            {
+                                if (filter[tempStrPos].ToString() == " " || filter[tempStrPos].ToString() == "\n" || filter[tempStrPos].ToString() == "\r" || filter[tempStrPos].ToString() == "\t")
+                                {
+                                    tempStrPos++;
+                                    continue;
+                                }
+
+                                if (filter[tempStrPos].ToString() == ",")
+                                    commaCount++;
+                                else if (filter[tempStrPos].ToString() == ")")
+                                    break;
+                                else
+                                    existLiteral = true;
+
+                                tempStrPos++;
+                            } while (tempStrPos < filter.Length);
+                            
+                            cursor = strPos;
+                            token = Token.TokenId.Function;
+                            value = filter.Substring(begin, strPos - begin) + "," + (commaCount + (existLiteral ? 1 : 0)).ToString();
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
-                }
+                    strPos++;
+                } while (strPos < filter.Length);
 
                 return false;
             }
@@ -936,30 +1001,33 @@ namespace Flantter.MilkyWay.Models.Filter
 
             private void PolandTokenOperateFunction(Token token)
             {
-                var function = Token.FunctionList.Where(x => x.Name == ((Token.Function)token.Value).Name).First();
+                var data = ((string)token.Value).Split(new char[] { ',' });
+                var functionName = data.ElementAt(0);
+                var functionArgCount = int.Parse(data.ElementAt(1));
 
-                if (tempQueue.Count < function.ArgumentCount)
+                if (tempQueue.Count < functionArgCount)
                     throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Argument count is wrong", null);
 
-                var param = new Expression[function.ArgumentCount];
-                for (int i = 0; i < function.ArgumentCount; i++)
+                
+                var param = new Expression[functionArgCount];
+                for (int i = 0; i < functionArgCount; i++)
                 {
                     switch (tempQueue[i].Type)
                     {
                         case Token.TokenId.Boolean:
-                            param[i] = Expression.Constant((bool)tempQueue[i].Value);
+                            param[i] = Expression.Constant((bool)tempQueue[i].Value, typeof(object));
                             break;
                         case Token.TokenId.Numeric:
-                            param[i] = Expression.Constant((long)tempQueue[i].Value);
+                            param[i] = Expression.Constant((long)tempQueue[i].Value, typeof(object));
                             break;
                         case Token.TokenId.String:
-                            param[i] = Expression.Constant((string)tempQueue[i].Value);
+                            param[i] = Expression.Constant((string)tempQueue[i].Value, typeof(object));
                             break;
                         case Token.TokenId.LiteralExpression:
                         case Token.TokenId.ExpressionParam:
                         case Token.TokenId.NumericArrayExpression:
                         case Token.TokenId.StringArrayExpression:
-                            param[i] = tempQueue[i].Value as Expression;
+                            param[i] = Expression.Convert(tempQueue[i].Value as Expression, typeof(object));
                             break;
                         case Token.TokenId.Null:
                             param[i] = Expression.Constant(null, typeof(object));
@@ -969,9 +1037,9 @@ namespace Flantter.MilkyWay.Models.Filter
                     }
                 }
                 
-                var expressionResult = Expression.Call(function.Type, function.Name, null, param);
+                var expressionResult = Expression.Call(typeof(FilterFunctions), "Invoke", null, new Expression[] { Expression.Constant(functionName), Expression.NewArrayInit(typeof(object), param) });
 
-                tempQueue.RemoveRange(tempQueue.Count - function.ArgumentCount, function.ArgumentCount);
+                tempQueue.RemoveRange(tempQueue.Count - functionArgCount, functionArgCount);
                 tempQueue.Add(new Token { Pos = -1, Type = Token.TokenId.ExpressionParam, Value = expressionResult });
             }
 

@@ -42,6 +42,10 @@ namespace Flantter.MilkyWay.Models.Notifications
             get { return _Instance; }
         }
 
+        private Core()
+        {
+        }
+
         private ResourceLoader _ResourceLoader;
         private IDisposable observeTweetReceive;
         public void Initialize()
@@ -128,7 +132,7 @@ namespace Flantter.MilkyWay.Models.Notifications
             };
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
-                tileBindingContent.PeekImage = new TilePeekImage { Source = new TileImageSource(imageUrl) };
+                tileBindingContent.PeekImage = new TilePeekImage { Source = imageUrl };
 
             var tileBinding = new TileBinding
             {

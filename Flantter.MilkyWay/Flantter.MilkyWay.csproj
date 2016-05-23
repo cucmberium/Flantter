@@ -123,6 +123,8 @@
     <Compile Include="Common\SettingServiceBase.cs" />
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="License\LicenseService.cs" />
+    <Compile Include="Models\Plugin\Core.cs" />
+    <Compile Include="Models\Plugin\Interface.cs" />
     <Compile Include="Models\ShareContract\StatusShareContractModel.cs" />
     <Compile Include="Models\Twitter\ExtractTextParts.cs" />
     <Compile Include="Models\Twitter\Objects\Gap.cs" />
@@ -621,6 +623,7 @@
       <Name>Flantter.MilkyWay.BackgroundTask</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

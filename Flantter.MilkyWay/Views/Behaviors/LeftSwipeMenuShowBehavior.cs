@@ -103,7 +103,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     this.SwipeMenu.RenderTransform = new CompositeTransform();
 
                 var rendarTransform = this.SwipeMenu.RenderTransform as CompositeTransform;
-                rendarTransform.TranslateX = -this.SwipeMenu.ActualWidth;
+                rendarTransform.TranslateX = -280;
                 this.SwipeMenu.RenderTransform = rendarTransform;
             }
         }
@@ -181,7 +181,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             this.IsOpen = false;
         }
 
-        public void Show(bool disableAnimation = false)
+        public async void Show(bool disableAnimation = false)
         {
             if (this.SwipeMenu == null)
                 return;

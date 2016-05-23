@@ -41,6 +41,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                 {
                     this.MuteFilterCompileErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") + "\n" + e.Message;
                     this.MuteFilterUpdateButtonEnabled.Value = false;
+                    return;
                 }
 
                 this.MuteFilterCompileErrorMessage.Value = "";

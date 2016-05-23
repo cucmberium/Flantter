@@ -1,13 +1,14 @@
 ﻿{
   "dependencies": {
     "CoreTweet": "0.7.0-beta2",
+    "Jint": "2.8.0",
     "Microsoft.ApplicationInsights": "2.0.1",
     "Microsoft.ApplicationInsights.PersistenceChannel": "2.0.0-beta3",
     "Microsoft.ApplicationInsights.WindowsApps": "1.1.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
-    "Newtonsoft.Json": "8.0.3",
-    "NotificationsExtensions.Win10": "14295.0.1",
+    "Newtonsoft.Json": "8.0.4-beta1",
+    "NotificationsExtensions.Win10": "14332.0.0",
     "Prism.Core": "6.1.0",
     "Prism.Windows": "6.0.2-pre1",
     "ReactiveProperty": "2.7.2",

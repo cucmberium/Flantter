@@ -48,23 +48,24 @@ namespace Flantter.MilkyWay.Models.Filter
             Functions.Remove(functionName);
         }
 
-        public static bool Invoke(string functionName, params object[] param)
+        public static bool Invoke(string functionName, bool defaultValue, params object[] param)
         {
             if (!Functions.ContainsKey(functionName))
-                return true;
+                return defaultValue;
 
             var function = Functions[functionName];
             var target = function.Delegate.Target as Jint.Native.Function.ScriptFunctionInstance;
             try
             {
                 var jsparams = param.Select(x => Jint.Native.JsValue.FromObject(target.Engine, x)).ToArray();
-                var result = function.Delegate.DynamicInvoke(Jint.Native.JsValue.Undefined, jsparams);
+                var result = (Jint.Native.JsValue)function.Delegate.DynamicInvoke(Jint.Native.JsValue.Undefined, jsparams);
+                return result.AsBoolean();
             }
             catch
             {
             }
 
-            return true;
+            return defaultValue;
         }
     }
 
@@ -201,12 +202,11 @@ namespace Flantter.MilkyWay.Models.Filter
 
     public static class Compiler
     {
-        public static Delegate Compile(string filterString)
+        public static Delegate Compile(string filterString, bool defaultValue = true)
         {
             System.Diagnostics.Debug.WriteLine("\n-- Compile Filter --\n");
             var paramExpr = Expression.Parameter(typeof(Status));
-
-
+            
             #region Check FilterString
             System.Diagnostics.Debug.WriteLine("\n-- String Check --\n");
             if (!filterString.StartsWith("("))
@@ -243,7 +243,7 @@ namespace Flantter.MilkyWay.Models.Filter
             #region PolandTokenCompile
             System.Diagnostics.Debug.WriteLine("\n-- Poland Token Compile --\n");
             var PolandTokenCompile = new PolandTokenCompiler(tokenAnalyzer.PolandQueue);
-            PolandTokenCompile.PolandTokenCompile();
+            PolandTokenCompile.PolandTokenCompile(defaultValue);
             var filter = Expression.Lambda<Func<Status, bool>>(PolandTokenCompile.CompiledExpression, paramExpr);
             
             System.Diagnostics.Debug.WriteLine("\n-- Poland Token Compile --\n");
@@ -928,7 +928,7 @@ namespace Flantter.MilkyWay.Models.Filter
                     polandQueue.Add(t);
             }
 
-            public void PolandTokenCompile()
+            public void PolandTokenCompile(bool defaultValue = true)
             {
                 foreach (var token in polandQueue)
                 {
@@ -973,7 +973,7 @@ namespace Flantter.MilkyWay.Models.Filter
                             PolandTokenOperateExclamation();
                             break;
                         case Token.TokenId.Function:
-                            PolandTokenOperateFunction(token);
+                            PolandTokenOperateFunction(token, defaultValue);
                             break;
                         default:
                             throw new FilterCompileException(FilterCompileException.ErrorCode.InternalError, "Internal error", null);
@@ -981,7 +981,7 @@ namespace Flantter.MilkyWay.Models.Filter
                 }
                 if (tempQueue.Count == 0)
                 {
-                    this.CompiledExpression = Expression.Constant(true);
+                    this.CompiledExpression = Expression.Constant(defaultValue);
                 }
                 else if (tempQueue.Count > 1)
                 {
@@ -995,11 +995,11 @@ namespace Flantter.MilkyWay.Models.Filter
                         this.CompiledExpression = tempQueue[tempQueue.Count - 1].Value as Expression;
 
                     if (this.CompiledExpression == null)
-                        this.CompiledExpression = Expression.Constant(true);
+                        this.CompiledExpression = Expression.Constant(defaultValue);
                 }
             }
 
-            private void PolandTokenOperateFunction(Token token)
+            private void PolandTokenOperateFunction(Token token, bool defaultValue)
             {
                 var data = ((string)token.Value).Split(new char[] { ',' });
                 var functionName = data.ElementAt(0);
@@ -1037,7 +1037,7 @@ namespace Flantter.MilkyWay.Models.Filter
                     }
                 }
                 
-                var expressionResult = Expression.Call(typeof(FilterFunctions), "Invoke", null, new Expression[] { Expression.Constant(functionName), Expression.NewArrayInit(typeof(object), param) });
+                var expressionResult = Expression.Call(typeof(FilterFunctions), "Invoke", null, new Expression[] { Expression.Constant(functionName), Expression.Constant(defaultValue), Expression.NewArrayInit(typeof(object), param) });
 
                 tempQueue.RemoveRange(tempQueue.Count - functionArgCount, functionArgCount);
                 tempQueue.Add(new Token { Pos = -1, Type = Token.TokenId.ExpressionParam, Value = expressionResult });

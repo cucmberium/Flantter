@@ -68,7 +68,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
 
                 try
                 {
-                    Compiler.Compile(x.Filter);
+                    Compiler.Compile(x.Filter, false);
                 }
                 catch (FilterCompileException e)
                 {

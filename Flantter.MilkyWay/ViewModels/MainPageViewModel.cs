@@ -430,7 +430,7 @@ namespace Flantter.MilkyWay.ViewModels
                 // 禁忌 : Taboo
                 try
                 {
-                    Models.Filter.Compiler.Compile(filter);
+                    Models.Filter.Compiler.Compile(filter, true);
                 }
                 catch (FilterCompileException fex)
                 {

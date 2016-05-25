@@ -29,7 +29,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
 
                 try
                 {
-                    Compiler.Compile(x);
+                    Compiler.Compile(x, true);
                 }
                 catch (FilterCompileException e)
                 {

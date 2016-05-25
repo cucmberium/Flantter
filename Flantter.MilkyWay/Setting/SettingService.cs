@@ -287,7 +287,7 @@ namespace Flantter.MilkyWay.Setting
         public bool BackgroundNotification { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
 
         [LocalValue]
-        public bool EnablePlugins { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool EnablePlugins { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
 
         [LocalValue]
         public string CustomFontName { get { return GetValue("Yu Gothic UI"); } set { if (!string.IsNullOrWhiteSpace(value)) SetValue(value); OnPropertyChanged(); } }

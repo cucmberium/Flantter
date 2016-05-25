@@ -45,32 +45,40 @@ namespace Flantter.MilkyWay.Models.Plugin
                     continue;
 
                 var name = file.DisplayName;
-                var script = System.IO.File.ReadAllText(file.Path);
-                var engine = new Engine(clr => clr
-                    .AllowClr()
-                    .AllowClr(typeof(Debug).GetTypeInfo().Assembly));
-
-                _Plugins[name] = new Plugin() { Engine = engine };
-
-                engine.SetValue("registerPlugin", new Action<string, string, string>((pname, description, version) =>
+                try
                 {
-                    if (!_Plugins.ContainsKey(pname))
-                        return;
+                    var script = System.IO.File.ReadAllText(file.Path);
+                    var engine = new Engine(clr => clr
+                        .AllowClr()
+                        .AllowClr(typeof(Debug).GetTypeInfo().Assembly));
 
-                    _Plugins[pname].Name = pname;
-                    _Plugins[pname].Description = description;
-                    _Plugins[pname].Version = version;
+                    _Plugins[name] = new Plugin() { Engine = engine };
 
-                    try
+                    engine.SetValue("registerPlugin", new Action<string, string, string>((pname, description, version) =>
                     {
-                        _Plugins[pname].Engine.Invoke("load");
-                    }
-                    catch
-                    {
-                    }
-                }));
+                        if (!_Plugins.ContainsKey(pname))
+                            return;
 
-                engine.Execute(script);
+                        _Plugins[pname].Name = pname;
+                        _Plugins[pname].Description = description;
+                        _Plugins[pname].Version = version;
+
+                        try
+                        {
+                            _Plugins[pname].Engine.Invoke("load");
+                        }
+                        catch
+                        {
+                        }
+                    }));
+
+                    engine.Execute(script);
+                }
+                catch
+                {
+                    if (_Plugins.ContainsKey(name))
+                        _Plugins.Remove(name);
+                }
             }
         }
     }

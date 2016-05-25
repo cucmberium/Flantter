@@ -57,7 +57,7 @@ namespace Flantter.MilkyWay.Models
 
                     try
                     {
-                        this.FilterDelegate = Models.Filter.Compiler.Compile(this._Filter);
+                        this.FilterDelegate = Models.Filter.Compiler.Compile(this._Filter, false);
                     }
                     catch
                     {
@@ -83,7 +83,7 @@ namespace Flantter.MilkyWay.Models
 
                     try
                     {
-                        this.MuteFilterDelegate = Models.Filter.Compiler.Compile(this._MuteFilter);
+                        this.MuteFilterDelegate = Models.Filter.Compiler.Compile(this._MuteFilter, true);
                     }
                     catch
                     {

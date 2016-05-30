@@ -351,7 +351,14 @@ namespace Flantter.MilkyWay.Models.Twitter
                         }
                         else
                         {
-                            Thumbnail.NicoVideo.GetThumbnail(match.Groups["VideoId"].Value);
+                            try
+                            {
+                                Thumbnail.NicoVideo.GetThumbnail(match.Groups["VideoId"].Value);
+                            }
+                            catch
+                            {
+                            }
+
                             yield return new Media()
                             {
                                 MediaThumbnailUrl = "ms-appdata:///temp/" + match.Groups["VideoId"].Value,

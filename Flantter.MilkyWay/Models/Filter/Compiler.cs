@@ -981,7 +981,7 @@ namespace Flantter.MilkyWay.Models.Filter
                 }
                 if (tempQueue.Count == 0)
                 {
-                    this.CompiledExpression = Expression.Constant(defaultValue);
+                    this.CompiledExpression = Expression.Constant(true);
                 }
                 else if (tempQueue.Count > 1)
                 {

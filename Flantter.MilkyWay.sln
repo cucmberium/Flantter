@@ -7,11 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flantter.MilkyWay", "Flantt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flantter.MilkyWay.BackgroundTask", "Flantter.MilkyWay.BackgroundTask\Flantter.MilkyWay.BackgroundTask.csproj", "{7BF7968D-B999-43F9-B34F-3E6C5BB80440}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flantter.MilkyWay.Plugin", "Flantter.MilkyWay.Plugin", "{1352A348-9AB9-46BB-BA2A-9F6C3B263E49}"
-	ProjectSection(SolutionItems) = preProject
-		removemedia.js = removemedia.js
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

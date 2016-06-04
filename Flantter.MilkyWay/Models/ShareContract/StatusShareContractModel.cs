@@ -223,20 +223,14 @@ namespace Flantter.MilkyWay.Models.ShareContract
 
                     foreach (var item in this._Pictures.Select((v, i) => new { v, i }))
                     {
-                        var progress = new Progress<UploadProgressInfo>();
-                        progress.ProgressChanged += (s, e) =>
-                        {
-                            var progressPercentage = (item.i / (double)this._Pictures.Count + (((e.BytesSent / (double)item.v.Stream.Size) > 1.0 ? 1.0 : (e.BytesSent / (double)item.v.Stream.Size)) / this._Pictures.Count)) * 100.0;
-
-                            this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + progressPercentage.ToString("#0.0") + "%";
-                        };
-
                         var pic = item.v;
                         pic.Stream.Seek(0);
                         if (pic.IsVideo)
-                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, (IEnumerable<long>)null, default(System.Threading.CancellationToken), progress));
+                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, (IEnumerable<long>)null, default(System.Threading.CancellationToken)));
                         else
-                            resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), (IEnumerable<long>)null, default(System.Threading.CancellationToken), progress));
+                            resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), (IEnumerable<long>)null, default(System.Threading.CancellationToken)));
+                        
+                        this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + ((item.i / (double)this._Pictures.Count) * 100.0).ToString("#0.0") + "%";
                     }
 
                     param.Add("media_ids", resultList.Select(x => x.MediaId));

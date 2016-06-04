@@ -493,7 +493,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "tweet_mode", TweetMode.extended } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -530,7 +530,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "tweet_mode", TweetMode.extended } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -600,7 +600,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "tweet_mode", TweetMode.extended } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -637,7 +637,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "list_id", long.Parse(this._Parameter) } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "list_id", long.Parse(this._Parameter) }, { "tweet_mode", TweetMode.extended } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
@@ -678,7 +678,7 @@ namespace Flantter.MilkyWay.Models
 
                 if (SettingService.Setting.UseOfficialApi && TwitterConnectionHelper.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
                 {
-                    var param = new Dictionary<string, object>() { { "q", this._Parameter }, { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "result_type", "recent" }, { "modules", "status" } };
+                    var param = new Dictionary<string, object>() { { "q", this._Parameter }, { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "result_type", "recent" }, { "modules", "status" }, { "tweet_mode", TweetMode.extended } };
                     if (maxid != 0)
                         param["q"] = param["q"] + " max_id:" + maxid;
                     if (sinceid != 0)
@@ -703,7 +703,7 @@ namespace Flantter.MilkyWay.Models
                 }
                 else
                 {
-                    var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "q", this._Parameter } };
+                    var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "q", this._Parameter }, { "tweet_mode", TweetMode.extended } };
                     if (maxid != 0)
                         param.Add("max_id", maxid);
                     if (sinceid != 0)
@@ -742,7 +742,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "user_id", long.Parse(this._Parameter) } };
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "user_id", long.Parse(this._Parameter) }, { "tweet_mode", TweetMode.extended } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)

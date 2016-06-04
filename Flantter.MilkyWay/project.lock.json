@@ -11,7 +11,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
         },
@@ -2044,7 +2044,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
         },
@@ -3938,7 +3938,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
         },
@@ -5790,7 +5790,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
         },
@@ -7692,7 +7692,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
         },
@@ -9544,7 +9544,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
         },
@@ -11446,7 +11446,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
         },
@@ -13306,13 +13306,12 @@
         "package/services/metadata/core-properties/99be0c88b2fd41c8b07c42071005ee47.psmdcp"
       ]
     },
-    "CoreTweet/0.7.0-beta2": {
-      "sha512": "ZmPdtWhpXm37Cu/88HIwOJUNMkZhFftIewMtrieqFWGy1s+mj7DUtFiter51bdV/gfKqp0iuhD4KlveEQQUSdg==",
-      "type": "Package",
+    "CoreTweet/0.6.3.296": {
+      "sha512": "ixGXEk5efwhAKCAPLsSnet0rSoj0u4d/jrc5RCxmHjisTkIZORaDCUaN6ckbm0HCFXLlkZvXf7cjiOIuiPWPEw==",
+      "type": "package",
       "files": [
+        "CoreTweet.0.6.3.296.nupkg.sha512",
         "CoreTweet.nuspec",
-        "[Content_Types].xml",
-        "_rels/.rels",
         "lib/net35/CoreTweet.dll",
         "lib/net35/CoreTweet.xml",
         "lib/net40/CoreTweet.dll",
@@ -13326,8 +13325,7 @@
         "lib/portable-win81+wpa81/CoreTweet.dll",
         "lib/portable-win81+wpa81/CoreTweet.xml",
         "lib/wp8/CoreTweet.dll",
-        "lib/wp8/CoreTweet.xml",
-        "package/services/metadata/core-properties/9240a3c95a164a83a7bc3badd465a2db.psmdcp"
+        "lib/wp8/CoreTweet.xml"
       ]
     },
     "Jint/2.8.0": {
@@ -17691,7 +17689,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "CoreTweet >= 0.7.0-beta2",
+      "CoreTweet >= 0.6.3.296",
       "Jint >= 2.8.0",
       "Microsoft.ApplicationInsights >= 2.0.1",
       "Microsoft.ApplicationInsights.PersistenceChannel >= 2.0.0-beta3",

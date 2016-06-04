@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "CoreTweet": "0.7.0-beta2",
+    "CoreTweet": "0.6.3.296",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "Newtonsoft.Json": "8.0.3",
     "NotificationsExtensions.Win10": "14295.0.1"

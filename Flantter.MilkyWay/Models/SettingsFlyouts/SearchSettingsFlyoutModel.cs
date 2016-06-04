@@ -115,7 +115,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (SettingService.Setting.UseOfficialApi && TwitterConnectionHelper.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
             {
-                var param = new Dictionary<string, object>() { { "q", this._StatusSearchWords }, { "count", 100 }, { "result_type", "recent" }, { "modules", "status" } };
+                var param = new Dictionary<string, object>() { { "q", this._StatusSearchWords }, { "count", 100 }, { "result_type", "recent" }, { "modules", "status" }, { "tweet_mode", TweetMode.extended } };
                 if (maxid != 0)
                     param["q"] = param["q"] + " max_id:" + maxid;
 
@@ -149,7 +149,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             }
             else
             {
-                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "q", this._StatusSearchWords } };
+                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "q", this._StatusSearchWords }, { "tweet_mode", TweetMode.extended } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
 

@@ -56,9 +56,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             try
             {
                 if (maxid == 0)
-                    listStatus = await Tokens.Statuses.RetweetsOfMeAsync(count => 20);
+                    listStatus = await Tokens.Statuses.RetweetsOfMeAsync(count => 20, tweet_mode => TweetMode.extended);
                 else
-                    listStatus = await Tokens.Statuses.RetweetsOfMeAsync(count => 20, max_id => maxid);
+                    listStatus = await Tokens.Statuses.RetweetsOfMeAsync(count => 20, max_id => maxid, tweet_mode => TweetMode.extended);
             }
             catch
             {

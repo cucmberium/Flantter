@@ -3,7 +3,7 @@
   "version": 2,
   "targets": {
     "UAP,Version=v10.0": {
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
@@ -1910,7 +1910,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
@@ -3683,7 +3683,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
@@ -5413,7 +5413,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
@@ -7195,7 +7195,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
@@ -8925,7 +8925,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
@@ -10707,7 +10707,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
-      "CoreTweet/0.7.0-beta2": {
+      "CoreTweet/0.6.3.296": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "6.0.8"
@@ -12438,11 +12438,11 @@
     }
   },
   "libraries": {
-    "CoreTweet/0.7.0-beta2": {
-      "sha512": "ZmPdtWhpXm37Cu/88HIwOJUNMkZhFftIewMtrieqFWGy1s+mj7DUtFiter51bdV/gfKqp0iuhD4KlveEQQUSdg==",
+    "CoreTweet/0.6.3.296": {
+      "sha512": "ixGXEk5efwhAKCAPLsSnet0rSoj0u4d/jrc5RCxmHjisTkIZORaDCUaN6ckbm0HCFXLlkZvXf7cjiOIuiPWPEw==",
       "type": "package",
       "files": [
-        "CoreTweet.0.7.0-beta2.nupkg.sha512",
+        "CoreTweet.0.6.3.296.nupkg.sha512",
         "CoreTweet.nuspec",
         "lib/net35/CoreTweet.dll",
         "lib/net35/CoreTweet.xml",
@@ -15769,7 +15769,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "CoreTweet >= 0.7.0-beta2",
+      "CoreTweet >= 0.6.3.296",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.1.0",
       "Newtonsoft.Json >= 8.0.3",
       "NotificationsExtensions.Win10 >= 14295.0.1"

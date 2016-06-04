@@ -70,7 +70,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 AsyncResponse res;
                 try
                 {
-                    res = await this.Tokens.SendRequestAsync(MethodType.Get, "https://api.twitter.com/1.1/conversation/show.json", new Dictionary<string, object>() { { "id", nextId } });
+                    res = await this.Tokens.SendRequestAsync(MethodType.Get, "https://api.twitter.com/1.1/conversation/show.json", new Dictionary<string, object>() { { "id", nextId }, { "tweet_mode", TweetMode.extended } });
                     var json = await res.Source.Content.ReadAsStringAsync();
                     var statuses = CoreBase.ConvertArray<Status>(json, string.Empty);
 
@@ -100,13 +100,13 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {
                         try
                         {
-                            var conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + this.ConversationStatus.User.ScreenName + " to:" + user.ScreenName, count => 100);
+                            var conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + this.ConversationStatus.User.ScreenName + " to:" + user.ScreenName, count => 100, tweet_mode => TweetMode.extended);
                             foreach (var status in conversationTweets)
                             {
                                 conversation.Add(status);
                                 // Todo : データベースに登録
                             }
-                            conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + user.ScreenName + " to:" + this.ConversationStatus.User.ScreenName, count => 100);
+                            conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + user.ScreenName + " to:" + this.ConversationStatus.User.ScreenName, count => 100, tweet_mode => TweetMode.extended);
                             foreach (var status in conversationTweets)
                             {
                                 conversation.Add(status);
@@ -157,7 +157,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                                     Status item;
                                     try
                                     {
-                                        item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true);
+                                        item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true, tweet_mode => TweetMode.extended);
                                     }
                                     catch
                                     {
@@ -196,7 +196,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         Status item;
                         try
                         {
-                            item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true);
+                            item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true, tweet_mode => TweetMode.extended);
                         }
                         catch
                         {

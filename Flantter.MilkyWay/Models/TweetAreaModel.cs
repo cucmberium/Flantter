@@ -203,14 +203,23 @@ namespace Flantter.MilkyWay.Models
         public void CharacterCountChanged()
         {
             var text = this._Text.Replace("\r\n", "\n");
-            var result = this._Extractor.ExtractUrls(text);
-            var length = text.Count(x => !char.IsLowSurrogate(x)) - result.Sum(x => x.Length) + 23 * result.Count;
 
-            if (this._IsQuotedRetweet)
-                length += 24;
+            var resultReplies = this._Extractor.ExtractMentionedScreenNames(text);
+            var replyScreenNames = new List<string>();
+            var hiddenPrefixLength = 0;
+            foreach (var reply in resultReplies)
+            {
+                if (reply.StartIndex > hiddenPrefixLength + 1 || replyScreenNames.Any(x => x == text.Substring(reply.StartIndex, reply.Length)))
+                    break;
 
-            if (this._Pictures.Count > 0)
-                length += 24;
+                replyScreenNames.Add(text.Substring(reply.StartIndex, reply.Length));
+                hiddenPrefixLength = reply.StartIndex + reply.Length;
+            }
+
+            text = text.Substring(hiddenPrefixLength).TrimStart();
+            
+            var resultUrls = this._Extractor.ExtractUrls(text);
+            var length = text.Count(x => !char.IsLowSurrogate(x)) - resultUrls.Sum(x => x.Length) + 23 * resultUrls.Count;
 
             this.CharacterCount = MaxTweetLength - length;
         }
@@ -376,20 +385,15 @@ namespace Flantter.MilkyWay.Models
 
                     foreach (var item in this._Pictures.Select((v, i) => new { v, i }))
                     {
-                        var progress = new Progress<UploadProgressInfo>();
-                        progress.ProgressChanged += (s, e) =>
-                        {
-                            var progressPercentage = (item.i / (double)this._Pictures.Count + (((e.BytesSent / (double)item.v.Stream.Size) > 1.0 ? 1.0 : (e.BytesSent / (double)item.v.Stream.Size)) / this._Pictures.Count)) * 100.0;
-
-                            this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + progressPercentage.ToString("#0.0") + "%";
-                        };
-
                         var pic = item.v;
                         pic.Stream.Seek(0);
                         if (pic.IsVideo)
-                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, (IEnumerable<long>)null, default(System.Threading.CancellationToken), progress));
+                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, (IEnumerable<long>)null, default(System.Threading.CancellationToken)));
                         else
-                            resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), (IEnumerable<long>)null, default(System.Threading.CancellationToken), progress));
+                            resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), (IEnumerable<long>)null, default(System.Threading.CancellationToken)));
+
+                        var progressPercentage = (item.i / (double)this._Pictures.Count) * 100.0;
+                        this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + progressPercentage.ToString("#0.0") + "%";
                     }
                     
                     param.Add("media_ids", resultList.Select(x => x.MediaId));

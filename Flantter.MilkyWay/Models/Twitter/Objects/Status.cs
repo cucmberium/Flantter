@@ -10,7 +10,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
     public class Status : ITweet
     {
-        private static readonly Regex SourceRegex = new Regex(@"^<a href=""(.+)"" rel=""nofollow"">(.+)</a>$", RegexOptions.Compiled);
+        private static readonly Regex SourceRegex = new Regex(@"^<a href="".+"" rel=""nofollow"">(.+)</a>$", RegexOptions.Compiled);
         
         public Status(CoreTweet.Status cOrigStatus)
         {
@@ -19,14 +19,14 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
                 cStatus = cOrigStatus.RetweetedStatus;
 
             this.CreatedAt = cStatus.CreatedAt.DateTime;
-            this.Entities = new Entities(cStatus.Entities, cStatus.ExtendedEntities);
+            this.Entities = new Entities(cStatus.ExtendedTweet?.Entities ?? cStatus.Entities, cStatus.ExtendedTweet?.ExtendedEntities ?? cStatus.ExtendedEntities);
             this.FavoriteCount = cStatus.FavoriteCount.HasValue ? cStatus.FavoriteCount.Value : 0;
             this.RetweetCount = cStatus.RetweetCount.HasValue ? cStatus.RetweetCount.Value : 0;
             this.InReplyToStatusId = cStatus.InReplyToStatusId.HasValue ? cStatus.InReplyToStatusId.Value : 0;
             this.InReplyToScreenName = cStatus.InReplyToScreenName;
             this.InReplyToUserId = cStatus.InReplyToUserId.HasValue ? cStatus.InReplyToUserId.Value : 0;
             this.Id = cStatus.Id;
-            this.Text = cStatus.Text;
+            this.Text = cStatus.ExtendedTweet?.FullText ?? cStatus.FullText ?? cStatus.Text;
             this.User = (cStatus.User != null) ? new User(cStatus.User) : null;
             this.IsFavorited = cStatus.IsFavorited.HasValue ? cStatus.IsFavorited.Value : false;
             this.IsRetweeted = cStatus.IsRetweeted.HasValue ? cStatus.IsRetweeted.Value : false;
@@ -38,7 +38,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
             var sourceMatch = SourceRegex.Match(cStatus.Source);
             if (sourceMatch.Success)
-                this.Source = sourceMatch.Groups[2].Value;
+                this.Source = sourceMatch.Groups[1].Value;
             else
                 this.Source = cStatus.Source;
         }

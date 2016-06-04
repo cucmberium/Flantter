@@ -79,7 +79,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             CoreTweet.Status status = null;
             try
             {
-                status = await Tokens.Statuses.ShowAsync(id => this._StatusId);
+                status = await Tokens.Statuses.ShowAsync(id => this._StatusId, tweet_mode => TweetMode.extended);
             }
             catch
             {

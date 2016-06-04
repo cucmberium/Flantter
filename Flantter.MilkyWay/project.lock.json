@@ -351,7 +351,7 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.4-beta1": {
+      "Newtonsoft.Json/9.0.1-beta1": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
@@ -2334,7 +2334,7 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.4-beta1": {
+      "Newtonsoft.Json/9.0.1-beta1": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
@@ -4225,7 +4225,7 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.4-beta1": {
+      "Newtonsoft.Json/9.0.1-beta1": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
@@ -6085,7 +6085,7 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.4-beta1": {
+      "Newtonsoft.Json/9.0.1-beta1": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
@@ -7979,7 +7979,7 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.4-beta1": {
+      "Newtonsoft.Json/9.0.1-beta1": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
@@ -9839,7 +9839,7 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.4-beta1": {
+      "Newtonsoft.Json/9.0.1-beta1": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
@@ -11733,7 +11733,7 @@
           "lib/uap10.0/Microsoft.Xaml.Interactivity.dll": {}
         }
       },
-      "Newtonsoft.Json/8.0.4-beta1": {
+      "Newtonsoft.Json/9.0.1-beta1": {
         "compile": {
           "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll": {}
         },
@@ -14014,11 +14014,11 @@
         "package/services/metadata/core-properties/aa8a385ed5b94b29a44c3a4ace39232c.psmdcp"
       ]
     },
-    "Newtonsoft.Json/8.0.4-beta1": {
-      "sha512": "GqF30CGzAlNEK7bvCUcf7pjZpQDXqS7tNLflNPus5yJKXW6nrzjTiqgcHs/lIPaeVxvpFIqQgqQNL+4TmgxCjQ==",
+    "Newtonsoft.Json/9.0.1-beta1": {
+      "sha512": "eGdISZNV16lWnDPHjfgBVcoyihASk/zsoXLN3r2uZYnXisiTUWKF8Xmgza3EtEFOMbYTmjUqBEjjT7Lx7ilK/w==",
       "type": "package",
       "files": [
-        "Newtonsoft.Json.8.0.4-beta1.nupkg.sha512",
+        "Newtonsoft.Json.9.0.1-beta1.nupkg.sha512",
         "Newtonsoft.Json.nuspec",
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
@@ -17698,7 +17698,7 @@
       "Microsoft.ApplicationInsights.WindowsApps >= 1.1.1",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.1.0",
       "Microsoft.Xaml.Behaviors.Uwp.Managed >= 1.1.0",
-      "Newtonsoft.Json >= 8.0.4-beta1",
+      "Newtonsoft.Json >= 9.0.1-beta1",
       "NotificationsExtensions.Win10 >= 14332.0.0",
       "Prism.Core >= 6.1.0",
       "Prism.Windows >= 6.0.2-pre1",

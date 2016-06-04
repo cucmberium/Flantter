@@ -121,18 +121,22 @@
 
         <Grid x:Name="Flantter_TitleBar" Background="{StaticResource TitleBarBackgroundBrush}" Grid.Row="0" Height="0" Visibility="Collapsed" Padding="0,0,180,0">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Border x:Name="Flantter_TitleBarMain" Grid.Column="0" Background="Transparent">
-                <TextBlock FontSize="11.5" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Text="Flantter" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16,0"/>
+            <Button x:Name="HamburgerButton" Grid.Column="0" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderBrush="Transparent" Width="48" Command="{x:Bind ViewModel.Notice.ShowLeftSwipeMenuCommand}">
+                <FontIcon x:Name="Hamburger" FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
+            </Button>
+            <Border x:Name="Flantter_TitleBarMain" Grid.Column="1" Background="Transparent">
+                <TextBlock FontSize="11.5" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Text="Flantter" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0"/>
             </Border>
-            <Button x:Name="Flantter_TitleBarAccountButton" Grid.Column="1" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowChangeAccountCommand}">
+            <Button x:Name="Flantter_TitleBarAccountButton" Grid.Column="2" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowChangeAccountCommand}">
                 <TextBlock FontSize="11" FontFamily="Segoe UI Symbol" Text="&#xE125;    Account"/>
             </Button>
-            <Button x:Name="Flantter_TitleBarSettingButton" Grid.Column="2" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowMainSettingCommand}">
+            <Button x:Name="Flantter_TitleBarSettingButton" Grid.Column="3" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowMainSettingCommand}">
                 <TextBlock FontSize="11" FontFamily="Segoe UI Symbol" Text="&#xE115;    Setting"/>
             </Button>
         </Grid>

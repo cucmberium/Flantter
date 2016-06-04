@@ -204,7 +204,7 @@ namespace Flantter.MilkyWay.Models
         {
             var text = this._Text.Replace("\r\n", "\n");
 
-            var resultReplies = this._Extractor.ExtractMentionedScreenNames(text);
+            /*var resultReplies = this._Extractor.ExtractMentionedScreenNames(text);
             var replyScreenNames = new List<string>();
             var hiddenPrefixLength = 0;
             foreach (var reply in resultReplies)
@@ -216,8 +216,8 @@ namespace Flantter.MilkyWay.Models
                 hiddenPrefixLength = reply.StartIndex + reply.Length;
             }
 
-            text = text.Substring(hiddenPrefixLength).TrimStart();
-            
+            text = text.Substring(hiddenPrefixLength).TrimStart();*/
+
             var resultUrls = this._Extractor.ExtractUrls(text);
             var length = text.Count(x => !char.IsLowSurrogate(x)) - resultUrls.Sum(x => x.Length) + 23 * resultUrls.Count;
 

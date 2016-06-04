@@ -393,9 +393,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             try
             {
                 if (maxid == 0)
-                    userTweets = await Tokens.Statuses.UserTimelineAsync(screen_name => this._ScreenName, count => 20);
+                    userTweets = await Tokens.Statuses.UserTimelineAsync(screen_name => this._ScreenName, count => 20, tweet_mode => TweetMode.extended);
                 else
-                    userTweets = await Tokens.Statuses.UserTimelineAsync(screen_name => this._ScreenName, count => 20, max_id => maxid);
+                    userTweets = await Tokens.Statuses.UserTimelineAsync(screen_name => this._ScreenName, count => 20, max_id => maxid, tweet_mode => TweetMode.extended);
             }
             catch
             {
@@ -444,9 +444,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             try
             {
                 if (maxid == 0)
-                    favorites = await Tokens.Favorites.ListAsync(screen_name => this._ScreenName, count => 20);
+                    favorites = await Tokens.Favorites.ListAsync(screen_name => this._ScreenName, count => 20, tweet_mode => TweetMode.extended);
                 else
-                    favorites = await Tokens.Favorites.ListAsync(screen_name => this._ScreenName, count => 20, max_id => maxid);
+                    favorites = await Tokens.Favorites.ListAsync(screen_name => this._ScreenName, count => 20, max_id => maxid, tweet_mode => TweetMode.extended);
             }
             catch
             {

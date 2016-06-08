@@ -874,4 +874,7 @@
   <data name="SettingsFlyout_Settings_Advanced_BackgroundNotification_ToggleSwitch.Header" xml:space="preserve">
     <value>バックグラウンド通知</value>
   </data>
+  <data name="TitleBar_ColumnButton_TextBlock.Text" xml:space="preserve">
+    <value>    カラム並び替え</value>
+  </data>
 </root>

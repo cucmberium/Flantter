@@ -50,24 +50,20 @@
                 </VisualState>
                 <VisualState x:Name="Min">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="352" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="MainArea_BottomBar.Height" Value="64"/>
-                        <Setter Target="MainArea_TweetButton.Visibility" Value="Visible"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Normal">
-                    <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="384" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="MainArea_BottomBar.Height" Value="64"/>
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="Wide">
+                <VisualState x:Name="Normal">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="700" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>

@@ -874,4 +874,7 @@
   <data name="SettingsFlyout_Settings_Advanced_BackgroundNotification_ToggleSwitch.Header" xml:space="preserve">
     <value>Background notification</value>
   </data>
+  <data name="TitleBar_ColumnButton_TextBlock.Text" xml:space="preserve">
+    <value>    Sort column</value>
+  </data>
 </root>

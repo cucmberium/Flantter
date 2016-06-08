@@ -125,6 +125,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <Button x:Name="HamburgerButton" Grid.Column="0" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderBrush="Transparent" Width="48" Command="{x:Bind ViewModel.Notice.ShowLeftSwipeMenuCommand}">
@@ -133,10 +134,13 @@
             <Border x:Name="Flantter_TitleBarMain" Grid.Column="1" Background="Transparent">
                 <TextBlock FontSize="11.5" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Text="Flantter" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0"/>
             </Border>
-            <Button x:Name="Flantter_TitleBarAccountButton" Grid.Column="2" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowChangeAccountCommand}">
+            <Button x:Name="Flantter_TitleBarColumnButton" Grid.Column="2" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.SortColumnCommand}">
+                <TextBlock x:Uid="TitleBar_ColumnButton_TextBlock" FontSize="11" FontFamily="Segoe UI Symbol" Text="&#xE125;    カラム並び替え"/>
+            </Button>
+            <Button x:Name="Flantter_TitleBarAccountButton" Grid.Column="3" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowChangeAccountCommand}">
                 <TextBlock FontSize="11" FontFamily="Segoe UI Symbol" Text="&#xE125;    Account"/>
             </Button>
-            <Button x:Name="Flantter_TitleBarSettingButton" Grid.Column="3" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowMainSettingCommand}">
+            <Button x:Name="Flantter_TitleBarSettingButton" Grid.Column="4" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.ShowMainSettingCommand}">
                 <TextBlock FontSize="11" FontFamily="Segoe UI Symbol" Text="&#xE115;    Setting"/>
             </Button>
         </Grid>
@@ -178,30 +182,31 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="Flantter_TitleBarColumnButton.Visibility" Value="Collapsed"/>
                         <Setter Target="Flantter_TitleBarAccountButton.Visibility" Value="Collapsed"/>
                         <Setter Target="Flantter_TitleBarSettingButton.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Min">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="352" />
+                        <AdaptiveTrigger MinWindowWidth="384" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="Flantter_TitleBarColumnButton.Visibility" Value="Collapsed"/>
                         <Setter Target="Flantter_TitleBarAccountButton.Visibility" Value="Collapsed"/>
-                        <Setter Target="Flantter_TitleBarSettingButton.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="384" />
+                        <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Flantter_TitleBarAccountButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="Flantter_TitleBarColumnButton.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="500" />
+                        <AdaptiveTrigger MinWindowWidth="700" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>

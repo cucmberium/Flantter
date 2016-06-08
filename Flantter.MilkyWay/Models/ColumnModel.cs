@@ -862,7 +862,7 @@ namespace Flantter.MilkyWay.Models
                 if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Contains(status.User.Id))
                     return false;
 
-                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Contains(status.User.Id))
+                if (status.HasRetweetInformation && Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Contains(status.RetweetInformation.User.Id))
                     return false;
 
                 if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Contains(status.User.Id))

@@ -77,6 +77,11 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.Url = this.Model.ObserveProperty(x => x.Url).ToReactiveProperty();
             this.Name = this.Model.ObserveProperty(x => x.Name).ToReactiveProperty();
 
+            this.UpdatingStatuses = this.Model.ObserveProperty(x => x.UpdatingStatuses).ToReactiveProperty();
+            this.UpdatingFavorites = this.Model.ObserveProperty(x => x.UpdatingFavorites).ToReactiveProperty();
+            this.UpdatingFollowers = this.Model.ObserveProperty(x => x.UpdatingFollowers).ToReactiveProperty();
+            this.UpdationFollowing = this.Model.ObserveProperty(x => x.UpdatingFollowing).ToReactiveProperty();
+
             this.IsMyUserProfile = Observable.CombineLatest(
                                 this.Model.ObserveProperty(x => x.ScreenName),
                                 this.Tokens,
@@ -313,18 +318,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             this.Followers = this.Model.Followers.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
             this.Following = this.Model.Following.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
 
-            this.Updating = Observable.CombineLatest(
-                                this.Model.ObserveProperty(x => x.UpdatingFavorites),
-                                this.Model.ObserveProperty(x => x.UpdatingFollowers),
-                                this.Model.ObserveProperty(x => x.UpdatingFavorites),
-                                this.Model.ObserveProperty(x => x.UpdatingStatuses),
-                                this.Model.ObserveProperty(x => x.UpdatingUserInformation),
-                                this.Model.ObserveProperty(x => x.UpdatingRelationShip),
-                                (updatingFavorite, updatingFollowers, updatingFavorites, updatingStatuses, updatingUserInformation, updatingRelationShip) =>
-                                {
-                                    return (updatingFavorite || updatingFollowers || updatingFavorites || updatingStatuses || updatingUserInformation || updatingRelationShip);
-                                }).ToReactiveProperty();
-
             this.Notice = Services.Notice.Instance;
         }
 
@@ -356,7 +349,10 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<bool> IsMyUserProfile { get; set; }
 
-        public ReactiveProperty<bool> Updating { get; set; }
+        public ReactiveProperty<bool> UpdatingStatuses { get; set; }
+        public ReactiveProperty<bool> UpdatingFavorites { get; set; }
+        public ReactiveProperty<bool> UpdatingFollowers { get; set; }
+        public ReactiveProperty<bool> UpdationFollowing { get; set; }
 
         public ReactiveProperty<string> FollowedByText { get; set; }
 

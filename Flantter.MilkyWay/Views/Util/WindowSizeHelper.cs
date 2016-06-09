@@ -56,11 +56,10 @@ namespace Flantter.MilkyWay.Views.Util
                 // Todo : 電話での動作の修正
 
                 var statusBarHeight = StatusBar.GetForCurrentView().OccludedRect.Height;
-
                 this.WindowWidth = Window.Current.Bounds.Width;
                 this.WindowHeight = Window.Current.Bounds.Height;
                 this.ClientWidth = Window.Current.Bounds.Width;
-                this.ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
+                this.ClientHeight = Window.Current.Bounds.Height;
                 this.TitleBarHeight = statusBarHeight;
                 this.UserInteractionMode = UserInteractionMode.Touch;
 
@@ -69,10 +68,10 @@ namespace Flantter.MilkyWay.Views.Util
                     h => Window.Current.SizeChanged += h,
                     h => Window.Current.SizeChanged -= h).Subscribe(x =>
                     {
-                        this.WindowHeight = x.Size.Height;
-                        this.WindowWidth = x.Size.Width;
+                        this.WindowWidth = Window.Current.Bounds.Width;
+                        this.WindowHeight = Window.Current.Bounds.Height;
                         this.ClientWidth = Window.Current.Bounds.Width;
-                        this.ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
+                        this.ClientHeight = Window.Current.Bounds.Height;
                         this.TitleBarHeight = statusBarHeight;
                         this.UserInteractionMode = UserInteractionMode.Touch;
                     });

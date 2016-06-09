@@ -1,1 +1,1 @@
-MainPackage=C:\Users\cucmb\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\x86\Release\Upload\Flantter.MilkyWay_3.0.0.0_x86.appx
+MainPackage=C:\Users\cucmb\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\x86\Release\Upload\Flantter.MilkyWay_3.0.2.0_x86.appx

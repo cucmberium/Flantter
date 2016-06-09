@@ -926,6 +926,10 @@ namespace Flantter.MilkyWay.Models
         {
             if (streaming)
             {
+                var retindex = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => (x as ITweet)?.Id == status.Id));
+                if (retindex != -1 && SettingService.Setting.RemoveRetweetAlreadyReceive && status.HasRetweetInformation && status.RetweetInformation.User.ScreenName != this._ScreenName)
+                    return;
+
                 this._Tweets.Insert(0, status);
             }
             else

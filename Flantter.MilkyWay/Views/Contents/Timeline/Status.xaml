@@ -12,6 +12,7 @@
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    xmlns:util="using:Flantter.MilkyWay.Views.Util"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -289,10 +290,38 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="4" Width="60" ToolTipService.ToolTip="Reply" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="RightTapped">
+                        <util:ShowAttachedFlyoutAction/>
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+                
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarReplySymbolIconForegroundBrush}" Symbol="Message"/>
+                
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Reply" Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_ReplyToAll" Text="&#xE165;    全員に返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyToAllCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
             </Button>
             <Button Grid.Column="3" Width="60" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" ToolTipService.ToolTip="Retweet" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
+                <i:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="RightTapped">
+                        <util:ShowAttachedFlyoutAction/>
+                    </core:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarRetweetSymbolIconForegroundBrush}" Symbol="ReShare" behaviors:SymbolIconForegroundBrushSwitchBehavior.IsEnabled="{x:Bind ViewModel.IsRetweeted, Mode=OneWay}" behaviors:SymbolIconForegroundBrushSwitchBehavior.EnabledBrush="{StaticResource TweetCommandBarDestroyRetweetSymbolIconForegroundBrush}" behaviors:SymbolIconForegroundBrushSwitchBehavior.DisabledBrush="{StaticResource TweetCommandBarRetweetSymbolIconForegroundBrush}"/>
+
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Retweet" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Text="&#xE1CA;    リツイート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.RetweetCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UrlQuoteRetweet" Text="&#xE167;    コメント付きリツイート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.UrlQuoteRetweetCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_RetweetFavorite" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Text="&#xE1CA;    リツイート + お気に入りへ登録" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.RetweetFavoriteCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
             </Button>
             <Button Grid.Column="2" Width="60" ToolTipService.ToolTip="Favorite" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.FavoriteCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarFavoriteSymbolIconForegroundBrush}" Symbol="Favorite" behaviors:SymbolIconForegroundBrushSwitchBehavior.IsEnabled="{x:Bind ViewModel.IsFavorited, Mode=OneWay}" behaviors:SymbolIconForegroundBrushSwitchBehavior.EnabledBrush="{StaticResource TweetCommandBarDestroyFavoriteSymbolIconForegroundBrush}" behaviors:SymbolIconForegroundBrushSwitchBehavior.DisabledBrush="{StaticResource TweetCommandBarFavoriteSymbolIconForegroundBrush}"/>

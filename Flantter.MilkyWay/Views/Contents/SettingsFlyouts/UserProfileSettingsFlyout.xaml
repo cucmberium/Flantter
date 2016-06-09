@@ -132,28 +132,30 @@
                     <PivotItem.Header>
                         <contents:TabHeader Width="80" Label="Tweets" Glyph="&#xE15F;" />
                     </PivotItem.Header>
-                    <ListView x:Name="UserProfileStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
-                        <i:Interaction.Behaviors>
-                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand}"/>
-                            <core:EventTriggerBehavior EventName="SelectionChanged">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeSelectedTweetCommand}" CommandParameter="{Binding ElementName=UserProfileStatusesListView, Path=SelectedItem, Mode=OneWay}" />
-                            </core:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel>
-                                    <i:Interaction.Behaviors>
-                                        <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                    </i:Interaction.Behaviors>
-                                    <VirtualizingStackPanel.ChildrenTransitions>
-                                        <TransitionCollection/>
-                                    </VirtualizingStackPanel.ChildrenTransitions>
-                                </VirtualizingStackPanel>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
-                                <timeline:Status ViewModel="{x:Bind}" 
+                    
+                    <Grid>
+                        <ListView x:Name="UserProfileStatusesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Statuses}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                            <i:Interaction.Behaviors>
+                                <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.StatusesIncrementalLoadCommand}"/>
+                                <core:EventTriggerBehavior EventName="SelectionChanged">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeSelectedTweetCommand}" CommandParameter="{Binding ElementName=UserProfileStatusesListView, Path=SelectedItem, Mode=OneWay}" />
+                                </core:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel>
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                        </i:Interaction.Behaviors>
+                                        <VirtualizingStackPanel.ChildrenTransitions>
+                                            <TransitionCollection/>
+                                        </VirtualizingStackPanel.ChildrenTransitions>
+                                    </VirtualizingStackPanel>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="twitterObjectsViewModel:StatusViewModel">
+                                    <timeline:Status ViewModel="{x:Bind}" 
                             MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
                             IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand, Mode=OneWay}" CommandParameter="{x:Bind Mode=OneWay}"
                             QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
@@ -161,44 +163,58 @@
                             RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
                             FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
                             RetweetFavoriteTriangleIconVisibility="{x:Bind RetweetFavoriteTriangleIconVisibility, Mode=OneWay}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ListView>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ListView>
+
+                        <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingStatuses.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingStatuses.Value, Mode=OneWay}" VerticalAlignment="Top" />
+                    </Grid>
+                    
                 </PivotItem>
 
                 <PivotItem Margin="0">
                     <PivotItem.Header>
                         <contents:TabHeader Width="80" Label="Following" Glyph="&#xE1E2;" />
                     </PivotItem.Header>
-                    <ListView x:Name="UserProfileFollowingListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Following}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
-                        <i:Interaction.Behaviors>
-                            <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowingIncrementalLoadCommand}" />
-                        </i:Interaction.Behaviors>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel>
-                                    <i:Interaction.Behaviors>
-                                        <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                    </i:Interaction.Behaviors>
-                                    <VirtualizingStackPanel.ChildrenTransitions>
-                                        <TransitionCollection/>
-                                    </VirtualizingStackPanel.ChildrenTransitions>
-                                </VirtualizingStackPanel>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="twitterObjectsViewModel:UserViewModel">
-                                <timeline:User ViewModel="{x:Bind}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ListView>
+
+                    <Grid>
+                        <ListView x:Name="UserProfileFollowingListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Following}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                            <i:Interaction.Behaviors>
+                                <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowingIncrementalLoadCommand}" />
+                            </i:Interaction.Behaviors>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel>
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
+                                        </i:Interaction.Behaviors>
+                                        <VirtualizingStackPanel.ChildrenTransitions>
+                                            <TransitionCollection/>
+                                        </VirtualizingStackPanel.ChildrenTransitions>
+                                    </VirtualizingStackPanel>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="twitterObjectsViewModel:UserViewModel">
+                                    <timeline:User ViewModel="{x:Bind}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ListView>
+
+                        <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.UpdationFollowing.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdationFollowing.Value, Mode=OneWay}" VerticalAlignment="Top" />
+
+                    </Grid>
+                    
                 </PivotItem>
 
                 <PivotItem Margin="0">
                     <PivotItem.Header>
                         <contents:TabHeader Width="80" Label="Followers" Glyph="&#xE125;" />
                     </PivotItem.Header>
-                    <ListView x:Name="UserProfileFollowersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Followers}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+
+                    <Grid>
+
+                        <ListView x:Name="UserProfileFollowersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Followers}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>
                             <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FollowersIncrementalLoadCommand}" />
                         </i:Interaction.Behaviors>
@@ -220,13 +236,20 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ListView>
+
+                        <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingFollowers.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingFollowers.Value, Mode=OneWay}" VerticalAlignment="Top" />
+
+                    </Grid>
+                    
                 </PivotItem>
 
                 <PivotItem Margin="0">
                     <PivotItem.Header>
                         <contents:TabHeader Width="80" Label="Favorites" Glyph="&#xE113;" />
                     </PivotItem.Header>
-                    <ListView x:Name="UserProfileFavoritesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single"  ItemsSource="{x:Bind ViewModel.Favorites}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
+                    <Grid>
+                        
+                        <ListView x:Name="UserProfileFavoritesListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single"  ItemsSource="{x:Bind ViewModel.Favorites}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                         <i:Interaction.Behaviors>
                             <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.FavoritesIncrementalLoadCommand}" />
                             <core:EventTriggerBehavior EventName="SelectionChanged">
@@ -258,6 +281,10 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ListView>
+
+                        <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingFavorites.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingFavorites.Value, Mode=OneWay}" VerticalAlignment="Top" />
+
+                    </Grid>
                 </PivotItem>
             </Pivot>
         </StackPanel>

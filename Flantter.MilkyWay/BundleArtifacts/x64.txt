@@ -1,2 +1,2 @@
-MainPackage=C:\Users\cucmb\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\x64\Release\Flantter.MilkyWay_3.0.0.0_x64.appx
-SymbolPackage=C:\Users\cucmb\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\AppPackages\Flantter.MilkyWay_3.0.0.0_Test\Flantter.MilkyWay_3.0.0.0_x64.appxsym
+MainPackage=C:\Users\cucmb\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\x64\Release\Flantter.MilkyWay_3.0.2.0_x64.appx
+SymbolPackage=C:\Users\cucmb\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\AppPackages\Flantter.MilkyWay_3.0.2.0_Test\Flantter.MilkyWay_3.0.2.0_x64.appxsym

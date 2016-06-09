@@ -14,6 +14,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -54,6 +55,9 @@ namespace Flantter.MilkyWay.Views
         
         private void UpdateTitleBar(bool isVisible)
         {
+            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                return;
+
             var applicationView = ApplicationView.GetForCurrentView();
 
             if (isVisible)

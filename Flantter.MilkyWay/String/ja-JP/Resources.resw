@@ -734,7 +734,7 @@
     <value>寄付はキャンセルされました。支払いは発生しません</value>
   </data>
   <data name="ConfirmDialog_NeedAppDonation" xml:space="preserve">
-    <value>この機能にアクセスするには寄付が必要です。寄付を行いますか?</value>
+    <value>寄付をすることで一部の機能が開放されます。これにはバックグラウンド通知やフォントの変更が含まれます。寄付を行いますか?</value>
   </data>
   <data name="SettingsFlyout_Settings_Advanced_Browse_Button.Content" xml:space="preserve">
     <value>参照</value>
@@ -876,5 +876,11 @@
   </data>
   <data name="TitleBar_ColumnButton_TextBlock.Text" xml:space="preserve">
     <value>    カラム並び替え</value>
+  </data>
+  <data name="MainSwipeMenu_Donation.Text" xml:space="preserve">
+    <value>寄付</value>
+  </data>
+  <data name="MainSwipeMenu_Help.Text" xml:space="preserve">
+    <value>ヘルプ</value>
   </data>
 </root>

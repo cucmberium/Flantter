@@ -426,9 +426,16 @@ namespace Flantter.MilkyWay.Models
 
             foreach (var pic in this._Pictures)
                 pic.Dispose();
+
             this._Pictures.Clear();
 
-            this.Text = string.Empty;
+            text = string.Empty;
+            if (this.LockingHashTags)
+            {
+                foreach (var token in this.tokens.Where(x => x.Type == SuggestionService.SuggestionToken.SuggestionTokenId.HashTag))
+                    text += " #" + token.Value;
+            }
+            this.Text = text;
 
             this.ReplyOrQuotedStatus = null;
             this.IsQuotedRetweet = false;

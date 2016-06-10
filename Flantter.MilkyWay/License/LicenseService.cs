@@ -74,4 +74,9 @@ namespace Flantter.MilkyWay.License
             return false;
         }
     }
+
+    public class LicenseProvider
+    {
+        public LicenseService License { get { return LicenseService.License; } }
+    }
 }

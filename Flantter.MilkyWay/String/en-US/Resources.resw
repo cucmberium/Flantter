@@ -877,4 +877,10 @@
   <data name="TitleBar_ColumnButton_TextBlock.Text" xml:space="preserve">
     <value>    Sort column</value>
   </data>
+  <data name="MainSwipeMenu_Donation.Text" xml:space="preserve">
+    <value>Donation</value>
+  </data>
+  <data name="MainSwipeMenu_Help.Text" xml:space="preserve">
+    <value>Help</value>
+  </data>
 </root>

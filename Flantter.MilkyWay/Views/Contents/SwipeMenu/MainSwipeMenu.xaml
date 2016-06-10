@@ -8,6 +8,7 @@
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:util="using:Flantter.MilkyWay.Views.Util"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -151,6 +152,29 @@
                     </Grid>
                 </Button>
 
+                <controls:HorizontalBar Margin="50,0,0,0"/>
+
+                <Button Visibility="{Binding Source={StaticResource License}, Path=License.AppDonationIsActive, Converter={StaticResource BooleanNegationToVisibilityConverter}, Mode=OneWay}" Command="{x:Bind ViewModel.Notice.DonateCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid>
+                        <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Shop" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <TextBlock x:Uid="MainSwipeMenu_Donation" Text="寄付" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+
+                <controls:HorizontalBar Visibility="{Binding Source={StaticResource License}, Path=License.AppDonationIsActive, Converter={StaticResource BooleanNegationToVisibilityConverter}, Mode=OneWay}" Margin="50,0,0,0"/>
+
+                <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Click">
+                            <util:OpenLinkAction Uri="https://github.com/cucmberium/Flantter.MilkyWay/wiki"/>
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                    <Grid>
+                        <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Help" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <TextBlock x:Uid="MainSwipeMenu_Help" Text="ヘルプ" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+                
                 <controls:HorizontalBar Margin="50,0,0,0"/>
 
                 <Button Command="{x:Bind ViewModel.Notice.ExitAppCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">

@@ -8,6 +8,7 @@
     xmlns:converters="using:Flantter.MilkyWay.Views.Converters"
     xmlns:setting="using:Flantter.MilkyWay.Setting"
     xmlns:notice="using:Flantter.MilkyWay.ViewModels.Services"
+    xmlns:license="using:Flantter.MilkyWay.License"
     RequestedTheme="Dark">
     
     <prism:PrismApplication.Resources>
@@ -38,7 +39,9 @@
             <setting:AdvancedSettingProvider x:Key="AdvancedSetting" />
             <setting:SettingSupportProvider x:Key="SettingSupport" />
             <notice:NoticeProvider x:Key="Notice"/>
-            
+            <license:LicenseProvider x:Key="License"/>
+
+
         </ResourceDictionary>
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>

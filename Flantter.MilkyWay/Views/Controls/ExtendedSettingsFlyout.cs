@@ -19,7 +19,16 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Flantter.MilkyWay.Views.Controls
 {
-    public class ExtendedSettingsFlyout : ContentControl
+    interface ContentPopup
+    {
+        bool IsOpen { get; }
+
+        void Show();
+
+        void Hide();
+    }
+
+    public class ExtendedSettingsFlyout : ContentControl, ContentPopup
     {
         public string Title
         {

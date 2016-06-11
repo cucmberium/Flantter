@@ -2,6 +2,7 @@
 using Flantter.MilkyWay.Models.Twitter.Video;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Services;
+using Flantter.MilkyWay.Views.Controls;
 using Flantter.MilkyWay.Views.Util;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Flantter.MilkyWay.Views.Contents
 {
-    public sealed partial class VideoPreviewPopup : UserControl
+    public sealed partial class VideoPreviewPopup : UserControl, ContentPopup
     {
         private Popup VideoPreview;
         private AppBar _BottomAppBar;
@@ -39,6 +40,8 @@ namespace Flantter.MilkyWay.Views.Contents
         public string VideoType { get; set; }
         public string VideoContentType { get; set; }
         public string Id { get; set; }
+
+        public bool IsOpen { get { return this.VideoPreview.IsOpen; } }
 
         public VideoPreviewPopup()
         {

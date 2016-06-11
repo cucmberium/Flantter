@@ -382,8 +382,6 @@
     <Compile Include="Views\Util\OpenLinkAction.cs" />
     <Compile Include="Views\Util\StoryboardBeginAction.cs" />
     <Compile Include="Views\Util\ShowAttachedFlyoutAction.cs" />
-    <Compile Include="Views\Behaviors\ShowVideoPreviewAction.cs" />
-    <Compile Include="Views\Behaviors\ShowImagePreviewAction.cs" />
     <Compile Include="Views\Util\WindowSizeHelper.cs" />
   </ItemGroup>
   <ItemGroup>

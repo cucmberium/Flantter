@@ -1,6 +1,7 @@
 ﻿using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Services;
+using Flantter.MilkyWay.Views.Controls;
 using Flantter.MilkyWay.Views.Util;
 using NotificationsExtensions.Toasts;
 using System;
@@ -30,7 +31,7 @@ using Windows.Web.Http;
 
 namespace Flantter.MilkyWay.Views.Contents
 {
-    public sealed partial class ImagePreviewPopup : UserControl
+    public sealed partial class ImagePreviewPopup : UserControl, ContentPopup
     {
         private Popup ImagePreview;
 
@@ -39,6 +40,8 @@ namespace Flantter.MilkyWay.Views.Contents
         public int ImageIndex { get; set; }
 
         ResourceLoader _ResourceLoader;
+
+        public bool IsOpen { get { return this.ImagePreview.IsOpen; } }
 
         public ImagePreviewPopup()
         {

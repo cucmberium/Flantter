@@ -23,12 +23,6 @@
             <behaviors:TitleBarSwitchAction TitleBarVisibility="False"/>
         </core:DataTriggerBehavior>
 
-        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.ShowImagePreviewMessenger}">
-            <behaviors:ShowImagePreviewAction/>
-        </util:MessengerTriggerBehavior>
-        <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.ShowVideoPreviewMessenger}">
-            <behaviors:ShowVideoPreviewAction/>
-        </util:MessengerTriggerBehavior>
         <util:MessengerTriggerBehavior Messenger="{x:Bind ViewModel.ShowSettingsFlyoutMessenger}">
             <behaviors:ShowSettingsFlyoutAction/>
         </util:MessengerTriggerBehavior>

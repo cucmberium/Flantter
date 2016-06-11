@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace Flantter.MilkyWay.Views.Behaviors
@@ -19,10 +20,41 @@ namespace Flantter.MilkyWay.Views.Behaviors
     public class ShowSettingsFlyoutAction : DependencyObject, IAction
     {
         private List<ExtendedSettingsFlyout> _SettingsFlyoutList = null;
+        private VideoPreviewPopup _VideoPreviewPopup = null;
+        private ImagePreviewPopup _ImagePreviewPopup = null;
+
+        private List<ContentPopup> _PopupList { get; set; }
 
         public ShowSettingsFlyoutAction()
         {
             this._SettingsFlyoutList = new List<ExtendedSettingsFlyout>();
+            this._PopupList = new List<ContentPopup>();
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
+            {
+                this._PopupList = this._PopupList.Where(x => x.IsOpen).Distinct().ToList();
+                if (this._PopupList.Count == 0)
+                    return;
+
+                var popup = this._PopupList.First();
+                popup.Hide();
+                e.Handled = true;
+            };
+
+            Window.Current.CoreWindow.PointerPressed += (s, e) =>
+            {
+                bool backPressed = e.CurrentPoint.Properties.IsXButton1Pressed;
+                if (!backPressed)
+                    return;
+
+                this._PopupList = this._PopupList.Where(x => x.IsOpen).Distinct().ToList();
+                if (this._PopupList.Count == 0)
+                    return;
+
+                e.Handled = true;
+                var popup = this._PopupList.First();
+                popup.Hide();
+            };
         }
 
         public object Execute(object sender, object parameter)
@@ -30,12 +62,47 @@ namespace Flantter.MilkyWay.Views.Behaviors
             var notification = parameter as ShowSettingsFlyoutNotification;
             if (notification == null)
                 return null;
-
+            
             ExtendedSettingsFlyout settingsFlyout = null;
             IEnumerable<ExtendedSettingsFlyout> settingsFlyoutList = null;
 
             switch (notification.SettingsFlyoutType)
             {
+                case "ImagePreview":
+                    var mediaEntity = notification.Content as Models.Twitter.Objects.MediaEntity;
+                    if (mediaEntity.ParentEntities == null)
+                        return null;
+
+                    if (this._ImagePreviewPopup == null)
+                        this._ImagePreviewPopup = new ImagePreviewPopup();
+
+                    this._ImagePreviewPopup.Images = mediaEntity.ParentEntities.Media.Where(x => x.Type == "Image").ToList();
+                    this._ImagePreviewPopup.ImageIndex = this._ImagePreviewPopup.Images.IndexOf(mediaEntity);
+
+                    this._ImagePreviewPopup.ImageRefresh();
+
+                    this._ImagePreviewPopup.Show();
+
+                    this._PopupList.Insert(0, this._ImagePreviewPopup);
+                    break;
+
+                case "VideoPreview":
+                    var videoEntity = notification.Content as Models.Twitter.Objects.MediaEntity;
+
+                    if (_VideoPreviewPopup == null)
+                        _VideoPreviewPopup = new VideoPreviewPopup();
+
+                    this._VideoPreviewPopup.Id = videoEntity.VideoInfo.VideoId;
+                    this._VideoPreviewPopup.VideoWebUrl = videoEntity.ExpandedUrl;
+                    this._VideoPreviewPopup.VideoThumbnailUrl = videoEntity.MediaThumbnailUrl;
+                    this._VideoPreviewPopup.VideoType = videoEntity.VideoInfo.VideoType;
+                    this._VideoPreviewPopup.VideoContentType = videoEntity.VideoInfo.VideoContentType;
+                    this._VideoPreviewPopup.VideoChanged();
+
+                    this._VideoPreviewPopup.Show();
+                    this._PopupList.Insert(0, this._VideoPreviewPopup);
+                    break;
+
                 case "Search":
                     if (_SettingsFlyoutList.Where(x => x.IsOpen).Count() > 0)
                         break;
@@ -67,6 +134,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     else
                         ((SearchSettingsFlyout)settingsFlyout).FocusToStatusSearchBox();
 
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "UserProfile":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is UserProfileSettingsFlyout && !x.IsOpen);
@@ -91,6 +159,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "Conversation":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is ConversationSettingsFlyout && !x.IsOpen);
@@ -115,6 +185,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((ConversationSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "StatusDetail":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is StatusDetailSettingsFlyout && !x.IsOpen);
@@ -148,6 +220,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "DirectMessageConversation":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is DirectMessageConversationSettingsFlyout && !x.IsOpen);
@@ -174,6 +248,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((DirectMessageConversationSettingsFlyout)settingsFlyout).DataContext = ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel;
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "UserLists":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is UserListsSettingsFlyout && !x.IsOpen);
@@ -200,6 +276,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((UserListsSettingsFlyout)settingsFlyout).DataContext = ((UserListsSettingsFlyout)settingsFlyout).ViewModel;
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "ListStatuses":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is ListStatusesSettingsFlyout && !x.IsOpen);
@@ -227,6 +305,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((ListStatusesSettingsFlyout)settingsFlyout).DataContext = ((ListStatusesSettingsFlyout)settingsFlyout).ViewModel;
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "ListMembers":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is ListMembersSettingsFlyout && !x.IsOpen);
@@ -253,6 +333,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((ListMembersSettingsFlyout)settingsFlyout).DataContext = ((ListMembersSettingsFlyout)settingsFlyout).ViewModel;
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "Retweeters":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is RetweetersSettingsFlyout && !x.IsOpen);
@@ -279,6 +361,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((RetweetersSettingsFlyout)settingsFlyout).DataContext = ((RetweetersSettingsFlyout)settingsFlyout).ViewModel;
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "RetweetsOfMe":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is RetweetsOfMeSettingsFlyout && !x.IsOpen);
@@ -302,6 +386,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((RetweetsOfMeSettingsFlyout)settingsFlyout).DataContext = ((RetweetsOfMeSettingsFlyout)settingsFlyout).ViewModel;
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "UserFollowInfo":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is UserFollowInfoSettingsFlyout && !x.IsOpen);
@@ -325,6 +411,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((UserFollowInfoSettingsFlyout)settingsFlyout).DataContext = ((UserFollowInfoSettingsFlyout)settingsFlyout).ViewModel;
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "MainSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is MainSettingSettingsFlyout && !x.IsOpen);
@@ -339,6 +427,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }
                     
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "BehaviorSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is BehaviorSettingSettingsFlyout && !x.IsOpen);
@@ -353,6 +443,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "PostingSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is PostingSettingSettingsFlyout && !x.IsOpen);
@@ -367,6 +459,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "DisplaySetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is DisplaySettingSettingsFlyout && !x.IsOpen);
@@ -381,6 +475,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "NotificationSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is NotificationSettingSettingsFlyout && !x.IsOpen);
@@ -395,6 +491,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "MuteSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is MuteSettingSettingsFlyout && !x.IsOpen);
@@ -412,6 +510,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     ((MuteSettingSettingsFlyout)settingsFlyout).ViewModel.MuteFilter.Value = Setting.SettingService.Setting.MuteFilter;
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "AccountsSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AccountsSettingSettingsFlyout && !x.IsOpen);
@@ -426,6 +526,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "AccountSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AccountSettingSettingsFlyout && !x.IsOpen);
@@ -442,6 +544,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((AccountSettingSettingsFlyout)settingsFlyout).ViewModel = notification.Content as AccountSetting;
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "AdvancedSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AdvancedSettingSettingsFlyout && !x.IsOpen);
@@ -456,6 +560,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "ColumnSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is ColumnSettingSettingsFlyout && !x.IsOpen);
@@ -474,6 +580,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((ColumnSettingSettingsFlyout)settingsFlyout).ViewModel.ColumnSetting.Value = notification.Content as ColumnSetting;
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "AppInfo":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AppInfoSettingsFlyout && !x.IsOpen);
@@ -488,6 +596,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
                 case "AccountChange":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AccountChangeSettingsFlyout && !x.IsOpen);
@@ -502,8 +612,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     }
 
                     settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
                     break;
             }
+
+            this._PopupList = this._PopupList.Where(x => x.IsOpen).Distinct().ToList();
 
             return null;
         }

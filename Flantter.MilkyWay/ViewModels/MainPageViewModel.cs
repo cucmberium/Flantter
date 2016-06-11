@@ -52,10 +52,6 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand DragOverCommand { get; private set; }
         public ReactiveCommand DropCommand { get; private set; }
 
-        public Messenger ShowImagePreviewMessenger { get; private set; }
-
-        public Messenger ShowVideoPreviewMessenger { get; private set; }
-
         public Messenger ShowSettingsFlyoutMessenger { get; private set; }
 
         public Messenger ShowShareUIMessenger { get; private set; }
@@ -96,9 +92,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.Accounts = this.Model.ReadOnlyAccounts.ToReadOnlyReactiveCollection(x => new AccountViewModel(x));
 
             this.TweetArea = new TweetAreaViewModel(this.Accounts);
-
-            this.ShowImagePreviewMessenger = new Messenger();
-            this.ShowVideoPreviewMessenger = new Messenger();
+            
             this.ShowSettingsFlyoutMessenger = new Messenger();
             this.ShowShareUIMessenger = new Messenger();
 
@@ -147,17 +141,15 @@ namespace Flantter.MilkyWay.ViewModels
                 d.Complete();
             });
 
-            Services.Notice.Instance.ShowMediaCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            Services.Notice.Instance.ShowMediaCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var media = x as MediaEntity;
 
                 if (media == null)
                     return;
 
-                if (media.Type == "Image")
-                    await this.ShowImagePreviewMessenger.Raise(new Notification() { Content = x });
-                else if (media.Type == "Video")
-                    await this.ShowVideoPreviewMessenger.Raise(new Notification() { Content = x });
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = media.Type + "Preview", Content = x };                
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
             Services.Notice.Instance.TweetAreaOpenCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>

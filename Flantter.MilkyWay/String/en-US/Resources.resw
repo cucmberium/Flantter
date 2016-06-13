@@ -883,4 +883,7 @@
   <data name="MainSwipeMenu_Help.Text" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="SettingsFlyout_Settings_Behavior_PictureSavePath_ComboBox.Header" xml:space="preserve">
+    <value>Picture save path</value>
+  </data>
 </root>

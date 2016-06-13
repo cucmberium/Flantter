@@ -107,11 +107,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
             {
                 ((ExtendedTextBox)this.AssociatedObject).PreKeyDown -= TextBox_PreKeyDown;
             }
-
-            if (this.Messenger != null)
-            {
-                this.Messenger.Raised -= this.MessengerRaised;
-            }
         }
 
         private void TextBox_PreKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)

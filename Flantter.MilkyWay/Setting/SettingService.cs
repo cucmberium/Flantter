@@ -170,6 +170,8 @@ namespace Flantter.MilkyWay.Setting
             fontlist.Sort(StringComparer.OrdinalIgnoreCase);
             return fontlist;
         }
+
+        public readonly static List<string> PictureSavePath = new List<string>() { "Picture/", "Picture/Flantter/" };
     }
 
     public class SettingSupportProvider
@@ -206,6 +208,10 @@ namespace Flantter.MilkyWay.Setting
         {
             get { return SettingSupport.GetSystemFontFamilies(); }
         }
+        public static IEnumerable<string> PictureSavePathList
+        {
+            get { return SettingSupport.PictureSavePath; }
+        }
     }
 
     public class SettingService : SettingServiceBase<SettingService>
@@ -220,6 +226,7 @@ namespace Flantter.MilkyWay.Setting
         public bool RemoveRetweetAlreadyReceive { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public int PictureSavePath { get { return GetValue(0); } set { SetValue(value); OnPropertyChanged(); } }
         public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
 
         // 投稿設定

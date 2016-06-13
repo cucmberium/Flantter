@@ -37,6 +37,10 @@
 
             <controls:HorizontalBar/>
 
+            <ComboBox x:Uid="SettingsFlyout_Settings_Behavior_PictureSavePath_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="画像の保存先" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=PictureSavePathList}" SelectedIndex="{Binding Source={StaticResource Setting}, Path=Setting.PictureSavePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <controls:HorizontalBar/>
+            
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_RetweetConfirmation_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RetweetConfirmation, Mode=TwoWay}" Header="リツイートを確認する"/>
 
             <controls:HorizontalBar/>

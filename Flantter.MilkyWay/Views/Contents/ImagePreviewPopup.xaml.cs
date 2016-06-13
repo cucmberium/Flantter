@@ -422,6 +422,13 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private async void ImagePreviewMenu_SaveImage(object sender, RoutedEventArgs e)
         {
+            var storage = KnownFolders.PicturesLibrary;
+            if (SettingService.Setting.PictureSavePath == 1)
+            {
+                var folders = await KnownFolders.PicturesLibrary.GetFoldersAsync();
+                storage = folders.Any(x => x.Name == "Flantter") ? folders.First(x => x.Name == "Flantter") : await storage.CreateFolderAsync("Flantter");
+            }
+
             var toastContent = new ToastContent();
             toastContent.Visual = new ToastVisual();
             toastContent.Visual.TitleText = new ToastText() { Text = "Flantter" };
@@ -453,7 +460,7 @@ namespace Flantter.MilkyWay.Views.Contents
                         imageFileName += ".bmp";
                         break;
                 }
-                var imageFile = await KnownFolders.PicturesLibrary.CreateFileAsync(imageFileName, CreationCollisionOption.GenerateUniqueName);
+                var imageFile = await storage.CreateFileAsync(imageFileName, CreationCollisionOption.GenerateUniqueName);
                 await Windows.Storage.FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
             }
             catch

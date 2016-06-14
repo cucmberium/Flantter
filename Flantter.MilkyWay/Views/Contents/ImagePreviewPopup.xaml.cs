@@ -13,6 +13,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
@@ -422,13 +423,6 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private async void ImagePreviewMenu_SaveImage(object sender, RoutedEventArgs e)
         {
-            var storage = KnownFolders.PicturesLibrary;
-            if (SettingService.Setting.PictureSavePath == 1)
-            {
-                var folders = await KnownFolders.PicturesLibrary.GetFoldersAsync();
-                storage = folders.Any(x => x.Name == "Flantter") ? folders.First(x => x.Name == "Flantter") : await storage.CreateFolderAsync("Flantter");
-            }
-
             var toastContent = new ToastContent();
             toastContent.Visual = new ToastVisual();
             toastContent.Visual.TitleText = new ToastText() { Text = "Flantter" };
@@ -439,6 +433,7 @@ namespace Flantter.MilkyWay.Views.Contents
 
             try
             {
+                var extension = "";
                 var imageFileName = DateTime.Now.ToString("yyyyMMddHHmmss");
                 var client = new HttpClient();
                 var response = await client.GetAsync(new Uri(this.Images[this.ImageIndex].MediaUrl));
@@ -446,21 +441,47 @@ namespace Flantter.MilkyWay.Views.Contents
                 {
                     case "image/jpeg":
                         imageFileName += ".jpg";
+                        extension = ".jpg";
                         break;
                     case "image/gif":
                         imageFileName += ".gif";
+                        extension = ".gif";
                         break;
                     case "image/png":
                         imageFileName += ".png";
+                        extension = ".png";
                         break;
                     case "image/tiff":
                         imageFileName += ".tiff";
+                        extension = ".tiff";
                         break;
                     case "image/x-bmp":
                         imageFileName += ".bmp";
+                        extension = ".bmp";
                         break;
                 }
-                var imageFile = await storage.CreateFileAsync(imageFileName, CreationCollisionOption.GenerateUniqueName);
+
+
+                StorageFile imageFile = null;
+                switch (SettingService.Setting.PictureSavePath)
+                {
+                    case 0:
+                        imageFile = await KnownFolders.PicturesLibrary.CreateFileAsync(imageFileName, CreationCollisionOption.GenerateUniqueName);
+                        break;
+                    case 1:
+                        var folders = await KnownFolders.PicturesLibrary.GetFoldersAsync();
+                        var storage = folders.Any(x => x.Name == "Flantter") ? folders.First(x => x.Name == "Flantter") : await KnownFolders.PicturesLibrary.CreateFolderAsync("Flantter");
+                        imageFile = await storage.CreateFileAsync(imageFileName, CreationCollisionOption.GenerateUniqueName);
+                        break;
+                    case 2:
+                        var filePicker = new FileSavePicker();
+                        filePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                        filePicker.FileTypeChoices.Add("ImageFile", new List<string>() { extension });
+                        filePicker.SuggestedFileName = imageFileName;
+                        imageFile = await filePicker.PickSaveFileAsync();
+                        break;
+                }
+                
                 await Windows.Storage.FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
             }
             catch

@@ -171,7 +171,7 @@ namespace Flantter.MilkyWay.Setting
             return fontlist;
         }
 
-        public readonly static List<string> PictureSavePath = new List<string>() { "Picture/", "Picture/Flantter/" };
+        public readonly static List<string> PictureSavePath = new List<string>() { "Picture/", "Picture/Flantter/", "Manual" };
     }
 
     public class SettingSupportProvider

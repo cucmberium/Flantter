@@ -201,10 +201,20 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (string.IsNullOrEmpty(text))
                 yield break;
 
-            if (entities == null || GetDeficientEntity(sender))
+            if (entities == null)
             {
                 foreach (var token in TokenizeImpl(text))
                     yield return token;
+            }
+            else if (GetDeficientEntity(sender))
+            {
+                foreach (var token in TokenizeImpl(text))
+                {
+                    if (token.Type == TextPartType.Url && entities.Urls.Any(x => x.Url == token.RawText))
+                        token.Text = entities.Urls.First(x => x.Url == token.RawText).DisplayUrl;
+
+                    yield return token;
+                }
             }
             else
             {

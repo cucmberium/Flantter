@@ -13,7 +13,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Thumbnail
 {
     public static class NicoVideo
     {
-        public static async void GetThumbnail(string videoId)
+        public static async void GetThumbnail(string videoId, string fileName)
         {
             var file = await ApplicationData.Current.TemporaryFolder.TryGetItemAsync(videoId);
             if (file != null)
@@ -27,7 +27,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Thumbnail
                 return;
 
             response.Content.Headers.ContentType.CharSet = "utf-8";
-            
+
             string contents = await response.Content.ReadAsStringAsync();
 
             if (string.IsNullOrWhiteSpace(contents))
@@ -42,15 +42,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Thumbnail
 
             response = await client.GetAsync(new Uri(thumbnailUrl));
 
-            try
-            {
-                var imageFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(videoId, CreationCollisionOption.OpenIfExists);
-                await FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
-            }
-            catch
-            {
-
-            }
+            var imageFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+            await FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
         }
     }
 }

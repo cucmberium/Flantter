@@ -49,7 +49,7 @@
                             </i:Interaction.Behaviors>
                         </Hyperlink>
                     </TextBlock>
-                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="Version 3.0.0 alpha" HorizontalAlignment="Center"/>
+                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="Version 3.0.5" HorizontalAlignment="Center"/>
                     <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}" Text="Copyright (c) 2014-2016 cucmberium" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>

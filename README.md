@@ -3,9 +3,9 @@
 
 FlantterはWindowsで使用できるストアアプリのツイッタークライアントです。
 
-アプリの入手は[こちら](http://apps.microsoft.com/windows/ja-jp/app/flantter-cascade/cedc3eca-9d14-452e-bf40-0e32bd76b5b7)よりどうぞ。(Flantter.Cascade)
+アプリの入手は[こちら](http://apps.microsoft.com/windows/ja-jp/app/flantter/cedc3eca-9d14-452e-bf40-0e32bd76b5b7)よりどうぞ。
 
-より詳しい情報は[wiki](https://github.com/cucmberium/Flantter/wiki)を参照してください。
+より詳しい情報は[wiki](https://github.com/cucmberium/Flantter.MilkyWay/wiki)を参照してください。
 
 ### Flantter MilkyWay とは？
 

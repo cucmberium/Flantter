@@ -382,7 +382,7 @@ namespace Flantter.MilkyWay.Models
                 this.streamingConnectionDisposableObject = iObservable.Catch((Exception ex) =>
                 {
                     return iObservable.DelaySubscription(TimeSpan.FromSeconds(10)).Retry();
-                }).Subscribe(x => this.stream.OnNext(x), ex => this.stream.OnError(ex), () => this.stream.OnCompleted());
+                }).Repeat().Subscribe(x => this.stream.OnNext(x), ex => this.stream.OnError(ex), () => this.stream.OnCompleted());
             }
             else if (this._Action == SettingSupport.ColumnTypeEnum.Search)
             {
@@ -395,7 +395,7 @@ namespace Flantter.MilkyWay.Models
                 this.streamingConnectionDisposableObject = iObservable.Catch((Exception ex) =>
                 {
                     return iObservable.DelaySubscription(TimeSpan.FromSeconds(10)).Retry();
-                }).Subscribe(x => this.stream.OnNext(x), ex => this.stream.OnError(ex), () => this.stream.OnCompleted());
+                }).Repeat().Subscribe(x => this.stream.OnNext(x), ex => this.stream.OnError(ex), () => this.stream.OnCompleted());
             }
             else if (this.Action == SettingSupport.ColumnTypeEnum.List)
             {
@@ -425,7 +425,7 @@ namespace Flantter.MilkyWay.Models
                 this.streamingConnectionDisposableObject = iObservable.Catch((Exception ex) =>
                 {
                     return iObservable.DelaySubscription(TimeSpan.FromSeconds(10)).Retry();
-                }).Subscribe(x => this.stream.OnNext(x), ex => this.stream.OnError(ex), () => this.stream.OnCompleted());
+                }).Repeat().Subscribe(x => this.stream.OnNext(x), ex => this.stream.OnError(ex), () => this.stream.OnCompleted());
             }
             else
             {
@@ -446,6 +446,15 @@ namespace Flantter.MilkyWay.Models
             catch
             {
             }
+        }
+
+        public void ReconnectStreaming()
+        {
+            this.StopStreaming();
+            this.StartStreaming();
+
+            this._Streaming = true;
+            this.OnPropertyChanged("Streaming");
         }
 
         public async Task Update(long maxid = 0, long sinceid = 0)

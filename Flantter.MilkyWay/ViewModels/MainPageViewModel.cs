@@ -674,10 +674,7 @@ namespace Flantter.MilkyWay.ViewModels
                 foreach (var column in account.Columns)
                 {
                     if (column.IsEnabledStreaming.Value && column.Model.Streaming)
-                    {
-                        column.Model.Streaming = false;
-                        column.Model.Streaming = true;
-                    }
+                        column.Model.ReconnectStreaming();
                 }
             }
 

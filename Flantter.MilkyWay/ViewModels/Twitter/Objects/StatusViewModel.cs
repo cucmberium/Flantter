@@ -296,7 +296,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
             this.IsMyTweet = (status.User.Id == userId);
             this.IsMyRetweet = (status.RetweetInformation != null && status.RetweetInformation.User.Id == userId) || status.IsRetweeted;
-            this.IsUserProtected = status.User.IsProtected;
+            this.IsUserProtected = status.User.IsProtected && (status.User.Id != userId);
 
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;

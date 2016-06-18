@@ -130,6 +130,7 @@
     <Compile Include="Models\ShareContract\StatusShareContractModel.cs" />
     <Compile Include="Models\Twitter\ExtractTextParts.cs" />
     <Compile Include="Models\Twitter\Objects\Gap.cs" />
+    <Compile Include="Models\Twitter\Thumbnail\Pixiv.cs" />
     <Compile Include="Models\Twitter\TweetRegexPatterns.cs" />
     <Compile Include="Models\Twitter\TwitterConnectionHelper.cs" />
     <Compile Include="Common\VisualTreeHelperExtensions.cs" />

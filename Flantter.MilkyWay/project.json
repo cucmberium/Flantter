@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "CoreTweet": "0.6.3.296",
+    "HtmlAgilityPack": "1.4.9",
     "Jint": "2.8.0",
     "Microsoft.ApplicationInsights": "2.0.1",
     "Microsoft.ApplicationInsights.PersistenceChannel": "2.0.0-beta3",

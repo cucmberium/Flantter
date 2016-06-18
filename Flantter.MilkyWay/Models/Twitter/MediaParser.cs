@@ -142,6 +142,15 @@ namespace Flantter.MilkyWay.Models.Twitter
                     match = Regex_pixiv.Match(url.ExpandedUrl);
                     if (match.Success)
                     {
+                        /*var fileName = "Pixiv_" + match.Groups["Id"];
+                        try
+                        {
+                            Thumbnail.Pixiv.GetThumbnail(match.Groups["Id"].Value, fileName);
+                        }
+                        catch
+                        {
+                        }*/
+
                         yield return new Media()
                         {
                             MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],

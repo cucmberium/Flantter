@@ -57,7 +57,7 @@
 
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_Settings_Column_Filter_TextBox" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsEnabled="{x:Bind ViewModel.CanChangeSetting.Value, Mode=OneWay}" MinHeight="128" MaxHeight="384" AcceptsReturn="True" Margin="10" Header="フィルター" HorizontalAlignment="Stretch" Text="{Binding Filter.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Uid="SettingsFlyout_Settings_Column_Filter_TextBox" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" MinHeight="128" MaxHeight="384" AcceptsReturn="True" Margin="10" Header="フィルター" HorizontalAlignment="Stretch" Text="{Binding Filter.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             </StackPanel>
         </ScrollViewer>

@@ -820,19 +820,16 @@ namespace Flantter.MilkyWay.Models
                 }
             }
 
-            if (this.Action == SettingSupport.ColumnTypeEnum.Filter || this.Action == SettingSupport.ColumnTypeEnum.List || this.Action == SettingSupport.ColumnTypeEnum.Search || this.Action == SettingSupport.ColumnTypeEnum.UserTimeline)
+            if (this.FilterDelegate != null)
             {
-                if (this.FilterDelegate != null)
+                try
                 {
-                    try
-                    {
-                        if (!(bool)this.FilterDelegate.DynamicInvoke(status))
-                            return false;
-                    }
-                    catch
-                    {
+                    if (!(bool)this.FilterDelegate.DynamicInvoke(status))
                         return false;
-                    }
+                }
+                catch
+                {
+                    return false;
                 }
             }
 
@@ -912,19 +909,16 @@ namespace Flantter.MilkyWay.Models
                 }
             }
 
-            if (this.Action == SettingSupport.ColumnTypeEnum.Filter || this.Action == SettingSupport.ColumnTypeEnum.List || this.Action == SettingSupport.ColumnTypeEnum.Search || this.Action == SettingSupport.ColumnTypeEnum.UserTimeline)
+            if (this.FilterDelegate != null)
             {
-                if (this.FilterDelegate != null)
+                try
                 {
-                    try
-                    {
-                        if (!(bool)this.FilterDelegate.DynamicInvoke(status))
-                            return false;
-                    }
-                    catch
-                    {
+                    if (!(bool)this.FilterDelegate.DynamicInvoke(status))
                         return false;
-                    }
+                }
+                catch
+                {
+                    return false;
                 }
             }
 

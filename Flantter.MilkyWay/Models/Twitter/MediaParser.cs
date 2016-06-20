@@ -32,7 +32,7 @@ namespace Flantter.MilkyWay.Models.Twitter
         private static readonly Regex Regex_Vine = new Regex(@"^https?://(?:www\.)?vine\.co/v/(?<VideoId>\w+)(?:\?.*)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex Regex_DirectLink = new Regex(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static IEnumerable<Media> Parse(CoreTweet.Entities cEntities, CoreTweet.Entities cExtendedEntities)
+        public static IEnumerable<Media> Parse(CoreTweet.Entities cEntities, CoreTweet.Entities cExtendedEntities = null)
         {
             Match match;
 

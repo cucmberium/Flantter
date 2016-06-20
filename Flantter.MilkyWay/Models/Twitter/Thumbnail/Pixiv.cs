@@ -1,4 +1,6 @@
-﻿/*using HtmlAgilityPack;
+﻿//using HtmlAgilityPack;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Thumbnail
             if (file != null)
                 return;
 
-            var url = "http://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + id;
+            /*var url = "http://www.pixiv.net/member_illust.php?mode=medium&illust_id=" + id;
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36");
@@ -40,12 +42,21 @@ namespace Flantter.MilkyWay.Models.Twitter.Thumbnail
             if (imgContainer.Count() == 0)
                 return;
 
-            var imgUrl = imgContainer.First().Descendants("img").First().GetAttributeValue("src", "");
+            var imgUrl = imgContainer.First().Descendants("img").First().GetAttributeValue("src", "");*/
 
-            response = await client.GetAsync(new Uri(imgUrl));
-            var imageFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-            await FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36");
+            HttpResponseMessage response = await client.GetAsync(new Uri("http://embed.pixiv.net/embed_json.php?callback=test&size=large&id=" + id));
+            if (!response.IsSuccessStatusCode)
+                return;
+
+            var resjson = await response.Content.ReadAsStringAsync();
+            resjson = resjson.Remove(0, 5).TrimEnd(')');
+            var json = JsonConvert.DeserializeObject<JObject>(resjson);
+            
+            response = await client.GetAsync(new Uri(json["img"].ToString()));
+            //var imageFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+            //await FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
         }
     }
 }
-*/

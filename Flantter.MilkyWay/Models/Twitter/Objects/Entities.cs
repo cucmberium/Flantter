@@ -56,6 +56,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
         public Entities(CoreTweet.Entities cEntities)
         {
+            var mediaList = MediaParser.Parse(cEntities);
+
             this.HashTags = new List<HashtagEntity>();
             this.Media = new List<MediaEntity>();
             this.Urls = new List<UrlEntity>();

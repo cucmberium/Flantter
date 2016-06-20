@@ -167,13 +167,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             var suggestionRect = ((ExtendedTextBox)this.AssociatedObject).GetRectFromCharacterIndex(((ExtendedTextBox)this.AssociatedObject).SelectionStart - 1, true);
             var ttv = ((ExtendedTextBox)this.AssociatedObject).TransformToVisual(Window.Current.Content);
-            Point screenCoords = ttv.TransformPoint(new Point(0, 0));
+            var screenCoords = ttv.TransformPoint(new Point(0, 0));
 
             if (!this.SuggestionPopup._Popup.IsOpen)
             {
                 this.SuggestionPopup.SetPosition(suggestionRect.Top + screenCoords.Y - (itemCount * 40) - 6, suggestionRect.Left + screenCoords.X);
                 this.SuggestionPopup.Show();
-                ((ExtendedTextBox)this.AssociatedObject).Focus(FocusState.Programmatic);
+                ((ExtendedTextBox)this.AssociatedObject).Focus(FocusState.Keyboard);
             }
             else
             {

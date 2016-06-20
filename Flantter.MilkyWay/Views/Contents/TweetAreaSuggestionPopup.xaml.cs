@@ -30,7 +30,7 @@ namespace Flantter.MilkyWay.Views.Contents
             this._Popup = new Popup
             {
                 Child = this,
-                IsLightDismissEnabled = true,
+                IsLightDismissEnabled = false,
                 Opacity = 1
             };
 

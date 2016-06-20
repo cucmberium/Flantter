@@ -54,14 +54,14 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
             {
                 if (string.IsNullOrEmpty(x.Name))
                 {
-                    this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Column_Filter_FilterIsEmpty");
+                    this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Column_Name_NameIsEmpty");
                     this.UpdateButtonEnabled.Value = false;
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(x.Filter))
                 {
-                    this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Column_Name_NameIsEmpty");
+                    this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Column_Filter_FilterIsEmpty");
                     this.UpdateButtonEnabled.Value = false;
                     return;
                 }

@@ -138,7 +138,7 @@ namespace Flantter.MilkyWay.Models.Twitter
                     }
                     #endregion
 
-                    #region Pixiv (外部サービス使用)
+                    #region Pixiv
                     match = Regex_pixiv.Match(url.ExpandedUrl);
                     if (match.Success)
                     {
@@ -153,8 +153,10 @@ namespace Flantter.MilkyWay.Models.Twitter
 
                         yield return new Media()
                         {
-                            MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],
-                            MediaUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],
+                            //MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],
+                            //MediaUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],
+                            MediaThumbnailUrl = "http://embed.pixiv.net/decorate.php?illust_id=" + match.Groups["Id"],
+                            MediaUrl = "http://embed.pixiv.net/decorate.php?illust_id=" + match.Groups["Id"],
                             ExpandedUrl = match.Value,
                             DisplayUrl = url.DisplayUrl,
                             Type = "Image"

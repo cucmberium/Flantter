@@ -886,4 +886,13 @@
   <data name="SettingsFlyout_Settings_Behavior_PictureSavePath_ComboBox.Header" xml:space="preserve">
     <value>Picture save path</value>
   </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_CopyStatus.Text" xml:space="preserve">
+    <value>Copy tweet</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_DeleteRetweet.Text" xml:space="preserve">
+    <value>Delete retweet</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_DeleteTweet.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>

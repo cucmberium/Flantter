@@ -92,8 +92,8 @@
                                 <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_SendDirectMessage" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="ダイレクトメッセージを送る" FontSize="16"/>
                             </Grid>
                         </Button>
-                        <controls:HorizontalBar/>
-                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
+                        <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.IsUserProtected, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}"/>
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}" Visibility="{x:Bind ViewModel.Status.Value.IsUserProtected, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -105,8 +105,8 @@
                                 <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_Retweet" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="リツイート" FontSize="16"/>
                             </Grid>
                         </Button>
-                        <controls:HorizontalBar/>
-                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.UrlQuoteRetweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
+                        <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.IsUserProtected, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}"/>
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.UrlQuoteRetweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}" Visibility="{x:Bind ViewModel.Status.Value.IsUserProtected, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -131,8 +131,8 @@
                                 <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_Favorite" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="お気に入りに追加" FontSize="16"/>
                             </Grid>
                         </Button>
-                        <controls:HorizontalBar/>
-                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetFavoriteCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}">
+                        <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.IsUserProtected, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}"/>
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.RetweetFavoriteCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}" Visibility="{x:Bind ViewModel.Status.Value.IsUserProtected, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -221,6 +221,19 @@
                             </Grid>
                         </Button>
                         <controls:HorizontalBar/>
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.CopyTweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Copy"/>
+                                <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_CopyStatus" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="ツイートのコピ－" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar/>
                         <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model.User.ScreenName, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -244,6 +257,33 @@
                                 </Grid.ColumnDefinitions>
                                 <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Mute"/>
                                 <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_MuteClient" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="クライアントをミュート" FontSize="16"/>
+                            </Grid>
+                        </Button>
+
+                        <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.DeleteTweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}" Visibility="{x:Bind ViewModel.Status.Value.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Delete"/>
+                                <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_DeleteTweet" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="削除" FontSize="16"/>
+                            </Grid>
+                        </Button>
+                        <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.IsMyRetweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.DeleteRetweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value, Mode=OneWay}" Visibility="{x:Bind ViewModel.Status.Value.IsMyRetweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Delete"/>
+                                <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_DeleteRetweet" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="リツイートの削除" FontSize="16"/>
                             </Grid>
                         </Button>
                     </StackPanel>

@@ -388,9 +388,9 @@ namespace Flantter.MilkyWay.Models
                         var pic = item.v;
                         pic.Stream.Seek(0);
                         if (pic.IsVideo)
-                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, (IEnumerable<long>)null, default(System.Threading.CancellationToken)));
+                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, media_category: "tweet_video"));
                         else
-                            resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), (IEnumerable<long>)null, default(System.Threading.CancellationToken)));
+                            resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream()));
 
                         var progressPercentage = (item.i / (double)this._Pictures.Count) * 100.0;
                         this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + progressPercentage.ToString("#0.0") + "%";

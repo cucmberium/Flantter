@@ -55,6 +55,9 @@ namespace Flantter.MilkyWay.Views
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
             {
                 var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
+                if (behavior == null)
+                    return;
+
                 if (behavior.ShowingPopupCount == 0)
                     return;
 
@@ -68,7 +71,7 @@ namespace Flantter.MilkyWay.Views
                 bool backPressed = e.CurrentPoint.Properties.IsXButton1Pressed;
                 bool nextPressed = e.CurrentPoint.Properties.IsXButton2Pressed;
 
-                if (behavior.ShowingPopupCount != 0)
+                if (behavior != null && behavior.ShowingPopupCount != 0)
                 {
                     if (backPressed)
                         behavior.HideTopPopup();

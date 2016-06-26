@@ -278,6 +278,7 @@ namespace Flantter.MilkyWay.Setting
         public bool DirectMessageNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool QuotedTweetNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool SystemNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool TweetCompleteNotification { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool AchievementNotification { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool NotificationSound { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public SettingSupport.TileNotificationEnum TileNotification { get { return (SettingSupport.TileNotificationEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }

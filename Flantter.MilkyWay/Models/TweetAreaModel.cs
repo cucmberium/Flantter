@@ -423,7 +423,9 @@ namespace Flantter.MilkyWay.Models
             {
                 this.Updating = false;
             }
-
+            
+            Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.TweetCompleted, new ResourceLoader().GetString("Notification_TweetCompleted_TweetCompleted"), text);
+            
             foreach (var pic in this._Pictures)
                 pic.Dispose();
 

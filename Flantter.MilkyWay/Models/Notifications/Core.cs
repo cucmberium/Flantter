@@ -25,6 +25,7 @@ namespace Flantter.MilkyWay.Models.Notifications
         Unfavorite,
         Follow,
         QuotedTweet,
+        TweetCompleted,
     }
 
     public enum TileNotificationType
@@ -205,6 +206,12 @@ namespace Flantter.MilkyWay.Models.Notifications
 
                 case PopupNotificationType.Unfavorite:
                     if (!SettingService.Setting.UnfavoriteNotification)
+                        return;
+
+                    break;
+
+                case PopupNotificationType.TweetCompleted:
+                    if (!SettingService.Setting.TweetCompleteNotification)
                         return;
 
                     break;

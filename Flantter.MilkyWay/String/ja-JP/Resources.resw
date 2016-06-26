@@ -898,4 +898,10 @@
   <data name="TweetArea_Message_MediaSizeOver" xml:space="preserve">
     <value>画像・動画サイズのオーバー</value>
   </data>
+  <data name="Notification_TweetCompleted_TweetCompleted" xml:space="preserve">
+    <value>ツイートしました</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_TweetCompleted_ToggleSwitch.Header" xml:space="preserve">
+    <value>ツイート完了通知</value>
+  </data>
 </root>

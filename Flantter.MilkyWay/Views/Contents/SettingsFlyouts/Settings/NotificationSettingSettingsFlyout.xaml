@@ -61,6 +61,10 @@
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Notification_TweetCompleted_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.TweetCompleteNotification, Mode=TwoWay}" Header="ツイート完了通知"/>
+            
+            <controls:HorizontalBar/>
+
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Notification_System_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.SystemNotification, Mode=TwoWay}" Header="システム通知"/>
 
             <controls:HorizontalBar/>

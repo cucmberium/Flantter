@@ -898,4 +898,10 @@
   <data name="TweetArea_Message_MediaSizeOver" xml:space="preserve">
     <value>Video or picture size is over capacity</value>
   </data>
+  <data name="Notification_TweetCompleted_TweetCompleted" xml:space="preserve">
+    <value>Tweet completed</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Notification_TweetCompleted_ToggleSwitch.Header" xml:space="preserve">
+    <value>Tweet completed notification</value>
+  </data>
 </root>

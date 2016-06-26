@@ -352,10 +352,10 @@ namespace Flantter.MilkyWay.Models
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
                 return;
             }
-            else if (this._Pictures.Where(x => !x.IsVideo).Any(x => x.Stream.Size > 3145728) || this._Pictures.Where(x => x.IsVideo).Any(x => x.Stream.Size > 15728640))
+            else if (this._Pictures.Where(x => !x.IsVideo).Any(x => x.Stream.Size > 3145728) || this._Pictures.Where(x => x.IsVideo).Any(x => x.Stream.Size > 536870912))
             {
                 this.State = "Cancel";
-                this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
+                this.Message = _ResourceLoader.GetString("TweetArea_Message_MediaSizeOver");
                 return;
             }
 

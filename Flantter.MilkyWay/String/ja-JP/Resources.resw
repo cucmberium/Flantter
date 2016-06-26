@@ -895,4 +895,7 @@
   <data name="SettingsFlyout_StatusDetail_Menu_DeleteTweet.Text" xml:space="preserve">
     <value>削除</value>
   </data>
+  <data name="TweetArea_Message_MediaSizeOver" xml:space="preserve">
+    <value>画像・動画サイズのオーバー</value>
+  </data>
 </root>

@@ -51,6 +51,38 @@ namespace Flantter.MilkyWay.Views
             
             this.UpdateTitleBar(ViewModels.Services.LayoutHelper.Instance.TitleBarHeight.Value > 0);
             ViewModels.Services.LayoutHelper.Instance.TitleBarHeight.SubscribeOnUIDispatcher().Subscribe(x => this.UpdateTitleBar(x > 0));
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
+            {
+                var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
+                if (behavior.ShowingPopupCount == 0)
+                    return;
+
+                behavior.HideTopPopup();
+            };
+
+            Window.Current.CoreWindow.PointerPressed += (s, e) =>
+            {
+                var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
+
+                bool backPressed = e.CurrentPoint.Properties.IsXButton1Pressed;
+                bool nextPressed = e.CurrentPoint.Properties.IsXButton2Pressed;
+
+                if (behavior.ShowingPopupCount != 0)
+                {
+                    if (backPressed)
+                        behavior.HideTopPopup();
+
+                    return;
+                }
+
+                // Taboo : 禁忌
+                if (backPressed)
+                    ViewModels.Services.Notice.Instance.DecrementColumnSelectedIndexCommand.Execute();
+                else if (nextPressed)
+                    ViewModels.Services.Notice.Instance.IncrementColumnSelectedIndexCommand.Execute();
+
+            };
         }
         
         private void UpdateTitleBar(bool isVisible)

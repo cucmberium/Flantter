@@ -6,6 +6,7 @@ using Flantter.MilkyWay.Views.Contents.SettingsFlyouts;
 using Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings;
 using Flantter.MilkyWay.Views.Controls;
 using Flantter.MilkyWay.Views.Util;
+using Flantter.MilkyWay.Common;
 using Microsoft.Xaml.Interactivity;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
 {
     public class ShowSettingsFlyoutAction : DependencyObject, IAction
     {
+        public static ShowSettingsFlyoutAction GetForCurrentView()
+        {
+            return _main;
+        }
+
+        private static ShowSettingsFlyoutAction _main;
+
         private List<ExtendedSettingsFlyout> _SettingsFlyoutList = null;
         private VideoPreviewPopup _VideoPreviewPopup = null;
         private ImagePreviewPopup _ImagePreviewPopup = null;
@@ -27,34 +35,31 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         public ShowSettingsFlyoutAction()
         {
+            _main = this;
+
             this._SettingsFlyoutList = new List<ExtendedSettingsFlyout>();
             this._PopupList = new List<ContentPopup>();
 
-            SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
+            
+        }
+
+        public int ShowingPopupCount
+        {
+            get
             {
                 this._PopupList = this._PopupList.Where(x => x.IsOpen).Distinct().ToList();
-                if (this._PopupList.Count == 0)
-                    return;
+                return this._PopupList.Count;
+            }
+        }
 
-                var popup = this._PopupList.First();
-                popup.Hide();
-                e.Handled = true;
-            };
+        public void HideTopPopup()
+        {
+            this._PopupList = this._PopupList.Where(x => x.IsOpen).Distinct().ToList();
+            if (this._PopupList.Count == 0)
+                return;
 
-            Window.Current.CoreWindow.PointerPressed += (s, e) =>
-            {
-                bool backPressed = e.CurrentPoint.Properties.IsXButton1Pressed;
-                if (!backPressed)
-                    return;
-
-                this._PopupList = this._PopupList.Where(x => x.IsOpen).Distinct().ToList();
-                if (this._PopupList.Count == 0)
-                    return;
-
-                e.Handled = true;
-                var popup = this._PopupList.First();
-                popup.Hide();
-            };
+            var popup = this._PopupList.First();
+            popup.Hide();
         }
 
         public object Execute(object sender, object parameter)

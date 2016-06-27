@@ -904,4 +904,7 @@
   <data name="SettingsFlyout_Settings_Notification_TweetCompleted_ToggleSwitch.Header" xml:space="preserve">
     <value>ツイート完了通知</value>
   </data>
+  <data name="SettingsFlyout_Settings_Posting_RefreshTimelineAfterTweet_ToggleSwitch.Header" xml:space="preserve">
+    <value>ツイート後にタイムラインを更新する</value>
+  </data>
 </root>

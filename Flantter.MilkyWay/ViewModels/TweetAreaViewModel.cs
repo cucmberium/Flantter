@@ -147,6 +147,9 @@ namespace Flantter.MilkyWay.ViewModels
                     await Task.Delay(50);
                     await this.TextBoxFocusMessenger.Raise(new Notification());
                 }
+
+                if (SettingService.Setting.RefreshTimelineAfterTweet && this.SelectedAccount.Value != null)
+                    this.SelectedAccount.Value.Columns.First(y => y.Model.Action == SettingSupport.ColumnTypeEnum.Home).RefreshCommand.Execute();
             });
 
             this.SuggestSelectedCommand = new ReactiveCommand();

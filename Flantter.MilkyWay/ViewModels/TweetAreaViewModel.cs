@@ -149,7 +149,11 @@ namespace Flantter.MilkyWay.ViewModels
                 }
 
                 if (SettingService.Setting.RefreshTimelineAfterTweet && this.SelectedAccount.Value != null)
-                    this.SelectedAccount.Value.Columns.First(y => y.Model.Action == SettingSupport.ColumnTypeEnum.Home).RefreshCommand.Execute();
+                {
+                    var column = this.SelectedAccount.Value.Columns.First(y => y.Model.Action == SettingSupport.ColumnTypeEnum.Home);
+                    if (!column.Model.Streaming)
+                        column.RefreshCommand.Execute();
+                }
             });
 
             this.SuggestSelectedCommand = new ReactiveCommand();

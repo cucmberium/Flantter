@@ -50,7 +50,7 @@
             <CompositeTransform/>
         </StackPanel.RenderTransform>
 
-        <Grid x:DeferLoadStrategy="Lazy" x:Name="MentionStatusGrid" Visibility="Collapsed" Height="0" Margin="0,0,0,5">
+        <Grid x:DeferLoadStrategy="Lazy" x:Name="MentionStatusGrid" Visibility="Collapsed" Height="0" Margin="0,0,0,3">
             <i:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="Tapped">
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowConversationCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
@@ -72,7 +72,7 @@
                         <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                     </ObjectAnimationUsingKeyFrames>
                     <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="MentionStatusGrid">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay, Converter={StaticResource DoublePlusConverter}, ConverterParameter=25}">
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay, Converter={StaticResource DoublePlusConverter}, ConverterParameter=30}">
                             <EasingDoubleKeyFrame.EasingFunction>
                                 <SineEase EasingMode="EaseInOut"/>
                             </EasingDoubleKeyFrame.EasingFunction>
@@ -143,7 +143,7 @@
                     <TextBlock>
                         <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.MentionStatusName, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.MentionStatusScreenName, Mode=OneWay}"/>
                     </TextBlock>
-                    <TextBlock Height="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay, Converter={StaticResource DoublePlusConverter}, ConverterParameter=3}" TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="0,2" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.MentionStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.MentionStatusText, Mode=OneWay}"/>
+                    <TextBlock Height="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay, Converter={StaticResource DoublePlusConverter}, ConverterParameter=7}" TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="0,2" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.MentionStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.MentionStatusText, Mode=OneWay}"/>
                 </StackPanel>
             </Grid>
         </Grid>

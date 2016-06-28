@@ -933,14 +933,15 @@ namespace Flantter.MilkyWay.Models
                 if (retindex != -1 && SettingService.Setting.RemoveRetweetAlreadyReceive && status.HasRetweetInformation && status.RetweetInformation.User.ScreenName != this._ScreenName)
                     return;
 
+                var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
+                var index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
+                if (index != -1)
+                    return;
+
                 this._Tweets.Insert(0, status);
             }
             else
             {
-                var retindex = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => (x as ITweet)?.Id == status.Id));
-                if (retindex != -1 && SettingService.Setting.RemoveRetweetAlreadyReceive && status.HasRetweetInformation && status.RetweetInformation.User.ScreenName != this._ScreenName)
-                    return;
-
                 var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                 var index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
                 if (index == -1)
@@ -958,6 +959,10 @@ namespace Flantter.MilkyWay.Models
         {
             if (streaming)
             {
+                var index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => x is Twitter.Objects.DirectMessage && (((Twitter.Objects.DirectMessage)x).Id == directMessage.Id)));
+                if (index != -1)
+                    return;
+
                 this._Tweets.Insert(0, directMessage);
             }
             else

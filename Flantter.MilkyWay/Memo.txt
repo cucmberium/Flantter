@@ -2,10 +2,11 @@
 -- Flantter.MilkyWay Todo(上から順番に行う)
 
 -*- 正式公開
-・WindowsPhone
+・復帰時の処理
+・WindowsPhone(バックボタン含め)
 ・プラグイン機能(jint)
-・VSCodeのようなコマンドモード
 ・サンプルストリームの実装
+・VSCodeのようなコマンドモード
 ・軽量化
 ・フィルタの簡易ウィザードを追加
 ・フィルタの色分け表示

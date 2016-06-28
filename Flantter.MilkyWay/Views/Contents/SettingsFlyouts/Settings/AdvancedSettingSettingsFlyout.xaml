@@ -49,6 +49,10 @@
 
             <controls:HorizontalBar/>
 
+            <ComboBox x:Uid="SettingsFlyout_Settings_Advanced_FontWeight_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="フォントの太さ" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=FontWeightList}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.FontWeight, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
+
+            <controls:HorizontalBar/>
+
             <Grid Margin="10" >
                 <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_UseCustomTheme_ToggleSwitch" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.UseCustomTheme, Mode=TwoWay}" Header="カスタムテーマ"/>
                 <Button x:Uid="SettingsFlyout_Settings_Advanced_Browse_Button" Command="{Binding Source={StaticResource Notice},Path=Notice.ChangeThemeCommand}" Content="参照" Width="60" Background="#FF21A4E4" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" />

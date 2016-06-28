@@ -841,6 +841,7 @@ namespace Flantter.MilkyWay.Models
         {
             if (!param.Contains(this.Action.ToString("F").ToLower() + "://" + this._Parameter))
             {
+                // リストのストリームをホームから補完するためのチェック
                 if (this.Action != SettingSupport.ColumnTypeEnum.List)
                     return false;
 
@@ -856,10 +857,10 @@ namespace Flantter.MilkyWay.Models
                 if (listStreamUserIdList == null)
                     return false;
 
-                if (!listStreamUserIdList.Contains(status.User.Id))
+                if (!listStreamUserIdList.Contains(status.HasRetweetInformation ? status.RetweetInformation.User.Id : status.User.Id))
                     return false;
 
-                if (status.InReplyToUserId != 0 && !listStreamUserIdList.Contains(status.InReplyToUserId))
+                if (!status.HasRetweetInformation && status.InReplyToUserId != 0 && !listStreamUserIdList.Contains(status.InReplyToUserId))
                     return false;
             }
 

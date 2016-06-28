@@ -907,4 +907,7 @@
   <data name="SettingsFlyout_Settings_Posting_RefreshTimelineAfterTweet_ToggleSwitch.Header" xml:space="preserve">
     <value>ツイート後にタイムラインを更新する</value>
   </data>
+  <data name="SettingsFlyout_Settings_Advanced_FontWeight_ComboBox.Header" xml:space="preserve">
+    <value>フォントの太さ</value>
+  </data>
 </root>

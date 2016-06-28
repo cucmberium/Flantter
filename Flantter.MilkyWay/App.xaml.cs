@@ -34,13 +34,12 @@ namespace Flantter.MilkyWay
     {
         public App()
         {
+            Microsoft.HockeyApp.HockeyClient.Current.Configure("12d0f9780e5645e3bf16ee0557054a03");
             this.InitializeComponent();
 
             this.UnhandledException += App_UnhandledException;
             this.Suspending += App_Suspending;
             this.Resuming += App_Resuming;
-            
-            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(Microsoft.ApplicationInsights.WindowsCollectors.Metadata | Microsoft.ApplicationInsights.WindowsCollectors.Session);
             
         }
 

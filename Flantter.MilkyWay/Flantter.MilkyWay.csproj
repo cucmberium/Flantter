@@ -22,6 +22,7 @@
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>73556DF0CF51EE95D953124A8450F5DC862CF554</PackageCertificateThumbprint>
+    <HockeyAppResourceId>12d0f9780e5645e3bf16ee0557054a03</HockeyAppResourceId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -355,6 +356,7 @@
     <Compile Include="Views\Controls\VerticalBar.cs" />
     <Compile Include="Views\Converters\DoubleToIntConverter.cs" />
     <Compile Include="Views\Converters\ColorCodeToBrushConverter.cs" />
+    <Compile Include="Views\Converters\EnumToStringConverter.cs" />
     <Compile Include="Views\Converters\EnumToDoubleConverter.cs" />
     <Compile Include="Views\Converters\IntToStringConverter.cs" />
     <Compile Include="Views\Converters\DoublePlusConverter.cs" />

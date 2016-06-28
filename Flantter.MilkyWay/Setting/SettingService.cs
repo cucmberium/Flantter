@@ -172,6 +172,8 @@ namespace Flantter.MilkyWay.Setting
         }
 
         public readonly static List<string> PictureSavePath = new List<string>() { "Picture/", "Picture/Flantter/", "Manual" };
+
+        public readonly static List<string> FontWeight = new List<string>() { "Black", "Bold", "ExtraBlack", "ExtraBold", "ExtraLight", "Light", "Medium", "Normal", "SemiBold", "SemiLight", "Thin" };
     }
 
     public class SettingSupportProvider
@@ -211,6 +213,10 @@ namespace Flantter.MilkyWay.Setting
         public static IEnumerable<string> PictureSavePathList
         {
             get { return SettingSupport.PictureSavePath; }
+        }
+        public static IEnumerable<string> FontWeightList
+        {
+            get { return SettingSupport.FontWeight; }
         }
     }
 
@@ -300,6 +306,8 @@ namespace Flantter.MilkyWay.Setting
 
         [LocalValue]
         public string CustomFontName { get { return GetValue("Yu Gothic UI"); } set { if (!string.IsNullOrWhiteSpace(value)) SetValue(value); OnPropertyChanged(); } }
+        [LocalValue]
+        public string FontWeight { get { return GetValue("Normal"); } set { if (!string.IsNullOrWhiteSpace(value)) SetValue(value); OnPropertyChanged(); } }
 
         [LocalValue]
         public bool UseCustomTheme { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }

@@ -143,7 +143,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.UnreadCount = column.ToReactivePropertyAsSynchronized(x => x.UnreadCount).AddTo(this.Disposable);
             this.IsScrollLockToTopEnabled = new ReactiveProperty<bool>().AddTo(this.Disposable);
-            this.IsScrollLockEnabled = new ReactiveProperty<bool>().AddTo(this.Disposable);
+            this.IsScrollLockEnabled = column.ToReactivePropertyAsSynchronized(x => x.IsScrollLockEnabled).AddTo(this.Disposable);
 
             this.StreamingCommand = column.ObserveProperty(x => x.Action).Select(x =>
             {
@@ -188,11 +188,11 @@ namespace Flantter.MilkyWay.ViewModels
             this.RefreshCommand = new ReactiveCommand().AddTo(this.Disposable);
             this.RefreshCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async _ =>
             {
-                this.IsScrollLockEnabled.Value = true;
+                this.Model.IsScrollLockEnabled = true;
                 await Task.Delay(50);
                 await this.Model.Update();
                 await Task.Delay(200);
-                this.IsScrollLockEnabled.Value = false;
+                this.Model.IsScrollLockEnabled = false;
             }).AddTo(this.Disposable);
 
             this.TweetDoubleTappedActionCommand = new ReactiveCommand().AddTo(this.Disposable);

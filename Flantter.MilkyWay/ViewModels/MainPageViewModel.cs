@@ -657,13 +657,13 @@ namespace Flantter.MilkyWay.ViewModels
         private void Application_Suspending(object sender, object e)
         {
             System.Diagnostics.Debug.WriteLine("Suspending...");
-            /*foreach (var account in this.Accounts)
+            foreach (var account in this.Accounts)
             {
                 foreach (var column in account.Columns)
                 {
                     column.IsScrollLockEnabled.Value = true;
                 }
-            }*/
+            }
         }
 
         private async void Application_Resuming(object sender, object e)
@@ -676,9 +676,9 @@ namespace Flantter.MilkyWay.ViewModels
                     if (column.IsEnabledStreaming.Value && column.Model.Streaming)
                         column.Model.ReconnectStreaming();
                 }
-            }
+            }*/
 
-            await Task.Delay(500);
+            await Task.Delay(1250);
 
             foreach (var account in this.Accounts)
             {
@@ -686,7 +686,7 @@ namespace Flantter.MilkyWay.ViewModels
                 {
                     column.IsScrollLockEnabled.Value = false;
                 }
-            }*/
+            }
         }
         #endregion
     }

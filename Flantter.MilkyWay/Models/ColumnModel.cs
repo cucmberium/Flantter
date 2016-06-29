@@ -191,6 +191,16 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region IsScrollLockEnabled変更通知プロパティ
+        private bool _IsScrollLockEnabled;
+        public bool IsScrollLockEnabled
+        {
+            get { return this._IsScrollLockEnabled; }
+            set { this.SetProperty(ref this._IsScrollLockEnabled, value); }
+        }
+        #endregion
+        
+
         #region Columns
         private ObservableCollection<ITweet> _Tweets;
         public ObservableCollection<ITweet> Tweets
@@ -934,6 +944,7 @@ namespace Flantter.MilkyWay.Models
                 if (retindex != -1 && SettingService.Setting.RemoveRetweetAlreadyReceive && status.HasRetweetInformation && status.RetweetInformation.User.ScreenName != this._ScreenName)
                     return;
 
+                // 重複確認(ストリーミングでも中断時の更新によっては重複する可能性あり)
                 var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                 var index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
                 if (index != -1)

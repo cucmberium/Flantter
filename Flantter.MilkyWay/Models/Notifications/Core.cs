@@ -69,10 +69,10 @@ namespace Flantter.MilkyWay.Models.Notifications
                             if (e.Parameter.Contains("favorites://"))
                                 break;
 
-                            if (e.Status.HasRetweetInformation && e.Status.User.Id == e.UserId)
+                            if (e.Status.HasRetweetInformation && e.Status.User.Id == e.UserId && e.Parameter.Contains("home://"))
                                 this.PopupToastNotification(PopupNotificationType.Retweet, string.Format(_ResourceLoader.GetString("Notification_Retweet_Retweet"), e.Status.RetweetInformation.User.Name), e.Status.Text, e.Status.RetweetInformation.User.ProfileImageUrl);
 
-                            if (e.Status.InReplyToUserId == e.UserId)
+                            if (e.Status.InReplyToUserId == e.UserId && e.Parameter.Contains("home://"))
                                 this.PopupToastNotification(PopupNotificationType.Mention, string.Format(_ResourceLoader.GetString("Notification_Mention_Mention"), e.Status.User.Name), e.Status.Text, e.Status.User.ProfileImageUrl, e.Status.Entities.Media.Count != 0 ? e.Status.Entities.Media.First().MediaThumbnailUrl : "");
 
                             if (e.Status.Entities.Media.Where(x => x.Type == "Image").Count() > 0 && !e.Status.User.IsProtected)

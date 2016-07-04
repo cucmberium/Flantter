@@ -232,7 +232,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var retweetedResponse = await this.Tokens.Statuses.RetweetAsync(id => status.Id);
+                var retweetedResponse = await this.Tokens.Statuses.RetweetAsync(id => status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id);
                 status.IsRetweeted = true;
             }
             catch (TwitterException ex)
@@ -266,7 +266,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var retweetedResponse = await this.Tokens.Favorites.CreateAsync(id => status.Id);
+                var retweetedResponse = await this.Tokens.Favorites.CreateAsync(id => status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id);
                 status.IsFavorited = true;
             }
             catch (TwitterException ex)

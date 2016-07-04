@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -50,8 +51,6 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             {
                 this.Urls.Add(new UrlEntity(cExtendedEntities.Media.First()));
             }
-            
-            
         }
 
         public Entities(CoreTweet.Entities cEntities)
@@ -114,7 +113,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         {
             this.Tag = cHashTag.Text;
             this.Start = cHashTag.Indices.First();
-            this.End = cHashTag.Indices.Last();   
+            this.End = cHashTag.Indices.Last();
         }
 
         #region Tag変更通知プロパティ
@@ -128,6 +127,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         #region End変更通知プロパティ
         public int End { get; set; }
         #endregion
+        
     }
 
     public class MediaEntity
@@ -178,6 +178,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         #endregion
 
         #region ParentEntities変更通知プロパティ
+        [JsonIgnore]
         public Entities ParentEntities { get; set; }
         #endregion
     }

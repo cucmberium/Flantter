@@ -40,7 +40,6 @@ namespace Flantter.MilkyWay
             this.UnhandledException += App_UnhandledException;
             this.Suspending += App_Suspending;
             this.Resuming += App_Resuming;
-            
         }
 
         private void App_Suspending(object sender, SuspendingEventArgs e)

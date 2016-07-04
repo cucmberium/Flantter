@@ -1,4 +1,5 @@
 ﻿using CoreTweet.Streaming;
+using Flantter.MilkyWay.Models.Services.Database;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Newtonsoft.Json.Linq;
@@ -110,20 +111,23 @@ namespace Flantter.MilkyWay.Models.Services
         public void Initialize()
         {
             this.TweetCollecter = new Dictionary<long, TweetCollecterService>();
-            Databases.Instance.Initialize();
+            if (SettingService.Setting.EnableDatabase)
+                Databases.Instance.Initialize();
+        }
+
+        public void Free()
+        {
+            Databases.Instance.Free();
         }
 
         public void AddAccount(AccountSetting account)
         {
-            //Databases.Instance.CreateUserTable(account);
             if (!this.TweetCollecter.ContainsKey(account.UserId))
                 this.TweetCollecter[account.UserId] = new TweetCollecterService(account.UserId);
         }
 
         public void RemoveAccount(AccountSetting account)
         {
-            //Databases.Instance.RemoveUserTable(account);
-
             if (this.TweetCollecter.ContainsKey(account.UserId))
             {
                 this.TweetCollecter[account.UserId].Remove();
@@ -194,8 +198,21 @@ namespace Flantter.MilkyWay.Models.Services
                         if (this.TweetReceive_CommandExecute != null)
                             this.TweetReceive_CommandExecute(this, e);
 
-                        //if (SettingService.Setting.EnableDatabase)
-                        //    Databases.Instance.StoreTweet(e);
+                        if (SettingService.Setting.EnableDatabase)
+                        {
+                            switch (e.Type)
+                            {
+                                case TweetEventArgs.TypeEnum.Status:
+                                    Databases.Instance.InsertTweet(e.Status, e.Parameter, e.UserId);
+                                    break;
+                                case TweetEventArgs.TypeEnum.DirectMessage:
+                                    Databases.Instance.InsertTweet(e.DirectMessage, e.Parameter, e.UserId);
+                                    break;
+                                case TweetEventArgs.TypeEnum.EventMessage:
+                                    Databases.Instance.InsertTweet(e.EventMessage, e.Parameter, e.UserId);
+                                    break;
+                            }
+                        }
 
                         // Todo : 起動時の軽量化必須？
 

@@ -205,6 +205,8 @@ namespace Flantter.MilkyWay.Models
             }
 
             await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+
+            Connecter.Instance.RemoveAccount(account);
         }
         
         #region Instance

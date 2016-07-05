@@ -1,5 +1,6 @@
 ﻿using CoreTweet;
 using CoreTweet.Core;
+using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Prism.Mvvm;
 using System;
@@ -412,6 +413,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             foreach (var item in userTweets)
             {
                 var status = new Twitter.Objects.Status(item);
+                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
 
                 var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                 var index = this.Statuses.IndexOf(this.Statuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
@@ -424,8 +426,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         this.Statuses.Insert(index, status);
                 }
             }
-
-            // Todo : 受信したツイートをデータベースに登録
 
             this.UpdatingStatuses = false;
         }
@@ -463,6 +463,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             foreach (var item in favorites)
             {
                 var status = new Twitter.Objects.Status(item);
+                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
 
                 var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                 var index = this.Favorites.IndexOf(this.Favorites.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
@@ -475,8 +476,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         this.Favorites.Insert(index, status);
                 }
             }
-
-            // Todo : 受信したツイートをデータベースに登録
 
             this.UpdatingFavorites = false;
         }

@@ -18,6 +18,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Sender = new User(cDirectMessage.Sender);
         }
 
+        public DirectMessage()
+        {
+        }
+
         #region CreatedAt変更通知プロパティ
         public DateTime CreatedAt { get; set; }
         #endregion

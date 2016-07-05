@@ -20,6 +20,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.User = new User(cList.User);
         }
 
+        public List()
+        {
+        }
+
         #region Description変更通知プロパティ
         public string Description { get; set; }
         #endregion

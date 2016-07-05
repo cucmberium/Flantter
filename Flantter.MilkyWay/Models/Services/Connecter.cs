@@ -170,17 +170,12 @@ namespace Flantter.MilkyWay.Models.Services
                 tweetDeleteDisposableObject = Observable.FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                     h => (sender, e) => h(e),
                     h => Connecter.Instance.TweetDelete_CommandExecute += h,
-                    h => Connecter.Instance.TweetDelete_CommandExecute -= h).Subscribe(
+                    h => Connecter.Instance.TweetDelete_CommandExecute -= h)
+                    .Where(x => x.UserId == this.UserId).Subscribe(
                     e =>
                     {
-                        if (e.UserId != this.UserId)
-                            return;
-
                         if (this.TweetDelete_CommandExecute != null)
                             this.TweetDelete_CommandExecute(this, e);
-
-                        //if (SettingService.Setting.EnableDatabase)
-                        //    Databases.Instance.RemoveTweet(e);
                     },
                     ex => Debug.WriteLine(ex.ToString() + "\nMessage:" + ex.Message),
                     () => Debug.WriteLine("Flantter.MilkyWay.Models.Services.Connecter.TweetCollecterService.OnCompleted"));
@@ -189,12 +184,10 @@ namespace Flantter.MilkyWay.Models.Services
                 tweetReceiveDisposableObject = Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
                     h => (sender, e) => h(e),
                     h => Connecter.Instance.TweetReceive_CommandExecute += h,
-                    h => Connecter.Instance.TweetReceive_CommandExecute -= h).Subscribe(
+                    h => Connecter.Instance.TweetReceive_CommandExecute -= h)
+                    .Where(x => x.UserId == this.UserId).Subscribe(
                     e =>
                     {
-                        if (e.UserId != this.UserId)
-                            return;
-
                         if (this.TweetReceive_CommandExecute != null)
                             this.TweetReceive_CommandExecute(this, e);
 

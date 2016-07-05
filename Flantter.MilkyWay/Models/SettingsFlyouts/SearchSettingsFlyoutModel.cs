@@ -1,6 +1,7 @@
 ﻿using CoreTweet;
 using CoreTweet.Core;
 using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
@@ -173,6 +174,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             foreach (var item in search)
             {
                 var status = new Twitter.Objects.Status(item);
+                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
 
                 var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                 var index = this.Statuses.IndexOf(this.Statuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
@@ -185,8 +187,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         this.Statuses.Insert(index, status);
                 }
             }
-
-            // Todo : 受信したツイートをデータベースに登録
 
             this.UpdatingStatusSearch = false;
         }

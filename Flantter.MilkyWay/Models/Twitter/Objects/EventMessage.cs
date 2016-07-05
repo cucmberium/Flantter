@@ -19,6 +19,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Type = cEventMessage.Event.ToString();
         }
 
+        public EventMessage()
+        {
+        }
+
         #region CreatedAt変更通知プロパティ
         public DateTime CreatedAt { get; set; }
         #endregion

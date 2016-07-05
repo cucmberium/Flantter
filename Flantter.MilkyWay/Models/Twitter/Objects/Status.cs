@@ -43,6 +43,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
                 this.Source = cStatus.Source;
         }
 
+        public Status()
+        {
+        }
+
         #region CreatedAt変更通知プロパティ
         public DateTime CreatedAt { get; set; }
         #endregion
@@ -127,7 +131,11 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Id = cOrigStatus.Id;
             this.CreatedAt = cOrigStatus.CreatedAt.DateTime;
         }
-        
+
+        public RetweetInformation()
+        {
+        }
+
         #region User変更通知プロパティ
         public User User { get; set; }
         #endregion

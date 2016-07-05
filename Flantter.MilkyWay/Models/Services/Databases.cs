@@ -34,8 +34,14 @@ namespace Flantter.MilkyWay.Models.Services.Database
         private List<TweetData> _tweetDataQueue = new List<TweetData>();
         private IDisposable _timer = null;
 
+        private bool _initialized = false;
         public void Initialize()
         {
+            if (_initialized)
+                return;
+
+            _initialized = true;
+
             string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
             _timer = Observable.Timer(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5)).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ => 
             {
@@ -95,7 +101,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
                     _tweetInfoQueue.Add(tweetInfo);
                 }
 
-                var tweetData = new TweetData() { Id = id, Json = JsonConvert.SerializeObject(status) };
+                var tweetData = new TweetData() { Id = id, Json = JsonConvert.SerializeObject(status), InReplyToStatusId = status.InReplyToStatusId != 0 ? status.InReplyToStatusId : (long?)null };
                 _tweetDataQueue.Add(tweetData);
             }
         }
@@ -131,6 +137,76 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 _tweetDataQueue.Add(tweetData);
             }
         }
+
+        public T GetTweet<T>(long id) where T : class
+        {
+            string json = null;
+            string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
+            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            {
+                db.BeginTransaction();
+
+                db.CreateTable<TweetInfo>();
+                db.CreateTable<TweetData>(SQLite.Net.Interop.CreateFlags.AllImplicit);
+
+                var tweets = db.Table<TweetData>().Where(x => x.Id == id).ToList();
+                db.Commit();
+
+                if (tweets.Count == 0)
+                    return null;
+
+                json = tweets.First().Json;
+            }
+
+            var tweet = JsonConvert.DeserializeObject<T>(json);
+            if (tweet is Status)
+            {
+                var status = tweet as Status;
+                status.Entities.Media.ForEach(x => x.ParentEntities = status.Entities);
+            }
+            else if (tweet is DirectMessage)
+            {
+                var dm = tweet as DirectMessage;
+                dm.Entities.Media.ForEach(x => x.ParentEntities = dm.Entities);
+            }
+
+            return tweet;
+        }
+
+        public T GetReplyTweet<T>(long id) where T : class
+        {
+            string json = null;
+            string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
+            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            {
+                db.BeginTransaction();
+
+                db.CreateTable<TweetInfo>();
+                db.CreateTable<TweetData>(SQLite.Net.Interop.CreateFlags.AllImplicit);
+
+                var tweets = db.Table<TweetData>().Where(x => x.InReplyToStatusId == id).ToList();
+                db.Commit();
+
+                if (tweets.Count == 0)
+                    return null;
+
+                json = tweets.First().Json;
+            }
+
+            var tweet = JsonConvert.DeserializeObject<T>(json);
+            if (tweet is Status)
+            {
+                var status = tweet as Status;
+                status.Entities.Media.ForEach(x => x.ParentEntities = status.Entities);
+            }
+            else if (tweet is DirectMessage)
+            {
+                var dm = tweet as DirectMessage;
+                dm.Entities.Media.ForEach(x => x.ParentEntities = dm.Entities);
+            }
+
+            return tweet;
+        }
     }
 
     public class TweetInfo
@@ -147,6 +223,8 @@ namespace Flantter.MilkyWay.Models.Services.Database
     {
         [PrimaryKey, Indexed]
         public long Id { get; set; }
+        [Indexed]
+        public long? InReplyToStatusId { get; set; }
         public string Json { get; set; }
     }
 }

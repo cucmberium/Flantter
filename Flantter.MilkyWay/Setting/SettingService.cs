@@ -233,7 +233,7 @@ namespace Flantter.MilkyWay.Setting
         public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public int PictureSavePath { get { return GetValue(0); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); if (value) { Models.Services.Database.Databases.Instance.Initialize(); } } }
 
         // 投稿設定
         public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }

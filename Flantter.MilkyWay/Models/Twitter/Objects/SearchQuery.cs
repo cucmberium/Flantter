@@ -15,6 +15,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Query = cSearchQuery.Query;
         }
 
+        public SearchQuery()
+        {
+        }
+
         public long Id { get; set; }
 
         public string Name { get; set; }

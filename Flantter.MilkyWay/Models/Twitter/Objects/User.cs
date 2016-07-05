@@ -8,8 +8,6 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
     public class User
     {
-        public User() { }
-
         public User(CoreTweet.User cUser)
         {
             this.CreateAt = cUser.CreatedAt.DateTime;
@@ -35,6 +33,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.StatusesCount = cUser.StatusesCount;
             this.TimeZone = cUser.TimeZone;
             this.Url = cUser.Url;
+        }
+
+        public User()
+        {
         }
 
         #region CreateAt変更通知プロパティ
@@ -139,6 +141,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
             this.Description = new Entities(cUserEntities.Description);
             this.Url = new Entities(cUserEntities.Url);
+        }
+
+        public UserEntities()
+        {
         }
 
         #region Description変更通知プロパティ

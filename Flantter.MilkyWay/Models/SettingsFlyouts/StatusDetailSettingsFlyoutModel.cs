@@ -1,4 +1,7 @@
 ﻿using CoreTweet;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Services.Database;
+using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -76,24 +79,28 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             this.Status = null;
 
-            CoreTweet.Status status = null;
-            try
+            Twitter.Objects.Status status = SettingService.Setting.EnableDatabase ? Databases.Instance.GetTweet<Twitter.Objects.Status>(this._StatusId) : null;
+            if (status == null)
             {
-                status = await Tokens.Statuses.ShowAsync(id => this._StatusId, tweet_mode => TweetMode.extended);
+                Status item = null;
+                try
+                {
+                    item = await Tokens.Statuses.ShowAsync(id => this._StatusId, tweet_mode => TweetMode.extended);
+                }
+                catch
+                {
+                    this.Status = null;
+
+                    this.UpdatingStatus = false;
+                    return;
+                }
+
+                status = new Twitter.Objects.Status(item);
+                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
             }
-            catch
-            {
-                this.Status = null;
+            
 
-                this.UpdatingStatus = false;
-                return;
-            }
-
-            this.Status = new Twitter.Objects.Status(status);
-
-            // Todo : データベースからツイートを抽出
-
-            // Todo : 受信したツイートをデータベースに登録
+            this.Status = status;
 
             this.UpdatingStatus = false;
         }
@@ -186,6 +193,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     continue;
 
                 var status = new Twitter.Objects.Status(item);
+                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
 
                 var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                 var index = this.ActionStatuses.IndexOf(this.ActionStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
@@ -204,6 +212,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     continue;
 
                 var status = new Twitter.Objects.Status(item);
+                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
 
                 var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                 var index = this.ActionStatuses.IndexOf(this.ActionStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
@@ -216,9 +225,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         this.ActionStatuses.Insert(index, status);
                 }
             }
-
-            // Todo : 受信したツイートをデータベースに登録
-
+            
             this.UpdatingActionStatuses = false;
         }
 

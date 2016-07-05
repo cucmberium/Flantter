@@ -90,6 +90,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             }
         }
 
+        public Entities()
+        {
+        }
+
         #region HashTags変更通知プロパティ
         public List<HashtagEntity> HashTags { get; set; }
         #endregion
@@ -114,6 +118,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Tag = cHashTag.Text;
             this.Start = cHashTag.Indices.First();
             this.End = cHashTag.Indices.Last();
+        }
+
+        public HashtagEntity()
+        {
         }
 
         #region Tag変更通知プロパティ
@@ -151,6 +159,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Type = fMedia.Type;
             this.VideoInfo = new VideoInfo(fMedia);
             this.ParentEntities = parentEntities;
+        }
+
+        public MediaEntity()
+        {
         }
 
         #region MediaUrl変更通知プロパティ
@@ -194,6 +206,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.VideoType = fMedia.VideoInfo.VideoType;
         }
 
+        public VideoInfo()
+        {
+        }
+
         public string VideoType { get; set; }
         public string VideoId { get; set; }
         public string VideoContentType { get; set; }
@@ -208,6 +224,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.ExpandedUrl = cUrlEntity.ExpandedUrl;
             this.Start = cUrlEntity.Indices.First();
             this.End = cUrlEntity.Indices.Last();
+        }
+
+        public UrlEntity()
+        {
         }
 
         #region Url変更通知プロパティ
@@ -240,6 +260,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.ScreenName = cUrlEntity.ScreenName;
             this.Start = cUrlEntity.Indices.First();
             this.End = cUrlEntity.Indices.Last();
+        }
+
+        public UserMentionEntity()
+        {
         }
 
         #region Id変更通知プロパティ

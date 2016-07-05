@@ -1,6 +1,8 @@
 ﻿using CoreTweet;
 using CoreTweet.Core;
 using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Services.Database;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
@@ -80,8 +82,12 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                     foreach (var item in statuses)
                     {
-                        item.InReplyToStatusId = 0;
-                        this.Conversation.Add(new Twitter.Objects.Status(item));
+                        var status = new Twitter.Objects.Status(item);
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+
+                        status.InReplyToStatusId = 0;
+
+                        this.Conversation.Add(status);                        
                     }
                 }
                 catch
@@ -90,109 +96,101 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     return;
                 }
             }
-            else
+            else if (SettingService.Setting.UseExtendedConversation && this.ConversationStatus.CreatedAt.ToLocalTime() + TimeSpan.FromDays(7) > DateTime.Now)
             {
-                if (SettingService.Setting.UseExtendedConversation && this.ConversationStatus.CreatedAt.ToLocalTime() + TimeSpan.FromDays(7) > DateTime.Now)
+                var conversation = new List<Status>();
+                foreach (var user in ConversationStatus.Entities.UserMentions)
                 {
-                    var conversation = new List<Status>();
-
-                    foreach (var user in ConversationStatus.Entities.UserMentions)
+                    var conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + this.ConversationStatus.User.ScreenName + " to:" + user.ScreenName, count => 100, tweet_mode => TweetMode.extended);
+                    foreach (var status in conversationTweets)
                     {
-                        try
-                        {
-                            var conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + this.ConversationStatus.User.ScreenName + " to:" + user.ScreenName, count => 100, tweet_mode => TweetMode.extended);
-                            foreach (var status in conversationTweets)
-                            {
-                                conversation.Add(status);
-                                // Todo : データベースに登録
-                            }
-                            conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + user.ScreenName + " to:" + this.ConversationStatus.User.ScreenName, count => 100, tweet_mode => TweetMode.extended);
-                            foreach (var status in conversationTweets)
-                            {
-                                conversation.Add(status);
-                                // Todo : データベースに登録
-                            }
-
-                            while (true)
-                            {
-                                var items = conversation.Where(x => x.InReplyToStatusId == nextId);
-                                if (items.Count() > 0)
-                                {
-                                    var item = items.First();
-
-                                    var status = new Twitter.Objects.Status(item);
-                                    status.InReplyToStatusId = 0;
-
-                                    this.Conversation.Insert(0, status);
-
-                                    nextId = item.Id;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-
-                            nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
-                            while (true)
-                            {
-                                var items = conversation.Where(x => x.Id == nextId);
-                                if (items.Count() > 0)
-                                {
-                                    var item = items.First();
-                                    
-                                    nextId = item.InReplyToStatusId.HasValue ? item.InReplyToStatusId.Value : 0;
-
-                                    var status = new Twitter.Objects.Status(item);
-                                    status.InReplyToStatusId = 0;
-
-                                    this.Conversation.Add(status);
-
-                                    if (nextId == 0)
-                                        break;
-                                }
-                                else
-                                {
-                                    updateCount += 1;
-                                    Status item;
-                                    try
-                                    {
-                                        item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true, tweet_mode => TweetMode.extended);
-                                    }
-                                    catch
-                                    {
-                                        this.Updating = false;
-                                        return;
-                                    }
-
-                                    if (item.RetweetedStatus != null)
-                                        nextId = item.RetweetedStatus.InReplyToStatusId.HasValue ? item.RetweetedStatus.InReplyToStatusId.Value : 0;
-                                    else
-                                        nextId = item.InReplyToStatusId.HasValue ? item.InReplyToStatusId.Value : 0;
-
-                                    var status = new Twitter.Objects.Status(item);
-                                    status.InReplyToStatusId = 0;
-
-                                    this.Conversation.Add(status);
-
-                                    if (nextId == 0 || updateCount > 20)
-                                        break;
-                                }
-                            }
-                        }
-                        catch
-                        {
-                        }
+                        conversation.Add(status);
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, new List<string>() { "none://" }, false));
                     }
-                }
-                else
-                {
+                    conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + user.ScreenName + " to:" + this.ConversationStatus.User.ScreenName, count => 100, tweet_mode => TweetMode.extended);
+                    foreach (var status in conversationTweets)
+                    {
+                        conversation.Add(status);
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, new List<string>() { "none://" }, false));
+                    }
+
+                    while (true)
+                    {
+                        Twitter.Objects.Status status = SettingService.Setting.EnableDatabase ? Databases.Instance.GetReplyTweet<Twitter.Objects.Status>(nextId) : null;
+
+                        if (status == null && !conversation.Any(x => x.InReplyToStatusId == nextId))
+                            break;
+
+                        status = status ?? new Twitter.Objects.Status(conversation.First(x => x.InReplyToStatusId == nextId));
+
+                        status.InReplyToStatusId = 0;
+                        this.Conversation.Insert(0, status);
+                        nextId = status.Id;
+                    }
+
                     nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
                     while (true)
                     {
-                        // Todo : データベースから過去のツイートを抽出
+                        Twitter.Objects.Status status = SettingService.Setting.EnableDatabase ? Databases.Instance.GetTweet<Twitter.Objects.Status>(nextId) : null;
+                        if (status == null)
+                        {
+                            if (conversation.Any(x => x.Id == nextId))
+                            {
+                                status = new Twitter.Objects.Status(conversation.First(x => x.Id == nextId));
+                            }
+                            else
+                            {
+                                Status item;
+                                try
+                                {
+                                    item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true, tweet_mode => TweetMode.extended);
+                                }
+                                catch
+                                {
+                                    this.Updating = false;
+                                    return;
+                                }
 
-                        updateCount += 1;
+                                status = new Twitter.Objects.Status(item);
+                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+                            }
+                        }
+
+                        nextId = status.InReplyToStatusId;
+
+                        status.InReplyToStatusId = 0;
+
+                        this.Conversation.Add(status);
+
+                        if (nextId == 0 || updateCount > 20)
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                while (true)
+                {
+                    Twitter.Objects.Status status = SettingService.Setting.EnableDatabase ? Databases.Instance.GetReplyTweet<Twitter.Objects.Status>(nextId) : null;
+
+                    if (status == null)
+                        break;
+
+                    status.InReplyToStatusId = 0;
+                    this.Conversation.Insert(0, status);
+
+                    nextId = status.Id;
+                }
+
+                nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
+                while (true)
+                {
+                    updateCount += 1;
+
+                    Twitter.Objects.Status status = SettingService.Setting.EnableDatabase ? Databases.Instance.GetTweet<Twitter.Objects.Status>(nextId) : null;
+
+                    if (status == null)
+                    {
                         Status item;
                         try
                         {
@@ -204,19 +202,18 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                             return;
                         }
 
-                        if (item.RetweetedStatus != null)
-                            nextId = item.RetweetedStatus.InReplyToStatusId.HasValue ? item.RetweetedStatus.InReplyToStatusId.Value : 0;
-                        else
-                            nextId = item.InReplyToStatusId.HasValue ? item.InReplyToStatusId.Value : 0;
-
-                        var status = new Twitter.Objects.Status(item);
-                        status.InReplyToStatusId = 0;
-
-                        this.Conversation.Add(status);
-
-                        if (nextId == 0 || updateCount > 20)
-                            break;
+                        status = new Twitter.Objects.Status(item);
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
                     }
+
+                    nextId = status.InReplyToStatusId;
+
+                    status.InReplyToStatusId = 0;
+
+                    this.Conversation.Add(status);
+
+                    if (nextId == 0 || updateCount > 20)
+                        break;
                 }
             }
 

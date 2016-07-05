@@ -15,6 +15,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.MaxId = maxId;
         }
 
+        public Gap()
+        {
+        }
+
         public DateTime CreatedAt { get; set; }
 
         public long Id { get; set; }

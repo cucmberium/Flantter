@@ -910,4 +910,7 @@
   <data name="SettingsFlyout_Settings_Advanced_FontWeight_ComboBox.Header" xml:space="preserve">
     <value>フォントの太さ</value>
   </data>
+  <data name="SettingsFlyout_Settings_Behavior_EnableDatabase_ToggleSwitch.Header" xml:space="preserve">
+    <value>データベースを有効にする</value>
+  </data>
 </root>

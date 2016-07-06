@@ -910,7 +910,13 @@
   <data name="SettingsFlyout_Settings_Advanced_FontWeight_ComboBox.Header" xml:space="preserve">
     <value>Font weight</value>
   </data>
-  <data name="SettingsFlyout_Settings_Behavior_EnableDatabase_ToggleSwitch.Header" xml:space="preserve">
+  <data name="SettingsFlyout_Settings_Database_EnableDatabase_ToggleSwitch.Header" xml:space="preserve">
     <value>Enable database</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Database_MaximumHoldingNumberOfTweet_Slider.Header" xml:space="preserve">
+    <value>Maximum holding number of tweet</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Main_DatabaseSetting_Textblock.Text" xml:space="preserve">
+    <value>Database setting</value>
   </data>
 </root>

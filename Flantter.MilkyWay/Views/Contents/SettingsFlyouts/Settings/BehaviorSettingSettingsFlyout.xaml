@@ -62,10 +62,6 @@
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_EnableDatabase_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.EnableDatabase, Mode=TwoWay}" Header="データベースを有効にする"/>
-
-            <controls:HorizontalBar/>
-
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_BottomBarSearchBoxEnabled_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.BottomBarSearchBoxEnabled, Mode=TwoWay}" Header="下部の検索ボックスを有効化"/>
 
             <controls:HorizontalBar/>

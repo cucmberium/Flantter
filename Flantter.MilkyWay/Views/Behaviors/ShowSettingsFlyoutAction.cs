@@ -518,6 +518,22 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     this._PopupList.Insert(0, settingsFlyout);
                     break;
+                case "DatabaseSetting":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is DatabaseSettingSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new DatabaseSettingSettingsFlyout();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
+                    break;
                 case "AccountsSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AccountsSettingSettingsFlyout && !x.IsOpen);
                     if (settingsFlyoutList.Count() > 0)

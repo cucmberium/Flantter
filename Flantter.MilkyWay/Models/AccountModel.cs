@@ -1,6 +1,7 @@
 ﻿using CoreTweet;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Services.Database;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
@@ -211,21 +212,26 @@ namespace Flantter.MilkyWay.Models
 
         public async Task GetMentionStatus(Twitter.Objects.Status status)
         {
-            try
+            var mentionStatus = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatus(status.InReplyToStatusId) : null;
+            if (mentionStatus == null)
             {
-                var mentionStatus = await this.Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
-                status.MentionStatus = new Twitter.Objects.Status(mentionStatus);
+                try
+                {
+                    var mention = await this.Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
+                    mentionStatus = new Twitter.Objects.Status(mention);
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(mentionStatus, this._UserId, new List<string>() { "none://" }, false));
+                }
+                catch (TwitterException ex)
+                {
+                    Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                }
+                catch (Exception e)
+                {
+                    Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                }
+            }
 
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status.MentionStatus, this._UserId, new List<string>() { "none://" }, false));
-            }
-            catch (TwitterException ex)
-            {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-            }
-            catch (Exception e)
-            {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-            }
+            status.MentionStatus = mentionStatus;
         }
 
         public async Task Retweet(Twitter.Objects.Status status)

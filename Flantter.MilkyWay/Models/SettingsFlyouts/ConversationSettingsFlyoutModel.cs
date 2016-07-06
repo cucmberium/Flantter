@@ -82,12 +82,12 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                     foreach (var item in statuses)
                     {
-                        var status = new Twitter.Objects.Status(item);
-                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+                        var statusObject = new Twitter.Objects.Status(item);
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this.Tokens.UserId, new List<string>() { "none://" }, false));
 
-                        status.InReplyToStatusId = 0;
+                        statusObject.InReplyToStatusId = 0;
 
-                        this.Conversation.Add(status);                        
+                        this.Conversation.Add(statusObject);                        
                     }
                 }
                 catch
@@ -102,21 +102,21 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 foreach (var user in ConversationStatus.Entities.UserMentions)
                 {
                     var conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + this.ConversationStatus.User.ScreenName + " to:" + user.ScreenName, count => 100, tweet_mode => TweetMode.extended);
-                    foreach (var status in conversationTweets)
+                    foreach (var item in conversationTweets)
                     {
-                        conversation.Add(status);
-                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, new List<string>() { "none://" }, false));
+                        conversation.Add(item);
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(item), this.Tokens.UserId, new List<string>() { "none://" }, false));
                     }
                     conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + user.ScreenName + " to:" + this.ConversationStatus.User.ScreenName, count => 100, tweet_mode => TweetMode.extended);
-                    foreach (var status in conversationTweets)
+                    foreach (var item in conversationTweets)
                     {
-                        conversation.Add(status);
-                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, new List<string>() { "none://" }, false));
+                        conversation.Add(item);
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(item), this.Tokens.UserId, new List<string>() { "none://" }, false));
                     }
 
                     while (true)
                     {
-                        Twitter.Objects.Status status = SettingService.Setting.EnableDatabase ? Databases.Instance.GetReplyTweet<Twitter.Objects.Status>(nextId) : null;
+                        var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetReplyStatus(nextId) : null;
 
                         if (status == null && !conversation.Any(x => x.InReplyToStatusId == nextId))
                             break;
@@ -131,7 +131,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
                     while (true)
                     {
-                        Twitter.Objects.Status status = SettingService.Setting.EnableDatabase ? Databases.Instance.GetTweet<Twitter.Objects.Status>(nextId) : null;
+                        var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatus(nextId) : null;
                         if (status == null)
                         {
                             if (conversation.Any(x => x.Id == nextId))
@@ -171,12 +171,13 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 while (true)
                 {
-                    Twitter.Objects.Status status = SettingService.Setting.EnableDatabase ? Databases.Instance.GetReplyTweet<Twitter.Objects.Status>(nextId) : null;
+                    var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetReplyStatus(nextId) : null;
 
                     if (status == null)
                         break;
 
                     status.InReplyToStatusId = 0;
+
                     this.Conversation.Insert(0, status);
 
                     nextId = status.Id;
@@ -187,7 +188,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 {
                     updateCount += 1;
 
-                    Twitter.Objects.Status status = SettingService.Setting.EnableDatabase ? Databases.Instance.GetTweet<Twitter.Objects.Status>(nextId) : null;
+                    var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatus(nextId) : null;
 
                     if (status == null)
                     {

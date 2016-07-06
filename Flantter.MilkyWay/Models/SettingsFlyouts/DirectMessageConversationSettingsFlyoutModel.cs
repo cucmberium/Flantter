@@ -81,8 +81,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (maxid == 0 && clear)
                 this.DirectMessages.Clear();
 
-            // Todo : すべてデータベースから抽出するように?
-
             ListedResponse<DirectMessage> receivedDirectMessages;
             ListedResponse<DirectMessage> sentDirectMessages;
             try

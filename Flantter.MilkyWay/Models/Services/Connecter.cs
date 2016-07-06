@@ -112,12 +112,12 @@ namespace Flantter.MilkyWay.Models.Services
         {
             this.TweetCollecter = new Dictionary<long, TweetCollecterService>();
             if (SettingService.Setting.EnableDatabase)
-                Databases.Instance.Initialize();
+                Database.Database.Instance.Initialize();
         }
 
         public void Free()
         {
-            Databases.Instance.Free();
+            Database.Database.Instance.Free();
         }
 
         public void AddAccount(AccountSetting account)
@@ -170,12 +170,10 @@ namespace Flantter.MilkyWay.Models.Services
                 tweetDeleteDisposableObject = Observable.FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                     h => (sender, e) => h(e),
                     h => Connecter.Instance.TweetDelete_CommandExecute += h,
-                    h => Connecter.Instance.TweetDelete_CommandExecute -= h)
-                    .Where(x => x.UserId == this.UserId).Subscribe(
+                    h => Connecter.Instance.TweetDelete_CommandExecute -= h).Where(x => x.UserId == this.UserId).Subscribe(
                     e =>
                     {
-                        if (this.TweetDelete_CommandExecute != null)
-                            this.TweetDelete_CommandExecute(this, e);
+                        this.TweetDelete_CommandExecute?.Invoke(this, e);
                     },
                     ex => Debug.WriteLine(ex.ToString() + "\nMessage:" + ex.Message),
                     () => Debug.WriteLine("Flantter.MilkyWay.Models.Services.Connecter.TweetCollecterService.OnCompleted"));
@@ -184,8 +182,7 @@ namespace Flantter.MilkyWay.Models.Services
                 tweetReceiveDisposableObject = Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
                     h => (sender, e) => h(e),
                     h => Connecter.Instance.TweetReceive_CommandExecute += h,
-                    h => Connecter.Instance.TweetReceive_CommandExecute -= h)
-                    .Where(x => x.UserId == this.UserId).Subscribe(
+                    h => Connecter.Instance.TweetReceive_CommandExecute -= h).Where(x => x.UserId == this.UserId).Subscribe(
                     e =>
                     {
                         if (this.TweetReceive_CommandExecute != null)
@@ -196,42 +193,42 @@ namespace Flantter.MilkyWay.Models.Services
                             switch (e.Type)
                             {
                                 case TweetEventArgs.TypeEnum.Status:
-                                    Databases.Instance.InsertTweet(e.Status, e.Parameter, e.UserId);
+                                    Database.Database.Instance.InsertTweet(e.Status, e.Parameter, e.UserId);
                                     break;
                                 case TweetEventArgs.TypeEnum.DirectMessage:
-                                    Databases.Instance.InsertTweet(e.DirectMessage, e.Parameter, e.UserId);
+                                    Database.Database.Instance.InsertTweet(e.DirectMessage, e.Parameter, e.UserId);
                                     break;
                                 case TweetEventArgs.TypeEnum.EventMessage:
-                                    Databases.Instance.InsertTweet(e.EventMessage, e.Parameter, e.UserId);
+                                    Database.Database.Instance.InsertTweet(e.EventMessage, e.Parameter, e.UserId);
                                     break;
                             }
                         }
 
                         // Todo : 起動時の軽量化必須？
 
-                        if (e.Type != TweetEventArgs.TypeEnum.Status)
-                            return;
-
-                        lock (this.EntitiesObjectsLock)
+                        if (e.Type == TweetEventArgs.TypeEnum.Status)
                         {
-                            if (!this.ScreenNameObjects.Contains(e.Status.User.ScreenName))
-                                this.ScreenNameObjects.Add(e.Status.User.ScreenName);
-
-                            if (!this.UserObjects.Any(x => x.ScreenName == e.Status.User.ScreenName))
-                                this.UserObjects.Add(e.Status.User);
-
-                            foreach (var screenName in e.Status.Entities.UserMentions)
+                            lock (this.EntitiesObjectsLock)
                             {
-                                if (!this.ScreenNameObjects.Contains(screenName.ScreenName))
-                                    this.ScreenNameObjects.Add(screenName.ScreenName);
-                            }
+                                if (!this.ScreenNameObjects.Contains(e.Status.User.ScreenName))
+                                    this.ScreenNameObjects.Add(e.Status.User.ScreenName);
 
-                            foreach (var hashTag in e.Status.Entities.HashTags)
-                            {
-                                if (!this.HashTagObjects.Contains(hashTag.Tag))
-                                    this.HashTagObjects.Add(hashTag.Tag);
+                                if (!this.UserObjects.Any(x => x.ScreenName == e.Status.User.ScreenName))
+                                    this.UserObjects.Add(e.Status.User);
+
+                                foreach (var screenName in e.Status.Entities.UserMentions)
+                                {
+                                    if (!this.ScreenNameObjects.Contains(screenName.ScreenName))
+                                        this.ScreenNameObjects.Add(screenName.ScreenName);
+                                }
+
+                                foreach (var hashTag in e.Status.Entities.HashTags)
+                                {
+                                    if (!this.HashTagObjects.Contains(hashTag.Tag))
+                                        this.HashTagObjects.Add(hashTag.Tag);
+                                }
                             }
-                        }
+                        }                        
                     },
                     ex => Debug.WriteLine(ex.ToString() + "\nMessage:" + ex.Message),
                     () => Debug.WriteLine("TweetServiceProvider.TweetCollecterService.OnCompleted"));

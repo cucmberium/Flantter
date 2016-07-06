@@ -293,6 +293,12 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             });
 
+            Services.Notice.Instance.ShowDatabaseSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "DatabaseSetting" };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            });
+
             Services.Notice.Instance.ShowAccountsSettingCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AccountsSetting" };

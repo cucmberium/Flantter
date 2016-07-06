@@ -16,15 +16,15 @@ using System.Reactive.Concurrency;
 
 namespace Flantter.MilkyWay.Models.Services.Database
 {
-    public class Databases
+    public class Database
     {
-        private static Databases _Instance = new Databases();
+        private static Database _Instance = new Database();
         
-        private Databases()
+        private Database()
         {
         }
 
-        public static Databases Instance
+        public static Database Instance
         {
             get { return _Instance; }
         }
@@ -74,7 +74,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
                         _tweetDataQueue.Clear();
                     }
 
-                    db.Execute("delete from TweetData where Id in (select Id from TweetData order by Id desc limit -1 offset 10000);");
+                    db.Execute("delete from TweetData where Id in (select Id from TweetData order by Id desc limit -1 offset ?);", SettingService.Setting.MaximumHoldingNumberOfTweet);
                     db.Execute("delete from TweetInfo where Id not in (select Id from TweetData);");
 
                     db.Commit();
@@ -88,6 +88,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
         public void Free()
         {
             _timer?.Dispose();
+            _initialized = false;
         }
 
         public void InsertTweet(Status status, IEnumerable<string> param, long userid)
@@ -137,8 +138,8 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 _tweetDataQueue.Add(tweetData);
             }
         }
-
-        public T GetTweet<T>(long id) where T : class
+        
+        public Status GetStatus(long id)
         {
             string json = null;
             string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
@@ -158,22 +159,13 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 json = tweets.First().Json;
             }
 
-            var tweet = JsonConvert.DeserializeObject<T>(json);
-            if (tweet is Status)
-            {
-                var status = tweet as Status;
-                status.Entities.Media.ForEach(x => x.ParentEntities = status.Entities);
-            }
-            else if (tweet is DirectMessage)
-            {
-                var dm = tweet as DirectMessage;
-                dm.Entities.Media.ForEach(x => x.ParentEntities = dm.Entities);
-            }
+            var status = JsonConvert.DeserializeObject<Status>(json);
+            status.Entities.Media.ForEach(x => x.ParentEntities = status.Entities);
 
-            return tweet;
+            return status;
         }
-
-        public T GetReplyTweet<T>(long id) where T : class
+        
+        public Status GetReplyStatus(long id)
         {
             string json = null;
             string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
@@ -193,19 +185,10 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 json = tweets.First().Json;
             }
 
-            var tweet = JsonConvert.DeserializeObject<T>(json);
-            if (tweet is Status)
-            {
-                var status = tweet as Status;
-                status.Entities.Media.ForEach(x => x.ParentEntities = status.Entities);
-            }
-            else if (tweet is DirectMessage)
-            {
-                var dm = tweet as DirectMessage;
-                dm.Entities.Media.ForEach(x => x.ParentEntities = dm.Entities);
-            }
+            var status = JsonConvert.DeserializeObject<Status>(json);
+            status.Entities.Media.ForEach(x => x.ParentEntities = status.Entities);
 
-            return tweet;
+            return status;
         }
     }
 

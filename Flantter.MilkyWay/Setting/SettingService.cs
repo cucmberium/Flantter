@@ -233,7 +233,6 @@ namespace Flantter.MilkyWay.Setting
         public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public int PictureSavePath { get { return GetValue(0); } set { SetValue(value); OnPropertyChanged(); } }
-        public bool EnableDatabase { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); if (value) { Models.Services.Database.Databases.Instance.Initialize(); } } }
 
         // 投稿設定
         public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
@@ -292,6 +291,13 @@ namespace Flantter.MilkyWay.Setting
                       
         // Mute設定
         public string MuteFilter { get { return GetValue("(False)"); } set { SetValue(value); OnPropertyChanged(); } }
+
+        // データベース設定
+
+        public bool EnableDatabase { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); if (value) { Models.Services.Database.Database.Instance.Initialize(); } else { Models.Services.Database.Database.Instance.Free(); } } }
+
+        public int MaximumHoldingNumberOfTweet { get { return GetValue(10000); } set { SetValue(value); OnPropertyChanged(); } }
+
 
         // 上級者向け設定
         public bool UseOfficialApi { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }

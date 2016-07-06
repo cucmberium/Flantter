@@ -18,6 +18,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage.Streams;
@@ -288,6 +289,7 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.IsMentionStatusLoading = true;
 
                 await this.Model.GetMentionStatus(statusViewModel.Model);
+                await Task.Delay(50);
 
                 if (statusViewModel.Model.MentionStatus == null)
                 {

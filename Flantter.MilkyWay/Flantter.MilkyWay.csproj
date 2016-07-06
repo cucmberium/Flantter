@@ -143,7 +143,7 @@
     <Compile Include="Models\MainPageModel.cs" />
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
-    <Compile Include="Models\Services\Databases.cs" />
+    <Compile Include="Models\Services\Database\Database.cs" />
     <Compile Include="Models\SettingsFlyouts\UserFollowInfoSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\RetweetsOfMeSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\RetweetersSettingsFlyoutModel.cs" />
@@ -243,6 +243,9 @@
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\AdvancedSettingSettingsFlyout.xaml.cs">
       <DependentUpon>AdvancedSettingSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\Settings\DatabaseSettingSettingsFlyout.xaml.cs">
+      <DependentUpon>DatabaseSettingSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\PostingSettingSettingsFlyout.xaml.cs">
       <DependentUpon>PostingSettingSettingsFlyout.xaml</DependentUpon>
@@ -492,6 +495,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\Settings\AdvancedSettingSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\Settings\DatabaseSettingSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

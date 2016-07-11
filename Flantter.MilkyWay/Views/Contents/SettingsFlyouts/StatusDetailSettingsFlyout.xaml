@@ -259,7 +259,6 @@
                                 <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_MuteClient" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="クライアントをミュート" FontSize="16"/>
                             </Grid>
                         </Button>
-
                         <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.DeleteTweetCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}" Visibility="{x:Bind ViewModel.Status.Value.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid>
@@ -286,6 +285,7 @@
                                 <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_DeleteRetweet" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="リツイートの削除" FontSize="16"/>
                             </Grid>
                         </Button>
+                        <controls:HorizontalBar/>
                     </StackPanel>
                 </ScrollViewer>
 

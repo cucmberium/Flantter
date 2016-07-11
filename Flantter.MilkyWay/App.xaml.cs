@@ -174,8 +174,6 @@ namespace Flantter.MilkyWay
                     await tokens.DirectMessages.NewAsync(text => tweet, screen_name => targetScreenName);
                 }
             }
-
-
             
         }
     }

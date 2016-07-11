@@ -362,25 +362,27 @@ namespace Flantter.MilkyWay.Models.Twitter
                         }
                         else
                         {
-                            var fileName = "NicoVideo_" + match.Groups["VideoId"].Value;
+                            /*var fileName = "NicoVideo_" + match.Groups["VideoId"].Value;
                             try
                             {
                                 Thumbnail.NicoVideo.GetThumbnail(match.Groups["VideoId"].Value, fileName);
                             }
                             catch
                             {
-                            }
+                            }*/
 
                             yield return new Media()
                             {
-                                MediaThumbnailUrl = "ms-appdata:///temp/" + fileName,
+                                // MediaThumbnailUrl = "ms-appdata:///temp/" + fileName,
+                                MediaThumbnailUrl = "http://localhost/",
                                 MediaUrl = string.Empty,
                                 ExpandedUrl = match.Value,
                                 DisplayUrl = url.DisplayUrl,
                                 Type = "Video",
                                 VideoInfo = new VideoInfo() { VideoId = match.Groups["VideoId"].Value, VideoType = "NicoVideo" }
                             };
-                        }                        
+                            continue;
+                        }
                     }
                     #endregion
 

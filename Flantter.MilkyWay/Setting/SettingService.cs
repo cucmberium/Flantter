@@ -233,13 +233,12 @@ namespace Flantter.MilkyWay.Setting
         public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public int PictureSavePath { get { return GetValue(0); } set { SetValue(value); OnPropertyChanged(); } }
-
+        
         // 投稿設定
         public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool RefreshTimelineAfterTweet { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ConvertPostingImage { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
-
-
+        
         // 表示設定
         public SettingSupport.ThemeEnum Theme { get { return (SettingSupport.ThemeEnum)GetValue(1); } set { SetValue((int)value); OnPropertyChanged(); ThemeService.Theme.ChangeTheme(); } }
         public double FontSize { get { return GetValue(12.0); } set { SetValue(value); OnPropertyChanged(); } }
@@ -298,6 +297,9 @@ namespace Flantter.MilkyWay.Setting
 
         public int MaximumHoldingNumberOfTweet { get { return GetValue(10000); } set { SetValue(value); OnPropertyChanged(); } }
 
+        public bool RestoreTimelineOnStartup { get { return GetValue(false) && this.EnableDatabase; } set { SetValue(value); OnPropertyChanged(); } }
+
+        public bool DisableStartupTimelineUpdate { get { return GetValue(false) && this.EnableDatabase; } set { SetValue(value); OnPropertyChanged(); } }
 
         // 上級者向け設定
         public bool UseOfficialApi { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }

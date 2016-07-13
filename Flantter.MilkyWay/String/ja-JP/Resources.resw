@@ -919,4 +919,10 @@
   <data name="SettingsFlyout_Settings_Main_DatabaseSetting_Textblock.Text" xml:space="preserve">
     <value>データベース設定</value>
   </data>
+  <data name="SettingsFlyout_Settings_Database_DisableStartupTimelineUpdate_ToggleSwitch.Header" xml:space="preserve">
+    <value>起動時のタイムライン更新をすべて無効にする</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Database_RestoreTimelineOnStartup_ToggleSwitch.Header" xml:space="preserve">
+    <value>起動時にタイムラインを復元する</value>
+  </data>
 </root>

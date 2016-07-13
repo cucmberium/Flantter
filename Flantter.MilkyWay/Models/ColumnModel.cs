@@ -3,6 +3,7 @@ using CoreTweet.Core;
 using CoreTweet.Streaming;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Services.Database;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
@@ -339,8 +340,36 @@ namespace Flantter.MilkyWay.Models
             this.ColumnSetting.ObserveProperty(x => x.Name).Subscribe(x => this.Name = x).AddTo(this.Disposable);
             this.AccountSetting.ObserveProperty(x => x.ScreenName).Subscribe(x => this.ScreenName = x).AddTo(this.Disposable);
             this.AccountSetting.ObserveProperty(x => x.ProfileImageUrl).Subscribe(x => this.ProfileImageUrl = x).AddTo(this.Disposable);
-            
-            if (!this.ColumnSetting.DisableStartupRefresh)
+
+            if (SettingService.Setting.RestoreTimelineOnStartup)
+            {
+                switch (this.Action)
+                {
+                    case SettingSupport.ColumnTypeEnum.DirectMessages:
+                        foreach (var dm in Database.Instance.GetDirectMessagesFromParam())
+                        {
+                            this.Add(dm);
+                        }
+                        break;
+                    case SettingSupport.ColumnTypeEnum.Events:
+                        foreach (var status in Database.Instance.GetEventMessagesFromParam())
+                        {
+                            this.Add(status);
+                        }
+                        break;
+                    default:
+                        foreach (var status in Database.Instance.GetStatusesFromParam(this.Action.ToString("F").ToLower() + "://" + this._Parameter))
+                        {
+                            if (!this.Check(status))
+                                continue;
+
+                            this.Add(status);
+                        }
+                        break;
+                }
+            }
+
+            if (!this.ColumnSetting.DisableStartupRefresh && !SettingService.Setting.DisableStartupTimelineUpdate)
                 await Update();
             
             this.Streaming = this.ColumnSetting.Streaming;

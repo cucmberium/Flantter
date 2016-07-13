@@ -33,9 +33,18 @@
 
             <controls:HorizontalBar/>
 
-            <Slider x:Uid="SettingsFlyout_Settings_Database_MaximumHoldingNumberOfTweet_Slider" IsEnabled="{Binding Source={StaticResource Setting}, Path=Setting.EnableDatabase, Mode=OneWay}" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイート保存件数" Maximum="100000" Minimum="1000" LargeChange="100" StepFrequency="10" SmallChange="10" Value="{Binding Source={StaticResource Setting}, Path=Setting.MaximumHoldingNumberOfTweet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider x:Uid="SettingsFlyout_Settings_Database_MaximumHoldingNumberOfTweet_Slider" IsEnabled="{Binding Source={StaticResource Setting}, Path=Setting.EnableDatabase, Mode=OneWay}" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイート保存件数" Maximum="100000" Minimum="1000" LargeChange="10000" StepFrequency="1000" SmallChange="1000" Value="{Binding Source={StaticResource Setting}, Path=Setting.MaximumHoldingNumberOfTweet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <controls:HorizontalBar/>
+
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Database_RestoreTimelineOnStartup_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RestoreTimelineOnStartup, Mode=TwoWay}" Header="起動時にタイムラインを復元する"/>
+
+            <controls:HorizontalBar/>
+
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Database_DisableStartupTimelineUpdate_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.DisableStartupTimelineUpdate, Mode=TwoWay}" Header="起動時のタイムライン更新をすべて無効にする"/>
+
+            <controls:HorizontalBar/>
+
 
         </StackPanel>
     </ScrollViewer>

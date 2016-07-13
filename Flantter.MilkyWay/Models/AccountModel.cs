@@ -212,7 +212,7 @@ namespace Flantter.MilkyWay.Models
 
         public async Task GetMentionStatus(Twitter.Objects.Status status)
         {
-            var mentionStatus = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatus(status.InReplyToStatusId) : null;
+            var mentionStatus = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatusFromId(status.InReplyToStatusId) : null;
             if (mentionStatus == null)
             {
                 try

@@ -116,7 +116,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                     while (true)
                     {
-                        var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetReplyStatus(nextId) : null;
+                        var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetReplyStatusFromId(nextId) : null;
 
                         if (status == null && !conversation.Any(x => x.InReplyToStatusId == nextId))
                             break;
@@ -131,7 +131,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
                     while (true)
                     {
-                        var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatus(nextId) : null;
+                        var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatusFromId(nextId) : null;
                         if (status == null)
                         {
                             if (conversation.Any(x => x.Id == nextId))
@@ -171,7 +171,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 while (true)
                 {
-                    var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetReplyStatus(nextId) : null;
+                    var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetReplyStatusFromId(nextId) : null;
 
                     if (status == null)
                         break;
@@ -188,7 +188,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 {
                     updateCount += 1;
 
-                    var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatus(nextId) : null;
+                    var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatusFromId(nextId) : null;
 
                     if (status == null)
                     {

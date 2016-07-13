@@ -79,7 +79,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             this.Status = null;
 
-            var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatus(this._StatusId) : null;
+            var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatusFromId(this._StatusId) : null;
             if (status == null)
             {
                 Status item = null;

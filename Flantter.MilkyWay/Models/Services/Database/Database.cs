@@ -139,7 +139,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
             }
         }
         
-        public Status GetStatus(long id)
+        public Status GetStatusFromId(long id)
         {
             string json = null;
             string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
@@ -165,7 +165,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
             return status;
         }
         
-        public Status GetReplyStatus(long id)
+        public Status GetReplyStatusFromId(long id)
         {
             string json = null;
             string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
@@ -189,6 +189,88 @@ namespace Flantter.MilkyWay.Models.Services.Database
             status.Entities.Media.ForEach(x => x.ParentEntities = status.Entities);
 
             return status;
+        }
+
+        public IEnumerable<Status> GetStatusesFromParam(string param, int count = 200)
+        {
+            IEnumerable<string> jsons = null;
+            string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
+            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            {
+                db.BeginTransaction();
+
+                db.CreateTable<TweetInfo>();
+                db.CreateTable<TweetData>(SQLite.Net.Interop.CreateFlags.AllImplicit);
+
+                //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData } )
+                //                                  .Where(x => x.TweetInfo.Parameter == param)
+                //                                  .OrderByDescending(x => x.TweetInfo.Id)
+                //                                  .Take(count).ToList();
+                var tweets = db.Query<TweetData>($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"{param}\") order by TweetData.Id desc limit {count.ToString()}");
+                db.Commit();
+
+                jsons = tweets.Select(x => x.Json);
+            }
+
+            foreach (var json in jsons)
+            {
+                var status = JsonConvert.DeserializeObject<Status>(json);
+                status.Entities.Media.ForEach(x => x.ParentEntities = status.Entities);
+
+                yield return status;
+            }
+        }
+
+        public IEnumerable<DirectMessage> GetDirectMessagesFromParam(int count = 200)
+        {
+            IEnumerable<string> jsons = null;
+            string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
+            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            {
+                db.BeginTransaction();
+
+                db.CreateTable<TweetInfo>();
+                db.CreateTable<TweetData>(SQLite.Net.Interop.CreateFlags.AllImplicit);
+
+                //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "directmessages://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
+                var tweets = db.Query<TweetData>($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"directmessages://\") order by TweetData.Id desc limit {count.ToString()}");
+                db.Commit();
+
+                jsons = tweets.Select(x => x.Json);
+            }
+
+            foreach (var json in jsons)
+            {
+                var dm = JsonConvert.DeserializeObject<DirectMessage>(json);
+                dm.Entities.Media.ForEach(x => x.ParentEntities = dm.Entities);
+
+                yield return dm;
+            }
+        }
+
+        public IEnumerable<EventMessage> GetEventMessagesFromParam(int count = 200)
+        {
+            IEnumerable<string> jsons = null;
+            string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
+            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            {
+                db.BeginTransaction();
+
+                db.CreateTable<TweetInfo>();
+                db.CreateTable<TweetData>(SQLite.Net.Interop.CreateFlags.AllImplicit);
+
+                //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
+                var tweets = db.Query<TweetData>($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"events://\") order by TweetData.Id desc limit {count.ToString()}");
+                db.Commit();
+
+                jsons = tweets.Select(x => x.Json);
+            }
+
+            foreach (var json in jsons)
+            {
+                var ev = JsonConvert.DeserializeObject<EventMessage>(json);
+                yield return ev;
+            }
         }
     }
 

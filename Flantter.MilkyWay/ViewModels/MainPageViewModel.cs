@@ -630,6 +630,15 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowConversationCommand.Execute(tweet.Model);
             });
 
+            Services.Notice.Instance.DeleteDatabaseFileCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var item = await ApplicationData.Current.LocalFolder.TryGetItemAsync("tweet.db");
+                if (item == null)
+                    return;
+
+                await item.DeleteAsync();
+            });
+
             #endregion
 
             Application.Current.Resuming += Application_Resuming;

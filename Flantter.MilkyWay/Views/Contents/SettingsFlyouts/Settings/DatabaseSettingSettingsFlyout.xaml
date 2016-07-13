@@ -37,15 +37,23 @@
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Database_RestoreTimelineOnStartup_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RestoreTimelineOnStartup, Mode=TwoWay}" Header="起動時にタイムラインを復元する"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Database_RestoreTimelineOnStartup_ToggleSwitch" IsEnabled="{Binding Source={StaticResource Setting}, Path=Setting.EnableDatabase, Mode=OneWay}" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RestoreTimelineOnStartup, Mode=TwoWay}" Header="起動時にタイムラインを復元する"/>
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Database_DisableStartupTimelineUpdate_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.DisableStartupTimelineUpdate, Mode=TwoWay}" Header="起動時のタイムライン更新をすべて無効にする"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_DisableStartupTimelineUpdate_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.DisableStartupTimelineUpdate, Mode=TwoWay}" Header="起動時のタイムライン更新をすべて無効にする"/>
 
             <controls:HorizontalBar/>
 
-
+            <Button IsEnabled="{Binding Source={StaticResource Setting}, Path=Setting.EnableDatabase, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding Source={StaticResource Notice},Path=Notice.DeleteDatabaseFileCommand}">
+                <Grid>
+                    <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <TextBlock x:Uid="SettingsFlyout_Settings_Database_DeleteDatabaseFile_Textblock" Text="保存" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+            
+            <controls:HorizontalBar/>
+            
         </StackPanel>
     </ScrollViewer>
     

@@ -107,6 +107,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.IncrementColumnSelectedIndexCommand = new ReactiveCommand();
             this.DecrementColumnSelectedIndexCommand = new ReactiveCommand();
 
+            this.DeleteDatabaseFileCommand = new ReactiveCommand();
+
             this.ShowFilePickerMessenger = new Messenger();
             this.ShowComfirmMessageDialogMessenger = new Messenger();
             this.ShowMessageDialogMessenger = new Messenger();
@@ -213,6 +215,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ChangeSelectedTweetCommand { get; private set; }
         public ReactiveCommand IncrementColumnSelectedIndexCommand { get; private set; }
         public ReactiveCommand DecrementColumnSelectedIndexCommand { get; private set; }
+
+        public ReactiveCommand DeleteDatabaseFileCommand { get; private set; }
     }
 
     public class NoticeProvider

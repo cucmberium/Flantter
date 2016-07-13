@@ -49,7 +49,11 @@
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_FavoriteConfirmation_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.FavoriteConfirmation, Mode=TwoWay}" Header="お気に入り登録を確認する"/>
 
             <controls:HorizontalBar/>
+            
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_DisableStartupTimelineUpdate_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.DisableStartupTimelineUpdate, Mode=TwoWay}" Header="起動時のタイムライン更新をすべて無効にする"/>
 
+            <controls:HorizontalBar/>
+            
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_ExtendTitleBar_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ExtendTitleBar, Mode=TwoWay}" Header="タイトルバーに機能を追加する"/>
 
             <controls:HorizontalBar/>

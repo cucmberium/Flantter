@@ -35,7 +35,7 @@
             <i:Interaction.Behaviors>
                 <behaviors:LeftSwipeMenuShowBehavior IsOpen="{x:Bind ViewModel.LeftSwipeMenuIsOpen.Value, Mode=TwoWay}">
                     <behaviors:LeftSwipeMenuShowBehavior.SwipeMenu>
-                        <swipe:MainSwipeMenu ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                        <swipe:MainSwipeMenu ViewModel="{x:Bind ViewModel, Mode=OneWay}"/>
                     </behaviors:LeftSwipeMenuShowBehavior.SwipeMenu>
                 </behaviors:LeftSwipeMenuShowBehavior>
             </i:Interaction.Behaviors>

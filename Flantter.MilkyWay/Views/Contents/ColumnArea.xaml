@@ -23,6 +23,7 @@
                     <ItemsPanelTemplate>
                         <!-- 本当はここもx:Bindにしたいけどすると "error WMC9999" が発生する -->
                         <contents:ExtendedCanvas x:Name="ColumnListCanvas" Width="{Binding PanelWidth.Value, Mode=OneWay}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value, Mode=OneWay}" MaxSnapPoint="{Binding MaxSnapPoint.Value, Mode=OneWay}" MinSnapPoint="{Binding MinSnapPoint.Value, Mode=OneWay}"/>
+                        <!--<contents:ExtendedCanvas x:Name="ColumnListCanvas" Width="{x:Bind ViewModel.PanelWidth.Value, Mode=OneWay}" SnapPointsSpaceing="{x:Bind ViewModel.SnapPointsSpaceing.Value, Mode=OneWay}" MaxSnapPoint="{x:Bind ViewModel.MaxSnapPoint.Value, Mode=OneWay}" MinSnapPoint="{x:Bind ViewModel.MinSnapPoint.Value, Mode=OneWay}"/>-->
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

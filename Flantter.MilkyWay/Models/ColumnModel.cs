@@ -239,7 +239,21 @@ namespace Flantter.MilkyWay.Models
                     {
                         case MessageType.Create:
                             var tweet = m as StatusMessage;
+                            var status = new Twitter.Objects.Status(tweet.Status);
                             var paramList = new List<string>();
+
+                            lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
+                            {
+                                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Contains(status.User.Id))
+                                    break;
+
+                                if (status.HasRetweetInformation && Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Contains(status.RetweetInformation.User.Id))
+                                    break;
+
+                                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Contains(status.User.Id))
+                                    break;
+                            }
+
                             if (this._Action == SettingSupport.ColumnTypeEnum.Home)
                             {
                                 paramList.Add("home://");
@@ -253,22 +267,23 @@ namespace Flantter.MilkyWay.Models
                             }
                             else if (this._Action == SettingSupport.ColumnTypeEnum.List)
                             {
+                                if (listStreamUserIdList == null)
+                                    break;
+
+                                if (!listStreamUserIdList.Contains(status.HasRetweetInformation ? status.RetweetInformation.User.Id : status.User.Id))
+                                    break;
+
+                                if (!status.HasRetweetInformation && status.InReplyToUserId != 0 && !listStreamUserIdList.Contains(status.InReplyToUserId))
+                                    break;
+
                                 paramList.Add("list://" + this._Parameter);
                             }
 
-                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(tweet.Status), this.Tokens.UserId, paramList, true));
+                            Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, paramList, true));
                             break;
                         case MessageType.DirectMesssage:
                             var directMessage = m as DirectMessageMessage;
                             Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.DirectMessage(directMessage.DirectMessage), this.Tokens.UserId, new List<string>() { "directmessages://" }, true));
-                            break;
-                        case MessageType.DeleteStatus:
-                            var deleteStatus = m as DeleteMessage;
-                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.Status, deleteStatus.Id, this.Tokens.UserId));
-                            break;
-                        case MessageType.DeleteDirectMessage:
-                            var deleteDirectMessage = m as DeleteMessage;
-                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.DirectMessage, deleteDirectMessage.Id, this.Tokens.UserId));
                             break;
                         case MessageType.Event:
                             var eventMessage = m as CoreTweet.Streaming.EventMessage;
@@ -280,6 +295,14 @@ namespace Flantter.MilkyWay.Models
                                 Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(eventMessage.TargetStatus), this.Tokens.UserId, new List<string>() { "favorites://" }, true));
                             }
 
+                            break;
+                        case MessageType.DeleteStatus:
+                            var deleteStatus = m as DeleteMessage;
+                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.Status, deleteStatus.Id, this.Tokens.UserId));
+                            break;
+                        case MessageType.DeleteDirectMessage:
+                            var deleteDirectMessage = m as DeleteMessage;
+                            Connecter.Instance.TweetDelete_OnCommandExecute(this, new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.DirectMessage, deleteDirectMessage.Id, this.Tokens.UserId));
                             break;
                     }
                 }
@@ -891,6 +914,7 @@ namespace Flantter.MilkyWay.Models
                     return false;
             }
 
+            // リストの確認はHomeからの補完があるためもう一度
             if (this.Action == SettingSupport.ColumnTypeEnum.List)
             {
                 if (listStreamUserIdList == null)
@@ -903,7 +927,7 @@ namespace Flantter.MilkyWay.Models
                     return false;
             }
 
-            lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
+            /*lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
             {
                 if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Contains(status.User.Id))
                     return false;
@@ -913,7 +937,7 @@ namespace Flantter.MilkyWay.Models
 
                 if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Contains(status.User.Id))
                     return false;
-            }
+            }*/
 
             if (this.Action == SettingSupport.ColumnTypeEnum.Mentions && !SettingService.Setting.ShowRetweetInMentionColumn)
             {

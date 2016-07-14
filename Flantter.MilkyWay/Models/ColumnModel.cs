@@ -364,7 +364,7 @@ namespace Flantter.MilkyWay.Models
             this.AccountSetting.ObserveProperty(x => x.ScreenName).Subscribe(x => this.ScreenName = x).AddTo(this.Disposable);
             this.AccountSetting.ObserveProperty(x => x.ProfileImageUrl).Subscribe(x => this.ProfileImageUrl = x).AddTo(this.Disposable);
 
-            if (SettingService.Setting.RestoreTimelineOnStartup)
+            if (SettingService.Setting.RestoreTimelineOnStartup && SettingService.Setting.EnableDatabase)
             {
                 switch (this.Action)
                 {

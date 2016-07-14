@@ -298,7 +298,7 @@ namespace Flantter.MilkyWay.Setting
 
         public int MaximumHoldingNumberOfTweet { get { return GetValue(10000); } set { SetValue(value); OnPropertyChanged(); } }
 
-        public bool RestoreTimelineOnStartup { get { return GetValue(false) && this.EnableDatabase; } set { SetValue(value); OnPropertyChanged(); } }
+        public bool RestoreTimelineOnStartup { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
 
         // 上級者向け設定
         public bool UseOfficialApi { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }

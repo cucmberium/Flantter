@@ -167,7 +167,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.PanelWidth = Observable.CombineLatest<double, double, int, double>(
                 LayoutHelper.Instance.ColumnWidth,
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
+                WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
                 this.Columns.ObserveProperty(x => x.Count),
                 (width, height, count) =>
                 {

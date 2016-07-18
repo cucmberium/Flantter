@@ -276,7 +276,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.Left = Observable.CombineLatest<int, double, double, double>(
                 this.Index,
                 LayoutHelper.Instance.ColumnWidth,
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
+                WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
                 (index, columnWidth, height) =>
                 {
                     if (height >= 500)

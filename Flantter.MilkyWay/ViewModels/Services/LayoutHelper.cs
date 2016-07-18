@@ -24,7 +24,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         {
             this.ColumnCount = Observable.CombineLatest<double, double, double, int, int>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
+                WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
                 SettingService.Setting.ObserveProperty(x => x.MinColumnSize),
                 SettingService.Setting.ObserveProperty(x => x.MaxColumnCount),
                 (width, height, minWidth, maxCount) =>
@@ -37,7 +37,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
             this.ColumnWidth = Observable.CombineLatest<double, double, int, double>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
+                WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
                 this.ColumnCount,
                 (width, height, count) =>
                 {
@@ -54,12 +54,13 @@ namespace Flantter.MilkyWay.ViewModels.Services
                     }
                 }).ToReactiveProperty();
 
-            this.ColumnHeight = Observable.CombineLatest<double, double, double>(
+            this.ColumnHeight = Observable.CombineLatest<double, double, double, double>(
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
-                (width, height) =>
+                WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
+                (width, height, winHeight) =>
                 {
-                    if (height >= 500)
+                    if (winHeight >= 500)
                     {
                         var retheight = 0.0;
                         if (width < 384.0)

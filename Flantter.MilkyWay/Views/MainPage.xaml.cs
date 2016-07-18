@@ -49,19 +49,20 @@ namespace Flantter.MilkyWay.Views
 
             Themes.ThemeService.Theme.ChangeTheme();
             
-            this.UpdateTitleBar(ViewModels.Services.LayoutHelper.Instance.TitleBarHeight.Value > 0);
-            ViewModels.Services.LayoutHelper.Instance.TitleBarHeight.SubscribeOnUIDispatcher().Subscribe(x => this.UpdateTitleBar(x > 0));
+            this.UpdateTitleBar(WindowSizeHelper.Instance.StatusBarHeight > 0);
+            WindowSizeHelper.Instance.ObserveProperty(x => x.StatusBarHeight).SubscribeOnUIDispatcher().Subscribe(x => this.UpdateTitleBar(x > 0));
 
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
             {
-                var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
+                /*var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
                 if (behavior == null)
                     return;
 
                 if (behavior.ShowingPopupCount == 0)
                     return;
 
-                behavior.HideTopPopup();
+                e.Handled = true;
+                behavior.HideTopPopup();*/
             };
 
             Window.Current.CoreWindow.PointerPressed += (s, e) =>

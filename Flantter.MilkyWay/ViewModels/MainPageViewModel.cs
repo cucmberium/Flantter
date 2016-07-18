@@ -332,6 +332,12 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.DonateCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
+                if (LicenseService.License.AppDonationIsActive)
+                {
+                    await Notice.ShowMessageDialogMessenger.Raise(new MessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_DonatedAlready"), Title = "Donation" });
+                    return;
+                }
+
                 var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_NeedAppDonation"), Title = "Confirmation" };
                 await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 

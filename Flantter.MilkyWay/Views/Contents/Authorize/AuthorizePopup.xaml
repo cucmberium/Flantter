@@ -107,7 +107,7 @@
             <VisualStateGroup x:Name="SizeStateGroup">
                 <VisualState x:Name="Min">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
+                        <AdaptiveTrigger MinWindowWidth="0" MinWindowHeight="0" />
                     </VisualState.StateTriggers>
                     <Storyboard>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AuthorizePopup_RootGrid" Storyboard.TargetProperty="Margin">
@@ -117,7 +117,7 @@
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720" />
+                        <AdaptiveTrigger MinWindowWidth="720" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>

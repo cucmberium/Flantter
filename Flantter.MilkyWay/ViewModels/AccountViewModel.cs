@@ -165,15 +165,24 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             }).AddTo(this.Disposable);
 
-            this.PanelWidth = Observable.CombineLatest<double, int, double>(
+            this.PanelWidth = Observable.CombineLatest<double, double, int, double>(
                 LayoutHelper.Instance.ColumnWidth,
+                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
                 this.Columns.ObserveProperty(x => x.Count),
-                (width, count) =>
+                (width, height, count) =>
                 {
-                    if (width < 352.0)
-                        return width * count + 352.0 * 2;
+                    if (height >= 500)
+                    {
+                        if (width < 352.0)
+                            return width * count + 352.0 * 2;
+                        else
+                            return (width + 10.0) * count + 352.0 * 2;
+                    }
                     else
-                        return (width + 10.0) * count + 352.0 * 2;
+                    {
+                        return width * count + 352.0 * 2;
+                    }
+
                 }).ToReactiveProperty().AddTo(this.Disposable);
 
             this.SnapPointsSpaceing = LayoutHelper.Instance.ColumnWidth.Select(x => x + 10.0).ToReactiveProperty().AddTo(this.Disposable);

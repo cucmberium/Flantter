@@ -50,7 +50,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
             _ResourceLoader = new ResourceLoader();
 
-            Window.Current.SizeChanged += ImagePreviewPopup_SizeChanged;
+            Window.Current.SizeChanged += (s, e) => this.ImagePreviewPopup_LayoutRefresh();
+            Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged += (s, e) => this.ImagePreviewPopup_LayoutRefresh();
 
             this.ImagePreview = new Popup
             {
@@ -60,36 +61,35 @@ namespace Flantter.MilkyWay.Views.Contents
             };
             
             this.Width = WindowSizeHelper.Instance.ClientWidth;
-            this.Height = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
+            this.Height = WindowSizeHelper.Instance.ClientHeight;
 
-            Canvas.SetTop(this.ImagePreview, LayoutHelper.Instance.TitleBarHeight.Value);
-            Canvas.SetLeft(this.ImagePreview, 0);
+            Canvas.SetTop(this.ImagePreview, WindowSizeHelper.Instance.StatusBarHeight);
+            Canvas.SetLeft(this.ImagePreview, WindowSizeHelper.Instance.StatusBarWidth);
 
             //this.ImagePreviewImage.Source = new BitmapImage(new Uri("http://localhost"));
         }
         
         ~ImagePreviewPopup()
         {
-            Window.Current.SizeChanged -= ImagePreviewPopup_SizeChanged;
         }
 
-        private void ImagePreviewPopup_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        private void ImagePreviewPopup_LayoutRefresh()
         {
-            Canvas.SetTop(this.ImagePreview, LayoutHelper.Instance.TitleBarHeight.Value);
-            Canvas.SetLeft(this.ImagePreview, 0);
+            Canvas.SetTop(this.ImagePreview, WindowSizeHelper.Instance.StatusBarHeight);
+            Canvas.SetLeft(this.ImagePreview, WindowSizeHelper.Instance.StatusBarWidth);
 
             this.Width = WindowSizeHelper.Instance.ClientWidth;
-            this.Height = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
+            this.Height = WindowSizeHelper.Instance.ClientHeight;
 
             this.ImagePreviewCanvas.Clip = new RectangleGeometry()
             {
-                Rect = new Rect(0, 0, WindowSizeHelper.Instance.ClientWidth, WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value)
+                Rect = new Rect(0, 0, WindowSizeHelper.Instance.ClientWidth, WindowSizeHelper.Instance.ClientHeight)
             };
 
             var imageWidth = ((BitmapImage)this.ImagePreviewImage.Source).PixelWidth;
             var imageHeight = ((BitmapImage)this.ImagePreviewImage.Source).PixelHeight;
             var windowWidth = WindowSizeHelper.Instance.ClientWidth;
-            var windowHeight = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
+            var windowHeight = WindowSizeHelper.Instance.ClientHeight;
 
             double raito = 1.0;
 
@@ -115,7 +115,7 @@ namespace Flantter.MilkyWay.Views.Contents
             this.ImagePreviewImage.Width = imageWidth * raito;
             this.ImagePreviewImage.Height = imageHeight * raito;
 
-            var canvasTop = (WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value - this.ImagePreviewImage.Height) / 2;
+            var canvasTop = (WindowSizeHelper.Instance.ClientHeight - this.ImagePreviewImage.Height) / 2;
             var canvasLeft = (WindowSizeHelper.Instance.ClientWidth - this.ImagePreviewImage.Width) / 2;
 
             Canvas.SetTop(this.ImagePreviewImage, canvasTop);
@@ -162,7 +162,7 @@ namespace Flantter.MilkyWay.Views.Contents
             var imageWidth = ((BitmapImage)this.ImagePreviewImage.Source).PixelWidth;
             var imageHeight = ((BitmapImage)this.ImagePreviewImage.Source).PixelHeight;
             var windowWidth = WindowSizeHelper.Instance.ClientWidth;
-            var windowHeight = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
+            var windowHeight = WindowSizeHelper.Instance.ClientHeight;
 
             double raito = 1.0;
 
@@ -197,12 +197,12 @@ namespace Flantter.MilkyWay.Views.Contents
 
         public void Show()
         {
-            Canvas.SetTop(this.ImagePreview, LayoutHelper.Instance.TitleBarHeight.Value);
-            Canvas.SetLeft(this.ImagePreview, 0);
+            Canvas.SetTop(this.ImagePreview, WindowSizeHelper.Instance.StatusBarHeight);
+            Canvas.SetLeft(this.ImagePreview, WindowSizeHelper.Instance.StatusBarWidth);
 
             this.ImagePreviewCanvas.Clip = new RectangleGeometry()
             {
-                Rect = new Rect(0, 0, WindowSizeHelper.Instance.ClientWidth, WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value)
+                Rect = new Rect(0, 0, WindowSizeHelper.Instance.ClientWidth, WindowSizeHelper.Instance.ClientHeight)
             };
             
             if (imageOpened)
@@ -281,9 +281,9 @@ namespace Flantter.MilkyWay.Views.Contents
                 transform.TranslateX = WindowSizeHelper.Instance.ClientWidth / 2 + (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2;
 
             if (transform.TranslateY + (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2 < -WindowSizeHelper.Instance.ClientHeight / 2)
-                transform.TranslateY = -(WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value) / 2 - (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
+                transform.TranslateY = -(WindowSizeHelper.Instance.ClientHeight) / 2 - (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
             else if (transform.TranslateY - (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2 > WindowSizeHelper.Instance.ClientHeight / 2)
-                transform.TranslateY = (WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value) / 2 + (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
+                transform.TranslateY = (WindowSizeHelper.Instance.ClientHeight) / 2 + (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
 
             element.RenderTransform = transform;
 
@@ -322,7 +322,7 @@ namespace Flantter.MilkyWay.Views.Contents
             transform.TranslateY += e.Delta.Translation.Y;
 
             transform.TranslateX = transform.TranslateX + (e.Position.X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) * (1 - e.Delta.Scale);
-            transform.TranslateY = transform.TranslateY + (e.Position.Y - (Canvas.GetTop(element) + LayoutHelper.Instance.TitleBarHeight.Value + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - e.Delta.Scale);
+            transform.TranslateY = transform.TranslateY + (e.Position.Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - e.Delta.Scale);
             
             element.RenderTransform = transform;
 
@@ -343,9 +343,9 @@ namespace Flantter.MilkyWay.Views.Contents
                 transform.TranslateX = WindowSizeHelper.Instance.ClientWidth / 2 + (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2;
 
             if (transform.TranslateY + (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2 < -WindowSizeHelper.Instance.ClientHeight / 2)
-                transform.TranslateY = -(WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value) / 2 - (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
+                transform.TranslateY = -(WindowSizeHelper.Instance.ClientHeight) / 2 - (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
             else if (transform.TranslateY - (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2 > WindowSizeHelper.Instance.ClientHeight / 2)
-                transform.TranslateY = (WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value) / 2 + (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
+                transform.TranslateY = (WindowSizeHelper.Instance.ClientHeight) / 2 + (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
 
             element.RenderTransform = transform;
 
@@ -386,7 +386,7 @@ namespace Flantter.MilkyWay.Views.Contents
             Storyboard.SetTargetProperty(scaleAnimY, "(UIElement.RenderTransform).(CompositeTransform.ScaleY)");
 
             var translateAnimXVal = transform.TranslateX + (e.GetPosition(Window.Current.Content).X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) * (1 - scale / transform.ScaleX);
-            var translateAnimYVal = transform.TranslateY + (e.GetPosition(Window.Current.Content).Y - (Canvas.GetTop(element) + LayoutHelper.Instance.TitleBarHeight.Value + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - scale / transform.ScaleY);
+            var translateAnimYVal = transform.TranslateY + (e.GetPosition(Window.Current.Content).Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - scale / transform.ScaleY);
             if (scale <= 1.0)
             {
                 translateAnimYVal = 0.0;

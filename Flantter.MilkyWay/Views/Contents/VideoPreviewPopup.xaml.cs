@@ -63,21 +63,18 @@ namespace Flantter.MilkyWay.Views.Contents
                     return;
 
                 this._IsBottomBarOpen = _BottomAppBar.IsOpen;
-                _BottomAppBar.Opening += (s, e) => { this._IsBottomBarOpen = true; VideoPreviewPopup_SizeChanged(null, null); };
-                _BottomAppBar.Closed += (s, e) => { this._IsBottomBarOpen = false; VideoPreviewPopup_SizeChanged(null, null); };
+                _BottomAppBar.Opening += (s, e) => { this._IsBottomBarOpen = true; this.VideoPreviewPopup_LayoutRefresh(); };
+                _BottomAppBar.Closed += (s, e) => { this._IsBottomBarOpen = false; this.VideoPreviewPopup_LayoutRefresh(); };
             };
 
-            Window.Current.SizeChanged += VideoPreviewPopup_SizeChanged;
-            
-            VideoPreviewPopup_SizeChanged(null, null);
-        }
+            Window.Current.SizeChanged += (s, e) => this.VideoPreviewPopup_LayoutRefresh();
+            Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged += (s, e) => this.VideoPreviewPopup_LayoutRefresh();
 
-        ~VideoPreviewPopup()
-        {
-            Window.Current.SizeChanged -= VideoPreviewPopup_SizeChanged;
+            this.VideoPreviewPopup_LayoutRefresh();
         }
+        
 
-        private void VideoPreviewPopup_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        private void VideoPreviewPopup_LayoutRefresh()
         {
             if (_IsSmallView)
             {
@@ -124,11 +121,11 @@ namespace Flantter.MilkyWay.Views.Contents
             }
             else
             {
-                Canvas.SetTop(this.VideoPreview, LayoutHelper.Instance.TitleBarHeight.Value);
-                Canvas.SetLeft(this.VideoPreview, 0);
+                Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.StatusBarHeight);
+                Canvas.SetLeft(this.VideoPreview, WindowSizeHelper.Instance.StatusBarWidth);
 
                 this.Width = WindowSizeHelper.Instance.ClientWidth;
-                this.Height = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
+                this.Height = WindowSizeHelper.Instance.ClientHeight;
 
                 var videoWidth = WindowSizeHelper.Instance.ClientWidth;
                 if (WindowSizeHelper.Instance.ClientWidth - 20 > 960)
@@ -137,9 +134,9 @@ namespace Flantter.MilkyWay.Views.Contents
                     videoWidth = WindowSizeHelper.Instance.ClientWidth - 20;
 
                 var videoHeight = videoWidth * 9 / 16;
-                if (videoHeight > WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value)
+                if (videoHeight > WindowSizeHelper.Instance.ClientHeight)
                 {
-                    videoHeight = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
+                    videoHeight = WindowSizeHelper.Instance.ClientHeight;
                     videoWidth = videoHeight * 16 / 9;
                 }
 
@@ -148,8 +145,8 @@ namespace Flantter.MilkyWay.Views.Contents
                     var size = videoWidth;
                     if (size > 600)
                         size = 600;
-                    if (size > WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value)
-                        size = WindowSizeHelper.Instance.ClientHeight - LayoutHelper.Instance.TitleBarHeight.Value;
+                    if (size > WindowSizeHelper.Instance.ClientHeight)
+                        size = WindowSizeHelper.Instance.ClientHeight;
                     
                     videoHeight = size;
                     videoWidth = size;
@@ -173,7 +170,7 @@ namespace Flantter.MilkyWay.Views.Contents
             
             _IsSmallView = false;
 
-            VideoPreviewPopup_SizeChanged(null, null);
+            this.VideoPreviewPopup_LayoutRefresh();
 
             if (this.VideoType == "Vine")
             {
@@ -234,7 +231,7 @@ namespace Flantter.MilkyWay.Views.Contents
             this.VideoPreviewSmallViewTriangleButton.Visibility = Visibility.Visible;
             this.VideoPreviewLargeViewTriangleButton.Visibility = Visibility.Collapsed;
 
-            VideoPreviewPopup_SizeChanged(null, null);
+            this.VideoPreviewPopup_LayoutRefresh();
         }
 
         private async void VideoPreviewMenu_ShowinBrowser(object sender, RoutedEventArgs e)
@@ -262,7 +259,7 @@ namespace Flantter.MilkyWay.Views.Contents
             this.VideoPreviewSmallViewTriangleButton.Visibility = Visibility.Collapsed;
             this.VideoPreviewLargeViewTriangleButton.Visibility = Visibility.Visible;
 
-            VideoPreviewPopup_SizeChanged(null, null);
+            this.VideoPreviewPopup_LayoutRefresh();
 
             e.Handled = true;
         }
@@ -274,7 +271,7 @@ namespace Flantter.MilkyWay.Views.Contents
             this.VideoPreviewSmallViewTriangleButton.Visibility = Visibility.Visible;
             this.VideoPreviewLargeViewTriangleButton.Visibility = Visibility.Collapsed;
 
-            VideoPreviewPopup_SizeChanged(null, null);
+            this.VideoPreviewPopup_LayoutRefresh();
 
             e.Handled = true;
         }

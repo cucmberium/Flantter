@@ -203,7 +203,7 @@
             <VisualStateGroup x:Name="SizeStateGroup">
                 <VisualState x:Name="Minimal">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
+                        <AdaptiveTrigger MinWindowWidth="0" MinWindowHeight="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="BottomAppBar_AccountButton.Width" Value="40"/>
@@ -222,7 +222,7 @@
                 </VisualState>
                 <VisualState x:Name="Min">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="384" />
+                        <AdaptiveTrigger MinWindowWidth="384" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
@@ -242,7 +242,7 @@
                 </VisualState>
                 <VisualState x:Name="Normal">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="500" />
+                        <AdaptiveTrigger MinWindowWidth="500" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="BottomAppBar_AccountButton.Width" Value="40"/>
@@ -261,7 +261,7 @@
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="700" />
+                        <AdaptiveTrigger MinWindowWidth="700" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>

@@ -43,6 +43,7 @@ namespace Flantter.MilkyWay.Setting
             UnitedKingdom = 4,
             Canada = 5,
             Australia = 6,
+            Singapore = 7,
         }
 
         public enum TileNotificationEnum
@@ -114,6 +115,8 @@ namespace Flantter.MilkyWay.Setting
                     return 23424775;
                 case TrendsRegionEnum.Australia:
                     return 23424748;
+                case TrendsRegionEnum.Singapore:
+                    return 23424948;
                 default:
                     return 1;
             }

@@ -273,15 +273,24 @@ namespace Flantter.MilkyWay.ViewModels
 
             this.Width = LayoutHelper.Instance.ColumnWidth;
 
-            this.Left = Observable.CombineLatest<int, double, double>(
+            this.Left = Observable.CombineLatest<int, double, double, double>(
                 this.Index,
                 LayoutHelper.Instance.ColumnWidth,
-                (index, columnWidth) =>
+                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight),
+                (index, columnWidth, height) =>
                 {
-                    if (WindowSizeHelper.Instance.ClientWidth < 384.0)
-                        return index * (columnWidth + 10.0) + 352.0;
+                    if (height >= 500)
+                    {
+                        if (WindowSizeHelper.Instance.ClientWidth < 384.0)
+                            return index * (columnWidth + 10.0) + 352.0;
+                        else
+                            return 5.0 + index * (columnWidth + 10.0) + 352.0;
+                    }
                     else
-                        return 5.0 + index * (columnWidth + 10.0) + 352.0;
+                    {
+                        return index * (columnWidth + 10.0) + 352.0;
+                    }
+                    
                 }).ToReactiveProperty().AddTo(this.Disposable);
             
             this.Tweets = this.Model.Tweets.ToReadOnlyReactiveCollection(item => 

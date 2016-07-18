@@ -928,4 +928,7 @@
   <data name="SettingsFlyout_Settings_Database_DeleteDatabaseFile_Textblock.Text" xml:space="preserve">
     <value>データベースの削除</value>
   </data>
+  <data name="ConfirmDialog_DonatedAlready" xml:space="preserve">
+    <value>あなたはすでに寄付しています</value>
+  </data>
 </root>

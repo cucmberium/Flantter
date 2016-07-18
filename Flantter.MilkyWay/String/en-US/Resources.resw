@@ -928,4 +928,7 @@
   <data name="SettingsFlyout_Settings_Database_DeleteDatabaseFile_Textblock.Text" xml:space="preserve">
     <value>Delete database file</value>
   </data>
+  <data name="ConfirmDialog_DonatedAlready" xml:space="preserve">
+    <value>You already donated.</value>
+  </data>
 </root>

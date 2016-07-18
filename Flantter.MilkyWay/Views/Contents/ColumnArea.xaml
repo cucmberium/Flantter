@@ -177,7 +177,7 @@
             <VisualStateGroup x:Name="SizeStateGroup">
                 <VisualState x:Name="Minimal">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
+                        <AdaptiveTrigger MinWindowWidth="0" MinWindowHeight="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ColumnArea_ColumnList.Margin" Value="0" />
@@ -185,7 +185,7 @@
                 </VisualState>
                 <VisualState x:Name="Min">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="352" />
+                        <AdaptiveTrigger MinWindowWidth="352" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ColumnArea_ColumnList.Margin" Value="0" />
@@ -193,12 +193,12 @@
                 </VisualState>
                 <VisualState x:Name="Normal">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="384" />
+                        <AdaptiveTrigger MinWindowWidth="384" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="500" />
+                        <AdaptiveTrigger MinWindowWidth="500" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>

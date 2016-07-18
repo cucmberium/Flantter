@@ -242,17 +242,9 @@ namespace Flantter.MilkyWay.Models
                             var status = new Twitter.Objects.Status(tweet.Status);
                             var paramList = new List<string>();
 
-                            lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
-                            {
-                                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Contains(status.User.Id))
-                                    break;
-
-                                if (status.HasRetweetInformation && Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Contains(status.RetweetInformation.User.Id))
-                                    break;
-
-                                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Contains(status.User.Id))
-                                    break;
-                            }
+                            // ミュートチェック
+                            if (!this.MuteCheck(status))
+                                break;
 
                             if (this._Action == SettingSupport.ColumnTypeEnum.Home)
                             {
@@ -267,15 +259,6 @@ namespace Flantter.MilkyWay.Models
                             }
                             else if (this._Action == SettingSupport.ColumnTypeEnum.List)
                             {
-                                if (listStreamUserIdList == null)
-                                    break;
-
-                                if (!listStreamUserIdList.Contains(status.HasRetweetInformation ? status.RetweetInformation.User.Id : status.User.Id))
-                                    break;
-
-                                if (!status.HasRetweetInformation && status.InReplyToUserId != 0 && !listStreamUserIdList.Contains(status.InReplyToUserId))
-                                    break;
-
                                 paramList.Add("list://" + this._Parameter);
                             }
 
@@ -851,7 +834,40 @@ namespace Flantter.MilkyWay.Models
             // http://api.twitter.com/i/activity/about_me.json
         }
 
-        // 通常ツイートチェック
+        // Streaming用ツイート受診時チェック
+        private bool MuteCheck(Twitter.Objects.Status status)
+        {
+            lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
+            {
+                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Contains(status.User.Id))
+                    return false;
+
+                if (status.HasRetweetInformation && Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Contains(status.RetweetInformation.User.Id))
+                    return false;
+
+                if (status.HasRetweetInformation && Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Contains(status.RetweetInformation.User.Id))
+                    return false;
+
+                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Contains(status.User.Id))
+                    return false;
+            }
+
+            if (this._Action == SettingSupport.ColumnTypeEnum.List)
+            {
+                if (listStreamUserIdList == null)
+                    return false;
+
+                if (!listStreamUserIdList.Contains(status.HasRetweetInformation ? status.RetweetInformation.User.Id : status.User.Id))
+                    return false;
+
+                if (!status.HasRetweetInformation && status.InReplyToUserId != 0 && !listStreamUserIdList.Contains(status.InReplyToUserId))
+                    return false;
+            }
+
+            return true;
+        }
+
+        // 通常ツイート追加時チェック
         private bool Check(Twitter.Objects.Status status)
         {
             if (this.Action != SettingSupport.ColumnTypeEnum.Mentions && this.Action != SettingSupport.ColumnTypeEnum.Favorites)
@@ -897,47 +913,39 @@ namespace Flantter.MilkyWay.Models
 
             return true;
         }
-        
-        // Streaming用ツイートチェック
+
+        // Streaming用ツイート追加時チェック
         private bool Check(Twitter.Objects.Status status, List<string> param)
         {
             if (!param.Contains(this.Action.ToString("F").ToLower() + "://" + this._Parameter))
             {
                 // リストのストリームをホームから補完するためのチェック
+
+                if (!Setting.SettingService.Setting.ComplementListStream)
+                    return false;
+
                 if (this.Action != SettingSupport.ColumnTypeEnum.List)
-                    return false;
+                {
+                    if (!this.Streaming)
+                        return false;
 
-                if (!this.Streaming)
-                    return false;
+                    if (!param.Contains("home://") || !status.User.IsProtected)
+                        return false;
 
-                if (!Setting.SettingService.Setting.ComplementListStream || !param.Contains("home://") || !status.User.IsProtected)
+                    if (listStreamUserIdList == null)
+                        return false;
+
+                    if (!listStreamUserIdList.Contains(status.HasRetweetInformation ? status.RetweetInformation.User.Id : status.User.Id))
+                        return false;
+
+                    if (!status.HasRetweetInformation && status.InReplyToUserId != 0 && !listStreamUserIdList.Contains(status.InReplyToUserId))
+                        return false;
+                }
+                else
+                {
                     return false;
+                }                    
             }
-
-            // リストの確認はHomeからの補完があるためもう一度
-            if (this.Action == SettingSupport.ColumnTypeEnum.List)
-            {
-                if (listStreamUserIdList == null)
-                    return false;
-
-                if (!listStreamUserIdList.Contains(status.HasRetweetInformation ? status.RetweetInformation.User.Id : status.User.Id))
-                    return false;
-
-                if (!status.HasRetweetInformation && status.InReplyToUserId != 0 && !listStreamUserIdList.Contains(status.InReplyToUserId))
-                    return false;
-            }
-
-            /*lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
-            {
-                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Contains(status.User.Id))
-                    return false;
-
-                if (status.HasRetweetInformation && Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Contains(status.RetweetInformation.User.Id))
-                    return false;
-
-                if (Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Contains(status.User.Id))
-                    return false;
-            }*/
 
             if (this.Action == SettingSupport.ColumnTypeEnum.Mentions && !SettingService.Setting.ShowRetweetInMentionColumn)
             {

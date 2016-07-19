@@ -43,6 +43,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveProperty<string> Message { get; set; }
 
+        public ReactiveProperty<bool> ToolTipIsOpen { get; set; }
+
         public ReactiveProperty<Symbol> LockingHashTagsSymbol { get; set; }
 
         public ReactiveProperty<Symbol> StateSymbol { get; set; }
@@ -57,6 +59,8 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand DeleteReplyOrQuotedStatusCommand { get; set; }
 
         public ReactiveCommand PasteClipbordPictureCommand { get; set; }
+
+        public ReactiveCommand MessageShowCommand { get; set; }
 
         public Messenger SuggestionMessenger { get; private set; }
 
@@ -74,6 +78,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.CharacterCount = this.Model.ObserveProperty(x => x.CharacterCount).Select(x => x.ToString()).ToReactiveProperty();
 
             this.Message = this.Model.ObserveProperty(x => x.Message).ToReactiveProperty();
+            this.ToolTipIsOpen = this.Model.ToReactivePropertyAsSynchronized(x => x.ToolTipIsOpen);
 
             this.LockingHashTagsSymbol = this.Model.ObserveProperty(x => x.LockingHashTags).Select(x => x ? Symbol.UnPin : Symbol.Pin).ToReactiveProperty();
 
@@ -110,6 +115,12 @@ namespace Flantter.MilkyWay.ViewModels
                 var status = x as Status;
                 if (status == null)
                     this.ReplyOrQuotedStatus.Value = null;
+            });
+
+            this.MessageShowCommand = new ReactiveCommand();
+            this.MessageShowCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                this.Model.ToolTipIsOpen = !this.Model.ToolTipIsOpen;
             });
 
             this.ChangeLockHashTagsCommand = new ReactiveCommand();

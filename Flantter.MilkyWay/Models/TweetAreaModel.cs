@@ -137,6 +137,15 @@ namespace Flantter.MilkyWay.Models
         }
         #endregion
 
+        #region ToolTipIsOpen変更通知プロパティ
+        private bool _ToolTipIsOpen;
+        public bool ToolTipIsOpen
+        {
+            get { return this._ToolTipIsOpen; }
+            set { this.SetProperty(ref this._ToolTipIsOpen, value); }
+        }
+        #endregion
+
         #region Updating変更通知プロパティ
         private bool _Updating;
         public bool Updating
@@ -328,6 +337,8 @@ namespace Flantter.MilkyWay.Models
             if (this.Updating)
                 return;
 
+            this.ToolTipIsOpen = true;
+
             if (this.CharacterCount < 0)
             {
                 this.State = "Cancel";
@@ -383,17 +394,44 @@ namespace Flantter.MilkyWay.Models
 
                     var resultList = new List<MediaUploadResult>();
 
-                    foreach (var item in this._Pictures.Select((v, i) => new { v, i }))
+                    if (this._Pictures.First().IsVideo)
                     {
-                        var pic = item.v;
-                        pic.Stream.Seek(0);
-                        if (pic.IsVideo)
-                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, media_category: "tweet_video"));
-                        else
-                            resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream()));
+                        var pic = this._Pictures.First();
+                        var progress = new Progress<UploadChunkedProgressInfo>();
+                        progress.ProgressChanged += (s, e) =>
+                        {
+                            var progressPercentage = 0.0;
+                            if (e.Stage == UploadChunkedProgressStage.InProgress)
+                                progressPercentage = 0.5 + e.ProcessingProgressPercent / 100.0 / 2.0;
+                            else if (e.Stage == UploadChunkedProgressStage.Pending)
+                                progressPercentage = 0.5;
+                            else if (e.Stage == UploadChunkedProgressStage.SendingContent)
+                                progressPercentage = ((e.BytesSent / (double)pic.Stream.Size) * 0.5 >= 0.5 ? 0.5 : (e.BytesSent / (double)pic.Stream.Size) * 0.5);
+                            else
+                                progressPercentage = 0.0;
 
-                        var progressPercentage = (item.i / (double)this._Pictures.Count) * 100.0;
-                        this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + progressPercentage.ToString("#0.0") + "%";
+                            progressPercentage *= 100.0;
+                            this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + progressPercentage.ToString("#0.0") + "%";
+                        };
+
+                        pic.Stream.Seek(0);
+                        resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, media_category: "tweet_video", progress: progress));
+                    }
+                    else
+                    {
+                        foreach (var item in this._Pictures.Select((v, i) => new { v, i }))
+                        {
+                            var progress = new Progress<UploadProgressInfo>();
+                            progress.ProgressChanged += (s, e) =>
+                            {
+                                var progressPercentage = (item.i / (double)this._Pictures.Count + (((e.BytesSent / (double)item.v.Stream.Size) > 1.0 ? 1.0 : (e.BytesSent / (double)item.v.Stream.Size)) / this._Pictures.Count)) * 100.0;
+                                this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + progressPercentage.ToString("#0.0") + "%";
+                            };
+
+                            var pic = item.v;
+                            pic.Stream.Seek(0);
+                            resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), progress: progress));
+                        }
                     }
                     
                     param.Add("media_ids", resultList.Select(x => x.MediaId));
@@ -445,6 +483,7 @@ namespace Flantter.MilkyWay.Models
 
             this.State = "Accept";
             this.Message = _ResourceLoader.GetString("TweetArea_Message_AllSet");
+            this.ToolTipIsOpen = false;
         }
 
         private IEnumerable<SuggestionService.SuggestionToken> tokens;

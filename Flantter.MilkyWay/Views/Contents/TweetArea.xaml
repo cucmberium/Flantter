@@ -128,16 +128,14 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock x:Name="BottomAppBar_CounterTextBlock" Grid.Column="4" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
-                <Button Grid.Column="3" ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind ViewModel.Message.Value, Mode=OneWay}" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
+                <Button Command="{x:Bind ViewModel.MessageShowCommand}" Grid.Column="3" ToolTipService.Placement="Top" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
                     <Grid>
                         <SymbolIcon Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Symbol="{x:Bind ViewModel.StateSymbol.Value, Mode=OneWay}"/>
                         <ProgressRing Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsActive="True"/>
                     </Grid>
-                    <Button.Flyout>
-                        <Flyout>
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource AppBarMessageForegroundBrush}" Text="{x:Bind ViewModel.Message.Value, Mode=OneWay}"/>
-                        </Flyout>
-                    </Button.Flyout>
+                    <ToolTipService.ToolTip>
+                        <ToolTip IsOpen="{x:Bind ViewModel.ToolTipIsOpen.Value, Mode=TwoWay}" Content="{x:Bind ViewModel.Message.Value, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
                 </Button>
                 <Button x:Uid="TweetArea_LockingHashTagsButton" Grid.Column="2" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.ChangeLockHashTagsCommand}">
                     <SymbolIcon Symbol="{x:Bind ViewModel.LockingHashTagsSymbol.Value, Mode=OneWay}"/>

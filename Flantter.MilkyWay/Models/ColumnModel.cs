@@ -352,19 +352,19 @@ namespace Flantter.MilkyWay.Models
                 switch (this.Action)
                 {
                     case SettingSupport.ColumnTypeEnum.DirectMessages:
-                        foreach (var dm in Database.Instance.GetDirectMessagesFromParam())
+                        foreach (var dm in Database.Instance.GetDirectMessagesFromParam(this.Tokens.UserId))
                         {
                             this.Add(dm);
                         }
                         break;
                     case SettingSupport.ColumnTypeEnum.Events:
-                        foreach (var status in Database.Instance.GetEventMessagesFromParam())
+                        foreach (var status in Database.Instance.GetEventMessagesFromParam(this.Tokens.UserId))
                         {
                             this.Add(status);
                         }
                         break;
                     default:
-                        foreach (var status in Database.Instance.GetStatusesFromParam(this.Action.ToString("F").ToLower() + "://" + this._Parameter))
+                        foreach (var status in Database.Instance.GetStatusesFromParam(this.Action.ToString("F").ToLower() + "://" + this._Parameter, this.Tokens.UserId))
                         {
                             if (!this.Check(status))
                                 continue;

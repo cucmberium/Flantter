@@ -27,9 +27,9 @@ namespace Flantter.MilkyWay.ViewModels.Services
                 WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
                 SettingService.Setting.ObserveProperty(x => x.MinColumnSize),
                 SettingService.Setting.ObserveProperty(x => x.MaxColumnCount),
-                (width, height, minWidth, maxCount) =>
+                (width, winHeight, minWidth, maxCount) =>
                 {
-                    if (height >= 500)
+                    if (winHeight >= 500)
                         return (int)Math.Max(Math.Min(maxCount, (width - 5.0 * 2) / (minWidth + 5.0 * 2)), 1.0);
                     else
                         return 1;
@@ -39,9 +39,9 @@ namespace Flantter.MilkyWay.ViewModels.Services
                 WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth),
                 WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
                 this.ColumnCount,
-                (width, height, count) =>
+                (width, winHeight, count) =>
                 {
-                    if (height >= 500)
+                    if (winHeight >= 500)
                     {
                         if (width < 384.0)
                             return width;

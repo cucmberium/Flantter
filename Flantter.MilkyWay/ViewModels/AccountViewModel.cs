@@ -169,9 +169,9 @@ namespace Flantter.MilkyWay.ViewModels
                 LayoutHelper.Instance.ColumnWidth,
                 WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
                 this.Columns.ObserveProperty(x => x.Count),
-                (width, height, count) =>
+                (width, winHeight, count) =>
                 {
-                    if (height >= 500)
+                    if (winHeight >= 500)
                     {
                         if (width < 352.0)
                             return width * count + 352.0 * 2;

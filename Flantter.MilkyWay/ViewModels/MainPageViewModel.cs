@@ -55,7 +55,7 @@ namespace Flantter.MilkyWay.ViewModels
         public Messenger ShowSettingsFlyoutMessenger { get; private set; }
 
         public Messenger ShowShareUIMessenger { get; private set; }
-
+        
         #region Constructor
         public MainPageViewModel()
         {
@@ -84,6 +84,11 @@ namespace Flantter.MilkyWay.ViewModels
 
                     await Task.Delay(50);
                     await this.TweetArea.TextBoxFocusMessenger.Raise(new Notification());
+                }
+                else
+                {
+                    if (this.TweetArea != null)
+                        this.TweetArea.ToolTipIsOpen.Value = false;
                 }
             });
 

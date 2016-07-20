@@ -117,6 +117,20 @@ namespace Flantter.MilkyWay
             else
                 this.NavigationService.Navigate("Main", args.Arguments);
 
+            this.DeviceGestureService.GoBackRequested += (s, e) =>
+            {
+                var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
+                if (behavior == null)
+                    return;
+
+                if (behavior.ShowingPopupCount == 0)
+                    return;
+
+                e.Handled = true;
+                e.Cancel = true;
+                behavior.HideTopPopup();
+            };
+
             //return Task.FromResult<object>(null);
         }
 

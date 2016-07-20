@@ -82,7 +82,14 @@ namespace Flantter.MilkyWay.Views.Contents
                 
                 var bottomMargin = 0.0;
                 var rightMargin = 0.0;
-                if (WindowSizeHelper.Instance.ClientWidth < 352.0)
+                if (WindowSizeHelper.Instance.WindowHeight < 500.0)
+                {
+                    bottomMargin = 64.0 + 30.0;
+                    rightMargin = 0.0;
+
+                    videoWidth = WindowSizeHelper.Instance.ClientWidth - 240.0;
+                }
+                else if (WindowSizeHelper.Instance.ClientWidth < 384.0)
                 {
                     bottomMargin = 64.0 + 30.0;
                     rightMargin = 0.0;
@@ -110,8 +117,8 @@ namespace Flantter.MilkyWay.Views.Contents
                 if (_IsBottomBarOpen)
                     bottomMargin = (_BottomAppBar.Content as FrameworkElement).ActualHeight;
 
-                Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.ClientHeight - videoHeight - bottomMargin);
-                Canvas.SetLeft(this.VideoPreview, WindowSizeHelper.Instance.ClientWidth - videoWidth - rightMargin);
+                Canvas.SetTop(this.VideoPreview, WindowSizeHelper.Instance.ClientHeight - videoHeight - bottomMargin + WindowSizeHelper.Instance.StatusBarHeight);
+                Canvas.SetLeft(this.VideoPreview, WindowSizeHelper.Instance.ClientWidth - videoWidth - rightMargin + WindowSizeHelper.Instance.StatusBarWidth);
 
                 this.Width = videoWidth;
                 this.Height = videoHeight;

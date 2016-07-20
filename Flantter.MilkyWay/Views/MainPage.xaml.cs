@@ -1,6 +1,7 @@
 ﻿using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels;
 using Flantter.MilkyWay.Views.Util;
+using Prism.Windows.AppModel;
 using Prism.Windows.Mvvm;
 using Reactive.Bindings.Extensions;
 using System;
@@ -51,10 +52,10 @@ namespace Flantter.MilkyWay.Views
             
             this.UpdateTitleBar(WindowSizeHelper.Instance.StatusBarHeight > 0);
             WindowSizeHelper.Instance.ObserveProperty(x => x.StatusBarHeight).SubscribeOnUIDispatcher().Subscribe(x => this.UpdateTitleBar(x > 0));
-
-            SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
+            
+            /*SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
             {
-                /*var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
+                var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
                 if (behavior == null)
                     return;
 
@@ -62,8 +63,8 @@ namespace Flantter.MilkyWay.Views
                     return;
 
                 e.Handled = true;
-                behavior.HideTopPopup();*/
-            };
+                behavior.HideTopPopup();
+            };*/
 
             Window.Current.CoreWindow.PointerPressed += (s, e) =>
             {

@@ -1,2 +1,2 @@
-MainPackage=D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\ARM\Release\Upload\Flantter.MilkyWay_3.0.7.0_ARM.appx
+MainPackage=D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\ARM\Release\Upload\Flantter.MilkyWay_3.0.8.0_ARM.appx
 ResourcePack=D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\_language-ja.appx

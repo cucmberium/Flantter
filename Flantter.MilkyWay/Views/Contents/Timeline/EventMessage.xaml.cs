@@ -54,6 +54,10 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         private static void IsSelectedPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             CommandGrid_PropertyChanged(obj, e);
+
+            var eventMessage = obj as EventMessage;
+            var textblock = eventMessage.FindName("EventMessageBodyText") as TextBlock;
+            textblock.IsTextSelectionEnabled = (bool)e.NewValue && Setting.SettingService.Setting.EnableTweetTextSelection;
         }
 
         #region TargetStatus 関連

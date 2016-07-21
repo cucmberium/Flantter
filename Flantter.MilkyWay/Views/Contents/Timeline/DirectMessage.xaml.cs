@@ -49,6 +49,10 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         private static void IsSelectedPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             CommandGrid_PropertyChanged(obj, e);
+
+            var directMessage = obj as DirectMessage;
+            var textblock = directMessage.FindName("DirectMessageBodyText") as TextBlock;
+            textblock.IsTextSelectionEnabled = (bool)e.NewValue && Setting.SettingService.Setting.EnableTweetTextSelection;
         }
 
         #region Media 関連

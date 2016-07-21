@@ -2,6 +2,7 @@
 -- Flantter.MilkyWay Todo(上から順番に行う)
 
 -*- 正式公開
+・リツイートの通知
 ・アプリのアイコンサイズの調整
 ・WindowsPhone(バックボタン含め)
 ・プラグイン機能(jint)

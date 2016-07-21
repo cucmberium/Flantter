@@ -1,9 +1,11 @@
 ﻿using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Flantter.MilkyWay.Views.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -81,10 +83,19 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
             };
         }
 
-        private static void IsSelectedPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private static async void IsSelectedPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             CommandGrid_PropertyChanged(obj, e);
             MentionStatus_PropertyChanged(obj, e);
+            
+            var status = obj as Status;
+            var textblock = status.FindName("StatusBodyText") as TextBlock;
+            textblock.IsTextSelectionEnabled = (bool)e.NewValue && Setting.SettingService.Setting.EnableTweetTextSelection;
+
+            await Task.Delay(10);
+
+            var datetimeLinkAction = status.FindName("StatusDateTimeLinkAction") as OpenLinkAction;
+            datetimeLinkAction.IsEnabled = (bool)e.NewValue && Setting.SettingService.Setting.EnableCreateAtLink;
         }
 
         #region MentionStatus 関連

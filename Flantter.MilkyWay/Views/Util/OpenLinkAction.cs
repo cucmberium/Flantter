@@ -16,6 +16,22 @@ namespace Flantter.MilkyWay.Views.Util
             DependencyProperty.Register("Uri", typeof(string), typeof(OpenLinkAction),
                 new PropertyMetadata(null));
 
+        public static readonly DependencyProperty IsEnabledProperty =
+            DependencyProperty.Register("IsEnabled", typeof(bool), typeof(OpenLinkAction),
+                new PropertyMetadata(true));
+        
+        public bool IsEnabled
+        {
+            get
+            {
+                return (bool)base.GetValue(IsEnabledProperty);
+            }
+            set
+            {
+                base.SetValue(IsEnabledProperty, value);
+            }
+        }
+
         public string Uri
         {
             get
@@ -30,7 +46,10 @@ namespace Flantter.MilkyWay.Views.Util
 
         public object Execute(object sender, object parameter)
 		{
-            Launcher.LaunchUriAsync(new Uri((string)Uri));
+            if (!this.IsEnabled)
+                return null;
+
+            Launcher.LaunchUriAsync(new Uri((string)this.Uri));
             return null;
 		}
 	}

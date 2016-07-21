@@ -66,6 +66,14 @@
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_EnableTweetTextSelection_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.EnableTweetTextSelection, Mode=TwoWay}" Header="ツイート選択時テキストを選択できるように"/>
+
+            <controls:HorizontalBar/>
+
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_EnableCreateAtLink_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.EnableCreateAtLink, Mode=TwoWay}" Header="ツイート選択時日時クリックで対象ツイートをブラウザで開く"/>
+
+            <controls:HorizontalBar/>
+
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_BottomBarSearchBoxEnabled_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.BottomBarSearchBoxEnabled, Mode=TwoWay}" Header="下部の検索ボックスを有効化"/>
 
             <controls:HorizontalBar/>

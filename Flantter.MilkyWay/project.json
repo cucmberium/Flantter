@@ -9,7 +9,7 @@
     "NotificationsExtensions.Win10": "14295.0.1",
     "Prism.Core": "6.2.0-pre1",
     "Prism.Windows": "6.0.2-pre1",
-    "ReactiveProperty": "2.8.0",
+    "ReactiveProperty": "2.9.0",
     "Rx-Core": "2.3.0-beta2",
     "Rx-Interfaces": "2.3.0-beta2",
     "Rx-Linq": "2.3.0-beta2",

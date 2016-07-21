@@ -931,4 +931,10 @@
   <data name="ConfirmDialog_DonatedAlready" xml:space="preserve">
     <value>あなたはすでに寄付しています</value>
   </data>
+  <data name="SettingsFlyout_Settings_Behavior_EnableCreateAtLink_ToggleSwitch.Header" xml:space="preserve">
+    <value>ツイート選択時日時クリックで対象ツイートをブラウザで開く</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_EnableTweetTextSelection_ToggleSwitch.Header" xml:space="preserve">
+    <value>ツイート選択時テキストを選択できるように</value>
+  </data>
 </root>

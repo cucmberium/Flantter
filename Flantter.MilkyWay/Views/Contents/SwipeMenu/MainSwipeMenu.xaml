@@ -165,7 +165,7 @@
 
                 <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
+                        <core:EventTriggerBehavior EventName="Tapped">
                             <util:OpenLinkAction Uri="https://github.com/cucmberium/Flantter.MilkyWay/wiki"/>
                         </core:EventTriggerBehavior>
                     </i:Interaction.Behaviors>

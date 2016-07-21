@@ -237,7 +237,9 @@ namespace Flantter.MilkyWay.Setting
         public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public int PictureSavePath { get { return GetValue(0); } set { SetValue(value); OnPropertyChanged(); } }
         public bool DisableStartupTimelineUpdate { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
-
+        public bool EnableTweetTextSelection { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool EnableCreateAtLink { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        
         // 投稿設定
         public bool CloseBottomAppBarAfterTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool RefreshTimelineAfterTweet { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }

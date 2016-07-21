@@ -66,6 +66,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.IsMyRetweet = false;
             this.IsUserProtected = false;
 
+            this.StatusUrl = "http://localhost/";
+
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;
         }
@@ -179,6 +181,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.IsMyTweet = false;
             this.IsMyRetweet = status.IsRetweeted;
             this.IsUserProtected = status.User.IsProtected;
+
+            this.StatusUrl = "https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id.ToString();
 
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;
@@ -298,6 +302,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.IsMyRetweet = (status.RetweetInformation != null && status.RetweetInformation.User.Id == userId) || status.IsRetweeted;
             this.IsUserProtected = status.User.IsProtected && (status.User.Id != userId);
 
+            this.StatusUrl = "https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id.ToString();
+
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;
         }
@@ -391,6 +397,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public bool IsMyRetweet { get; set; }
 
         public bool IsUserProtected { get; set; }
+
+        public string StatusUrl { get; set; }
 
         public Services.Notice Notice { get; set; }
 

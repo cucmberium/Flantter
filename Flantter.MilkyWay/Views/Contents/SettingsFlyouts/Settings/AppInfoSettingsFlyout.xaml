@@ -40,13 +40,8 @@
                         <Image Source="ms-appx:///Assets/Square150x150Logo.scale-200.png" Width="100" Height="100"/>
                     </Border>
                     <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource SubtitleTextBlockStyle}" HorizontalAlignment="Center">
-                        <Hyperlink>
+                        <Hyperlink NavigateUri="http://cucmber.net/flantter/">
                             <Run Text="Flantter"/>
-                            <i:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Click">
-                                    <util:OpenLinkAction Uri="http://cucmber.net/flantter/"/>
-                                </core:EventTriggerBehavior>
-                            </i:Interaction.Behaviors>
                         </Hyperlink>
                     </TextBlock>
                     <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="Version 3.0.8" HorizontalAlignment="Center"/>
@@ -61,13 +56,8 @@
             <controls:HorizontalBar/>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink>
+                <Hyperlink NavigateUri="https://github.com/CoreTweet/CoreTweet">
                     <Run Text="CoreTweet"/>
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <util:OpenLinkAction Uri="https://github.com/CoreTweet/CoreTweet"/>
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
@@ -96,13 +86,8 @@
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink>
+                <Hyperlink NavigateUri="https://github.com/CoreTweet/CoreTweetSupplement">
                     <Run Text="CoreTweetSupplement"/>
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <util:OpenLinkAction Uri="https://github.com/CoreTweet/CoreTweetSupplement"/>
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
@@ -130,13 +115,8 @@
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink>
+                <Hyperlink NavigateUri="https://github.com/azyobuzin/ToriatamaText">
                     <Run Text="ToriatamaText"/>
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <util:OpenLinkAction Uri="https://github.com/azyobuzin/ToriatamaText"/>
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
@@ -163,13 +143,8 @@
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink>
+                <Hyperlink NavigateUri="https://github.com/PrismLibrary/Prism">
                     <Run Text="Prism"/>
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <util:OpenLinkAction Uri="https://github.com/PrismLibrary/Prism"/>
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
@@ -378,13 +353,8 @@
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink>
+                <Hyperlink NavigateUri="https://github.com/runceel/ReactiveProperty">
                     <Run Text="ReactiveProperty"/>
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <util:OpenLinkAction Uri="https://github.com/runceel/ReactiveProperty"/>
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
@@ -412,13 +382,8 @@
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink>
+                <Hyperlink NavigateUri="https://github.com/WindowsNotifications/NotificationsExtensions">
                     <Run Text="NotificationsExtensions"/>
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <util:OpenLinkAction Uri="https://github.com/WindowsNotifications/NotificationsExtensions"/>
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
@@ -446,13 +411,8 @@
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink>
+                <Hyperlink NavigateUri="https://github.com/xyzzer/WinRTXamlToolkit">
                     <Run Text="WinRTXamlToolkit"/>
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <util:OpenLinkAction Uri="https://github.com/xyzzer/WinRTXamlToolkit"/>
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
@@ -467,13 +427,8 @@
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink>
+                <Hyperlink NavigateUri="https://github.com/sharpdx/SharpDX">
                     <Run Text="SharpDX"/>
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <util:OpenLinkAction Uri="https://github.com/sharpdx/SharpDX"/>
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
@@ -499,13 +454,8 @@
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink>
+                <Hyperlink NavigateUri="https://github.com/sebastienros/jint">
                     <Run Text="jint"/>
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <util:OpenLinkAction Uri="https://github.com/sebastienros/jint"/>
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">

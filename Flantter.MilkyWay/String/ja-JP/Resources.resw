@@ -937,4 +937,7 @@
   <data name="SettingsFlyout_Settings_Behavior_EnableTweetTextSelection_ToggleSwitch.Header" xml:space="preserve">
     <value>ツイート選択時テキストを選択できるように</value>
   </data>
+  <data name="Event_RetweetTweet" xml:space="preserve">
+    <value>{0} が {1} のツイートをリツイートしました。</value>
+  </data>
 </root>

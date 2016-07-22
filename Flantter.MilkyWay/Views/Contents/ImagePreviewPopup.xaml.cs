@@ -251,8 +251,8 @@ namespace Flantter.MilkyWay.Views.Contents
                 if (transform.ScaleX >= 5 || transform.ScaleY >= 5)
                     return;
 
-                transform.ScaleX *= 1.1;
-                transform.ScaleY *= 1.1;
+                transform.ScaleX *= 1.07;
+                transform.ScaleY *= 1.07;
 
                 if (transform.ScaleX >= 5 || transform.ScaleY >= 5)
                 {
@@ -265,13 +265,13 @@ namespace Flantter.MilkyWay.Views.Contents
                 if (transform.ScaleX <= 0.40 || transform.ScaleY <= 0.40)
                     return;
 
-                transform.ScaleX *= 0.90;
-                transform.ScaleY *= 0.90;
+                transform.ScaleX *= (1.0 / 1.07);
+                transform.ScaleY *= (1.0 / 1.07);
 
-                if (transform.ScaleX <= 0.40 || transform.ScaleY <= 0.40)
+                if (transform.ScaleX <= 0.30 || transform.ScaleY <= 0.30)
                 {
-                    transform.ScaleX = 0.40;
-                    transform.ScaleY = 0.40;
+                    transform.ScaleX = 0.30;
+                    transform.ScaleY = 0.30;
                 }
             }
             

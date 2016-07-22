@@ -263,6 +263,10 @@ namespace Flantter.MilkyWay.Models
                             }
 
                             Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, paramList, true));
+                            
+                            if (status.HasRetweetInformation && status.User.Id == this.Tokens.UserId)
+                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.EventMessage(tweet.Status), this.Tokens.UserId, new List<string>() { "events://" }, true));
+
                             break;
                         case MessageType.DirectMesssage:
                             var directMessage = m as DirectMessageMessage;
@@ -1063,6 +1067,7 @@ namespace Flantter.MilkyWay.Models
                 case "FavoritedRetweet":
                 case "RetweetedRetweet":
                 case "QuotedTweet":
+                case "Retweet":
                     break;
                 default:
                     return;

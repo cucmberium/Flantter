@@ -19,6 +19,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Type = cEventMessage.Event.ToString();
         }
 
+        public EventMessage(CoreTweet.Status cStatus)
+        {
+            if (cStatus.RetweetedStatus == null)
+                return;
+
+            this.CreatedAt = cStatus.CreatedAt.DateTime;
+            this.Id = this.CreatedAt.ToBinary();
+            this.Source = new User(cStatus.User);
+            this.Target = new User(cStatus.RetweetedStatus.User);
+            this.TargetStatus = (cStatus.RetweetedStatus != null) ? new Status(cStatus.RetweetedStatus) : null;
+            this.Type = "Retweet";
+        }
+
         public EventMessage()
         {
         }

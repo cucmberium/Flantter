@@ -87,7 +87,7 @@ namespace Flantter.MilkyWay.Views.Contents
                     bottomMargin = 64.0 + 30.0;
                     rightMargin = 0.0;
 
-                    videoWidth = WindowSizeHelper.Instance.ClientWidth - 240.0;
+                    videoWidth = WindowSizeHelper.Instance.WindowHeight * 16 / 9 * 0.6;
                 }
                 else if (WindowSizeHelper.Instance.ClientWidth < 384.0)
                 {

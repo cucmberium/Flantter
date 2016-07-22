@@ -122,7 +122,7 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
         {
             if (this.RootStackPanel.Orientation == Orientation.Vertical)
             {
-                if (this.RootScrollViewer.VerticalOffset == this.UserProfileInformationGrid.ActualHeight)
+                if (this.RootScrollViewer.VerticalOffset >= this.UserProfileInformationGrid.ActualHeight - 0.01)
                 {
                     if (_UserProfileStatusesListViewScrollViewer != null)
                     {

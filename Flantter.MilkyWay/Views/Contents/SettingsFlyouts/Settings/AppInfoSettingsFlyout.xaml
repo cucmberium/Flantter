@@ -36,7 +36,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="1">
-                    <Border Background="#FFB01E00" CornerRadius="10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100">
+                    <Border Background="#FFB01E00" CornerRadius="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100">
                         <Image Source="ms-appx:///Assets/Square150x150Logo.scale-200.png" Width="100" Height="100"/>
                     </Border>
                     <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource SubtitleTextBlockStyle}" HorizontalAlignment="Center">
@@ -44,7 +44,7 @@
                             <Run Text="Flantter"/>
                         </Hyperlink>
                     </TextBlock>
-                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="Version 3.0.8" HorizontalAlignment="Center"/>
+                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="Version 3.0.9" HorizontalAlignment="Center"/>
                     <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}" Text="Copyright (c) 2014-2016 cucmberium" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>

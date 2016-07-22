@@ -940,4 +940,7 @@
   <data name="Event_RetweetTweet" xml:space="preserve">
     <value>{0} が {1} のツイートをリツイートしました。</value>
   </data>
+  <data name="AuthorizePopup_CreateAccountButton.Content" xml:space="preserve">
+    <value>アカウント作成</value>
+  </data>
 </root>

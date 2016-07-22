@@ -940,4 +940,7 @@
   <data name="Event_RetweetTweet" xml:space="preserve">
     <value>{0} retweeted {1} tweet.</value>
   </data>
+  <data name="AuthorizePopup_CreateAccountButton.Content" xml:space="preserve">
+    <value>Create account</value>
+  </data>
 </root>

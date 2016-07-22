@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -84,6 +85,11 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                     authorizeStep = AuthorizeStep.Exit;
                     break;
             }
+        }
+
+        private async void AuthorizePopup_CreateAccount_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://twitter.com/signup"));
         }
 
         private bool urlCallbackAuthorization = false;

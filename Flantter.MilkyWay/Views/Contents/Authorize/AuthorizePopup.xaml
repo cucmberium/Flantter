@@ -70,6 +70,8 @@
                         </StackPanel>
                     </StackPanel>
 
+                    <Button x:Uid="AuthorizePopup_CreateAccountButton" x:Name="AuthorizePopup_CreateAccountButton" Grid.Row="1" Click="AuthorizePopup_CreateAccount_Click" Content="Create account" Foreground="White" Background="#FF21A4E4" Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="150" Height="40" />
+                    
                     <Button x:Uid="AuthorizePopup_ConfigNextButton" x:Name="AuthorizePopup_ConfigNextButton" Grid.Row="1" Click="AuthorizePopup_ConfigNextButton_Click" Content="Next" Foreground="White" Background="#FF21A4E4" Margin="0,5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="100" Height="40" />
                 </Grid>
 

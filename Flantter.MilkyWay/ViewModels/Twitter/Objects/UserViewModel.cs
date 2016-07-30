@@ -24,8 +24,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         {
             this.Model = user;
 
-            this.BackgroundBrush = "Default";
-
             this.Description = user.Description;
             this.Entities = user.Entities;
 
@@ -41,9 +39,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         }
 
         public User Model { get; private set; }
-
-        public string BackgroundBrush { get; set; }
-
+        
         #region Description変更通知プロパティ
         public string Description { get; set; }
         #endregion

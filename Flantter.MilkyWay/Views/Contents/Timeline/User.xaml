@@ -16,7 +16,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <StackPanel x:Name="TweetStackPanel" Background="{x:Bind ViewModel.BackgroundBrush, Mode=OneWay, Converter={StaticResource StringToTweetBackgroundBrushConverter}}" RenderTransformOrigin="0.5,0.5" Padding="0,7">
+    <StackPanel x:Name="TweetStackPanel" Background="{StaticResource TweetDefaultBackgroundBrush}" RenderTransformOrigin="0.5,0.5" Padding="0,7">
         <StackPanel.RenderTransform>
             <CompositeTransform/>
         </StackPanel.RenderTransform>

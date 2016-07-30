@@ -36,20 +36,24 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.DeleteTweetCommand = new ReactiveCommand();
             this.DeleteRetweetCommand = new ReactiveCommand();
             this.ShowUserListsCommand = new ReactiveCommand();
+            this.ShowUserCollectionsCommand = new ReactiveCommand();
             this.OpenStatusUrlCommand = new ReactiveCommand();
             this.ShowSearchCommand = new ReactiveCommand();
             this.ShareStatusCommand = new ReactiveCommand();
             this.ShowListMembersCommand = new ReactiveCommand();
             this.ShowListStatusesCommand = new ReactiveCommand();
+            this.ShowCollectionStatusesCommand = new ReactiveCommand();
             this.ShowRetweetsOfMeCommand = new ReactiveCommand();
             this.ShowUserFollowInfoCommand = new ReactiveCommand();
             this.RetweetStatusesCommand = new ReactiveCommand();
             this.FavoriteStatusesCommand = new ReactiveCommand();
             this.ShowMyListsCommand = new ReactiveCommand();
+            this.ShowMyCollectionsCommand = new ReactiveCommand();
             this.GetGapStatusCommand = new ReactiveCommand();
 
             this.AddListColumnCommand = new ReactiveCommand();
             this.AddFilterColumnCommand = new ReactiveCommand();
+            this.AddCollectionColumnCommand = new ReactiveCommand();
 
             this.TweetAreaAccountChangeCommand = new ReactiveCommand();
             this.TweetAreaDeletePictureCommand = new ReactiveCommand();
@@ -146,20 +150,24 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand DeleteTweetCommand { get; private set; }
         public ReactiveCommand DeleteRetweetCommand { get; private set; }
         public ReactiveCommand ShowUserListsCommand { get; private set; }
+        public ReactiveCommand ShowUserCollectionsCommand { get; private set; }
         public ReactiveCommand OpenStatusUrlCommand { get; private set; }
         public ReactiveCommand ShowSearchCommand { get; private set; }
         public ReactiveCommand ShareStatusCommand { get; private set; }
         public ReactiveCommand ShowListMembersCommand { get; private set; }
         public ReactiveCommand ShowListStatusesCommand { get; private set; }
+        public ReactiveCommand ShowCollectionStatusesCommand { get; private set; }
         public ReactiveCommand ShowRetweetsOfMeCommand { get; private set; }
         public ReactiveCommand ShowUserFollowInfoCommand { get; private set; }
         public ReactiveCommand RetweetStatusesCommand { get; private set; }
         public ReactiveCommand FavoriteStatusesCommand { get; private set; }
         public ReactiveCommand ShowMyListsCommand { get; private set; }
+        public ReactiveCommand ShowMyCollectionsCommand { get; private set; }
         public ReactiveCommand GetGapStatusCommand { get; private set; }
 
         public ReactiveCommand AddListColumnCommand { get; private set; }
         public ReactiveCommand AddFilterColumnCommand { get; private set; }
+        public ReactiveCommand AddCollectionColumnCommand { get; private set; }
 
         public ReactiveCommand TweetAreaAccountChangeCommand { get; private set; }
         public ReactiveCommand TweetAreaDeletePictureCommand { get; private set; }

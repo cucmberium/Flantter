@@ -128,9 +128,12 @@
     <Compile Include="License\LicenseService.cs" />
     <Compile Include="Models\Plugin\Core.cs" />
     <Compile Include="Models\Plugin\Interface.cs" />
+    <Compile Include="Models\SettingsFlyouts\CollectionStatusesSettingsFlyoutModel.cs" />
+    <Compile Include="Models\SettingsFlyouts\UserCollectionsSettingsFlyoutModel.cs" />
     <Compile Include="Models\ShareContract\StatusShareContractModel.cs" />
     <Compile Include="Models\Twitter\ExtractTextParts.cs" />
     <Compile Include="Models\Twitter\Objects\Gap.cs" />
+    <Compile Include="Models\Twitter\Objects\Collection.cs" />
     <Compile Include="Models\Twitter\Thumbnail\Pixiv.cs" />
     <Compile Include="Models\Twitter\TweetRegexPatterns.cs" />
     <Compile Include="Models\Twitter\TwitterConnectionHelper.cs" />
@@ -178,6 +181,8 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\Services\LayoutHelper.cs" />
     <Compile Include="ViewModels\Services\Notice.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\CollectionStatusesSettingsFlyoutViewModel.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\UserCollectionsSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\Settings\ColumnSettingSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\Settings\MuteSettingSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserFollowInfoSettingsFlyoutViewModel.cs" />
@@ -198,6 +203,7 @@
     <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\GapViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\ITweetViewModel.cs" />
+    <Compile Include="ViewModels\Twitter\Objects\CollectionViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\ListViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\SearchQueryViewModel.cs" />
     <Compile Include="ViewModels\Twitter\Objects\TrendViewModel.cs" />
@@ -222,6 +228,9 @@
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\AccountChangeSettingsFlyout.xaml.cs">
       <DependentUpon>AccountChangeSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\CollectionStatusesSettingsFlyout.xaml.cs">
+      <DependentUpon>CollectionStatusesSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\ColumnSettingSettingsFlyout.xaml.cs">
       <DependentUpon>ColumnSettingSettingsFlyout.xaml</DependentUpon>
@@ -258,6 +267,9 @@
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\MainSettingSettingsFlyout.xaml.cs">
       <DependentUpon>MainSettingSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\UserCollectionsSettingsFlyout.xaml.cs">
+      <DependentUpon>UserCollectionsSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\ShareContract\StatusShareContract.xaml.cs">
       <DependentUpon>StatusShareContract.xaml</DependentUpon>
@@ -303,6 +315,9 @@
     </Compile>
     <Compile Include="Views\Contents\Timeline\Gap.xaml.cs">
       <DependentUpon>Gap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\Timeline\Collection.xaml.cs">
+      <DependentUpon>Collection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\Timeline\List.xaml.cs">
       <DependentUpon>List.xaml</DependentUpon>
@@ -470,6 +485,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\CollectionStatusesSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Contents\SettingsFlyouts\Settings\ColumnSettingSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -515,6 +534,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\Settings\MainSettingSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\UserCollectionsSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -575,6 +598,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\Timeline\Gap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\Timeline\Collection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

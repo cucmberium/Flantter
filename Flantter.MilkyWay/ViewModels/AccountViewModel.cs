@@ -561,6 +561,12 @@ namespace Flantter.MilkyWay.ViewModels
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
+            Services.Notice.Instance.ShowUserCollectionsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserCollections", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            }).AddTo(this.Disposable);
+
             Services.Notice.Instance.ShowListStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ListStatuses", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
@@ -570,6 +576,12 @@ namespace Flantter.MilkyWay.ViewModels
             Services.Notice.Instance.ShowListMembersCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ListMembers", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.ShowCollectionStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "CollectionStatuses", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
@@ -596,7 +608,13 @@ namespace Flantter.MilkyWay.ViewModels
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
-            
+
+            Services.Notice.Instance.ShowMyCollectionsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserCollections", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            }).AddTo(this.Disposable);
+
             Services.Notice.Instance.RetweetStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
             {
                 var items = x as IEnumerable;

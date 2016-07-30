@@ -943,4 +943,22 @@
   <data name="AuthorizePopup_CreateAccountButton.Content" xml:space="preserve">
     <value>アカウント作成</value>
   </data>
+  <data name="MainSwipeMenu_Collections.Text" xml:space="preserve">
+    <value>コレクション</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_CreateCollection_Textblock.Text" xml:space="preserve">
+    <value>コレクションを作成する</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_UpdateCollection_Textblock.Text" xml:space="preserve">
+    <value>コレクションを更新</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_CloseCreateCollection_Textblock.Text" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_CloseUpdateCollection_Textblock.Text" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserCollections.Text" xml:space="preserve">
+    <value>    ユーザーのコレクションを開く</value>
+  </data>
 </root>

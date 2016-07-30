@@ -305,6 +305,10 @@ namespace Flantter.MilkyWay.Setting
 
         public bool RestoreTimelineOnStartup { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
 
+        // プラグイン設定
+        [LocalValue]
+        public bool EnablePlugins { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+
         // 上級者向け設定
         public bool UseOfficialApi { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool UseExtendedConversation { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
@@ -312,9 +316,6 @@ namespace Flantter.MilkyWay.Setting
         public bool ComplementListStream { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
 
         public bool BackgroundNotification { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
-
-        [LocalValue]
-        public bool EnablePlugins { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
 
         [LocalValue]
         public string CustomFontName { get { return GetValue("Yu Gothic UI"); } set { if (!string.IsNullOrWhiteSpace(value)) SetValue(value); OnPropertyChanged(); } }

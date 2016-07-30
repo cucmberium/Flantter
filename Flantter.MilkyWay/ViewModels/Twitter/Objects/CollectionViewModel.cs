@@ -9,32 +9,30 @@ using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
-    public class ListViewModel : ExtendedBindableBase
+    public class CollectionViewModel : ExtendedBindableBase
     {
-        public ListViewModel(List list)
+        public CollectionViewModel(Collection collection)
         {
-            this.Model = list;
+            this.Model = collection;
 
-            this.Description = list.Description;
-            this.Name = list.Name;
-            this.SubscriberCount = list.SubscriberCount;
-            this.MemberCount = list.MemberCount;
-            this.ScreenName = list.User.ScreenName;
-            this.ProfileImageUrl = list.User.ProfileImageUrl;
+            this.BackgroundBrush = "Default";
+
+            this.Description = collection.Description;
+            this.Name = collection.Name;
+            this.ScreenName = collection.User.ScreenName;
+            this.ProfileImageUrl = collection.User.ProfileImageUrl;
 
             this.Notice = Services.Notice.Instance;
             this.Setting = SettingService.Setting;
         }
 
-        public List Model { get; private set; }
+        public Collection Model { get; private set; }
+        
+        public string BackgroundBrush { get; set; }
 
         public string Description { get; set; }
         
         public string Name { get; set; }
-
-        public int SubscriberCount { get; set; }
-        
-        public int MemberCount { get; set; }
 
         public string ScreenName { get; set; }
 

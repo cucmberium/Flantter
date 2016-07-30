@@ -943,4 +943,22 @@
   <data name="AuthorizePopup_CreateAccountButton.Content" xml:space="preserve">
     <value>Create account</value>
   </data>
+  <data name="MainSwipeMenu_Collections.Text" xml:space="preserve">
+    <value>Collections</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_CreateCollection_Textblock.Text" xml:space="preserve">
+    <value>Create collection</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_UpdateCollection_Textblock.Text" xml:space="preserve">
+    <value>Update collection</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_CloseCreateCollection_Textblock.Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_CloseUpdateCollection_Textblock.Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserCollections.Text" xml:space="preserve">
+    <value>    Open user collections</value>
+  </data>
 </root>

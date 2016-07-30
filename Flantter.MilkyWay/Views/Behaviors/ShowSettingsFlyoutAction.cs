@@ -284,6 +284,34 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     this._PopupList.Insert(0, settingsFlyout);
                     break;
+                case "UserCollections":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is UserCollectionsSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new UserCollectionsSettingsFlyout();
+                        ((UserCollectionsSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.UserCollectionsSettingsFlyoutViewModel();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((UserCollectionsSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((UserCollectionsSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((UserCollectionsSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value = notification.Content as string;
+
+                    ((UserCollectionsSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+                    
+                    ((UserCollectionsSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((UserCollectionsSettingsFlyout)settingsFlyout).DataContext = ((UserCollectionsSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
+                    break;
                 case "ListStatuses":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is ListStatusesSettingsFlyout && !x.IsOpen);
                     if (settingsFlyoutList.Count() > 0)
@@ -336,6 +364,35 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((ListMembersSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
 
                     ((ListMembersSettingsFlyout)settingsFlyout).DataContext = ((ListMembersSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
+                    break;
+                case "CollectionStatuses":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is CollectionStatusesSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new CollectionStatusesSettingsFlyout();
+                        ((CollectionStatusesSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.CollectionStatusesSettingsFlyoutViewModel();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((CollectionStatusesSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((CollectionStatusesSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((CollectionStatusesSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((CollectionStatusesSettingsFlyout)settingsFlyout).ViewModel.Id.Value = ((Models.Twitter.Objects.Collection)notification.Content).Id;
+                    ((CollectionStatusesSettingsFlyout)settingsFlyout).ViewModel.Name.Value = ((Models.Twitter.Objects.Collection)notification.Content).Name + " - @" + ((Models.Twitter.Objects.Collection)notification.Content).User.ScreenName;
+
+                    ((CollectionStatusesSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((CollectionStatusesSettingsFlyout)settingsFlyout).DataContext = ((CollectionStatusesSettingsFlyout)settingsFlyout).ViewModel;
 
                     settingsFlyout.Show();
 

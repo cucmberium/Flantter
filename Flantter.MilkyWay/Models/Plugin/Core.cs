@@ -48,9 +48,13 @@ namespace Flantter.MilkyWay.Models.Plugin
                 try
                 {
                     var script = System.IO.File.ReadAllText(file.Path);
+
                     var engine = new Engine(clr => clr
-                        .AllowClr()
-                        .AllowClr(typeof(Debug).GetTypeInfo().Assembly));
+                        .AllowClr(new Assembly[] { typeof(Flantter.MilkyWay.Plugin.Debug).GetTypeInfo().Assembly,
+                                                   typeof(Flantter.MilkyWay.Plugin.Utility).GetTypeInfo().Assembly,
+                                                   typeof(Flantter.MilkyWay.Plugin.Notification).GetTypeInfo().Assembly,
+                                                   typeof(Flantter.MilkyWay.Plugin.Filter).GetTypeInfo().Assembly}));
+                    engine.Global.FastAddProperty("Windows", new Jint.Runtime.Interop.NamespaceReference(engine, "Windows"), false, false, false);
 
                     _Plugins[name] = new Plugin() { Engine = engine };
 

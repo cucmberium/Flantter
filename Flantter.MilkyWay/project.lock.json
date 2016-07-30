@@ -11,9 +11,9 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta4": {
+      "CoreTweet/0.7.0.339": {
         "dependencies": {
-          "Newtonsoft.Json": "6.0.8"
+          "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
@@ -30,7 +30,7 @@
           "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
         }
       },
-      "Jint/2.8.0": {
+      "Jint/2.9.1": {
         "compile": {
           "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
         },
@@ -2272,9 +2272,9 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta4": {
+      "CoreTweet/0.7.0.339": {
         "dependencies": {
-          "Newtonsoft.Json": "6.0.8"
+          "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
@@ -2291,7 +2291,7 @@
           "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
         }
       },
-      "Jint/2.8.0": {
+      "Jint/2.9.1": {
         "compile": {
           "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
         },
@@ -4613,9 +4613,9 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta4": {
+      "CoreTweet/0.7.0.339": {
         "dependencies": {
-          "Newtonsoft.Json": "6.0.8"
+          "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
@@ -4632,7 +4632,7 @@
           "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
         }
       },
-      "Jint/2.8.0": {
+      "Jint/2.9.1": {
         "compile": {
           "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
         },
@@ -6993,9 +6993,9 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta4": {
+      "CoreTweet/0.7.0.339": {
         "dependencies": {
-          "Newtonsoft.Json": "6.0.8"
+          "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
@@ -7012,7 +7012,7 @@
           "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
         }
       },
-      "Jint/2.8.0": {
+      "Jint/2.9.1": {
         "compile": {
           "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
         },
@@ -9343,9 +9343,9 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta4": {
+      "CoreTweet/0.7.0.339": {
         "dependencies": {
-          "Newtonsoft.Json": "6.0.8"
+          "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
@@ -9362,7 +9362,7 @@
           "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
         }
       },
-      "Jint/2.8.0": {
+      "Jint/2.9.1": {
         "compile": {
           "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
         },
@@ -11732,9 +11732,9 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta4": {
+      "CoreTweet/0.7.0.339": {
         "dependencies": {
-          "Newtonsoft.Json": "6.0.8"
+          "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
@@ -11751,7 +11751,7 @@
           "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
         }
       },
-      "Jint/2.8.0": {
+      "Jint/2.9.1": {
         "compile": {
           "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
         },
@@ -14082,9 +14082,9 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0-beta4": {
+      "CoreTweet/0.7.0.339": {
         "dependencies": {
-          "Newtonsoft.Json": "6.0.8"
+          "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
           "lib/portable-win81+wpa81/CoreTweet.dll": {}
@@ -14101,7 +14101,7 @@
           "lib/uap10.0/Microsoft.HockeyApp.Kit.dll": {}
         }
       },
-      "Jint/2.8.0": {
+      "Jint/2.9.1": {
         "compile": {
           "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll": {}
         },
@@ -16479,26 +16479,32 @@
         "package/services/metadata/core-properties/99be0c88b2fd41c8b07c42071005ee47.psmdcp"
       ]
     },
-    "CoreTweet/0.7.0-beta4": {
-      "sha512": "07uPrnsDqda3i3LIgYL8JvoA0ei1h1FPDCO9MV1qmnHZgn6TbGgEA9qOfTKaBVzHnlgvLaj7gHnN62LHnjqgSQ==",
+    "CoreTweet/0.7.0.339": {
+      "sha512": "ybYLQ8NYev2UBt099Zkg/1Ppkth5b7pygkUR1Dd9ahxExoJDXK2cagFiAA0uXyLZF96zVuSP5MZTtMOtCuzD3g==",
       "type": "package",
       "files": [
-        "CoreTweet.0.7.0-beta4.nupkg.sha512",
+        "CoreTweet.0.7.0.339.nupkg.sha512",
         "CoreTweet.nuspec",
+        "lib/monoandroid/CoreTweet.dll",
+        "lib/monoandroid/CoreTweet.xml",
+        "lib/monotouch/CoreTweet.dll",
+        "lib/monotouch/CoreTweet.xml",
         "lib/net35/CoreTweet.dll",
         "lib/net35/CoreTweet.xml",
         "lib/net40/CoreTweet.dll",
         "lib/net40/CoreTweet.xml",
         "lib/net45/CoreTweet.dll",
         "lib/net45/CoreTweet.xml",
-        "lib/portable-net45+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.dll",
-        "lib/portable-net45+MonoAndroid+MonoTouch+Xamarin.iOS/CoreTweet.xml",
+        "lib/netcoreapp1.0/CoreTweet.dll",
+        "lib/netcoreapp1.0/CoreTweet.xml",
+        "lib/netstandard1.1/CoreTweet.dll",
+        "lib/netstandard1.1/CoreTweet.xml",
         "lib/portable-net45+dnxcore50+win8+wpa81+MonoAndroid+xamarinios+MonoTouch/CoreTweet.dll",
         "lib/portable-net45+dnxcore50+win8+wpa81+MonoAndroid+xamarinios+MonoTouch/CoreTweet.xml",
         "lib/portable-win81+wpa81/CoreTweet.dll",
         "lib/portable-win81+wpa81/CoreTweet.xml",
-        "lib/wp8/CoreTweet.dll",
-        "lib/wp8/CoreTweet.xml"
+        "lib/xamarinios/CoreTweet.dll",
+        "lib/xamarinios/CoreTweet.xml"
       ]
     },
     "HockeySDK.UWP/4.0.0": {
@@ -16514,11 +16520,11 @@
         "lib/uap10.0/Microsoft.HockeyApp.Kit/Properties/Microsoft.HockeyApp.Kit.rd.xml"
       ]
     },
-    "Jint/2.8.0": {
-      "sha512": "QKx6thHm8iWHhyxURaRoFzi/rczDn9iMfQNmWCWiwQi3B//J6Ocu0V/BMzUSLLBCu1XvlnVvrwf2gqVbQUiAbg==",
+    "Jint/2.9.1": {
+      "sha512": "Cm9z/ad4sJeU3Rmp+FWA+Yzb83zLYcy4xmMYb8ofK6UNu2UbS0QKZjTOO+pH7aeuXOz6+CwDjlYZ38zksE7czQ==",
       "type": "package",
       "files": [
-        "Jint.2.8.0.nupkg.sha512",
+        "Jint.2.9.1.nupkg.sha512",
         "Jint.nuspec",
         "lib/portable-net40+sl50+win+WindowsPhoneApp81+wp80/Jint.dll"
       ]
@@ -23427,9 +23433,9 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "CoreTweet >= 0.7.0-beta4",
+      "CoreTweet >= 0.7.0.339",
       "HockeySDK.UWP >= 4.0.0",
-      "Jint >= 2.8.0",
+      "Jint >= 2.9.1",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",
       "Microsoft.Xaml.Behaviors.Uwp.Managed >= 1.1.0",
       "Newtonsoft.Json >= 9.0.1",

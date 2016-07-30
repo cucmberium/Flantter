@@ -23,6 +23,7 @@ FlantterはWindowsで使用できるストアアプリのツイッタークラ�
 * [NotificationsExtensions](https://github.com/WindowsNotifications/NotificationsExtensions)
 * [WinRT Xaml Toolkit](https://github.com/xyzzer/WinRTXamlToolkit)
 * [SharpDX](https://github.com/sharpdx/SharpDX)
+* [jint](https://github.com/sebastienros/jint)
 
 ### 使用ウェブサービス
 

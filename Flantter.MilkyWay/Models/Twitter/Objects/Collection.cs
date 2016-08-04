@@ -42,7 +42,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         #endregion
     }
 
-    public class CollectionEntry
+    public class CollectionEntry : ITweet
     {
         public CollectionEntry(CoreTweet.TimelineEntry cCollectionEntry)
         {
@@ -57,5 +57,9 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         #region SortIndex変更通知プロパティ
         public long SortIndex { get; set; }
         #endregion
+        
+        public long Id { get { return this.Status.Id; } set { this.Status.Id = value; } }
+        
+        public DateTime CreatedAt { get { return this.Status.CreatedAt; } set { this.Status.CreatedAt = value; } }
     }
 }

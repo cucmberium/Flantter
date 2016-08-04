@@ -761,7 +761,17 @@ namespace Flantter.MilkyWay.ViewModels
                 var columnSetting = new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.List, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = ("List : " + list.FullName), Parameter = list.Id.ToString(), Streaming = false, Index = -1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 };
                 Services.Notice.Instance.AddColumnCommand.Execute(columnSetting);
             }).AddTo(this.Disposable);
-            
+
+            Services.Notice.Instance.AddCollectionColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                var collection = x as Collection;
+                if (collection == null)
+                    return;
+
+                var columnSetting = new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Collection, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = ("Collection : " + collection.Name), Parameter = collection.Id.ToString(), Streaming = false, Index = -1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 };
+                Services.Notice.Instance.AddColumnCommand.Execute(columnSetting);
+            }).AddTo(this.Disposable);
+
             Services.Notice.Instance.DeleteColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
             {
                 var columnSetting = x as ColumnSetting;

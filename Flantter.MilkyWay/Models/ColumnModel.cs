@@ -355,6 +355,12 @@ namespace Flantter.MilkyWay.Models
             {
                 switch (this.Action)
                 {
+                    case SettingSupport.ColumnTypeEnum.Collection:
+                        foreach (var collection in Database.Instance.GetCollectionEntryFromParam(this.Tokens.UserId))
+                        {
+                            this.Add(collection);
+                        }
+                        break;
                     case SettingSupport.ColumnTypeEnum.DirectMessages:
                         foreach (var dm in Database.Instance.GetDirectMessagesFromParam(this.Tokens.UserId))
                         {
@@ -508,7 +514,7 @@ namespace Flantter.MilkyWay.Models
 
         public async Task Update(long maxid = 0, long sinceid = 0)
         {
-            if (this.Action == SettingSupport.ColumnTypeEnum.Events || this.Action == SettingSupport.ColumnTypeEnum.Filter)
+            if (this.Action == SettingSupport.ColumnTypeEnum.Filter)
                 return;
 
             if (this.Updating)
@@ -541,6 +547,9 @@ namespace Flantter.MilkyWay.Models
                     break;
                 case SettingSupport.ColumnTypeEnum.Events:
                     await UpdateEvents(maxid, sinceid);
+                    break;
+                case SettingSupport.ColumnTypeEnum.Collection:
+                    await UpdateCollection(maxid, sinceid);
                     break;
             }
 
@@ -675,7 +684,7 @@ namespace Flantter.MilkyWay.Models
                         Add(statusObject);
 
                     var paramList = new List<string>() { "favorites://" };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this.Tokens.UserId, paramList, false));
                 }
 
                 if (gapCheck)
@@ -712,7 +721,7 @@ namespace Flantter.MilkyWay.Models
                         Add(statusObject);
 
                     var paramList = new List<string>() { "list://" + this._Parameter };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this.Tokens.UserId, paramList, false));
                 }
 
                 if (gapCheck)
@@ -780,7 +789,7 @@ namespace Flantter.MilkyWay.Models
                         Add(statusObject);
 
                     var paramList = new List<string>() { "search://" + this._Parameter };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this.Tokens.UserId, paramList, false));
                 }
 
                 if (gapCheck)
@@ -817,7 +826,7 @@ namespace Flantter.MilkyWay.Models
                         Add(statusObject);
 
                     var paramList = new List<string>() { "usertimeline://" + this._Parameter };
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(status), this.Tokens.UserId, paramList, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this.Tokens.UserId, paramList, false));
                 }
 
                 if (gapCheck)
@@ -836,6 +845,40 @@ namespace Flantter.MilkyWay.Models
         private async Task UpdateEvents(long maxid = 0, long sinceid = 0)
         {
             // http://api.twitter.com/i/activity/about_me.json
+        }
+
+        private async Task UpdateCollection(long maxid = 0, long sinceid = 0)
+        {
+            var maxposition = this.Tweets.Where(x => x is CollectionEntry).Cast<CollectionEntry>().FirstOrDefault(x => x.Status?.Id == maxid)?.SortIndex;
+            var minposition = this.Tweets.Where(x => x is CollectionEntry).Cast<CollectionEntry>().FirstOrDefault(x => x.Status?.Id == sinceid)?.SortIndex;
+
+            try
+            {
+                var param = new Dictionary<string, object>() { { "count", this.ColumnSetting.FetchingNumberOfTweet }, { "include_entities", true }, { "tweet_mode", TweetMode.extended }, { "id", this.Parameter } };
+                if (maxposition != 0)
+                    param.Add("max_position", maxposition);
+                if (minposition != 0)
+                    param.Add("min_position", minposition);
+
+                var entriesResult = await this.Tokens.Collections.EntriesAsync(param);
+                foreach (var entry in entriesResult.Entries)
+                {
+                    var collection = new Twitter.Objects.CollectionEntry(entry);
+                    Add(collection);
+
+                    var paramList = new List<string>() { "collection://" + this._Parameter };
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(collection, this.Tokens.UserId, paramList, false));
+                }
+            }
+            catch (TwitterException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+            }
+
         }
 
         // Streaming用ツイート受診時チェック
@@ -1074,6 +1117,22 @@ namespace Flantter.MilkyWay.Models
             }
 
             this._Tweets.Insert(0, eventMessage);
+        }
+        
+        private void Add(CollectionEntry collection)
+        {
+            if (collection.Status.HasRetweetInformation)
+                return;
+            
+            var index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => x is Twitter.Objects.CollectionEntry && (((Twitter.Objects.CollectionEntry)x).Id == collection.Id)));
+            if (index == -1)
+            {
+                index = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => x is Twitter.Objects.CollectionEntry && (((Twitter.Objects.CollectionEntry)x).SortIndex < collection.SortIndex)));
+                if (index == -1)
+                    this._Tweets.Add(collection);
+                else
+                    this._Tweets.Insert(index, collection);
+            }
         }
 
         private void Add(Twitter.Objects.Gap gap, bool streaming = false)

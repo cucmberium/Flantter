@@ -111,10 +111,10 @@
                                     </Storyboard>
                                 </StackPanel.Resources>
 
-                                <AppBarButton Style="{StaticResource ExtendedAppBarButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare" Command="{x:Bind Notice.RetweetStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
-                                <AppBarButton Style="{StaticResource ExtendedAppBarButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite" Command="{x:Bind Notice.FavoriteStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
-                                <AppBarButton Style="{StaticResource ExtendedAppBarButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message" Command="{x:Bind Notice.ReplyToStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}" />
-                                <AppBarButton Style="{StaticResource ExtendedAppBarButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel" Command="{x:Bind CloseStatusMultipulSelectCommand}"/>
+                                <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare" Command="{x:Bind Notice.RetweetStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
+                                <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite" Command="{x:Bind Notice.FavoriteStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
+                                <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message" Command="{x:Bind Notice.ReplyToStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}" />
+                                <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel" Command="{x:Bind CloseStatusMultipulSelectCommand}"/>
                             </StackPanel>
 
                         </Grid>

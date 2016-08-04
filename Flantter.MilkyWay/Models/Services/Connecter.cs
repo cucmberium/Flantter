@@ -64,13 +64,22 @@ namespace Flantter.MilkyWay.Models.Services
             this.Parameter = parameter;
             this.Streaming = true;
         }
+        public TweetEventArgs(Twitter.Objects.CollectionEntry collectionEntry, long userId, List<string> parameter, bool streaming = true)
+        {
+            this.Type = TypeEnum.CollectionEntry;
+            this.CollectionEntry = collectionEntry;
+            this.UserId = userId;
+            this.Parameter = parameter;
+            this.Streaming = false;
+        }
         #endregion
 
         public enum TypeEnum
         {
             Status,
             DirectMessage,
-            EventMessage
+            EventMessage,
+            CollectionEntry,
         }
 
         public bool Streaming { get; private set; }
@@ -80,6 +89,7 @@ namespace Flantter.MilkyWay.Models.Services
         public Status Status { get; private set; }
         public DirectMessage DirectMessage { get; private set; }
         public Twitter.Objects.EventMessage EventMessage { get; private set; }
+        public Twitter.Objects.CollectionEntry CollectionEntry { get; private set; }
 
         public TypeEnum Type { get; private set; }
 
@@ -200,6 +210,9 @@ namespace Flantter.MilkyWay.Models.Services
                                     break;
                                 case TweetEventArgs.TypeEnum.EventMessage:
                                     Database.Database.Instance.InsertTweet(e.EventMessage, e.Parameter, e.UserId);
+                                    break;
+                                case TweetEventArgs.TypeEnum.CollectionEntry:
+                                    Database.Database.Instance.InsertTweet(e.CollectionEntry, e.Parameter, e.UserId);
                                     break;
                             }
                         }

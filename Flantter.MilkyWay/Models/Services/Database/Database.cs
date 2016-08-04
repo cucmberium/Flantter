@@ -138,7 +138,23 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 _tweetDataQueue.Add(tweetData);
             }
         }
-        
+
+        public void InsertTweet(CollectionEntry collection, IEnumerable<string> param, long userid)
+        {
+            lock (_lock)
+            {
+                var id = collection.Id;
+                foreach (var p in param)
+                {
+                    var tweetInfo = new TweetInfo() { Id = id, Parameter = p, UserId = userid };
+                    _tweetInfoQueue.Add(tweetInfo);
+                }
+
+                var tweetData = new TweetData() { Id = id, Json = JsonConvert.SerializeObject(collection) };
+                _tweetDataQueue.Add(tweetData);
+            }
+        }
+
         public Status GetStatusFromId(long id)
         {
             string json = null;
@@ -261,6 +277,31 @@ namespace Flantter.MilkyWay.Models.Services.Database
 
                 //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
                 var tweets = db.Query<TweetData>($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"events://\" and TweetInfo.UserId = {userId.ToString()}) order by TweetData.Id desc limit {count.ToString()}");
+                db.Commit();
+
+                jsons = tweets.Select(x => x.Json);
+            }
+
+            foreach (var json in jsons)
+            {
+                var ev = JsonConvert.DeserializeObject<EventMessage>(json);
+                yield return ev;
+            }
+        }
+
+        public IEnumerable<EventMessage> GetCollectionEntryFromParam(long userId, int count = 200)
+        {
+            IEnumerable<string> jsons = null;
+            string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
+            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            {
+                db.BeginTransaction();
+
+                db.CreateTable<TweetInfo>();
+                db.CreateTable<TweetData>(SQLite.Net.Interop.CreateFlags.AllImplicit);
+
+                //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
+                var tweets = db.Query<TweetData>($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"collection://\" and TweetInfo.UserId = {userId.ToString()}) order by TweetData.Id desc limit {count.ToString()}");
                 db.Commit();
 
                 jsons = tweets.Select(x => x.Json);

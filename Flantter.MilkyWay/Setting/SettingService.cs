@@ -78,6 +78,7 @@ namespace Flantter.MilkyWay.Setting
             UserTimeline = 6,
             List = 7,
             Filter = 8,
+            Collection = 9,
         }
 
         public static long GetTrendsWoeId(TrendsRegionEnum place)

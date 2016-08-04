@@ -108,6 +108,8 @@ namespace Flantter.MilkyWay.ViewModels
 						return Symbol.Contact;
 					case SettingSupport.ColumnTypeEnum.Filter:
 						return Symbol.Repair;
+                    case SettingSupport.ColumnTypeEnum.Collection:
+                        return Symbol.SlideShow
 					default:
 						return Symbol.Help;
 				}
@@ -301,6 +303,8 @@ namespace Flantter.MilkyWay.ViewModels
                     return new DirectMessageViewModel((DirectMessage)item, this.Model.Tokens.UserId) as object;
                 else if (item is EventMessage)
                     return new EventMessageViewModel((EventMessage)item, this.Model.Tokens.UserId) as object;
+                else if (item is CollectionEntry)
+                    return new StatusViewModel(((CollectionEntry)item).Status, this.Model.Tokens.UserId) as object;
                 else
                     return new GapViewModel((Gap)item) as object;
 

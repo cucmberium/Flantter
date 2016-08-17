@@ -308,6 +308,129 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             this.Setting = SettingService.Setting;
         }
 
+        public StatusViewModel(Status status, long userId, string collectionParameter)
+        {
+            this.Model = status;
+
+            // BackgroundBrush
+            this.BackgroundBrush = "Default";
+            if (status.HasRetweetInformation)
+                this.BackgroundBrush = "Retweet";
+            else if (status.InReplyToUserId == userId)
+                this.BackgroundBrush = "Mention";
+            else if (status.IsFavorited)
+                this.BackgroundBrush = "Favorite";
+            else if (status.User.Id == userId)
+                this.BackgroundBrush = "MyTweet";
+
+            this.CreatedAt = status.CreatedAt.ToLocalTime().ToString();
+            this.Source = status.Source;
+            this.Text = status.Text;
+            this.ScreenName = status.User.ScreenName;
+            this.Name = status.User.Name;
+            this.ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl) ? "http://localhost/" : status.User.ProfileImageUrl;
+            this.Id = status.Id;
+            this.Entities = status.Entities;
+            this.ProtectedText = status.User.IsProtected ? "🔒" : "";
+
+            this.RetweetInformationVisibility = status.HasRetweetInformation;
+            this.MediaVisibility = status.Entities.Media.Count == 0 ? false : true;
+            this.MediaEntities = new List<MediaEntityViewModel>();
+            foreach (var mediaEntity in status.Entities.Media)
+                this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+
+            this.EntitiesList = new List<EntityViewModel>();
+            foreach (var urlEntity in status.Entities.Urls)
+                this.EntitiesList.Add(new EntityViewModel(urlEntity));
+            foreach (var hashTagEntity in status.Entities.HashTags)
+                this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
+            foreach (var userMentionEntity in status.Entities.UserMentions)
+                this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
+
+            this.IsFavorited = status.IsFavorited;
+            this.IsRetweeted = status.IsRetweeted;
+
+            // RetweetInformation
+            if (status.RetweetInformation != null)
+            {
+                if (status.RetweetCount >= 2)
+                    this.RetweetInformationText = "Retweet by " + status.RetweetInformation.User.ScreenName + " ( " + status.RetweetInformation.User.Name + " ) and " + status.RetweetCount.ToString() + " others";
+                else
+                    this.RetweetInformationText = "Retweet by " + status.RetweetInformation.User.ScreenName + " ( " + status.RetweetInformation.User.Name + " )";
+
+                this.RetweetInformationProfileImageUrl = string.IsNullOrWhiteSpace(status.RetweetInformation.User.ProfileImageUrl) ? "http://localhost/" : status.RetweetInformation.User.ProfileImageUrl;
+                this.RetweetInformationScreenName = status.RetweetInformation.User.ScreenName;
+            }
+            else
+            {
+                this.RetweetInformationText = "";
+                this.RetweetInformationProfileImageUrl = "http://localhost/";
+            }
+
+            // RetweetCounter
+            if (!status.HasRetweetInformation && status.RetweetCount > 0)
+            {
+                this.RetweetCounterVisibility = true;
+                this.RetweetCounterText = "Retweeted " + status.RetweetCount.ToString() + " time";
+
+                if (status.RetweetCount > 1)
+                    this.RetweetCounterText += "s";
+            }
+            else
+            {
+                this.RetweetCounterVisibility = false;
+                this.RetweetCounterText = "";
+            }
+
+            // TriangleIcon
+            if (!status.IsRetweeted && status.IsFavorited)
+                this.FavoriteTriangleIconVisibility = true;
+            else
+                this.FavoriteTriangleIconVisibility = false;
+            if (status.IsRetweeted && !status.IsFavorited)
+                this.RetweetTriangleIconVisibility = true;
+            else
+                this.RetweetTriangleIconVisibility = false;
+            if (status.IsRetweeted && status.IsFavorited)
+                this.RetweetFavoriteTriangleIconVisibility = true;
+            else
+                this.RetweetFavoriteTriangleIconVisibility = false;
+
+            this.QuotedStatusVisibility = status.QuotedStatusId != 0 ? true : false;
+            if (status.QuotedStatus != null)
+            {
+                this.QuotedStatusName = status.QuotedStatus.User.Name;
+                this.QuotedStatusScreenName = status.QuotedStatus.User.ScreenName;
+                this.QuotedStatusText = status.QuotedStatus.Text;
+                this.QuotedStatusEntities = status.QuotedStatus.Entities;
+                this.QuotedStatusProfileImageUrl = string.IsNullOrWhiteSpace(status.QuotedStatus.User.ProfileImageUrl) ? "http://localhost/" : status.QuotedStatus.User.ProfileImageUrl;
+            }
+            else
+            {
+                this.QuotedStatusProfileImageUrl = "http://localhost/";
+            }
+
+            this.MentionStatusProfileImageUrl = "http://localhost/";
+
+            this.MentionStatusVisibility = (status.InReplyToStatusId != 0);
+            this.IsMentionStatusLoaded = (status.MentionStatus != null);
+            this.IsMentionStatusLoading = false;
+
+            this.RetweetCount = status.RetweetCount;
+
+            this.IsMyTweet = (status.User.Id == userId);
+            this.IsMyRetweet = (status.RetweetInformation != null && status.RetweetInformation.User.Id == userId) || status.IsRetweeted;
+            this.IsUserProtected = status.User.IsProtected && (status.User.Id != userId);
+
+            this.StatusUrl = "https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id.ToString();
+
+            this.IsCollectionStatus = true;
+            this.CollectionParameter = collectionParameter;
+
+            this.Notice = Services.Notice.Instance;
+            this.Setting = SettingService.Setting;
+        }
+
         public Status Model { get; private set; }
 
         public string BackgroundBrush { get; set; }
@@ -399,6 +522,10 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public bool IsUserProtected { get; set; }
 
         public string StatusUrl { get; set; }
+
+        public bool IsCollectionStatus { get; set; }
+
+        public string CollectionParameter { get; set; }
 
         public Services.Notice Notice { get; set; }
 

@@ -70,8 +70,6 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveCommand SuggestionsRequestedSearchCommand { get; private set; }
 
-        public ReactiveCommand SortColumnCommand { get; private set; }
-
         #region Constructor
         public AccountViewModel(AccountModel account)
         {
@@ -273,7 +271,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                 deferral.Complete();
             }).AddTo(this.Disposable);
-
+            
             Services.Notice.Instance.SortColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(y =>
             {
                 this.IsZoomedInViewActive.Value = false;
@@ -473,6 +471,9 @@ namespace Flantter.MilkyWay.ViewModels
                     var directMessage = x as DirectMessage;
                     await this.Model.DestroyDirectMessage(directMessage.Id);
                 }
+
+                Models.Notifications.Core.Instance.PopupToastNotification(Models.Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ClearColumn"));
+
             }).AddTo(this.Disposable);
             
             Services.Notice.Instance.DeleteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
@@ -505,8 +506,29 @@ namespace Flantter.MilkyWay.ViewModels
                 statusViewModel.OnPropertyChanged("FavoriteTriangleIconVisibility");
                 statusViewModel.OnPropertyChanged("RetweetTriangleIconVisibility");
                 statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
+
+                Models.Notifications.Core.Instance.PopupToastNotification(Models.Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ClearColumn"));
             }).AddTo(this.Disposable);
-            
+
+            Services.Notice.Instance.DeleteFromCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
+            {
+                var statusViewModel = x as StatusViewModel;
+                if (statusViewModel == null)
+                    return;
+
+                await this.Model.DeleteTweetFromCollection(statusViewModel.Id, statusViewModel.CollectionParameter);
+
+                Models.Notifications.Core.Instance.PopupToastNotification(Models.Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ClearColumn"));
+
+            }).AddTo(this.Disposable);
+
+            Services.Notice.Instance.AddToCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            {
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AddToCollection", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+            }).AddTo(this.Disposable);
+
+
             Services.Notice.Instance.ShowUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
                 var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };

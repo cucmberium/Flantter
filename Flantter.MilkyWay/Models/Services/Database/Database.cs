@@ -313,6 +313,21 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 yield return ev;
             }
         }
+
+        public void ClearTweet(long userId, string parameter)
+        {
+            string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
+            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            {
+                db.BeginTransaction();
+
+                db.CreateTable<TweetInfo>();
+                db.CreateTable<TweetData>(SQLite.Net.Interop.CreateFlags.AllImplicit);
+
+                db.Query<TweetData>($"delete from TweetInfo where TweetInfo.Parameter = \"{parameter.ToString()}\" and TweetInfo.UserId = {userId.ToString()}");
+                db.Query<TweetInfo>($"delete from TweetData where TweetData.Id not in (select TweetInfo.Id from TweetInfo)");
+            }
+        }
     }
 
     public class TweetInfo

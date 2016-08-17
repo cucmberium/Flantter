@@ -961,4 +961,22 @@
   <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserCollections.Text" xml:space="preserve">
     <value>    ユーザーのコレクションを開く</value>
   </data>
+  <data name="Tweet_Command_MenuFlyout_DeleteFromCollection.Text" xml:space="preserve">
+    <value>    コレクションから削除</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_RemoveRetweetOfMyTweet_ToggleSwitch.Header" xml:space="preserve">
+    <value>リツイートされた自分のツイートを表示しない</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_AddToCollection.Text" xml:space="preserve">
+    <value>    コレクションに追加</value>
+  </data>
+  <data name="ConfirmDialog_AddToCollection" xml:space="preserve">
+    <value>コレクションに追加しますか?</value>
+  </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_ClearColumn.Text" xml:space="preserve">
+    <value>    カラムをクリア</value>
+  </data>
+  <data name="Notification_System_ClearColumn" xml:space="preserve">
+    <value>ツイートがタイムラインに残っている場合はメニューからカラムをクリアできます</value>
+  </data>
 </root>

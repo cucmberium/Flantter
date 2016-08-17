@@ -1,14 +1,14 @@
 ﻿{
   "dependencies": {
-    "CoreTweet": "0.7.0.339",
+    "CoreTweet": "0.7.1.345",
     "HockeySDK.UWP": "4.0.0",
     "Jint": "2.9.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
     "Newtonsoft.Json": "9.0.1",
     "NotificationsExtensions.Win10": "14295.0.1",
-    "Prism.Core": "6.2.0-pre1",
-    "Prism.Windows": "6.0.2-pre1",
+    "Prism.Core": "6.2.0",
+    "Prism.Windows": "6.0.2",
     "ReactiveProperty": "2.9.0",
     "Rx-Core": "2.3.0-beta2",
     "Rx-Interfaces": "2.3.0-beta2",

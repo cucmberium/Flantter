@@ -52,7 +52,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 await this.Model.UpdateCollectionStatuses(this.Model.CollectionStatuses.Last().SortIndex);
             });
 
-            this.CollectionStatuses = this.Model.CollectionStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x.Status, this.Tokens.Value.UserId));
+            this.CollectionStatuses = this.Model.CollectionStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x.Status, this.Tokens.Value.UserId, this.Id.Value));
 
             this.Updating = this.Model.ObserveProperty(x => x.Updating).ToReactiveProperty();
 

@@ -234,6 +234,7 @@ namespace Flantter.MilkyWay.Setting
         public bool ExtendTitleBar { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ShowRetweetInMentionColumn { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool RemoveRetweetAlreadyReceive { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool RemoveRetweetOfMyTweet { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool BottomBarSearchBoxEnabled { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool PreventForcedTermination { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public int PictureSavePath { get { return GetValue(0); } set { SetValue(value); OnPropertyChanged(); } }

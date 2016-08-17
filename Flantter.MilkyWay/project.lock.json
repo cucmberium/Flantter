@@ -11,7 +11,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -333,7 +333,7 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.2.0-pre1": {
+      "Prism.Core/6.2.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
@@ -341,10 +341,10 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.2-pre1": {
+      "Prism.Windows/6.0.2": {
         "dependencies": {
           "CommonServiceLocator": "1.3.0",
-          "Prism.Core": "6.1.0",
+          "Prism.Core": "6.2.0",
           "System.Collections": "4.0.10",
           "System.ComponentModel": "4.0.0",
           "System.ComponentModel.Annotations": "4.0.10",
@@ -2272,7 +2272,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -2542,7 +2542,7 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.2.0-pre1": {
+      "Prism.Core/6.2.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
@@ -2550,10 +2550,10 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.2-pre1": {
+      "Prism.Windows/6.0.2": {
         "dependencies": {
           "CommonServiceLocator": "1.3.0",
-          "Prism.Core": "6.1.0",
+          "Prism.Core": "6.2.0",
           "System.Collections": "4.0.10",
           "System.ComponentModel": "4.0.0",
           "System.ComponentModel.Annotations": "4.0.10",
@@ -4613,7 +4613,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -4884,7 +4884,7 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.2.0-pre1": {
+      "Prism.Core/6.2.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
@@ -4892,10 +4892,10 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.2-pre1": {
+      "Prism.Windows/6.0.2": {
         "dependencies": {
           "CommonServiceLocator": "1.3.0",
-          "Prism.Core": "6.1.0",
+          "Prism.Core": "6.2.0",
           "System.Collections": "4.0.10",
           "System.ComponentModel": "4.0.0",
           "System.ComponentModel.Annotations": "4.0.10",
@@ -6993,7 +6993,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -7267,7 +7267,7 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.2.0-pre1": {
+      "Prism.Core/6.2.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
@@ -7275,10 +7275,10 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.2-pre1": {
+      "Prism.Windows/6.0.2": {
         "dependencies": {
           "CommonServiceLocator": "1.3.0",
-          "Prism.Core": "6.1.0",
+          "Prism.Core": "6.2.0",
           "System.Collections": "4.0.10",
           "System.ComponentModel": "4.0.0",
           "System.ComponentModel.Annotations": "4.0.10",
@@ -9343,7 +9343,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -9618,7 +9618,7 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.2.0-pre1": {
+      "Prism.Core/6.2.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
@@ -9626,10 +9626,10 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.2-pre1": {
+      "Prism.Windows/6.0.2": {
         "dependencies": {
           "CommonServiceLocator": "1.3.0",
-          "Prism.Core": "6.1.0",
+          "Prism.Core": "6.2.0",
           "System.Collections": "4.0.10",
           "System.ComponentModel": "4.0.0",
           "System.ComponentModel.Annotations": "4.0.10",
@@ -11732,7 +11732,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -12006,7 +12006,7 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.2.0-pre1": {
+      "Prism.Core/6.2.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
@@ -12014,10 +12014,10 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.2-pre1": {
+      "Prism.Windows/6.0.2": {
         "dependencies": {
           "CommonServiceLocator": "1.3.0",
-          "Prism.Core": "6.1.0",
+          "Prism.Core": "6.2.0",
           "System.Collections": "4.0.10",
           "System.ComponentModel": "4.0.0",
           "System.ComponentModel.Annotations": "4.0.10",
@@ -14082,7 +14082,7 @@
           "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {}
         }
       },
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
         },
@@ -14357,7 +14357,7 @@
           "lib/uap10.0/NotificationsExtensions.winmd": {}
         }
       },
-      "Prism.Core/6.2.0-pre1": {
+      "Prism.Core/6.2.0": {
         "compile": {
           "lib/wpa81/Prism.dll": {}
         },
@@ -14365,10 +14365,10 @@
           "lib/wpa81/Prism.dll": {}
         }
       },
-      "Prism.Windows/6.0.2-pre1": {
+      "Prism.Windows/6.0.2": {
         "dependencies": {
           "CommonServiceLocator": "1.3.0",
-          "Prism.Core": "6.1.0",
+          "Prism.Core": "6.2.0",
           "System.Collections": "4.0.10",
           "System.ComponentModel": "4.0.0",
           "System.ComponentModel.Annotations": "4.0.10",
@@ -16479,32 +16479,32 @@
         "package/services/metadata/core-properties/99be0c88b2fd41c8b07c42071005ee47.psmdcp"
       ]
     },
-    "CoreTweet/0.7.0.339": {
-      "sha512": "ybYLQ8NYev2UBt099Zkg/1Ppkth5b7pygkUR1Dd9ahxExoJDXK2cagFiAA0uXyLZF96zVuSP5MZTtMOtCuzD3g==",
+    "CoreTweet/0.7.1.345": {
+      "sha512": "+J1B5KbT1PUuPZENgKEdoxW3Mff5H5b/SbRfuHtEhDCmu/FTS9YKuzpS/ybafxffGntnHKYM7xU/B2UN4NQ70g==",
       "type": "package",
       "files": [
-        "CoreTweet.0.7.0.339.nupkg.sha512",
+        "CoreTweet.0.7.1.345.nupkg.sha512",
         "CoreTweet.nuspec",
-        "lib/monoandroid/CoreTweet.dll",
-        "lib/monoandroid/CoreTweet.xml",
-        "lib/monotouch/CoreTweet.dll",
-        "lib/monotouch/CoreTweet.xml",
+        "lib/monoandroid10/CoreTweet.dll",
+        "lib/monoandroid10/CoreTweet.xml",
+        "lib/monotouch10/CoreTweet.dll",
+        "lib/monotouch10/CoreTweet.xml",
         "lib/net35/CoreTweet.dll",
         "lib/net35/CoreTweet.xml",
         "lib/net40/CoreTweet.dll",
         "lib/net40/CoreTweet.xml",
         "lib/net45/CoreTweet.dll",
         "lib/net45/CoreTweet.xml",
-        "lib/netcoreapp1.0/CoreTweet.dll",
-        "lib/netcoreapp1.0/CoreTweet.xml",
         "lib/netstandard1.1/CoreTweet.dll",
         "lib/netstandard1.1/CoreTweet.xml",
-        "lib/portable-net45+dnxcore50+win8+wpa81+MonoAndroid+xamarinios+MonoTouch/CoreTweet.dll",
-        "lib/portable-net45+dnxcore50+win8+wpa81+MonoAndroid+xamarinios+MonoTouch/CoreTweet.xml",
+        "lib/netstandard1.5/CoreTweet.dll",
+        "lib/netstandard1.5/CoreTweet.xml",
         "lib/portable-win81+wpa81/CoreTweet.dll",
         "lib/portable-win81+wpa81/CoreTweet.xml",
-        "lib/xamarinios/CoreTweet.dll",
-        "lib/xamarinios/CoreTweet.xml"
+        "lib/portable45-net45+win8+wpa81/CoreTweet.dll",
+        "lib/portable45-net45+win8+wpa81/CoreTweet.xml",
+        "lib/xamarinios10/CoreTweet.dll",
+        "lib/xamarinios10/CoreTweet.xml"
       ]
     },
     "HockeySDK.UWP/4.0.0": {
@@ -16880,11 +16880,11 @@
         "lib/uap10.0/NotificationsExtensions.xml"
       ]
     },
-    "Prism.Core/6.2.0-pre1": {
-      "sha512": "xvQIbzaHXqAi0tM9iIp7YSEjqL3wXCvfzdVVsq6W7zWcBkzbbT4m7+qx+Mz2OjWGWfB1BKeUKDTY2JuZ+Z9qqA==",
+    "Prism.Core/6.2.0": {
+      "sha512": "jWJRmjvR/bJqVyLr3T9hKToyV6X0Q2DONtyfa8ZjHJwlkD/SF3YJM+z8xSdqQl8uPfLOmgBG6Xm4lPk69P5o0g==",
       "type": "package",
       "files": [
-        "Prism.Core.6.2.0-pre1.nupkg.sha512",
+        "Prism.Core.6.2.0.nupkg.sha512",
         "Prism.Core.nuspec",
         "lib/MonoAndroid10/Prism.dll",
         "lib/MonoAndroid10/Prism.xml",
@@ -16904,17 +16904,15 @@
         "lib/wpa81/Prism.xml"
       ]
     },
-    "Prism.Windows/6.0.2-pre1": {
-      "sha512": "l9SU4qa3GBjSDpUH9dDSsKBro034MVum2X4SaVoWLDtCDvkfOMEdAA51YzJ0Fs5BJCmQMVAp9WABCWp/Dh/QlQ==",
-      "type": "Package",
+    "Prism.Windows/6.0.2": {
+      "sha512": "0EwCQvzf+W8/7i9bZCJcjjXAg7h+/BquEuWWZUBr4NXsKteDh/K+4UQsFpTb/2YN1nROJI4ixJEamwNxaEvkkQ==",
+      "type": "package",
       "files": [
+        "Prism.Windows.6.0.2.nupkg.sha512",
         "Prism.Windows.nuspec",
-        "[Content_Types].xml",
-        "_rels/.rels",
         "lib/uap10.0/Prism.Windows.dll",
         "lib/uap10.0/Prism.Windows.pri",
-        "lib/uap10.0/Prism.Windows.xml",
-        "package/services/metadata/core-properties/ad34d65d2a3a46d49347cdda0ef0c7f0.psmdcp"
+        "lib/uap10.0/Prism.Windows.xml"
       ]
     },
     "ReactiveProperty/2.9.0": {
@@ -23433,15 +23431,15 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "CoreTweet >= 0.7.0.339",
+      "CoreTweet >= 0.7.1.345",
       "HockeySDK.UWP >= 4.0.0",
       "Jint >= 2.9.1",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",
       "Microsoft.Xaml.Behaviors.Uwp.Managed >= 1.1.0",
       "Newtonsoft.Json >= 9.0.1",
       "NotificationsExtensions.Win10 >= 14295.0.1",
-      "Prism.Core >= 6.2.0-pre1",
-      "Prism.Windows >= 6.0.2-pre1",
+      "Prism.Core >= 6.2.0",
+      "Prism.Windows >= 6.0.2",
       "ReactiveProperty >= 2.9.0",
       "Rx-Core >= 2.3.0-beta2",
       "Rx-Interfaces >= 2.3.0-beta2",

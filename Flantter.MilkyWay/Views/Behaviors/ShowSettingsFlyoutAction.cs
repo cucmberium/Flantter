@@ -476,6 +476,35 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     this._PopupList.Insert(0, settingsFlyout);
                     break;
+                case "AddToCollection":
+                    settingsFlyoutList = _SettingsFlyoutList.Where(x => x is AddStatusToCollectionSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Count() > 0)
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new AddStatusToCollectionSettingsFlyout();
+                        ((AddStatusToCollectionSettingsFlyout)settingsFlyout).ViewModel = new ViewModels.SettingsFlyouts.AddStatusToCollectionSettingsFlyoutViewModel();
+                        this._SettingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((AddStatusToCollectionSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((AddStatusToCollectionSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((AddStatusToCollectionSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((AddStatusToCollectionSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value = notification.Tokens.ScreenName;
+                    ((AddStatusToCollectionSettingsFlyout)settingsFlyout).ViewModel.Status.Value = ((Models.Twitter.Objects.Status)notification.Content);
+
+                    ((AddStatusToCollectionSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+                    
+                    ((AddStatusToCollectionSettingsFlyout)settingsFlyout).DataContext = ((AddStatusToCollectionSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+
+                    this._PopupList.Insert(0, settingsFlyout);
+                    break;
                 case "MainSetting":
                     settingsFlyoutList = _SettingsFlyoutList.Where(x => x is MainSettingSettingsFlyout && !x.IsOpen);
                     if (settingsFlyoutList.Count() > 0)

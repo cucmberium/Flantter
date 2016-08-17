@@ -40,6 +40,17 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(CollectionViewModel), typeof(Collection), null);
 
+        public bool IsCommandBarEnabled
+        {
+            get { return (bool)GetValue(IsCommandBarEnabledProperty); }
+            set { SetValue(IsCommandBarEnabledProperty, value); }
+        }
+        public static bool GetIsCommandBarEnabled(DependencyObject obj) { return (bool)obj.GetValue(IsCommandBarEnabledProperty); }
+        public static void SetIsCommandBarEnabled(DependencyObject obj, bool value) { obj.SetValue(IsCommandBarEnabledProperty, value); }
+
+        public static readonly DependencyProperty IsCommandBarEnabledProperty =
+            DependencyProperty.Register("IsCommandBarEnabled", typeof(bool), typeof(Collection), new PropertyMetadata(true));
+
         public bool IsSelected
         {
             get { return (bool)GetValue(IsSelectedProperty); }
@@ -60,6 +71,9 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
         public bool CommandGridLoaded = false;
         private static void CommandGrid_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
+            if (!GetIsCommandBarEnabled(obj))
+                return;
+
             var status = obj as Collection;
             var grid = status.FindName("CommandGrid") as Grid;
 

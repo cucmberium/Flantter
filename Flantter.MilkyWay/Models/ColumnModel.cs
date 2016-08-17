@@ -881,7 +881,7 @@ namespace Flantter.MilkyWay.Models
 
         }
 
-        // Streaming用ツイート受診時チェック
+        // Streaming用ツイート受信時チェック
         private bool MuteCheck(Twitter.Objects.Status status)
         {
             lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
@@ -1048,6 +1048,9 @@ namespace Flantter.MilkyWay.Models
         {
             if (streaming)
             {
+                if (SettingService.Setting.RemoveRetweetOfMyTweet && status.HasRetweetInformation && status.User.ScreenName == this._ScreenName)
+                    return;
+
                 var retindex = this._Tweets.IndexOf(this._Tweets.FirstOrDefault(x => (x as ITweet)?.Id == status.Id));
                 if (retindex != -1 && SettingService.Setting.RemoveRetweetAlreadyReceive && status.HasRetweetInformation && status.RetweetInformation.User.ScreenName != this._ScreenName)
                     return;
@@ -1193,6 +1196,14 @@ namespace Flantter.MilkyWay.Models
                 return tid == id;
             }));
             return (index == -1 && index != this.Tweets.Count - 1);
+        }
+
+        public void ClearColumn()
+        {
+            this.Tweets.Clear();
+
+            if (SettingService.Setting.EnableDatabase)
+                Database.Instance.ClearTweet(this.Tokens.UserId, this.Action.ToString("F").ToLower() + "://" + this._Parameter);
         }
 
         public void Dispose()

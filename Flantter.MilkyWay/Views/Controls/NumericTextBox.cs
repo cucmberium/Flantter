@@ -31,7 +31,8 @@ namespace Flantter.MilkyWay.Views.Controls
         {
             if ((VirtualKey.Number0 <= e.Key && e.Key <= VirtualKey.Number9) ||
                 (VirtualKey.NumberPad0 <= e.Key && e.Key <= VirtualKey.NumberPad9) ||
-                (e.Key == VirtualKey.Delete) || (e.Key == VirtualKey.Back) || (e.Key == VirtualKey.Tab))
+                (e.Key == VirtualKey.Delete) || (e.Key == VirtualKey.Back) || (e.Key == VirtualKey.Tab) ||
+                (e.Key == VirtualKey.Left) || (e.Key == VirtualKey.Right) || (e.Key == VirtualKey.Up) || (e.Key == VirtualKey.Down))
             {
 
                 base.OnKeyDown(e);

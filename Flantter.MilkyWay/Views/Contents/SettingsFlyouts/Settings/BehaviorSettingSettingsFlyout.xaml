@@ -66,6 +66,10 @@
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_RemoveRetweetOfMyTweet_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RemoveRetweetOfMyTweet, Mode=TwoWay}" Header="リツイートされた自分のツイートを表示しない"/>
+
+            <controls:HorizontalBar/>
+
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_EnableTweetTextSelection_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.EnableTweetTextSelection, Mode=TwoWay}" Header="ツイート選択時テキストを選択できるように"/>
 
             <controls:HorizontalBar/>

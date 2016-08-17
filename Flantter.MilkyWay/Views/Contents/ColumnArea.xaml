@@ -74,6 +74,7 @@
                                             <MenuFlyoutSeparator/>
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ColumnSetting" Text="&#xE115; カラム設定" FontFamily="Segoe UI Symbol" Command="{x:Bind Notice.ShowColumnSettingCommand}" CommandParameter="{x:Bind Model.ColumnSetting, Mode=OneWay}"/>
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn" Visibility="{x:Bind EnableCreateFilterColumn.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE129; フィルタカラム作成" FontFamily="Segoe UI Symbol" Command="{x:Bind Notice.AddFilterColumnCommand}"/>
+                                            <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_ClearColumn" Text="&#xE138; カラムのクリア" FontFamily="Segoe UI Symbol" Command="{x:Bind ClearColumnCommand}"/>
                                             <MenuFlyoutItem x:Uid="ColumnView_ControlBar_MenuFlyout_DeleteColumn" Visibility="{x:Bind CanDeleteColumn.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Text="&#xE138; カラムの削除" FontFamily="Segoe UI Symbol" Command="{x:Bind Notice.DeleteColumnCommand}" CommandParameter="{x:Bind Model.ColumnSetting, Mode=OneWay}"/>
                                         </MenuFlyout>
                                     </Button.Flyout>

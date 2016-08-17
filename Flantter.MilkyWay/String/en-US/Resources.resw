@@ -961,4 +961,22 @@
   <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserCollections.Text" xml:space="preserve">
     <value>    Open user collections</value>
   </data>
+  <data name="Tweet_Command_MenuFlyout_DeleteFromCollection.Text" xml:space="preserve">
+    <value>    Delete From Collection</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Behavior_RemoveRetweetOfMyTweet_ToggleSwitch.Header" xml:space="preserve">
+    <value>Remove retweet of my tweet</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_AddToCollection.Text" xml:space="preserve">
+    <value>    Add to collection</value>
+  </data>
+  <data name="ConfirmDialog_AddToCollection" xml:space="preserve">
+    <value>Add to collection?</value>
+  </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_ClearColumn.Text" xml:space="preserve">
+    <value>    Clear column</value>
+  </data>
+  <data name="Notification_System_ClearColumn" xml:space="preserve">
+    <value>If tweet remains in your timeline, you can clear column from menu.</value>
+  </data>
 </root>

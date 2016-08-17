@@ -77,6 +77,8 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveCommand CloseStatusMultipulSelectCommand { get; private set; }
 
+        public ReactiveCommand ClearColumnCommand { get; private set; }
+
 
         #region Constructor
 
@@ -109,7 +111,7 @@ namespace Flantter.MilkyWay.ViewModels
 					case SettingSupport.ColumnTypeEnum.Filter:
 						return Symbol.Repair;
                     case SettingSupport.ColumnTypeEnum.Collection:
-                        return Symbol.SlideShow
+                        return Symbol.SlideShow;
 					default:
 						return Symbol.Help;
 				}
@@ -134,7 +136,7 @@ namespace Flantter.MilkyWay.ViewModels
                 }
             }).ToReactiveProperty().AddTo(this.Disposable);
             this.Updating = column.ObserveProperty(x => x.Updating).ToReactiveProperty().AddTo(this.Disposable);
-            this.CanDeleteColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Filter || x == SettingSupport.ColumnTypeEnum.List || x == SettingSupport.ColumnTypeEnum.Search || x == SettingSupport.ColumnTypeEnum.UserTimeline).ToReactiveProperty().AddTo(this.Disposable);
+            this.CanDeleteColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Filter || x == SettingSupport.ColumnTypeEnum.List || x == SettingSupport.ColumnTypeEnum.Search || x == SettingSupport.ColumnTypeEnum.UserTimeline || x == SettingSupport.ColumnTypeEnum.Collection).ToReactiveProperty().AddTo(this.Disposable);
             this.IsEnabledMultipulSelect = column.ObserveProperty(x => x.Action).Select(x => x != SettingSupport.ColumnTypeEnum.Events && x != SettingSupport.ColumnTypeEnum.DirectMessages).ToReactiveProperty().AddTo(this.Disposable);
 
             this.IsMultipulSelectOpened = new ReactiveProperty<bool>().AddTo(this.Disposable);
@@ -270,6 +272,12 @@ namespace Flantter.MilkyWay.ViewModels
                 this.ListViewSelectionMode.Value = Windows.UI.Xaml.Controls.ListViewSelectionMode.Single;
             }).AddTo(this.Disposable);
             
+            this.ClearColumnCommand = new ReactiveCommand().AddTo(this.Disposable);
+            this.ClearColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(y =>
+            {
+                this.Model.ClearColumn();
+                this.RefreshCommand.Execute();
+            }).AddTo(this.Disposable);
 
             this.Height = LayoutHelper.Instance.ColumnHeight;
 
@@ -304,7 +312,7 @@ namespace Flantter.MilkyWay.ViewModels
                 else if (item is EventMessage)
                     return new EventMessageViewModel((EventMessage)item, this.Model.Tokens.UserId) as object;
                 else if (item is CollectionEntry)
-                    return new StatusViewModel(((CollectionEntry)item).Status, this.Model.Tokens.UserId) as object;
+                    return new StatusViewModel(((CollectionEntry)item).Status, this.Model.Tokens.UserId, this.Model.Parameter) as object;
                 else
                     return new GapViewModel((Gap)item) as object;
 

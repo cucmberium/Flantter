@@ -35,6 +35,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.MuteClientCommand = new ReactiveCommand();
             this.DeleteTweetCommand = new ReactiveCommand();
             this.DeleteRetweetCommand = new ReactiveCommand();
+            this.DeleteFromCollectionCommand = new ReactiveCommand();
+            this.AddToCollectionCommand = new ReactiveCommand();
             this.ShowUserListsCommand = new ReactiveCommand();
             this.ShowUserCollectionsCommand = new ReactiveCommand();
             this.OpenStatusUrlCommand = new ReactiveCommand();
@@ -149,6 +151,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand MuteClientCommand { get; private set; }
         public ReactiveCommand DeleteTweetCommand { get; private set; }
         public ReactiveCommand DeleteRetweetCommand { get; private set; }
+        public ReactiveCommand DeleteFromCollectionCommand { get; private set; }
+        public ReactiveCommand AddToCollectionCommand { get; private set; }
         public ReactiveCommand ShowUserListsCommand { get; private set; }
         public ReactiveCommand ShowUserCollectionsCommand { get; private set; }
         public ReactiveCommand OpenStatusUrlCommand { get; private set; }

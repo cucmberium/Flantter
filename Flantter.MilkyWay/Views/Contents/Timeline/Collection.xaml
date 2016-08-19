@@ -8,7 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:winRTXamlControls="using:WinRTXamlToolkit.Controls"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"

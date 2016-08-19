@@ -10,7 +10,6 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinRTXamlToolkit.Async;
 
 namespace Flantter.MilkyWay.Models.Services
 {

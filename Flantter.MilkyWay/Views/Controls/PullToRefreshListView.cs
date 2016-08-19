@@ -274,7 +274,7 @@ namespace Flantter.MilkyWay.Views.Controls
                 VisualStateManager.GoToState(this, "ReadyToRefresh", true);
                 _IsReadyToRefresh = true;
             }
-            else if (compressionOffset > -0.5 && _IsReadyToRefresh == true)
+            else if (compressionOffset < 0.5 && _IsReadyToRefresh)
             {
                 InvokeRefresh();
             }

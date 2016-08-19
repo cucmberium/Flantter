@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:winRTXamlControls="using:WinRTXamlToolkit.Controls"
+    xmlns:WinRTXamlToolkit="using:WinRTXamlToolkit.Controls"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
@@ -188,7 +188,7 @@
                 <ItemsControl x:DeferLoadStrategy="Lazy" x:Name="MediaItemsControl" Visibility="Collapsed" Grid.Row="1" ItemsSource="{x:Bind ViewModel.MediaEntities, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <winRTXamlControls:WrapPanel Orientation="Horizontal"/>
+                            <WinRTXamlToolkit:WrapPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>

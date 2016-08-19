@@ -3,7 +3,7 @@
   "version": 2,
   "targets": {
     "UAP,Version=v10.0": {
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -2173,7 +2173,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -4451,7 +4451,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -6768,7 +6768,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -9055,7 +9055,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -11381,7 +11381,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -13668,7 +13668,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
-      "CoreTweet/0.7.0.339": {
+      "CoreTweet/0.7.1.345": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -15995,32 +15995,32 @@
     }
   },
   "libraries": {
-    "CoreTweet/0.7.0.339": {
-      "sha512": "ybYLQ8NYev2UBt099Zkg/1Ppkth5b7pygkUR1Dd9ahxExoJDXK2cagFiAA0uXyLZF96zVuSP5MZTtMOtCuzD3g==",
+    "CoreTweet/0.7.1.345": {
+      "sha512": "+J1B5KbT1PUuPZENgKEdoxW3Mff5H5b/SbRfuHtEhDCmu/FTS9YKuzpS/ybafxffGntnHKYM7xU/B2UN4NQ70g==",
       "type": "package",
       "files": [
-        "CoreTweet.0.7.0.339.nupkg.sha512",
+        "CoreTweet.0.7.1.345.nupkg.sha512",
         "CoreTweet.nuspec",
-        "lib/monoandroid/CoreTweet.dll",
-        "lib/monoandroid/CoreTweet.xml",
-        "lib/monotouch/CoreTweet.dll",
-        "lib/monotouch/CoreTweet.xml",
+        "lib/monoandroid10/CoreTweet.dll",
+        "lib/monoandroid10/CoreTweet.xml",
+        "lib/monotouch10/CoreTweet.dll",
+        "lib/monotouch10/CoreTweet.xml",
         "lib/net35/CoreTweet.dll",
         "lib/net35/CoreTweet.xml",
         "lib/net40/CoreTweet.dll",
         "lib/net40/CoreTweet.xml",
         "lib/net45/CoreTweet.dll",
         "lib/net45/CoreTweet.xml",
-        "lib/netcoreapp1.0/CoreTweet.dll",
-        "lib/netcoreapp1.0/CoreTweet.xml",
         "lib/netstandard1.1/CoreTweet.dll",
         "lib/netstandard1.1/CoreTweet.xml",
-        "lib/portable-net45+dnxcore50+win8+wpa81+MonoAndroid+xamarinios+MonoTouch/CoreTweet.dll",
-        "lib/portable-net45+dnxcore50+win8+wpa81+MonoAndroid+xamarinios+MonoTouch/CoreTweet.xml",
+        "lib/netstandard1.5/CoreTweet.dll",
+        "lib/netstandard1.5/CoreTweet.xml",
         "lib/portable-win81+wpa81/CoreTweet.dll",
         "lib/portable-win81+wpa81/CoreTweet.xml",
-        "lib/xamarinios/CoreTweet.dll",
-        "lib/xamarinios/CoreTweet.xml"
+        "lib/portable45-net45+win8+wpa81/CoreTweet.dll",
+        "lib/portable45-net45+win8+wpa81/CoreTweet.xml",
+        "lib/xamarinios10/CoreTweet.dll",
+        "lib/xamarinios10/CoreTweet.xml"
       ]
     },
     "Microsoft.CSharp/4.0.1": {
@@ -22072,7 +22072,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "CoreTweet >= 0.7.0.339",
+      "CoreTweet >= 0.7.1.345",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",
       "Newtonsoft.Json >= 9.0.1",
       "NotificationsExtensions.Win10 >= 14295.0.1"

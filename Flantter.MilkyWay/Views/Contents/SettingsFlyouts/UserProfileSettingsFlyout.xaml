@@ -15,7 +15,6 @@
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
 	xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
     xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
-    xmlns:winrtXamlToolKit="using:WinRTXamlToolkit.Controls"
     mc:Ignorable="d"
     Title="UserProfile"
     HorizontalContentAlignment="Stretch"

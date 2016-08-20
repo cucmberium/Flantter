@@ -1208,10 +1208,16 @@ namespace Flantter.MilkyWay.Models
 
         public void Dispose()
         {
-            if (streamingConnectionDisposableObject != null)
-                streamingConnectionDisposableObject.Dispose();
+            try
+            {
+                if (streamingConnectionDisposableObject != null)
+                    streamingConnectionDisposableObject.Dispose();
 
-            this.Disposable.Dispose();
+                this.Disposable.Dispose();
+            }
+            catch
+            {
+            }
         }
     }
 }

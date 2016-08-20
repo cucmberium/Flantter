@@ -189,6 +189,8 @@ namespace Flantter.MilkyWay.Setting
     {
         public async Task SaveToAppSettings()
         {
+            await Task.Delay(50);
+
             try
             {
                 var json = JsonConvert.SerializeObject(Dict);

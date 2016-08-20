@@ -55,6 +55,7 @@ namespace Flantter.MilkyWay.Models.Plugin
                                                    typeof(Flantter.MilkyWay.Plugin.Notification).GetTypeInfo().Assembly,
                                                    typeof(Flantter.MilkyWay.Plugin.Filter).GetTypeInfo().Assembly}));
                     engine.Global.FastAddProperty("Windows", new Jint.Runtime.Interop.NamespaceReference(engine, "Windows"), false, false, false);
+                    engine.Global.FastAddProperty("Flantter", new Jint.Runtime.Interop.NamespaceReference(engine, "Flantter"), false, false, false);
 
                     _Plugins[name] = new Plugin() { Engine = engine };
 

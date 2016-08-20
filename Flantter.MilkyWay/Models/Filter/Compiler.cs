@@ -61,7 +61,7 @@ namespace Flantter.MilkyWay.Models.Filter
                 var result = (Jint.Native.JsValue)function.Delegate.DynamicInvoke(Jint.Native.JsValue.Undefined, jsparams);
                 return result.AsBoolean();
             }
-            catch
+            catch (Exception e)
             {
             }
 

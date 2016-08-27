@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -24,6 +25,9 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings
         public AppInfoSettingsFlyout()
         {
             this.InitializeComponent();
+
+            var version = Package.Current.Id.Version;
+            this.SettingsFlyout_Settings_AppInfo_Version_TextBlock.Text = "Version " + string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
         }
     }
 }

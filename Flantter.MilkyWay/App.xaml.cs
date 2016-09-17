@@ -117,11 +117,11 @@ namespace Flantter.MilkyWay
             SettingService.Setting.LatestNotificationDate = DateTimeOffset.Now;
 
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 500 });
-
+            
             if (AdvancedSettingService.AdvancedSetting.Accounts == null || AdvancedSettingService.AdvancedSetting.Accounts.Count == 0)
-                this.NavigationService.Navigate("Initialize", args.Arguments);
+                this.NavigationService.Navigate("Initialize", "");
             else
-                this.NavigationService.Navigate("Main", args.Arguments);
+                this.NavigationService.Navigate("Main", "");
 
             this.DeviceGestureService.GoBackRequested += (s, e) =>
             {

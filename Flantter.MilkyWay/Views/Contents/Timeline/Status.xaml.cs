@@ -241,6 +241,23 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
             else
                 border.Visibility = Visibility.Collapsed;
         }
+
+        public static bool GetQuotedStatusMediaVisibility(DependencyObject obj) { return (bool)obj.GetValue(QuotedStatusMediaVisibilityProperty); }
+        public static void SetQuotedStatusMediaVisibility(DependencyObject obj, bool value) { obj.SetValue(QuotedStatusMediaVisibilityProperty, value); }
+
+        public static readonly DependencyProperty QuotedStatusMediaVisibilityProperty =
+            DependencyProperty.Register("QuotedStatusMediaVisibility", typeof(bool), typeof(Status), new PropertyMetadata(false, QuotedStatusMediaVisibility_PropertyChanged));
+
+        private static void QuotedStatusMediaVisibility_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var status = obj as Status;
+            var itemsControl = status.FindName("QuotedStatusMediaItemsControl") as ItemsControl;
+
+            if (GetQuotedStatusMediaVisibility(obj))
+                itemsControl.Visibility = Visibility.Visible;
+            else
+                itemsControl.Visibility = Visibility.Collapsed;
+        }
         #endregion
 
         #region RetweetInformation 関連

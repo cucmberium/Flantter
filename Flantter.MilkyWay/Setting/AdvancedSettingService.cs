@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Windows.Storage;
 using Windows.UI.Notifications;
+using WinRTXamlToolkit.Async;
 
 namespace Flantter.MilkyWay.Setting
 {
@@ -187,50 +188,56 @@ namespace Flantter.MilkyWay.Setting
 
     public class AdvancedSettingService : AdvancedSettingServiceBase<AdvancedSettingService>
     {
+        private AsyncLock _asyncLock = new AsyncLock();
+
         public async Task SaveToAppSettings()
         {
-            await Task.Delay(50);
-
-            try
+            using (await _asyncLock.LockAsync())
             {
-                var json = JsonConvert.SerializeObject(Dict);
-                var writeStorageFile = await ApplicationData.Current.RoamingFolder.CreateFileAsync("setting.xml", CreationCollisionOption.ReplaceExisting);
-                using (var s = await writeStorageFile.OpenStreamForWriteAsync())
-                using (var st = new System.IO.StreamWriter(s))
+                try
                 {
-                    st.Write(json);
+                    var json = JsonConvert.SerializeObject(Dict);
+                    var writeStorageFile = await ApplicationData.Current.RoamingFolder.CreateFileAsync("setting.xml", CreationCollisionOption.ReplaceExisting);
+                    using (var s = await writeStorageFile.OpenStreamForWriteAsync())
+                    using (var st = new System.IO.StreamWriter(s))
+                    {
+                        st.Write(json);
+                    }
                 }
-            }
-            catch
-            {
+                catch
+                {
+                }
             }
         }
         public async Task LoadFromAppSettings()
         {
-            try
+            using (await _asyncLock.LockAsync())
             {
-                var json = string.Empty;
-
-                var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
-                using (var s = await readStorageFile.OpenStreamForReadAsync())
-                using (var st = new System.IO.StreamReader(s))
+                try
                 {
-                    json = st.ReadToEnd();
-                }
-                
-                var jTokens = JToken.Parse(json);
+                    var json = string.Empty;
 
-                this.Dict = new Dictionary<string, object>();
-                foreach (JProperty jProperty in jTokens)
-                {
-                    if (jProperty.Name == "Accounts")
-                        this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
-                    else
-                        this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
+                    var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
+                    using (var s = await readStorageFile.OpenStreamForReadAsync())
+                    using (var st = new System.IO.StreamReader(s))
+                    {
+                        json = st.ReadToEnd();
+                    }
+
+                    var jTokens = JToken.Parse(json);
+
+                    this.Dict = new Dictionary<string, object>();
+                    foreach (JProperty jProperty in jTokens)
+                    {
+                        if (jProperty.Name == "Accounts")
+                            this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
+                        else
+                            this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
+                    }
                 }
-            }
-            catch
-            {
+                catch
+                {
+                }
             }
         }
 

@@ -284,6 +284,12 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 this.QuotedStatusText = status.QuotedStatus.Text;
                 this.QuotedStatusEntities = status.QuotedStatus.Entities;
                 this.QuotedStatusProfileImageUrl = string.IsNullOrWhiteSpace(status.QuotedStatus.User.ProfileImageUrl) ? "http://localhost/" : status.QuotedStatus.User.ProfileImageUrl;
+                
+                this.QuotedStatusMediaVisibility = (status.QuotedStatus.Entities.Media.Count == 0 ? false : true) && SettingService.Setting.ShowQuotedStatusMedia;
+
+                this.QuotedStatusMediaEntities = new List<MediaEntityViewModel>();
+                foreach (var mediaEntity in status.QuotedStatus.Entities.Media)
+                    this.QuotedStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity));
             }
             else
             {
@@ -404,6 +410,12 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 this.QuotedStatusText = status.QuotedStatus.Text;
                 this.QuotedStatusEntities = status.QuotedStatus.Entities;
                 this.QuotedStatusProfileImageUrl = string.IsNullOrWhiteSpace(status.QuotedStatus.User.ProfileImageUrl) ? "http://localhost/" : status.QuotedStatus.User.ProfileImageUrl;
+
+                this.QuotedStatusMediaVisibility = (status.QuotedStatus.Entities.Media.Count == 0 ? false : true) && SettingService.Setting.ShowQuotedStatusMedia;
+
+                this.QuotedStatusMediaEntities = new List<MediaEntityViewModel>();
+                foreach (var mediaEntity in status.QuotedStatus.Entities.Media)
+                    this.QuotedStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity));
             }
             else
             {
@@ -494,7 +506,11 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public string QuotedStatusProfileImageUrl { get; set; }
 
+        public bool QuotedStatusMediaVisibility { get; set; }
+
         public Entities QuotedStatusEntities { get; set; }
+
+        public List<MediaEntityViewModel> QuotedStatusMediaEntities { get; private set; }
 
 
         public bool MentionStatusVisibility { get; set; }

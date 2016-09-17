@@ -979,4 +979,7 @@
   <data name="Notification_System_ClearColumn" xml:space="preserve">
     <value>If tweet remains in your timeline, you can clear column from menu.</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_ShowQuotedStatusMedia_ToggleSwitch.Header" xml:space="preserve">
+    <value>Show media in quoted status.</value>
+  </data>
 </root>

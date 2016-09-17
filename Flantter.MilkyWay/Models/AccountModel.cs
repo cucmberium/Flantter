@@ -374,9 +374,7 @@ namespace Flantter.MilkyWay.Models
             catch
             {
             }
-
-            await Task.Delay(250);
-
+            
             await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }
 

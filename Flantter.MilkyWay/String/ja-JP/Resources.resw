@@ -979,4 +979,7 @@
   <data name="Notification_System_ClearColumn" xml:space="preserve">
     <value>ツイートがタイムラインに残っている場合はメニューからカラムをクリアできます</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_ShowQuotedStatusMedia_ToggleSwitch.Header" xml:space="preserve">
+    <value>引用ツイート等のサムネイルを表示する</value>
+  </data>
 </root>

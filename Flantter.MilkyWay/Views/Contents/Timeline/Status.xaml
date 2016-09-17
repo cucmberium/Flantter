@@ -229,30 +229,52 @@
 
         <Border x:DeferLoadStrategy="Lazy" x:Name="QuotedStatusBorder" Visibility="Collapsed" Margin="30,6,12,2" Background="{StaticResource TweetQuotedStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">
 
-            <i:Interaction.Behaviors>
-                <core:EventTriggerBehavior EventName="Tapped">
-                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowStatusDetailCommand}" CommandParameter="{x:Bind ViewModel.Model.QuotedStatus, Mode=OneWay}"/>
-                </core:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
-
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
 
-                <Border Grid.Column="0" Height="28" Width="28" CornerRadius="4" HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <Border.Background>
-                        <ImageBrush ImageSource="{x:Bind ViewModel.QuotedStatusProfileImageUrl, Mode=OneWay}" />
-                    </Border.Background>
-                </Border>
-                <StackPanel Grid.Column="2" x:Name="QuotedStatusBox">
-                    <TextBlock>
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowStatusDetailCommand}" CommandParameter="{x:Bind ViewModel.Model.QuotedStatus, Mode=OneWay}"/>
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Height="28" Width="28" CornerRadius="4" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{x:Bind ViewModel.QuotedStatusProfileImageUrl, Mode=OneWay}" />
+                        </Border.Background>
+                    </Border>
+                    <StackPanel Grid.Column="2" x:Name="QuotedStatusBox">
+                        <TextBlock>
                         <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.QuotedStatusName, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.QuotedStatusScreenName, Mode=OneWay}"/>
-                    </TextBlock>
-                    <TextBlock TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{Binding Setting.CustomFontName, Mode=OneWay}" FontSize="{Binding Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.QuotedStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.QuotedStatusText, Mode=OneWay}"/>
-                </StackPanel>
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{Binding Setting.CustomFontName, Mode=OneWay}" FontSize="{Binding Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.QuotedStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.QuotedStatusText, Mode=OneWay}"/>
+                    </StackPanel>
+                </Grid>
+                
+                <ItemsControl Grid.Row="1" x:DeferLoadStrategy="Lazy" x:Name="QuotedStatusMediaItemsControl" Visibility="Collapsed" ItemsSource="{x:Bind ViewModel.QuotedStatusMediaEntities, Mode=OneWay}" Margin="38,0,0,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WinRTXamlToolkit:WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:MediaEntityViewModel">
+                            <Button Background="Transparent" BorderThickness="0" Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}">
+                                <Image Height="{x:Bind Setting.TweetMediaThumbnailSize, Mode=OneWay}" MinWidth="{x:Bind Setting.TweetMediaThumbnailSize, Mode=OneWay}" MaxWidth="150" Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="Uniform"/>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
 
         </Border>

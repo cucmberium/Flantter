@@ -83,6 +83,10 @@
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_ShowQuotedStatusMedia_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ShowQuotedStatusMedia, Mode=TwoWay}" Header="引用ツイート等のサムネイルを表示する"/>
+
+            <controls:HorizontalBar/>
+
         </StackPanel>
     </ScrollViewer>
     

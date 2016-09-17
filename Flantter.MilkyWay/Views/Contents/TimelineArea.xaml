@@ -56,6 +56,7 @@
                             MentionStatusVisibility="{x:Bind MentionStatusVisibility, Mode=OneWay}" IsMentionStatusLoaded="{x:Bind IsMentionStatusLoaded, Mode=OneWay}"
                             IsMentionStatusLoading="{x:Bind IsMentionStatusLoading, Mode=OneWay}" Command="{x:Bind Notice.LoadMentionCommand}" CommandParameter="{x:Bind Mode=OneWay}"
                             QuotedStatusVisibility="{x:Bind QuotedStatusVisibility, Mode=OneWay}"
+                            QuotedStatusMediaVisibility="{x:Bind QuotedStatusMediaVisibility, Mode=OneWay}"
                             MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}" RetweetInformationVisibility="{x:Bind RetweetInformationVisibility, Mode=OneWay}"
                             RetweetTriangleIconVisibility="{x:Bind RetweetTriangleIconVisibility, Mode=OneWay}"
                             FavoriteTriangleIconVisibility="{x:Bind FavoriteTriangleIconVisibility, Mode=OneWay}"
@@ -65,7 +66,7 @@
                         <timeline:DirectMessage ViewModel="{x:Bind}" MediaVisibility="{x:Bind MediaVisibility, Mode=OneWay}"/>
                     </DataTemplate>
                     <DataTemplate x:Key="EventMessageViewModel" x:DataType="twitterObjectsViewModel:EventMessageViewModel">
-                        <timeline:EventMessage ViewModel="{x:Bind}" TargetStatusVisibility="{x:Bind TargetStatusVisibility, Mode=OneWay}"/>
+                        <timeline:EventMessage ViewModel="{x:Bind}" TargetStatusVisibility="{x:Bind TargetStatusVisibility, Mode=OneWay}" TargetStatusMediaVisibility="{x:Bind TargetStatusMediaVisibility, Mode=OneWay}" />
                     </DataTemplate>
                     <DataTemplate x:Key="GapViewModel" x:DataType="twitterObjectsViewModel:GapViewModel">
                         <timeline:Gap ViewModel="{x:Bind}" Command="{x:Bind Notice.GetGapStatusCommand}" CommandParameter="{x:Bind Mode=OneWay}"/>

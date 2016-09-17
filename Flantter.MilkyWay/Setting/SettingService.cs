@@ -260,6 +260,7 @@ namespace Flantter.MilkyWay.Setting
         public SettingSupport.TweetAnimationEnum TweetAnimation { get { return (SettingSupport.TweetAnimationEnum)GetValue(3); } set { SetValue((int)value); OnPropertyChanged(); } }
         public bool DisableStreamingScroll { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public double TweetMediaThumbnailSize { get { return GetValue(100.0); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool ShowQuotedStatusMedia { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
 
         [LocalValue]
         public bool UseBackgroundImage { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); OnPropertyChanged("BackgroundImagePath"); } }

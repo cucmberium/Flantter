@@ -7,10 +7,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+	  xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    xmlns:WinRTXamlToolkit="using:WinRTXamlToolkit.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -78,30 +79,52 @@
 
         <Border x:DeferLoadStrategy="Lazy" x:Name="TargetStatusBorder" Margin="30,6,12,2" Visibility="Collapsed" Background="{StaticResource TweetTargetStatusBackgroundBrush}" Padding="4,2" CornerRadius="5">
 
-            <i:Interaction.Behaviors>
-                <core:EventTriggerBehavior EventName="Tapped">
-                    <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowStatusDetailCommand}" CommandParameter="{x:Bind ViewModel.TargetStatusId, Mode=OneWay}"/>
-                </core:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
-
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <Border Grid.Column="0" Height="28" Width="28" CornerRadius="4" HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <Border.Background>
-                        <ImageBrush ImageSource="{x:Bind ViewModel.TargetStatusProfileImageUrl, Mode=OneWay}" />
-                    </Border.Background>
-                </Border>
-                <StackPanel Grid.Column="2" x:Name="TargetStatusBox">
-                    <TextBlock>
-                        <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.TargetStatusName, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.TargetStatusScreenName, Mode=OneWay}"/>
-                    </TextBlock>
-                    <TextBlock TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{Binding Setting.CustomFontName, Mode=OneWay}" FontSize="{Binding Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.TargetStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.TargetStatusText, Mode=OneWay}"/>
-                </StackPanel>
+                <Grid>
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowStatusDetailCommand}" CommandParameter="{x:Bind ViewModel.TargetStatusId, Mode=OneWay}"/>
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Height="28" Width="28" CornerRadius="4" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{x:Bind ViewModel.TargetStatusProfileImageUrl, Mode=OneWay}" />
+                        </Border.Background>
+                    </Border>
+                    <StackPanel Grid.Column="2" x:Name="TargetStatusBox">
+                        <TextBlock>
+                            <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.TargetStatusName, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.TargetStatusScreenName, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{Binding Setting.CustomFontName, Mode=OneWay}" FontSize="{Binding Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.TargetStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.TargetStatusText, Mode=OneWay}"/>
+                    </StackPanel>
+                </Grid>
+
+                <ItemsControl Grid.Row="1" x:DeferLoadStrategy="Lazy" x:Name="TargetStatusMediaItemsControl" Visibility="Collapsed" ItemsSource="{x:Bind ViewModel.TargetStatusMediaEntities, Mode=OneWay}" Margin="38,0,0,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WinRTXamlToolkit:WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="twitterObjectsViewModel:MediaEntityViewModel">
+                            <Button Background="Transparent" BorderThickness="0" Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}">
+                                <Image Height="{x:Bind Setting.TweetMediaThumbnailSize, Mode=OneWay}" MinWidth="{x:Bind Setting.TweetMediaThumbnailSize, Mode=OneWay}" MaxWidth="150" Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="Uniform"/>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
 
         </Border>

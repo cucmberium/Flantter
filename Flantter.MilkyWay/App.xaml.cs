@@ -55,13 +55,19 @@ namespace Flantter.MilkyWay
             if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None && !SettingService.Setting.BackgroundNotification)
                 return;
 
-            var trigger = new TimeTrigger(15, false);
-            var taskBuilder = new BackgroundTaskBuilder();
+            try
+            {
+                var trigger = new TimeTrigger(15, false);
+                var taskBuilder = new BackgroundTaskBuilder();
 
-            taskBuilder.Name = "Flantter_BackgroundTask";
-            taskBuilder.TaskEntryPoint = "Flantter.MilkyWay.BackgroundTask.BackgroundWorker";
-            taskBuilder.SetTrigger(trigger);
-            taskBuilder.Register();
+                taskBuilder.Name = "Flantter_BackgroundTask";
+                taskBuilder.TaskEntryPoint = "Flantter.MilkyWay.BackgroundTask.BackgroundWorker";
+                taskBuilder.SetTrigger(trigger);
+                taskBuilder.Register();
+            }
+            catch
+            {
+            }
         }
 
         private void App_Resuming(object sender, object e)

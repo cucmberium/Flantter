@@ -74,6 +74,12 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 this.TargetStatusText = eventMessage.TargetStatus.Text;
                 this.TargetStatusEntities = eventMessage.TargetStatus.Entities;
                 this.TargetStatusProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.TargetStatus.User.ProfileImageUrl) ? "http://localhost/" : eventMessage.TargetStatus.User.ProfileImageUrl;
+
+                this.TargetStatusMediaVisibility = (eventMessage.TargetStatus.Entities.Media.Count == 0 ? false : true) && SettingService.Setting.ShowQuotedStatusMedia;
+
+                this.TargetStatusMediaEntities = new List<MediaEntityViewModel>();
+                foreach (var mediaEntity in eventMessage.TargetStatus.Entities.Media)
+                    this.TargetStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity));
             }
             else
             {
@@ -112,8 +118,12 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public string TargetStatusName { get; set; }
 
         public string TargetStatusProfileImageUrl { get; set; }
-        
+
+        public bool TargetStatusMediaVisibility { get; set; }
+
         public Entities TargetStatusEntities { get; set; }
+
+        public List<MediaEntityViewModel> TargetStatusMediaEntities { get; private set; }
 
         public Services.Notice Notice { get; set; }
 

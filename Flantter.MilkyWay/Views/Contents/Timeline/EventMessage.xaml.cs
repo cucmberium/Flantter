@@ -76,6 +76,23 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
             else
                 border.Visibility = Visibility.Collapsed;
         }
+
+        public static bool GetTargetStatusMediaVisibility(DependencyObject obj) { return (bool)obj.GetValue(GetTargetStatusMediaVisibilityProperty); }
+        public static void SetTargetStatusMediaVisibility(DependencyObject obj, bool value) { obj.SetValue(GetTargetStatusMediaVisibilityProperty, value); }
+
+        public static readonly DependencyProperty GetTargetStatusMediaVisibilityProperty =
+            DependencyProperty.Register("TargetStatusMediaVisibility", typeof(bool), typeof(EventMessage), new PropertyMetadata(false, TargetStatusMediaVisibility_PropertyChanged));
+
+        private static void TargetStatusMediaVisibility_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var status = obj as EventMessage;
+            var itemsControl = status.FindName("TargetStatusMediaItemsControl") as ItemsControl;
+
+            if (GetTargetStatusMediaVisibility(obj))
+                itemsControl.Visibility = Visibility.Visible;
+            else
+                itemsControl.Visibility = Visibility.Collapsed;
+        }
         #endregion
 
         #region CommandGrid 関連

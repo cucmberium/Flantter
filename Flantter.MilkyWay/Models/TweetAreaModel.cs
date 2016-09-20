@@ -376,13 +376,13 @@ namespace Flantter.MilkyWay.Models
 
             try
             {
-                var param = new Dictionary<string, object>() { };
+                var param = new Dictionary<string, object>() { { "auto_populate_reply_metadata", true } };
                 if (this.ReplyOrQuotedStatus != null)
                 {
                     if (!this._IsQuotedRetweet)
                         param.Add("in_reply_to_status_id", this.ReplyOrQuotedStatus.Id);
                     else
-                        text += " https://twitter.com/" + this.ReplyOrQuotedStatus.User.ScreenName + "/status/" + this.ReplyOrQuotedStatus.Id;
+                        param.Add("attachment_url", "https://twitter.com/" + this.ReplyOrQuotedStatus.User.ScreenName + "/status/" + this.ReplyOrQuotedStatus.Id);
                 }
                     
 

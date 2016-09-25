@@ -376,7 +376,7 @@ namespace Flantter.MilkyWay.Models
 
             try
             {
-                var param = new Dictionary<string, object>() { { "auto_populate_reply_metadata", true } };
+                var param = new Dictionary<string, object>() { };
                 if (this.ReplyOrQuotedStatus != null)
                 {
                     if (!this._IsQuotedRetweet)

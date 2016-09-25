@@ -102,7 +102,7 @@ namespace Flantter.MilkyWay.Views
                 break;
             }
 
-            this.Frame.Navigate(typeof(MainPage));
+            this.Frame.Navigate(typeof(MainPage), "");
         }
     }
 }

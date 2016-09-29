@@ -982,4 +982,7 @@
   <data name="SettingsFlyout_Settings_Display_ShowQuotedStatusMedia_ToggleSwitch.Header" xml:space="preserve">
     <value>Show media in quoted status.</value>
   </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_AddCollection.Text" xml:space="preserve">
+    <value>Add to collection</value>
+  </data>
 </root>

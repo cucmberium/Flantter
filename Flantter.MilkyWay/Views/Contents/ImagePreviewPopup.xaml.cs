@@ -430,6 +430,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
             if (!SettingService.Setting.NotificationSound)
                 toastContent.Audio = new ToastAudio() { Silent = true };
+            else
+                toastContent.Audio = new ToastAudio() { };
 
             try
             {
@@ -489,8 +491,11 @@ namespace Flantter.MilkyWay.Views.Contents
                 toastContent.Visual.BodyTextLine1.Text = new ResourceLoader().GetString("ImagePreviewPopup_FailedtoImageSave");
             }
 
-            var toast = new ToastNotification(toastContent.GetXml());
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
+            if (SettingService.Setting.SystemNotification)
+            {
+                var toast = new ToastNotification(toastContent.GetXml());
+                ToastNotificationManager.CreateToastNotifier().Show(toast);
+            }
         }
 
         private async void ImagePreviewMenu_ShowinBrowser(object sender, RoutedEventArgs e)

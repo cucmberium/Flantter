@@ -99,6 +99,23 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
+        public void CopyTweetUrlToClipBoard(object tweet)
+        {
+            var status = tweet as Status;
+            if (status == null)
+                return;
+
+            try
+            {
+                var textPackage = new DataPackage();
+                textPackage.SetText("https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id.ToString());
+                Clipboard.SetContent(textPackage);
+            }
+            catch
+            {
+            }
+        }
+
         public async Task ChangeBackgroundImage(StorageFile file)
         {
             SettingService.Setting.BackgroundImagePath = "";

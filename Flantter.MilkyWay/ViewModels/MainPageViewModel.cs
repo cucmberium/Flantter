@@ -180,6 +180,11 @@ namespace Flantter.MilkyWay.ViewModels
                 this.Model.CopyTweetToClipBoard(x);
             });
 
+            Services.Notice.Instance.CopyTweetUrlCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                this.Model.CopyTweetUrlToClipBoard(x);
+            });
+
             Services.Notice.Instance.UrlClickCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 var linkUrl = x as string;

@@ -142,16 +142,16 @@
     <value>    Menu</value>
   </data>
   <data name="BottomBarArea_ProfileImageButton_Flyout_MyProfile.Text" xml:space="preserve">
-    <value>    My Profile</value>
+    <value>    My profile</value>
   </data>
   <data name="TimelineArea_PullToRefreshListView.PullPartTemplate" xml:space="preserve">
-    <value>Pull to Refresh</value>
+    <value>Pull to refresh</value>
   </data>
   <data name="TimelineArea_PullToRefreshListView.ReleasePartTemplate" xml:space="preserve">
-    <value>Release to Refresh</value>
+    <value>Release to refresh</value>
   </data>
   <data name="ColumnView_ControlBar_MenuFlyout_ColumnSetting.Text" xml:space="preserve">
-    <value>    Column Setting</value>
+    <value>    Column setting</value>
   </data>
   <data name="ColumnView_ControlBar_MenuFlyout_CreateFilterColumn.Text" xml:space="preserve">
     <value>    Create FilterColumn</value>
@@ -160,19 +160,19 @@
     <value>    Refresh</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_CopyTweet.Text" xml:space="preserve">
-    <value>    Copy Tweet</value>
+    <value>    Copy tweet</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_DeleteRetweet.Text" xml:space="preserve">
-    <value>    Delete Retweet</value>
+    <value>    Delete retweet</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_DeleteTweet.Text" xml:space="preserve">
-    <value>    Delete Tweet</value>
+    <value>    Delete tweet</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_MuteClient.Text" xml:space="preserve">
-    <value>    Mute Client</value>
+    <value>    Mute client</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_MuteUser.Text" xml:space="preserve">
-    <value>    Mute User</value>
+    <value>    Mute user</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_OtherMenu.Text" xml:space="preserve">
     <value>    Other</value>
@@ -181,31 +181,31 @@
     <value>    Reply</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_ReplyMenu.Text" xml:space="preserve">
-    <value>    Reply Menu</value>
+    <value>    Reply menu</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_ReplyToAll.Text" xml:space="preserve">
-    <value>    Reply All</value>
+    <value>    Reply all</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_Retweet.Text" xml:space="preserve">
     <value>    Retweet</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_Retweeter.Text" xml:space="preserve">
-    <value>    Show Retweeter</value>
+    <value>    Show retweeter</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_RetweetMenu.Text" xml:space="preserve">
-    <value>    Retweet Menu</value>
+    <value>    Retweet menu</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_SendDirectMessage.Text" xml:space="preserve">
     <value>    Send DM</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_StatusDetail.Text" xml:space="preserve">
-    <value>    Status Detail</value>
+    <value>    Status detail</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_UrlQuoteRetweet.Text" xml:space="preserve">
-    <value>    Retweet with Comment</value>
+    <value>    Retweet with comment</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_UserProfile.Text" xml:space="preserve">
-    <value>    User Profile</value>
+    <value>    User profile</value>
   </data>
   <data name="ImagePreviewPopup_FailedtoImageSave" xml:space="preserve">
     <value>Failed to save image</value>
@@ -347,7 +347,7 @@
     <value>Written in : </value>
   </data>
   <data name="SettingsFlyout_Search_AdvancedSearch_Content_WrittenIn_AllLanguageComboBoxItem.Content" xml:space="preserve">
-    <value>all Language</value>
+    <value>all language</value>
   </data>
   <data name="SettingsFlyout_Search_AdvancedSearch_EngagementTextblock.Text" xml:space="preserve">
     <value>    Engagement</value>
@@ -386,31 +386,31 @@
     <value>Tweets</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_OpenStatusUrl.Text" xml:space="preserve">
-    <value>    Open Status Url</value>
+    <value>    Open status url</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_ShareStatus.Text" xml:space="preserve">
-    <value>    Share Status</value>
+    <value>    Share status</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_Favorite.Text" xml:space="preserve">
     <value>Favorite</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_Link.Text" xml:space="preserve">
-    <value>Link in Tweet</value>
+    <value>Link in tweet</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_MuteClient.Text" xml:space="preserve">
-    <value>Mute Client</value>
+    <value>Mute client</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_MuteUser.Text" xml:space="preserve">
-    <value>Mute User</value>
+    <value>Mute user</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_OpenStatusUrl.Text" xml:space="preserve">
-    <value>Open Tweet Url</value>
+    <value>Open tweet url</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_Reply.Text" xml:space="preserve">
     <value>Reply</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_ReplyToAll.Text" xml:space="preserve">
-    <value>Reply All</value>
+    <value>Reply all</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_Retweet.Text" xml:space="preserve">
     <value>Retweet</value>
@@ -422,13 +422,13 @@
     <value>Send DM</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_ShareStatus.Text" xml:space="preserve">
-    <value>Share Tweet</value>
+    <value>Share tweet</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_ShowConversation.Text" xml:space="preserve">
-    <value>Show Conversation</value>
+    <value>Show conversation</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_ShowRetweeter.Text" xml:space="preserve">
-    <value>Show Retweeter</value>
+    <value>Show retweeter</value>
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_UrlQuoteRetweetRetweet.Text" xml:space="preserve">
     <value>Retweet with comment</value>
@@ -446,7 +446,7 @@
     <value>Subscriber : </value>
   </data>
   <data name="Tweet_Command_MenuFlyout_AddList" xml:space="preserve">
-    <value>    Add Column</value>
+    <value>    Add column</value>
   </data>
   <data name="SettingsFlyout_UserProfile_Add_Flyout_Unblock.Text" xml:space="preserve">
     <value>    Unblock</value>
@@ -455,22 +455,22 @@
     <value>    Unute user</value>
   </data>
   <data name="MainSwipeMenu_ChangeAccount.Text" xml:space="preserve">
-    <value>Change Account</value>
+    <value>Change account</value>
   </data>
   <data name="MainSwipeMenu_Exit.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
   <data name="MainSwipeMenu_FollowingInfo.Text" xml:space="preserve">
-    <value>Following Info</value>
+    <value>Following info</value>
   </data>
   <data name="MainSwipeMenu_MyUserLists.Text" xml:space="preserve">
     <value>Lists</value>
   </data>
   <data name="MainSwipeMenu_MyUserProfile.Text" xml:space="preserve">
-    <value>My User Profile</value>
+    <value>My user orofile</value>
   </data>
   <data name="MainSwipeMenu_RetweetsOfMe.Text" xml:space="preserve">
-    <value>Retweets of Me</value>
+    <value>Retweets of me</value>
   </data>
   <data name="MainSwipeMenu_SearchAndTrends.Text" xml:space="preserve">
     <value>Search and Trends</value>
@@ -479,31 +479,31 @@
     <value>Settings</value>
   </data>
   <data name="SettingsFlyout_Settings_Main_AccountsSetting_Textblock.Text" xml:space="preserve">
-    <value>Accounts Setting</value>
+    <value>Accounts setting</value>
   </data>
   <data name="SettingsFlyout_Settings_Main_AdvancedSetting_Textblock.Text" xml:space="preserve">
-    <value>Advanced Setting</value>
+    <value>Advanced setting</value>
   </data>
   <data name="SettingsFlyout_Settings_Main_BehaviorSetting_Textblock.Text" xml:space="preserve">
-    <value>Behavior Setting</value>
+    <value>Behavior setting</value>
   </data>
   <data name="SettingsFlyout_Settings_Main_DisplaySetting_Textblock.Text" xml:space="preserve">
-    <value>Display Setting</value>
+    <value>Display setting</value>
   </data>
   <data name="SettingsFlyout_Settings_Main_MuteSetting_Textblock.Text" xml:space="preserve">
-    <value>Mute Setting</value>
+    <value>Mute setting</value>
   </data>
   <data name="SettingsFlyout_Settings_Main_NotificationSetting_Textblock.Text" xml:space="preserve">
-    <value>Notification Setting</value>
+    <value>Notification setting</value>
   </data>
   <data name="SettingsFlyout_Settings_Main_AppInfo_Textblock.Text" xml:space="preserve">
-    <value>Application Information</value>
+    <value>Application information</value>
   </data>
   <data name="SettingsFlyout_Settings_Main_SupportAccount_Textblock.Text" xml:space="preserve">
-    <value>Support Account</value>
+    <value>Support account</value>
   </data>
   <data name="SettingsFlyout_Settings_Main_PostingSetting_Textblock.Text" xml:space="preserve">
-    <value>Posting Setting</value>
+    <value>Posting setting</value>
   </data>
   <data name="ConfirmDialog_Favorite" xml:space="preserve">
     <value>Favorite the tweet?</value>
@@ -962,7 +962,7 @@
     <value>    Open user collections</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_DeleteFromCollection.Text" xml:space="preserve">
-    <value>    Delete From Collection</value>
+    <value>    Delete from collection</value>
   </data>
   <data name="SettingsFlyout_Settings_Behavior_RemoveRetweetOfMyTweet_ToggleSwitch.Header" xml:space="preserve">
     <value>Remove retweet of my tweet</value>
@@ -984,5 +984,11 @@
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_AddCollection.Text" xml:space="preserve">
     <value>Add to collection</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_CopyStatusUrl.Text" xml:space="preserve">
+    <value>Copy tweet url</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_CopyTweetUrl.Text" xml:space="preserve">
+    <value>    Copy tweet url</value>
   </data>
 </root>

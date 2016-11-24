@@ -160,7 +160,7 @@
     <value>    更新</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_CopyTweet.Text" xml:space="preserve">
-    <value>    コピー</value>
+    <value>    ツイートのコピー</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_DeleteTweet.Text" xml:space="preserve">
     <value>    削除</value>
@@ -984,5 +984,11 @@
   </data>
   <data name="SettingsFlyout_StatusDetail_Menu_AddCollection.Text" xml:space="preserve">
     <value>コレクションに追加</value>
+  </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_CopyStatusUrl.Text" xml:space="preserve">
+    <value>ツイートURLのコピー</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_CopyTweetUrl.Text" xml:space="preserve">
+    <value>    ツイートURLのコピー</value>
   </data>
 </root>

@@ -2,6 +2,7 @@
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Contents.ShareContract;
 using Flantter.MilkyWay.Views.Util;
+using Microsoft.HockeyApp;
 using Newtonsoft.Json.Linq;
 using Prism.Windows;
 using System;
@@ -34,7 +35,7 @@ namespace Flantter.MilkyWay
     {
         public App()
         {
-            Microsoft.HockeyApp.HockeyClient.Current.Configure("12d0f9780e5645e3bf16ee0557054a03");
+            HockeyClient.Current.Configure("12d0f9780e5645e3bf16ee0557054a03");
             this.InitializeComponent();
 
             this.UnhandledException += App_UnhandledException;

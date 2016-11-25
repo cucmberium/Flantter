@@ -220,7 +220,7 @@
     <Compile Include="Views\Behaviors\ShowSettingsFlyoutAction.cs" />
     <Compile Include="Views\Behaviors\SymbolIconForegroundBrushSwitchBehavior.cs" />
     <Compile Include="Views\Behaviors\TexbblockNavigationServiceBehavior.cs" />
-    <Compile Include="Views\Behaviors\BottomAppBarShowBehavior.cs" />
+    <Compile Include="Views\Behaviors\AppBarShowBehavior.cs" />
     <Compile Include="Views\Behaviors\TextBoxFocusBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetAreaSuggestionBehavior.cs" />
     <Compile Include="Views\Contents\ColumnAreaListBox.cs" />

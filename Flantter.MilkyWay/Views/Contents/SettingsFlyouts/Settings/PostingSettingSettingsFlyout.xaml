@@ -28,6 +28,10 @@
     <ScrollViewer Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Auto">
         <StackPanel>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_ShowAppBarToTop_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ShowAppBarToTop, Mode=TwoWay}" Header="ツイート画面を上部に表示する"/>
+
+            <controls:HorizontalBar/>
+            
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_CloseBottomAppBarAfterTweet_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.CloseBottomAppBarAfterTweet, Mode=TwoWay}" Header="ツイート後にツイート画面を閉じる"/>
 
             <controls:HorizontalBar/>

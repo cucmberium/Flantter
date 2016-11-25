@@ -42,13 +42,13 @@
 
         <behaviors:ShareDataBehavior Messenger="{x:Bind ViewModel.ShowShareUIMessenger}"/>
 
-        <behaviors:BottomAppBarShowBehavior IsOpen="{x:Bind ViewModel.AppBarIsOpen.Value, Mode=TwoWay}">
-            <behaviors:BottomAppBarShowBehavior.BottomAppBar>
-                <AppBar ClosedDisplayMode="Hidden" IsSticky="False">
+        <behaviors:AppBarShowBehavior IsOpen="{x:Bind ViewModel.AppBarIsOpen.Value, Mode=TwoWay}" IsTopAppBar="{x:Bind ViewModel.Setting.ShowAppBarToTop, Mode=OneWay}">
+            <behaviors:AppBarShowBehavior.AppBar>
+                <AppBar ClosedDisplayMode="Hidden" IsSticky="False" BorderBrush="{StaticResource AppBarBorderBrush}">
                     <contents:TweetArea ViewModel="{x:Bind ViewModel.TweetArea, Mode=OneWay}" />
                 </AppBar>
-            </behaviors:BottomAppBarShowBehavior.BottomAppBar>
-        </behaviors:BottomAppBarShowBehavior>
+            </behaviors:AppBarShowBehavior.AppBar>
+        </behaviors:AppBarShowBehavior>
 
         <util:GlobalKeyTriggerBehavior>
             <util:KeyTrigger Key="T">

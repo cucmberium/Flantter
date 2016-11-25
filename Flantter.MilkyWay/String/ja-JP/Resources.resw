@@ -991,4 +991,7 @@
   <data name="Tweet_Command_MenuFlyout_CopyTweetUrl.Text" xml:space="preserve">
     <value>    ツイートURLのコピー</value>
   </data>
+  <data name="SettingsFlyout_Settings_Posting_ShowAppBarToTop_ToggleSwitch.Header" xml:space="preserve">
+    <value>ツイート画面を上部に表示する</value>
+  </data>
 </root>

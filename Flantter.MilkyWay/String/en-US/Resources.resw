@@ -991,4 +991,7 @@
   <data name="Tweet_Command_MenuFlyout_CopyTweetUrl.Text" xml:space="preserve">
     <value>    Copy tweet url</value>
   </data>
+  <data name="SettingsFlyout_Settings_Posting_ShowAppBarToTop_ToggleSwitch.Header" xml:space="preserve">
+    <value>Show tweet area to top</value>
+  </data>
 </root>

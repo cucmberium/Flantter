@@ -94,6 +94,19 @@ namespace Flantter.MilkyWay.Views.Behaviors
             behavior.SuggestionPopup.CommandParameter = (object)e.NewValue;
         }
 
+        public bool IsTopAppBar
+        {
+            get { return (bool)GetValue(IsTopAppBarProperty); }
+            set { SetValue(IsTopAppBarProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsTopAppBarProperty =
+            DependencyProperty.Register(
+                "IsTopAppBar",
+                typeof(bool),
+                typeof(AppBarShowBehavior),
+                new PropertyMetadata(false));
+
         public void Attach(DependencyObject AssociatedObject)
         {
             this.AssociatedObject = AssociatedObject;
@@ -171,13 +184,20 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             if (!this.SuggestionPopup._Popup.IsOpen)
             {
-                this.SuggestionPopup.SetPosition(suggestionRect.Top + screenCoords.Y - (itemCount * 40) - 6, suggestionRect.Left + screenCoords.X);
+                if (this.IsTopAppBar)
+                    this.SuggestionPopup.SetPosition(suggestionRect.Top + screenCoords.Y + (1.8 * ((ExtendedTextBox)this.AssociatedObject).FontSize) + 4, suggestionRect.Left + screenCoords.X);
+                else
+                    this.SuggestionPopup.SetPosition(suggestionRect.Top + screenCoords.Y - (itemCount * 40) - 6, suggestionRect.Left + screenCoords.X);
+
                 this.SuggestionPopup.Show();
                 ((ExtendedTextBox)this.AssociatedObject).Focus(FocusState.Keyboard);
             }
             else
             {
-                this.SuggestionPopup.SetPosition(suggestionRect.Top + screenCoords.Y - (itemCount * 40) - 6, null);
+                if (this.IsTopAppBar)
+                    this.SuggestionPopup.SetPosition(suggestionRect.Top + screenCoords.Y + (1.8 * ((ExtendedTextBox)this.AssociatedObject).FontSize) + 4, null);
+                else
+                    this.SuggestionPopup.SetPosition(suggestionRect.Top + screenCoords.Y - (itemCount * 40) - 6, null);
             }
 
             this.SuggestionPopup.Show();

@@ -149,7 +149,7 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 await this.Model.Tweet(this.SelectedAccount.Value.Model);
                 
-                if (SettingService.Setting.CloseBottomAppBarAfterTweet)
+                if (SettingService.Setting.CloseAppBarAfterTweet)
                 {
                     Services.Notice.Instance.TweetAreaOpenCommand.Execute(false);
                 }

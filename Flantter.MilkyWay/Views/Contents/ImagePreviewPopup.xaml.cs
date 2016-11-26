@@ -43,13 +43,14 @@ namespace Flantter.MilkyWay.Views.Contents
         ResourceLoader _ResourceLoader;
 
         public bool IsOpen { get { return this.ImagePreview.IsOpen; } }
-
+        
         public ImagePreviewPopup()
         {
             this.InitializeComponent();
 
             _ResourceLoader = new ResourceLoader();
 
+            this.KeyDown += ImagePreviewPopup_KeyDown;
             Window.Current.SizeChanged += (s, e) => this.ImagePreviewPopup_LayoutRefresh();
             Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged += (s, e) => this.ImagePreviewPopup_LayoutRefresh();
 
@@ -68,9 +69,41 @@ namespace Flantter.MilkyWay.Views.Contents
 
             //this.ImagePreviewImage.Source = new BitmapImage(new Uri("http://localhost"));
         }
-        
+
         ~ImagePreviewPopup()
         {
+        }
+
+        private void ImagePreviewPopup_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Left)
+            {
+                e.Handled = true;
+                if (this.ImageIndex <= 0 || this.Images.Count <= 1)
+                    return;
+
+                this.ImageIndex -= 1;
+                this.ImageRefresh();
+
+                e.Handled = true;
+            }
+            else if (e.Key == VirtualKey.Right)
+            {
+                e.Handled = true;
+                if (this.ImageIndex >= this.Images.Count - 1 || this.Images.Count <= 1)
+                    return;
+
+                this.ImageIndex += 1;
+                this.ImageRefresh();
+            }
+            else if (e.Key == VirtualKey.Escape)
+            {
+                if (!this.IsOpen)
+                    return;
+
+                this.Hide();
+                e.Handled = true;
+            }
         }
 
         private void ImagePreviewPopup_LayoutRefresh()
@@ -209,6 +242,7 @@ namespace Flantter.MilkyWay.Views.Contents
                 this.ImageInitialize();
 
             this.ImagePreview.IsOpen = true;
+            this.Focus(FocusState.Programmatic);
         }
 
         public void Hide()

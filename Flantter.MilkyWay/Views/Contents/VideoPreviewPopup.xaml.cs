@@ -66,13 +66,12 @@ namespace Flantter.MilkyWay.Views.Contents
                 _BottomAppBar.Opening += (s, e) => { this._IsBottomBarOpen = true; this.VideoPreviewPopup_LayoutRefresh(); };
                 _BottomAppBar.Closed += (s, e) => { this._IsBottomBarOpen = false; this.VideoPreviewPopup_LayoutRefresh(); };
             };
-
+            
             Window.Current.SizeChanged += (s, e) => this.VideoPreviewPopup_LayoutRefresh();
             Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged += (s, e) => this.VideoPreviewPopup_LayoutRefresh();
 
             this.VideoPreviewPopup_LayoutRefresh();
         }
-        
 
         private void VideoPreviewPopup_LayoutRefresh()
         {
@@ -190,8 +189,8 @@ namespace Flantter.MilkyWay.Views.Contents
             }
             else if (this.VideoType == "Twitter")
             {
-                var html = "<html><head><link href=\"http://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} .video-js {{ padding-top: 56.25%; }} \n</style></head>";
-                html += "<body><script src=\"https://code.jquery.com/jquery-2.1.3.min.js\"></script><script src=\"http://vjs.zencdn.net/4.12/video.js\"></script>";
+                var html = "<html><head><link href=\"http://vjs.zencdn.net/5.8.8/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} .video-js {{ padding-top: 56.25%; }} \n</style></head>";
+                html += "<body><script src=\"http://vjs.zencdn.net/5.8.8/video.js\"></script>";
                 html += "<video id=\"twitter\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls autoplay loop preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type=\"{2}\"></video>";
                 html += "</body></html>";
                 this.VideoPreviewWebView.NavigateToString(string.Format(html, this.VideoThumbnailUrl, this.Id, this.VideoContentType));
@@ -204,20 +203,19 @@ namespace Flantter.MilkyWay.Views.Contents
             }
             else
             {
-                var nicoVideo = new NicoVideo();
+                /*var nicoVideo = new NicoVideo();
                 await nicoVideo.GetNicoVideoInfo(this.Id);
-
                 if (string.IsNullOrWhiteSpace(nicoVideo.VideoUrl) || string.IsNullOrWhiteSpace(nicoVideo.VideoCookieUrl))
                 {
                     this.VideoPreviewWebView.Visibility = Visibility.Collapsed;
                     this.VideoPreviewSymbolIcon.Visibility = Visibility.Visible;
                     return;
                 }
+                var html = "<html><head><link href=\"http://vjs.zencdn.net/5.8.8/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} \n .video-js {{ padding-top: 56.25%; }} \n </style></head>";
+                html += "<body><script src=\"http://vjs.zencdn.net/5.8.8/video.js\"></script><div id=\"video\"><video id=\"nicovideo\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type=\"{2}\"></video></div></body></html>";
+                this.VideoPreviewWebView.NavigateToString(string.Format(html, this.VideoThumbnailUrl, nicoVideo.VideoUrl, nicoVideo.VideoContentType));*/
 
-                var html = "<html><head><link href=\"http://vjs.zencdn.net/4.12/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} \n .video-js {{ padding-top: 56.25%; }} \n </style></head>";
-                html += "<body><script src=\"http://vjs.zencdn.net/4.12/video.js\"></script><div id=\"video\"><video id=\"nicovideo\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type=\"{2}\"></video></div></body></html>";
-
-                this.VideoPreviewWebView.NavigateToString(string.Format(html, this.VideoThumbnailUrl, nicoVideo.VideoUrl, nicoVideo.VideoContentType));
+                this.VideoPreviewWebView.Navigate(new Uri("http://embed.nicovideo.jp/watch/" + this.Id));
             }
         }
 
@@ -226,6 +224,7 @@ namespace Flantter.MilkyWay.Views.Contents
             this.VideoPreviewWebView.Visibility = Visibility.Visible;
             this.VideoPreviewSymbolIcon.Visibility = Visibility.Collapsed;
             this.VideoPreview.IsOpen = true;
+            this.Focus(FocusState.Programmatic);
         }
 
         public void Hide()

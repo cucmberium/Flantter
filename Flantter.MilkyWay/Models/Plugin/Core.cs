@@ -39,23 +39,21 @@ namespace Flantter.MilkyWay.Models.Plugin
             else
                 pluginFolder = folders.First(x => x.Name == "plugins");
 
-            foreach (var file in await pluginFolder.GetFilesAsync())
+            foreach (var folder in await pluginFolder.GetFoldersAsync())
             {
-                if (file.FileType != ".js")
-                    continue;
-
-                var name = file.DisplayName;
+                var name = folder.Name;
                 try
                 {
+                    var file = await pluginFolder.GetFileAsync(folder.Name + ".js");
                     var script = System.IO.File.ReadAllText(file.Path);
 
                     var engine = new Engine(clr => clr
                         .AllowClr(new Assembly[] { typeof(Flantter.MilkyWay.Plugin.Debug).GetTypeInfo().Assembly,
                                                    typeof(Flantter.MilkyWay.Plugin.Utility).GetTypeInfo().Assembly,
-                                                   typeof(Flantter.MilkyWay.Plugin.Notification).GetTypeInfo().Assembly,
+                                                   typeof(Flantter.MilkyWay.Plugin.Event).GetTypeInfo().Assembly,
                                                    typeof(Flantter.MilkyWay.Plugin.Filter).GetTypeInfo().Assembly}));
                     engine.Global.FastAddProperty("Windows", new Jint.Runtime.Interop.NamespaceReference(engine, "Windows"), false, false, false);
-                    engine.Global.FastAddProperty("Flantter", new Jint.Runtime.Interop.NamespaceReference(engine, "Flantter"), false, false, false);
+                    //engine.Global.FastAddProperty("Flantter", new Jint.Runtime.Interop.NamespaceReference(engine, "Flantter"), false, false, false);
 
                     _Plugins[name] = new Plugin() { Engine = engine };
 
@@ -76,6 +74,10 @@ namespace Flantter.MilkyWay.Models.Plugin
                         {
                         }
                     }));
+
+                    // Load requrejs for load external library
+                    var reqirejs = System.IO.File.ReadAllText("ms-appx:///Models/Plugins/Script/require.js");
+                    engine.Execute(reqirejs);
 
                     engine.Execute(script);
                 }

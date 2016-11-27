@@ -700,14 +700,14 @@ namespace Flantter.MilkyWay.ViewModels
         private async void Application_Resuming(object sender, object e)
         {
             System.Diagnostics.Debug.WriteLine("Resuming...");
-            /*foreach (var account in this.Accounts)
+            foreach (var account in this.Accounts)
             {
                 foreach (var column in account.Columns)
                 {
                     if (column.IsEnabledStreaming.Value && column.Model.Streaming)
                         column.Model.ReconnectStreaming();
                 }
-            }*/
+            }
 
             await Task.Delay(1250);
 

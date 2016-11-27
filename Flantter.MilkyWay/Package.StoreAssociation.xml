@@ -360,7 +360,6 @@
   <ProductReservedInfo>
     <MainPackageIdentityName>6840cucmberium.Flantter.Cascade</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>Flantter.Cascade</ReservedName>
       <ReservedName>Flantter</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
@@ -369,22 +368,22 @@
     <MainPackageIdentityName>6840cucmberium.Pixitle</MainPackageIdentityName>
     <MainPackageIdentityName>6840cucmberium.35291D3EF2DC</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9WZDNCRCRPMN">
+  <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9WZDNCRCRPMN">
     <BundleInfo>
       <PackageInfo>
         <OsMinVersion>6.3.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>2.2.3.3</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>2.2.3.4</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>6.3.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>2.2.3.3</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>2.2.3.4</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>6.3.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>2.2.3.3</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>2.2.3.4</PackageMaxArchitectureVersion>
       </PackageInfo>
     </BundleInfo>
   </PackageInfoList>

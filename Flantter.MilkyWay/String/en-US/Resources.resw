@@ -467,7 +467,7 @@
     <value>Lists</value>
   </data>
   <data name="MainSwipeMenu_MyUserProfile.Text" xml:space="preserve">
-    <value>My user orofile</value>
+    <value>My user profile</value>
   </data>
   <data name="MainSwipeMenu_RetweetsOfMe.Text" xml:space="preserve">
     <value>Retweets of me</value>

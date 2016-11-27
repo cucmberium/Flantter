@@ -187,7 +187,7 @@ namespace Flantter.MilkyWay.Models.Twitter
                     {
                         yield return new Media()
                         {
-                            MediaThumbnailUrl = "http://gyazo.com/thumb/" + match.Groups[1] + ".png",
+                            MediaThumbnailUrl = "http://gyazo.com/" + match.Groups[1] + ".png",
                             MediaUrl = "http://gyazo.com/" + match.Groups[1] + ".png",
                             ExpandedUrl = match.Value,
                             DisplayUrl = url.DisplayUrl,

@@ -189,7 +189,7 @@ namespace Flantter.MilkyWay.Views.Contents
             }
             else if (this.VideoType == "Twitter")
             {
-                var html = "<html><head><link href=\"http://vjs.zencdn.net/5.8.8/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} .video-js {{ padding-top: 56.25%; }} \n</style></head>";
+                var html = "<html><head><link href=\"http://vjs.zencdn.net/5.8.8/video-js.css\" rel=\"stylesheet\"><style type=\"text/css\"> \n body {{ margin: 0; }} \n #twitter {{ position: absolute; top: 0; left: 0; width:100%; height:100%; overflow: hidden; }} \n</style></head>";
                 html += "<body><script src=\"http://vjs.zencdn.net/5.8.8/video.js\"></script>";
                 html += "<video id=\"twitter\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls autoplay loop preload=\"auto\" width=\"auto\" height=\"auto\" poster=\"{0}\" data-setup=\"{{}}\"><source src=\"{1}\" type=\"{2}\"></video>";
                 html += "</body></html>";

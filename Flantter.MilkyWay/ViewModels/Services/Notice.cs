@@ -77,6 +77,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.SortColumnCommand = new ReactiveCommand();
             this.ChangeColumnSelectedIndexCommand = new ReactiveCommand();
 
+            this.OpenCollectionCommand = new ReactiveCommand();
+
             this.ShowLeftSwipeMenuCommand = new ReactiveCommand();
             this.ShowChangeAccountCommand = new ReactiveCommand();
             this.ChangeAccountCommand = new ReactiveCommand();
@@ -193,6 +195,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
         public ReactiveCommand SortColumnCommand { get; private set; }
         public ReactiveCommand ChangeColumnSelectedIndexCommand { get; private set; }
+
+        public ReactiveCommand OpenCollectionCommand { get; private set; }
 
         public ReactiveCommand ShowLeftSwipeMenuCommand { get; private set; }
         public ReactiveCommand ShowChangeAccountCommand { get; private set; }

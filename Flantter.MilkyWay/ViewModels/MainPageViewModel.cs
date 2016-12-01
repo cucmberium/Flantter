@@ -229,6 +229,21 @@ namespace Flantter.MilkyWay.ViewModels
                 await Launcher.LaunchUriAsync(new Uri("https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id.ToString()));
             });
 
+            Services.Notice.Instance.OpenCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var column = x as ColumnModel;
+                if (column != null)
+                {
+                    await Launcher.LaunchUriAsync(new Uri("https://twitter.com/" + column.ScreenName + "/timelines/" + column.Parameter.ToString().Replace("custom-", "")));
+                }
+
+                var collection = x as Collection;
+                if (collection != null)
+                {
+                    await Launcher.LaunchUriAsync(new Uri("https://twitter.com/" + collection.User.ScreenName + "/timelines/" + collection.Id.ToString().Replace("custom-", "")));
+                }
+            });
+
             Services.Notice.Instance.ShareStatusCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
             {
                 var status = x as Status;

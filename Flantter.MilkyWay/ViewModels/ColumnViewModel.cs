@@ -46,6 +46,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> IsEnabledStreaming { get; private set; }
         public ReactiveProperty<bool> Updating { get; private set; }
         public ReactiveProperty<bool> IsEnabledMultipulSelect { get; private set; }
+        public ReactiveProperty<bool> IsCollectionColumn { get; private set; }
 
         public ReadOnlyReactiveCollection<object> Tweets { get; private set; }
 
@@ -138,6 +139,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.Updating = column.ObserveProperty(x => x.Updating).ToReactiveProperty().AddTo(this.Disposable);
             this.CanDeleteColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Filter || x == SettingSupport.ColumnTypeEnum.List || x == SettingSupport.ColumnTypeEnum.Search || x == SettingSupport.ColumnTypeEnum.UserTimeline || x == SettingSupport.ColumnTypeEnum.Collection).ToReactiveProperty().AddTo(this.Disposable);
             this.IsEnabledMultipulSelect = column.ObserveProperty(x => x.Action).Select(x => x != SettingSupport.ColumnTypeEnum.Events && x != SettingSupport.ColumnTypeEnum.DirectMessages).ToReactiveProperty().AddTo(this.Disposable);
+            this.IsCollectionColumn = column.ObserveProperty(x => x.Action).Select(x => x == SettingSupport.ColumnTypeEnum.Collection).ToReactiveProperty().AddTo(this.Disposable);
 
             this.IsMultipulSelectOpened = new ReactiveProperty<bool>().AddTo(this.Disposable);
             this.ListViewSelectionMode = new ReactiveProperty<ListViewSelectionMode>(Windows.UI.Xaml.Controls.ListViewSelectionMode.Single).AddTo(this.Disposable);

@@ -220,10 +220,10 @@
     <value>    Search similar Image</value>
   </data>
   <data name="ImagePreviewPopup_ShowinBrowser.Text" xml:space="preserve">
-    <value>    Open in web</value>
+    <value>    Open in browser</value>
   </data>
   <data name="VideoPreviewPopup_ShowinBrowser.Text" xml:space="preserve">
-    <value>    Open in web</value>
+    <value>    Open in browser</value>
   </data>
   <data name="ImagePreviewPopup_Close.Text" xml:space="preserve">
     <value>    Close</value>
@@ -284,7 +284,7 @@
     <value>    Block</value>
   </data>
   <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenInWeb.Text" xml:space="preserve">
-    <value>    Open in web</value>
+    <value>    Open in browser</value>
   </data>
   <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserAclog.Text" xml:space="preserve">
     <value>★    Open user aclog</value>
@@ -993,5 +993,11 @@
   </data>
   <data name="SettingsFlyout_Settings_Posting_ShowAppBarToTop_ToggleSwitch.Header" xml:space="preserve">
     <value>Show tweet area to top</value>
+  </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_OpenCollection.Text" xml:space="preserve">
+    <value>    Open collection in browser</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_OpenCollection.Text" xml:space="preserve">
+    <value>    Open collection in browser</value>
   </data>
 </root>

@@ -994,4 +994,10 @@
   <data name="SettingsFlyout_Settings_Posting_ShowAppBarToTop_ToggleSwitch.Header" xml:space="preserve">
     <value>ツイート画面を上部に表示する</value>
   </data>
+  <data name="ColumnView_ControlBar_MenuFlyout_OpenCollection.Text" xml:space="preserve">
+    <value>    コレクションをブラウザで開く</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_OpenCollection.Text" xml:space="preserve">
+    <value>    コレクションをブラウザで開く</value>
+  </data>
 </root>

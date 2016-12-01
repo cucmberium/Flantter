@@ -32,7 +32,7 @@
 
             <controls:HorizontalBar/>
             
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_CloseBottomAppBarAfterTweet_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.CloseBottomAppBarAfterTweet, Mode=TwoWay}" Header="ツイート後にツイート画面を閉じる"/>
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_CloseAppBarAfterTweet_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.CloseAppBarAfterTweet, Mode=TwoWay}" Header="ツイート後にツイート画面を閉じる"/>
 
             <controls:HorizontalBar/>
 

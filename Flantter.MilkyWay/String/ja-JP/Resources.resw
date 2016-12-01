@@ -538,7 +538,7 @@
   <data name="SettingsFlyout_Settings_Behavior_TrendsRegion_ComboBox.Header" xml:space="preserve">
     <value>トレンドの地域</value>
   </data>
-  <data name="SettingsFlyout_Settings_Posting_CloseBottomAppBarAfterTweet_ToggleSwitch.Header" xml:space="preserve">
+  <data name="SettingsFlyout_Settings_Posting_CloseAppBarAfterTweet_ToggleSwitch.Header" xml:space="preserve">
     <value>ツイート後にツイート画面を閉じる</value>
   </data>
   <data name="SettingsFlyout_Settings_Posting_ConvertPostingImage_ToggleSwitch.Header" xml:space="preserve">

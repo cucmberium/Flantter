@@ -541,7 +541,7 @@
   <data name="SettingsFlyout_Settings_Behavior_TrendsRegion_ComboBox.Header" xml:space="preserve">
     <value>Trends region</value>
   </data>
-  <data name="SettingsFlyout_Settings_Posting_CloseBottomAppBarAfterTweet_ToggleSwitch.Header" xml:space="preserve">
+  <data name="SettingsFlyout_Settings_Posting_CloseAppBarAfterTweet_ToggleSwitch.Header" xml:space="preserve">
     <value>Close bottom appbar after tweet</value>
   </data>
   <data name="SettingsFlyout_Settings_Posting_ConvertPostingImage_ToggleSwitch.Header" xml:space="preserve">

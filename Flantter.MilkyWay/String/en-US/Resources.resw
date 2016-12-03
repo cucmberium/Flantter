@@ -1000,4 +1000,7 @@
   <data name="Tweet_Command_MenuFlyout_OpenCollection.Text" xml:space="preserve">
     <value>    Open collection in browser</value>
   </data>
+  <data name="SettingsFlyout_Settings_Behavior_NotificateRetweetedRetweet_ToggleSwitch.Header" xml:space="preserve">
+    <value>Notificate retweeted retweet and favorited retweet to others</value>
+  </data>
 </root>

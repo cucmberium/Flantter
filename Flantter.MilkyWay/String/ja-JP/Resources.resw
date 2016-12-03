@@ -1000,4 +1000,7 @@
   <data name="Tweet_Command_MenuFlyout_OpenCollection.Text" xml:space="preserve">
     <value>    コレクションをブラウザで開く</value>
   </data>
+  <data name="SettingsFlyout_Settings_Behavior_NotificateRetweetedRetweet_ToggleSwitch.Header" xml:space="preserve">
+    <value>リツイートをリツイートやお気に入りに登録した際の通知を飛ばす</value>
+  </data>
 </root>

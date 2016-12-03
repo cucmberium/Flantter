@@ -238,7 +238,10 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var retweetedResponse = await this.Tokens.Statuses.RetweetAsync(id => status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id);
+                if (SettingService.Setting.NotificateRetweetedRetweet)
+                    await this.Tokens.Statuses.RetweetAsync(id => status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id);
+                else
+                    await this.Tokens.Statuses.RetweetAsync(id => status.Id);
                 status.IsRetweeted = true;
             }
             catch (TwitterException ex)
@@ -255,7 +258,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var retweetedResponse = await this.Tokens.Statuses.UnretweetAsync(id => status.Id);
+                await this.Tokens.Statuses.UnretweetAsync(id => status.Id);
                 status.IsRetweeted = false;
             }
             catch (TwitterException ex)
@@ -272,7 +275,10 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var retweetedResponse = await this.Tokens.Favorites.CreateAsync(id => status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id);
+                if (SettingService.Setting.NotificateRetweetedRetweet)
+                    await this.Tokens.Favorites.CreateAsync(id => status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id);
+                else
+                    await this.Tokens.Favorites.CreateAsync(id => status.Id);
                 status.IsFavorited = true;
             }
             catch (TwitterException ex)
@@ -289,7 +295,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var retweetedResponse = await this.Tokens.Favorites.DestroyAsync(id => status.Id);
+                await this.Tokens.Favorites.DestroyAsync(id => status.Id);
                 status.IsFavorited = false;
             }
             catch (TwitterException ex)

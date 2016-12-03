@@ -231,6 +231,7 @@ namespace Flantter.MilkyWay.Setting
         public SettingSupport.TrendsRegionEnum TrendsRegion { get { return (SettingSupport.TrendsRegionEnum)GetValue(0); } set { SetValue((int)value); OnPropertyChanged(); } }
         public bool RetweetConfirmation { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool FavoriteConfirmation { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool NotificateRetweetedRetweet { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ExtendTitleBar { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
         public bool ShowRetweetInMentionColumn { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
         public bool RemoveRetweetAlreadyReceive { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }

@@ -418,7 +418,7 @@
   <ItemGroup>
     <Content Include="Assets\Tweet.png" />
     <None Include="Package.StoreAssociation.xml" />
-    <Content Include="Models\Plugin\Script\require.js" />
+    <Content Include="Models\Plugin\Scripts\require.js" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

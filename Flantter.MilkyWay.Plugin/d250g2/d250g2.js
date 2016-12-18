@@ -1,9 +1,9 @@
 ﻿// ツイートに d250g2.com が含まれるときに燃える
 //
 // Usage:
-// d250g2(Text, Entities)
+// d250g2(Entities)
 // Return:
-// bool (always true)
+// bool (always false)
 //
 
 
@@ -28,22 +28,24 @@ function load() {
 
 // Filter用関数定義
 function d250g2(entities) {
-	var func = function(x) { return x.DisplayUrl == "d250g2.com"; };
 	fl.Debug.Log("Search d250g2.com");
-	var count = System.Linq.Enumerable.Count(Flantter.MilkyWay.Models.Twitter.Objects.UrlEntity).Invoke(null, [entities.Urls]);
-	fl.Debug.Log("Count d250g2.com");
-	/*if (System.Linq.Enumerable.Count(targetEntities) != 0) {
-    	fl.Debug.Log("Detect d250g2.com");
-		var media = new Flantter.MilkyWay.Models.Twitter.Objects.MediaEntity();
-		media.MediaUrl = "http://d250g2.com/d250g2.jpg";
-		media.MediaThumbnailUrl = "http://d250g2.com/d250g2.jpg";
-		media.DisplayUrl = "d250g2.com";
-		media.ExpandedUrl = "http://d250g2.com/";
-		media.Type = "Image";
-		media.ParentEntities = entities;
-		
-		entities.Media.Add(media);
-	}*/
+    // Linqはまだ使えない
+	for (var i = 0; i < entities.Urls.Count; i++) {
+	    var url = entities.Urls[i];
+	    if (url.DisplayUrl == "d250g2.com") {
+	        fl.Debug.Log("Detect d250g2.com");
+	        var media = new Flantter.MilkyWay.Models.Twitter.Objects.MediaEntity();
+	        media.MediaUrl = "http://d250g2.com/d250g2.jpg";
+	        media.MediaThumbnailUrl = "http://d250g2.com/d250g2.jpg";
+	        media.DisplayUrl = "d250g2.com";
+	        media.ExpandedUrl = "http://d250g2.com/";
+	        media.Type = "Image";
+	        media.ParentEntities = entities;
+
+	        entities.Media.Add(media);
+	        break;
+	    }
+	}
 	
     return false;
 }

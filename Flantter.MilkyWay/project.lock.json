@@ -48,11 +48,6 @@
           "System.Dynamic.Runtime": "4.0.11",
           "System.Reflection.TypeExtensions": "4.1.0"
         },
-        "frameworkAssemblies": [
-          "System",
-          "System.Core",
-          "mscorlib"
-        ],
         "compile": {
           "lib/netstandard1.3/jint.dll": {}
         },
@@ -2444,11 +2439,6 @@
           "System.Dynamic.Runtime": "4.0.11",
           "System.Reflection.TypeExtensions": "4.1.0"
         },
-        "frameworkAssemblies": [
-          "System",
-          "System.Core",
-          "mscorlib"
-        ],
         "compile": {
           "lib/netstandard1.3/jint.dll": {}
         },
@@ -4925,11 +4915,6 @@
           "System.Dynamic.Runtime": "4.0.11",
           "System.Reflection.TypeExtensions": "4.1.0"
         },
-        "frameworkAssemblies": [
-          "System",
-          "System.Core",
-          "mscorlib"
-        ],
         "compile": {
           "lib/netstandard1.3/jint.dll": {}
         },
@@ -7445,11 +7430,6 @@
           "System.Dynamic.Runtime": "4.0.11",
           "System.Reflection.TypeExtensions": "4.1.0"
         },
-        "frameworkAssemblies": [
-          "System",
-          "System.Core",
-          "mscorlib"
-        ],
         "compile": {
           "lib/netstandard1.3/jint.dll": {}
         },
@@ -9935,11 +9915,6 @@
           "System.Dynamic.Runtime": "4.0.11",
           "System.Reflection.TypeExtensions": "4.1.0"
         },
-        "frameworkAssemblies": [
-          "System",
-          "System.Core",
-          "mscorlib"
-        ],
         "compile": {
           "lib/netstandard1.3/jint.dll": {}
         },
@@ -12464,11 +12439,6 @@
           "System.Dynamic.Runtime": "4.0.11",
           "System.Reflection.TypeExtensions": "4.1.0"
         },
-        "frameworkAssemblies": [
-          "System",
-          "System.Core",
-          "mscorlib"
-        ],
         "compile": {
           "lib/netstandard1.3/jint.dll": {}
         },
@@ -14954,11 +14924,6 @@
           "System.Dynamic.Runtime": "4.0.11",
           "System.Reflection.TypeExtensions": "4.1.0"
         },
-        "frameworkAssemblies": [
-          "System",
-          "System.Core",
-          "mscorlib"
-        ],
         "compile": {
           "lib/netstandard1.3/jint.dll": {}
         },

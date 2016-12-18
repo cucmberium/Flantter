@@ -126,6 +126,7 @@
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="License\LicenseService.cs" />
     <Compile Include="Models\Plugin\Core.cs" />
+    <Compile Include="Models\Plugin\Extensions.cs" />
     <Compile Include="Models\Plugin\Interface.cs" />
     <Compile Include="Models\SettingsFlyouts\CollectionStatusesSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\AddStatusToCollectionsSettingsFlyoutModel.cs" />

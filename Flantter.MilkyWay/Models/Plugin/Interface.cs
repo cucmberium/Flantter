@@ -4,6 +4,9 @@ using NotificationsExtensions.Toasts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -36,12 +39,47 @@ namespace Flantter.MilkyWay.Plugin
 
     public static class Event
     {
-        public static void RegisterFunction(string functionName, string eventName)
+        public class FlEventArgs : EventArgs
         {
+            public object Info;
         }
 
-        public static void UnregisterFunction(string functionName, string eventName)
+        private static Dictionary<string, IDisposable> EventStore = new Dictionary<string, IDisposable>();
+        private static event EventHandler<FlEventArgs> TweetReceivedAtColumn;
+
+        public static void RegisterFunction(string eventName, Delegate dele)
         {
+            if (EventStore.ContainsKey(eventName + dele.ToString()))
+                return;
+            
+            try
+            {
+                var eventInfo = typeof(Event).GetEvent(eventName, BindingFlags.Static | BindingFlags.NonPublic);
+                var iDisposable = Observable.FromEvent<FlEventArgs>(
+                        x => eventInfo.AddEventHandler(null, x),
+                        x => eventInfo.RemoveEventHandler(null, x)
+                    ).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => dele.DynamicInvoke(x));
+                EventStore[eventName + dele.ToString()] = iDisposable;
+            }
+            catch
+            {
+            }
+        }
+
+        public static void UnregisterFunction(string eventName, Delegate dele)
+        {
+            if (!EventStore.ContainsKey(eventName + dele.ToString()))
+                return;
+
+            try
+            {
+                var iDisposable = EventStore[eventName + dele.ToString()];
+                EventStore.Remove(eventName + dele.ToString());
+                iDisposable.Dispose();
+            }
+            catch
+            {
+            }
         }
     }
 

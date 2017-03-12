@@ -44,7 +44,7 @@
                         </Hyperlink>
                     </TextBlock>
                     <TextBlock x:Name="SettingsFlyout_Settings_AppInfo_Version_TextBlock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="Version 3.0.0" HorizontalAlignment="Center"/>
-                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}" Text="Copyright (c) 2014-2016 cucmberium" HorizontalAlignment="Center"/>
+                    <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}" Text="Copyright (c) 2014-2017 cucmberium" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>
             

@@ -496,10 +496,13 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 this.streamingConnectionDisposableObject.Dispose();
-                this.streamingConnectionDisposableObject = null;
             }
             catch
             {
+            }
+            finally
+            {
+                this.streamingConnectionDisposableObject = null;
             }
         }
 

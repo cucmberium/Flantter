@@ -25,17 +25,17 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (grid == null)
                 return;
 
-            var stackPanel = grid.FindName("TweetMultipulActionStackPanel") as StackPanel;
-            if (stackPanel == null)
+            var tweetMultipulActionGrid = grid.FindName("TweetMultipulActionGrid") as Grid;
+            if (tweetMultipulActionGrid == null)
                 return;
 
             if ((bool)e.NewValue)
             {
-                (stackPanel.Resources["TweetMultipulActionStackPanelOpenAnimation"] as Storyboard).Begin();
+                (tweetMultipulActionGrid.Resources["TweetMultipulActionGridOpenAnimation"] as Storyboard).Begin();
             }
             else
             {
-                (stackPanel.Resources["TweetMultipulActionStackPanelCloseAnimation"] as Storyboard).Begin();
+                (tweetMultipulActionGrid.Resources["TweetMultipulActionGridCloseAnimation"] as Storyboard).Begin();
             }
         }
     }

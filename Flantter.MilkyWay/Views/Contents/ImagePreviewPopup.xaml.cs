@@ -419,8 +419,8 @@ namespace Flantter.MilkyWay.Views.Contents
             Storyboard.SetTarget(scaleAnimY, element);
             Storyboard.SetTargetProperty(scaleAnimY, "(UIElement.RenderTransform).(CompositeTransform.ScaleY)");
 
-            var translateAnimXVal = transform.TranslateX + (e.GetPosition(Window.Current.Content).X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) * (1 - scale / transform.ScaleX);
-            var translateAnimYVal = transform.TranslateY + (e.GetPosition(Window.Current.Content).Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - scale / transform.ScaleY);
+            var translateAnimXVal = transform.TranslateX + (e.GetPosition(Window.Current.Content).X - (WindowSizeHelper.Instance.StatusBarWidth + Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) * (1 - scale / transform.ScaleX);
+            var translateAnimYVal = transform.TranslateY + (e.GetPosition(Window.Current.Content).Y - (WindowSizeHelper.Instance.StatusBarHeight + Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - scale / transform.ScaleY);
             if (scale <= 1.0)
             {
                 translateAnimYVal = 0.0;

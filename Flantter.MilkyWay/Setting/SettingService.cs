@@ -312,7 +312,7 @@ namespace Flantter.MilkyWay.Setting
 
         // プラグイン設定
         [LocalValue]
-        public bool EnablePlugins { get { return GetValue(true); } set { SetValue(value); OnPropertyChanged(); } }
+        public bool EnablePlugins { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }
 
         // 上級者向け設定
         public bool UseOfficialApi { get { return GetValue(false); } set { SetValue(value); OnPropertyChanged(); } }

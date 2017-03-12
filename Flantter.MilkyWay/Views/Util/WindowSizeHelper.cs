@@ -39,32 +39,32 @@ namespace Flantter.MilkyWay.Views.Util
                 this.StatusBarHeight = (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
                 this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
 
-                Observable.CombineLatest<WindowSizeChangedEventArgs, CoreApplicationViewTitleBar, bool, bool>(
-                Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
-                    h => (sender, e) => h(e),
-                    h => Window.Current.SizeChanged += h,
-                    h => Window.Current.SizeChanged -= h),
-                Observable.FromEvent<TypedEventHandler<CoreApplicationViewTitleBar, object>, CoreApplicationViewTitleBar>(
-                    h => (sender, e) => h(sender),
-                    h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += h,
-                    h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged -= h),
-                Reactive.Bindings.Extensions.INotifyPropertyChangedExtensions.ObserveProperty(Setting.SettingService.Setting, x => x.ExtendTitleBar),
-                (size, titleBar, extendTitleBar) => extendTitleBar).Subscribe(extendTitleBar =>
-                {
-                    titleBarVisiblity = false;
-                    if ((UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode) == UserInteractionMode.Mouse)
-                        titleBarVisiblity = true;
-                    else
-                        titleBarVisiblity = extendTitleBar;
-                    
-                    this.WindowWidth = Window.Current.Bounds.Width;
-                    this.WindowHeight = Window.Current.Bounds.Height;
-                    this.ClientWidth = Window.Current.Bounds.Width;
-                    this.ClientHeight = Window.Current.Bounds.Height - (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
-                    this.StatusBarHeight = (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
-                    this.StatusBarWidth = 0.0;
-                    this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
-                });
+                Observable.Merge<object>(
+                    Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
+                        h => (sender, e) => h(e),
+                        h => Window.Current.SizeChanged += h,
+                        h => Window.Current.SizeChanged -= h).Select(e => (object)e),
+                    Observable.FromEvent<TypedEventHandler<CoreApplicationViewTitleBar, object>, CoreApplicationViewTitleBar>(
+                        h => (sender, e) => h(sender),
+                        h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += h,
+                        h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged -= h).Select(e => (object)e),
+                    Reactive.Bindings.Extensions.INotifyPropertyChangedExtensions.ObserveProperty(Setting.SettingService.Setting, x => x.ExtendTitleBar).Select(e => (object)e)
+                ).Subscribe(_ =>
+                    {
+                        titleBarVisiblity = false;
+                        if ((UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode) == UserInteractionMode.Mouse)
+                            titleBarVisiblity = true;
+                        else
+                            titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
+
+                        this.WindowWidth = Window.Current.Bounds.Width;
+                        this.WindowHeight = Window.Current.Bounds.Height;
+                        this.ClientWidth = Window.Current.Bounds.Width;
+                        this.ClientHeight = Window.Current.Bounds.Height - (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
+                        this.StatusBarHeight = (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
+                        this.StatusBarWidth = 0.0;
+                        this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
+                    });
             }
             else if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
             {
@@ -78,16 +78,16 @@ namespace Flantter.MilkyWay.Views.Util
                 this.StatusBarHeight = statusBarHeight;
                 this.UserInteractionMode = UserInteractionMode.Touch;
                 
-                Observable.CombineLatest<WindowSizeChangedEventArgs, object, object>(
-                Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
-                    h => (sender, e) => h(e),
-                    h => Window.Current.SizeChanged += h,
-                    h => Window.Current.SizeChanged -= h),
-                Observable.FromEvent<TypedEventHandler<DisplayInformation, object>, object>(
-                    h => (sender, e) => h(e),
-                    h => Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged += h,
-                    h => Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged -= h),
-                (size, orientation) => orientation).Subscribe(x =>
+                Observable.Merge<object>(
+                    Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
+                        h => (sender, e) => h(e),
+                        h => Window.Current.SizeChanged += h,
+                        h => Window.Current.SizeChanged -= h).Select(e => (object)e),
+                    Observable.FromEvent<TypedEventHandler<DisplayInformation, object>, object>(
+                        h => (sender, e) => h(e),
+                        h => Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged += h,
+                        h => Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged -= h).Select(e => (object)e))
+                .Subscribe(_ =>
                     {
                         statusBarHeight = StatusBar.GetForCurrentView().OccludedRect.Height == Window.Current.Bounds.Height ? 0 : StatusBar.GetForCurrentView().OccludedRect.Height;
                         statusBarWidth = StatusBar.GetForCurrentView().OccludedRect.Width == Window.Current.Bounds.Width ? 0 : StatusBar.GetForCurrentView().OccludedRect.Width;

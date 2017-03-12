@@ -39,7 +39,51 @@
 
                             <Polygon Grid.Row="0" Visibility="{x:Bind UnreadCount.Value, Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Fill="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}" Points="10,10,20,0,30,10" Width="40" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
 
-                            <Grid Grid.Row="1" Height="30" Background="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}">
+                            <Grid x:Name="TweetMultipulActionGrid" x:DeferLoadStrategy="Lazy" Grid.Row="1">
+                                <Grid.Resources>
+                                    <Storyboard x:Name="TweetMultipulActionGridOpenAnimation">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetMultipulActionHorizontalBar" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetMultipulActionStackPanel" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="TweetMultipulActionStackPanel">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="75">
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <SineEase EasingMode="EaseInOut"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <Storyboard x:Name="TweetMultipulActionGridCloseAnimation">
+                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="TweetMultipulActionStackPanel">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0">
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <SineEase EasingMode="EaseInOut"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetMultipulActionStackPanel" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetMultipulActionHorizontalBar" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </Grid.Resources>
+
+                                <controls:HorizontalBar x:Name="TweetMultipulActionHorizontalBar"/>
+
+                                <StackPanel x:Name="TweetMultipulActionStackPanel" Height="0" HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare" Command="{x:Bind Notice.RetweetStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
+                                    <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite" Command="{x:Bind Notice.FavoriteStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
+                                    <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message" Command="{x:Bind Notice.ReplyToStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}" />
+                                    <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel" Command="{x:Bind CloseStatusMultipulSelectCommand}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="2" Height="30" Background="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -48,7 +92,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <SymbolIcon Grid.Column="0" Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Margin="5,0,0,0" Symbol="{x:Bind ActionSymbol.Value, Mode=OneWay}" HorizontalAlignment="Left"/>
-                                
+
                                 <TextBlock Grid.Column="0" Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <Run Text="{x:Bind Name.Value, Mode=OneWay}"/>
                                     <Run Text=" - "/>
@@ -85,41 +129,6 @@
                                     <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="{x:Bind StreamingSymbol.Value, Mode=OneWay}"/>
                                 </Button>
                             </Grid>
-
-                            <StackPanel x:Name="TweetMultipulActionStackPanel" x:DeferLoadStrategy="Lazy" Grid.Row="2" Visibility="Collapsed" Height="0" HorizontalAlignment="Center" Orientation="Horizontal">
-                                <StackPanel.Resources>
-                                    <Storyboard x:Name="TweetMultipulActionStackPanelOpenAnimation">
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetMultipulActionStackPanel" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="TweetMultipulActionStackPanel">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="75">
-                                                <EasingDoubleKeyFrame.EasingFunction>
-                                                    <SineEase EasingMode="EaseInOut"/>
-                                                </EasingDoubleKeyFrame.EasingFunction>
-                                            </EasingDoubleKeyFrame>
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                    <Storyboard x:Name="TweetMultipulActionStackPanelCloseAnimation">
-                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="TweetMultipulActionStackPanel">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0">
-                                                <EasingDoubleKeyFrame.EasingFunction>
-                                                    <SineEase EasingMode="EaseInOut"/>
-                                                </EasingDoubleKeyFrame.EasingFunction>
-                                            </EasingDoubleKeyFrame>
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TweetMultipulActionStackPanel" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="Collapsed"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </StackPanel.Resources>
-
-                                <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare" Command="{x:Bind Notice.RetweetStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
-                                <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite" Command="{x:Bind Notice.FavoriteStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
-                                <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message" Command="{x:Bind Notice.ReplyToStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}" />
-                                <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel" Command="{x:Bind CloseStatusMultipulSelectCommand}"/>
-                            </StackPanel>
-
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

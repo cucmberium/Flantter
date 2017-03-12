@@ -1,19 +1,19 @@
 ﻿{
   "dependencies": {
     "CoreTweet": "0.7.2.352",
-    "HockeySDK.UWP": "4.1.5",
-    "jint": "2.10.2",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
+    "HockeySDK.UWP": "4.1.6",
+    "jint": "2.10.3",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.1",
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "2.0.0",
     "Newtonsoft.Json": "9.0.1",
     "NotificationsExtensions.Win10": "14332.0.2",
     "Prism.Core": "6.2.0",
     "Prism.Windows": "6.0.2",
-    "ReactiveProperty": "3.3.2",
+    "ReactiveProperty": "3.5.1",
     "SharpDX.Direct2D1": "3.1.1",
     "SQLite.Net-PCL": "3.1.1",
     "ToriatamaText": "1.1.0",
-    "WinRTXamlToolkit.UWP": "2.0.0"
+    "WinRTXamlToolkit.UWP": "2.3.0"
   },
   "frameworks": {
     "uap10.0": {}

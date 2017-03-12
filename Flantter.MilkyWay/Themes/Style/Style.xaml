@@ -3665,7 +3665,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="AppBarButton">
-                    <Grid x:Name="RootGrid" Width="100" Background="Transparent">
+                    <Grid x:Name="RootGrid" Width="60" Background="Transparent">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="ApplicationViewStates">
                                 <!-- FullSize is used when we are in landscape or filled mode -->

@@ -37,6 +37,7 @@ namespace Flantter.MilkyWay.Views.Util
                 this.ClientWidth = Window.Current.Bounds.Width;
                 this.ClientHeight = Window.Current.Bounds.Height - (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
                 this.StatusBarHeight = (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
+                this.StatusBarWidth = 0.0;
                 this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
 
                 Observable.Merge<object>(
@@ -76,6 +77,7 @@ namespace Flantter.MilkyWay.Views.Util
                 this.ClientWidth = Window.Current.Bounds.Width - statusBarWidth;
                 this.ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
                 this.StatusBarHeight = statusBarHeight;
+                this.StatusBarWidth = Windows.Graphics.Display.DisplayInformation.GetForCurrentView().CurrentOrientation == DisplayOrientations.Landscape ? statusBarWidth : 0.0;
                 this.UserInteractionMode = UserInteractionMode.Touch;
                 
                 Observable.Merge<object>(

@@ -74,7 +74,7 @@
 
                 <Button x:Uid="SettingsFlyout_Settings_Mute_MuteWords_Delete_Button" Grid.Row="0" Grid.Column="1" Width="64" Content="削除" Background="#FF21A4E4" Foreground="White" Margin="0,10,10,10" VerticalAlignment="Bottom" Command="{Binding Source={StaticResource Notice}, Path=Notice.DeleteMuteWordCommand}" CommandParameter="{Binding ElementName=MuteWordsComboBox, Path=SelectedItem}"/>
 
-                <TextBox x:Name="MuteWordsTextBox" Grid.Row="1" Grid.Column="0" Margin="10"/>
+                <TextBox x:Uid="SettingsFlyout_Settings_Mute_MuteWords_TextBox" x:Name="MuteWordsTextBox" Grid.Row="1" Grid.Column="0" Margin="10" PlaceholderText="ミュートしたい単語を追加"/>
 
                 <Button x:Uid="SettingsFlyout_Settings_Mute_MuteWords_Add_Button" Grid.Row="1" Grid.Column="1" Width="64" Content="追加" Background="#FF21A4E4" Foreground="White" Margin="0,10,10,10" VerticalAlignment="Bottom" Command="{Binding Source={StaticResource Notice}, Path=Notice.MuteWordCommand}" CommandParameter="{Binding ElementName=MuteWordsTextBox, Path=Text}"/>
 

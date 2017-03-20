@@ -75,11 +75,11 @@
                     <util:StoryboardBeginAction Key="UpdateCollectionCloseAnimation"/>
                 </core:DataTriggerBehavior>
 
-                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.OpenCreateCollectionOpen.Value, Mode=OneWay}" Value="True">
-                    <util:StoryboardBeginAction Key="OpenCreateCollectionOpenAnimation"/>
+                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CollectionMenuOpen.Value, Mode=OneWay}" Value="True">
+                    <util:StoryboardBeginAction Key="CollectionMenuOpenAnimation"/>
                 </core:DataTriggerBehavior>
-                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.OpenCreateCollectionOpen.Value, Mode=OneWay}" Value="False">
-                    <util:StoryboardBeginAction Key="OpenCreateCollectionCloseAnimation"/>
+                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CollectionMenuOpen.Value, Mode=OneWay}" Value="False">
+                    <util:StoryboardBeginAction Key="CollectionMenuCloseAnimation"/>
                 </core:DataTriggerBehavior>
 
             </i:Interaction.Behaviors>
@@ -133,23 +133,23 @@
                         </EasingDoubleKeyFrame>
                     </DoubleAnimationUsingKeyFrames>
                 </Storyboard>
-                <Storyboard x:Name="OpenCreateCollectionOpenAnimation">
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenCreateCollectionStackPanel" Storyboard.TargetProperty="Visibility">
+                <Storyboard x:Name="CollectionMenuOpenAnimation">
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CollectionMenuStackPanel" Storyboard.TargetProperty="Visibility">
                         <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                     </ObjectAnimationUsingKeyFrames>
-                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="OpenCreateCollectionStackPanel">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="84">
+                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CollectionMenuStackPanel">
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="126">
                             <EasingDoubleKeyFrame.EasingFunction>
                                 <SineEase EasingMode="EaseInOut"/>
                             </EasingDoubleKeyFrame.EasingFunction>
                         </EasingDoubleKeyFrame>
                     </DoubleAnimationUsingKeyFrames>
                 </Storyboard>
-                <Storyboard x:Name="OpenCreateCollectionCloseAnimation">
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OpenCreateCollectionStackPanel" Storyboard.TargetProperty="Visibility">
+                <Storyboard x:Name="CollectionMenuCloseAnimation">
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CollectionMenuStackPanel" Storyboard.TargetProperty="Visibility">
                         <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
                     </ObjectAnimationUsingKeyFrames>
-                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="OpenCreateCollectionStackPanel">
+                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CollectionMenuStackPanel">
                         <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
                             <EasingDoubleKeyFrame.EasingFunction>
                                 <SineEase EasingMode="EaseInOut"/>
@@ -162,15 +162,15 @@
             <StackPanel x:Name="UpdateCollectionStackPanel" Height="0" Visibility="Collapsed">
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_Settings_Column_Name_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="コレクション名" Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Name_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="コレクション名" Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_Settings_Column_Description_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="説明" Text="{x:Bind ViewModel.Description.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Description_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="説明" Text="{x:Bind ViewModel.Description.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_Settings_Column_Url_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="Url" Text="{x:Bind ViewModel.Url.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Url_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="Url" Text="{x:Bind ViewModel.Url.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
@@ -185,7 +185,7 @@
 
                 <Button IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.CloseUpdateCollectionCommand}">
                     <Grid>
-                        <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Clear" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         <TextBlock x:Uid="SettingsFlyout_UserCollections_CloseUpdateCollection_Textblock" Text="閉じる" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
@@ -194,15 +194,15 @@
             <StackPanel x:Name="CreateCollectionStackPanel" Height="0" Visibility="Collapsed">
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_Settings_Column_Name_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="コレクション名" Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Name_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="コレクション名" Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_Settings_Column_Description_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="説明" Text="{x:Bind ViewModel.Description.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Description_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="説明" Text="{x:Bind ViewModel.Description.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_Settings_Column_Url_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="Url" Text="{x:Bind ViewModel.Url.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Url_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="Url" Text="{x:Bind ViewModel.Url.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
@@ -217,13 +217,22 @@
 
                 <Button IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.CloseCreateCollectionCommand}">
                     <Grid>
-                        <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Clear" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         <TextBlock x:Uid="SettingsFlyout_UserCollections_CloseCreateCollection_Textblock" Text="閉じる" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
                 </Button>
             </StackPanel>
 
-            <StackPanel x:Name="OpenCreateCollectionStackPanel" Height="0" Visibility="Collapsed">
+            <StackPanel x:Name="CollectionMenuStackPanel" Height="0" Visibility="Collapsed">
+                <controls:HorizontalBar/>
+
+                <Button IsEnabled="{x:Bind ViewModel.UpdateCollectionButtonIsEnabled.Value, Mode=OneWay}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.DeleteCollectionCommand}">
+                    <Grid>
+                        <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <TextBlock x:Uid="SettingsFlyout_UserCollections_DeleteCollection_Textblock" Text="コレクションを削除する" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+
                 <controls:HorizontalBar/>
 
                 <Button IsEnabled="{x:Bind ViewModel.UpdateCollectionButtonIsEnabled.Value, Mode=OneWay}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.OpenUpdateCollectionCommand}">

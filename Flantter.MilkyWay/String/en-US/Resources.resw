@@ -1015,4 +1015,22 @@
   <data name="SettingsFlyout_Settings_Mute_MuteWords_Delete_Button.Content" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="SettingsFlyout_UserCollections_DeleteCollection_Textblock.Text" xml:space="preserve">
+    <value>Delete collection</value>
+  </data>
+  <data name="ConfirmDialog_DeleteCollection" xml:space="preserve">
+    <value>Delete collection?</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteWords_TextBox.PlaceholderText" xml:space="preserve">
+    <value>Add mute word</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_Description_TextBox.Header" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_Name_TextBox.Header" xml:space="preserve">
+    <value>Collection name</value>
+  </data>
+  <data name="SettingsFlyout_UserCollections_Url_TextBox.Header" xml:space="preserve">
+    <value>Url</value>
+  </data>
 </root>

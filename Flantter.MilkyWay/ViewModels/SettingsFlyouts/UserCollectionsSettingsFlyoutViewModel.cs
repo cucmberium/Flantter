@@ -1,6 +1,7 @@
 ﻿using Flantter.MilkyWay.Models.SettingsFlyouts;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -10,6 +11,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
@@ -26,7 +28,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             
             this.CreateCollectionOpen = new ReactiveProperty<bool>();
             this.UpdateCollectionOpen = new ReactiveProperty<bool>();
-            this.OpenCreateCollectionOpen = new ReactiveProperty<bool>();
+            this.CollectionMenuOpen = new ReactiveProperty<bool>();
 
             this.Name = new ReactiveProperty<string>();
             this.Description = new ReactiveProperty<string>();
@@ -41,7 +43,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             {
                 this.UpdateCollectionOpen.Value = false;
                 this.CreateCollectionOpen.Value = false;
-                this.OpenCreateCollectionOpen.Value = false;
+                this.CollectionMenuOpen.Value = false;
 
                 this.Model.UserCollections.Clear();
             });
@@ -52,7 +54,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 await this.Model.UpdateUserCollections();
 
                 if (this.Tokens.Value.ScreenName == this.ScreenName.Value)
-                    this.OpenCreateCollectionOpen.Value = true;
+                    this.CollectionMenuOpen.Value = true;
             });
 
             this.UserCollectionsIncrementalLoadCommand = new ReactiveCommand();
@@ -70,7 +72,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.Url.Value = "";
                 this.Id.Value = "";
 
-                this.OpenCreateCollectionOpen.Value = false;
+                this.CollectionMenuOpen.Value = false;
                 this.UpdateCollectionOpen.Value = false;
                 this.CreateCollectionOpen.Value = true;
             });
@@ -83,7 +85,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.Url.Value = "";
                 this.Id.Value = "";
 
-                this.OpenCreateCollectionOpen.Value = true;
+                this.CollectionMenuOpen.Value = true;
                 this.UpdateCollectionOpen.Value = false;
                 this.CreateCollectionOpen.Value = false;
             });
@@ -100,7 +102,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.Url.Value = collection.Url;
                 this.Id.Value = collection.Id;
 
-                this.OpenCreateCollectionOpen.Value = false;
+                this.CollectionMenuOpen.Value = false;
                 this.UpdateCollectionOpen.Value = true;
                 this.CreateCollectionOpen.Value = false;
             });
@@ -113,7 +115,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 this.Url.Value = "";
                 this.Id.Value = "";
 
-                this.OpenCreateCollectionOpen.Value = true;
+                this.CollectionMenuOpen.Value = true;
                 this.UpdateCollectionOpen.Value = false;
                 this.CreateCollectionOpen.Value = false;
             });
@@ -129,7 +131,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 if (!result)
                     return;
 
-                this.OpenCreateCollectionOpen.Value = true;
+                this.CollectionMenuOpen.Value = true;
                 this.UpdateCollectionOpen.Value = false;
                 this.CreateCollectionOpen.Value = false;
                 await this.Model.UpdateUserCollections();
@@ -146,7 +148,31 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 if (!result)
                     return;
 
-                this.OpenCreateCollectionOpen.Value = true;
+                this.CollectionMenuOpen.Value = true;
+                this.UpdateCollectionOpen.Value = false;
+                this.CreateCollectionOpen.Value = false;
+                await this.Model.UpdateUserCollections();
+            });
+
+            this.DeleteCollectionCommand = new ReactiveCommand();
+            this.DeleteCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                if (this.SelectedIndex.Value == -1)
+                    return;
+
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_DeleteCollection"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                if (!msgNotification.Result)
+                    return;
+
+                var collection = this.Model.UserCollections.ElementAt(this.SelectedIndex.Value);
+                var result = await this.Model.DeleteCollection(collection.Id);
+
+                if (!result)
+                    return;
+
+                this.CollectionMenuOpen.Value = true;
                 this.UpdateCollectionOpen.Value = false;
                 this.CreateCollectionOpen.Value = false;
                 await this.Model.UpdateUserCollections();
@@ -180,7 +206,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<bool> UpdateCollectionOpen { get; set; }
 
-        public ReactiveProperty<bool> OpenCreateCollectionOpen { get; set; }
+        public ReactiveProperty<bool> CollectionMenuOpen { get; set; }
 
 
         public ReactiveProperty<string> Name { get; set; }
@@ -202,6 +228,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveCommand CreateCollectionCommand { get; set; }
         public ReactiveCommand UpdateCollectionCommand { get; set; }
+        public ReactiveCommand DeleteCollectionCommand { get; set; }
 
         public Services.Notice Notice { get; set; }
     }

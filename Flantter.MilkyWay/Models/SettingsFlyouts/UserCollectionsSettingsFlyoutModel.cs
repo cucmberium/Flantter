@@ -174,5 +174,39 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             this.CreatingCollection = false;
             return true;
         }
+
+        public async Task<bool> DeleteCollection(string cid)
+        {
+            if (this.CreatingCollection)
+                return false;
+
+            if (this._ScreenName == null || this.Tokens == null)
+                return false;
+
+            if (this._ScreenName != this.Tokens.ScreenName)
+                return false;
+
+            this.CreatingCollection = true;
+
+            try
+            {
+                await this.Tokens.Collections.DestroyAsync(id => cid);
+            }
+            catch (TwitterException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                this.CreatingCollection = false;
+                return false;
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                this.CreatingCollection = false;
+                return false;
+            }
+
+            this.CreatingCollection = false;
+            return true;
+        }
     }
 }

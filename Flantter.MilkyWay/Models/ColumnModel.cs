@@ -934,6 +934,11 @@ namespace Flantter.MilkyWay.Models
                     else if (status.HasRetweetInformation && AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(status.RetweetInformation.User.ScreenName))
                         return false;
                 }
+                if (AdvancedSettingService.AdvancedSetting.MuteWords != null)
+                {
+                    if (AdvancedSettingService.AdvancedSetting.MuteWords.Any(x => status.Text.Contains(x)))
+                        return false;
+                }
 
                 if (this.MuteFilterDelegate != null)
                 {
@@ -1015,6 +1020,11 @@ namespace Flantter.MilkyWay.Models
                     if (AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(status.User.ScreenName))
                         return false;
                     else if (status.HasRetweetInformation && AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(status.RetweetInformation.User.ScreenName))
+                        return false;
+                }
+                if (AdvancedSettingService.AdvancedSetting.MuteWords != null)
+                {
+                    if (AdvancedSettingService.AdvancedSetting.MuteWords.Any(x => status.Text.Contains(x)))
                         return false;
                 }
 

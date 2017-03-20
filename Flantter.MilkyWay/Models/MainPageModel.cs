@@ -144,6 +144,9 @@ namespace Flantter.MilkyWay.Models
 
         public async Task MuteClient(string client)
         {
+            if (AdvancedSettingService.AdvancedSetting.MuteClients == null)
+                AdvancedSettingService.AdvancedSetting.MuteClients = new ObservableCollection<string>();
+
             if (!AdvancedSettingService.AdvancedSetting.MuteClients.Contains(client))
             {
                 AdvancedSettingService.AdvancedSetting.MuteClients.Add(client);
@@ -151,8 +154,23 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
+        public async Task MuteWord(string word)
+        {
+            if (AdvancedSettingService.AdvancedSetting.MuteWords == null)
+                AdvancedSettingService.AdvancedSetting.MuteWords = new ObservableCollection<string>();
+
+            if (!AdvancedSettingService.AdvancedSetting.MuteWords.Contains(word))
+            {
+                AdvancedSettingService.AdvancedSetting.MuteWords.Add(word);
+                await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            }
+        }
+
         public async Task DeleteMuteUser(string screenName)
         {
+            if (AdvancedSettingService.AdvancedSetting.MuteUsers == null)
+                AdvancedSettingService.AdvancedSetting.MuteUsers = new ObservableCollection<string>();
+
             if (AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(screenName))
             {
                 AdvancedSettingService.AdvancedSetting.MuteUsers.Remove(screenName);
@@ -162,9 +180,24 @@ namespace Flantter.MilkyWay.Models
 
         public async Task DeleteMuteClient(string client)
         {
+            if (AdvancedSettingService.AdvancedSetting.MuteClients == null)
+                AdvancedSettingService.AdvancedSetting.MuteClients = new ObservableCollection<string>();
+
             if (AdvancedSettingService.AdvancedSetting.MuteClients.Contains(client))
             {
                 AdvancedSettingService.AdvancedSetting.MuteClients.Remove(client);
+                await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            }
+        }
+
+        public async Task DeleteMuteWord(string word)
+        {
+            if (AdvancedSettingService.AdvancedSetting.MuteWords == null)
+                AdvancedSettingService.AdvancedSetting.MuteWords = new ObservableCollection<string>();
+
+            if (AdvancedSettingService.AdvancedSetting.MuteWords.Contains(word))
+            {
+                AdvancedSettingService.AdvancedSetting.MuteWords.Remove(word);
                 await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
             }
         }

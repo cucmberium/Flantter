@@ -668,7 +668,7 @@
     <value>Enable flantter user mute too?</value>
   </data>
   <data name="ConfirmDialog_MuteClient" xml:space="preserve">
-    <value>Mute client in Flantter</value>
+    <value>Mute client in Flantter?</value>
   </data>
   <data name="ConfirmDialog_CompiledMuteFilterSuccessfully" xml:space="preserve">
     <value>Compiled successfully</value>
@@ -1002,5 +1002,17 @@
   </data>
   <data name="SettingsFlyout_Settings_Behavior_NotificateRetweetedRetweet_ToggleSwitch.Header" xml:space="preserve">
     <value>Notificate retweeted retweet and favorited retweet to others</value>
+  </data>
+  <data name="ConfirmDialog_MuteWord" xml:space="preserve">
+    <value>Mute word in Flantter?</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteWords_Add_Button.Content" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteWords_ComboBox.Header" xml:space="preserve">
+    <value>Mute words</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Mute_MuteWords_Delete_Button.Content" xml:space="preserve">
+    <value>Delete</value>
   </data>
 </root>

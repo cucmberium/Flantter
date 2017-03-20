@@ -34,6 +34,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             this.ShowRetweetersCommand = new ReactiveCommand();
             this.MuteUserCommand = new ReactiveCommand();
             this.MuteClientCommand = new ReactiveCommand();
+            this.MuteWordCommand = new ReactiveCommand();
             this.DeleteTweetCommand = new ReactiveCommand();
             this.DeleteRetweetCommand = new ReactiveCommand();
             this.DeleteFromCollectionCommand = new ReactiveCommand();
@@ -102,6 +103,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
             this.DeleteMuteUserCommand = new ReactiveCommand();
             this.DeleteMuteClientCommand = new ReactiveCommand();
+            this.DeleteMuteWordCommand = new ReactiveCommand();
             this.UpdateMuteFilterCommand = new ReactiveCommand();
 
             this.CopySelectedTweetCommand = new ReactiveCommand();
@@ -153,6 +155,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowRetweetersCommand { get; private set; }
         public ReactiveCommand MuteUserCommand { get; private set; }
         public ReactiveCommand MuteClientCommand { get; private set; }
+        public ReactiveCommand MuteWordCommand { get; private set; }
         public ReactiveCommand DeleteTweetCommand { get; private set; }
         public ReactiveCommand DeleteRetweetCommand { get; private set; }
         public ReactiveCommand DeleteFromCollectionCommand { get; private set; }
@@ -221,6 +224,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         
         public ReactiveCommand DeleteMuteUserCommand { get; private set; }
         public ReactiveCommand DeleteMuteClientCommand { get; private set; }
+        public ReactiveCommand DeleteMuteWordCommand { get; private set; }
         public ReactiveCommand UpdateMuteFilterCommand { get; private set; }
 
         public ReactiveCommand CopySelectedTweetCommand { get; private set; }

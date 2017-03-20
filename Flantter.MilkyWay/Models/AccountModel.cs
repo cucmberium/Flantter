@@ -163,6 +163,9 @@ namespace Flantter.MilkyWay.Models
 
         public async Task MuteUser(string screenName)
         {
+            if (AdvancedSettingService.AdvancedSetting.MuteUsers == null)
+                AdvancedSettingService.AdvancedSetting.MuteUsers = new ObservableCollection<string>();
+
             if (!AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(screenName))
             {
                 AdvancedSettingService.AdvancedSetting.MuteUsers.Add(screenName);

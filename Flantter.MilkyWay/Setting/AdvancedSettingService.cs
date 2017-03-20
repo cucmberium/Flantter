@@ -247,6 +247,7 @@ namespace Flantter.MilkyWay.Setting
         // ミュート設定
         public ObservableCollection<string> MuteUsers { get { return GetValue((ObservableCollection<string>)null); } set { SetValue(value); OnPropertyChanged(); } }
         public ObservableCollection<string> MuteClients { get { return GetValue((ObservableCollection<string>)null); } set { SetValue(value); OnPropertyChanged(); } }
+        public ObservableCollection<string> MuteWords { get { return GetValue((ObservableCollection<string>)null); } set { SetValue(value); OnPropertyChanged(); } }
     }
 
     public class AdvancedSettingProvider

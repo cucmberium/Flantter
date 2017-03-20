@@ -60,6 +60,28 @@
 
             <controls:HorizontalBar/>
 
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox x:Uid="SettingsFlyout_Settings_Mute_MuteWords_ComboBox" x:Name="MuteWordsComboBox" Grid.Row="0"  Grid.Column="0" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ミュートワード" ItemsSource="{Binding Source={StaticResource AdvancedSetting}, Path=AdvancedSetting.MuteWords}" />
+
+                <Button x:Uid="SettingsFlyout_Settings_Mute_MuteWords_Delete_Button" Grid.Row="0" Grid.Column="1" Width="64" Content="削除" Background="#FF21A4E4" Foreground="White" Margin="0,10,10,10" VerticalAlignment="Bottom" Command="{Binding Source={StaticResource Notice}, Path=Notice.DeleteMuteWordCommand}" CommandParameter="{Binding ElementName=MuteWordsComboBox, Path=SelectedItem}"/>
+
+                <TextBox x:Name="MuteWordsTextBox" Grid.Row="1" Grid.Column="0" Margin="10"/>
+
+                <Button x:Uid="SettingsFlyout_Settings_Mute_MuteWords_Add_Button" Grid.Row="1" Grid.Column="1" Width="64" Content="追加" Background="#FF21A4E4" Foreground="White" Margin="0,10,10,10" VerticalAlignment="Bottom" Command="{Binding Source={StaticResource Notice}, Path=Notice.MuteWordCommand}" CommandParameter="{Binding ElementName=MuteWordsTextBox, Path=Text}"/>
+
+            </Grid>
+
+            <controls:HorizontalBar/>
+
             <TextBox x:Uid="SettingsFlyout_Settings_Mute_MuteFilter_TextBox" x:Name="MuteFilterTextBox" MinHeight="128" MaxHeight="384" AcceptsReturn="True" Margin="10" Header="ミュートフィルター" HorizontalAlignment="Stretch" Text="{Binding MuteFilter.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <TextBlock Margin="10" TextWrapping="Wrap" Text="{x:Bind ViewModel.MuteFilterCompileErrorMessage.Value, Mode=OneWay}"/>

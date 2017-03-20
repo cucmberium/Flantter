@@ -432,6 +432,21 @@ namespace Flantter.MilkyWay.ViewModels
                 await this.Model.MuteClient(client);
             });
 
+            Services.Notice.Instance.MuteWordCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var word = x as string;
+                if (string.IsNullOrWhiteSpace(word))
+                    return;
+
+                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_MuteWord"), Title = "Confirmation" };
+                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+
+                if (!msgNotification.Result)
+                    return;
+
+                await this.Model.MuteWord(word);
+            });
+
             Services.Notice.Instance.DeleteMuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
             {
                 var screenName = x as string;
@@ -447,7 +462,16 @@ namespace Flantter.MilkyWay.ViewModels
                 if (string.IsNullOrWhiteSpace(client))
                     return;
 
-                await this.Model.DeleteMuteUser(client);
+                await this.Model.DeleteMuteClient(client);
+            });
+
+            Services.Notice.Instance.DeleteMuteWordCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
+            {
+                var word = x as string;
+                if (string.IsNullOrWhiteSpace(word))
+                    return;
+
+                await this.Model.DeleteMuteWord(word);
             });
 
             Services.Notice.Instance.UpdateMuteFilterCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>

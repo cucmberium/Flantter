@@ -116,7 +116,7 @@ namespace Flantter.MilkyWay.BackgroundTask
             };
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
-                tileBindingContent.PeekImage = new TilePeekImage { Source = new TileImageSource(imageUrl) };
+                tileBindingContent.PeekImage = new TilePeekImage { Source = imageUrl };
 
             var tileBinding = new TileBinding
             {

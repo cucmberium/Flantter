@@ -1225,7 +1225,13 @@ namespace Flantter.MilkyWay.Models
             {
                 if (streamingConnectionDisposableObject != null)
                     streamingConnectionDisposableObject.Dispose();
+            }
+            catch
+            {
+            }
 
+            try
+            {
                 this.Disposable.Dispose();
             }
             catch

@@ -729,6 +729,7 @@ namespace Flantter.MilkyWay.ViewModels
             System.Diagnostics.Debug.WriteLine("Suspending...");
             foreach (var account in this.Accounts)
             {
+                account.Model.StopTimer();
                 foreach (var column in account.Columns)
                 {
                     column.IsScrollLockEnabled.Value = true;
@@ -741,6 +742,7 @@ namespace Flantter.MilkyWay.ViewModels
             System.Diagnostics.Debug.WriteLine("Resuming...");
             foreach (var account in this.Accounts)
             {
+                account.Model.StartTimer();
                 foreach (var column in account.Columns)
                 {
                     if (column.IsEnabledStreaming.Value && column.Model.Streaming)

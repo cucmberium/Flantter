@@ -67,9 +67,20 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     return;
 
                 if (e.Cumulative.Translation.X > this.SwipeMenu.ActualWidth / 2)
-                    this.Show();
+                {
+                    if (this.IsOpen)
+                        this.Show();
+                    else
+                        this.IsOpen = true;
+                }
                 else
-                    this.Hide();
+                {
+                    if (this.IsOpen)
+                        this.IsOpen = false;
+                    else
+                        this.Hide();
+                }
+                    
 
                 capturingPointer = false;
             };
@@ -206,8 +217,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 Storyboard.SetTargetProperty(translateAnimX, "(UIElement.RenderTransform).(CompositeTransform.TranslateX)");
                 storyboard.Begin();
             }
-
-            this.IsOpen = true;
         }
 
         public void SetTranslate(double? x, double? y)

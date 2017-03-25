@@ -23,6 +23,8 @@ namespace Flantter.MilkyWay.Models
     {
         protected CompositeDisposable Disposable { get; private set; } = new CompositeDisposable();
 
+        private IDisposable _TimerDisposable = null;
+
         #region IsEnabled変更通知プロパティ
         private bool _IsEnabled;
         public bool IsEnabled
@@ -121,16 +123,8 @@ namespace Flantter.MilkyWay.Models
             Connecter.Instance.AddAccount(this.AccountSetting);
             
             await Task.WhenAll(this._Columns.Select(x => x.Initialize()));
-            
-            Observable.Timer(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1))
-                .SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async t =>
-                {
-                    foreach (var columnModel in this._Columns)
-                    {
-                        if (t % (int)columnModel.ColumnSetting.AutoRefreshTimerInterval == 0 && columnModel.ColumnSetting.AutoRefresh && !columnModel.Streaming)
-                            await columnModel.Update();
-                    }
-                }).AddTo(this.Disposable);
+
+            this.StartTimer();
 
             this.RefreshMuteIds();
             this.RefreshProfile();
@@ -456,8 +450,44 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
+        public void StartTimer()
+        {
+            if (_TimerDisposable != null)
+                return;
+
+            _TimerDisposable = Observable.Timer(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1))
+                .SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async t =>
+                {
+                    foreach (var columnModel in this._Columns)
+                    {
+                        if (t % (int)columnModel.ColumnSetting.AutoRefreshTimerInterval == 0 && columnModel.ColumnSetting.AutoRefresh && !columnModel.Streaming)
+                            await columnModel.Update();
+                    }
+                });
+        }
+
+        public void StopTimer()
+        {
+            if (_TimerDisposable == null)
+                return;
+
+            try
+            {
+                _TimerDisposable.Dispose();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                _TimerDisposable = null;
+            }
+        }
+
         public void Dispose()
         {
+            this.StopTimer();
+
             foreach (var column in this._Columns)
             {
                 column.Dispose();

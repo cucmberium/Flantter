@@ -18,6 +18,8 @@ namespace Flantter.MilkyWay.Models
 {
     public class MainPageModel : BindableBase
     {
+        private bool _Initialized = false;
+
         #region Accounts
         private ObservableCollection<AccountModel> _Accounts;
         private ReadOnlyObservableCollection<AccountModel> _ReadOnlyAccounts;
@@ -33,6 +35,9 @@ namespace Flantter.MilkyWay.Models
         #region Initialize
         public async Task Initialize()
         {
+            if (_Initialized)
+                return;
+
             Connecter.Instance.Initialize();
 
             await Task.WhenAll(this._Accounts.Select(x => x.Initialize()));
@@ -41,6 +46,8 @@ namespace Flantter.MilkyWay.Models
 
             if (Setting.SettingService.Setting.EnablePlugins)
                 await Task.Run(() => Plugin.Core.Instance.Initialize());
+
+            _Initialized = true;
         }
         #endregion
 

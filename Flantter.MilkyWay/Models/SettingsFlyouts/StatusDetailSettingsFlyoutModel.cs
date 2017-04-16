@@ -1,6 +1,6 @@
-﻿using CoreTweet;
-using Flantter.MilkyWay.Models.Services;
+﻿using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Services.Database;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -21,8 +21,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -82,10 +82,10 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatusFromId(this._StatusId) : null;
             if (status == null)
             {
-                Status item = null;
                 try
                 {
-                    item = await Tokens.Statuses.ShowAsync(id => this._StatusId, tweet_mode => TweetMode.extended);
+                    status = await Tokens.Statuses.ShowAsync(id => this._StatusId, tweet_mode => CoreTweet.TweetMode.extended);
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
                 }
                 catch
                 {
@@ -94,9 +94,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     this.UpdatingStatus = false;
                     return;
                 }
-
-                status = new Twitter.Objects.Status(item);
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
             }
             
 
@@ -139,8 +136,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 {
                     try
                     {
-                        var cStatus = await Tokens.Statuses.ShowAsync(id => this._StatusId);
-                        sourceStatus = new Twitter.Objects.Status(cStatus);
+                        sourceStatus = await Tokens.Statuses.ShowAsync(id => this._StatusId);
                     }
                     catch
                     {
@@ -157,19 +153,60 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 try
                 {
-                    var status = await Tokens.Statuses.ShowAsync(id => sourceStatus.Id);
-                    sourceStatusRetweeted = new Twitter.Objects.Status(status);
+                    sourceStatusRetweeted = await Tokens.Statuses.ShowAsync(id => sourceStatus.Id);
                 }
                 catch
                 {
                 }
             }
-
-            SearchResult search, urlQuoteRetweetSearch;
+            
             try
             {
-                search = await Tokens.Search.TweetsAsync(q => "to:" + sourceStatus.User.ScreenName, count => 50);
-                urlQuoteRetweetSearch = await Tokens.Search.TweetsAsync(q => "https://twitter.com/" + sourceStatus.User.ScreenName + "/status/" + sourceStatus.Id.ToString(), count => 20);
+                var search = await Tokens.Search.TweetsAsync(q => "to:" + sourceStatus.User.ScreenName, count => 50);
+                var urlQuoteRetweetSearch = await Tokens.Search.TweetsAsync(q => "https://twitter.com/" + sourceStatus.User.ScreenName + "/status/" + sourceStatus.Id.ToString(), count => 20);
+
+                this.ActionStatuses.Clear();
+
+                this.ActionStatuses.Add(sourceStatus);
+                if (sourceStatusRetweeted != null)
+                    this.ActionStatuses.Add(sourceStatusRetweeted);
+
+                foreach (var status in search)
+                {
+                    if (status.InReplyToStatusId != sourceStatus.Id || status.HasRetweetInformation)
+                        continue;
+                    
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+
+                    var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
+                    var index = this.ActionStatuses.IndexOf(this.ActionStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
+                    if (index == -1)
+                    {
+                        index = this.ActionStatuses.IndexOf(this.ActionStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
+                        if (index == -1)
+                            this.ActionStatuses.Add(status);
+                        else
+                            this.ActionStatuses.Insert(index, status);
+                    }
+                }
+                foreach (var status in urlQuoteRetweetSearch)
+                {
+                    if (status.HasRetweetInformation)
+                        continue;
+                    
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+
+                    var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
+                    var index = this.ActionStatuses.IndexOf(this.ActionStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
+                    if (index == -1)
+                    {
+                        index = this.ActionStatuses.IndexOf(this.ActionStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
+                        if (index == -1)
+                            this.ActionStatuses.Add(status);
+                        else
+                            this.ActionStatuses.Insert(index, status);
+                    }
+                }
             }
             catch
             {
@@ -177,53 +214,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 this.UpdatingActionStatuses = false;
                 return;
-            }
-
-
-            this.ActionStatuses.Clear();
-
-            this.ActionStatuses.Add(sourceStatus);
-            if (sourceStatusRetweeted != null)
-                this.ActionStatuses.Add(sourceStatusRetweeted); 
-
-
-            foreach (var item in search)
-            {
-                if (!item.InReplyToStatusId.HasValue || item.InReplyToStatusId.Value != sourceStatus.Id || item.RetweetedStatus != null)
-                    continue;
-
-                var status = new Twitter.Objects.Status(item);
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
-
-                var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
-                var index = this.ActionStatuses.IndexOf(this.ActionStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
-                if (index == -1)
-                {
-                    index = this.ActionStatuses.IndexOf(this.ActionStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
-                    if (index == -1)
-                        this.ActionStatuses.Add(status);
-                    else
-                        this.ActionStatuses.Insert(index, status);
-                }
-            }
-            foreach (var item in urlQuoteRetweetSearch)
-            {
-                if (item.RetweetedStatus != null)
-                    continue;
-
-                var status = new Twitter.Objects.Status(item);
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
-
-                var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
-                var index = this.ActionStatuses.IndexOf(this.ActionStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
-                if (index == -1)
-                {
-                    index = this.ActionStatuses.IndexOf(this.ActionStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
-                    if (index == -1)
-                        this.ActionStatuses.Add(status);
-                    else
-                        this.ActionStatuses.Insert(index, status);
-                }
             }
             
             this.UpdatingActionStatuses = false;

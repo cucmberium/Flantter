@@ -1,8 +1,7 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
+﻿using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using Reactive.Bindings;
@@ -29,8 +28,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -112,17 +111,17 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (maxid == 0 && clear)
                 this.Statuses.Clear();
 
-            IEnumerable<CoreTweet.Status> search = null;
+            IEnumerable<Twitter.Objects.Status> search = null;
 
             if (SettingService.Setting.UseOfficialApi && TwitterConnectionHelper.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
             {
-                var param = new Dictionary<string, object>() { { "q", this._StatusSearchWords }, { "count", 100 }, { "result_type", "recent" }, { "modules", "status" }, { "tweet_mode", TweetMode.extended } };
+                var param = new Dictionary<string, object>() { { "q", this._StatusSearchWords }, { "count", 100 }, { "result_type", "recent" }, { "modules", "status" }, { "tweet_mode", CoreTweet.TweetMode.extended } };
                 if (maxid != 0)
                     param["q"] = param["q"] + " max_id:" + maxid;
 
                 try
                 {
-                    var res = await this.Tokens.SendRequestAsync(MethodType.Get, "https://api.twitter.com/1.1/search/universal.json", param);
+                    var res = await this.Tokens.TwitterTokens.SendRequestAsync(CoreTweet.MethodType.Get, "https://api.twitter.com/1.1/search/universal.json", param);
                     var json = await res.Source.Content.ReadAsStringAsync();
                     var jsonObject = Newtonsoft.Json.Linq.JObject.Parse(json);
                     var modules = jsonObject["modules"].Children<Newtonsoft.Json.Linq.JObject>();
@@ -133,11 +132,11 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         foreach (Newtonsoft.Json.Linq.JProperty prop in status.Properties())
                         {
                             if (prop.Name == "status")
-                                tweets.Add(CoreBase.Convert<CoreTweet.Status>(Newtonsoft.Json.JsonConvert.SerializeObject(status["status"]["data"])));
+                                tweets.Add(CoreTweet.Core.CoreBase.Convert<CoreTweet.Status>(Newtonsoft.Json.JsonConvert.SerializeObject(status["status"]["data"])));
                         }
                     }
 
-                    search = tweets;
+                    search = tweets.Select(x => new Twitter.Objects.Status(x)); ;
                 }
                 catch
                 {
@@ -150,7 +149,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             }
             else
             {
-                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "q", this._StatusSearchWords }, { "tweet_mode", TweetMode.extended } };
+                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "q", this._StatusSearchWords }, { "tweet_mode", CoreTweet.TweetMode.extended } };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
 
@@ -171,9 +170,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (maxid == 0 && clear)
                 this.Statuses.Clear();
 
-            foreach (var item in search)
+            foreach (var status in search)
             {
-                var status = new Twitter.Objects.Status(item);
                 Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
 
                 var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
@@ -204,14 +202,23 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || usersCursor == 0)
                 this.Users.Clear();
-
-            ListedResponse<CoreTweet.User> following;
+            
             try
             {
+                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "q", this._StatusSearchWords }, { "tweet_mode", CoreTweet.TweetMode.extended } };
                 if (useCursor && usersCursor != 0)
-                    following = await Tokens.Users.SearchAsync(q => this._UserSearchWords, count => 20, page => usersCursor);
+                    param.Add("page", usersCursor);
+
+                var following = await Tokens.Users.SearchAsync(param);
+                foreach (var user in following)
+                {
+                    this.Users.Add(user);
+                }
+
+                if (useCursor)
+                    usersCursor += 1;
                 else
-                    following = await Tokens.Users.SearchAsync(q => this._UserSearchWords, count => 20);
+                    usersCursor = 2;
             }
             catch
             {
@@ -225,17 +232,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (!useCursor || usersCursor == 0)
                 this.Users.Clear();
 
-            foreach (var item in following)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Users.Add(user);
-            }
-
-            if (useCursor)
-                usersCursor += 1;
-            else
-                usersCursor = 2;
-
             this.UpdatingUserSearch = false;
         }
 
@@ -245,10 +241,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.SavedSearches.CreateAsync(query => word);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
@@ -267,10 +267,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.SavedSearches.DestroyAsync(id => savedSearchId);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
@@ -310,11 +314,10 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 }
 
                 this.Trends.Clear();
-                foreach (var trend in trends.First().Trends)
-                    this.Trends.Add(new Twitter.Objects.Trend(trend));
+                foreach (var trend in trends)
+                    this.Trends.Add(trend);
 
-                trendsLastUpdate = trends.First().CreatedAt.DateTime.ToLocalTime();
-
+                trendsLastUpdate = DateTime.Now.ToLocalTime();
                 trendsLastWoeId = SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsRegion);
             }
             catch
@@ -354,7 +357,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 this.SavedSearches.Clear();
                 foreach (var savedSearch in savedSearches)
-                    this.SavedSearches.Add(new Twitter.Objects.SearchQuery(savedSearch));
+                    this.SavedSearches.Add(savedSearch);
 
                 savedSearchesLastUpdate = DateTime.Now;
                 savedSearchesLastScreenName = this.Tokens.ScreenName;

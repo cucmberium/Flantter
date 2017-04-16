@@ -1,6 +1,5 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
+﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -28,8 +27,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -128,14 +127,27 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || followingCursor == 0)
                 this.Following.Clear();
-
-            Cursored<User> following;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"user_id", this.Tokens.UserId},
+                    {"count", 20},
+                };
                 if (useCursor && followingCursor != 0)
-                    following = await Tokens.Friends.ListAsync(user_id => Tokens.UserId, count => 20, cursor => followingCursor);
-                else
-                    following = await Tokens.Friends.ListAsync(user_id => Tokens.UserId, count => 20);
+                    param.Add("cursor", followingCursor);
+
+                var following = await Tokens.Friends.ListAsync(param);
+                if (!useCursor || followingCursor == 0)
+                    this.Following.Clear();
+
+                foreach (var user in following)
+                {
+                    this.Following.Add(user);
+                }
+
+                followingCursor = following.NextCursor;
             }
             catch
             {
@@ -146,16 +158,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
             }
 
-            if (!useCursor || followingCursor == 0)
-                this.Following.Clear();
-
-            foreach (var item in following)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Following.Add(user);
-            }
-
-            followingCursor = following.NextCursor;
+            
 
             this.UpdatingFollowing = false;
         }
@@ -176,14 +179,27 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || followersCursor == 0)
                 this.Followers.Clear();
-
-            Cursored<CoreTweet.User> followers;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"user_id", this.Tokens.UserId},
+                    {"count", 20},
+                };
                 if (useCursor && followersCursor != 0)
-                    followers = await Tokens.Followers.ListAsync(user_id => Tokens.UserId, count => 20, cursor => followersCursor);
-                else
-                    followers = await Tokens.Followers.ListAsync(user_id => Tokens.UserId, count => 20);
+                    param.Add("cursor", followersCursor);
+
+                var followers = await Tokens.Followers.ListAsync(param);
+                if (!useCursor || followersCursor == 0)
+                    this.Followers.Clear();
+
+                foreach (var user in followers)
+                {
+                    this.Followers.Add(user);
+                }
+
+                followersCursor = followers.NextCursor;
             }
             catch
             {
@@ -193,17 +209,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 this.UpdatingFollowers = false;
                 return;
             }
-
-            if (!useCursor || followersCursor == 0)
-                this.Followers.Clear();
-
-            foreach (var item in followers)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Followers.Add(user);
-            }
-
-            followersCursor = followers.NextCursor;
+            
             this.UpdatingFollowers = false;
         }
         
@@ -223,14 +229,26 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || blockCursor == 0)
                 this.Block.Clear();
-
-            Cursored<CoreTweet.User> block;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"count", 20},
+                };
                 if (useCursor && blockCursor != 0)
-                    block = await Tokens.Blocks.ListAsync(user_id => Tokens.UserId, count => 20, cursor => blockCursor);
-                else
-                    block = await Tokens.Blocks.ListAsync(user_id => Tokens.UserId, count => 20);
+                    param.Add("cursor", blockCursor);
+
+                var block = await Tokens.Blocks.ListAsync(param);
+                if (!useCursor || blockCursor == 0)
+                    this.Block.Clear();
+
+                foreach (var user in block)
+                {
+                    this.Block.Add(user);
+                }
+
+                blockCursor = block.NextCursor;
             }
             catch
             {
@@ -241,16 +259,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
             }
 
-            if (!useCursor || blockCursor == 0)
-                this.Block.Clear();
-
-            foreach (var item in block)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Block.Add(user);
-            }
-
-            blockCursor = block.NextCursor;
             this.UpdatingBlock = false;
         }
         
@@ -270,14 +278,26 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || muteCursor == 0)
                 this.Mute.Clear();
-
-            Cursored<User> mute;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"count", 20},
+                };
                 if (useCursor && muteCursor != 0)
-                    mute = await Tokens.Mutes.Users.ListAsync(user_id => Tokens.UserId, count => 20, cursor => muteCursor);
-                else
-                    mute = await Tokens.Mutes.Users.ListAsync(user_id => Tokens.UserId, count => 20);
+                    param.Add("cursor", muteCursor);
+                
+                var mute = await Tokens.Mutes.Users.ListAsync(param);
+                if (!useCursor || muteCursor == 0)
+                    this.Mute.Clear();
+
+                foreach (var user in mute)
+                {
+                    this.Mute.Add(user);
+                }
+
+                muteCursor = mute.NextCursor;
             }
             catch
             {
@@ -287,18 +307,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 this.UpdatingMute = false;
                 return;
             }
-
-            if (!useCursor || muteCursor == 0)
-                this.Mute.Clear();
-
-            foreach (var item in mute)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Mute.Add(user);
-            }
-
-            muteCursor = mute.NextCursor;
-
+            
             this.UpdatingMute = false;
         }
 
@@ -342,10 +351,17 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 for (var idsCount = 0; crushCursor < this.CrushIds.Count && idsCount <= 99; crushCursor++, idsCount++)
                     ids.Add(this.CrushIds[(int)crushCursor]);
                 
-                ListedResponse<User> crush;
                 try
                 {
-                    crush = await Tokens.Users.LookupAsync(user_id => ids.AsEnumerable());
+                    var crush = await Tokens.Users.LookupAsync(user_id => ids.AsEnumerable());
+
+                    if (!useCursor || crushCursor == 0)
+                        this.Crush.Clear();
+
+                    foreach (var user in crush)
+                    {
+                        this.Crush.Add(user);
+                    }
                 }
                 catch
                 {
@@ -354,15 +370,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                     this.UpdatingCrush = false;
                     return;
-                }
-
-                if (!useCursor || crushCursor == 0)
-                    this.Crush.Clear();
-
-                foreach (var item in crush)
-                {
-                    var user = new Twitter.Objects.User(item);
-                    this.Crush.Add(user);
                 }
             }
 
@@ -403,11 +410,17 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 var ids = new List<long>();
                 for (var idsCount = 0; crushedOnCursor < this.CrushedOnIds.Count && idsCount <= 99; crushedOnCursor++, idsCount++)
                     ids.Add(this.CrushedOnIds[(int)crushedOnCursor]);
-
-                ListedResponse<User> CrushedOn;
+                
                 try
                 {
-                    CrushedOn = await Tokens.Users.LookupAsync(user_id => ids.AsEnumerable());
+                    var crushedOn = await Tokens.Users.LookupAsync(user_id => ids.AsEnumerable());
+                    if (!useCursor || crushedOnCursor == 0)
+                        this.CrushedOn.Clear();
+
+                    foreach (var user in crushedOn)
+                    {
+                        this.CrushedOn.Add(user);
+                    }
                 }
                 catch
                 {
@@ -418,14 +431,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     return;
                 }
 
-                if (!useCursor || crushedOnCursor == 0)
-                    this.CrushedOn.Clear();
-
-                foreach (var item in CrushedOn)
-                {
-                    var user = new Twitter.Objects.User(item);
-                    this.CrushedOn.Add(user);
-                }
+                
             }
 
             if (crushedOnCursor == this.CrushedOnIds.Count)
@@ -441,19 +447,22 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 if (this.GetIds)
                     return;
-
-                Cursored<long> userFollowingIds;
-                Cursored<long> userFollowerIds;
+                
                 long idsCursor = 0;
 
                 try
                 {
                     while (true)
                     {
-                        if (idsCursor == 0)
-                            userFollowingIds = await Tokens.Friends.IdsAsync(user_id => Tokens.UserId, count => 5000);
-                        else
-                            userFollowingIds = await Tokens.Friends.IdsAsync(user_id => Tokens.UserId, cursor => idsCursor, count => 5000);
+                        var param = new Dictionary<string, object>()
+                        {
+                            {"user_id", this.Tokens.UserId },
+                            {"count", 5000},
+                        };
+                        if (idsCursor != 0)
+                            param.Add("cursor", idsCursor);
+
+                        var userFollowingIds = await Tokens.Friends.IdsAsync(param);
 
                         foreach (var id in userFollowingIds)
                             this.FollowingIds.Add(id);
@@ -473,10 +482,15 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 {
                     while (true)
                     {
-                        if (idsCursor == 0)
-                            userFollowerIds = await Tokens.Followers.IdsAsync(user_id => Tokens.UserId, count => 5000);
-                        else
-                            userFollowerIds = await Tokens.Followers.IdsAsync(user_id => Tokens.UserId, cursor => idsCursor, count => 5000);
+                        var param = new Dictionary<string, object>()
+                        {
+                            {"user_id", this.Tokens.UserId },
+                            {"count", 5000},
+                        };
+                        if (idsCursor != 0)
+                            param.Add("cursor", idsCursor);
+
+                        var userFollowerIds = await Tokens.Followers.IdsAsync(param);
 
                         foreach (var id in userFollowerIds)
                             this.FollowersIds.Add(id);

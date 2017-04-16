@@ -1,7 +1,6 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
+﻿using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -21,8 +20,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -52,14 +51,37 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (maxid == 0 && clear)
                 this.RetweetsOfMe.Clear();
-
-            ListedResponse<Status> listStatus;
+            
             try
             {
-                if (maxid == 0)
-                    listStatus = await Tokens.Statuses.RetweetsOfMeAsync(count => 20, tweet_mode => TweetMode.extended);
-                else
-                    listStatus = await Tokens.Statuses.RetweetsOfMeAsync(count => 20, max_id => maxid, tweet_mode => TweetMode.extended);
+                var param = new Dictionary<string, object>()
+                {
+                    {"count", 20},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+
+                var listStatus = await Tokens.Statuses.RetweetsOfMeAsync(param);
+
+                if (maxid == 0 && clear)
+                    this.RetweetsOfMe.Clear();
+
+                foreach (var status in listStatus)
+                {
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+
+                    var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
+                    var index = this.RetweetsOfMe.IndexOf(this.RetweetsOfMe.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
+                    if (index == -1)
+                    {
+                        index = this.RetweetsOfMe.IndexOf(this.RetweetsOfMe.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
+                        if (index == -1)
+                            this.RetweetsOfMe.Add(status);
+                        else
+                            this.RetweetsOfMe.Insert(index, status);
+                    }
+                }
             }
             catch
             {
@@ -68,26 +90,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 this.Updating = false;
                 return;
-            }
-
-            if (maxid == 0 && clear)
-                this.RetweetsOfMe.Clear();
-
-            foreach (var item in listStatus)
-            {
-                var status = new Twitter.Objects.Status(item);
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
-
-                var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
-                var index = this.RetweetsOfMe.IndexOf(this.RetweetsOfMe.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
-                if (index == -1)
-                {
-                    index = this.RetweetsOfMe.IndexOf(this.RetweetsOfMe.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
-                    if (index == -1)
-                        this.RetweetsOfMe.Add(status);
-                    else
-                        this.RetweetsOfMe.Insert(index, status);
-                }
             }
 
             this.Updating = false;

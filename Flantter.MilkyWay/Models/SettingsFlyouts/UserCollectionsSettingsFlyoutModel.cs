@@ -1,7 +1,6 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
+﻿using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -22,8 +21,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -75,14 +74,27 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || string.IsNullOrWhiteSpace(userCollectionsCursor))
                 this.UserCollections.Clear();
-
-            CollectionsListResult userCollections;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"screen_name", this._ScreenName},
+                    {"count", 20},
+                };
                 if (useCursor && !string.IsNullOrWhiteSpace(userCollectionsCursor))
-                    userCollections = await Tokens.Collections.ListAsync(screen_name => this._ScreenName, count => 20, cursor => userCollectionsCursor);
-                else
-                    userCollections = await Tokens.Collections.ListAsync(screen_name => this._ScreenName, count => 20);
+                    param.Add("cursor", userCollectionsCursor);
+                var userCollections = await Tokens.Collections.ListAsync(screen_name => this._ScreenName, count => 20, cursor => userCollectionsCursor);
+
+                if (!useCursor || string.IsNullOrWhiteSpace(userCollectionsCursor))
+                    this.UserCollections.Clear();
+
+                foreach (var list in userCollections)
+                {
+                    this.UserCollections.Add(list);
+                }
+
+                userCollectionsCursor = userCollections.NextCursor;
             }
             catch
             {
@@ -92,17 +104,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 this.UpdatingUserCollections = false;
                 return;
             }
-
-            if (!useCursor || string.IsNullOrWhiteSpace(userCollectionsCursor))
-                this.UserCollections.Clear();
-
-            foreach (var item in userCollections.Results)
-            {
-                var list = new Twitter.Objects.Collection(item);
-                this.UserCollections.Add(list);
-            }
-
-            userCollectionsCursor = userCollections.Cursors.NextCursor;
 
             this.UpdatingUserCollections = false;
         }
@@ -124,11 +125,15 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.Collections.CreateAsync(name => cname, description => cdescription, url => curl);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 this.CreatingCollection = false;
                 return false;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
@@ -158,11 +163,15 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.Collections.UpdateAsync(id => cid, name => cname, description => cdescription, url => curl);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 this.CreatingCollection = false;
                 return false;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
@@ -192,11 +201,15 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.Collections.DestroyAsync(id => cid);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 this.CreatingCollection = false;
                 return false;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {

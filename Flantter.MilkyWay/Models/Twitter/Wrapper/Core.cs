@@ -89,7 +89,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Favorites.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Favourite((int) parameters["id"]));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Favourite((long)parameters["id"]));
             }
             throw new NotImplementedException();
         }
@@ -109,7 +109,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Favorites.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Unfavourite((int)parameters["id"]));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Unfavourite((long)parameters["id"]));
             }
             throw new NotImplementedException();
         }
@@ -216,7 +216,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Users.ShowAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.GetAccount((int)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.GetAccount((long)parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -262,7 +262,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    await Tokens.MastodonTokens.DeleteStatus((int) parameters["id"]);
+                    await Tokens.MastodonTokens.DeleteStatus((long)parameters["id"]);
                     return null;
             }
             throw new NotImplementedException();
@@ -283,7 +283,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return (await Tokens.TwitterTokens.Statuses.HomeTimelineAsync(parameters)).Select(x => new Twitter.Objects.Status(x)).ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    return (await Tokens.MastodonTokens.GetHomeTimeline((int)parameters.GetValueOrDefault("max_id", 0), (int)parameters.GetValueOrDefault("since_id", 0), (int)parameters.GetValueOrDefault("count", 10))).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.MastodonTokens.GetHomeTimeline((long)parameters.GetValueOrDefault("max_id", (long)0), (long)parameters.GetValueOrDefault("since_id", (long)0), (int)parameters.GetValueOrDefault("count", 10))).Select(x => new Twitter.Objects.Status(x)).ToList();
             }
             throw new NotImplementedException();
         }
@@ -343,7 +343,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.RetweetAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Reblog((int)parameters["id"]));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Reblog((long)parameters["id"]));
             }
             throw new NotImplementedException();
         }
@@ -367,7 +367,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<long>((await Tokens.MastodonTokens.GetRebloggedBy((int)parameters["id"])).Select(x => (long)x.Id));
+                    return new CursoredList<long>((await Tokens.MastodonTokens.GetRebloggedBy((long)parameters["id"])).Select(x => (long)x.Id));
             }
             throw new NotImplementedException();
         }
@@ -391,7 +391,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetRebloggedBy((int) parameters["id"])).Select(x => new Twitter.Objects.User(x)));
+                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetRebloggedBy((long)parameters["id"])).Select(x => new Twitter.Objects.User(x)));
             }
             throw new NotImplementedException();
         }
@@ -431,7 +431,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.ShowAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.GetStatus((int)parameters["id"]));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.GetStatus((long)parameters["id"]));
             }
             throw new NotImplementedException();
         }
@@ -451,7 +451,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.UnretweetAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Unreblog((int)parameters["id"]));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Unreblog((long)parameters["id"]));
             }
             throw new NotImplementedException();
         }
@@ -471,7 +471,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.UpdateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.PostStatus((string)parameters["status"], Mastonet.Visibility.Public, (int?)parameters.GetValueOrDefault("in_reply_to_status_id", null), (IEnumerable<int>)parameters.GetValueOrDefault("media_ids", null), (bool)parameters.GetValueOrDefault("possibly_sensitive", false)));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.PostStatus((string)parameters["status"], Mastonet.Visibility.Public, (int?)parameters.GetValueOrDefault("in_reply_to_status_id", null), (IEnumerable<long>)parameters.GetValueOrDefault("media_ids", null), (bool)parameters.GetValueOrDefault("possibly_sensitive", false)));
             }
             throw new NotImplementedException();
         }
@@ -491,7 +491,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return (await Tokens.TwitterTokens.Statuses.UserTimelineAsync(parameters)).Select(x => new Twitter.Objects.Status(x)).ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    return (await Tokens.MastodonTokens.GetAccountStatuses((int)parameters["user_id"], (int)parameters.GetValueOrDefault("max_id", 0), (int)parameters.GetValueOrDefault("since_id", 0), (int)parameters.GetValueOrDefault("count", 10))).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.MastodonTokens.GetAccountStatuses((long)parameters["user_id"], (long)parameters.GetValueOrDefault("max_id", (long)0), (long)parameters.GetValueOrDefault("since_id", (long)0), (int)parameters.GetValueOrDefault("count", 10))).Select(x => new Twitter.Objects.Status(x)).ToList();
             }
             throw new NotImplementedException();
         }
@@ -585,12 +585,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
 
     public class Mutes : ApiBase
     {
-        public Mutes()
-        {
-            this.Users = new MutesUsers() { Tokens = Tokens };
-        }
-
-        public MutesUsers Users { get; }
+        public MutesUsers Users { get; set; }
     }
 
     public class MutesUsers : ApiBase
@@ -610,7 +605,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Mutes.Users.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Mute((int)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Mute((long)parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -630,7 +625,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Mutes.Users.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unmute((int)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unmute((long)parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -686,14 +681,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
 
     public class Lists : ApiBase
     {
-        public Lists()
-        {
-            this.Subscribers = new ListsSubscribers() { Tokens = Tokens };
-            this.Members = new ListsMembers() { Tokens = Tokens };
-        }
-
-        public ListsSubscribers Subscribers { get; }
-        public ListsMembers Members { get; }
+        public ListsSubscribers Subscribers { get; set; }
+        public ListsMembers Members { get; set; }
 
         public Task<CursoredList<Twitter.Objects.List>> MembershipsAsync(params Expression<Func<string, object>>[] parameters)
         {
@@ -943,7 +932,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     if (parameters.ContainsKey("screen_name"))
                         return new Twitter.Objects.User(await Tokens.MastodonTokens.Follow((string)parameters["screen_name"]));
                     else
-                        return new Twitter.Objects.User(await Tokens.MastodonTokens.Follow((int)parameters["user_id"]));
+                        return new Twitter.Objects.User(await Tokens.MastodonTokens.Follow((long)parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -963,7 +952,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Friendships.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unfollow((int)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unfollow((long)parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -1003,7 +992,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Relationship(await Tokens.TwitterTokens.Friendships.ShowAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Relationship((await Tokens.MastodonTokens.GetAccountRelationships((int)parameters["target_id"])).First());
+                    return new Twitter.Objects.Relationship((await Tokens.MastodonTokens.GetAccountRelationships((long)parameters["target_id"])).First());
             }
             throw new NotImplementedException();
         }
@@ -1030,7 +1019,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<long>((await Tokens.MastodonTokens.GetAccountFollowers((int)parameters["user_id"])).Select(x => (long)x.Id));
+                    return new CursoredList<long>((await Tokens.MastodonTokens.GetAccountFollowers((long)parameters["user_id"])).Select(x => (long)x.Id));
             }
             throw new NotImplementedException();
         }
@@ -1054,7 +1043,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetAccountFollowers((int)parameters["user_id"])).Select(x => new Twitter.Objects.User(x)));
+                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetAccountFollowers((long)parameters["user_id"])).Select(x => new Twitter.Objects.User(x)));
             }
             throw new NotImplementedException();
         }
@@ -1081,7 +1070,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<long>((await Tokens.MastodonTokens.GetAccountFollowers((int)parameters["user_id"])).Select(x => (long)x.Id));
+                    return new CursoredList<long>((await Tokens.MastodonTokens.GetAccountFollowers((long)parameters["user_id"])).Select(x => (long)x.Id));
             }
             throw new NotImplementedException();
         }
@@ -1105,7 +1094,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetAccountFollowers((int)parameters["user_id"])).Select(x => new Twitter.Objects.User(x)));
+                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetAccountFollowers((long)parameters["user_id"])).Select(x => new Twitter.Objects.User(x)));
             }
             throw new NotImplementedException();
         }
@@ -1128,7 +1117,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.DirectMessage(await Tokens.TwitterTokens.DirectMessages.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    await Tokens.MastodonTokens.DeleteStatus((int)parameters["id"]);
+                    await Tokens.MastodonTokens.DeleteStatus((long)parameters["id"]);
                     return null;
             }
             throw new NotImplementedException();
@@ -1151,7 +1140,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Mastodon:
                     if (!parameters.ContainsKey("in_reply_to_status_id"))
                         throw new NotImplementedException();
-                    var status = await Tokens.MastodonTokens.PostStatus((string)parameters["text"], Mastonet.Visibility.Direct, (int)parameters["in_reply_to_status_id"], (IEnumerable<int>)parameters.GetValueOrDefault("media_ids", null), (bool)parameters.GetValueOrDefault("possibly_sensitive", false));
+                    var status = await Tokens.MastodonTokens.PostStatus((string)parameters["text"], Mastonet.Visibility.Direct, (long)parameters["in_reply_to_status_id"], (IEnumerable<long>)parameters.GetValueOrDefault("media_ids", null), (bool)parameters.GetValueOrDefault("possibly_sensitive", false));
                     return new Twitter.Objects.DirectMessage(status, (await Tokens.MastodonTokens.GetStatus(status.InReplyToId.Value)).Account);
             }
             throw new NotImplementedException();
@@ -1384,7 +1373,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Blocks.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Block((int)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Block((long)parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -1404,7 +1393,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Blocks.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unblock((int)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unblock((long)parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -1521,7 +1510,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Media.UploadChunkedAsync(media, (CoreTweet.UploadMediaType)Enum.ToObject(typeof(CoreTweet.UploadMediaType), (int)mediaType), media_category, additional_owners, progress: progress)).MediaId;
+                    return (await Tokens.TwitterTokens.Media.UploadChunkedAsync(media, (CoreTweet.UploadMediaType)Enum.ToObject(typeof(CoreTweet.UploadMediaType), mediaType), media_category, additional_owners, progress: progress)).MediaId;
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -1757,7 +1746,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             this.SavedSearches = new SavedSearches() { Tokens = this };
             this.Search = new Search() { Tokens = this };
             this.Mutes = new Mutes() { Tokens = this };
+            this.Mutes.Users = new MutesUsers() { Tokens = this };
             this.Lists = new Lists() { Tokens = this };
+            this.Lists.Members = new ListsMembers() { Tokens = this };
+            this.Lists.Members = new ListsMembers() { Tokens = this };
             this.Friendships = new Friendships() { Tokens = this };
             this.Followers = new Followers() { Tokens = this };
             this.Friends = new Friends() { Tokens = this };

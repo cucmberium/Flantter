@@ -1,6 +1,5 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
+﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -20,8 +19,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -64,14 +63,23 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || retweetersCursor == 0)
                 this.Retweeters.Clear();
-
-            Cursored<long> retweetersIds;
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"id", this._Id},
+                };
                 if (useCursor && retweetersCursor != 0)
-                    retweetersIds = await Tokens.Statuses.RetweetersIdsAsync(id => this._Id, cursor => retweetersCursor);
-                else
-                    retweetersIds = await Tokens.Statuses.RetweetersIdsAsync(id => this._Id);
+                    param.Add("cursor", retweetersCursor);
+                
+                var retweeters = await Tokens.Statuses.RetweetersAsync(param);
+                if (!useCursor || retweetersCursor == 0)
+                    this.Retweeters.Clear();
+
+                foreach (var user in retweeters)
+                {
+                    this.Retweeters.Add(user);
+                }
             }
             catch
             {
@@ -80,31 +88,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 this.Updating = false;
                 return;
-            }
-
-            retweetersCursor = retweetersIds.NextCursor;
-
-            ListedResponse<User> retweeters;
-            try
-            {
-                retweeters = await Tokens.Users.LookupAsync(user_id => retweetersIds);
-            }
-            catch
-            {
-                if (!useCursor || retweetersCursor == 0)
-                    this.Retweeters.Clear();
-
-                this.Updating = false;
-                return;
-            }
-
-            if (!useCursor || retweetersCursor == 0)
-                this.Retweeters.Clear();
-
-            foreach (var item in retweeters)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Retweeters.Add(user);
             }
 
             this.Updating = false;

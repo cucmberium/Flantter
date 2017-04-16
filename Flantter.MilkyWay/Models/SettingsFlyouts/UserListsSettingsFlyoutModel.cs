@@ -1,6 +1,5 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
+﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -22,8 +21,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -112,14 +111,28 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || userListsCursor == 0)
                 this.UserLists.Clear();
-
-            Cursored<CoreTweet.List> userLists;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"screen_name", this._ScreenName },
+                    {"count", 20},
+                };
                 if (useCursor && userListsCursor != 0)
-                    userLists = await Tokens.Lists.OwnershipsAsync(screen_name => this._ScreenName, count => 20, cursor => userListsCursor);
-                else
-                    userLists = await Tokens.Lists.OwnershipsAsync(screen_name => this._ScreenName, count => 20);
+                    param.Add("cursor", userListsCursor);
+
+                var userLists = await Tokens.Lists.OwnershipsAsync(param);
+
+                if (!useCursor || userListsCursor == 0)
+                    this.UserLists.Clear();
+
+                foreach (var list in userLists)
+                {
+                    this.UserLists.Add(list);
+                }
+
+                userListsCursor = userLists.NextCursor;
             }
             catch
             {
@@ -129,17 +142,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 this.UpdatingUserLists = false;
                 return;
             }
-
-            if (!useCursor || userListsCursor == 0)
-                this.UserLists.Clear();
-
-            foreach (var item in userLists)
-            {
-                var list = new Twitter.Objects.List(item);
-                this.UserLists.Add(list);
-            }
-
-            userListsCursor = userLists.NextCursor;
 
             this.UpdatingUserLists = false;
         }
@@ -160,14 +162,28 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || subscribeListsCursor == 0)
                 this.SubscribeLists.Clear();
-
-            Cursored<CoreTweet.List> subscribeLists;
+            
             try
             {
-                if (useCursor && userListsCursor != 0)
-                    subscribeLists = await Tokens.Lists.SubscriptionsAsync(screen_name => this._ScreenName, count => 20, cursor => subscribeListsCursor);
-                else
-                    subscribeLists = await Tokens.Lists.SubscriptionsAsync(screen_name => this._ScreenName, count => 20);
+                var param = new Dictionary<string, object>()
+                {
+                    {"screen_name", this._ScreenName },
+                    {"count", 20},
+                };
+                if (useCursor && subscribeListsCursor != 0)
+                    param.Add("cursor", subscribeListsCursor);
+
+                var subscribeLists = await Tokens.Lists.SubscriptionsAsync(param);
+
+                if (!useCursor || subscribeListsCursor == 0)
+                    this.SubscribeLists.Clear();
+
+                foreach (var list in subscribeLists)
+                {
+                    this.SubscribeLists.Add(list);
+                }
+
+                subscribeListsCursor = subscribeLists.NextCursor;
             }
             catch
             {
@@ -177,17 +193,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 this.UpdatingSubscribeLists = false;
                 return;
             }
-
-            if (!useCursor || subscribeListsCursor == 0)
-                this.SubscribeLists.Clear();
-
-            foreach (var item in subscribeLists)
-            {
-                var list = new Twitter.Objects.List(item);
-                this.SubscribeLists.Add(list);
-            }
-
-            subscribeListsCursor = subscribeLists.NextCursor;
 
             this.UpdatingSubscribeLists = false;
         }
@@ -208,14 +213,28 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || memberListsCursor == 0)
                 this.MembershipLists.Clear();
-
-            Cursored<CoreTweet.List> membershipLists;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"screen_name", this._ScreenName },
+                    {"count", 20},
+                };
                 if (useCursor && memberListsCursor != 0)
-                    membershipLists = await Tokens.Lists.MembershipsAsync(screen_name => this._ScreenName, count => 20, cursor => memberListsCursor);
-                else
-                    membershipLists = await Tokens.Lists.MembershipsAsync(screen_name => this._ScreenName, count => 20);
+                    param.Add("cursor", memberListsCursor);
+
+                var membershipLists = await Tokens.Lists.MembershipsAsync(param);
+
+                if (!useCursor || memberListsCursor == 0)
+                    this.MembershipLists.Clear();
+
+                foreach (var list in membershipLists)
+                {
+                    this.MembershipLists.Add(list);
+                }
+
+                memberListsCursor = membershipLists.NextCursor;
             }
             catch
             {
@@ -225,17 +244,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 this.UpdatingMembershipLists = false;
                 return;
             }
-
-            if (!useCursor || memberListsCursor == 0)
-                this.MembershipLists.Clear();
-
-            foreach (var item in membershipLists)
-            {
-                var list = new Twitter.Objects.List(item);
-                this.MembershipLists.Add(list);
-            }
-
-            memberListsCursor = membershipLists.NextCursor;
 
             this.UpdatingMembershipLists = false;
         }

@@ -222,7 +222,7 @@ namespace Flantter.MilkyWay.ViewModels
                     screenName = ((DirectMessageViewModel)tweet).ScreenName;
                 if (tweet is EventMessageViewModel)
                     screenName = ((EventMessageViewModel)tweet).ScreenName;
-
+                
                 var status = this.Tweets[this.SelectedIndex.Value] as StatusViewModel;
 
                 switch (SettingService.Setting.DoubleTappedAction)

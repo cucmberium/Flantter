@@ -1,6 +1,5 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
+﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -21,8 +20,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -80,20 +79,40 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (maxid == 0 && clear)
                 this.DirectMessages.Clear();
-
-            ListedResponse<DirectMessage> receivedDirectMessages;
-            ListedResponse<DirectMessage> sentDirectMessages;
+            
             try
             {
-                if (maxid == 0)
+                var param = new Dictionary<string, object>()
                 {
-                    receivedDirectMessages = await Tokens.DirectMessages.ReceivedAsync(count => 50, full_text => true);
-                    sentDirectMessages = await Tokens.DirectMessages.SentAsync(count => 50, full_text => true);
-                }
-                else
+                    {"count", 50},
+                    {"include_entities", true},
+                    {"full_text", true}
+                };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+
+                if (maxid == 0 && clear)
+                    this.DirectMessages.Clear();
+
+                IEnumerable<Twitter.Objects.DirectMessage> directMessages = await Tokens.DirectMessages.ReceivedAsync(count => 50, full_text => true);
+                if (this.Tokens.Platform == Tokens.PlatformEnum.Twitter)
+                    directMessages = directMessages.Concat(await this.Tokens.DirectMessages.SentAsync(param));
+                directMessages = directMessages.OrderByDescending(x => x.Id);
+
+                foreach (var directMessage in directMessages)
                 {
-                    receivedDirectMessages = await Tokens.DirectMessages.ReceivedAsync(count => 50, max_id => maxid, full_text => true);
-                    sentDirectMessages = await Tokens.DirectMessages.SentAsync(count => 50, max_id => maxid, full_text => true);
+                    if (directMessage.Sender.ScreenName != this._ScreenName)
+                        continue;
+
+                    var index = this.DirectMessages.IndexOf(this.DirectMessages.FirstOrDefault(x => x.Id == directMessage.Id));
+                    if (index == -1)
+                    {
+                        index = this.DirectMessages.IndexOf(this.DirectMessages.FirstOrDefault(x => x.Id < directMessage.Id));
+                        if (index == -1)
+                            this.DirectMessages.Add(directMessage);
+                        else
+                            this.DirectMessages.Insert(index, directMessage);
+                    }
                 }
             }
             catch
@@ -103,44 +122,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 this.UpdatingDirectMessages = false;
                 return;
-            }
-
-            if (maxid == 0 && clear)
-                this.DirectMessages.Clear();
-
-            foreach (var item in receivedDirectMessages)
-            {
-                var directMessage = new Twitter.Objects.DirectMessage(item);
-
-                if (directMessage.Sender.ScreenName != this._ScreenName)
-                    continue;
-
-                var index = this.DirectMessages.IndexOf(this.DirectMessages.FirstOrDefault(x => x.Id == directMessage.Id));
-                if (index == -1)
-                {
-                    index = this.DirectMessages.IndexOf(this.DirectMessages.FirstOrDefault(x => x.Id < directMessage.Id));
-                    if (index == -1)
-                        this.DirectMessages.Add(directMessage);
-                    else
-                        this.DirectMessages.Insert(index, directMessage);
-                }
-            }
-            foreach (var item in sentDirectMessages)
-            {
-                var directMessage = new Twitter.Objects.DirectMessage(item);
-
-                if (directMessage.Recipient.ScreenName != this._ScreenName)
-                    continue;
-
-                var index = this.DirectMessages.IndexOf(this.DirectMessages.FirstOrDefault(x => x.Id == directMessage.Id));
-                if (index == -1)
-                {
-                    index = this.DirectMessages.IndexOf(this.DirectMessages.FirstOrDefault(x => x.Id < directMessage.Id));
-                    if (index == -1)
-                        this.DirectMessages.Add(directMessage);
-                    else
-                        this.DirectMessages.Insert(index, directMessage);
-                }
             }
 
             this.UpdatingDirectMessages = false;
@@ -155,13 +136,28 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
 
             this.SendingDirectMessage = true;
-
-            DirectMessageResponse directMessageResponse = null;
+            
             try
             {
-                directMessageResponse = await this.Tokens.DirectMessages.NewAsync(text => this._Text, screen_name => this._ScreenName);
+                var param = new Dictionary<string, object>()
+                {
+                    {"text", this._Text},
+                    {"screen_name", this._ScreenName},
+                };
+                if (this.Tokens.Platform == Tokens.PlatformEnum.Mastodon)
+                {
+                    var id = this.DirectMessages.FirstOrDefault(x => x.Sender.Id != this.Tokens.UserId)?.Id;
+                    if (id == 0)
+                    {
+                        var userTimeline = await this.Tokens.Statuses.UserTimelineAsync(screen_name => this._ScreenName);
+                        id = userTimeline.FirstOrDefault()?.Id;
+                    }
+                    param.Add("in_reply_to_status_id", this.DirectMessages.FirstOrDefault(x => x.Sender.Id != this.Tokens.UserId)?.Id);
+                }
+                var directMessage = await this.Tokens.DirectMessages.NewAsync(text => this._Text, screen_name => this._ScreenName);
+                this.DirectMessages.Insert(0, directMessage);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 this.SendingDirectMessage = false;
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
@@ -173,9 +169,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
-
-            var directMessage = new Twitter.Objects.DirectMessage(directMessageResponse);
-            this.DirectMessages.Insert(0, directMessage);
 
             this.Text = "";
             this.SendingDirectMessage = false;

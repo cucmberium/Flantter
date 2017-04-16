@@ -216,7 +216,7 @@ namespace Flantter.MilkyWay.ViewModels
             this.ShowMyUserProfileCommand = new ReactiveCommand().AddTo(this.Disposable);
             this.ShowMyUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
@@ -524,32 +524,32 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.AddToCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AddToCollection", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "AddToCollection", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
 
             Services.Notice.Instance.ShowUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowConversationCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Conversation", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Conversation", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Search", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Search", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowStatusDetailCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "StatusDetail", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "StatusDetail", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
@@ -573,67 +573,67 @@ namespace Flantter.MilkyWay.ViewModels
 
             Services.Notice.Instance.SendDirectMessageCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "DirectMessageConversation", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "DirectMessageConversation", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowUserListsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowUserCollectionsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserCollections", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserCollections", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowListStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ListStatuses", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ListStatuses", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowListMembersCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ListMembers", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "ListMembers", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowCollectionStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "CollectionStatuses", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "CollectionStatuses", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowRetweetersCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Retweeters", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "Retweeters", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = x };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowRetweetsOfMeCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "RetweetsOfMe", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "RetweetsOfMe", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowUserFollowInfoCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserFollowInfo", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserFollowInfo", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowMyListsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserLists", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
             Services.Notice.Instance.ShowMyCollectionsCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserCollections", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserCollections", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = this.ScreenName.Value };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 
@@ -747,9 +747,15 @@ namespace Flantter.MilkyWay.ViewModels
                 this.LeftSwipeMenuIsOpen.Value = isOpen;
             }).AddTo(this.Disposable);
 
-            Services.Notice.Instance.ShowSupportAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(x =>
+            Services.Notice.Instance.ShowSupportAccountCommand.SubscribeOn(ThreadPoolScheduler.Default).Where(_ => this.Model.IsEnabled).Subscribe(async x =>
             {
-                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this.Model.CoreTweetTokens, UserIcon = this.ProfileImageUrl.Value, Content = "Flantter" };
+                if (this.Model.AccountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)
+                {
+                    await Launcher.LaunchUriAsync(new Uri("https://twitter.com/Flantter/"));
+                    return;
+                }
+
+                var notification = new ShowSettingsFlyoutNotification() { SettingsFlyoutType = "UserProfile", Tokens = this.Model.Tokens, UserIcon = this.ProfileImageUrl.Value, Content = "Flantter" };
                 Services.Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
             }).AddTo(this.Disposable);
 

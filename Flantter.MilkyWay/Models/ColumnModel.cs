@@ -401,8 +401,7 @@ namespace Flantter.MilkyWay.Models
 
             this._SelectedIndex = -1;
 
-            this.Tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName, account.Instance);
-            this.Tokens.TwitterTokens.ConnectionOptions.UserAgent = TwitterConnectionHelper.GetUserAgent(this.Tokens.TwitterTokens);
+            this.Tokens = accountModel.Tokens;
 
             this.AccountSetting = account;
             this.ColumnSetting = column;
@@ -482,17 +481,16 @@ namespace Flantter.MilkyWay.Models
             catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                this.Streaming = false;
             }
             catch (NotImplementedException e)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                this.Streaming = false;
             }
             catch (Exception ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-            }
-            finally
-            {
                 this.Streaming = false;
             }
         }
@@ -927,7 +925,6 @@ namespace Flantter.MilkyWay.Models
                     {
                         {"count", this.ColumnSetting.FetchingNumberOfTweet},
                         {"include_entities", true},
-                        {"user_id", long.Parse(this._Parameter)},
                         {"tweet_mode", CoreTweet.TweetMode.extended}
                     };
                     if (maxid != 0)

@@ -1,6 +1,5 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
+﻿using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -20,8 +19,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -64,14 +63,28 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (!useCursor || listMembersCursor == 0)
                 this.ListMembers.Clear();
-
-            Cursored<User> listMembers;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"list_id", this._Id},
+                    {"count", 20},
+                };
                 if (useCursor && listMembersCursor != 0)
-                    listMembers = await Tokens.Lists.Members.ListAsync(list_id => this._Id, count => 20, cursor => listMembersCursor);
-                else
-                    listMembers = await Tokens.Lists.Members.ListAsync(list_id => this._Id, count => 20);
+                    param.Add("cursor", listMembersCursor);
+
+                var listMembers = await Tokens.Lists.Members.ListAsync(param);
+                if (!useCursor || listMembersCursor == 0)
+                    this.ListMembers.Clear();
+
+                foreach (var user in listMembers)
+                {
+                    this.ListMembers.Add(user);
+                }
+
+                listMembersCursor = listMembers.NextCursor;
+                this.Updating = false;
             }
             catch
             {
@@ -81,19 +94,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 this.Updating = false;
                 return;
             }
-
-            if (!useCursor || listMembersCursor == 0)
-                this.ListMembers.Clear();
-
-            foreach (var item in listMembers)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.ListMembers.Add(user);
-            }
-
-            listMembersCursor = listMembers.NextCursor;
-
-            this.Updating = false;
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
+﻿using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Services.Database;
 using Flantter.MilkyWay.Models.Twitter;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -23,8 +22,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -69,12 +68,12 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (SettingService.Setting.UseOfficialApi && TwitterConnectionHelper.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
             {
-                AsyncResponse res;
+                CoreTweet.AsyncResponse res;
                 try
                 {
-                    res = await this.Tokens.SendRequestAsync(MethodType.Get, "https://api.twitter.com/1.1/conversation/show.json", new Dictionary<string, object>() { { "id", nextId }, { "tweet_mode", TweetMode.extended } });
+                    res = await this.Tokens.TwitterTokens.SendRequestAsync(CoreTweet.MethodType.Get, "https://api.twitter.com/1.1/conversation/show.json", new Dictionary<string, object>() { { "id", nextId }, { "tweet_mode", CoreTweet.TweetMode.extended } });
                     var json = await res.Source.Content.ReadAsStringAsync();
-                    var statuses = CoreBase.ConvertArray<Status>(json, string.Empty);
+                    var statuses = CoreTweet.Core.CoreBase.ConvertArray<CoreTweet.Status>(json, string.Empty);
 
                     statuses.Reverse();
 
@@ -98,20 +97,20 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             }
             else if (SettingService.Setting.UseExtendedConversation && this.ConversationStatus.CreatedAt.ToLocalTime() + TimeSpan.FromDays(7) > DateTime.Now)
             {
-                var conversation = new List<Status>();
+                var conversation = new List<Twitter.Objects.Status>();
                 foreach (var user in ConversationStatus.Entities.UserMentions)
                 {
-                    var conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + this.ConversationStatus.User.ScreenName + " to:" + user.ScreenName, count => 100, tweet_mode => TweetMode.extended);
+                    var conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + this.ConversationStatus.User.ScreenName + " to:" + user.ScreenName, count => 100, tweet_mode => CoreTweet.TweetMode.extended);
                     foreach (var item in conversationTweets)
                     {
                         conversation.Add(item);
-                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(item), this.Tokens.UserId, new List<string>() { "none://" }, false));
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(item, this.Tokens.UserId, new List<string>() { "none://" }, false));
                     }
-                    conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + user.ScreenName + " to:" + this.ConversationStatus.User.ScreenName, count => 100, tweet_mode => TweetMode.extended);
+                    conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + user.ScreenName + " to:" + this.ConversationStatus.User.ScreenName, count => 100, tweet_mode => CoreTweet.TweetMode.extended);
                     foreach (var item in conversationTweets)
                     {
                         conversation.Add(item);
-                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(item), this.Tokens.UserId, new List<string>() { "none://" }, false));
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(item, this.Tokens.UserId, new List<string>() { "none://" }, false));
                     }
 
                     while (true)
@@ -121,7 +120,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         if (status == null && !conversation.Any(x => x.InReplyToStatusId == nextId))
                             break;
 
-                        status = status ?? new Twitter.Objects.Status(conversation.First(x => x.InReplyToStatusId == nextId));
+                        status = status ?? conversation.First(x => x.InReplyToStatusId == nextId);
 
                         status.InReplyToStatusId = 0;
                         this.Conversation.Insert(0, status);
@@ -136,14 +135,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         {
                             if (conversation.Any(x => x.Id == nextId))
                             {
-                                status = new Twitter.Objects.Status(conversation.First(x => x.Id == nextId));
+                                status = conversation.First(x => x.Id == nextId);
                             }
                             else
                             {
-                                Status item;
+                                Twitter.Objects.Status item;
                                 try
                                 {
-                                    item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true, tweet_mode => TweetMode.extended);
+                                    item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true, tweet_mode => CoreTweet.TweetMode.extended);
                                 }
                                 catch
                                 {
@@ -151,7 +150,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                                     return;
                                 }
 
-                                status = new Twitter.Objects.Status(item);
+                                status = item;
                                 Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
                             }
                         }
@@ -192,10 +191,10 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                     if (status == null)
                     {
-                        Status item;
+                        Twitter.Objects.Status item;
                         try
                         {
-                            item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true, tweet_mode => TweetMode.extended);
+                            item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true, tweet_mode => CoreTweet.TweetMode.extended);
                         }
                         catch
                         {
@@ -203,7 +202,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                             return;
                         }
 
-                        status = new Twitter.Objects.Status(item);
+                        status = item;
                         Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
                     }
 

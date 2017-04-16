@@ -24,6 +24,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
                     break;
                 case CoreTweet.Streaming.MessageType.Event:
                     var eventMessage = m as CoreTweet.Streaming.EventMessage;
+                    this.Type = MessageType.Event;
                     this.EventMessage = new Twitter.Objects.EventMessage(eventMessage);
                     break;
                 case CoreTweet.Streaming.MessageType.DeleteStatus:

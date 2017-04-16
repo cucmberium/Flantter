@@ -20,6 +20,7 @@ using Flantter.MilkyWay.Views.Behaviors;
 using Prism.Mvvm;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
+using Media = Flantter.MilkyWay.Models.Twitter.Wrapper.Media;
 
 namespace Flantter.MilkyWay.Models
 {
@@ -371,7 +372,7 @@ namespace Flantter.MilkyWay.Models
             }
 
             this.Updating = true;
-            var tokens = account.CoreTweetTokens;
+            var tokens = account.Tokens;
             var text = this.Text;
 
             try
@@ -392,7 +393,7 @@ namespace Flantter.MilkyWay.Models
                 {
                     this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + "0.0%";
 
-                    var resultList = new List<MediaUploadResult>();
+                    var resultList = new List<long>();
 
                     if (this._Pictures.First().IsVideo)
                     {
@@ -415,7 +416,7 @@ namespace Flantter.MilkyWay.Models
                         };
 
                         pic.Stream.Seek(0);
-                        resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, media_category: "tweet_video", progress: progress));
+                        resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), Media.UploadMediaTypeEnum.Video, media_category: "tweet_video", progress: progress));
                     }
                     else
                     {
@@ -434,7 +435,7 @@ namespace Flantter.MilkyWay.Models
                         }
                     }
                     
-                    param.Add("media_ids", resultList.Select(x => x.MediaId));
+                    param.Add("media_ids", resultList);
                     param.Add("possibly_sensitive", account.AccountSetting.PossiblySensitive);
                 }
 
@@ -446,6 +447,13 @@ namespace Flantter.MilkyWay.Models
             catch (TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                this.State = "Cancel";
+                this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
+                return;
+            }
+            catch (NotImplementedException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 this.State = "Cancel";
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_Error");
                 return;

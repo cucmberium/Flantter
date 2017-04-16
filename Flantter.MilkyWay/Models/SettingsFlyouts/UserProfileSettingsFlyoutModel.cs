@@ -1,7 +1,6 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Models.Services;
+﻿using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -24,8 +23,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -313,39 +312,36 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
 
             this.UpdatingUserInformation = true;
-
-            UserResponse user;
+            
             try
             {
-                user = await Tokens.Users.ShowAsync(screen_name => this._ScreenName, include_entities => true);
+                var user = await Tokens.Users.ShowAsync(screen_name => this._ScreenName, include_entities => true);
+
+                this.UrlEntities = user.Entities.Url;
+                this.DescriptionEntities = user.Entities.Description;
+                this.Description = user.Description;
+                this.FavouritesCount = user.FavouritesCount;
+                this.FollowersCount = user.FollowersCount;
+                this.FriendsCount = user.FriendsCount;
+                this.ListedCount = user.ListedCount;
+                this.IsMuting = user.IsMuting;
+                this.IsProtected = user.IsProtected;
+                this.IsVerified = user.IsVerified;
+                this.Location = user.Location;
+                this.ProfileBackgroundColor = user.ProfileBackgroundColor;
+                this.ProfileBannerUrl = user.ProfileBannerUrl;
+                this.ProfileImageUrl = user.ProfileImageUrl;
+                this.StatusesCount = user.StatusesCount;
+                this.Url = user.Url;
+                this.Name = user.Name;
+                this.IsFollowRequestSent = user.IsFollowRequestSent;
+                this.UserId = user.Id;
             }
             catch
             {
                 this.UpdatingUserInformation = false;
                 return;
             }
-
-            var userObj = new Twitter.Objects.User(user);
-
-            this.UrlEntities = userObj.Entities.Url;
-            this.DescriptionEntities = userObj.Entities.Description;
-            this.Description = userObj.Description;
-            this.FavouritesCount = userObj.FavouritesCount;
-            this.FollowersCount = userObj.FollowersCount;
-            this.FriendsCount = userObj.FriendsCount;
-            this.ListedCount = userObj.ListedCount;
-            this.IsMuting = userObj.IsMuting;
-            this.IsProtected = userObj.IsProtected;
-            this.IsVerified = userObj.IsVerified;
-            this.Location = userObj.Location;
-            this.ProfileBackgroundColor = userObj.ProfileBackgroundColor;
-            this.ProfileBannerUrl = userObj.ProfileBannerUrl;
-            this.ProfileImageUrl = userObj.ProfileImageUrl;
-            this.StatusesCount = userObj.StatusesCount;
-            this.Url = userObj.Url;
-            this.Name = userObj.Name;
-            this.IsFollowRequestSent = userObj.IsFollowRequestSent;
-            this.UserId = userObj.Id;
             
             this.UpdatingUserInformation = false;
         }
@@ -359,23 +355,20 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
 
             this.UpdatingRelationShip = true;
-
-            Relationship relationShip;
+            
             try
             {
-                relationShip = await Tokens.Friendships.ShowAsync(source_screen_name => Tokens.ScreenName, target_screen_name => this._ScreenName);
+                var relationShip = await Tokens.Friendships.ShowAsync(source_screen_name => Tokens.ScreenName, target_screen_name => this._ScreenName); this.IsFollowing = relationShip.Source.IsFollowing;
+                this.IsFollowedBy = relationShip.Source.IsFollowedBy;
+                this.IsBlocking = relationShip.Source.IsBlocking;
+                this.IsMuting = relationShip.Source.IsMuting;
+                this.IsFollowRequestSent = relationShip.Source.IsFollowingRequested;
             }
             catch
             {
                 this.UpdatingRelationShip = false;
                 return;
             }
-
-            this.IsFollowing = relationShip.Source.IsFollowing;
-            this.IsFollowedBy = relationShip.Source.IsFollowedBy;
-            this.IsBlocking = relationShip.Source.IsBlocking.HasValue ? relationShip.Source.IsBlocking.Value : false;
-            this.IsMuting = relationShip.Source.IsMuting.HasValue ? relationShip.Source.IsMuting.Value : false;
-            this.IsFollowRequestSent = relationShip.Source.IsFollowingRequested.HasValue ? relationShip.Source.IsFollowingRequested.Value : false;
 
             this.UpdatingRelationShip = false;
         }
@@ -389,14 +382,38 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
 
             this.UpdatingStatuses = true;
-
-            ListedResponse<CoreTweet.Status> userTweets;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"count", 20},
+                    {"include_entities", true},
+                    {"screen_name", this._ScreenName},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+
+                var userTweets = await Tokens.Statuses.UserTimelineAsync(param);
                 if (maxid == 0)
-                    userTweets = await Tokens.Statuses.UserTimelineAsync(screen_name => this._ScreenName, count => 20, tweet_mode => TweetMode.extended);
-                else
-                    userTweets = await Tokens.Statuses.UserTimelineAsync(screen_name => this._ScreenName, count => 20, max_id => maxid, tweet_mode => TweetMode.extended);
+                    this.Statuses.Clear();
+
+                foreach (var status in userTweets)
+                {
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+
+                    var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
+                    var index = this.Statuses.IndexOf(this.Statuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
+                    if (index == -1)
+                    {
+                        index = this.Statuses.IndexOf(this.Statuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
+                        if (index == -1)
+                            this.Statuses.Add(status);
+                        else
+                            this.Statuses.Insert(index, status);
+                    }
+                }
             }
             catch
             {
@@ -405,26 +422,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 this.UpdatingStatuses = false;
                 return;
-            }
-
-            if (maxid == 0)
-                this.Statuses.Clear();
-
-            foreach (var item in userTweets)
-            {
-                var status = new Twitter.Objects.Status(item);
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
-
-                var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
-                var index = this.Statuses.IndexOf(this.Statuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
-                if (index == -1)
-                {
-                    index = this.Statuses.IndexOf(this.Statuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
-                    if (index == -1)
-                        this.Statuses.Add(status);
-                    else
-                        this.Statuses.Insert(index, status);
-                }
             }
 
             this.UpdatingStatuses = false;
@@ -439,14 +436,39 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
 
             this.UpdatingFavorites = true;
-
-            ListedResponse<CoreTweet.Status> favorites;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"count", 20},
+                    {"include_entities", true},
+                    {"screen_name", this._ScreenName},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+
+                var favorites = await Tokens.Favorites.ListAsync(param);
+
                 if (maxid == 0)
-                    favorites = await Tokens.Favorites.ListAsync(screen_name => this._ScreenName, count => 20, tweet_mode => TweetMode.extended);
-                else
-                    favorites = await Tokens.Favorites.ListAsync(screen_name => this._ScreenName, count => 20, max_id => maxid, tweet_mode => TweetMode.extended);
+                    this.Favorites.Clear();
+
+                foreach (var status in favorites)
+                {
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+
+                    var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
+                    var index = this.Favorites.IndexOf(this.Favorites.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
+                    if (index == -1)
+                    {
+                        index = this.Favorites.IndexOf(this.Favorites.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
+                        if (index == -1)
+                            this.Favorites.Add(status);
+                        else
+                            this.Favorites.Insert(index, status);
+                    }
+                }
             }
             catch
             {
@@ -455,26 +477,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 this.UpdatingFavorites = false;
                 return;
-            }
-
-            if (maxid == 0)
-                this.Favorites.Clear();
-
-            foreach (var item in favorites)
-            {
-                var status = new Twitter.Objects.Status(item);
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
-
-                var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
-                var index = this.Favorites.IndexOf(this.Favorites.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
-                if (index == -1)
-                {
-                    index = this.Favorites.IndexOf(this.Favorites.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
-                    if (index == -1)
-                        this.Favorites.Add(status);
-                    else
-                        this.Favorites.Insert(index, status);
-                }
             }
 
             this.UpdatingFavorites = false;
@@ -493,14 +495,29 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
 
             this.UpdatingFollowers = true;
-
-            Cursored<CoreTweet.User> follower;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"count", 20},
+                    {"include_entities", true},
+                    {"screen_name", this._ScreenName},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
                 if (useCursor && followersCursor != 0)
-                    follower = await Tokens.Followers.ListAsync(screen_name => this._ScreenName, count => 20, cursor => followersCursor);
-                else
-                    follower = await Tokens.Followers.ListAsync(screen_name => this._ScreenName, count => 20);
+                    param.Add("cursor", followersCursor);
+
+                var follower = await Tokens.Followers.ListAsync(param);
+                if (!useCursor || followersCursor == 0)
+                    this.Followers.Clear();
+
+                foreach (var user in follower)
+                {
+                    this.Followers.Add(user);
+                }
+
+                followersCursor = follower.NextCursor;
             }
             catch
             {
@@ -511,16 +528,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
             }
 
-            if (!useCursor || followersCursor == 0)
-                this.Followers.Clear();
-
-            foreach (var item in follower)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Followers.Add(user);
-            }
-
-            followersCursor = follower.NextCursor;
             this.UpdatingFollowers = false;
         }
 
@@ -537,14 +544,29 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
 
             this.UpdatingFollowing = true;
-
-            Cursored<CoreTweet.User> following;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"count", 20},
+                    {"include_entities", true},
+                    {"screen_name", this._ScreenName},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
                 if (useCursor && followingCursor != 0)
-                    following = await Tokens.Friends.ListAsync(screen_name => this._ScreenName, count => 20, cursor => followingCursor);
-                else
-                    following = await Tokens.Friends.ListAsync(screen_name => this._ScreenName, count => 20);
+                    param.Add("cursor", followingCursor);
+
+                var following = await Tokens.Friends.ListAsync(param);
+                if (!useCursor || followingCursor == 0)
+                    this.Following.Clear();
+
+                foreach (var user in following)
+                {
+                    this.Following.Add(user);
+                }
+
+                followingCursor = following.NextCursor;
             }
             catch
             {
@@ -555,16 +577,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 return;
             }
 
-            if (!useCursor || followingCursor == 0)
-                this.Following.Clear();
-
-            foreach (var item in following)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Following.Add(user);
-            }
-
-            followingCursor = following.NextCursor;
             this.UpdatingFollowing = false;
         }
 
@@ -590,47 +602,47 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         public async Task CreateFollow()
         {
-            UserResponse user = null;
             try
             {
-                user = await this.Tokens.Friendships.CreateAsync(screen_name => this._ScreenName);
+                var user = await this.Tokens.Friendships.CreateAsync(screen_name => this._ScreenName);
+                if (user.IsProtected)
+                    this.IsFollowRequestSent = true;
+                else
+                    this.IsFollowing = true;
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                return;
             }
-
-            if (user.IsProtected)
-                this.IsFollowRequestSent = true;
-            else
-                this.IsFollowing = true;
         }
 
         public async Task DestroyFollow()
         {
-            UserResponse user = null;
             try
             {
-                user = await this.Tokens.Friendships.DestroyAsync(screen_name => this._ScreenName);
+                await this.Tokens.Friendships.DestroyAsync(screen_name => this._ScreenName);
+                this.IsFollowing = false;
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                return;
             }
-            
-            this.IsFollowing = false;
         }
 
         public async Task CreateBlock()
@@ -639,9 +651,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.Blocks.CreateAsync(screen_name => this._ScreenName);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
@@ -660,9 +677,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.Blocks.DestroyAsync(screen_name => this._ScreenName);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
@@ -680,9 +702,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.Mutes.Users.CreateAsync(screen_name => this._ScreenName);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
@@ -700,9 +727,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 await this.Tokens.Mutes.Users.DestroyAsync(screen_name => this._ScreenName);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)

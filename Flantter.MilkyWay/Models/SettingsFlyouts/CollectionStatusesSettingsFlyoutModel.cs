@@ -1,7 +1,6 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
+﻿using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -21,8 +20,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
+        private Tokens _Tokens;
+        public Tokens Tokens
         {
             get { return this._Tokens; }
             set { this.SetProperty(ref this._Tokens, value); }
@@ -61,14 +60,28 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             if (maxposition == 0 && clear)
                 this.CollectionStatuses.Clear();
-
-            CollectionEntriesResult collectionStatuses;
+            
             try
             {
+                var param = new Dictionary<string, object>()
+                {
+                    {"id", this._Id},
+                    {"count", 20},
+                };
                 if (maxposition == 0)
-                    collectionStatuses = await this.Tokens.Collections.EntriesAsync(id => this._Id, count => 20);
-                else
-                    collectionStatuses = await this.Tokens.Collections.EntriesAsync(id => this._Id, count => 20, max_position => maxposition);
+                    param.Add("max_position", maxposition);
+
+                var collectionStatuses = await this.Tokens.Collections.EntriesAsync(param);
+                if (maxposition == 0 && clear)
+                    this.CollectionStatuses.Clear();
+
+                foreach (var item in collectionStatuses)
+                {
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(item.Status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+
+                    if (!this.CollectionStatuses.Any(x => x.Status.Id == item.Status.Id))
+                        this.CollectionStatuses.Add(item);
+                }
             }
             catch
             {
@@ -77,18 +90,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 this.Updating = false;
                 return;
-            }
-
-            if (maxposition == 0 && clear)
-                this.CollectionStatuses.Clear();
-
-            foreach (var item in collectionStatuses.Entries)
-            {
-                var entry = new Twitter.Objects.CollectionEntry(item);
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(entry.Status, this.Tokens.UserId, new List<string>() { "none://" }, false));
-
-                if (!this.CollectionStatuses.Any(x => x.Status.Id == entry.Status.Id))
-                    this.CollectionStatuses.Add(entry);
             }
 
             this.Updating = false;

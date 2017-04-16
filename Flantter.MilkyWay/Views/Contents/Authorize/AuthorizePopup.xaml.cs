@@ -202,7 +202,7 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                             Instance = appRegistration.Instance
                         };
                     var client = new MastodonClient(appRegistration);
-                    await client.Connect(email, password);
+                    await client.ConnectWithPassword(email, password);
                     client = new MastodonClient(appRegistration, client.AccessToken);
                     var user = await client.GetCurrentUser();
                     _accountInfo = new AccountInfo

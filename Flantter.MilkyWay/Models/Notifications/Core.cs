@@ -61,13 +61,13 @@ namespace Flantter.MilkyWay.Models.Notifications
                                 break;
 
                             if (e.Status.HasRetweetInformation && e.Status.User.Id == e.UserId &&
-                                e.Parameter.Contains("home://"))
+                                e.Status.RetweetInformation.User.Id != e.UserId && e.Parameter.Contains("home://"))
                                 PopupToastNotification(PopupNotificationType.Retweet,
                                     string.Format(_resourceLoader.GetString("Notification_Retweet_Retweet"),
                                         e.Status.RetweetInformation.User.Name), e.Status.Text,
                                     e.Status.RetweetInformation.User.ProfileImageUrl);
 
-                            if (e.Status.InReplyToUserId == e.UserId && e.Parameter.Contains("home://"))
+                            if (e.Status.InReplyToUserId == e.UserId && e.Parameter.Contains("home://") && !e.Status.HasRetweetInformation)
                                 PopupToastNotification(PopupNotificationType.Mention,
                                     string.Format(_resourceLoader.GetString("Notification_Mention_Mention"),
                                         e.Status.User.Name), e.Status.Text, e.Status.User.ProfileImageUrl,
@@ -75,7 +75,7 @@ namespace Flantter.MilkyWay.Models.Notifications
                                         ? e.Status.Entities.Media.First().MediaThumbnailUrl
                                         : "");
 
-                            if (e.Status.Entities.Media.Where(x => x.Type == "Image").Any() &&
+                            if (e.Status.Entities.Media.Any(x => x.Type == "Image") &&
                                 !e.Status.User.IsProtected)
                                 UpdateTileNotification(TileNotificationType.Images,
                                     e.Status.User.Name + "(@" + e.Status.User.ScreenName + ")" + "\n" + e.Status.Text,

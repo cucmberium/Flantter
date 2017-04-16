@@ -237,8 +237,24 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     ((DirectMessageConversationSettingsFlyout) settingsFlyout).ViewModel.ClearCommand.Execute();
 
-                    ((DirectMessageConversationSettingsFlyout) settingsFlyout).ViewModel.ScreenName.Value =
-                        notification.Content as string;
+                    if (notification.Content is Status)
+                    {
+                        var status = notification.Content as Status;
+                        if (status.User.ScreenName == notification.Tokens.ScreenName)
+                            break;
+                        ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value =
+                            status.User.ScreenName;
+                    }
+                    else if (notification.Content is string)
+                    {
+                        var screenName = notification.Content as string;
+                        if (screenName == notification.Tokens.ScreenName)
+                            break;
+
+                        ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value = screenName;
+                    }
+
+                    
 
                     ((DirectMessageConversationSettingsFlyout) settingsFlyout).ViewModel.UpdateCommand.Execute();
 

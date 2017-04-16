@@ -41,6 +41,7 @@ namespace Flantter.MilkyWay.Models
             ProfileBannerUrl = AccountSetting.ProfileBannerUrl;
             ProfileImageUrl = AccountSetting.ProfileImageUrl;
             ScreenName = AccountSetting.ScreenName;
+            Instance = AccountSetting.Instance;
 
             foreach (var column in account.Column)
                 _columns.Add(new ColumnModel(column, account, this));
@@ -548,6 +549,18 @@ namespace Flantter.MilkyWay.Models
         {
             get => _screenName;
             set => SetProperty(ref _screenName, value);
+        }
+
+        #endregion
+
+        #region Instance変更通知プロパティ
+
+        private string _instance;
+
+        public string Instance
+        {
+            get => _instance;
+            set => SetProperty(ref _instance, value);
         }
 
         #endregion

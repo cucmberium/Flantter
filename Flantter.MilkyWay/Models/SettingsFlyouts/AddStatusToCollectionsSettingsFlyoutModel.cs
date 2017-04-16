@@ -48,8 +48,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 if (useCursor && !string.IsNullOrWhiteSpace(_userCollectionsCursor))
                     param.Add("cursor", _userCollectionsCursor);
 
-                var userCollections = await Tokens.Collections.ListAsync(screen_name => _screenName, count => 20,
-                    cursor => _userCollectionsCursor);
+                var userCollections = await Tokens.Collections.ListAsync(param);
                 if (!useCursor || string.IsNullOrWhiteSpace(_userCollectionsCursor))
                     UserCollections.Clear();
 
@@ -81,7 +80,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             try
             {
-                await Tokens.Collections.EntriesAddAsync(id => collectionId, tweetId => statusId);
+                await Tokens.Collections.EntriesAddAsync(id => collectionId, tweet_id => statusId);
             }
             catch (CoreTweet.TwitterException ex)
             {

@@ -49,14 +49,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     DirectMessages.Clear();
 
                 IEnumerable<DirectMessage> directMessages =
-                    await Tokens.DirectMessages.ReceivedAsync(count => 50, full_text => true);
+                    await Tokens.DirectMessages.ReceivedAsync(param);
                 if (Tokens.Platform == Tokens.PlatformEnum.Twitter)
                     directMessages = directMessages.Concat(await Tokens.DirectMessages.SentAsync(param));
                 directMessages = directMessages.OrderByDescending(x => x.Id);
 
                 foreach (var directMessage in directMessages)
                 {
-                    if (directMessage.Sender.ScreenName != _screenName)
+                    if (directMessage.Sender.ScreenName != _screenName && directMessage.Recipient.ScreenName != _screenName)
                         continue;
 
                     var index = DirectMessages.IndexOf(DirectMessages.FirstOrDefault(x => x.Id == directMessage.Id));

@@ -36,6 +36,7 @@ namespace Flantter.MilkyWay.ViewModels
             Model = account;
             ScreenName = account.ObserveProperty(x => x.ScreenName).ToReactiveProperty().AddTo(Disposable);
             Name = account.ObserveProperty(x => x.Name).ToReactiveProperty().AddTo(Disposable);
+            Instance = account.ObserveProperty(x => x.Instance).ToReactiveProperty().AddTo(Disposable);
             ProfileImageUrl = account.ObserveProperty(x => x.ProfileImageUrl)
                 .Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/")
                 .ToReactiveProperty()
@@ -201,7 +202,7 @@ namespace Flantter.MilkyWay.ViewModels
                         SettingsFlyoutType = "UserProfile",
                         Tokens = Model.Tokens,
                         UserIcon = ProfileImageUrl.Value,
-                        Content = ScreenName
+                        Content = ScreenName.Value
                     };
                     Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
                 })
@@ -348,10 +349,7 @@ namespace Flantter.MilkyWay.ViewModels
                     var statusViewModel = x as StatusViewModel;
                     if (statusViewModel == null)
                         return;
-
-                    if (statusViewModel.ScreenName == ScreenName.Value)
-                        return;
-
+                    
                     if (!statusViewModel.Model.IsRetweeted && SettingService.Setting.RetweetConfirmation)
                     {
                         var msgNotification = new ConfirmMessageDialogNotification
@@ -1195,6 +1193,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<string> ProfileBannerUrl { get; }
         public ReactiveProperty<string> ScreenName { get; }
         public ReactiveProperty<string> Name { get; }
+        public ReactiveProperty<string> Instance { get; }
         public ReactiveProperty<bool> IsEnabled { get; }
 
         public ReactiveProperty<double> PanelWidth { get; }

@@ -38,7 +38,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {"id", _id},
                     {"count", 20}
                 };
-                if (maxposition == 0)
+                if (maxposition != 0)
                     param.Add("max_position", maxposition);
 
                 var collectionStatuses = await Tokens.Collections.EntriesAsync(param);

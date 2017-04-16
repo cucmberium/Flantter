@@ -22,7 +22,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             return dictionary.TryGetValue(key, out value) ? value : defaultValue;
         }
 
-        public static TValue GetValueOrDefault<TKey, TValue>
+        /*public static TValue GetValueOrDefault<TKey, TValue>
         (this IDictionary<TKey, TValue> dictionary,
             TKey key,
             Func<TValue> defaultValueProvider)
@@ -31,7 +31,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             return dictionary.TryGetValue(key, out value)
                 ? value
                 : defaultValueProvider();
-        }
+        }*/
     }
 
     public class CursoredList<T> : List<T>
@@ -2005,7 +2005,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     return Tokens.TwitterTokens.Streaming.UserAsObservable(parameters)
                         .Select(x => new Twitter.Objects.StreamingMessage(x));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Public,
+                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.User,
                         parameters);
             }
             throw new NotImplementedException();
@@ -2091,7 +2091,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         public StreamingApi Streaming { get; }
 
         public static Tokens Create(string consumerKey, string consumerSecret, string accessToken, string accessSecret,
-            long userID, string screenName, string instance = "")
+            long userId, string screenName, string instance = "")
         {
             return new Tokens()
             {
@@ -2099,7 +2099,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 ConsumerSecret = consumerSecret,
                 AccessToken = accessToken,
                 AccessTokenSecret = accessSecret,
-                UserId = userID,
+                UserId = userId,
                 ScreenName = screenName,
                 Platform = string.IsNullOrWhiteSpace(instance) ? PlatformEnum.Twitter : PlatformEnum.Mastodon,
                 Instance = instance

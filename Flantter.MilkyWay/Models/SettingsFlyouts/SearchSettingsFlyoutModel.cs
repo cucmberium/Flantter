@@ -67,7 +67,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 var param = new Dictionary<string, object>
                 {
                     {"q", _statusSearchWords},
-                    {"count", 100},
+                    {"count", 20},
                     {"result_type", "recent"},
                     {"modules", "status"},
                     {"tweet_mode", CoreTweet.TweetMode.extended}
@@ -106,7 +106,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 var param = new Dictionary<string, object>
                 {
-                    {"count", 100},
+                    {"count", 20},
                     {"include_entities", true},
                     {"q", _statusSearchWords},
                     {"tweet_mode", CoreTweet.TweetMode.extended}
@@ -170,15 +170,18 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 var param = new Dictionary<string, object>
                 {
-                    {"count", 100},
+                    {"count", 20},
                     {"include_entities", true},
-                    {"q", _statusSearchWords},
+                    {"q", _userSearchWords},
                     {"tweet_mode", CoreTweet.TweetMode.extended}
                 };
                 if (useCursor && _usersCursor != 0)
                     param.Add("page", _usersCursor);
 
                 var following = await Tokens.Users.SearchAsync(param);
+                if (!useCursor || _usersCursor == 0)
+                    Users.Clear();
+
                 foreach (var user in following)
                     Users.Add(user);
 
@@ -195,9 +198,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 UpdatingUserSearch = false;
                 return;
             }
-
-            if (!useCursor || _usersCursor == 0)
-                Users.Clear();
 
             UpdatingUserSearch = false;
         }

@@ -177,7 +177,7 @@ namespace Flantter.MilkyWay.ViewModels
                     }
                     if (linkUrl.StartsWith("#"))
                     {
-                        var hashTag = linkUrl.Replace("#", "");
+                        var hashTag = linkUrl;
                         Notice.Instance.ShowSearchCommand.Execute(hashTag);
                         return;
                     }

@@ -198,7 +198,7 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 var accountVM = x as AccountViewModel;
                 this.SelectedAccount.Value = accountVM;
-                this.Model.SelectedAccountUserId = accountVM.Model.UserId;
+                this.Model.SelectedAccountUserId = accountVM.Model.AccountSetting.UserId;
             });
 
             Services.Notice.Instance.TweetAreaDeletePictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>

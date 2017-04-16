@@ -113,7 +113,9 @@ namespace Flantter.MilkyWay.ViewModels
 						return Symbol.Repair;
                     case SettingSupport.ColumnTypeEnum.Collection:
                         return Symbol.SlideShow;
-					default:
+				    case SettingSupport.ColumnTypeEnum.Sample:
+				        return Symbol.World;
+                    default:
 						return Symbol.Help;
 				}
 			}).ToReactiveProperty().AddTo(this.Disposable);
@@ -131,6 +133,8 @@ namespace Flantter.MilkyWay.ViewModels
                     case SettingSupport.ColumnTypeEnum.List:
                         return true;
                     case SettingSupport.ColumnTypeEnum.Home:
+                        return true;
+                    case SettingSupport.ColumnTypeEnum.Sample:
                         return true;
                     default:
                         return false;
@@ -160,6 +164,8 @@ namespace Flantter.MilkyWay.ViewModels
                     case SettingSupport.ColumnTypeEnum.List:
                         return true;
                     case SettingSupport.ColumnTypeEnum.Search:
+                        return true;
+                    case SettingSupport.ColumnTypeEnum.Sample:
                         return true;
                     default:
                         return false;
@@ -308,13 +314,13 @@ namespace Flantter.MilkyWay.ViewModels
             this.Tweets = this.Model.Tweets.ToReadOnlyReactiveCollection(item => 
             {
                 if (item is Status)
-                    return new StatusViewModel((Status)item, this.Model.Tokens.UserId) as object;
+                    return new StatusViewModel((Status)item, this.Model.AccountSetting.UserId) as object;
                 else if (item is DirectMessage)
-                    return new DirectMessageViewModel((DirectMessage)item, this.Model.Tokens.UserId) as object;
+                    return new DirectMessageViewModel((DirectMessage)item, this.Model.AccountSetting.UserId) as object;
                 else if (item is EventMessage)
-                    return new EventMessageViewModel((EventMessage)item, this.Model.Tokens.UserId) as object;
+                    return new EventMessageViewModel((EventMessage)item, this.Model.AccountSetting.UserId) as object;
                 else if (item is CollectionEntry)
-                    return new StatusViewModel(((CollectionEntry)item).Status, this.Model.Tokens.UserId, this.Model.Parameter) as object;
+                    return new StatusViewModel(((CollectionEntry)item).Status, this.Model.AccountSetting.UserId, this.Model.Parameter) as object;
                 else
                     return new GapViewModel((Gap)item) as object;
 

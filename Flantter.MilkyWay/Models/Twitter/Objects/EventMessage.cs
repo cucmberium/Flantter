@@ -9,6 +9,14 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
     public class EventMessage : ITweet
     {
+        private readonly Dictionary<string, string> MastodonTypeReplaceDictionary = new Dictionary<string, string>()
+        {
+            { "mention", "Mention" },
+            { "reblog", "Retweet" },
+            { "favourite", "Favorite" },
+            { "follow", "Follow" }
+        };
+
         public EventMessage(CoreTweet.Streaming.EventMessage cEventMessage)
         {
             this.CreatedAt = cEventMessage.CreatedAt.DateTime;
@@ -19,16 +27,26 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Type = cEventMessage.Event.ToString();
         }
 
-        public EventMessage(CoreTweet.Status cStatus)
+        public EventMessage(Mastonet.Entities.Notification cNotification)
         {
-            if (cStatus.RetweetedStatus == null)
+            this.CreatedAt = cNotification.CreatedAt;
+            this.Id = cNotification.Id;
+            this.Source = new User(cNotification.Account);
+            this.Target = null;
+            this.TargetStatus = (cNotification.Status != null) ? new Status(cNotification.Status) : null;
+            this.Type = MastodonTypeReplaceDictionary.ContainsKey(cNotification.Type) ? MastodonTypeReplaceDictionary[cNotification.Type] : cNotification.Type;
+        }
+
+        public EventMessage(Twitter.Objects.Status cStatus)
+        {
+            if (!cStatus.HasRetweetInformation)
                 return;
 
-            this.CreatedAt = cStatus.CreatedAt.DateTime;
+            this.CreatedAt = cStatus.CreatedAt;
             this.Id = this.CreatedAt.ToBinary();
-            this.Source = new User(cStatus.User);
-            this.Target = new User(cStatus.RetweetedStatus.User);
-            this.TargetStatus = (cStatus.RetweetedStatus != null) ? new Status(cStatus.RetweetedStatus) : null;
+            this.Source = cStatus.RetweetInformation.User;
+            this.Target = cStatus.User;
+            this.TargetStatus = cStatus;
             this.Type = "Retweet";
         }
 

@@ -123,7 +123,7 @@
   <data name="AuthorizePopup_AuthorizeCompleted" xml:space="preserve">
     <value>Complete authentication!</value>
   </data>
-  <data name="AuthorizePopup_CustomCKCSCheckBox.Content" xml:space="preserve">
+  <data name="AuthorizePopup_TwitterEditConsumerKeyCheckBox.Content" xml:space="preserve">
     <value>Change ConsumerKey and ConsumerSecret</value>
   </data>
   <data name="AuthorizePopup_ConfigNextButton.Content" xml:space="preserve">
@@ -1032,5 +1032,17 @@
   </data>
   <data name="SettingsFlyout_UserCollections_Url_TextBox.Header" xml:space="preserve">
     <value>Url</value>
+  </data>
+  <data name="AuthorizePopup_ChoiceService.Text" xml:space="preserve">
+    <value>Choice service what you want to authorize.</value>
+  </data>
+  <data name="Event_Me" xml:space="preserve">
+    <value>you</value>
+  </data>
+  <data name="Event_Mention" xml:space="preserve">
+    <value>{0} mentioned to {1}.</value>
+  </data>
+  <data name="Notification_System_NotImplementedException" xml:space="preserve">
+    <value>This feature is not impremented in target platform.</value>
   </data>
 </root>

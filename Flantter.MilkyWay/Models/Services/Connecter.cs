@@ -228,16 +228,21 @@ namespace Flantter.MilkyWay.Models.Services
                                 if (!this.UserObjects.Any(x => x.ScreenName == e.Status.User.ScreenName))
                                     this.UserObjects.Add(e.Status.User);
 
-                                foreach (var screenName in e.Status.Entities.UserMentions)
+                                if (e.Status.Entities.UserMentions != null)
                                 {
-                                    if (!this.ScreenNameObjects.Contains(screenName.ScreenName))
-                                        this.ScreenNameObjects.Add(screenName.ScreenName);
+                                    foreach (var screenName in e.Status.Entities.UserMentions)
+                                    {
+                                        if (!this.ScreenNameObjects.Contains(screenName.ScreenName))
+                                            this.ScreenNameObjects.Add(screenName.ScreenName);
+                                    }
                                 }
-
-                                foreach (var hashTag in e.Status.Entities.HashTags)
+                                if (e.Status.Entities.HashTags != null)
                                 {
-                                    if (!this.HashTagObjects.Contains(hashTag.Tag))
-                                        this.HashTagObjects.Add(hashTag.Tag);
+                                    foreach (var hashTag in e.Status.Entities.HashTags)
+                                    {
+                                        if (!this.HashTagObjects.Contains(hashTag.Tag))
+                                            this.HashTagObjects.Add(hashTag.Tag);
+                                    }
                                 }
                             }
                         }                        

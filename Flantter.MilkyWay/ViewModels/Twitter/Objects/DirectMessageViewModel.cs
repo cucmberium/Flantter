@@ -36,12 +36,15 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
 
             this.EntitiesList = new List<EntityViewModel>();
-            foreach (var urlEntity in directMessage.Entities.Urls)
-                this.EntitiesList.Add(new EntityViewModel(urlEntity));
-            foreach (var hashTagEntity in directMessage.Entities.HashTags)
-                this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
-            foreach (var userMentionEntity in directMessage.Entities.UserMentions)
-                this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
+            if (directMessage.Entities.Urls != null && directMessage.Entities.HashTags != null && directMessage.Entities.UserMentions != null)
+            {
+                foreach (var urlEntity in directMessage.Entities.Urls)
+                    this.EntitiesList.Add(new EntityViewModel(urlEntity));
+                foreach (var hashTagEntity in directMessage.Entities.HashTags)
+                    this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
+                foreach (var userMentionEntity in directMessage.Entities.UserMentions)
+                    this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
+            }
 
             this.RecipientName = directMessage.Recipient.Name;
             this.RecipientProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Recipient.ProfileImageUrl) ? "http://localhost/" : directMessage.Recipient.ProfileImageUrl;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Twitter.Objects;
 
 namespace Flantter.MilkyWay.Models.Twitter
 {
@@ -40,9 +41,11 @@ namespace Flantter.MilkyWay.Models.Twitter
             {
                 foreach (var url in cEntities.Urls)
                 {
+                    if (url.ExpandedUrl == null)
+                        continue;
+
                     // 画像サービス
-                    
-                    #region DirectLink
+                        #region DirectLink
                     match = Regex_DirectLink.Match(url.ExpandedUrl);
                     if (match.Success)
                     {
@@ -476,6 +479,423 @@ namespace Flantter.MilkyWay.Models.Twitter
                 }
             }
             #endregion
+        }
+
+        public static IEnumerable<Media> Parse(IEnumerable<Mastonet.Entities.Attachment> cAttachments, string cContent)
+        {
+            foreach (Match urlMatch in TweetRegexPatterns.ValidUrl.Matches(cContent))
+            {
+                if (!urlMatch.Groups[2].Value.StartsWith("http"))
+                    continue;
+
+                var url = new UrlEntity() {DisplayUrl = urlMatch.Groups[2].Value, ExpandedUrl = urlMatch.Groups[2].Value };
+
+                Match match;
+                #region DirectLink
+                match = Regex_DirectLink.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = match.Value,
+                        MediaUrl = match.Value,
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region yfrog
+                match = Regex_yfrog.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = match.Value + ":small",
+                        MediaUrl = match.Value + ":medium",
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region imgur
+                match = Regex_imgur.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://img.imgur.com/" + match.Groups[1] + "l.jpg",
+                        MediaUrl = "http://img.imgur.com/" + match.Groups[1] + ".jpg",
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region ついっぷるフォト
+                match = Regex_TwipplePhoto.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://p.twipple.jp/show/thumb/" + match.Groups["ContentId"],
+                        MediaUrl = "http://p.twpl.jp/show/orig/" + match.Groups["ContentId"],
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region img.ly
+                match = Regex_imgly.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://img.ly/show/thumb/" + match.Groups[1],
+                        MediaUrl = "http://img.ly/show/full/" + match.Groups[1],
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region ニコニコ静画
+                match = Regex_NicoImage.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://lohas.nicoseiga.jp/thumb/" + match.Groups["Id"] + "q?",
+                        MediaUrl = "http://lohas.nicoseiga.jp/thumb/" + match.Groups["Id"] + "l?",
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region Pixiv
+                match = Regex_pixiv.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    /*var fileName = "Pixiv_" + match.Groups["Id"];
+                    try
+                    {
+                        Thumbnail.Pixiv.GetThumbnail(match.Groups["Id"].Value, fileName);
+                    }
+                    catch
+                    {
+                    }*/
+
+                    yield return new Media()
+                    {
+                        //MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],
+                        //MediaUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],
+                        MediaThumbnailUrl = "http://embed.pixiv.net/decorate.php?illust_id=" + match.Groups["Id"],
+                        MediaUrl = "http://embed.pixiv.net/decorate.php?illust_id=" + match.Groups["Id"],
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region Instagram
+                match = Regex_Instagram.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://instagr.am/p/" + match.Groups[1] + "/media/?size=t",
+                        MediaUrl = "http://instagr.am/p/" + match.Groups[1] + "/media/?size=l",
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region Gyazo
+                match = Regex_Gyazo.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://gyazo.com/" + match.Groups[1] + ".png",
+                        MediaUrl = "http://gyazo.com/" + match.Groups[1] + ".png",
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region Pckles
+                match = Regex_Pckles.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = match.Value + ".resize.jpg",
+                        MediaUrl = match.Value + ".jpg",
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region フォト蔵
+                match = Regex_PhotoZou.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://photozou.jp/p/thumb/" + match.Groups["Id"],
+                        MediaUrl = "http://photozou.jp/p/img/" + match.Groups["Id"],
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region flickr (外部サービス使用)
+                match = Regex_flickr.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=thumb&uri=" + match.Value,
+                        MediaUrl = "http://img.azyobuzi.net/api/redirect?size=full&uri=" + match.Value,
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region MobyPicture
+                match = Regex_MobyPicture.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://moby.to/" + match.Groups[1] + ":thumb",
+                        MediaUrl = "http://moby.to/" + match.Groups[1] + ":full",
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region はてなフォトライフ
+                match = Regex_HatenaPhotoLife.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://img.f.hatena.ne.jp/images/fotolife/" + match.Groups[2] + "/" + match.Groups[1] + "/" + match.Groups[4] + "/" + match.Groups[3] + "_120.jpg",
+                        MediaUrl = "http://img.f.hatena.ne.jp/images/fotolife/" + match.Groups[2] + "/" + match.Groups[1] + "/" + match.Groups[4] + "/" + match.Groups[3] + "_original.jpg",
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region 携帯百景
+                match = Regex_KeitaiHyakkei.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://image.movapic.com/pic/s_" + match.Groups[1] + ".jpeg",
+                        MediaUrl = "http://image.movapic.com/pic/m_" + match.Groups[1] + ".jpeg",
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region Twitgoo
+                match = Regex_Twitgoo.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://twitgoo.com/" + match.Groups[1] + "/mini",
+                        MediaUrl = "http://twitgoo.com/" + match.Groups[1] + "/img",
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region Dropbox (外部サービス使用)
+                match = Regex_Dropbox.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=thumb&uri=" + match.Value,
+                        MediaUrl = "http://img.azyobuzi.net/api/redirect?size=full&uri=" + match.Value,
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region Twitpic
+                match = Regex_Twitpic.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://twitpic.com/show/thumb/" + match.Groups["Id"],
+                        MediaUrl = "http://twitpic.com/show/full/" + match.Groups["Id"],
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Image"
+                    };
+                    continue;
+                }
+                #endregion
+
+                // 動画サービス
+
+                #region ニコニコ動画
+                match = Regex_NicoVideo.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    if (match.Groups["VideoId"].Value.StartsWith("sm") || match.Groups["VideoId"].Value.StartsWith("nm"))
+                    {
+                        yield return new Media()
+                        {
+                            MediaThumbnailUrl = "http://tn-skr2.smilevideo.jp/smile?i=" + match.Groups["VideoId"].Value.Replace("sm", "").Replace("nm", ""),
+                            MediaUrl = string.Empty,
+                            ExpandedUrl = match.Value,
+                            DisplayUrl = url.DisplayUrl,
+                            Type = "Video",
+                            VideoInfo = new VideoInfo() { VideoId = match.Groups["VideoId"].Value, VideoType = "NicoVideo" }
+                        };
+                        continue;
+                    }
+                    else
+                    {
+                        /*var fileName = "NicoVideo_" + match.Groups["VideoId"].Value;
+                        try
+                        {
+                            Thumbnail.NicoVideo.GetThumbnail(match.Groups["VideoId"].Value, fileName);
+                        }
+                        catch
+                        {
+                        }*/
+
+                        yield return new Media()
+                        {
+                            // MediaThumbnailUrl = "ms-appdata:///temp/" + fileName,
+                            MediaThumbnailUrl = "http://localhost/",
+                            MediaUrl = string.Empty,
+                            ExpandedUrl = match.Value,
+                            DisplayUrl = url.DisplayUrl,
+                            Type = "Video",
+                            VideoInfo = new VideoInfo() { VideoId = match.Groups["VideoId"].Value, VideoType = "NicoVideo" }
+                        };
+                        continue;
+                    }
+                }
+                #endregion
+
+                #region Youtube
+                match = Regex_Youtube.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://img.youtube.com/vi/" + match.Groups["VideoId"] + "/default.jpg",
+                        MediaUrl = string.Empty,
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Video",
+                        VideoInfo = new VideoInfo() { VideoId = match.Groups["VideoId"].Value, VideoType = "Youtube" }
+                    };
+                    continue;
+                }
+                #endregion
+
+                #region Vine
+                match = Regex_Vine.Match(url.ExpandedUrl);
+                if (match.Success)
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=thumb&uri=" + match.Value,
+                        MediaUrl = string.Empty,
+                        ExpandedUrl = match.Value,
+                        DisplayUrl = url.DisplayUrl,
+                        Type = "Video",
+                        VideoInfo = new VideoInfo() { VideoId = match.Groups["VideoId"].Value, VideoType = "Vine" }
+                    };
+                    continue;
+                }
+                #endregion
+            }
+
+            foreach (var attachment in cAttachments)
+            {
+                if (attachment.Type == "video" || attachment.Type == "gifv")
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = attachment.PreviewUrl,
+                        MediaUrl = attachment.Url,
+                        ExpandedUrl = attachment.Url,
+                        DisplayUrl = attachment.Url,
+                        Type = "Video",
+                        VideoInfo = new VideoInfo() { VideoId = attachment.Url, VideoType = "Twitter", Size = new VideoInfo.MediaSize { Width = 640, Height = 360 }, VideoContentType = "video/mp4" }
+                    };
+                }
+                else
+                {
+                    yield return new Media()
+                    {
+                        MediaThumbnailUrl = attachment.PreviewUrl,
+                        MediaUrl = attachment.Url,
+                        ExpandedUrl = attachment.Url,
+                        DisplayUrl = attachment.Url,
+                        Type = "Image"
+                    };
+                }
+            }
         }
     }
 

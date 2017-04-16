@@ -65,6 +65,9 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             if (cEntities == null)
                 return;
 
+            foreach (var fMedia in mediaList)
+                this.Media.Add(new MediaEntity(fMedia, this));
+
             if (cEntities.HashTags != null)
             {
                 foreach (var cHashTag in cEntities.HashTags)
@@ -90,6 +93,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             }
         }
 
+        public Entities(IEnumerable<Mastonet.Entities.Attachment> cAttachments, IEnumerable<Mastonet.Entities.Mention> cMentions, IEnumerable<Mastonet.Entities.Tag> cTags, string cContent)
+        {
+            var mediaList = MediaParser.Parse(cAttachments, cContent);
+
+            this.Media = new List<MediaEntity>();
+            this.HashTags = null;
+            this.UserMentions = null;
+            this.Urls = null;
+
+            foreach (var fMedia in mediaList)
+                this.Media.Add(new MediaEntity(fMedia, this));
+        }
+        
         public Entities()
         {
         }

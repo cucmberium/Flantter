@@ -35,7 +35,11 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
             var resourceLoader = new ResourceLoader();
             var sourceUser = "@" + eventMessage.Source.ScreenName + " (" + eventMessage.Source.Name + ") ";
-            var targetUser = "@" + eventMessage.Target.ScreenName + " (" + eventMessage.Target.Name + ") ";
+            var targetUser = "";
+            if (eventMessage.Target != null)
+                targetUser = "@" + eventMessage.Target.ScreenName + " (" + eventMessage.Target.Name + ") ";
+            else
+                targetUser = resourceLoader.GetString("Event_Me");
 
             switch (eventMessage.Type)
             {
@@ -62,6 +66,9 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                     break;
                 case "Retweet":
                     this.Text = string.Format(resourceLoader.GetString("Event_RetweetTweet"), sourceUser, targetUser);
+                    break;
+                case "Mention":
+                    this.Text = string.Format(resourceLoader.GetString("Event_Mention"), sourceUser, targetUser);
                     break;
             }
 

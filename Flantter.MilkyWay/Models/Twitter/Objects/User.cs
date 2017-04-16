@@ -35,6 +35,33 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Url = cUser.Url;
         }
 
+        public User(Mastonet.Entities.Account cUser)
+        {
+            this.CreateAt = cUser.CreatedAt;
+            this.Description = cUser.Note;
+            this.Entities = new UserEntities();
+            this.FavouritesCount = 0;
+            this.FollowersCount = cUser.FollowersCount;
+            this.FriendsCount = cUser.FollowingCount;
+            this.Id = cUser.Id;
+            this.IsFollowRequestSent = false;
+            this.IsMuting = false;
+            this.IsProtected = cUser.Locked;
+            this.IsVerified = false;
+            this.Language = "en";
+            this.ListedCount = 0;
+            this.Location = "";
+            this.Name = string.IsNullOrWhiteSpace(cUser.DisplayName) ? cUser.UserName: cUser.DisplayName;
+            this.ProfileBackgroundColor = "C0DEED";
+            this.ProfileBackgroundImageUrl = "http://localhost/";
+            this.ProfileBannerUrl = cUser.HeaderUrl;
+            this.ProfileImageUrl = cUser.AvatarUrl;
+            this.ScreenName = cUser.AccountName;
+            this.StatusesCount = cUser.StatusesCount;
+            this.TimeZone = null;
+            this.Url = cUser.ProfileUrl;
+        }
+
         public User()
         {
         }

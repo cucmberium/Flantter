@@ -90,16 +90,16 @@ namespace Flantter.MilkyWay.Models.Notifications
                             break;
 
                         case TweetEventArgs.TypeEnum.EventMessage:
-                            if (e.EventMessage.Target.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "Favorite")
+                            if (e.EventMessage.Target?.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "Favorite")
                                 this.PopupToastNotification(PopupNotificationType.Favorite, string.Format(_ResourceLoader.GetString("Notification_Favorite_Favorite"), e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text, e.EventMessage.Source.ProfileImageUrl);
 
-                            else if (e.EventMessage.Target.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "QuotedTweet")
+                            else if (e.EventMessage.Target?.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "QuotedTweet")
                                 this.PopupToastNotification(PopupNotificationType.QuotedTweet, string.Format(_ResourceLoader.GetString("Notification_QuotedTweet_QuotedTweet"), e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text, e.EventMessage.Source.ProfileImageUrl);
 
-                            else if (e.EventMessage.Target.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "Unfavorite")
+                            else if (e.EventMessage.Target?.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "Unfavorite")
                                 this.PopupToastNotification(PopupNotificationType.Unfavorite, string.Format(_ResourceLoader.GetString("Notification_Unfavorite_Unfavorite"), e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text, e.EventMessage.Source.ProfileImageUrl);
 
-                            else if (e.EventMessage.Target.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "Follow")
+                            else if (e.EventMessage.Target?.Id == e.UserId && e.EventMessage.Source.Id != e.UserId && e.EventMessage.Type == "Follow")
                                 this.PopupToastNotification(PopupNotificationType.Follow, string.Format(_ResourceLoader.GetString("Notification_Follow_Follow"), e.EventMessage.Source.Name), imageUrl: e.EventMessage.Source.ProfileImageUrl);
 
                             break;

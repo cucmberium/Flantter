@@ -100,12 +100,15 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
 
             this.EntitiesList = new List<EntityViewModel>();
-            foreach (var urlEntity in status.Entities.Urls)
-                this.EntitiesList.Add(new EntityViewModel(urlEntity));
-            foreach (var hashTagEntity in status.Entities.HashTags)
-                this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
-            foreach (var userMentionEntity in status.Entities.UserMentions)
-                this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
+            if (status.Entities.Urls != null && status.Entities.HashTags != null && status.Entities.UserMentions != null)
+            {
+                foreach (var urlEntity in status.Entities.Urls)
+                    this.EntitiesList.Add(new EntityViewModel(urlEntity));
+                foreach (var hashTagEntity in status.Entities.HashTags)
+                    this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
+                foreach (var userMentionEntity in status.Entities.UserMentions)
+                    this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
+            }
 
             this.IsFavorited = status.IsFavorited;
             this.IsRetweeted = status.IsRetweeted;
@@ -220,12 +223,15 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
 
             this.EntitiesList = new List<EntityViewModel>();
-            foreach (var urlEntity in status.Entities.Urls)
-                this.EntitiesList.Add(new EntityViewModel(urlEntity));
-            foreach (var hashTagEntity in status.Entities.HashTags)
-                this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
-            foreach (var userMentionEntity in status.Entities.UserMentions)
-                this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
+            if (status.Entities.Urls != null && status.Entities.HashTags != null && status.Entities.UserMentions != null)
+            {
+                foreach (var urlEntity in status.Entities.Urls)
+                    this.EntitiesList.Add(new EntityViewModel(urlEntity));
+                foreach (var hashTagEntity in status.Entities.HashTags)
+                    this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
+                foreach (var userMentionEntity in status.Entities.UserMentions)
+                    this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
+            }
 
             this.IsFavorited = status.IsFavorited;
             this.IsRetweeted = status.IsRetweeted;

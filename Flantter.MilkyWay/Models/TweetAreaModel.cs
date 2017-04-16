@@ -371,7 +371,7 @@ namespace Flantter.MilkyWay.Models
             }
 
             this.Updating = true;
-            var tokens = account.Tokens;
+            var tokens = account.CoreTweetTokens;
             var text = this.Text;
 
             try

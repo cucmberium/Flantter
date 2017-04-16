@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
     public class DirectMessage : ITweet
     {
+        private static readonly Regex ContentRegex = new Regex(@"<(""[^""]*""|'[^']*'|[^'"">])*>", RegexOptions.Compiled);
+
         public DirectMessage(CoreTweet.DirectMessage cDirectMessage)
         {
             this.CreatedAt = cDirectMessage.CreatedAt.DateTime;
@@ -18,8 +21,14 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             this.Sender = new User(cDirectMessage.Sender);
         }
 
-        public DirectMessage()
+        public DirectMessage(Mastonet.Entities.Status cDirectMessage, Mastonet.Entities.Account cRecipient)
         {
+            this.CreatedAt = cDirectMessage.CreatedAt;
+            this.Entities = new Entities(cDirectMessage.MediaAttachments, cDirectMessage.Mentions, cDirectMessage.Tags, cDirectMessage.Content);
+            this.Id = cDirectMessage.Id;
+            this.Text = ContentRegex.Replace(cDirectMessage.Content, "");
+            this.Recipient = new User(cRecipient);
+            this.Sender = new User(cDirectMessage.Account);
         }
 
         #region CreatedAt変更通知プロパティ

@@ -1,6 +1,4 @@
-﻿using CoreTweet;
-using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Services;
+﻿using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Services.Database;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Setting;
@@ -16,6 +14,8 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
+using Mastonet;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 
 namespace Flantter.MilkyWay.Models
 {
@@ -67,15 +67,6 @@ namespace Flantter.MilkyWay.Models
         {
             get { return this._ScreenName; }
             set { this.SetProperty(ref this._ScreenName, value); }
-        }
-        #endregion
-
-        #region UserId変更通知プロパティ
-        private long _UserId;
-        public long UserId
-        {
-            get { return this._UserId; }
-            set { this.SetProperty(ref this._UserId, value); }
         }
         #endregion
 
@@ -136,10 +127,10 @@ namespace Flantter.MilkyWay.Models
         {
             this._Columns = new ObservableCollection<ColumnModel>();
             this._ReadOnlyColumns = new ReadOnlyObservableCollection<ColumnModel>(this._Columns);
-            
-            this.Tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName);
-            this.Tokens.ConnectionOptions.UserAgent = TwitterConnectionHelper.GetUserAgent(this.Tokens);
-            
+
+            this.Tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName, account.Instance);
+            this.Tokens.TwitterTokens.ConnectionOptions.UserAgent = TwitterConnectionHelper.GetUserAgent(this.Tokens.TwitterTokens);
+
             this.AccountSetting = account;
             
             this.IsEnabled = this.AccountSetting.IsEnabled;
@@ -147,7 +138,6 @@ namespace Flantter.MilkyWay.Models
             this.ProfileBannerUrl = this.AccountSetting.ProfileBannerUrl;
             this.ProfileImageUrl = this.AccountSetting.ProfileImageUrl;
             this.ScreenName = this.AccountSetting.ScreenName;
-            this.UserId = this.AccountSetting.UserId;
 
             foreach (var column in account.Column)
                 this._Columns.Add(new ColumnModel(column, account, this));
@@ -214,13 +204,16 @@ namespace Flantter.MilkyWay.Models
             {
                 try
                 {
-                    var mention = await this.Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
-                    mentionStatus = new Twitter.Objects.Status(mention);
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(mentionStatus, this._UserId, new List<string>() { "none://" }, false));
+                    mentionStatus = await this.Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(mentionStatus, this.AccountSetting.UserId, new List<string>() { "none://" }, false));
                 }
-                catch (TwitterException ex)
+                catch (CoreTweet.TwitterException ex)
                 {
                     Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                }
+                catch (NotImplementedException e)
+                {
+                    Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
                 }
                 catch (Exception e)
                 {
@@ -235,15 +228,16 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                if (SettingService.Setting.NotificateRetweetedRetweet)
-                    await this.Tokens.Statuses.RetweetAsync(id => status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id);
-                else
-                    await this.Tokens.Statuses.RetweetAsync(id => status.Id);
+                await this.Tokens.Statuses.RetweetAsync(id => status.Id);
                 status.IsRetweeted = true;
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
@@ -258,9 +252,13 @@ namespace Flantter.MilkyWay.Models
                 await this.Tokens.Statuses.UnretweetAsync(id => status.Id);
                 status.IsRetweeted = false;
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
@@ -272,15 +270,20 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                if (SettingService.Setting.NotificateRetweetedRetweet)
+                if (SettingService.Setting.NotificateRetweetedRetweet && this.AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
                     await this.Tokens.Favorites.CreateAsync(id => status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id);
                 else
                     await this.Tokens.Favorites.CreateAsync(id => status.Id);
+
                 status.IsFavorited = true;
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
@@ -295,9 +298,13 @@ namespace Flantter.MilkyWay.Models
                 await this.Tokens.Favorites.DestroyAsync(id => status.Id);
                 status.IsFavorited = false;
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
@@ -305,65 +312,92 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
-        public async Task CreateMute(string screenName)
+        public async Task CreateMute(long userId)
         {
             try
             {
-                await this.Tokens.Mutes.Users.CreateAsync(screen_name => screenName);
+                await this.Tokens.Mutes.Users.CreateAsync(user_id => userId);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                return;
             }
         }
 
-        public async Task DestroyStatus(long id)
+        public async Task DestroyStatus(long statusId)
         {
             try
             {
-                await this.Tokens.Statuses.DestroyAsync(id);
+                await this.Tokens.Statuses.DestroyAsync(id => statusId);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                return;
             }
         }
 
-        public async Task DestroyDirectMessage(long id)
+        public async Task DestroyDirectMessage(long directMessageId)
         {
             try
             {
-                await this.Tokens.DirectMessages.DestroyAsync(id);
+                await this.Tokens.DirectMessages.DestroyAsync(id => directMessageId);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                return;
             }
         }
+
+        public async Task DeleteTweetFromCollection(long statusId, string collectionId)
+        {
+            try
+            {
+                await this.Tokens.Collections.EntriesRemoveAsync(id => collectionId, tweet_id => statusId);
+            }
+            catch (CoreTweet.TwitterException ex)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (NotImplementedException e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+            }
+            catch (Exception e)
+            {
+                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+            }
+        }
+
 
         public async Task RefreshProfile()
         {
             try
             {
-                var user = await this.Tokens.Users.ShowAsync(user_id => this.UserId);
+                var user = await this.Tokens.Users.ShowAsync(user_id => this.AccountSetting.UserId);
                 this.ProfileImageUrl = user.ProfileImageUrl.Replace("_normal", "");
                 this.ProfileBannerUrl = user.ProfileBannerUrl;
                 this.Name = user.Name;
@@ -386,13 +420,12 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 var noRetweetIds = await this.Tokens.Friendships.NoRetweetsIdsAsync();
-
-                lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
+                lock (Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].MuteIdsLock)
                 {
-                    Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Clear();
+                    Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].NoRetweetIds.Clear();
 
                     foreach (var id in noRetweetIds)
-                        Connecter.Instance.TweetCollecter[this.Tokens.UserId].NoRetweetIds.Add(id);
+                        Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].NoRetweetIds.Add(id);
                 }
             }
             catch
@@ -402,13 +435,12 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 var muteIds = await this.Tokens.Mutes.Users.IdsAsync();
-
-                lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIdsLock)
+                lock (Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].MuteIdsLock)
                 {
-                    Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Clear();
+                    Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].MuteIds.Clear();
 
                     foreach (var id in muteIds)
-                        Connecter.Instance.TweetCollecter[this.Tokens.UserId].MuteIds.Add(id);
+                        Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].MuteIds.Add(id);
                 }
             }
             catch
@@ -418,35 +450,16 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 var blockIds = await this.Tokens.Blocks.IdsAsync();
-
-                lock (Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds)
+                lock (Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].BlockIds)
                 {
-                    Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Clear();
+                    Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].BlockIds.Clear();
 
                     foreach (var id in blockIds)
-                        Connecter.Instance.TweetCollecter[this.Tokens.UserId].BlockIds.Add(id);
+                        Connecter.Instance.TweetCollecter[this.AccountSetting.UserId].BlockIds.Add(id);
                 }
             }
             catch
             {
-            }
-        }
-        
-        public async Task DeleteTweetFromCollection(long statusId, string collectionId)
-        {
-            try
-            {
-                await this.Tokens.Collections.EntriesRemoveAsync(id => collectionId, tweet_id => statusId);
-            }
-            catch (TwitterException ex)
-            {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                return;
-            }
-            catch (Exception e)
-            {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                return;
             }
         }
 

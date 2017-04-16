@@ -104,6 +104,20 @@ namespace Flantter.MilkyWay.Setting
             get { return _IsEnabled; }
             set { this.SetProperty(ref this._IsEnabled, value); }
         }
+
+        private SettingSupport.PlatformEnum _Platform;
+        public SettingSupport.PlatformEnum Platform 
+        {
+            get { return _Platform; }
+            set { this.SetProperty(ref this._Platform, value); }
+        }
+
+        private string _Instance;
+        public string Instance
+        {
+            get { return _Instance; }
+            set { this.SetProperty(ref this._Instance, value); }
+        }
     }
 
     public class ColumnSetting : BindableBase

@@ -176,8 +176,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     switch (kind)
                     {
                         case 'U':
-                            // "&sharp;" => "#"  ,  "https://" => ""
-                            yield return new TextPart() { RawText = body.Replace("&sharp;", "#"), Text = body.Replace("&sharp;", "#").Replace("https://", ""), Type = TextPartType.Url };
+                            // "&sharp;" => "#"  ,  "https://" => "" ,  "http://" => "", "www." => ""
+                            var displayUrl = body.Replace("&sharp;", "#").Replace("http://", "").Replace("https://", "").Replace("www.", "");
+                            if (displayUrl.Length >= 31)
+                                displayUrl = displayUrl.Substring(0, 30) + "...";
+                            yield return new TextPart() { RawText = body.Replace("&sharp;", "#"), Text = displayUrl, Type = TextPartType.Url };
                             break;
                         case 'A':
                             yield return new TextPart() { RawText = body, Text = body, Type = TextPartType.UserMention };
@@ -201,7 +204,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (string.IsNullOrEmpty(text))
                 yield break;
 
-            if (entities == null)
+            if (entities == null || entities.HashTags == null || entities.UserMentions == null || entities.Urls == null)
             {
                 foreach (var token in TokenizeImpl(text))
                     yield return token;

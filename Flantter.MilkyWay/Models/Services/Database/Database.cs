@@ -289,7 +289,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
             }
         }
 
-        public IEnumerable<EventMessage> GetCollectionEntryFromParam(long userId, int count = 200)
+        public IEnumerable<CollectionEntry> GetCollectionEntryFromParam(long userId, int count = 200)
         {
             IEnumerable<string> jsons = null;
             string storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
@@ -309,7 +309,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
 
             foreach (var json in jsons)
             {
-                var ev = JsonConvert.DeserializeObject<EventMessage>(json);
+                var ev = JsonConvert.DeserializeObject<CollectionEntry>(json);
                 yield return ev;
             }
         }

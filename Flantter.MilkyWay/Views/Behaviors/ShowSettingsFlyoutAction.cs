@@ -1,5 +1,4 @@
-﻿using CoreTweet;
-using Flantter.MilkyWay.Models.Twitter.Objects;
+﻿using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Contents;
 using Flantter.MilkyWay.Views.Contents.SettingsFlyouts;
@@ -15,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 
 namespace Flantter.MilkyWay.Views.Behaviors
 {
@@ -737,7 +737,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
         public string SettingsFlyoutType { get; set; }
 
         /// <summary>
-        /// CoreTweetのTokens
+        /// WrapperのTokens
         /// </summary>
         public Tokens Tokens { get; set; }
 

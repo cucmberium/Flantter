@@ -522,6 +522,8 @@ namespace Flantter.MilkyWay.ViewModels
                     accountSetting.ConsumerSecret = account.ConsumerSecret;
                     accountSetting.AccessToken = account.AccessToken;
                     accountSetting.AccessTokenSecret = account.AccessTokenSecret;
+                    accountSetting.Platform = account.Service == "Twitter" ? SettingSupport.PlatformEnum.Twitter : SettingSupport.PlatformEnum.Mastodon;
+                    accountSetting.Instance = account.Instance;
                 }
                 else
                 {
@@ -533,6 +535,8 @@ namespace Flantter.MilkyWay.ViewModels
                         ConsumerSecret = account.ConsumerSecret,
                         ScreenName = account.ScreenName,
                         UserId = account.UserId,
+                        Platform = account.Service == "Twitter" ? SettingSupport.PlatformEnum.Twitter : SettingSupport.PlatformEnum.Mastodon,
+                        Instance = account.Instance,
 
                         Column = new ObservableCollection<ColumnSetting>()
                         {
@@ -544,6 +548,8 @@ namespace Flantter.MilkyWay.ViewModels
                         },
                         IsEnabled = false,
                     };
+                    if (accountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)
+                        accountSetting.Column.Add(new ColumnSetting { Action = SettingSupport.ColumnTypeEnum.Sample, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = "Local", Parameter = string.Empty, Streaming = true, Index = 5, DisableStartupRefresh = false, FetchingNumberOfTweet = 40, Identifier = DateTime.Now.Ticks + 5 });
 
                     Services.Notice.Instance.AddAccountCommand.Execute(accountSetting);
                 }
@@ -613,9 +619,7 @@ namespace Flantter.MilkyWay.ViewModels
                 {
                     var tweet = this.SelectedTweet.Value;
                     string screenName = string.Empty;
-                    if (tweet is StatusViewModel)
-                        screenName = ((StatusViewModel)tweet).ScreenName;
-                    else if (tweet is DirectMessageViewModel)
+                    if (tweet is DirectMessageViewModel)
                         screenName = ((DirectMessageViewModel)tweet).ScreenName;
                     else if (tweet is EventMessageViewModel)
                         screenName = ((EventMessageViewModel)tweet).ScreenName;

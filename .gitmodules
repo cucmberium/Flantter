@@ -1,0 +1,3 @@
+[submodule "Mastonet"]
+	path = Mastonet
+	url = https://github.com/cucmberium/Mastonet.git

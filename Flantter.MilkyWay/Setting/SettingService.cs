@@ -16,6 +16,12 @@ namespace Flantter.MilkyWay.Setting
 {
     public static class SettingSupport
     {
+        public enum PlatformEnum
+        {
+            Twitter = 0,
+            Mastodon = 1,
+        }
+
         public enum SizeEnum
         {
             ExtraSmall = 40,
@@ -79,6 +85,7 @@ namespace Flantter.MilkyWay.Setting
             List = 7,
             Filter = 8,
             Collection = 9,
+            Sample = 10,
         }
 
         public static long GetTrendsWoeId(TrendsRegionEnum place)

@@ -1,62 +1,16 @@
-﻿using Flantter.MilkyWay.Models.Exceptions;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Exceptions;
 
 namespace Flantter.MilkyWay.Models.Twitter
 {
     public static class SuggestionService
     {
-        
-        public class SuggestionToken
-        {
-            public enum SuggestionTokenId
-            {
-                String,
-                HashTag,
-                ScreenName,
-                Literal
-            }
-
-            public SuggestionTokenId Type;
-            public string Value;
-            public int Pos;
-            public int Length;
-
-            public SuggestionToken(SuggestionTokenId Type, int Pos)
-            {
-                this.Type = Type;
-                this.Value = string.Empty;
-                this.Pos = Pos;
-                this.Length = 1;
-            }
-
-            public SuggestionToken(SuggestionTokenId Type, int Pos, int Length)
-            {
-                this.Type = Type;
-                this.Value = string.Empty;
-                this.Pos = Pos;
-                this.Length = Length;
-            }
-
-            public SuggestionToken(SuggestionTokenId Type, string Value, int Pos, int Length)
-            {
-                this.Type = Type;
-                this.Value = Value;
-                this.Pos = Pos;
-                this.Length = Length;
-            }
-        }
-
         public static SuggestionToken GetTokenFromPosition(IEnumerable<SuggestionToken> tokens, int pos)
         {
             for (var i = tokens.Count() - 1; i >= 0; i--)
-            {
                 if (tokens.ElementAt(i).Pos <= pos)
                     return tokens.ElementAt(i);
-            }
 
             throw new SuggestionTokenNotFoundException();
         }
@@ -64,7 +18,8 @@ namespace Flantter.MilkyWay.Models.Twitter
         public static IEnumerable<SuggestionToken> Tokenize(string text)
         {
             var tokens = TokenizeImpl("(" + text.Replace("\r\n", "\n") + ")").ToList();
-            tokens.RemoveAt(0); tokens.RemoveAt(tokens.Count - 1);
+            tokens.RemoveAt(0);
+            tokens.RemoveAt(tokens.Count - 1);
 
             foreach (var token in tokens)
                 token.Pos -= 1;
@@ -74,10 +29,11 @@ namespace Flantter.MilkyWay.Models.Twitter
 
         private static IEnumerable<SuggestionToken> TokenizeImpl(string text)
         {
-            int strPos = 0, begin;
-            const string Tokens = "@#.=<>!&|()\" \t\r\n";
+            var strPos = 0;
+            const string tokens = "@#.=<>!&|()\" \t\r\n";
             do
             {
+                int begin;
                 switch (text[strPos])
                 {
                     case '#':
@@ -85,9 +41,10 @@ namespace Flantter.MilkyWay.Models.Twitter
                         begin = strPos;
                         do
                         {
-                            if (Tokens.Contains(text[strPos].ToString()))
+                            if (tokens.Contains(text[strPos].ToString()))
                             {
-                                yield return new SuggestionToken(SuggestionToken.SuggestionTokenId.HashTag, text.Substring(begin, strPos - begin), begin - 1, strPos - (begin - 1));
+                                yield return new SuggestionToken(SuggestionToken.SuggestionTokenId.HashTag,
+                                    text.Substring(begin, strPos - begin), begin - 1, strPos - (begin - 1));
                                 break;
                             }
                             strPos++;
@@ -99,9 +56,10 @@ namespace Flantter.MilkyWay.Models.Twitter
                         begin = strPos;
                         do
                         {
-                            if (Tokens.Contains(text[strPos].ToString()))
+                            if (tokens.Contains(text[strPos].ToString()))
                             {
-                                yield return new SuggestionToken(SuggestionToken.SuggestionTokenId.ScreenName, text.Substring(begin, strPos - begin), begin - 1, strPos - (begin - 1));
+                                yield return new SuggestionToken(SuggestionToken.SuggestionTokenId.ScreenName,
+                                    text.Substring(begin, strPos - begin), begin - 1, strPos - (begin - 1));
                                 break;
                             }
                             strPos++;
@@ -128,9 +86,10 @@ namespace Flantter.MilkyWay.Models.Twitter
                         begin = strPos;
                         do
                         {
-                            if (Tokens.Contains(text[strPos].ToString()))
+                            if (tokens.Contains(text[strPos].ToString()))
                             {
-                                yield return new SuggestionToken(SuggestionToken.SuggestionTokenId.String, text.Substring(begin, strPos - begin), begin, strPos - begin);
+                                yield return new SuggestionToken(SuggestionToken.SuggestionTokenId.String,
+                                    text.Substring(begin, strPos - begin), begin, strPos - begin);
                                 break;
                             }
                             strPos++;
@@ -138,6 +97,47 @@ namespace Flantter.MilkyWay.Models.Twitter
                         break;
                 }
             } while (strPos < text.Length);
+        }
+
+        public class SuggestionToken
+        {
+            public enum SuggestionTokenId
+            {
+                String,
+                HashTag,
+                ScreenName,
+                Literal
+            }
+
+            public int Length;
+            public int Pos;
+
+            public SuggestionTokenId Type;
+            public string Value;
+
+            public SuggestionToken(SuggestionTokenId type, int pos)
+            {
+                Type = type;
+                Value = string.Empty;
+                Pos = pos;
+                Length = 1;
+            }
+
+            public SuggestionToken(SuggestionTokenId type, int pos, int length)
+            {
+                Type = type;
+                Value = string.Empty;
+                Pos = pos;
+                Length = length;
+            }
+
+            public SuggestionToken(SuggestionTokenId type, string value, int pos, int length)
+            {
+                Type = type;
+                Value = value;
+                Pos = pos;
+                Length = length;
+            }
         }
     }
 }

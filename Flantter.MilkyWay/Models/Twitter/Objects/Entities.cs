@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
@@ -14,116 +10,107 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         {
             var mediaList = MediaParser.Parse(cEntities, cExtendedEntities);
 
-            this.HashTags = new List<HashtagEntity>();
-            this.Media = new List<MediaEntity>();
-            this.Urls = new List<UrlEntity>();
-            this.UserMentions = new List<UserMentionEntity>();
+            HashTags = new List<HashtagEntity>();
+            Media = new List<MediaEntity>();
+            Urls = new List<UrlEntity>();
+            UserMentions = new List<UserMentionEntity>();
 
             if (cEntities == null)
                 return;
 
             foreach (var fMedia in mediaList)
-                this.Media.Add(new MediaEntity(fMedia, this));
+                Media.Add(new MediaEntity(fMedia, this));
 
             if (cEntities.HashTags != null)
-            {
                 foreach (var cHashTag in cEntities.HashTags)
-                    this.HashTags.Add(new HashtagEntity(cHashTag));
-            }
+                    HashTags.Add(new HashtagEntity(cHashTag));
 
             if (cEntities.Urls != null)
-            {
                 foreach (var cUrl in cEntities.Urls)
-                    this.Urls.Add(new UrlEntity(cUrl));
-            }
+                    Urls.Add(new UrlEntity(cUrl));
 
             if (cEntities.UserMentions != null)
-            {
                 foreach (var cUserMention in cEntities.UserMentions)
-                    this.UserMentions.Add(new UserMentionEntity(cUserMention));
-            }
+                    UserMentions.Add(new UserMentionEntity(cUserMention));
 
-            if (cEntities != null && cEntities.Media != null)
-            {
-                this.Urls.Add(new UrlEntity(cEntities.Media.First()));
-            }
-            else if (cExtendedEntities != null && cExtendedEntities.Media != null)
-            {
-                this.Urls.Add(new UrlEntity(cExtendedEntities.Media.First()));
-            }
+            if (cEntities.Media != null)
+                Urls.Add(new UrlEntity(cEntities.Media.First()));
+            else if (cExtendedEntities?.Media != null)
+                Urls.Add(new UrlEntity(cExtendedEntities.Media.First()));
         }
 
         public Entities(CoreTweet.Entities cEntities)
         {
             var mediaList = MediaParser.Parse(cEntities);
 
-            this.HashTags = new List<HashtagEntity>();
-            this.Media = new List<MediaEntity>();
-            this.Urls = new List<UrlEntity>();
-            this.UserMentions = new List<UserMentionEntity>();
+            HashTags = new List<HashtagEntity>();
+            Media = new List<MediaEntity>();
+            Urls = new List<UrlEntity>();
+            UserMentions = new List<UserMentionEntity>();
 
             if (cEntities == null)
                 return;
 
             foreach (var fMedia in mediaList)
-                this.Media.Add(new MediaEntity(fMedia, this));
+                Media.Add(new MediaEntity(fMedia, this));
 
             if (cEntities.HashTags != null)
-            {
                 foreach (var cHashTag in cEntities.HashTags)
-                    this.HashTags.Add(new HashtagEntity(cHashTag));
-            }
+                    HashTags.Add(new HashtagEntity(cHashTag));
 
             if (cEntities.Urls != null)
-            {
                 foreach (var cUrl in cEntities.Urls)
-                    this.Urls.Add(new UrlEntity(cUrl));
-            }
+                    Urls.Add(new UrlEntity(cUrl));
 
             if (cEntities.UserMentions != null)
-            {
                 foreach (var cUserMention in cEntities.UserMentions)
-                    this.UserMentions.Add(new UserMentionEntity(cUserMention));
-            }
+                    UserMentions.Add(new UserMentionEntity(cUserMention));
 
-            if (cEntities != null && cEntities.Media != null)
-            {
+            if (cEntities.Media != null)
                 foreach (var cMedia in cEntities.Media)
-                    this.Urls.Add(new UrlEntity(cMedia));
-            }
+                    Urls.Add(new UrlEntity(cMedia));
         }
 
-        public Entities(IEnumerable<Mastonet.Entities.Attachment> cAttachments, IEnumerable<Mastonet.Entities.Mention> cMentions, IEnumerable<Mastonet.Entities.Tag> cTags, string cContent)
+        public Entities(IEnumerable<Mastonet.Entities.Attachment> cAttachments, IEnumerable<Mastonet.Entities.Mention> cMentions, IEnumerable<Mastonet.Entities.Tag> cTags,
+            string cContent)
         {
             var mediaList = MediaParser.Parse(cAttachments, cContent);
 
-            this.Media = new List<MediaEntity>();
-            this.HashTags = null;
-            this.UserMentions = null;
-            this.Urls = null;
+            Media = new List<MediaEntity>();
+            HashTags = null;
+            UserMentions = null;
+            Urls = null;
 
             foreach (var fMedia in mediaList)
-                this.Media.Add(new MediaEntity(fMedia, this));
+                Media.Add(new MediaEntity(fMedia, this));
         }
-        
+
         public Entities()
         {
         }
 
         #region HashTags変更通知プロパティ
+
         public List<HashtagEntity> HashTags { get; set; }
+
         #endregion
 
         #region Media変更通知プロパティ
+
         public List<MediaEntity> Media { get; set; }
+
         #endregion
 
         #region Urls変更通知プロパティ
+
         public List<UrlEntity> Urls { get; set; }
+
         #endregion
 
         #region UserMentions変更通知プロパティ
+
         public List<UserMentionEntity> UserMentions { get; set; }
+
         #endregion
     }
 
@@ -131,9 +118,9 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
     {
         public HashtagEntity(CoreTweet.HashtagEntity cHashTag)
         {
-            this.Tag = cHashTag.Text;
-            this.Start = cHashTag.Indices.First();
-            this.End = cHashTag.Indices.Last();
+            Tag = cHashTag.Text;
+            Start = cHashTag.Indices.First();
+            End = cHashTag.Indices.Last();
         }
 
         public HashtagEntity()
@@ -141,40 +128,45 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region Tag変更通知プロパティ
+
         public string Tag { get; set; }
+
         #endregion
 
         #region Start変更通知プロパティ
+
         public int Start { get; set; }
+
         #endregion
 
         #region End変更通知プロパティ
+
         public int End { get; set; }
+
         #endregion
-        
     }
 
     public class MediaEntity
     {
         public MediaEntity(Media fMedia)
         {
-            this.MediaUrl = fMedia.MediaUrl;
-            this.MediaThumbnailUrl = fMedia.MediaThumbnailUrl;
-            this.DisplayUrl = fMedia.DisplayUrl;
-            this.ExpandedUrl = fMedia.ExpandedUrl;
-            this.Type = fMedia.Type;
-            this.VideoInfo = new VideoInfo(fMedia);
+            MediaUrl = fMedia.MediaUrl;
+            MediaThumbnailUrl = fMedia.MediaThumbnailUrl;
+            DisplayUrl = fMedia.DisplayUrl;
+            ExpandedUrl = fMedia.ExpandedUrl;
+            Type = fMedia.Type;
+            VideoInfo = new VideoInfo(fMedia);
         }
 
         public MediaEntity(Media fMedia, Entities parentEntities)
         {
-            this.MediaUrl = fMedia.MediaUrl;
-            this.MediaThumbnailUrl = fMedia.MediaThumbnailUrl;
-            this.DisplayUrl = fMedia.DisplayUrl;
-            this.ExpandedUrl = fMedia.ExpandedUrl;
-            this.Type = fMedia.Type;
-            this.VideoInfo = new VideoInfo(fMedia);
-            this.ParentEntities = parentEntities;
+            MediaUrl = fMedia.MediaUrl;
+            MediaThumbnailUrl = fMedia.MediaThumbnailUrl;
+            DisplayUrl = fMedia.DisplayUrl;
+            ExpandedUrl = fMedia.ExpandedUrl;
+            Type = fMedia.Type;
+            VideoInfo = new VideoInfo(fMedia);
+            ParentEntities = parentEntities;
         }
 
         public MediaEntity()
@@ -182,32 +174,46 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region MediaUrl変更通知プロパティ
+
         public string MediaUrl { get; set; }
+
         #endregion
 
         #region MediaThumbnailUrl変更通知プロパティ
+
         public string MediaThumbnailUrl { get; set; }
+
         #endregion
 
         #region DisplayUrl変更通知プロパティ
+
         public string DisplayUrl { get; set; }
+
         #endregion
 
         #region ExpandedUrl変更通知プロパティ
+
         public string ExpandedUrl { get; set; }
+
         #endregion
 
         #region Type変更通知プロパティ
+
         public string Type { get; set; }
+
         #endregion
 
         #region VideoInfo変更通知プロパティ
+
         public VideoInfo VideoInfo { get; set; }
+
         #endregion
 
         #region ParentEntities変更通知プロパティ
+
         [JsonIgnore]
         public Entities ParentEntities { get; set; }
+
         #endregion
     }
 
@@ -218,8 +224,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             if (fMedia.VideoInfo == null)
                 return;
 
-            this.VideoId = fMedia.VideoInfo.VideoId;
-            this.VideoType = fMedia.VideoInfo.VideoType;
+            VideoId = fMedia.VideoInfo.VideoId;
+            VideoType = fMedia.VideoInfo.VideoType;
         }
 
         public VideoInfo()
@@ -235,11 +241,11 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
     {
         public UrlEntity(CoreTweet.UrlEntity cUrlEntity)
         {
-            this.Url = cUrlEntity.Url;
-            this.DisplayUrl = cUrlEntity.DisplayUrl;
-            this.ExpandedUrl = cUrlEntity.ExpandedUrl;
-            this.Start = cUrlEntity.Indices.First();
-            this.End = cUrlEntity.Indices.Last();
+            Url = cUrlEntity.Url;
+            DisplayUrl = cUrlEntity.DisplayUrl;
+            ExpandedUrl = cUrlEntity.ExpandedUrl;
+            Start = cUrlEntity.Indices.First();
+            End = cUrlEntity.Indices.Last();
         }
 
         public UrlEntity()
@@ -247,23 +253,33 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region Url変更通知プロパティ
+
         public string Url { get; set; }
+
         #endregion
 
         #region DisplayUrl変更通知プロパティ
+
         public string DisplayUrl { get; set; }
+
         #endregion
 
         #region ExpandedUrl変更通知プロパティ
+
         public string ExpandedUrl { get; set; }
+
         #endregion
 
         #region Start変更通知プロパティ
+
         public int Start { get; set; }
+
         #endregion
 
         #region End変更通知プロパティ
+
         public int End { get; set; }
+
         #endregion
     }
 
@@ -271,11 +287,11 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
     {
         public UserMentionEntity(CoreTweet.UserMentionEntity cUrlEntity)
         {
-            this.Id = cUrlEntity.Id.HasValue ? cUrlEntity.Id.Value : 0;
-            this.Name = cUrlEntity.Name;
-            this.ScreenName = cUrlEntity.ScreenName;
-            this.Start = cUrlEntity.Indices.First();
-            this.End = cUrlEntity.Indices.Last();
+            Id = cUrlEntity.Id.HasValue ? cUrlEntity.Id.Value : 0;
+            Name = cUrlEntity.Name;
+            ScreenName = cUrlEntity.ScreenName;
+            Start = cUrlEntity.Indices.First();
+            End = cUrlEntity.Indices.Last();
         }
 
         public UserMentionEntity()
@@ -283,23 +299,33 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         #region Id変更通知プロパティ
+
         public long Id { get; set; }
+
         #endregion
 
         #region Name変更通知プロパティ
+
         public string Name { get; set; }
+
         #endregion
 
         #region ScreenName変更通知プロパティ
+
         public string ScreenName { get; set; }
+
         #endregion
 
         #region Start変更通知プロパティ
+
         public int Start { get; set; }
+
         #endregion
 
         #region End変更通知プロパティ
+
         public int End { get; set; }
+
         #endregion
     }
 }

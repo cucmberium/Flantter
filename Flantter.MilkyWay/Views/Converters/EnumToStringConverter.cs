@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Flantter.MilkyWay.Views.Converters
@@ -10,12 +7,12 @@ namespace Flantter.MilkyWay.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-			return ((Enum)value).ToString();
+            return ((Enum) value).ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-			throw new NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

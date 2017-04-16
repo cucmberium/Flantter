@@ -1,99 +1,101 @@
-﻿using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
-using Flantter.MilkyWay.Setting;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class ListMembersSettingsFlyoutModel : BindableBase
     {
+        private long _listMembersCursor;
+
         public ListMembersSettingsFlyoutModel()
         {
-            this.ListMembers = new ObservableCollection<Twitter.Objects.User>();
+            ListMembers = new ObservableCollection<User>();
         }
 
-        #region Tokens変更通知プロパティ
-        private Tokens _Tokens;
-        public Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
+        public ObservableCollection<User> ListMembers { get; set; }
 
-        #region Id変更通知プロパティ
-        private long _Id;
-        public long Id
-        {
-            get { return this._Id; }
-            set { this.SetProperty(ref this._Id, value); }
-        }
-        #endregion
-
-        #region Updating変更通知プロパティ
-        private bool _Updating;
-        public bool Updating
-        {
-            get { return this._Updating; }
-            set { this.SetProperty(ref this._Updating, value); }
-        }
-        #endregion
-
-        public ObservableCollection<Twitter.Objects.User> ListMembers { get; set; }
-
-        private long listMembersCursor = 0;
         public async Task UpdateListMembers(bool useCursor = false)
         {
-            if (this.Updating)
+            if (Updating)
                 return;
 
-            if (this.Id == 0 || this.Tokens == null)
+            if (Id == 0 || Tokens == null)
                 return;
 
-            if (useCursor && listMembersCursor == 0)
+            if (useCursor && _listMembersCursor == 0)
                 return;
 
-            this.Updating = true;
+            Updating = true;
 
-            if (!useCursor || listMembersCursor == 0)
-                this.ListMembers.Clear();
-            
+            if (!useCursor || _listMembersCursor == 0)
+                ListMembers.Clear();
+
             try
             {
-                var param = new Dictionary<string, object>()
+                var param = new Dictionary<string, object>
                 {
-                    {"list_id", this._Id},
-                    {"count", 20},
+                    {"list_id", _id},
+                    {"count", 20}
                 };
-                if (useCursor && listMembersCursor != 0)
-                    param.Add("cursor", listMembersCursor);
+                if (useCursor && _listMembersCursor != 0)
+                    param.Add("cursor", _listMembersCursor);
 
                 var listMembers = await Tokens.Lists.Members.ListAsync(param);
-                if (!useCursor || listMembersCursor == 0)
-                    this.ListMembers.Clear();
+                if (!useCursor || _listMembersCursor == 0)
+                    ListMembers.Clear();
 
                 foreach (var user in listMembers)
-                {
-                    this.ListMembers.Add(user);
-                }
+                    ListMembers.Add(user);
 
-                listMembersCursor = listMembers.NextCursor;
-                this.Updating = false;
+                _listMembersCursor = listMembers.NextCursor;
             }
             catch
             {
-                if (!useCursor || listMembersCursor == 0)
-                    this.ListMembers.Clear();
-
-                this.Updating = false;
-                return;
+                if (!useCursor || _listMembersCursor == 0)
+                    ListMembers.Clear();
             }
+
+            Updating = false;
         }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region Id変更通知プロパティ
+
+        private long _id;
+
+        public long Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+
+        #endregion
+
+        #region Updating変更通知プロパティ
+
+        private bool _updating;
+
+        public bool Updating
+        {
+            get => _updating;
+            set => SetProperty(ref _updating, value);
+        }
+
+        #endregion
     }
 }

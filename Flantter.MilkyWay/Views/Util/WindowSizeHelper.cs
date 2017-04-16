@@ -1,8 +1,5 @@
-﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Reactive.Linq;
-using System.Text;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Graphics.Display;
@@ -10,148 +7,175 @@ using Windows.System.Profile;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Flantter.MilkyWay.Setting;
+using Prism.Mvvm;
+using Reactive.Bindings.Extensions;
 
 namespace Flantter.MilkyWay.Views.Util
 {
     public class WindowSizeHelper : BindableBase
     {
-        private static WindowSizeHelper _Instance = new WindowSizeHelper();
-        public static WindowSizeHelper Instance
-        {
-            get { return _Instance; }
-        }
+        private double _clientHeight;
+
+        private double _clientWidth;
+
+        private double _statusBarHeight;
+
+        private double _statusBarWidth;
+
+        private UserInteractionMode _userInteractionMode;
+
+        private double _windowHeight;
+
+        private double _windowWidth;
 
         private WindowSizeHelper()
         {
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
             {
-                var titleBarVisiblity = false;
-                if ((UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode) == UserInteractionMode.Mouse)
-                    titleBarVisiblity = true;
-                else
-                    titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
+                bool titleBarVisiblity;
+                titleBarVisiblity = (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode ==
+                                    UserInteractionMode.Mouse || SettingService.Setting.ExtendTitleBar;
 
-                this.WindowWidth = Window.Current.Bounds.Width;
-                this.WindowHeight = Window.Current.Bounds.Height;
-                this.ClientWidth = Window.Current.Bounds.Width;
-                this.ClientHeight = Window.Current.Bounds.Height - (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
-                this.StatusBarHeight = (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
-                this.StatusBarWidth = 0.0;
-                this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
+                WindowWidth = Window.Current.Bounds.Width;
+                WindowHeight = Window.Current.Bounds.Height;
+                ClientWidth = Window.Current.Bounds.Width;
+                ClientHeight = Window.Current.Bounds.Height -
+                               (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
+                StatusBarHeight = titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0;
+                StatusBarWidth = 0.0;
+                UserInteractionMode =
+                    (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode;
 
-                Observable.Merge<object>(
-                    Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
-                        h => (sender, e) => h(e),
-                        h => Window.Current.SizeChanged += h,
-                        h => Window.Current.SizeChanged -= h).Select(e => (object)e),
-                    Observable.FromEvent<TypedEventHandler<CoreApplicationViewTitleBar, object>, CoreApplicationViewTitleBar>(
-                        h => (sender, e) => h(sender),
-                        h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += h,
-                        h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged -= h).Select(e => (object)e),
-                    Reactive.Bindings.Extensions.INotifyPropertyChangedExtensions.ObserveProperty(Setting.SettingService.Setting, x => x.ExtendTitleBar).Select(e => (object)e)
-                ).Subscribe(_ =>
+                Observable.Merge(
+                        Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
+                                h => (sender, e) => h(e),
+                                h => Window.Current.SizeChanged += h,
+                                h => Window.Current.SizeChanged -= h)
+                            .Select(e => (object) e),
+                        Observable
+                            .FromEvent<TypedEventHandler<CoreApplicationViewTitleBar, object>,
+                                CoreApplicationViewTitleBar>(
+                                h => (sender, e) => h(sender),
+                                h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += h,
+                                h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged -= h)
+                            .Select(e => (object) e),
+                        SettingService.Setting.ObserveProperty(x => x.ExtendTitleBar)
+                            .Select(e => (object) e)
+                    )
+                    .Subscribe(_ =>
                     {
                         titleBarVisiblity = false;
-                        if ((UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode) == UserInteractionMode.Mouse)
-                            titleBarVisiblity = true;
-                        else
-                            titleBarVisiblity = Setting.SettingService.Setting.ExtendTitleBar;
+                        titleBarVisiblity = (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode ==
+                                            UserInteractionMode.Mouse || SettingService.Setting.ExtendTitleBar;
 
-                        this.WindowWidth = Window.Current.Bounds.Width;
-                        this.WindowHeight = Window.Current.Bounds.Height;
-                        this.ClientWidth = Window.Current.Bounds.Width;
-                        this.ClientHeight = Window.Current.Bounds.Height - (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
-                        this.StatusBarHeight = (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
-                        this.StatusBarWidth = 0.0;
-                        this.UserInteractionMode = (UserInteractionMode)((int)UIViewSettings.GetForCurrentView().UserInteractionMode);
+                        WindowWidth = Window.Current.Bounds.Width;
+                        WindowHeight = Window.Current.Bounds.Height;
+                        ClientWidth = Window.Current.Bounds.Width;
+                        ClientHeight = Window.Current.Bounds.Height -
+                                       (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
+                        StatusBarHeight = titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0;
+                        StatusBarWidth = 0.0;
+                        UserInteractionMode =
+                            (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode;
                     });
             }
             else if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
             {
-                var statusBarHeight = StatusBar.GetForCurrentView().OccludedRect.Height == Window.Current.Bounds.Height ? 0 : StatusBar.GetForCurrentView().OccludedRect.Height;
-                var statusBarWidth = StatusBar.GetForCurrentView().OccludedRect.Width == Window.Current.Bounds.Width ? 0 : StatusBar.GetForCurrentView().OccludedRect.Width;
+                var statusBarHeight = StatusBar.GetForCurrentView().OccludedRect.Height == Window.Current.Bounds.Height
+                    ? 0
+                    : StatusBar.GetForCurrentView().OccludedRect.Height;
+                var statusBarWidth = StatusBar.GetForCurrentView().OccludedRect.Width == Window.Current.Bounds.Width
+                    ? 0
+                    : StatusBar.GetForCurrentView().OccludedRect.Width;
 
-                this.WindowWidth = Window.Current.Bounds.Width;
-                this.WindowHeight = Window.Current.Bounds.Height;
-                this.ClientWidth = Window.Current.Bounds.Width - statusBarWidth;
-                this.ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
-                this.StatusBarHeight = statusBarHeight;
-                this.StatusBarWidth = Windows.Graphics.Display.DisplayInformation.GetForCurrentView().CurrentOrientation == DisplayOrientations.Landscape ? statusBarWidth : 0.0;
-                this.UserInteractionMode = UserInteractionMode.Touch;
-                
-                Observable.Merge<object>(
-                    Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
+                WindowWidth = Window.Current.Bounds.Width;
+                WindowHeight = Window.Current.Bounds.Height;
+                ClientWidth = Window.Current.Bounds.Width - statusBarWidth;
+                ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
+                StatusBarHeight = statusBarHeight;
+                StatusBarWidth = DisplayInformation.GetForCurrentView().CurrentOrientation ==
+                                 DisplayOrientations.Landscape
+                    ? statusBarWidth
+                    : 0.0;
+                UserInteractionMode = UserInteractionMode.Touch;
+
+                Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
                         h => (sender, e) => h(e),
                         h => Window.Current.SizeChanged += h,
-                        h => Window.Current.SizeChanged -= h).Select(e => (object)e),
-                    Observable.FromEvent<TypedEventHandler<DisplayInformation, object>, object>(
-                        h => (sender, e) => h(e),
-                        h => Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged += h,
-                        h => Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged -= h).Select(e => (object)e))
-                .Subscribe(_ =>
+                        h => Window.Current.SizeChanged -= h)
+                    .Select(e => (object) e)
+                    .Merge(Observable.FromEvent<TypedEventHandler<DisplayInformation, object>, object>(
+                            h => (sender, e) => h(e),
+                            h => DisplayInformation.GetForCurrentView().OrientationChanged += h,
+                            h => DisplayInformation.GetForCurrentView().OrientationChanged -= h)
+                        .Select(e => e))
+                    .Subscribe(_ =>
                     {
-                        statusBarHeight = StatusBar.GetForCurrentView().OccludedRect.Height == Window.Current.Bounds.Height ? 0 : StatusBar.GetForCurrentView().OccludedRect.Height;
-                        statusBarWidth = StatusBar.GetForCurrentView().OccludedRect.Width == Window.Current.Bounds.Width ? 0 : StatusBar.GetForCurrentView().OccludedRect.Width;
+                        statusBarHeight =
+                            StatusBar.GetForCurrentView().OccludedRect.Height == Window.Current.Bounds.Height
+                                ? 0
+                                : StatusBar.GetForCurrentView().OccludedRect.Height;
+                        statusBarWidth = StatusBar.GetForCurrentView().OccludedRect.Width == Window.Current.Bounds.Width
+                            ? 0
+                            : StatusBar.GetForCurrentView().OccludedRect.Width;
 
-                        this.WindowWidth = Window.Current.Bounds.Width;
-                        this.WindowHeight = Window.Current.Bounds.Height;
-                        this.ClientWidth = Window.Current.Bounds.Width - statusBarWidth;
-                        this.ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
-                        this.StatusBarHeight = statusBarHeight;
-                        this.StatusBarWidth = Windows.Graphics.Display.DisplayInformation.GetForCurrentView().CurrentOrientation == DisplayOrientations.Landscape ? statusBarWidth : 0.0;
-                        this.UserInteractionMode = UserInteractionMode.Touch;
+                        WindowWidth = Window.Current.Bounds.Width;
+                        WindowHeight = Window.Current.Bounds.Height;
+                        ClientWidth = Window.Current.Bounds.Width - statusBarWidth;
+                        ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
+                        StatusBarHeight = statusBarHeight;
+                        StatusBarWidth = DisplayInformation.GetForCurrentView().CurrentOrientation ==
+                                         DisplayOrientations.Landscape
+                            ? statusBarWidth
+                            : 0.0;
+                        UserInteractionMode = UserInteractionMode.Touch;
                     });
             }
         }
 
-        private double _ClientWidth;
-        public double ClientWidth 
+        public static WindowSizeHelper Instance { get; } = new WindowSizeHelper();
+
+        public double ClientWidth
         {
-            get { return this._ClientWidth; }
-            set { this.SetProperty(ref this._ClientWidth, value); }
+            get => _clientWidth;
+            set => SetProperty(ref _clientWidth, value);
         }
 
-        private double _ClientHeight;
         public double ClientHeight
         {
-            get { return this._ClientHeight; }
-            set { this.SetProperty(ref this._ClientHeight, value); }
+            get => _clientHeight;
+            set => SetProperty(ref _clientHeight, value);
         }
 
-        private double _WindowWidth;
         public double WindowWidth
         {
-            get { return this._WindowWidth; }
-            set { this.SetProperty(ref this._WindowWidth, value); }
+            get => _windowWidth;
+            set => SetProperty(ref _windowWidth, value);
         }
 
-        private double _WindowHeight;
         public double WindowHeight
         {
-            get { return this._WindowHeight; }
-            set { this.SetProperty(ref this._WindowHeight, value); }
+            get => _windowHeight;
+            set => SetProperty(ref _windowHeight, value);
         }
 
-        private double _StatusBarHeight;
         public double StatusBarHeight
         {
-            get { return this._StatusBarHeight; }
-            set { this.SetProperty(ref this._StatusBarHeight, value); }
+            get => _statusBarHeight;
+            set => SetProperty(ref _statusBarHeight, value);
         }
 
-        private double _StatusBarWidth;
         public double StatusBarWidth
         {
-            get { return this._StatusBarWidth; }
-            set { this.SetProperty(ref this._StatusBarWidth, value); }
+            get => _statusBarWidth;
+            set => SetProperty(ref _statusBarWidth, value);
         }
 
-        private UserInteractionMode _UserInteractionMode;
         public UserInteractionMode UserInteractionMode
         {
-            get { return this._UserInteractionMode; }
-            set { this.SetProperty(ref this._UserInteractionMode, value); }
+            get => _userInteractionMode;
+            set => SetProperty(ref _userInteractionMode, value);
         }
     }
 

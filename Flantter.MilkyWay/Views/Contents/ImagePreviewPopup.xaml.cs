@@ -32,7 +32,7 @@ using Windows.Web.Http;
 
 namespace Flantter.MilkyWay.Views.Contents
 {
-    public sealed partial class ImagePreviewPopup : UserControl, ContentPopup
+    public sealed partial class ImagePreviewPopup : UserControl, IContentPopup
     {
         private Popup ImagePreview;
 

@@ -1,14 +1,11 @@
-﻿using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
-using Flantter.MilkyWay.Setting;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
@@ -16,83 +13,93 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
     {
         public CollectionStatusesSettingsFlyoutModel()
         {
-            this.CollectionStatuses = new ObservableCollection<Twitter.Objects.CollectionEntry>();
+            CollectionStatuses = new ObservableCollection<CollectionEntry>();
         }
 
-        #region Tokens変更通知プロパティ
-        private Tokens _Tokens;
-        public Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
-
-        #region Updating変更通知プロパティ
-        private bool _Updating;
-        public bool Updating
-        {
-            get { return this._Updating; }
-            set { this.SetProperty(ref this._Updating, value); }
-        }
-        #endregion
-
-        #region Id変更通知プロパティ
-        private string _Id;
-        public string Id
-        {
-            get { return this._Id; }
-            set { this.SetProperty(ref this._Id, value); }
-        }
-        #endregion
-
-        public ObservableCollection<Twitter.Objects.CollectionEntry> CollectionStatuses { get; set; }
+        public ObservableCollection<CollectionEntry> CollectionStatuses { get; set; }
 
         public async Task UpdateCollectionStatuses(long maxposition = 0, bool clear = true)
         {
-            if (this.Updating)
+            if (Updating)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._Id) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_id) || Tokens == null)
                 return;
 
-            this.Updating = true;
+            Updating = true;
 
             if (maxposition == 0 && clear)
-                this.CollectionStatuses.Clear();
-            
+                CollectionStatuses.Clear();
+
             try
             {
-                var param = new Dictionary<string, object>()
+                var param = new Dictionary<string, object>
                 {
-                    {"id", this._Id},
-                    {"count", 20},
+                    {"id", _id},
+                    {"count", 20}
                 };
                 if (maxposition == 0)
                     param.Add("max_position", maxposition);
 
-                var collectionStatuses = await this.Tokens.Collections.EntriesAsync(param);
+                var collectionStatuses = await Tokens.Collections.EntriesAsync(param);
                 if (maxposition == 0 && clear)
-                    this.CollectionStatuses.Clear();
+                    CollectionStatuses.Clear();
 
                 foreach (var item in collectionStatuses)
                 {
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(item.Status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                        new TweetEventArgs(item.Status, Tokens.UserId, new List<string> {"none://"}, false));
 
-                    if (!this.CollectionStatuses.Any(x => x.Status.Id == item.Status.Id))
-                        this.CollectionStatuses.Add(item);
+                    if (CollectionStatuses.All(x => x.Status.Id != item.Status.Id))
+                        CollectionStatuses.Add(item);
                 }
             }
             catch
             {
                 if (maxposition == 0 && clear)
-                    this.CollectionStatuses.Clear();
+                    CollectionStatuses.Clear();
 
-                this.Updating = false;
+                Updating = false;
                 return;
             }
 
-            this.Updating = false;
+            Updating = false;
         }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region Updating変更通知プロパティ
+
+        private bool _updating;
+
+        public bool Updating
+        {
+            get => _updating;
+            set => SetProperty(ref _updating, value);
+        }
+
+        #endregion
+
+        #region Id変更通知プロパティ
+
+        private string _id;
+
+        public string Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+
+        #endregion
     }
 }

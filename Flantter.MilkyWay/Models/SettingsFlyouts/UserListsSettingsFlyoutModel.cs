@@ -1,251 +1,268 @@
-﻿using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
-using Flantter.MilkyWay.Setting;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class UserListsSettingsFlyoutModel : BindableBase
     {
+        private long _memberListsCursor;
+
+        private long _subscribeListsCursor;
+
+        private long _userListsCursor;
+
         public UserListsSettingsFlyoutModel()
         {
-            this.UserLists = new ObservableCollection<Twitter.Objects.List>();
-            this.SubscribeLists = new ObservableCollection<Twitter.Objects.List>();
-            this.MembershipLists = new ObservableCollection<Twitter.Objects.List>();
+            UserLists = new ObservableCollection<List>();
+            SubscribeLists = new ObservableCollection<List>();
+            MembershipLists = new ObservableCollection<List>();
         }
 
-        #region Tokens変更通知プロパティ
-        private Tokens _Tokens;
-        public Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
-
-        #region ScreenName変更通知プロパティ
-        private string _ScreenName;
-        public string ScreenName
-        {
-            get { return this._ScreenName; }
-            set { this.SetProperty(ref this._ScreenName, value); }
-        }
-        #endregion
-        
         public bool OpenSubscribeLists { get; set; }
         public bool OpenMembershipLists { get; set; }
 
-        #region UserLists変更通知プロパティ
-        private ObservableCollection<Twitter.Objects.List> _UserLists;
-        public ObservableCollection<Twitter.Objects.List> UserLists
-        {
-            get { return this._UserLists; }
-            set { this.SetProperty(ref this._UserLists, value); }
-        }
-        #endregion
-
-        #region SubscribeLists変更通知プロパティ
-        private ObservableCollection<Twitter.Objects.List> _SubscribeLists;
-        public ObservableCollection<Twitter.Objects.List> SubscribeLists
-        {
-            get { return this._SubscribeLists; }
-            set { this.SetProperty(ref this._SubscribeLists, value); }
-        }
-        #endregion
-
-        #region MembershipLists変更通知プロパティ
-        private ObservableCollection<Twitter.Objects.List> _MembershipLists;
-        public ObservableCollection<Twitter.Objects.List> MembershipLists
-        {
-            get { return this._MembershipLists; }
-            set { this.SetProperty(ref this._MembershipLists, value); }
-        }
-        #endregion
-
-        #region UpdatingUserLists変更通知プロパティ
-        private bool _UpdatingUserLists;
-        public bool UpdatingUserLists
-        {
-            get { return this._UpdatingUserLists; }
-            set { this.SetProperty(ref this._UpdatingUserLists, value); }
-        }
-        #endregion
-
-        #region UpdatingSubscribeLists変更通知プロパティ
-        private bool _UpdatingSubscribeLists;
-        public bool UpdatingSubscribeLists
-        {
-            get { return this._UpdatingSubscribeLists; }
-            set { this.SetProperty(ref this._UpdatingSubscribeLists, value); }
-        }
-        #endregion
-
-        #region UpdatingMembershipLists変更通知プロパティ
-        private bool _UpdatingMembershipLists;
-        public bool UpdatingMembershipLists
-        {
-            get { return this._UpdatingMembershipLists; }
-            set { this.SetProperty(ref this._UpdatingMembershipLists, value); }
-        }
-        #endregion
-        
-        private long userListsCursor = 0;
         public async Task UpdateUserLists(bool useCursor = false)
         {
-            if (this.UpdatingUserLists)
+            if (UpdatingUserLists)
                 return;
 
-            if (this._ScreenName == null || this.Tokens == null)
+            if (_screenName == null || Tokens == null)
                 return;
 
-            if (useCursor && userListsCursor == 0)
+            if (useCursor && _userListsCursor == 0)
                 return;
 
-            this.UpdatingUserLists = true;
+            UpdatingUserLists = true;
 
-            if (!useCursor || userListsCursor == 0)
-                this.UserLists.Clear();
-            
+            if (!useCursor || _userListsCursor == 0)
+                UserLists.Clear();
+
             try
             {
-                var param = new Dictionary<string, object>()
+                var param = new Dictionary<string, object>
                 {
-                    {"screen_name", this._ScreenName },
-                    {"count", 20},
+                    {"screen_name", _screenName},
+                    {"count", 20}
                 };
-                if (useCursor && userListsCursor != 0)
-                    param.Add("cursor", userListsCursor);
+                if (useCursor && _userListsCursor != 0)
+                    param.Add("cursor", _userListsCursor);
 
                 var userLists = await Tokens.Lists.OwnershipsAsync(param);
 
-                if (!useCursor || userListsCursor == 0)
-                    this.UserLists.Clear();
+                if (!useCursor || _userListsCursor == 0)
+                    UserLists.Clear();
 
                 foreach (var list in userLists)
-                {
-                    this.UserLists.Add(list);
-                }
+                    UserLists.Add(list);
 
-                userListsCursor = userLists.NextCursor;
+                _userListsCursor = userLists.NextCursor;
             }
             catch
             {
-                if (!useCursor || userListsCursor == 0)
-                    this.UserLists.Clear();
+                if (!useCursor || _userListsCursor == 0)
+                    UserLists.Clear();
 
-                this.UpdatingUserLists = false;
+                UpdatingUserLists = false;
                 return;
             }
 
-            this.UpdatingUserLists = false;
+            UpdatingUserLists = false;
         }
 
-        private long subscribeListsCursor = 0;
         public async Task UpdateSubscribeLists(bool useCursor = false)
         {
-            if (this.UpdatingSubscribeLists)
+            if (UpdatingSubscribeLists)
                 return;
 
-            if (this._ScreenName == null || this.Tokens == null)
+            if (_screenName == null || Tokens == null)
                 return;
 
-            if (useCursor && subscribeListsCursor == 0)
+            if (useCursor && _subscribeListsCursor == 0)
                 return;
 
-            this.UpdatingSubscribeLists = true;
+            UpdatingSubscribeLists = true;
 
-            if (!useCursor || subscribeListsCursor == 0)
-                this.SubscribeLists.Clear();
-            
+            if (!useCursor || _subscribeListsCursor == 0)
+                SubscribeLists.Clear();
+
             try
             {
-                var param = new Dictionary<string, object>()
+                var param = new Dictionary<string, object>
                 {
-                    {"screen_name", this._ScreenName },
-                    {"count", 20},
+                    {"screen_name", _screenName},
+                    {"count", 20}
                 };
-                if (useCursor && subscribeListsCursor != 0)
-                    param.Add("cursor", subscribeListsCursor);
+                if (useCursor && _subscribeListsCursor != 0)
+                    param.Add("cursor", _subscribeListsCursor);
 
                 var subscribeLists = await Tokens.Lists.SubscriptionsAsync(param);
 
-                if (!useCursor || subscribeListsCursor == 0)
-                    this.SubscribeLists.Clear();
+                if (!useCursor || _subscribeListsCursor == 0)
+                    SubscribeLists.Clear();
 
                 foreach (var list in subscribeLists)
-                {
-                    this.SubscribeLists.Add(list);
-                }
+                    SubscribeLists.Add(list);
 
-                subscribeListsCursor = subscribeLists.NextCursor;
+                _subscribeListsCursor = subscribeLists.NextCursor;
             }
             catch
             {
-                if (!useCursor || subscribeListsCursor == 0)
-                    this.SubscribeLists.Clear();
+                if (!useCursor || _subscribeListsCursor == 0)
+                    SubscribeLists.Clear();
 
-                this.UpdatingSubscribeLists = false;
+                UpdatingSubscribeLists = false;
                 return;
             }
 
-            this.UpdatingSubscribeLists = false;
+            UpdatingSubscribeLists = false;
         }
 
-        private long memberListsCursor = 0;
         public async Task UpdateMembershipLists(bool useCursor = false)
         {
-            if (this.UpdatingMembershipLists)
+            if (UpdatingMembershipLists)
                 return;
 
-            if (this._ScreenName == null || this.Tokens == null)
+            if (_screenName == null || Tokens == null)
                 return;
 
-            if (useCursor && memberListsCursor == 0)
+            if (useCursor && _memberListsCursor == 0)
                 return;
 
-            this.UpdatingMembershipLists = true;
+            UpdatingMembershipLists = true;
 
-            if (!useCursor || memberListsCursor == 0)
-                this.MembershipLists.Clear();
-            
+            if (!useCursor || _memberListsCursor == 0)
+                MembershipLists.Clear();
+
             try
             {
-                var param = new Dictionary<string, object>()
+                var param = new Dictionary<string, object>
                 {
-                    {"screen_name", this._ScreenName },
-                    {"count", 20},
+                    {"screen_name", _screenName},
+                    {"count", 20}
                 };
-                if (useCursor && memberListsCursor != 0)
-                    param.Add("cursor", memberListsCursor);
+                if (useCursor && _memberListsCursor != 0)
+                    param.Add("cursor", _memberListsCursor);
 
                 var membershipLists = await Tokens.Lists.MembershipsAsync(param);
 
-                if (!useCursor || memberListsCursor == 0)
-                    this.MembershipLists.Clear();
+                if (!useCursor || _memberListsCursor == 0)
+                    MembershipLists.Clear();
 
                 foreach (var list in membershipLists)
-                {
-                    this.MembershipLists.Add(list);
-                }
+                    MembershipLists.Add(list);
 
-                memberListsCursor = membershipLists.NextCursor;
+                _memberListsCursor = membershipLists.NextCursor;
             }
             catch
             {
-                if (!useCursor || memberListsCursor == 0)
-                    this.MembershipLists.Clear();
+                if (!useCursor || _memberListsCursor == 0)
+                    MembershipLists.Clear();
 
-                this.UpdatingMembershipLists = false;
+                UpdatingMembershipLists = false;
                 return;
             }
 
-            this.UpdatingMembershipLists = false;
+            UpdatingMembershipLists = false;
         }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region ScreenName変更通知プロパティ
+
+        private string _screenName;
+
+        public string ScreenName
+        {
+            get => _screenName;
+            set => SetProperty(ref _screenName, value);
+        }
+
+        #endregion
+
+        #region UserLists変更通知プロパティ
+
+        private ObservableCollection<List> _userLists;
+
+        public ObservableCollection<List> UserLists
+        {
+            get => _userLists;
+            set => SetProperty(ref _userLists, value);
+        }
+
+        #endregion
+
+        #region SubscribeLists変更通知プロパティ
+
+        private ObservableCollection<List> _subscribeLists;
+
+        public ObservableCollection<List> SubscribeLists
+        {
+            get => _subscribeLists;
+            set => SetProperty(ref _subscribeLists, value);
+        }
+
+        #endregion
+
+        #region MembershipLists変更通知プロパティ
+
+        private ObservableCollection<List> _membershipLists;
+
+        public ObservableCollection<List> MembershipLists
+        {
+            get => _membershipLists;
+            set => SetProperty(ref _membershipLists, value);
+        }
+
+        #endregion
+
+        #region UpdatingUserLists変更通知プロパティ
+
+        private bool _updatingUserLists;
+
+        public bool UpdatingUserLists
+        {
+            get => _updatingUserLists;
+            set => SetProperty(ref _updatingUserLists, value);
+        }
+
+        #endregion
+
+        #region UpdatingSubscribeLists変更通知プロパティ
+
+        private bool _updatingSubscribeLists;
+
+        public bool UpdatingSubscribeLists
+        {
+            get => _updatingSubscribeLists;
+            set => SetProperty(ref _updatingSubscribeLists, value);
+        }
+
+        #endregion
+
+        #region UpdatingMembershipLists変更通知プロパティ
+
+        private bool _updatingMembershipLists;
+
+        public bool UpdatingMembershipLists
+        {
+            get => _updatingMembershipLists;
+            set => SetProperty(ref _updatingMembershipLists, value);
+        }
+
+        #endregion
     }
 }

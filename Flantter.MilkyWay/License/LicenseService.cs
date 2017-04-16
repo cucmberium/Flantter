@@ -1,47 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Store;
 
 namespace Flantter.MilkyWay.License
 {
     public class LicenseService : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            if (!Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.HasThreadAccess)
-                return;
-
-            var h = PropertyChanged;
-            if (h != null) h(this, new PropertyChangedEventArgs(name));
-        }
-
-
         private static LicenseService _instance;
-        public static LicenseService License { get { return _instance ?? (_instance = new LicenseService()); } }
+
         private LicenseService()
         {
 #if DEBUG
-            this.LicenseInformation = CurrentAppSimulator.LicenseInformation;
+            LicenseInformation = CurrentAppSimulator.LicenseInformation;
 #else
-            this.LicenseInformation = CurrentApp.LicenseInformation;
+            LicenseInformation = CurrentApp.LicenseInformation;
 #endif
 
-            this.LicenseInformation.LicenseChanged += LicenseInformation_LicenseChanged;
+            LicenseInformation.LicenseChanged += LicenseInformation_LicenseChanged;
         }
 
+        public static LicenseService License => _instance ?? (_instance = new LicenseService());
 
-        private void LicenseInformation_LicenseChanged()
-        {
-            this.OnPropertyChanged();
-        }
-
-        public LicenseInformation LicenseInformation { get; private set; }
+        public LicenseInformation LicenseInformation { get; }
 
 
         public bool AppDonationIsActive
@@ -51,9 +34,25 @@ namespace Flantter.MilkyWay.License
 #if DEBUG
                 return true;
 #else
-                return this.LicenseInformation.ProductLicenses["AppDonation"].IsActive;
+                return LicenseInformation.ProductLicenses["AppDonation"].IsActive;
 #endif
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            if (!CoreApplication.MainView.Dispatcher.HasThreadAccess)
+                return;
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+
+        private void LicenseInformation_LicenseChanged()
+        {
+            OnPropertyChanged();
         }
 
         public async Task<bool> PurchaseAppDonation()
@@ -65,7 +64,7 @@ namespace Flantter.MilkyWay.License
 #else
                 var result = await CurrentApp.RequestProductPurchaseAsync("AppDonation");
 #endif
-                return (result.Status == ProductPurchaseStatus.Succeeded);
+                return result.Status == ProductPurchaseStatus.Succeeded;
             }
             catch
             {
@@ -77,6 +76,6 @@ namespace Flantter.MilkyWay.License
 
     public class LicenseProvider
     {
-        public LicenseService License { get { return LicenseService.License; } }
+        public LicenseService License => LicenseService.License;
     }
 }

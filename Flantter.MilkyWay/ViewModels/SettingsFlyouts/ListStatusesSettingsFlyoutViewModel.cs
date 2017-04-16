@@ -1,16 +1,13 @@
-﻿using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
-using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.SettingsFlyouts;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.ViewModels.Services;
+using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
@@ -18,51 +15,46 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
     {
         public ListStatusesSettingsFlyoutViewModel()
         {
-            this.Model = new ListStatusesSettingsFlyoutModel();
+            Model = new ListStatusesSettingsFlyoutModel();
 
-            this.Tokens = this.Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
-            this.Id = this.Model.ToReactivePropertyAsSynchronized(x => x.Id);
-            this.IconSource = new ReactiveProperty<string>("http://localhost/");
+            Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
+            Id = Model.ToReactivePropertyAsSynchronized(x => x.Id);
+            IconSource = new ReactiveProperty<string>("http://localhost/");
 
-            this.FullName = new ReactiveProperty<string>();
+            FullName = new ReactiveProperty<string>();
 
-            this.ClearCommand = new ReactiveCommand();
-            this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                this.Model.ListStatuses.Clear();
-            });
+            ClearCommand = new ReactiveCommand();
+            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => { Model.ListStatuses.Clear(); });
 
-            this.UpdateCommand = new ReactiveCommand();
-            this.UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateListStatuses();
-            });
+            UpdateCommand = new ReactiveCommand();
+            UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateListStatuses(); });
 
-            this.RefreshCommand = new ReactiveCommand();
-            this.RefreshCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateListStatuses(clear: false);
-            });
+            RefreshCommand = new ReactiveCommand();
+            RefreshCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateListStatuses(clear: false); });
 
-            this.ListStatusesIncrementalLoadCommand = new ReactiveCommand();
-            this.ListStatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (this.Model.ListStatuses.Count <= 0)
-                    return;
+            ListStatusesIncrementalLoadCommand = new ReactiveCommand();
+            ListStatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    if (Model.ListStatuses.Count <= 0)
+                        return;
 
-                var id = this.Model.ListStatuses.Last().Id;
-                var status = this.Model.ListStatuses.Last();
-                if (status.HasRetweetInformation)
-                    id = status.RetweetInformation.Id;
+                    var id = Model.ListStatuses.Last().Id;
+                    var status = Model.ListStatuses.Last();
+                    if (status.HasRetweetInformation)
+                        id = status.RetweetInformation.Id;
 
-                await this.Model.UpdateListStatuses(id);
-            });
+                    await Model.UpdateListStatuses(id);
+                });
 
-            this.ListStatuses = this.Model.ListStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
+            ListStatuses =
+                Model.ListStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, Tokens.Value.UserId));
 
-            this.Updating = this.Model.ObserveProperty(x => x.Updating).ToReactiveProperty();
+            Updating = Model.ObserveProperty(x => x.Updating).ToReactiveProperty();
 
-            this.Notice = Services.Notice.Instance;
+            Notice = Notice.Instance;
         }
 
         public ListStatusesSettingsFlyoutModel Model { get; set; }
@@ -77,16 +69,16 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<string> IconSource { get; set; }
 
-        public ReadOnlyReactiveCollection<StatusViewModel> ListStatuses { get; private set; }
+        public ReadOnlyReactiveCollection<StatusViewModel> ListStatuses { get; }
 
         public ReactiveCommand ClearCommand { get; set; }
 
         public ReactiveCommand UpdateCommand { get; set; }
-        
+
         public ReactiveCommand RefreshCommand { get; set; }
 
         public ReactiveCommand ListStatusesIncrementalLoadCommand { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
     }
 }

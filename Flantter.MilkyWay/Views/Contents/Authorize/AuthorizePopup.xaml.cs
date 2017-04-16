@@ -1,6 +1,4 @@
-﻿using CoreTweet;
-using Mastonet;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
@@ -10,6 +8,8 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using CoreTweet;
+using Mastonet;
 using Mastonet.Entities;
 
 namespace Flantter.MilkyWay.Views.Contents.Authorize
@@ -33,7 +33,7 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
         MastodonConfig,
         TwitterAuthorize,
         MastodonAuthorize,
-        Exit,
+        Exit
     }
 
     public class MastodonOAuth
@@ -41,7 +41,6 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
         public string Instance { get; set; }
-
     }
 
     public sealed partial class AuthorizePopup : UserControl
@@ -52,12 +51,20 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
         private readonly Popup _contentPopup;
         private readonly ResourceLoader _resourceLoader;
 
+        private AccountInfo _accountInfo;
+
+        private AuthorizeStep _authorizeStep = AuthorizeStep.Exit;
+
+        private MastodonOAuth _mastodonOauthSettion;
+        private OAuth.OAuthSession _twitterOAuthSettion;
+        private bool _urlCallbackAuthorization;
+
         public AuthorizePopup()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             _resourceLoader = new ResourceLoader();
-            _contentPopup = new Popup()
+            _contentPopup = new Popup
             {
                 Child = this,
                 IsLightDismissEnabled = false,
@@ -68,11 +75,10 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
 
         private void SizeChanced_Event(object sender, WindowSizeChangedEventArgs e)
         {
-            this.Height = Window.Current.Bounds.Height;
-            this.Width = Window.Current.Bounds.Width;
+            Height = Window.Current.Bounds.Height;
+            Width = Window.Current.Bounds.Width;
         }
-        
-        private AuthorizeStep _authorizeStep = AuthorizeStep.Exit;
+
         private void AuthorizePopupHeaderBackButton_Click(object sender, RoutedEventArgs e)
         {
             switch (_authorizeStep)
@@ -116,18 +122,15 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             _authorizeStep = AuthorizeStep.MastodonConfig;
         }
 
-        private MastodonOAuth _mastodonOauthSettion = null;
-        private OAuth.OAuthSession _twitterOAuthSettion = null;
-        private bool _urlCallbackAuthorization = false;
         private async void AuthorizePopupConfigNextButton_Click(object sender, RoutedEventArgs e)
         {
             if (_authorizeStep == AuthorizeStep.TwitterConfig)
             {
                 var editConsumerKey = AuthorizePopupTwitterEditConsumerKeyCheckBox.IsChecked;
 
-                var consumerKey = string.Empty;
-                var consumerSecret = string.Empty;
-                var callbackUrl = string.Empty;
+                string consumerKey;
+                string consumerSecret;
+                string callbackUrl;
                 if (editConsumerKey == true)
                 {
                     consumerKey = AuthorizePopupTwitterConsumerKeyTextBox.Text.Trim();
@@ -142,10 +145,11 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                     callbackUrl = "http://cucmber.net/";
                     _urlCallbackAuthorization = true;
                 }
-                
+
                 if (string.IsNullOrWhiteSpace(consumerKey) || string.IsNullOrWhiteSpace(consumerSecret))
                 {
-                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError")).ShowAsync();
+                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError"))
+                        .ShowAsync();
                     return;
                 }
 
@@ -157,7 +161,8 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                 }
                 catch
                 {
-                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError")).ShowAsync();
+                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError"))
+                        .ShowAsync();
                     return;
                 }
                 finally
@@ -176,40 +181,58 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                 var email = AuthorizePopupMastodonEmailTextBox.Text;
                 var password = AuthorizePopupMastodonPasswordPasswordBox.Password;
 
-                if (string.IsNullOrWhiteSpace(appName) || string.IsNullOrWhiteSpace(instance) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+                if (string.IsNullOrWhiteSpace(appName) || string.IsNullOrWhiteSpace(instance) ||
+                    string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
                 {
-                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError")).ShowAsync();
+                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError"))
+                        .ShowAsync();
                     return;
                 }
 
                 AuthorizePopupConfigNextButton.IsEnabled = false;
-                var url = string.Empty;
                 try
                 {
-                    var appRegistration = await MastodonClient.CreateApp(instance, appName, Scope.Read | Scope.Write | Scope.Follow);
-                    _mastodonOauthSettion = new MastodonOAuth { ClientId = appRegistration.ClientId, ClientSecret = appRegistration.ClientSecret, Instance = appRegistration.Instance };
+                    var appRegistration =
+                        await MastodonClient.CreateApp(instance, appName, Scope.Read | Scope.Write | Scope.Follow);
+                    _mastodonOauthSettion =
+                        new MastodonOAuth
+                        {
+                            ClientId = appRegistration.ClientId,
+                            ClientSecret = appRegistration.ClientSecret,
+                            Instance = appRegistration.Instance
+                        };
                     var client = new MastodonClient(appRegistration);
                     await client.Connect(email, password);
                     client = new MastodonClient(appRegistration, client.AccessToken);
                     var user = await client.GetCurrentUser();
-                    _accountInfo = new AccountInfo { ConsumerKey = _mastodonOauthSettion.ClientId, ConsumerSecret = _mastodonOauthSettion.ClientSecret, AccessToken = client.AccessToken, AccessTokenSecret = "", ScreenName = user.UserName, UserId = user.Id, Service = "Mastodon", Instance = _mastodonOauthSettion.Instance };
-                    
+                    _accountInfo = new AccountInfo
+                    {
+                        ConsumerKey = _mastodonOauthSettion.ClientId,
+                        ConsumerSecret = _mastodonOauthSettion.ClientSecret,
+                        AccessToken = client.AccessToken,
+                        AccessTokenSecret = "",
+                        ScreenName = user.UserName,
+                        UserId = user.Id,
+                        Service = "Mastodon",
+                        Instance = _mastodonOauthSettion.Instance
+                    };
+
                     _authorizeStep = AuthorizeStep.Exit;
-                    return;
                 }
                 catch
                 {
-                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError")).ShowAsync();
-                    return;
+                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError"))
+                        .ShowAsync();
                 }
                 finally
                 {
                     AuthorizePopupConfigNextButton.IsEnabled = true;
                 }
-                AuthorizePopupAuthorizeWebView.Navigate(new Uri(url));
-                VisualStateManager.GoToState(this, "Authorize", true);
-                VisualStateManager.GoToState(this, "AuthorizeNormal", true);
-                _authorizeStep = AuthorizeStep.MastodonAuthorize;
+
+                //AuthorizePopupAuthorizeWebView.Navigate(new Uri(url));
+                //VisualStateManager.GoToState(this, "Authorize", true);
+                //VisualStateManager.GoToState(this, "AuthorizeNormal", true);
+                //_authorizeStep = AuthorizeStep.MastodonAuthorize;
             }
         }
 
@@ -230,11 +253,22 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                 try
                 {
                     tokens = await _twitterOAuthSettion.GetTokensAsync(pin);
-                    _accountInfo = new AccountInfo { ConsumerKey = tokens.ConsumerKey, ConsumerSecret = tokens.ConsumerSecret, AccessToken = tokens.AccessToken, AccessTokenSecret = tokens.AccessTokenSecret, ScreenName = tokens.ScreenName, UserId = tokens.UserId, Service = "Twitter", Instance = "" };
+                    _accountInfo = new AccountInfo
+                    {
+                        ConsumerKey = tokens.ConsumerKey,
+                        ConsumerSecret = tokens.ConsumerSecret,
+                        AccessToken = tokens.AccessToken,
+                        AccessTokenSecret = tokens.AccessTokenSecret,
+                        ScreenName = tokens.ScreenName,
+                        UserId = tokens.UserId,
+                        Service = "Twitter",
+                        Instance = ""
+                    };
                 }
                 catch
                 {
-                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError")).ShowAsync();
+                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError"))
+                        .ShowAsync();
                     return;
                 }
                 finally
@@ -246,14 +280,30 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             {
                 try
                 {
-                    var appRegistration = new AppRegistration() { ClientId = _mastodonOauthSettion.ClientId, ClientSecret = _mastodonOauthSettion.ClientSecret, Instance = _mastodonOauthSettion.Instance };
+                    var appRegistration = new AppRegistration
+                    {
+                        ClientId = _mastodonOauthSettion.ClientId,
+                        ClientSecret = _mastodonOauthSettion.ClientSecret,
+                        Instance = _mastodonOauthSettion.Instance
+                    };
                     var client = new MastodonClient(appRegistration, pin);
                     var user = await client.GetCurrentUser();
-                    _accountInfo = new AccountInfo { ConsumerKey = _mastodonOauthSettion.ClientId, ConsumerSecret = _mastodonOauthSettion.ClientSecret, AccessToken = pin, AccessTokenSecret = "", ScreenName = user.UserName, UserId = user.Id, Service = "Mastodon", Instance = _mastodonOauthSettion.Instance };
+                    _accountInfo = new AccountInfo
+                    {
+                        ConsumerKey = _mastodonOauthSettion.ClientId,
+                        ConsumerSecret = _mastodonOauthSettion.ClientSecret,
+                        AccessToken = pin,
+                        AccessTokenSecret = "",
+                        ScreenName = user.UserName,
+                        UserId = user.Id,
+                        Service = "Mastodon",
+                        Instance = _mastodonOauthSettion.Instance
+                    };
                 }
                 catch
                 {
-                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError")).ShowAsync();
+                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError"))
+                        .ShowAsync();
                     return;
                 }
                 finally
@@ -265,7 +315,8 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             _authorizeStep = AuthorizeStep.Exit;
         }
 
-        private void AuthorizePopupAuthorizeWebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        private void AuthorizePopupAuthorizeWebView_NavigationStarting(WebView sender,
+            WebViewNavigationStartingEventArgs args)
         {
             var url = args.Uri.AbsoluteUri;
             if (_authorizeStep == AuthorizeStep.TwitterAuthorize)
@@ -275,13 +326,14 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                     VisualStateManager.GoToState(this, "AuthorizeWithPin", true);
                     return;
                 }
-                    
+
 
                 if (url.StartsWith("http://cucmber.net/?oauth_token="))
                 {
                     args.Cancel = true;
-                    var match = Regex.Match(url, @"^http://cucmber.net/\?oauth_token=(?<OauthToken>.*)&oauth_verifier=(?<OauthVerifier>.*)$");
-                    this.AuthorizeWithCallback(match.Groups["OauthVerifier"].Value);
+                    var match = Regex.Match(url,
+                        @"^http://cucmber.net/\?oauth_token=(?<OauthToken>.*)&oauth_verifier=(?<OauthVerifier>.*)$");
+                    AuthorizeWithCallback(match.Groups["OauthVerifier"].Value);
                 }
             }
             else if (_authorizeStep == AuthorizeStep.MastodonAuthorize)
@@ -289,11 +341,11 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                 if (url.StartsWith("https://" + _mastodonOauthSettion.Instance + "/oauth/authorize/"))
                 {
                     args.Cancel = true;
-                    var match = Regex.Match(url, @"^https://" + _mastodonOauthSettion.Instance + "/oauth/authorize/(?<OauthVerifier>.*)$");
-                    this.AuthorizeWithCallback(match.Groups["OauthVerifier"].Value);
+                    var match = Regex.Match(url,
+                        @"^https://" + _mastodonOauthSettion.Instance + "/oauth/authorize/(?<OauthVerifier>.*)$");
+                    AuthorizeWithCallback(match.Groups["OauthVerifier"].Value);
                 }
             }
-
         }
 
         private async void AuthorizeWithCallback(string oauthVerifier)
@@ -307,7 +359,8 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                 }
                 catch
                 {
-                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError")).ShowAsync();
+                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError"))
+                        .ShowAsync();
                     return;
                 }
                 finally
@@ -315,20 +368,46 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                     AuthorizePopupAuthorizeButton.IsEnabled = true;
                 }
 
-                _accountInfo = new AccountInfo { ConsumerKey = tokens.ConsumerKey, ConsumerSecret = tokens.ConsumerSecret, AccessToken = tokens.AccessToken, AccessTokenSecret = tokens.AccessTokenSecret, ScreenName = tokens.ScreenName, UserId = tokens.UserId, Service = "Twitter", Instance = "" };
+                _accountInfo = new AccountInfo
+                {
+                    ConsumerKey = tokens.ConsumerKey,
+                    ConsumerSecret = tokens.ConsumerSecret,
+                    AccessToken = tokens.AccessToken,
+                    AccessTokenSecret = tokens.AccessTokenSecret,
+                    ScreenName = tokens.ScreenName,
+                    UserId = tokens.UserId,
+                    Service = "Twitter",
+                    Instance = ""
+                };
             }
             else if (_authorizeStep == AuthorizeStep.MastodonAuthorize)
             {
                 try
                 {
-                    var appRegistration = new AppRegistration() { ClientId = _mastodonOauthSettion.ClientId, ClientSecret = _mastodonOauthSettion.ClientSecret, Instance = _mastodonOauthSettion.Instance };
+                    var appRegistration = new AppRegistration
+                    {
+                        ClientId = _mastodonOauthSettion.ClientId,
+                        ClientSecret = _mastodonOauthSettion.ClientSecret,
+                        Instance = _mastodonOauthSettion.Instance
+                    };
                     var client = new MastodonClient(appRegistration, oauthVerifier);
                     var user = await client.GetCurrentUser();
-                    _accountInfo = new AccountInfo { ConsumerKey = _mastodonOauthSettion.ClientId, ConsumerSecret = _mastodonOauthSettion.ClientSecret, AccessToken = oauthVerifier, AccessTokenSecret = "", ScreenName = user.UserName, UserId = user.Id, Service = "Mastodon", Instance = _mastodonOauthSettion.Instance };
+                    _accountInfo = new AccountInfo
+                    {
+                        ConsumerKey = _mastodonOauthSettion.ClientId,
+                        ConsumerSecret = _mastodonOauthSettion.ClientSecret,
+                        AccessToken = oauthVerifier,
+                        AccessTokenSecret = "",
+                        ScreenName = user.UserName,
+                        UserId = user.Id,
+                        Service = "Mastodon",
+                        Instance = _mastodonOauthSettion.Instance
+                    };
                 }
                 catch
                 {
-                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError")).ShowAsync();
+                    await new MessageDialog(_resourceLoader.GetString("AuthorizePopup_OAuthAuthorizeError"))
+                        .ShowAsync();
                     return;
                 }
                 finally
@@ -340,11 +419,10 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             _authorizeStep = AuthorizeStep.Exit;
         }
 
-        private AccountInfo _accountInfo;
         public async Task<AccountInfo> ShowAsync()
         {
-            this.Height = Window.Current.Bounds.Height;
-            this.Width = Window.Current.Bounds.Width;
+            Height = Window.Current.Bounds.Height;
+            Width = Window.Current.Bounds.Width;
             Window.Current.SizeChanged += SizeChanced_Event;
 
             _accountInfo = null;

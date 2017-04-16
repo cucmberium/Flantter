@@ -1,14 +1,12 @@
-﻿using Microsoft.Xaml.Interactivity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
+using Microsoft.Xaml.Interactivity;
 
 namespace Flantter.MilkyWay.Views.Util
 {
@@ -16,76 +14,69 @@ namespace Flantter.MilkyWay.Views.Util
     {
         public KeysEventArgs()
         {
-            this.KeyCollection = new List<VirtualKey>();
+            KeyCollection = new List<VirtualKey>();
         }
 
-        public List<VirtualKey> KeyCollection { get; private set; }
+        public List<VirtualKey> KeyCollection { get; }
     }
 
     [ContentProperty(Name = "Triggers")]
     public class KeyTriggerBehavior : DependencyObject, IBehavior
     {
         public static readonly DependencyProperty TriggersProperty =
-            DependencyProperty.Register("Triggers", typeof(ActionCollection), typeof(KeyTriggerBehavior), new PropertyMetadata(null));
-        
+            DependencyProperty.Register("Triggers", typeof(ActionCollection), typeof(KeyTriggerBehavior),
+                new PropertyMetadata(null));
+
+        private KeyEventHandler _keydownEventHandler;
+
+        private KeysEventArgs _keysEventArgs;
+
+        private KeyEventHandler _keyupEventHandler;
+
         public ActionCollection Triggers
         {
             get
             {
-                ActionCollection triggers = (ActionCollection)base.GetValue(TriggersProperty);
+                var triggers = (ActionCollection) GetValue(TriggersProperty);
                 if (triggers == null)
                 {
                     triggers = new ActionCollection();
-                    base.SetValue(TriggersProperty, triggers);
+                    SetValue(TriggersProperty, triggers);
                 }
                 return triggers;
             }
         }
 
-        private DependencyObject _AssociatedObject;
-        public DependencyObject AssociatedObject
+        public DependencyObject AssociatedObject { get; set; }
+
+        public void Attach(DependencyObject associatedObject)
         {
-            get { return this._AssociatedObject; }
-            set { this._AssociatedObject = value; }
-        }
+            this.AssociatedObject = associatedObject;
 
-        private KeysEventArgs keysEventArgs;
-
-        private KeyEventHandler keyupEventHandler;
-        private KeyEventHandler keydownEventHandler;
-
-        public void Attach(DependencyObject AssociatedObject)
-        {
-            this.AssociatedObject = AssociatedObject;
-
-            keysEventArgs = new KeysEventArgs();
+            _keysEventArgs = new KeysEventArgs();
 
             var uiElement = this.AssociatedObject as UIElement;
-            keyupEventHandler = new KeyEventHandler(UIElement_KeyUp);
-            keydownEventHandler = new KeyEventHandler(UIElement_KeyDown);
-            uiElement.AddHandler(UIElement.KeyDownEvent, keydownEventHandler, true);
-            uiElement.AddHandler(UIElement.KeyUpEvent, keyupEventHandler, true);
-            
+            _keyupEventHandler = UIElement_KeyUp;
+            _keydownEventHandler = UIElement_KeyDown;
+            uiElement.AddHandler(UIElement.KeyDownEvent, _keydownEventHandler, true);
+            uiElement.AddHandler(UIElement.KeyUpEvent, _keyupEventHandler, true);
+
             var control = this.AssociatedObject as Control;
             if (control != null)
-            {
                 control.IsEnabledChanged += Control_IsEnabledChanged;
-            }
         }
 
         public void Detach()
         {
-            var uiElement = this.AssociatedObject as UIElement;
-            uiElement.RemoveHandler(UIElement.KeyDownEvent, keydownEventHandler);
-            uiElement.RemoveHandler(UIElement.KeyUpEvent, keyupEventHandler);
+            var uiElement = AssociatedObject as UIElement;
+            uiElement.RemoveHandler(UIElement.KeyDownEvent, _keydownEventHandler);
+            uiElement.RemoveHandler(UIElement.KeyUpEvent, _keyupEventHandler);
 
-            var control = this.AssociatedObject as Control;
+            var control = AssociatedObject as Control;
             if (control != null)
-            {
                 control.IsEnabledChanged -= Control_IsEnabledChanged;
-            }
         }
-        
+
         private void UIElement_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Handled)
@@ -96,32 +87,32 @@ namespace Flantter.MilkyWay.Views.Util
                 if (e.KeyStatus.RepeatCount != 1)
                     return;
 
-                if (!keysEventArgs.KeyCollection.Any(x => x == e.Key))
-                    keysEventArgs.KeyCollection.Add(e.Key);
+                if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
+                    _keysEventArgs.KeyCollection.Add(e.Key);
 
-                e.Handled = Interaction.ExecuteActions(AssociatedObject, this.Triggers, keysEventArgs).Any(x => (bool)x == true);
+                e.Handled = Interaction.ExecuteActions(AssociatedObject, Triggers, _keysEventArgs).Any(x => (bool) x);
             }
             else
             {
-                if (!keysEventArgs.KeyCollection.Any(x => x == e.Key))
-                    keysEventArgs.KeyCollection.Add(e.Key);
+                if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
+                    _keysEventArgs.KeyCollection.Add(e.Key);
 
-                e.Handled = Interaction.ExecuteActions(AssociatedObject, this.Triggers, keysEventArgs).Any(x => (bool)x == true);
+                e.Handled = Interaction.ExecuteActions(AssociatedObject, Triggers, _keysEventArgs).Any(x => (bool) x);
             }
 
             if (e.Handled)
-                keysEventArgs.KeyCollection.Clear();
+                _keysEventArgs.KeyCollection.Clear();
         }
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (keysEventArgs.KeyCollection.Any(x => x == e.Key))
-                keysEventArgs.KeyCollection.Remove(e.Key);
+            if (_keysEventArgs.KeyCollection.Any(x => x == e.Key))
+                _keysEventArgs.KeyCollection.Remove(e.Key);
         }
 
         private void Control_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            keysEventArgs.KeyCollection.Clear();
+            _keysEventArgs.KeyCollection.Clear();
         }
     }
 
@@ -129,49 +120,46 @@ namespace Flantter.MilkyWay.Views.Util
     public class GlobalKeyTriggerBehavior : DependencyObject, IBehavior
     {
         public static readonly DependencyProperty TriggersProperty =
-            DependencyProperty.Register("Triggers", typeof(ActionCollection), typeof(KeyTriggerBehavior), new PropertyMetadata(null));
+            DependencyProperty.Register("Triggers", typeof(ActionCollection), typeof(KeyTriggerBehavior),
+                new PropertyMetadata(null));
+
+        private KeyEventHandler _keydownHandler;
+
+        private KeysEventArgs _keysEventArgs;
+        private KeyEventHandler _keyUpHandler;
 
         public ActionCollection Triggers
         {
             get
             {
-                ActionCollection triggers = (ActionCollection)base.GetValue(TriggersProperty);
+                var triggers = (ActionCollection) GetValue(TriggersProperty);
                 if (triggers == null)
                 {
                     triggers = new ActionCollection();
-                    base.SetValue(TriggersProperty, triggers);
+                    SetValue(TriggersProperty, triggers);
                 }
                 return triggers;
             }
         }
 
-        private DependencyObject _AssociatedObject;
-        public DependencyObject AssociatedObject
+        public DependencyObject AssociatedObject { get; set; }
+
+        public void Attach(DependencyObject associatedObject)
         {
-            get { return this._AssociatedObject; }
-            set { this._AssociatedObject = value; }
-        }
+            this.AssociatedObject = associatedObject;
 
-        private KeysEventArgs keysEventArgs;
+            _keysEventArgs = new KeysEventArgs();
 
-        private KeyEventHandler keydownHandler = null;
-        private KeyEventHandler keyUpHandler = null;
-        public void Attach(DependencyObject AssociatedObject)
-        {
-            this.AssociatedObject = AssociatedObject;
-
-            keysEventArgs = new KeysEventArgs();
-
-            keydownHandler = new KeyEventHandler(UIElement_KeyDown);
-            keyUpHandler = new KeyEventHandler(UIElement_KeyUp);
-            Window.Current.Content.AddHandler(UIElement.KeyDownEvent, keydownHandler, true);
-            Window.Current.Content.AddHandler(UIElement.KeyUpEvent, keyUpHandler, true);
+            _keydownHandler = UIElement_KeyDown;
+            _keyUpHandler = UIElement_KeyUp;
+            Window.Current.Content.AddHandler(UIElement.KeyDownEvent, _keydownHandler, true);
+            Window.Current.Content.AddHandler(UIElement.KeyUpEvent, _keyUpHandler, true);
         }
 
         public void Detach()
         {
-            Window.Current.Content.RemoveHandler(UIElement.KeyDownEvent, keydownHandler);
-            Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, keyUpHandler);
+            Window.Current.Content.RemoveHandler(UIElement.KeyDownEvent, _keydownHandler);
+            Window.Current.Content.RemoveHandler(UIElement.KeyUpEvent, _keyUpHandler);
         }
 
         private void UIElement_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -179,7 +167,8 @@ namespace Flantter.MilkyWay.Views.Util
             if (e.Handled)
                 return;
 
-            if (e.OriginalSource is TextBox || e.OriginalSource is SearchBox || e.OriginalSource is PasswordBox || e.OriginalSource is RichEditBox)
+            if (e.OriginalSource is TextBox || e.OriginalSource is SearchBox || e.OriginalSource is PasswordBox ||
+                e.OriginalSource is RichEditBox)
                 return;
 
             if (e.Key == VirtualKey.Enter)
@@ -187,27 +176,27 @@ namespace Flantter.MilkyWay.Views.Util
                 if (e.KeyStatus.RepeatCount != 1)
                     return;
 
-                if (!keysEventArgs.KeyCollection.Any(x => x == e.Key))
-                    keysEventArgs.KeyCollection.Add(e.Key);
+                if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
+                    _keysEventArgs.KeyCollection.Add(e.Key);
 
-                e.Handled = Interaction.ExecuteActions(AssociatedObject, this.Triggers, keysEventArgs).Any(x => (bool)x == true);
+                e.Handled = Interaction.ExecuteActions(AssociatedObject, Triggers, _keysEventArgs).Any(x => (bool) x);
             }
             else
             {
-                if (!keysEventArgs.KeyCollection.Any(x => x == e.Key))
-                    keysEventArgs.KeyCollection.Add(e.Key);
+                if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
+                    _keysEventArgs.KeyCollection.Add(e.Key);
 
-                e.Handled = Interaction.ExecuteActions(AssociatedObject, this.Triggers, keysEventArgs).Any(x => (bool)x == true);
+                e.Handled = Interaction.ExecuteActions(AssociatedObject, Triggers, _keysEventArgs).Any(x => (bool) x);
             }
 
             if (e.Handled)
-                keysEventArgs.KeyCollection.Clear();
+                _keysEventArgs.KeyCollection.Clear();
         }
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (keysEventArgs.KeyCollection.Any(x => x == e.Key))
-                keysEventArgs.KeyCollection.Remove(e.Key);
+            if (_keysEventArgs.KeyCollection.Any(x => x == e.Key))
+                _keysEventArgs.KeyCollection.Remove(e.Key);
         }
     }
 
@@ -218,66 +207,48 @@ namespace Flantter.MilkyWay.Views.Util
             DependencyProperty.Register("Actions", typeof(ActionCollection), typeof(KeyTrigger),
                 new PropertyMetadata(null));
 
-        public ActionCollection Actions
-        {
-            get
-            {
-                ActionCollection actions = (ActionCollection)base.GetValue(ActionsProperty);
-                if (actions == null)
-                {
-                    actions = new ActionCollection();
-                    base.SetValue(ActionsProperty, actions);
-                }
-                return actions;
-            }
-        }
-
         public static readonly DependencyProperty KeyProperty =
             DependencyProperty.Register("Key", typeof(string), typeof(KeyTrigger),
                 new PropertyMetadata(null));
-
-        public string Key
-        {
-            get
-            {
-                return base.GetValue(KeyProperty) as string;
-            }
-            set
-            {
-                base.SetValue(KeyProperty, value);
-            }
-        }
 
         public static readonly DependencyProperty ModifiersProperty =
             DependencyProperty.Register("Modifiers", typeof(string), typeof(KeyTrigger),
                 new PropertyMetadata(null));
 
-        public string Modifiers
-        {
-            get
-            {
-                return base.GetValue(ModifiersProperty) as string;
-            }
-            set
-            {
-                base.SetValue(ModifiersProperty, value);
-            }
-        }
-        
         public static readonly DependencyProperty HandledProperty =
             DependencyProperty.Register("Handled", typeof(bool), typeof(KeyTrigger),
                 new PropertyMetadata(true));
 
-        public bool Handled
+        public ActionCollection Actions
         {
             get
             {
-                return (bool)base.GetValue(HandledProperty);
+                var actions = (ActionCollection) GetValue(ActionsProperty);
+                if (actions == null)
+                {
+                    actions = new ActionCollection();
+                    SetValue(ActionsProperty, actions);
+                }
+                return actions;
             }
-            set
-            {
-                base.SetValue(HandledProperty, value);
-            }
+        }
+
+        public string Key
+        {
+            get => GetValue(KeyProperty) as string;
+            set => SetValue(KeyProperty, value);
+        }
+
+        public string Modifiers
+        {
+            get => GetValue(ModifiersProperty) as string;
+            set => SetValue(ModifiersProperty, value);
+        }
+
+        public bool Handled
+        {
+            get => (bool) GetValue(HandledProperty);
+            set => SetValue(HandledProperty, value);
         }
 
         public object Execute(object sender, object parameter)
@@ -286,16 +257,16 @@ namespace Flantter.MilkyWay.Views.Util
             if (keysEventArgs == null)
                 return false;
 
-            if (!keysEventArgs.KeyCollection.Any(x => x.ToString("F") == Key))
+            if (keysEventArgs.KeyCollection.All(x => x.ToString("F") != Key))
                 return false;
 
-            if (!string.IsNullOrWhiteSpace(Modifiers) && !keysEventArgs.KeyCollection.Any(x => x.ToString("F") == Modifiers))
+            if (!string.IsNullOrWhiteSpace(Modifiers) &&
+                keysEventArgs.KeyCollection.All(x => x.ToString("F") != Modifiers))
                 return false;
 
-            Interaction.ExecuteActions(sender, this.Actions, null);
+            Interaction.ExecuteActions(sender, Actions, null);
 
-            return this.Handled;
+            return Handled;
         }
     }
-
 }

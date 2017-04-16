@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +12,7 @@ namespace Flantter.MilkyWay.Models.Plugin
             var oldContext = SynchronizationContext.Current;
             var synch = new ExclusiveSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(synch);
-            object ret = default(object);
+            var ret = default(object);
             synch.Post(async _ =>
             {
                 try
@@ -38,11 +36,12 @@ namespace Flantter.MilkyWay.Models.Plugin
 
         private class ExclusiveSynchronizationContext : SynchronizationContext
         {
-            private bool done;
-            public Exception InnerException { get; set; }
-            readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
-            readonly Queue<Tuple<SendOrPostCallback, object>> items =
+            private readonly Queue<Tuple<SendOrPostCallback, object>> _items =
                 new Queue<Tuple<SendOrPostCallback, object>>();
+
+            private readonly AutoResetEvent _workItemsWaiting = new AutoResetEvent(false);
+            private bool _done;
+            public Exception InnerException { get; set; }
 
             public override void Send(SendOrPostCallback d, object state)
             {
@@ -51,41 +50,37 @@ namespace Flantter.MilkyWay.Models.Plugin
 
             public override void Post(SendOrPostCallback d, object state)
             {
-                lock (items)
+                lock (_items)
                 {
-                    items.Enqueue(Tuple.Create(d, state));
+                    _items.Enqueue(Tuple.Create(d, state));
                 }
-                workItemsWaiting.Set();
+                _workItemsWaiting.Set();
             }
 
             public void EndMessageLoop()
             {
-                Post(_ => done = true, null);
+                Post(_ => _done = true, null);
             }
 
             public void BeginMessageLoop()
             {
-                while (!done)
+                while (!_done)
                 {
                     Tuple<SendOrPostCallback, object> task = null;
-                    lock (items)
+                    lock (_items)
                     {
-                        if (items.Count > 0)
-                        {
-                            task = items.Dequeue();
-                        }
+                        if (_items.Count > 0)
+                            task = _items.Dequeue();
                     }
                     if (task != null)
                     {
                         task.Item1(task.Item2);
-                        if (InnerException != null) // the method threw an exeption
-                        {
+                        if (InnerException != null)
                             throw new AggregateException("AsyncHelpers.Run method threw an exception.", InnerException);
-                        }
                     }
                     else
                     {
-                        workItemsWaiting.WaitOne();
+                        _workItemsWaiting.WaitOne();
                     }
                 }
             }

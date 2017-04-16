@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Flantter.MilkyWay.Views.Contents.Timeline
+﻿namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
-    interface IRecycleItem
+    internal interface IRecycleItem
     {
         void ResetItem();
     }

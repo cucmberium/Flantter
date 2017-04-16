@@ -1,16 +1,12 @@
-﻿using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Objects;
+﻿using System;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using Flantter.MilkyWay.Models.SettingsFlyouts;
 using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.ViewModels.Services;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
@@ -18,136 +14,124 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
     {
         public UserFollowInfoSettingsFlyoutViewModel()
         {
-            this.Model = new UserFollowInfoSettingsFlyoutModel();
+            Model = new UserFollowInfoSettingsFlyoutModel();
 
-            this.Tokens = this.Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
-            this.IconSource = new ReactiveProperty<string>("http://localhost/");
+            Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
+            IconSource = new ReactiveProperty<string>("http://localhost/");
 
-            this.PivotSelectedIndex = new ReactiveProperty<int>(0);
-            this.PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                switch (x)
+            PivotSelectedIndex = new ReactiveProperty<int>(0);
+            PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
                 {
-                    case 1:
-                        if (!this.Model.OpenFollowers)
-                        {
-                            await this.Model.UpdateFollowers();
-                            this.Model.OpenFollowers = true;
-                        }
-                        break;
-                    case 2:
-                        if (!this.Model.OpenCrush)
-                        {
-                            await this.Model.UpdateCrush();
-                            this.Model.OpenCrush = true;
-                        }
-                        break;
-                    case 3:
-                        if (!this.Model.OpenCrushedOn)
-                        {
-                            await this.Model.UpdateCrushedOn();
-                            this.Model.OpenCrushedOn = true;
-                        }
-                        break;
-                    case 4:
-                        if (!this.Model.OpenBlock)
-                        {
-                            await this.Model.UpdateBlock();
-                            this.Model.OpenBlock = true;
-                        }
-                        break;
-                    case 5:
-                        if (!this.Model.OpenMute)
-                        {
-                            await this.Model.UpdateMute();
-                            this.Model.OpenMute = true;
-                        }
-                        break;
-                }
-            });
+                    switch (x)
+                    {
+                        case 1:
+                            if (!Model.OpenFollowers)
+                            {
+                                await Model.UpdateFollowers();
+                                Model.OpenFollowers = true;
+                            }
+                            break;
+                        case 2:
+                            if (!Model.OpenCrush)
+                            {
+                                await Model.UpdateCrush();
+                                Model.OpenCrush = true;
+                            }
+                            break;
+                        case 3:
+                            if (!Model.OpenCrushedOn)
+                            {
+                                await Model.UpdateCrushedOn();
+                                Model.OpenCrushedOn = true;
+                            }
+                            break;
+                        case 4:
+                            if (!Model.OpenBlock)
+                            {
+                                await Model.UpdateBlock();
+                                Model.OpenBlock = true;
+                            }
+                            break;
+                        case 5:
+                            if (!Model.OpenMute)
+                            {
+                                await Model.UpdateMute();
+                                Model.OpenMute = true;
+                            }
+                            break;
+                    }
+                });
 
-            this.ClearCommand = new ReactiveCommand();
-            this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                this.PivotSelectedIndex.Value = 0;
+            ClearCommand = new ReactiveCommand();
+            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
+                {
+                    PivotSelectedIndex.Value = 0;
 
-                this.Model.OpenFollowers = false;
-                this.Model.OpenCrush = false;
-                this.Model.OpenCrushedOn = false;
-                this.Model.OpenBlock = false;
-                this.Model.OpenMute = false;
+                    Model.OpenFollowers = false;
+                    Model.OpenCrush = false;
+                    Model.OpenCrushedOn = false;
+                    Model.OpenBlock = false;
+                    Model.OpenMute = false;
 
-                this.Model.GetIds = false;
-                this.Model.FollowingIds.Clear();
-                this.Model.FollowersIds.Clear();
-                this.Model.CrushIds.Clear();
-                this.Model.CrushedOnIds.Clear();
+                    Model.GetIds = false;
+                    Model.FollowingIds.Clear();
+                    Model.FollowersIds.Clear();
+                    Model.CrushIds.Clear();
+                    Model.CrushedOnIds.Clear();
 
-                this.Model.Following.Clear();
-                this.Model.Followers.Clear();
-                this.Model.Crush.Clear();
-                this.Model.CrushedOn.Clear();
-                this.Model.Block.Clear();
-                this.Model.Mute.Clear();
-            });
+                    Model.Following.Clear();
+                    Model.Followers.Clear();
+                    Model.Crush.Clear();
+                    Model.CrushedOn.Clear();
+                    Model.Block.Clear();
+                    Model.Mute.Clear();
+                });
 
-            this.UpdateCommand = new ReactiveCommand();
-            this.UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateFollowing();
-            });
+            UpdateCommand = new ReactiveCommand();
+            UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateFollowing(); });
 
-            this.FollowingIncrementalLoadCommand = new ReactiveCommand();
-            this.FollowingIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateFollowing(true);
-            });
+            FollowingIncrementalLoadCommand = new ReactiveCommand();
+            FollowingIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateFollowing(true); });
 
-            this.FollowersIncrementalLoadCommand = new ReactiveCommand();
-            this.FollowersIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateFollowers(true);
-            });
+            FollowersIncrementalLoadCommand = new ReactiveCommand();
+            FollowersIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateFollowers(true); });
 
-            this.CrushIncrementalLoadCommand = new ReactiveCommand();
-            this.CrushIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateCrush(true);
-            });
+            CrushIncrementalLoadCommand = new ReactiveCommand();
+            CrushIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateCrush(true); });
 
-            this.CrushedOnIncrementalLoadCommand = new ReactiveCommand();
-            this.CrushedOnIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateCrushedOn(true);
-            });
+            CrushedOnIncrementalLoadCommand = new ReactiveCommand();
+            CrushedOnIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateCrushedOn(true); });
 
-            this.BlockIncrementalLoadCommand = new ReactiveCommand();
-            this.BlockIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateBlock(true);
-            });
+            BlockIncrementalLoadCommand = new ReactiveCommand();
+            BlockIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateBlock(true); });
 
-            this.MuteIncrementalLoadCommand = new ReactiveCommand();
-            this.MuteIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateMute(true);
-            });
+            MuteIncrementalLoadCommand = new ReactiveCommand();
+            MuteIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateMute(true); });
 
-            this.Following = this.Model.Following.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
-            this.Followers = this.Model.Followers.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
-            this.Crush = this.Model.Crush.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
-            this.CrushedOn = this.Model.CrushedOn.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
-            this.Block = this.Model.Block.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
-            this.Mute = this.Model.Mute.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+            Following = Model.Following.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+            Followers = Model.Followers.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+            Crush = Model.Crush.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+            CrushedOn = Model.CrushedOn.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+            Block = Model.Block.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+            Mute = Model.Mute.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
 
-            this.UpdatingFollowing = this.Model.ObserveProperty(x => x.UpdatingFollowing).ToReactiveProperty();
-            this.UpdatingFollowers = this.Model.ObserveProperty(x => x.UpdatingFollowers).ToReactiveProperty();
-            this.UpdatingCrush = this.Model.ObserveProperty(x => x.UpdatingCrush).ToReactiveProperty();
-            this.UpdatingCrushedOn = this.Model.ObserveProperty(x => x.UpdatingCrushedOn).ToReactiveProperty();
-            this.UpdatingBlock = this.Model.ObserveProperty(x => x.UpdatingBlock).ToReactiveProperty();
-            this.UpdatingMute = this.Model.ObserveProperty(x => x.UpdatingMute).ToReactiveProperty();
+            UpdatingFollowing = Model.ObserveProperty(x => x.UpdatingFollowing).ToReactiveProperty();
+            UpdatingFollowers = Model.ObserveProperty(x => x.UpdatingFollowers).ToReactiveProperty();
+            UpdatingCrush = Model.ObserveProperty(x => x.UpdatingCrush).ToReactiveProperty();
+            UpdatingCrushedOn = Model.ObserveProperty(x => x.UpdatingCrushedOn).ToReactiveProperty();
+            UpdatingBlock = Model.ObserveProperty(x => x.UpdatingBlock).ToReactiveProperty();
+            UpdatingMute = Model.ObserveProperty(x => x.UpdatingMute).ToReactiveProperty();
 
-            this.Notice = Services.Notice.Instance;
+            Notice = Notice.Instance;
         }
 
         public UserFollowInfoSettingsFlyoutModel Model { get; set; }
@@ -170,17 +154,17 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<int> PivotSelectedIndex { get; set; }
 
-        public ReadOnlyReactiveCollection<UserViewModel> Following { get; private set; }
+        public ReadOnlyReactiveCollection<UserViewModel> Following { get; }
 
-        public ReadOnlyReactiveCollection<UserViewModel> Followers { get; private set; }
+        public ReadOnlyReactiveCollection<UserViewModel> Followers { get; }
 
-        public ReadOnlyReactiveCollection<UserViewModel> Crush { get; private set; }
+        public ReadOnlyReactiveCollection<UserViewModel> Crush { get; }
 
-        public ReadOnlyReactiveCollection<UserViewModel> CrushedOn { get; private set; }
+        public ReadOnlyReactiveCollection<UserViewModel> CrushedOn { get; }
 
-        public ReadOnlyReactiveCollection<UserViewModel> Block { get; private set; }
+        public ReadOnlyReactiveCollection<UserViewModel> Block { get; }
 
-        public ReadOnlyReactiveCollection<UserViewModel> Mute { get; private set; }
+        public ReadOnlyReactiveCollection<UserViewModel> Mute { get; }
 
         public ReactiveCommand ClearCommand { get; set; }
 
@@ -189,7 +173,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveCommand FollowingIncrementalLoadCommand { get; set; }
 
         public ReactiveCommand FollowersIncrementalLoadCommand { get; set; }
-        
+
         public ReactiveCommand CrushIncrementalLoadCommand { get; set; }
 
         public ReactiveCommand CrushedOnIncrementalLoadCommand { get; set; }
@@ -198,6 +182,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveCommand MuteIncrementalLoadCommand { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
     }
 }

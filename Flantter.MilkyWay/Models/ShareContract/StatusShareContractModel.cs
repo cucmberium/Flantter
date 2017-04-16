@@ -1,5 +1,4 @@
-﻿using CoreTweet;
-using Flantter.MilkyWay.Models.Twitter;
+﻿using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using System;
@@ -7,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Graphics.Imaging;
@@ -47,7 +45,7 @@ namespace Flantter.MilkyWay.Models.ShareContract
                 if (this._Text != value)
                 {
                     this._Text = value;
-                    this.OnPropertyChanged("Text");
+                    this.RaisePropertyChanged();
 
                     this.CharacterCountChanged();
                 }
@@ -204,7 +202,7 @@ namespace Flantter.MilkyWay.Models.ShareContract
 
             this.Updating = true;
 
-            var tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName);
+            var tokens = CoreTweet.Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret, account.UserId, account.ScreenName);
             tokens.ConnectionOptions.UserAgent = TwitterConnectionHelper.GetUserAgent(tokens);
             
             var text = this.Text;
@@ -219,14 +217,14 @@ namespace Flantter.MilkyWay.Models.ShareContract
                 {
                     this.Message = _ResourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + "0.0%";
 
-                    var resultList = new List<MediaUploadResult>();
+                    var resultList = new List<CoreTweet.MediaUploadResult>();
 
                     foreach (var item in this._Pictures.Select((v, i) => new { v, i }))
                     {
                         var pic = item.v;
                         pic.Stream.Seek(0);
                         if (pic.IsVideo)
-                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), UploadMediaType.Video, (IEnumerable<long>)null, default(System.Threading.CancellationToken)));
+                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(), CoreTweet.UploadMediaType.Video, (IEnumerable<long>)null, default(System.Threading.CancellationToken)));
                         else
                             resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), (IEnumerable<long>)null, default(System.Threading.CancellationToken)));
                         
@@ -242,7 +240,7 @@ namespace Flantter.MilkyWay.Models.ShareContract
                 this.Message = _ResourceLoader.GetString("TweetArea_Message_UpdatingStatus");
                 await tokens.Statuses.UpdateAsync(param);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
                 Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 this.State = "Cancel";

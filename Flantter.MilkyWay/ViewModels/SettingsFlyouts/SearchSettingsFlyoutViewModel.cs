@@ -1,20 +1,18 @@
-﻿using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
-using Flantter.MilkyWay.Setting;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
-using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
 using Windows.ApplicationModel.Search.Core;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.SettingsFlyouts;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Services;
+using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
@@ -22,293 +20,323 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
     {
         public SearchSettingsFlyoutViewModel()
         {
-            this.Model = new SearchSettingsFlyoutModel();
+            Model = new SearchSettingsFlyoutModel();
 
-            this.Tokens = this.Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
-            this.IconSource = new ReactiveProperty<string>("http://localhost/");
+            Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
+            IconSource = new ReactiveProperty<string>("http://localhost/");
 
-            this.StatusSearchWords = new ReactiveProperty<string>();
-            this.UserSearchWords = new ReactiveProperty<string>();
+            StatusSearchWords = new ReactiveProperty<string>();
+            UserSearchWords = new ReactiveProperty<string>();
 
-            this.PivotSelectedIndex = new ReactiveProperty<int>(0);
-            this.PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (x == 2)
+            PivotSelectedIndex = new ReactiveProperty<int>(0);
+            PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
                 {
-                    await this.Model.UpdateSavedSearches();
-                    await this.Model.UpdateTrends();
-                }
-            });
+                    if (x == 2)
+                    {
+                        await Model.UpdateSavedSearches();
+                        await Model.UpdateTrends();
+                    }
+                });
 
-            this.SavedSearchesScreenName = this.Model.ObserveProperty(x => x.SavedSearchesScreenName).ToReactiveProperty();
-            this.TrendPlace = this.Model.ObserveProperty(x => x.TrendsPlace).ToReactiveProperty();
+            SavedSearchesScreenName = Model.ObserveProperty(x => x.SavedSearchesScreenName).ToReactiveProperty();
+            TrendPlace = Model.ObserveProperty(x => x.TrendsPlace).ToReactiveProperty();
 
-            this.AdvancedSearchOpen = new ReactiveProperty<bool>();
-            this.AdvancedSearchContentOpen = new ReactiveProperty<bool>();
-            this.AdvancedSearchEngagementOpen = new ReactiveProperty<bool>();
+            AdvancedSearchOpen = new ReactiveProperty<bool>();
+            AdvancedSearchContentOpen = new ReactiveProperty<bool>();
+            AdvancedSearchEngagementOpen = new ReactiveProperty<bool>();
 
-            this.AdvancedSearchContentRetweetsOption = new ReactiveProperty<int>(0);
-            this.AdvancedSearchContentShowingOption = new ReactiveProperty<int>(0);
-            this.AdvancedSearchContentWrittenInOption = new ReactiveProperty<int>(0);
-            this.AdvancedSearchEngagementFavoritesCount = new ReactiveProperty<int>(0);
-            this.AdvancedSearchEngagementRetweetsCount = new ReactiveProperty<int>(0);
+            AdvancedSearchContentRetweetsOption = new ReactiveProperty<int>(0);
+            AdvancedSearchContentShowingOption = new ReactiveProperty<int>(0);
+            AdvancedSearchContentWrittenInOption = new ReactiveProperty<int>(0);
+            AdvancedSearchEngagementFavoritesCount = new ReactiveProperty<int>(0);
+            AdvancedSearchEngagementRetweetsCount = new ReactiveProperty<int>(0);
 
-            this.UpdatingStatusSearch = this.Model.ObserveProperty(x => x.UpdatingStatusSearch).ToReactiveProperty();
-            this.UpdatingUserSearch = this.Model.ObserveProperty(x => x.UpdatingUserSearch).ToReactiveProperty();
+            UpdatingStatusSearch = Model.ObserveProperty(x => x.UpdatingStatusSearch).ToReactiveProperty();
+            UpdatingUserSearch = Model.ObserveProperty(x => x.UpdatingUserSearch).ToReactiveProperty();
 
-            this.ClearCommand = new ReactiveCommand();
-            this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                if (this.AdvancedSearchOpen.Value)
+            ClearCommand = new ReactiveCommand();
+            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
                 {
-                    this.AdvancedSearchContentOpen.Value = false;
-                    this.AdvancedSearchEngagementOpen.Value = false;
-                    this.AdvancedSearchOpen.Value = false;
-                }
+                    if (AdvancedSearchOpen.Value)
+                    {
+                        AdvancedSearchContentOpen.Value = false;
+                        AdvancedSearchEngagementOpen.Value = false;
+                        AdvancedSearchOpen.Value = false;
+                    }
 
-                this.StatusSearchWords.Value = "";
-                this.UserSearchWords.Value = "";
+                    StatusSearchWords.Value = "";
+                    UserSearchWords.Value = "";
 
-                this.PivotSelectedIndex.Value = 0;
-                this.Model.Statuses.Clear();
-                this.Model.Users.Clear();
-            });
+                    PivotSelectedIndex.Value = 0;
+                    Model.Statuses.Clear();
+                    Model.Users.Clear();
+                });
 
-            this.UpdateStatusSearchCommand = new ReactiveCommand();
-            this.UpdateStatusSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (string.IsNullOrWhiteSpace(this.StatusSearchWords.Value))
+            UpdateStatusSearchCommand = new ReactiveCommand();
+            UpdateStatusSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
                 {
-                    this.Model.Statuses.Clear();
-                    this.Model.StatusSearchWords = "";
-                    return;
-                }
+                    if (string.IsNullOrWhiteSpace(StatusSearchWords.Value))
+                    {
+                        Model.Statuses.Clear();
+                        Model.StatusSearchWords = "";
+                        return;
+                    }
 
-                var searchWords = this.StatusSearchWords.Value;
+                    var searchWords = StatusSearchWords.Value;
 
-                switch (this.AdvancedSearchContentShowingOption.Value)
+                    switch (AdvancedSearchContentShowingOption.Value)
+                    {
+                        case 1:
+                            searchWords += " filter:images";
+                            break;
+                        case 2:
+                            searchWords += " filter:videos";
+                            break;
+                        case 3:
+                            searchWords += " filter:vine";
+                            break;
+                        case 4:
+                            searchWords += " filter:media";
+                            break;
+                        case 5:
+                            searchWords += " filter:links";
+                            break;
+                    }
+
+                    switch (AdvancedSearchContentWrittenInOption.Value)
+                    {
+                        case 1:
+                            searchWords += " lang:en";
+                            break;
+                        case 2:
+                            searchWords += " lang:ja";
+                            break;
+                    }
+
+                    switch (AdvancedSearchContentRetweetsOption.Value)
+                    {
+                        case 1:
+                            searchWords += " exclude:retweets";
+                            break;
+                    }
+
+                    if (AdvancedSearchEngagementRetweetsCount.Value != 0)
+                        searchWords += " min_retweets:" + AdvancedSearchEngagementRetweetsCount.Value.ToString();
+
+                    if (AdvancedSearchEngagementFavoritesCount.Value != 0)
+                        searchWords += " min_faves:" + AdvancedSearchEngagementFavoritesCount.Value.ToString();
+
+                    if (Model.StatusSearchWords == searchWords)
+                    {
+                        await Model.UpdateStatuses(clear: false);
+                    }
+                    else
+                    {
+                        Model.StatusSearchWords = searchWords;
+                        await Model.UpdateStatuses();
+                    }
+                });
+
+            UpdateUserSearchCommand = new ReactiveCommand();
+            UpdateUserSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
                 {
-                    case 1:
-                        searchWords += " filter:images";
-                        break;
-                    case 2:
-                        searchWords += " filter:videos";
-                        break;
-                    case 3:
-                        searchWords += " filter:vine";
-                        break;
-                    case 4:
-                        searchWords += " filter:media";
-                        break;
-                    case 5:
-                        searchWords += " filter:links";
-                        break;
-                }
+                    if (string.IsNullOrWhiteSpace(UserSearchWords.Value))
+                    {
+                        Model.UserSearchWords = "";
+                        Model.Users.Clear();
+                        return;
+                    }
 
-                switch (this.AdvancedSearchContentWrittenInOption.Value)
+                    Model.UserSearchWords = UserSearchWords.Value;
+
+                    await Model.UpdateUsers();
+                });
+
+            SuggestionsRequestedStatusSearchCommand = new ReactiveCommand();
+            SuggestionsRequestedStatusSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(y =>
                 {
-                    case 1:
-                        searchWords += " lang:en";
-                        break;
-                    case 2:
-                        searchWords += " lang:ja";
-                        break;
-                }
+                    var e = y as SearchBoxSuggestionsRequestedEventArgs;
+                    if (e == null || string.IsNullOrWhiteSpace(StatusSearchWords.Value))
+                        return;
 
-                switch (this.AdvancedSearchContentRetweetsOption.Value)
+                    var deferral = e.Request.GetDeferral();
+
+                    IEnumerable<string> suggestHashtags;
+                    lock (Connecter.Instance.TweetCollecter[Tokens.Value.UserId].EntitiesObjectsLock)
+                    {
+                        suggestHashtags = Connecter.Instance.TweetCollecter[Tokens.Value.UserId]
+                            .HashTagObjects.Where(x => x.StartsWith(StatusSearchWords.Value.TrimStart('#')))
+                            .OrderBy(x => x);
+                    }
+                    if (suggestHashtags.Any())
+                    {
+                        e.Request.SearchSuggestionCollection.AppendSearchSeparator("HashTag");
+                        foreach (var hashtag in suggestHashtags)
+                            e.Request.SearchSuggestionCollection.AppendQuerySuggestion("#" + hashtag);
+                    }
+
+                    deferral.Complete();
+                });
+
+            SuggestionsRequestedUserSearchCommand = new ReactiveCommand();
+            SuggestionsRequestedUserSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(y =>
                 {
-                    case 1:
-                        searchWords += " exclude:retweets";
-                        break;
-                }
+                    var e = y as SearchBoxSuggestionsRequestedEventArgs;
+                    if (e == null || string.IsNullOrWhiteSpace(UserSearchWords.Value) &&
+                        UserSearchWords.Value.Length <= 1)
+                        return;
 
-                if (this.AdvancedSearchEngagementRetweetsCount.Value != 0)
-                    searchWords += " min_retweets:" + this.AdvancedSearchEngagementRetweetsCount.Value.ToString();
+                    var deferral = e.Request.GetDeferral();
 
-                if (this.AdvancedSearchEngagementFavoritesCount.Value != 0)
-                    searchWords += " min_faves:" + this.AdvancedSearchEngagementFavoritesCount.Value.ToString();
+                    IEnumerable<string> suggestUsers;
+                    lock (Connecter.Instance.TweetCollecter[Tokens.Value.UserId].EntitiesObjectsLock)
+                    {
+                        suggestUsers = Connecter.Instance.TweetCollecter[Tokens.Value.UserId]
+                            .ScreenNameObjects.Where(x => x.StartsWith(UserSearchWords.Value.TrimStart('@')))
+                            .OrderBy(x => x);
+                    }
+                    if (suggestUsers.Any())
+                    {
+                        e.Request.SearchSuggestionCollection.AppendSearchSeparator("User");
+                        foreach (var user in suggestUsers)
+                            e.Request.SearchSuggestionCollection.AppendQuerySuggestion(user);
+                    }
 
-                if (this.Model.StatusSearchWords == searchWords)
+                    deferral.Complete();
+                });
+
+            SaveSearchCommand = new ReactiveCommand();
+            SaveSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
                 {
-                    await this.Model.UpdateStatuses(clear: false);
-                }
-                else
+                    if (string.IsNullOrWhiteSpace(Model.StatusSearchWords))
+                        return;
+
+                    await Model.CreateSavedSearches(Model.StatusSearchWords);
+                });
+
+            DeleteHistoryCommand = new ReactiveCommand();
+            DeleteHistoryCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
                 {
-                    this.Model.StatusSearchWords = searchWords;
-                    await this.Model.UpdateStatuses();
-                }
-                
-            });
+                    var manager = new SearchSuggestionManager();
+                    manager.ClearHistory();
+                });
 
-            this.UpdateUserSearchCommand = new ReactiveCommand();
-            this.UpdateUserSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (string.IsNullOrWhiteSpace(this.UserSearchWords.Value))
+            StatusesIncrementalLoadCommand = new ReactiveCommand();
+            StatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
                 {
-                    this.Model.UserSearchWords = "";
-                    this.Model.Users.Clear();
-                    return;
-                }
-                
-                this.Model.UserSearchWords = this.UserSearchWords.Value;
+                    if (Model.Statuses.Count <= 0)
+                        return;
 
-                await this.Model.UpdateUsers();
-            });
-            
-            this.SuggestionsRequestedStatusSearchCommand = new ReactiveCommand();
-            this.SuggestionsRequestedStatusSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(y =>
-            {
-                var e = y as SearchBoxSuggestionsRequestedEventArgs;
-                if (e == null || string.IsNullOrWhiteSpace(this.StatusSearchWords.Value))
-                    return;
+                    var id = Model.Statuses.Last().Id;
+                    var status = Model.Statuses.Last();
+                    if (status.HasRetweetInformation)
+                        id = status.RetweetInformation.Id;
 
-                var deferral = e.Request.GetDeferral();
-                
-                IEnumerable<string> suggestHashtags = null;
-                lock (Models.Services.Connecter.Instance.TweetCollecter[this.Tokens.Value.UserId].EntitiesObjectsLock)
+                    await Model.UpdateStatuses(id);
+                });
+
+            UsersIncrementalLoadCommand = new ReactiveCommand();
+            UsersIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateUsers(true); });
+
+            SavedSearchesSelectCommand = new ReactiveCommand();
+            SavedSearchesSelectCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
                 {
-                    suggestHashtags = Models.Services.Connecter.Instance.TweetCollecter[this.Tokens.Value.UserId].HashTagObjects.Where(x => x.StartsWith(this.StatusSearchWords.Value.TrimStart(new char[] { '#' }))).OrderBy(x => x);
-                }
-                if (suggestHashtags.Count() > 0)
+                    var e = x as ItemClickEventArgs;
+                    if (e == null)
+                        return;
+
+                    var searchQuery = e.ClickedItem as SearchQueryViewModel;
+                    StatusSearchWords.Value = searchQuery.Model.Name;
+
+                    UpdateStatusSearchCommand.Execute();
+
+                    PivotSelectedIndex.Value = 0;
+                });
+
+            TrendsSelectCommand = new ReactiveCommand();
+            TrendsSelectCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
                 {
-                    e.Request.SearchSuggestionCollection.AppendSearchSeparator("HashTag");
-                    foreach (var hashtag in suggestHashtags)
-                        e.Request.SearchSuggestionCollection.AppendQuerySuggestion("#" + hashtag);
-                }
+                    var e = x as ItemClickEventArgs;
+                    if (e == null)
+                        return;
 
-                deferral.Complete();
-            });
+                    var trend = e.ClickedItem as TrendViewModel;
+                    StatusSearchWords.Value = trend.Model.Name;
 
-            this.SuggestionsRequestedUserSearchCommand = new ReactiveCommand();
-            this.SuggestionsRequestedUserSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(y =>
-            {
-                var e = y as SearchBoxSuggestionsRequestedEventArgs;
-                if (e == null || string.IsNullOrWhiteSpace(this.UserSearchWords.Value) && this.UserSearchWords.Value.Length <= 1)
-                    return;
+                    UpdateStatusSearchCommand.Execute();
 
-                var deferral = e.Request.GetDeferral();
+                    PivotSelectedIndex.Value = 0;
+                });
 
-                IEnumerable<string> suggestUsers = null;
-                lock (Models.Services.Connecter.Instance.TweetCollecter[this.Tokens.Value.UserId].EntitiesObjectsLock)
+            Notice.Instance.SearchSettingsFlyoutDeleteSearchQueryCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
                 {
-                    suggestUsers = Models.Services.Connecter.Instance.TweetCollecter[this.Tokens.Value.UserId].ScreenNameObjects.Where(x => x.StartsWith(this.UserSearchWords.Value.TrimStart(new char[] { '@' }))).OrderBy(x => x);
-                }
-                if (suggestUsers.Count() > 0)
+                    var searchQuery = x as SearchQueryViewModel;
+                    if (searchQuery == null || searchQuery.Model.Id == 0)
+                        return;
+
+                    await Model.DestroySavedSearches(searchQuery.Model.Id);
+                });
+
+            AdvancedSearchCommand = new ReactiveCommand();
+            AdvancedSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(_ =>
                 {
-                    e.Request.SearchSuggestionCollection.AppendSearchSeparator("User");
-                    foreach (var user in suggestUsers)
-                        e.Request.SearchSuggestionCollection.AppendQuerySuggestion(user);
-                }
+                    if (AdvancedSearchOpen.Value)
+                    {
+                        AdvancedSearchContentOpen.Value = false;
+                        AdvancedSearchEngagementOpen.Value = false;
+                    }
+                    AdvancedSearchOpen.Value = !AdvancedSearchOpen.Value;
+                });
+            AdvancedSearchContentCommand = new ReactiveCommand();
+            AdvancedSearchContentCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(_ => AdvancedSearchContentOpen.Value = !AdvancedSearchContentOpen.Value);
+            AdvancedSearchEngagementCommand = new ReactiveCommand();
+            AdvancedSearchEngagementCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(_ => AdvancedSearchEngagementOpen.Value = !AdvancedSearchEngagementOpen.Value);
 
-                deferral.Complete();
-            });
-
-            this.SaveSearchCommand = new ReactiveCommand();
-            this.SaveSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
-            {
-                if (string.IsNullOrWhiteSpace(this.Model.StatusSearchWords))
-                    return;
-
-                await this.Model.CreateSavedSearches(this.Model.StatusSearchWords);
-            });
-
-            this.DeleteHistoryCommand = new ReactiveCommand();
-            this.DeleteHistoryCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                var manager = new SearchSuggestionManager();
-                manager.ClearHistory();
-            });
-
-            this.StatusesIncrementalLoadCommand = new ReactiveCommand();
-            this.StatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (this.Model.Statuses.Count <= 0)
-                    return;
-
-                var id = this.Model.Statuses.Last().Id;
-                var status = this.Model.Statuses.Last();
-                if (status.HasRetweetInformation)
-                    id = status.RetweetInformation.Id;
-
-                await this.Model.UpdateStatuses(id);
-            });
-
-            this.UsersIncrementalLoadCommand = new ReactiveCommand();
-            this.UsersIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateUsers(true);
-            });
-
-            this.SavedSearchesSelectCommand = new ReactiveCommand();
-            this.SavedSearchesSelectCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                var e = x as ItemClickEventArgs;
-                if (e == null)
-                    return;
-
-                var searchQuery = e.ClickedItem as SearchQueryViewModel;
-                this.StatusSearchWords.Value = searchQuery.Model.Name;
-
-                this.UpdateStatusSearchCommand.Execute();
-
-                this.PivotSelectedIndex.Value = 0;
-            });
-
-            this.TrendsSelectCommand = new ReactiveCommand();
-            this.TrendsSelectCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                var e = x as ItemClickEventArgs;
-                if (e == null)
-                    return;
-
-                var trend = e.ClickedItem as TrendViewModel;
-                this.StatusSearchWords.Value = trend.Model.Name;
-
-                this.UpdateStatusSearchCommand.Execute();
-
-                this.PivotSelectedIndex.Value = 0;
-            });
-
-            Services.Notice.Instance.SearchSettingsFlyoutDeleteSearchQueryCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
-            {
-                var searchQuery = x as SearchQueryViewModel;
-                if (searchQuery == null || searchQuery.Model.Id == 0)
-                    return;
-
-                await this.Model.DestroySavedSearches(searchQuery.Model.Id);
-            });
-
-            this.AdvancedSearchCommand = new ReactiveCommand();
-            this.AdvancedSearchCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ => 
-            {
-                if (this.AdvancedSearchOpen.Value)
+            AddColumnCommand = new ReactiveCommand();
+            AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
                 {
-                    this.AdvancedSearchContentOpen.Value = false;
-                    this.AdvancedSearchEngagementOpen.Value = false;
-                }
-                this.AdvancedSearchOpen.Value = !this.AdvancedSearchOpen.Value;
-            });
-            this.AdvancedSearchContentCommand = new ReactiveCommand();
-            this.AdvancedSearchContentCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ => this.AdvancedSearchContentOpen.Value = !this.AdvancedSearchContentOpen.Value);
-            this.AdvancedSearchEngagementCommand = new ReactiveCommand();
-            this.AdvancedSearchEngagementCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(_ => this.AdvancedSearchEngagementOpen.Value = !this.AdvancedSearchEngagementOpen.Value);
+                    if (string.IsNullOrWhiteSpace(Model.StatusSearchWords))
+                        return;
 
-            this.AddColumnCommand = new ReactiveCommand();
-            this.AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                if (string.IsNullOrWhiteSpace(this.Model.StatusSearchWords))
-                    return;
+                    var columnSetting = new ColumnSetting
+                    {
+                        Action = SettingSupport.ColumnTypeEnum.Search,
+                        AutoRefresh = false,
+                        AutoRefreshTimerInterval = 180.0,
+                        Filter = "()",
+                        Name = "Search : " + Model.StatusSearchWords,
+                        Parameter = Model.StatusSearchWords,
+                        Streaming = false,
+                        Index = -1,
+                        DisableStartupRefresh = false,
+                        FetchingNumberOfTweet = 40
+                    };
+                    Notice.Instance.AddColumnCommand.Execute(columnSetting);
+                });
 
-                var columnSetting = new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Search, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = ("Search : " + this.Model.StatusSearchWords), Parameter = this.Model.StatusSearchWords, Streaming = false, Index = -1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 };
-                Services.Notice.Instance.AddColumnCommand.Execute(columnSetting);
-            });
+            Statuses = Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, Tokens.Value.UserId));
+            Users = Model.Users.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+            Trends = Model.Trends.ToReadOnlyReactiveCollection(x => new TrendViewModel(x));
+            SavedSearches = Model.SavedSearches.ToReadOnlyReactiveCollection(x => new SearchQueryViewModel(x));
 
-            this.Statuses = this.Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
-            this.Users = this.Model.Users.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
-            this.Trends = this.Model.Trends.ToReadOnlyReactiveCollection(x => new TrendViewModel(x));
-            this.SavedSearches = this.Model.SavedSearches.ToReadOnlyReactiveCollection(x => new SearchQueryViewModel(x));
-
-            this.Notice = Services.Notice.Instance;
+            Notice = Notice.Instance;
         }
 
         public SearchSettingsFlyoutModel Model { get; set; }
@@ -333,13 +361,13 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveProperty<string> SavedSearchesScreenName { get; set; }
 
 
-        public ReadOnlyReactiveCollection<StatusViewModel> Statuses { get; private set; }
+        public ReadOnlyReactiveCollection<StatusViewModel> Statuses { get; }
 
-        public ReadOnlyReactiveCollection<UserViewModel> Users { get; private set; }
+        public ReadOnlyReactiveCollection<UserViewModel> Users { get; }
 
-        public ReadOnlyReactiveCollection<TrendViewModel> Trends { get; private set; }
+        public ReadOnlyReactiveCollection<TrendViewModel> Trends { get; }
 
-        public ReadOnlyReactiveCollection<SearchQueryViewModel> SavedSearches { get; private set; }
+        public ReadOnlyReactiveCollection<SearchQueryViewModel> SavedSearches { get; }
 
         public ReactiveProperty<bool> AdvancedSearchOpen { get; set; }
         public ReactiveProperty<bool> AdvancedSearchContentOpen { get; set; }
@@ -359,7 +387,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveCommand UpdateUserSearchCommand { get; set; }
 
         public ReactiveCommand SuggestionsRequestedStatusSearchCommand { get; set; }
-        
+
         public ReactiveCommand SuggestionsRequestedUserSearchCommand { get; set; }
 
         public ReactiveCommand SaveSearchCommand { get; set; }
@@ -381,6 +409,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveCommand AddColumnCommand { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
     }
 }

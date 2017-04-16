@@ -1,9 +1,4 @@
 ﻿using Flantter.MilkyWay.Models.Twitter.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
@@ -11,8 +6,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
     {
         public TrendViewModel(Trend trend)
         {
-            this.Model = trend;
-            this.Name = trend.Name;
+            Model = trend;
+            Name = trend.Name;
         }
 
         public string Name { get; set; }

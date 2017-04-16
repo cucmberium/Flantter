@@ -1,32 +1,56 @@
-﻿using Microsoft.Xaml.Interactivity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Microsoft.Xaml.Interactivity;
 using WinRTXamlToolkit.AwaitableUI;
 
 namespace Flantter.MilkyWay.Views.Behaviors
 {
     public class LeftSwipeMenuShowBehavior : DependencyObject, IBehavior
     {
-        private DependencyObject _AssociatedObject;
-        public DependencyObject AssociatedObject
-        {
-            get { return this._AssociatedObject; }
-            set { this._AssociatedObject = value; }
-        }
+        public static readonly DependencyProperty SwipeMenuProperty =
+            DependencyProperty.Register(
+                "SwipeMenu",
+                typeof(Control),
+                typeof(LeftSwipeMenuShowBehavior),
+                new PropertyMetadata(null, SwipeMenuChanged));
 
-        private Popup rootPopup;
+        public static readonly DependencyProperty IsOpenProperty =
+            DependencyProperty.Register("IsOpen", typeof(bool), typeof(LeftSwipeMenuShowBehavior),
+                new PropertyMetadata(false, IsOpenChanged));
+
+        public static readonly DependencyProperty IsEdgeSwipeProperty =
+            DependencyProperty.Register("IsEdgeSwipe", typeof(bool), typeof(LeftSwipeMenuShowBehavior),
+                new PropertyMetadata(false));
+
+        private bool _capturingPointer;
+
+        private Popup _rootPopup;
         public Grid RootGrid { get; set; }
 
-        private bool capturingPointer = false;
+        public Control SwipeMenu
+        {
+            get => (Control) GetValue(SwipeMenuProperty);
+            set => SetValue(SwipeMenuProperty, value);
+        }
+
+        public bool IsOpen
+        {
+            get => (bool) GetValue(IsOpenProperty);
+            set => SetValue(IsOpenProperty, value);
+        }
+
+        public bool IsEdgeSwipe
+        {
+            get => (bool) GetValue(IsEdgeSwipeProperty);
+            set => SetValue(IsEdgeSwipeProperty, value);
+        }
+
+        public DependencyObject AssociatedObject { get; set; }
 
         public void Attach(DependencyObject AssociatedObject)
         {
@@ -38,14 +62,14 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 //if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
                 //    return;
 
-                if (this.IsEdgeSwipe && e.Position.X >= 5)
+                if (IsEdgeSwipe && e.Position.X >= 5)
                     return;
 
-                capturingPointer = true;
+                _capturingPointer = true;
             };
             element.ManipulationDelta += (s, e) =>
             {
-                if (!capturingPointer)
+                if (!_capturingPointer)
                     return;
 
                 //if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
@@ -53,69 +77,73 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                 if (e.Cumulative.Translation.X < 10)
                     return;
-                
-                this.rootPopup.IsOpen = true;
-                var x = (e.Cumulative.Translation.X - 10) - (this.SwipeMenu.ActualWidth == 0 ? 280 : this.SwipeMenu.ActualWidth);
+
+                _rootPopup.IsOpen = true;
+                var x = e.Cumulative.Translation.X - 10 - (SwipeMenu.ActualWidth == 0 ? 280 : SwipeMenu.ActualWidth);
                 if (x > 0)
                     x = 0;
 
-                this.SetTranslate(x, null);
+                SetTranslate(x, null);
             };
             element.ManipulationCompleted += (s, e) =>
             {
-                if (!capturingPointer)
+                if (!_capturingPointer)
                     return;
 
-                if (e.Cumulative.Translation.X > this.SwipeMenu.ActualWidth / 2)
+                if (e.Cumulative.Translation.X > SwipeMenu.ActualWidth / 2)
                 {
-                    if (this.IsOpen)
-                        this.Show();
+                    if (IsOpen)
+                        Show();
                     else
-                        this.IsOpen = true;
+                        IsOpen = true;
                 }
                 else
                 {
-                    if (this.IsOpen)
-                        this.IsOpen = false;
+                    if (IsOpen)
+                        IsOpen = false;
                     else
-                        this.Hide();
+                        Hide();
                 }
-                    
 
-                capturingPointer = false;
+
+                _capturingPointer = false;
             };
 
-            this.RootGrid = new Grid() { Width = Window.Current.Bounds.Width, Height = Window.Current.Bounds.Height };
-            this.RootGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
-            this.RootGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            RootGrid = new Grid {Width = Window.Current.Bounds.Width, Height = Window.Current.Bounds.Height};
+            RootGrid.ColumnDefinitions.Add(new ColumnDefinition {Width = new GridLength(1, GridUnitType.Auto)});
+            RootGrid.ColumnDefinitions.Add(new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)});
 
-            Window.Current.SizeChanged += (s, e) => { this.RootGrid.Width = e.Size.Width; this.RootGrid.Height = e.Size.Height; };
+            Window.Current.SizeChanged += (s, e) =>
+            {
+                RootGrid.Width = e.Size.Width;
+                RootGrid.Height = e.Size.Height;
+            };
 
-            var canvas = new Canvas() { Background = new SolidColorBrush(Colors.Transparent) };
-            canvas.Tapped += (s, e) => { this.Hide(); };
-            canvas.RightTapped += (s, e) => { this.Hide(); };
+            var canvas = new Canvas {Background = new SolidColorBrush(Colors.Transparent)};
+            canvas.Tapped += (s, e) => { Hide(); };
+            canvas.RightTapped += (s, e) => { Hide(); };
 
             Grid.SetColumn(canvas, 1);
-            this.RootGrid.Children.Add(canvas);
+            RootGrid.Children.Add(canvas);
 
-            rootPopup = new Popup()
+            _rootPopup = new Popup
             {
-                Child = this.RootGrid,
+                Child = RootGrid,
                 IsLightDismissEnabled = false,
                 Opacity = 1
             };
-            
-            if (this.SwipeMenu != null)
+
+            if (SwipeMenu != null)
             {
-                Grid.SetColumn(this.SwipeMenu, 0);
-                this.RootGrid.Children.Add(this.SwipeMenu);
+                Grid.SetColumn(SwipeMenu, 0);
+                RootGrid.Children.Add(SwipeMenu);
 
-                if (this.SwipeMenu.RenderTransform == null)
-                    this.SwipeMenu.RenderTransform = new CompositeTransform();
+                if (SwipeMenu.RenderTransform == null)
+                    SwipeMenu.RenderTransform = new CompositeTransform();
 
-                var rendarTransform = this.SwipeMenu.RenderTransform as CompositeTransform;
+                var rendarTransform = SwipeMenu.RenderTransform as CompositeTransform;
                 rendarTransform.TranslateX = -280;
-                this.SwipeMenu.RenderTransform = rendarTransform;
+                SwipeMenu.RenderTransform = rendarTransform;
             }
         }
 
@@ -123,34 +151,21 @@ namespace Flantter.MilkyWay.Views.Behaviors
         {
         }
 
-        public Control SwipeMenu
-        {
-            get { return (Control)GetValue(SwipeMenuProperty); }
-            set { SetValue(SwipeMenuProperty, value); }
-        }
-
-        public static readonly DependencyProperty SwipeMenuProperty =
-            DependencyProperty.Register(
-                "SwipeMenu",
-                typeof(Control),
-                typeof(LeftSwipeMenuShowBehavior),
-                new PropertyMetadata(null, SwipeMenuChanged));
-
         private static void SwipeMenuChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (((LeftSwipeMenuShowBehavior)d).RootGrid == null)
+            if (((LeftSwipeMenuShowBehavior) d).RootGrid == null)
                 return;
 
             var oldSwipeMenu = e.OldValue as Control;
             if (oldSwipeMenu != null)
-                ((LeftSwipeMenuShowBehavior)d).RootGrid.Children.Remove(oldSwipeMenu);
+                ((LeftSwipeMenuShowBehavior) d).RootGrid.Children.Remove(oldSwipeMenu);
 
             var swipeMenu = e.NewValue as Control;
             if (swipeMenu == null)
                 return;
-            
+
             Grid.SetColumn(swipeMenu, 0);
-            ((LeftSwipeMenuShowBehavior)d).RootGrid.Children.Add(swipeMenu);
+            ((LeftSwipeMenuShowBehavior) d).RootGrid.Children.Add(swipeMenu);
 
             if (swipeMenu.RenderTransform == null)
                 swipeMenu.RenderTransform = new CompositeTransform();
@@ -162,100 +177,96 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         public async void Hide(bool disableAnimation = false)
         {
-            if (this.SwipeMenu == null)
+            if (SwipeMenu == null)
                 return;
 
-            if (this.SwipeMenu.ActualWidth == 0)
+            if (SwipeMenu.ActualWidth == 0)
                 return;
 
-            if (this.SwipeMenu.RenderTransform == null)
-                this.SwipeMenu.RenderTransform = new CompositeTransform();
+            if (SwipeMenu.RenderTransform == null)
+                SwipeMenu.RenderTransform = new CompositeTransform();
 
             if (disableAnimation)
             {
-                var rendarTransform = this.SwipeMenu.RenderTransform as CompositeTransform;
-                rendarTransform.TranslateX = -this.SwipeMenu.ActualWidth;
-                this.SwipeMenu.RenderTransform = rendarTransform;
+                var rendarTransform = SwipeMenu.RenderTransform as CompositeTransform;
+                rendarTransform.TranslateX = -SwipeMenu.ActualWidth;
+                SwipeMenu.RenderTransform = rendarTransform;
             }
             else
             {
-                Storyboard storyboard = new Storyboard();
-                DoubleAnimation translateAnimX = new DoubleAnimation() { To = -this.SwipeMenu.ActualWidth, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+                var storyboard = new Storyboard();
+                var translateAnimX = new DoubleAnimation
+                {
+                    To = -SwipeMenu.ActualWidth,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                    EasingFunction = new PowerEase {EasingMode = EasingMode.EaseInOut}
+                };
                 storyboard.Children.Add(translateAnimX);
-                Storyboard.SetTarget(translateAnimX, this.SwipeMenu);
-                Storyboard.SetTargetProperty(translateAnimX, "(UIElement.RenderTransform).(CompositeTransform.TranslateX)");
+                Storyboard.SetTarget(translateAnimX, SwipeMenu);
+                Storyboard.SetTargetProperty(translateAnimX,
+                    "(UIElement.RenderTransform).(CompositeTransform.TranslateX)");
                 await storyboard.BeginAsync();
             }
 
-            rootPopup.IsOpen = false;
+            _rootPopup.IsOpen = false;
 
-            this.IsOpen = false;
+            IsOpen = false;
         }
 
-        public async void Show(bool disableAnimation = false)
+        public void Show(bool disableAnimation = false)
         {
-            if (this.SwipeMenu == null)
+            if (SwipeMenu == null)
                 return;
 
-            if (this.SwipeMenu.RenderTransform == null)
-                this.SwipeMenu.RenderTransform = new CompositeTransform();
+            if (SwipeMenu.RenderTransform == null)
+                SwipeMenu.RenderTransform = new CompositeTransform();
 
-            rootPopup.IsOpen = true;
+            _rootPopup.IsOpen = true;
 
             if (disableAnimation)
             {
-                var rendarTransform = this.SwipeMenu.RenderTransform as CompositeTransform;
+                var rendarTransform = SwipeMenu.RenderTransform as CompositeTransform;
                 rendarTransform.TranslateX = 0;
-                this.SwipeMenu.RenderTransform = rendarTransform;
+                SwipeMenu.RenderTransform = rendarTransform;
             }
             else
             {
-                Storyboard storyboard = new Storyboard();
-                DoubleAnimation translateAnimX = new DoubleAnimation() { To = 0, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+                var storyboard = new Storyboard();
+                var translateAnimX = new DoubleAnimation
+                {
+                    To = 0,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                    EasingFunction = new PowerEase {EasingMode = EasingMode.EaseInOut}
+                };
                 storyboard.Children.Add(translateAnimX);
-                Storyboard.SetTarget(translateAnimX, this.SwipeMenu);
-                Storyboard.SetTargetProperty(translateAnimX, "(UIElement.RenderTransform).(CompositeTransform.TranslateX)");
+                Storyboard.SetTarget(translateAnimX, SwipeMenu);
+                Storyboard.SetTargetProperty(translateAnimX,
+                    "(UIElement.RenderTransform).(CompositeTransform.TranslateX)");
                 storyboard.Begin();
             }
         }
 
         public void SetTranslate(double? x, double? y)
         {
-            var transform = this.SwipeMenu.RenderTransform as CompositeTransform;
+            var transform = SwipeMenu.RenderTransform as CompositeTransform;
 
             if (x.HasValue)
                 transform.TranslateX = x.Value;
             if (y.HasValue)
                 transform.TranslateY = y.Value;
 
-            this.SwipeMenu.RenderTransform = transform;
+            SwipeMenu.RenderTransform = transform;
         }
-
-        public bool IsOpen
-        {
-            get { return (bool)GetValue(IsOpenProperty); }
-            set { SetValue(IsOpenProperty, value); }
-        }
-        public static readonly DependencyProperty IsOpenProperty =
-            DependencyProperty.Register("IsOpen", typeof(bool), typeof(LeftSwipeMenuShowBehavior), new PropertyMetadata(false, IsOpenChanged));
 
         private static void IsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var behavior = d as LeftSwipeMenuShowBehavior;
 
-            var isOpen = (bool)e.NewValue;
+            var isOpen = (bool) e.NewValue;
             if (isOpen)
                 behavior.Show();
             else
                 behavior.Hide();
         }
-
-        public bool IsEdgeSwipe
-        {
-            get { return (bool)GetValue(IsEdgeSwipeProperty); }
-            set { SetValue(IsEdgeSwipeProperty, value); }
-        }
-        public static readonly DependencyProperty IsEdgeSwipeProperty =
-            DependencyProperty.Register("IsEdgeSwipe", typeof(bool), typeof(LeftSwipeMenuShowBehavior), new PropertyMetadata(false));
     }
 }

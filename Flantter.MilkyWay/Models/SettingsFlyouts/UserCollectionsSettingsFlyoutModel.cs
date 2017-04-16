@@ -1,225 +1,251 @@
-﻿using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
-using Flantter.MilkyWay.Setting;
-using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Notifications;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class UserCollectionsSettingsFlyoutModel : BindableBase
     {
+        private string _userCollectionsCursor = "";
+
         public UserCollectionsSettingsFlyoutModel()
         {
-            this.UserCollections = new ObservableCollection<Twitter.Objects.Collection>();
+            UserCollections = new ObservableCollection<Collection>();
         }
 
-        #region Tokens変更通知プロパティ
-        private Tokens _Tokens;
-        public Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
-        
-        #region ScreenName変更通知プロパティ
-        private string _ScreenName;
-        public string ScreenName
-        {
-            get { return this._ScreenName; }
-            set { this.SetProperty(ref this._ScreenName, value); }
-        }
-        #endregion
+        public ObservableCollection<Collection> UserCollections { get; set; }
 
-        #region UpdatingUserCollections変更通知プロパティ
-        private bool _UpdatingUserCollections;
-        public bool UpdatingUserCollections
-        {
-            get { return this._UpdatingUserCollections; }
-            set { this.SetProperty(ref this._UpdatingUserCollections, value); }
-        }
-        #endregion
-        
-        #region CreatingCollection変更通知プロパティ
-        private bool _CreatingCollection;
-        public bool CreatingCollection
-        {
-            get { return this._CreatingCollection; }
-            set { this.SetProperty(ref this._CreatingCollection, value); }
-        }
-        #endregion
-
-        public ObservableCollection<Twitter.Objects.Collection> UserCollections { get; set; }
-
-        private string userCollectionsCursor = "";
         public async Task UpdateUserCollections(bool useCursor = false)
         {
-            if (this.UpdatingUserCollections)
+            if (UpdatingUserCollections)
                 return;
 
-            if (this._ScreenName == null || this.Tokens == null)
+            if (_screenName == null || Tokens == null)
                 return;
 
-            if (useCursor && string.IsNullOrWhiteSpace(userCollectionsCursor))
+            if (useCursor && string.IsNullOrWhiteSpace(_userCollectionsCursor))
                 return;
 
-            this.UpdatingUserCollections = true;
+            UpdatingUserCollections = true;
 
-            if (!useCursor || string.IsNullOrWhiteSpace(userCollectionsCursor))
-                this.UserCollections.Clear();
-            
+            if (!useCursor || string.IsNullOrWhiteSpace(_userCollectionsCursor))
+                UserCollections.Clear();
+
             try
             {
-                var param = new Dictionary<string, object>()
+                var param = new Dictionary<string, object>
                 {
-                    {"screen_name", this._ScreenName},
-                    {"count", 20},
+                    {"screen_name", _screenName},
+                    {"count", 20}
                 };
-                if (useCursor && !string.IsNullOrWhiteSpace(userCollectionsCursor))
-                    param.Add("cursor", userCollectionsCursor);
-                var userCollections = await Tokens.Collections.ListAsync(screen_name => this._ScreenName, count => 20, cursor => userCollectionsCursor);
+                if (useCursor && !string.IsNullOrWhiteSpace(_userCollectionsCursor))
+                    param.Add("cursor", _userCollectionsCursor);
+                var userCollections = await Tokens.Collections.ListAsync(screen_name => _screenName, count => 20,
+                    cursor => _userCollectionsCursor);
 
-                if (!useCursor || string.IsNullOrWhiteSpace(userCollectionsCursor))
-                    this.UserCollections.Clear();
+                if (!useCursor || string.IsNullOrWhiteSpace(_userCollectionsCursor))
+                    UserCollections.Clear();
 
                 foreach (var list in userCollections)
-                {
-                    this.UserCollections.Add(list);
-                }
+                    UserCollections.Add(list);
 
-                userCollectionsCursor = userCollections.NextCursor;
+                _userCollectionsCursor = userCollections.NextCursor;
             }
             catch
             {
-                if (!useCursor || string.IsNullOrWhiteSpace(userCollectionsCursor))
-                    this.UserCollections.Clear();
+                if (!useCursor || string.IsNullOrWhiteSpace(_userCollectionsCursor))
+                    UserCollections.Clear();
 
-                this.UpdatingUserCollections = false;
+                UpdatingUserCollections = false;
                 return;
             }
 
-            this.UpdatingUserCollections = false;
+            UpdatingUserCollections = false;
         }
 
         public async Task<bool> CreateCollection(string cname, string cdescription, string curl)
         {
-            if (this.CreatingCollection)
+            if (CreatingCollection)
                 return false;
 
-            if (this._ScreenName == null || this.Tokens == null)
+            if (_screenName == null || Tokens == null)
                 return false;
 
-            if (this._ScreenName != this.Tokens.ScreenName)
+            if (_screenName != Tokens.ScreenName)
                 return false;
 
-            this.CreatingCollection = true;
-            
+            CreatingCollection = true;
+
             try
             {
-                await this.Tokens.Collections.CreateAsync(name => cname, description => cdescription, url => curl);
+                await Tokens.Collections.CreateAsync(name => cname, description => cdescription, url => curl);
             }
             catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                this.CreatingCollection = false;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                CreatingCollection = false;
                 return false;
             }
             catch (NotImplementedException e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                this.CreatingCollection = false;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                CreatingCollection = false;
                 return false;
             }
 
-            this.CreatingCollection = false;
+            CreatingCollection = false;
             return true;
         }
 
         public async Task<bool> UpdateCollection(string cid, string cname, string cdescription, string curl)
         {
-            if (this.CreatingCollection)
+            if (CreatingCollection)
                 return false;
 
-            if (this._ScreenName == null || this.Tokens == null)
+            if (_screenName == null || Tokens == null)
                 return false;
 
-            if (this._ScreenName != this.Tokens.ScreenName)
+            if (_screenName != Tokens.ScreenName)
                 return false;
 
-            this.CreatingCollection = true;
+            CreatingCollection = true;
 
             try
             {
-                await this.Tokens.Collections.UpdateAsync(id => cid, name => cname, description => cdescription, url => curl);
+                await Tokens.Collections.UpdateAsync(id => cid, name => cname, description => cdescription,
+                    url => curl);
             }
             catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                this.CreatingCollection = false;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                CreatingCollection = false;
                 return false;
             }
             catch (NotImplementedException e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                this.CreatingCollection = false;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                CreatingCollection = false;
                 return false;
             }
 
-            this.CreatingCollection = false;
+            CreatingCollection = false;
             return true;
         }
 
         public async Task<bool> DeleteCollection(string cid)
         {
-            if (this.CreatingCollection)
+            if (CreatingCollection)
                 return false;
 
-            if (this._ScreenName == null || this.Tokens == null)
+            if (_screenName == null || Tokens == null)
                 return false;
 
-            if (this._ScreenName != this.Tokens.ScreenName)
+            if (_screenName != Tokens.ScreenName)
                 return false;
 
-            this.CreatingCollection = true;
+            CreatingCollection = true;
 
             try
             {
-                await this.Tokens.Collections.DestroyAsync(id => cid);
+                await Tokens.Collections.DestroyAsync(id => cid);
             }
             catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                this.CreatingCollection = false;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                CreatingCollection = false;
                 return false;
             }
             catch (NotImplementedException e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_NotImplementedException"), new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                this.CreatingCollection = false;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                CreatingCollection = false;
                 return false;
             }
 
-            this.CreatingCollection = false;
+            CreatingCollection = false;
             return true;
         }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region ScreenName変更通知プロパティ
+
+        private string _screenName;
+
+        public string ScreenName
+        {
+            get => _screenName;
+            set => SetProperty(ref _screenName, value);
+        }
+
+        #endregion
+
+        #region UpdatingUserCollections変更通知プロパティ
+
+        private bool _updatingUserCollections;
+
+        public bool UpdatingUserCollections
+        {
+            get => _updatingUserCollections;
+            set => SetProperty(ref _updatingUserCollections, value);
+        }
+
+        #endregion
+
+        #region CreatingCollection変更通知プロパティ
+
+        private bool _creatingCollection;
+
+        public bool CreatingCollection
+        {
+            get => _creatingCollection;
+            set => SetProperty(ref _creatingCollection, value);
+        }
+
+        #endregion
     }
 }

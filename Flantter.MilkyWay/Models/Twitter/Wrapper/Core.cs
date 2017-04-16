@@ -28,7 +28,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             Func<TValue> defaultValueProvider)
         {
             TValue value;
-            return dictionary.TryGetValue(key, out value) ? value
+            return dictionary.TryGetValue(key, out value)
+                ? value
                 : defaultValueProvider();
         }
     }
@@ -40,7 +41,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         }
 
         public long NextCursor { get; set; }
-        
+
         public long PreviousCursor { get; set; }
     }
 
@@ -78,10 +79,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.CreateAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Status> CreateAsync(IDictionary<string, object> parameters)
         {
             return this.CreateAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Status> CreateAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -89,7 +92,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Favorites.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Favourite((long)parameters["id"]));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Favourite((long) parameters["id"]));
             }
             throw new NotImplementedException();
         }
@@ -98,10 +101,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Status> DestroyAsync(IDictionary<string, object> parameters)
         {
             return this.DestroyAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Status> DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -109,7 +114,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Favorites.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Unfavourite((long)parameters["id"]));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Unfavourite((long) parameters["id"]));
             }
             throw new NotImplementedException();
         }
@@ -118,20 +123,25 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ListAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.Status>> ListAsync(IDictionary<string, object> parameters)
         {
             return this.ListAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.Status>> ListAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Favorites.ListAsync(parameters)).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.TwitterTokens.Favorites.ListAsync(parameters))
+                        .Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     if (parameters.ContainsKey("id") || parameters.ContainsKey("screen_name"))
                         throw new NotImplementedException();
-                    return (await Tokens.MastodonTokens.GetFavourites()).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.MastodonTokens.GetFavourites()).Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
             }
             throw new NotImplementedException();
         }
@@ -143,16 +153,20 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.LookupAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.User>> LookupAsync(IDictionary<string, object> parameters)
         {
             return this.LookupAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.User>> LookupAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Users.LookupAsync(parameters)).Select(x => new Twitter.Objects.User(x)).ToList();
+                    return (await Tokens.TwitterTokens.Users.LookupAsync(parameters))
+                        .Select(x => new Twitter.Objects.User(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -163,10 +177,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ReportSpamAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.User> ReportSpamAsync(IDictionary<string, object> parameters)
         {
             return this.ReportSpamAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.User> ReportSpamAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -183,20 +199,26 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.SearchAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.User>> SearchAsync(IDictionary<string, object> parameters)
         {
             return this.SearchAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.User>> SearchAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Users.SearchAsync(parameters)).Select(x => new Twitter.Objects.User(x)).ToList();
+                    return (await Tokens.TwitterTokens.Users.SearchAsync(parameters))
+                        .Select(x => new Twitter.Objects.User(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     if (parameters.ContainsKey("page"))
                         throw new NotImplementedException();
-                    return (await Tokens.MastodonTokens.SearchAccounts((string)parameters["q"], (int)parameters.GetValueOrDefault("count", 10))).Select(x => new Twitter.Objects.User(x)).ToList();
+                    return (await Tokens.MastodonTokens.SearchAccounts((string) parameters["q"],
+                            (int) parameters.GetValueOrDefault("count", 10))).Select(x => new Twitter.Objects.User(x))
+                        .ToList();
             }
             throw new NotImplementedException();
         }
@@ -205,10 +227,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ShowAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.User> ShowAsync(IDictionary<string, object> parameters)
         {
             return this.ShowAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.User> ShowAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -216,7 +240,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Users.ShowAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.GetAccount((long)parameters["user_id"]));
+                    return new Twitter.Objects.User(
+                        await Tokens.MastodonTokens.GetAccount((long) parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -228,16 +253,20 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.PlaceAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.Trend>> PlaceAsync(IDictionary<string, object> parameters)
         {
             return this.PlaceAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.Trend>> PlaceAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Trends.PlaceAsync(parameters)).SelectMany(x => x.Trends).Select(x => new Twitter.Objects.Trend(x)).ToList();
+                    return (await Tokens.TwitterTokens.Trends.PlaceAsync(parameters)).SelectMany(x => x.Trends)
+                        .Select(x => new Twitter.Objects.Trend(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -251,10 +280,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Status> DestroyAsync(IDictionary<string, object> parameters)
         {
             return this.DestroyAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Status> DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -262,28 +293,37 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    await Tokens.MastodonTokens.DeleteStatus((long)parameters["id"]);
+                    await Tokens.MastodonTokens.DeleteStatus((long) parameters["id"]);
                     return null;
             }
             throw new NotImplementedException();
         }
 
-        public Task<List<Twitter.Objects.Status>> HomeTimelineAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<List<Twitter.Objects.Status>> HomeTimelineAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.HomeTimelineAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.Status>> HomeTimelineAsync(IDictionary<string, object> parameters)
         {
             return this.HomeTimelineAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.Status>> HomeTimelineAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Statuses.HomeTimelineAsync(parameters)).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.TwitterTokens.Statuses.HomeTimelineAsync(parameters))
+                        .Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    return (await Tokens.MastodonTokens.GetHomeTimeline((long)parameters.GetValueOrDefault("max_id", (long)0), (long)parameters.GetValueOrDefault("since_id", (long)0), (int)parameters.GetValueOrDefault("count", 10))).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.MastodonTokens.GetHomeTimeline(
+                            (long) parameters.GetValueOrDefault("max_id", (long) 0),
+                            (long) parameters.GetValueOrDefault("since_id", (long) 0),
+                            (int) parameters.GetValueOrDefault("count", 10))).Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
             }
             throw new NotImplementedException();
         }
@@ -292,38 +332,51 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.LookupAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.Status>> LookupAsync(IDictionary<string, object> parameters)
         {
             return this.LookupAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.Status>> LookupAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Statuses.LookupAsync(parameters)).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.TwitterTokens.Statuses.LookupAsync(parameters))
+                        .Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
             throw new NotImplementedException();
         }
 
-        public Task<List<Twitter.Objects.Status>> MentionsTimelineAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<List<Twitter.Objects.Status>> MentionsTimelineAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.MentionsTimelineAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.Status>> MentionsTimelineAsync(IDictionary<string, object> parameters)
         {
             return this.MentionsTimelineAsyncImpl(parameters);
         }
-        private async Task<List<Twitter.Objects.Status>> MentionsTimelineAsyncImpl(IDictionary<string, object> parameters)
+
+        private async Task<List<Twitter.Objects.Status>> MentionsTimelineAsyncImpl(
+            IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Statuses.MentionsTimelineAsync(parameters)).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.TwitterTokens.Statuses.MentionsTimelineAsync(parameters))
+                        .Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    return (await Tokens.MastodonTokens.GetNotifications()).Where(x => x.Type == "mention" && x.Status.Visibility != "direct").Select(x => new Twitter.Objects.Status(x.Status)).ToList();
+                    return (await Tokens.MastodonTokens.GetNotifications())
+                        .Where(x => x.Type == "mention" && x.Status.Visibility != "direct")
+                        .Select(x => new Twitter.Objects.Status(x.Status))
+                        .ToList();
             }
             throw new NotImplementedException();
         }
@@ -332,10 +385,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.RetweetAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Status> RetweetAsync(IDictionary<string, object> parameters)
         {
             return this.RetweetAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Status> RetweetAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -343,7 +398,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.RetweetAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Reblog((long)parameters["id"]));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Reblog((long) parameters["id"]));
             }
             throw new NotImplementedException();
         }
@@ -352,10 +407,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.RetweetersIdsAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<long>> RetweetersIdsAsync(IDictionary<string, object> parameters)
         {
             return this.RetweetersIdsAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<long>> RetweetersIdsAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -367,49 +424,64 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<long>((await Tokens.MastodonTokens.GetRebloggedBy((long)parameters["id"])).Select(x => (long)x.Id));
+                    return new CursoredList<long>((await Tokens.MastodonTokens.GetRebloggedBy((long) parameters["id"]))
+                        .Select(x => (long) x.Id));
             }
             throw new NotImplementedException();
         }
 
-        public Task<CursoredList<Twitter.Objects.User>> RetweetersAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<CursoredList<Twitter.Objects.User>> RetweetersAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.RetweetersAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<Twitter.Objects.User>> RetweetersAsync(IDictionary<string, object> parameters)
         {
             return this.RetweetersAsyncImpl(parameters);
         }
-        private async Task<CursoredList<Twitter.Objects.User>> RetweetersAsyncImpl(IDictionary<string, object> parameters)
+
+        private async Task<CursoredList<Twitter.Objects.User>> RetweetersAsyncImpl(
+            IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Statuses.RetweetersIdsAsync(parameters);
-                    var list = new CursoredList<Twitter.Objects.User>((await Tokens.TwitterTokens.Users.LookupAsync(user_id => response)).Select(x => new Twitter.Objects.User(x)));
+                    var list =
+                        new CursoredList<Twitter.Objects.User>(
+                            (await Tokens.TwitterTokens.Users.LookupAsync(user_id => response)).Select(
+                                x => new Twitter.Objects.User(x)));
                     list.NextCursor = response.NextCursor;
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetRebloggedBy((long)parameters["id"])).Select(x => new Twitter.Objects.User(x)));
+                    return new CursoredList<Twitter.Objects.User>(
+                        (await Tokens.MastodonTokens.GetRebloggedBy((long) parameters["id"])).Select(
+                            x => new Twitter.Objects.User(x)));
             }
             throw new NotImplementedException();
         }
 
-        public Task<List<Twitter.Objects.Status>> RetweetsOfMeAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<List<Twitter.Objects.Status>> RetweetsOfMeAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.RetweetsOfMeAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.Status>> RetweetsOfMeAsync(IDictionary<string, object> parameters)
         {
             return this.RetweetsOfMeAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.Status>> RetweetsOfMeAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Statuses.RetweetsOfMeAsync(parameters)).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.TwitterTokens.Statuses.RetweetsOfMeAsync(parameters))
+                        .Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -420,10 +492,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ShowAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Status> ShowAsync(IDictionary<string, object> parameters)
         {
             return this.ShowAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Status> ShowAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -431,7 +505,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.ShowAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.GetStatus((long)parameters["id"]));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.GetStatus((long) parameters["id"]));
             }
             throw new NotImplementedException();
         }
@@ -440,10 +514,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.UnretweetAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Status> UnretweetAsync(IDictionary<string, object> parameters)
         {
             return this.UnretweetAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Status> UnretweetAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -451,7 +527,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.UnretweetAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Unreblog((long)parameters["id"]));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.Unreblog((long) parameters["id"]));
             }
             throw new NotImplementedException();
         }
@@ -460,10 +536,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.UpdateAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Status> UpdateAsync(IDictionary<string, object> parameters)
         {
             return this.UpdateAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Status> UpdateAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -471,27 +549,40 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.UpdateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.PostStatus((string)parameters["status"], Mastonet.Visibility.Public, (int?)parameters.GetValueOrDefault("in_reply_to_status_id", null), (IEnumerable<long>)parameters.GetValueOrDefault("media_ids", null), (bool)parameters.GetValueOrDefault("possibly_sensitive", false)));
+                    return new Twitter.Objects.Status(await Tokens.MastodonTokens.PostStatus(
+                        (string) parameters["status"], Mastonet.Visibility.Public,
+                        (int?) parameters.GetValueOrDefault("in_reply_to_status_id", null),
+                        (IEnumerable<long>) parameters.GetValueOrDefault("media_ids", null),
+                        (bool) parameters.GetValueOrDefault("possibly_sensitive", false)));
             }
             throw new NotImplementedException();
         }
 
-        public Task<List<Twitter.Objects.Status>> UserTimelineAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<List<Twitter.Objects.Status>> UserTimelineAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.UserTimelineAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.Status>> UserTimelineAsync(IDictionary<string, object> parameters)
         {
             return this.UserTimelineAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.Status>> UserTimelineAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Statuses.UserTimelineAsync(parameters)).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.TwitterTokens.Statuses.UserTimelineAsync(parameters))
+                        .Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    return (await Tokens.MastodonTokens.GetAccountStatuses((long)parameters["user_id"], (long)parameters.GetValueOrDefault("max_id", (long)0), (long)parameters.GetValueOrDefault("since_id", (long)0), (int)parameters.GetValueOrDefault("count", 10))).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.MastodonTokens.GetAccountStatuses((long) parameters["user_id"],
+                            (long) parameters.GetValueOrDefault("max_id", (long) 0),
+                            (long) parameters.GetValueOrDefault("since_id", (long) 0),
+                            (int) parameters.GetValueOrDefault("count", 10))).Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
             }
             throw new NotImplementedException();
         }
@@ -503,16 +594,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.CreateAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.SearchQuery> CreateAsync(IDictionary<string, object> parameters)
         {
             return this.CreateAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.SearchQuery> CreateAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Twitter.Objects.SearchQuery(await Tokens.TwitterTokens.SavedSearches.CreateAsync(parameters));
+                    return new Twitter.Objects.SearchQuery(
+                        await Tokens.TwitterTokens.SavedSearches.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -523,16 +617,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.SearchQuery> DestroyAsync(IDictionary<string, object> parameters)
         {
             return this.DestroyAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.SearchQuery> DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Twitter.Objects.SearchQuery(await Tokens.TwitterTokens.SavedSearches.DestroyAsync(parameters));
+                    return new Twitter.Objects.SearchQuery(
+                        await Tokens.TwitterTokens.SavedSearches.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -543,16 +640,20 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ListAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.SearchQuery>> ListAsync(IDictionary<string, object> parameters)
         {
             return this.ListAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.SearchQuery>> ListAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.SavedSearches.ListAsync(parameters)).Select(x => new Twitter.Objects.SearchQuery(x)).ToList();
+                    return (await Tokens.TwitterTokens.SavedSearches.ListAsync(parameters))
+                        .Select(x => new Twitter.Objects.SearchQuery(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -566,18 +667,24 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.TweetsAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.Status>> TweetsAsync(IDictionary<string, object> parameters)
         {
             return this.TweetsAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.Status>> TweetsAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Search.TweetsAsync(parameters)).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.TwitterTokens.Search.TweetsAsync(parameters))
+                        .Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    return (await Tokens.MastodonTokens.Search((string)parameters["q"], true)).Statuses.Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.MastodonTokens.Search((string) parameters["q"], true)).Statuses
+                        .Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
             }
             throw new NotImplementedException();
         }
@@ -594,10 +701,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.CreateAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.User> CreateAsync(IDictionary<string, object> parameters)
         {
             return this.CreateAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.User> CreateAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -605,7 +714,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Mutes.Users.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Mute((long)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Mute((long) parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -614,10 +723,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.User> DestroyAsync(IDictionary<string, object> parameters)
         {
             return this.DestroyAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.User> DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -625,7 +736,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Mutes.Users.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unmute((long)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unmute((long) parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -634,10 +745,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.IdsAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<long>> IdsAsync(IDictionary<string, object> parameters)
         {
             return this.IdsAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<long>> IdsAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -649,7 +762,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<long>((await Tokens.MastodonTokens.GetMutes()).Select(x => (long)x.Id));
+                    return new CursoredList<long>((await Tokens.MastodonTokens.GetMutes()).Select(x => (long) x.Id));
             }
             throw new NotImplementedException();
         }
@@ -658,22 +771,26 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ListAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<Twitter.Objects.User>> ListAsync(IDictionary<string, object> parameters)
         {
             return this.ListAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<Twitter.Objects.User>> ListAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Mutes.Users.ListAsync(parameters);
-                    var list = new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
+                    var list =
+                        new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
                     list.NextCursor = response.NextCursor;
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetMutes()).Select(x => new Twitter.Objects.User(x)));
+                    return new CursoredList<Twitter.Objects.User>(
+                        (await Tokens.MastodonTokens.GetMutes()).Select(x => new Twitter.Objects.User(x)));
             }
             throw new NotImplementedException();
         }
@@ -684,21 +801,26 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         public ListsSubscribers Subscribers { get; set; }
         public ListsMembers Members { get; set; }
 
-        public Task<CursoredList<Twitter.Objects.List>> MembershipsAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<CursoredList<Twitter.Objects.List>> MembershipsAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.MembershipsAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<Twitter.Objects.List>> MembershipsAsync(IDictionary<string, object> parameters)
         {
             return this.MembershipsAsyncImpl(parameters);
         }
-        private async Task<CursoredList<Twitter.Objects.List>> MembershipsAsyncImpl(IDictionary<string, object> parameters)
+
+        private async Task<CursoredList<Twitter.Objects.List>> MembershipsAsyncImpl(
+            IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Lists.MembershipsAsync(parameters);
-                    var list = new CursoredList<Twitter.Objects.List>(response.Select(x => new Twitter.Objects.List(x)));
+                    var list =
+                        new CursoredList<Twitter.Objects.List>(response.Select(x => new Twitter.Objects.List(x)));
                     list.NextCursor = response.NextCursor;
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
@@ -708,21 +830,26 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             throw new NotImplementedException();
         }
 
-        public Task<CursoredList<Twitter.Objects.List>> OwnershipsAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<CursoredList<Twitter.Objects.List>> OwnershipsAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.OwnershipsAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<Twitter.Objects.List>> OwnershipsAsync(IDictionary<string, object> parameters)
         {
             return this.OwnershipsAsyncImpl(parameters);
         }
-        private async Task<CursoredList<Twitter.Objects.List>> OwnershipsAsyncImpl(IDictionary<string, object> parameters)
+
+        private async Task<CursoredList<Twitter.Objects.List>> OwnershipsAsyncImpl(
+            IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Lists.OwnershipsAsync(parameters);
-                    var list = new CursoredList<Twitter.Objects.List>(response.Select(x => new Twitter.Objects.List(x)));
+                    var list =
+                        new CursoredList<Twitter.Objects.List>(response.Select(x => new Twitter.Objects.List(x)));
                     list.NextCursor = response.NextCursor;
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
@@ -736,37 +863,46 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.StatusesAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.Status>> StatusesAsync(IDictionary<string, object> parameters)
         {
             return this.StatusesAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.Status>> StatusesAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Lists.StatusesAsync(parameters)).Select(x => new Twitter.Objects.Status(x)).ToList();
+                    return (await Tokens.TwitterTokens.Lists.StatusesAsync(parameters))
+                        .Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
             throw new NotImplementedException();
         }
 
-        public Task<CursoredList<Twitter.Objects.List>> SubscriptionsAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<CursoredList<Twitter.Objects.List>> SubscriptionsAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.SubscriptionsAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<Twitter.Objects.List>> SubscriptionsAsync(IDictionary<string, object> parameters)
         {
             return this.SubscriptionsAsyncImpl(parameters);
         }
-        private async Task<CursoredList<Twitter.Objects.List>> SubscriptionsAsyncImpl(IDictionary<string, object> parameters)
+
+        private async Task<CursoredList<Twitter.Objects.List>> SubscriptionsAsyncImpl(
+            IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Lists.SubscriptionsAsync(parameters);
-                    var list = new CursoredList<Twitter.Objects.List>(response.Select(x => new Twitter.Objects.List(x)));
+                    var list =
+                        new CursoredList<Twitter.Objects.List>(response.Select(x => new Twitter.Objects.List(x)));
                     list.NextCursor = response.NextCursor;
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
@@ -775,7 +911,6 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             }
             throw new NotImplementedException();
         }
-
     }
 
     public class ListsSubscribers : ApiBase
@@ -784,16 +919,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.CreateAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.List> CreateAsync(IDictionary<string, object> parameters)
         {
             return this.CreateAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.List> CreateAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Twitter.Objects.List(await Tokens.TwitterTokens.Lists.Subscribers.CreateAsync(parameters));
+                    return new Twitter.Objects.List(
+                        await Tokens.TwitterTokens.Lists.Subscribers.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -804,16 +942,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.List> DestroyAsync(IDictionary<string, object> parameters)
         {
             return this.DestroyAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.List> DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Twitter.Objects.List(await Tokens.TwitterTokens.Lists.Subscribers.DestroyAsync(parameters));
+                    return new Twitter.Objects.List(
+                        await Tokens.TwitterTokens.Lists.Subscribers.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -824,17 +965,20 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ListAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<Twitter.Objects.User>> ListAsync(IDictionary<string, object> parameters)
         {
             return this.ListAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<Twitter.Objects.User>> ListAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Lists.Subscribers.ListAsync(parameters);
-                    var list = new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
+                    var list =
+                        new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
                     list.NextCursor = response.NextCursor;
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
@@ -851,10 +995,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.CreateAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.List> CreateAsync(IDictionary<string, object> parameters)
         {
             return this.CreateAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.List> CreateAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -871,10 +1017,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.List> DestroyAsync(IDictionary<string, object> parameters)
         {
             return this.DestroyAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.List> DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -891,17 +1039,20 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ListAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<Twitter.Objects.User>> ListAsync(IDictionary<string, object> parameters)
         {
             return this.ListAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<Twitter.Objects.User>> ListAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Lists.Members.ListAsync(parameters);
-                    var list = new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
+                    var list =
+                        new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
                     list.NextCursor = response.NextCursor;
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
@@ -918,10 +1069,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.CreateAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.User> CreateAsync(IDictionary<string, object> parameters)
         {
             return this.CreateAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.User> CreateAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -930,9 +1083,11 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Friendships.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
                     if (parameters.ContainsKey("screen_name"))
-                        return new Twitter.Objects.User(await Tokens.MastodonTokens.Follow((string)parameters["screen_name"]));
+                        return new Twitter.Objects.User(
+                            await Tokens.MastodonTokens.Follow((string) parameters["screen_name"]));
                     else
-                        return new Twitter.Objects.User(await Tokens.MastodonTokens.Follow((long)parameters["user_id"]));
+                        return new Twitter.Objects.User(
+                            await Tokens.MastodonTokens.Follow((long) parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -941,10 +1096,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.User> DestroyAsync(IDictionary<string, object> parameters)
         {
             return this.DestroyAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.User> DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -952,7 +1109,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Friendships.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unfollow((long)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unfollow((long) parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -961,10 +1118,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.NoRetweetsIdsAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<long>> NoRetweetsIdsAsync(IDictionary<string, object> parameters)
         {
             return this.NoRetweetsIdsAsyncImpl(parameters);
         }
+
         private async Task<List<long>> NoRetweetsIdsAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -981,18 +1140,22 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ShowAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Relationship> ShowAsync(IDictionary<string, object> parameters)
         {
             return this.ShowAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Relationship> ShowAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Twitter.Objects.Relationship(await Tokens.TwitterTokens.Friendships.ShowAsync(parameters));
+                    return new Twitter.Objects.Relationship(
+                        await Tokens.TwitterTokens.Friendships.ShowAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.Relationship((await Tokens.MastodonTokens.GetAccountRelationships((long)parameters["target_id"])).First());
+                    return new Twitter.Objects.Relationship(
+                        (await Tokens.MastodonTokens.GetAccountRelationships((long) parameters["target_id"])).First());
             }
             throw new NotImplementedException();
         }
@@ -1004,10 +1167,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.IdsAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<long>> IdsAsync(IDictionary<string, object> parameters)
         {
             return this.IdsAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<long>> IdsAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1019,7 +1184,9 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<long>((await Tokens.MastodonTokens.GetAccountFollowers((long)parameters["user_id"])).Select(x => (long)x.Id));
+                    return new CursoredList<long>(
+                        (await Tokens.MastodonTokens.GetAccountFollowers((long) parameters["user_id"]))
+                        .Select(x => (long) x.Id));
             }
             throw new NotImplementedException();
         }
@@ -1028,22 +1195,27 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ListAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<Twitter.Objects.User>> ListAsync(IDictionary<string, object> parameters)
         {
             return this.ListAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<Twitter.Objects.User>> ListAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Followers.ListAsync(parameters);
-                    var list = new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
+                    var list =
+                        new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
                     list.NextCursor = response.NextCursor;
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetAccountFollowers((long)parameters["user_id"])).Select(x => new Twitter.Objects.User(x)));
+                    return new CursoredList<Twitter.Objects.User>(
+                        (await Tokens.MastodonTokens.GetAccountFollowers((long) parameters["user_id"])).Select(
+                            x => new Twitter.Objects.User(x)));
             }
             throw new NotImplementedException();
         }
@@ -1055,10 +1227,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.IdsAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<long>> IdsAsync(IDictionary<string, object> parameters)
         {
             return this.IdsAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<long>> IdsAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1070,7 +1244,9 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<long>((await Tokens.MastodonTokens.GetAccountFollowers((long)parameters["user_id"])).Select(x => (long)x.Id));
+                    return new CursoredList<long>(
+                        (await Tokens.MastodonTokens.GetAccountFollowers((long) parameters["user_id"]))
+                        .Select(x => (long) x.Id));
             }
             throw new NotImplementedException();
         }
@@ -1079,22 +1255,27 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ListAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<Twitter.Objects.User>> ListAsync(IDictionary<string, object> parameters)
         {
             return this.ListAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<Twitter.Objects.User>> ListAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Friends.ListAsync(parameters);
-                    var list = new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
+                    var list =
+                        new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
                     list.NextCursor = response.NextCursor;
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetAccountFollowers((long)parameters["user_id"])).Select(x => new Twitter.Objects.User(x)));
+                    return new CursoredList<Twitter.Objects.User>(
+                        (await Tokens.MastodonTokens.GetAccountFollowers((long) parameters["user_id"])).Select(
+                            x => new Twitter.Objects.User(x)));
             }
             throw new NotImplementedException();
         }
@@ -1106,18 +1287,21 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.DirectMessage> DestroyAsync(IDictionary<string, object> parameters)
         {
             return this.DestroyAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.DirectMessage> DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Twitter.Objects.DirectMessage(await Tokens.TwitterTokens.DirectMessages.DestroyAsync(parameters));
+                    return new Twitter.Objects.DirectMessage(
+                        await Tokens.TwitterTokens.DirectMessages.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    await Tokens.MastodonTokens.DeleteStatus((long)parameters["id"]);
+                    await Tokens.MastodonTokens.DeleteStatus((long) parameters["id"]);
                     return null;
             }
             throw new NotImplementedException();
@@ -1127,42 +1311,58 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.NewAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.DirectMessage> NewAsync(IDictionary<string, object> parameters)
         {
             return this.NewAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.DirectMessage> NewAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Twitter.Objects.DirectMessage(await Tokens.TwitterTokens.DirectMessages.NewAsync(parameters));
+                    return new Twitter.Objects.DirectMessage(
+                        await Tokens.TwitterTokens.DirectMessages.NewAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
                     if (!parameters.ContainsKey("in_reply_to_status_id"))
                         throw new NotImplementedException();
-                    var status = await Tokens.MastodonTokens.PostStatus((string)parameters["text"], Mastonet.Visibility.Direct, (long)parameters["in_reply_to_status_id"], (IEnumerable<long>)parameters.GetValueOrDefault("media_ids", null), (bool)parameters.GetValueOrDefault("possibly_sensitive", false));
-                    return new Twitter.Objects.DirectMessage(status, (await Tokens.MastodonTokens.GetStatus(status.InReplyToId.Value)).Account);
+                    var status = await Tokens.MastodonTokens.PostStatus((string) parameters["text"],
+                        Mastonet.Visibility.Direct, (long) parameters["in_reply_to_status_id"],
+                        (IEnumerable<long>) parameters.GetValueOrDefault("media_ids", null),
+                        (bool) parameters.GetValueOrDefault("possibly_sensitive", false));
+                    return new Twitter.Objects.DirectMessage(status,
+                        (await Tokens.MastodonTokens.GetStatus(status.InReplyToId.Value)).Account);
             }
             throw new NotImplementedException();
         }
 
-        public Task<List<Twitter.Objects.DirectMessage>> ReceivedAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<List<Twitter.Objects.DirectMessage>> ReceivedAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.ReceivedAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.DirectMessage>> ReceivedAsync(IDictionary<string, object> parameters)
         {
             return this.ReceivedAsyncImpl(parameters);
         }
-        private async Task<List<Twitter.Objects.DirectMessage>> ReceivedAsyncImpl(IDictionary<string, object> parameters)
+
+        private async Task<List<Twitter.Objects.DirectMessage>> ReceivedAsyncImpl(
+            IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.DirectMessages.ReceivedAsync(parameters)).Select(x => new Twitter.Objects.DirectMessage(x)).ToList();
+                    return (await Tokens.TwitterTokens.DirectMessages.ReceivedAsync(parameters))
+                        .Select(x => new Twitter.Objects.DirectMessage(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    var statuses = (await Tokens.MastodonTokens.GetNotifications()).Where(x => x.Type == "mention" && x.Status.Visibility == "direct").Select(x => x.Status);
-                    var tasks = statuses.Select(async x => new Twitter.Objects.DirectMessage(x, (await Tokens.MastodonTokens.GetStatus(x.InReplyToId.Value)).Account));
+                    var statuses = (await Tokens.MastodonTokens.GetNotifications())
+                        .Where(x => x.Type == "mention" && x.Status.Visibility == "direct")
+                        .Select(x => x.Status);
+                    var tasks = statuses.Select(async x => new Twitter.Objects.DirectMessage(x,
+                        (await Tokens.MastodonTokens.GetStatus(x.InReplyToId.Value)).Account));
                     return (await Task.WhenAll(tasks)).ToList();
             }
             throw new NotImplementedException();
@@ -1172,16 +1372,20 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.SentAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.DirectMessage>> SentAsync(IDictionary<string, object> parameters)
         {
             return this.SentAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.DirectMessage>> SentAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.DirectMessages.SentAsync(parameters)).Select(x => new Twitter.Objects.DirectMessage(x)).ToList();
+                    return (await Tokens.TwitterTokens.DirectMessages.SentAsync(parameters))
+                        .Select(x => new Twitter.Objects.DirectMessage(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -1195,16 +1399,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.CreateAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Collection> CreateAsync(IDictionary<string, object> parameters)
         {
             return this.CreateAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Collection> CreateAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Twitter.Objects.Collection(await Tokens.TwitterTokens.Collections.CreateAsync(parameters));
+                    return new Twitter.Objects.Collection(
+                        await Tokens.TwitterTokens.Collections.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -1215,10 +1422,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<bool> DestroyAsync(IDictionary<string, object> parameters)
         {
             return this.DestroyAsyncImpl(parameters);
         }
+
         private async Task<bool> DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1235,10 +1444,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.EntriesAddAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<bool> EntriesAddAsync(IDictionary<string, object> parameters)
         {
             return this.EntriesAddAsyncImpl(parameters);
         }
+
         private async Task<bool> EntriesAddAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1251,20 +1462,26 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             throw new NotImplementedException();
         }
 
-        public Task<List<Twitter.Objects.CollectionEntry>> EntriesAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<List<Twitter.Objects.CollectionEntry>> EntriesAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.EntriesAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.CollectionEntry>> EntriesAsync(IDictionary<string, object> parameters)
         {
             return this.EntriesAsyncImpl(parameters);
         }
-        private async Task<List<Twitter.Objects.CollectionEntry>> EntriesAsyncImpl(IDictionary<string, object> parameters)
+
+        private async Task<List<Twitter.Objects.CollectionEntry>> EntriesAsyncImpl(
+            IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Collections.EntriesAsync(parameters)).Entries.Select(x => new Twitter.Objects.CollectionEntry(x)).ToList();
+                    return (await Tokens.TwitterTokens.Collections.EntriesAsync(parameters)).Entries
+                        .Select(x => new Twitter.Objects.CollectionEntry(x))
+                        .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -1275,10 +1492,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.EntriesRemoveAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<bool> EntriesRemoveAsync(IDictionary<string, object> parameters)
         {
             return this.EntriesRemoveAsyncImpl(parameters);
         }
+
         private async Task<bool> EntriesRemoveAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1291,21 +1510,27 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             throw new NotImplementedException();
         }
 
-        public Task<StringCursoredList<Twitter.Objects.Collection>> ListAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<StringCursoredList<Twitter.Objects.Collection>> ListAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.ListAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<StringCursoredList<Twitter.Objects.Collection>> ListAsync(IDictionary<string, object> parameters)
         {
             return this.ListAsyncImpl(parameters);
         }
-        private async Task<StringCursoredList<Twitter.Objects.Collection>> ListAsyncImpl(IDictionary<string, object> parameters)
+
+        private async Task<StringCursoredList<Twitter.Objects.Collection>> ListAsyncImpl(
+            IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Collections.ListAsync(parameters);
-                    var list = new StringCursoredList<Twitter.Objects.Collection>(response.Results.Select(x => new Twitter.Objects.Collection(x)));
+                    var list =
+                        new StringCursoredList<Twitter.Objects.Collection>(
+                            response.Results.Select(x => new Twitter.Objects.Collection(x)));
                     list.NextCursor = response.Cursors.NextCursor;
                     list.PreviousCursor = response.Cursors.PreviousCursor;
                     return list;
@@ -1319,10 +1544,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ShowAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Collection> ShowAsync(IDictionary<string, object> parameters)
         {
             return this.ShowAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Collection> ShowAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1339,16 +1566,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.UpdateAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.Collection> UpdateAsync(IDictionary<string, object> parameters)
         {
             return this.UpdateAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.Collection> UpdateAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Twitter.Objects.Collection(await Tokens.TwitterTokens.Collections.UpdateAsync(parameters));
+                    return new Twitter.Objects.Collection(
+                        await Tokens.TwitterTokens.Collections.UpdateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -1362,10 +1592,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.CreateAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.User> CreateAsync(IDictionary<string, object> parameters)
         {
             return this.CreateAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.User> CreateAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1373,7 +1605,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Blocks.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Block((long)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Block((long) parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -1382,10 +1614,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<Twitter.Objects.User> DestroyAsync(IDictionary<string, object> parameters)
         {
             return this.DestroyAsyncImpl(parameters);
         }
+
         private async Task<Twitter.Objects.User> DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1393,7 +1627,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Twitter.Objects.User(await Tokens.TwitterTokens.Blocks.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unblock((long)parameters["user_id"]));
+                    return new Twitter.Objects.User(await Tokens.MastodonTokens.Unblock((long) parameters["user_id"]));
             }
             throw new NotImplementedException();
         }
@@ -1402,10 +1636,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.IdsAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<long>> IdsAsync(IDictionary<string, object> parameters)
         {
             return this.IdsAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<long>> IdsAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1417,7 +1653,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<long>((await Tokens.MastodonTokens.GetBlocks()).Select(x => (long)x.Id));
+                    return new CursoredList<long>((await Tokens.MastodonTokens.GetBlocks()).Select(x => (long) x.Id));
             }
             throw new NotImplementedException();
         }
@@ -1426,22 +1662,26 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.ListAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<CursoredList<Twitter.Objects.User>> ListAsync(IDictionary<string, object> parameters)
         {
             return this.ListAsyncImpl(parameters);
         }
+
         private async Task<CursoredList<Twitter.Objects.User>> ListAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     var response = await Tokens.TwitterTokens.Blocks.ListAsync(parameters);
-                    var list = new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
+                    var list =
+                        new CursoredList<Twitter.Objects.User>(response.Select(x => new Twitter.Objects.User(x)));
                     list.NextCursor = response.NextCursor;
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    return new CursoredList<Twitter.Objects.User>((await Tokens.MastodonTokens.GetBlocks()).Select(x => new Twitter.Objects.User(x)));
+                    return new CursoredList<Twitter.Objects.User>(
+                        (await Tokens.MastodonTokens.GetBlocks()).Select(x => new Twitter.Objects.User(x)));
             }
             throw new NotImplementedException();
         }
@@ -1459,10 +1699,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         {
             return this.UploadAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<long> UploadAsync(IDictionary<string, object> parameters)
         {
             return this.UploadAsyncImpl(parameters);
         }
+
         private async Task<long> UploadAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1474,26 +1716,31 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             }
             throw new NotImplementedException();
         }
-        public async Task<long> UploadAsync(Stream media, IEnumerable<long> additional_owners = null, IProgress<CoreTweet.UploadProgressInfo> progress = null)
+
+        public async Task<long> UploadAsync(Stream media, IEnumerable<long> additional_owners = null,
+            IProgress<CoreTweet.UploadProgressInfo> progress = null)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Media.UploadAsync(media, additional_owners, progress: progress)).MediaId;
+                    return (await Tokens.TwitterTokens.Media.UploadAsync(media, additional_owners, progress: progress))
+                        .MediaId;
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
             throw new NotImplementedException();
         }
-        
+
         public Task<long> UploadChunkedAsync(params Expression<Func<string, object>>[] parameters)
         {
             return this.UploadChunkedAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<long> UploadChunkedAsync(IDictionary<string, object> parameters)
         {
             return this.UploadChunkedAsyncImpl(parameters);
         }
+
         private async Task<long> UploadChunkedAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1505,12 +1752,17 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             }
             throw new NotImplementedException();
         }
-        public async Task<long> UploadChunkedAsync(Stream media, UploadMediaTypeEnum mediaType,string media_category = null, IEnumerable<long> additional_owners = null, IProgress<CoreTweet.UploadChunkedProgressInfo> progress = null)
+
+        public async Task<long> UploadChunkedAsync(Stream media, UploadMediaTypeEnum mediaType,
+            string media_category = null, IEnumerable<long> additional_owners = null,
+            IProgress<CoreTweet.UploadChunkedProgressInfo> progress = null)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.Media.UploadChunkedAsync(media, (CoreTweet.UploadMediaType)Enum.ToObject(typeof(CoreTweet.UploadMediaType), mediaType), media_category, additional_owners, progress: progress)).MediaId;
+                    return (await Tokens.TwitterTokens.Media.UploadChunkedAsync(media,
+                        (CoreTweet.UploadMediaType) Enum.ToObject(typeof(CoreTweet.UploadMediaType), mediaType),
+                        media_category, additional_owners, progress: progress)).MediaId;
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -1520,23 +1772,28 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
 
     public class Activity : ApiBase
     {
-        public Task<List<Twitter.Objects.EventMessage>> AboutMeAsync(params Expression<Func<string, object>>[] parameters)
+        public Task<List<Twitter.Objects.EventMessage>> AboutMeAsync(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.AboutMeAsyncImpl(ExpressionToDictionary(parameters));
         }
+
         public Task<List<Twitter.Objects.EventMessage>> AboutMeAsync(IDictionary<string, object> parameters)
         {
             return this.AboutMeAsyncImpl(parameters);
         }
+
         private async Task<List<Twitter.Objects.EventMessage>> AboutMeAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
                     throw new NotImplementedException();
-                    
+
                 case Tokens.PlatformEnum.Mastodon:
-                    return (await Tokens.MastodonTokens.GetNotifications()).Select(x => new Twitter.Objects.EventMessage(x)).ToList();
+                    return (await Tokens.MastodonTokens.GetNotifications())
+                        .Select(x => new Twitter.Objects.EventMessage(x))
+                        .ToList();
             }
             throw new NotImplementedException();
         }
@@ -1555,7 +1812,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
 
             public class StreamingObservable : IObservable<Twitter.Objects.StreamingMessage>
             {
-                public StreamingObservable(Tokens tokens, StreamingType type, IDictionary<string, object> parameters = null)
+                public StreamingObservable(Tokens tokens, StreamingType type,
+                    IDictionary<string, object> parameters = null)
                 {
                     this.tokens = tokens;
                     this.type = type;
@@ -1576,7 +1834,9 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                             conn.Start(observer, tokens, "https://" + streamingUrl + "/api/v1/streaming/user");
                             break;
                         case StreamingType.Tag:
-                            conn.Start(observer, tokens, "https://" + streamingUrl + "/api/v1/streaming/hashtag" + "?tag=" + parameters["track"]);
+                            conn.Start(observer, tokens,
+                                "https://" + streamingUrl + "/api/v1/streaming/hashtag" + "?tag=" +
+                                parameters["track"]);
                             break;
                         case StreamingType.Public:
                             conn.Start(observer, tokens, "https://" + streamingUrl + "/api/v1/streaming/public");
@@ -1673,62 +1933,80 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             }
         }
 
-        public IObservable<Twitter.Objects.StreamingMessage> FilterAsObservable(params Expression<Func<string, object>>[] parameters)
+        public IObservable<Twitter.Objects.StreamingMessage> FilterAsObservable(
+            params Expression<Func<string, object>>[] parameters)
         {
             return this.FilterAsObservableImpl(ExpressionToDictionary(parameters));
         }
+
         public IObservable<Twitter.Objects.StreamingMessage> FilterAsObservable(IDictionary<string, object> parameters)
         {
             return this.FilterAsObservableImpl(parameters);
         }
-        private IObservable<Twitter.Objects.StreamingMessage> FilterAsObservableImpl(IDictionary<string, object> parameters)
+
+        private IObservable<Twitter.Objects.StreamingMessage> FilterAsObservableImpl(
+            IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return Tokens.TwitterTokens.Streaming.FilterAsObservable(parameters).Select(x => new Twitter.Objects.StreamingMessage(x));
+                    return Tokens.TwitterTokens.Streaming.FilterAsObservable(parameters)
+                        .Select(x => new Twitter.Objects.StreamingMessage(x));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Tag, parameters);
-            }
-            throw new NotImplementedException();
-        }
-        
-        public IObservable<Twitter.Objects.StreamingMessage> SampleAsObservable(params Expression<Func<string, object>>[] parameters)
-        {
-            return this.SampleAsObservableImpl(ExpressionToDictionary(parameters));
-        }
-        public IObservable<Twitter.Objects.StreamingMessage> SampleAsObservable(IDictionary<string, object> parameters)
-        {
-            return this.SampleAsObservableImpl(parameters);
-        }
-        private IObservable<Twitter.Objects.StreamingMessage> SampleAsObservableImpl(IDictionary<string, object> parameters)
-        {
-            switch (Tokens.Platform)
-            {
-                case Tokens.PlatformEnum.Twitter:
-                    return Tokens.TwitterTokens.Streaming.SampleAsObservable(parameters).Select(x => new Twitter.Objects.StreamingMessage(x));
-                case Tokens.PlatformEnum.Mastodon:
-                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Public, parameters);
+                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Tag,
+                        parameters);
             }
             throw new NotImplementedException();
         }
 
-        public IObservable<Twitter.Objects.StreamingMessage> UserAsObservable(params Expression<Func<string, object>>[] parameters)
+        public IObservable<Twitter.Objects.StreamingMessage> SampleAsObservable(
+            params Expression<Func<string, object>>[] parameters)
         {
-            return this.UserAsObservableImpl(ExpressionToDictionary(parameters));
+            return this.SampleAsObservableImpl(ExpressionToDictionary(parameters));
         }
-        public IObservable<Twitter.Objects.StreamingMessage> UserAsObservable(IDictionary<string, object> parameters)
+
+        public IObservable<Twitter.Objects.StreamingMessage> SampleAsObservable(IDictionary<string, object> parameters)
         {
-            return this.UserAsObservableImpl(parameters);
+            return this.SampleAsObservableImpl(parameters);
         }
-        private IObservable<Twitter.Objects.StreamingMessage> UserAsObservableImpl(IDictionary<string, object> parameters)
+
+        private IObservable<Twitter.Objects.StreamingMessage> SampleAsObservableImpl(
+            IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return Tokens.TwitterTokens.Streaming.UserAsObservable(parameters).Select(x => new Twitter.Objects.StreamingMessage(x));
+                    return Tokens.TwitterTokens.Streaming.SampleAsObservable(parameters)
+                        .Select(x => new Twitter.Objects.StreamingMessage(x));
                 case Tokens.PlatformEnum.Mastodon:
-                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Public, parameters);
+                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Public,
+                        parameters);
+            }
+            throw new NotImplementedException();
+        }
+
+        public IObservable<Twitter.Objects.StreamingMessage> UserAsObservable(
+            params Expression<Func<string, object>>[] parameters)
+        {
+            return this.UserAsObservableImpl(ExpressionToDictionary(parameters));
+        }
+
+        public IObservable<Twitter.Objects.StreamingMessage> UserAsObservable(IDictionary<string, object> parameters)
+        {
+            return this.UserAsObservableImpl(parameters);
+        }
+
+        private IObservable<Twitter.Objects.StreamingMessage> UserAsObservableImpl(
+            IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    return Tokens.TwitterTokens.Streaming.UserAsObservable(parameters)
+                        .Select(x => new Twitter.Objects.StreamingMessage(x));
+                case Tokens.PlatformEnum.Mastodon:
+                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Public,
+                        parameters);
             }
             throw new NotImplementedException();
         }
@@ -1738,27 +2016,27 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
     {
         public Tokens()
         {
-            this.Activity = new Activity() { Tokens = this };
-            this.Favorites = new Favorites() { Tokens = this };
-            this.Users = new Users() { Tokens = this };
-            this.Trends = new Trends() { Tokens = this };
-            this.Statuses = new Statuses() { Tokens = this };
-            this.SavedSearches = new SavedSearches() { Tokens = this };
-            this.Search = new Search() { Tokens = this };
-            this.Mutes = new Mutes() { Tokens = this };
-            this.Mutes.Users = new MutesUsers() { Tokens = this };
-            this.Lists = new Lists() { Tokens = this };
-            this.Lists.Members = new ListsMembers() { Tokens = this };
-            this.Lists.Members = new ListsMembers() { Tokens = this };
-            this.Friendships = new Friendships() { Tokens = this };
-            this.Followers = new Followers() { Tokens = this };
-            this.Friends = new Friends() { Tokens = this };
-            this.DirectMessages = new DirectMessages() { Tokens = this };
-            this.Collections = new Collections() { Tokens = this };
-            this.Blocks = new Blocks() { Tokens = this };
-            this.Media = new Media() { Tokens = this };
-            this.Streaming = new StreamingApi() { Tokens = this };
-    }
+            this.Activity = new Activity() {Tokens = this};
+            this.Favorites = new Favorites() {Tokens = this};
+            this.Users = new Users() {Tokens = this};
+            this.Trends = new Trends() {Tokens = this};
+            this.Statuses = new Statuses() {Tokens = this};
+            this.SavedSearches = new SavedSearches() {Tokens = this};
+            this.Search = new Search() {Tokens = this};
+            this.Mutes = new Mutes() {Tokens = this};
+            this.Mutes.Users = new MutesUsers() {Tokens = this};
+            this.Lists = new Lists() {Tokens = this};
+            this.Lists.Members = new ListsMembers() {Tokens = this};
+            this.Lists.Members = new ListsMembers() {Tokens = this};
+            this.Friendships = new Friendships() {Tokens = this};
+            this.Followers = new Followers() {Tokens = this};
+            this.Friends = new Friends() {Tokens = this};
+            this.DirectMessages = new DirectMessages() {Tokens = this};
+            this.Collections = new Collections() {Tokens = this};
+            this.Blocks = new Blocks() {Tokens = this};
+            this.Media = new Media() {Tokens = this};
+            this.Streaming = new StreamingApi() {Tokens = this};
+        }
 
         public enum PlatformEnum
         {
@@ -1776,9 +2054,23 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         public string Instance { get; set; }
 
         private CoreTweet.Tokens _twitterToken;
-        public CoreTweet.Tokens TwitterTokens => _twitterToken ?? (_twitterToken = CoreTweet.Tokens.Create(this.ConsumerKey, this.ConsumerSecret, this.AccessToken, this.AccessTokenSecret));
+
+        public CoreTweet.Tokens TwitterTokens => _twitterToken ??
+                                                 (_twitterToken =
+                                                     CoreTweet.Tokens.Create(this.ConsumerKey, this.ConsumerSecret,
+                                                         this.AccessToken, this.AccessTokenSecret));
+
         private Mastonet.MastodonClient _mastodonTokens;
-        public Mastonet.MastodonClient MastodonTokens => _mastodonTokens ?? (_mastodonTokens = new Mastonet.MastodonClient(new Mastonet.Entities.AppRegistration() { ClientId = this.ConsumerKey, ClientSecret = this.ConsumerSecret, Instance = this.Instance }, this.AccessToken));
+
+        public Mastonet.MastodonClient MastodonTokens => _mastodonTokens ??
+                                                         (_mastodonTokens =
+                                                             new Mastonet.MastodonClient(
+                                                                 new Mastonet.Entities.AppRegistration()
+                                                                 {
+                                                                     ClientId = this.ConsumerKey,
+                                                                     ClientSecret = this.ConsumerSecret,
+                                                                     Instance = this.Instance
+                                                                 }, this.AccessToken));
 
         public Activity Activity { get; }
         public Favorites Favorites { get; }
@@ -1798,7 +2090,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
         public Media Media { get; }
         public StreamingApi Streaming { get; }
 
-        public static Tokens Create(string consumerKey, string consumerSecret, string accessToken, string accessSecret, long userID, string screenName, string instance = "")
+        public static Tokens Create(string consumerKey, string consumerSecret, string accessToken, string accessSecret,
+            long userID, string screenName, string instance = "")
         {
             return new Tokens()
             {

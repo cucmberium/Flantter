@@ -1,11 +1,11 @@
-﻿using Microsoft.Xaml.Interactivity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
+using Microsoft.Xaml.Interactivity;
 
 namespace Flantter.MilkyWay.Views.Util
 {
@@ -13,7 +13,7 @@ namespace Flantter.MilkyWay.Views.Util
     {
         public object Execute(object sender, object parameter)
         {
-            return this.ExecuteAsync((FileOpenPickerNotification)parameter);
+            return ExecuteAsync((FileOpenPickerNotification) parameter);
         }
 
         private async Task ExecuteAsync(FileOpenPickerNotification fileOpenPickerNotification)
@@ -21,12 +21,8 @@ namespace Flantter.MilkyWay.Views.Util
             var picker = new FileOpenPicker();
             // ファイルタイプの設定
             if (fileOpenPickerNotification.FileTypeFilter != null)
-            {
                 foreach (var fileType in fileOpenPickerNotification.FileTypeFilter)
-                {
                     picker.FileTypeFilter.Add(fileType);
-                }
-            }
 
             // 表示場所・表示モードの設定
             picker.SuggestedStartLocation = fileOpenPickerNotification.SuggestedStartLocation;
@@ -40,14 +36,7 @@ namespace Flantter.MilkyWay.Views.Util
             else
             {
                 var result = await picker.PickSingleFileAsync();
-                if (result != null)
-                {
-                    fileOpenPickerNotification.Result = new[] { result };
-                }
-                else
-                {
-                    fileOpenPickerNotification.Result = Enumerable.Empty<StorageFile>();
-                }
+                fileOpenPickerNotification.Result = result != null ? new[] {result} : Enumerable.Empty<StorageFile>();
             }
         }
     }
@@ -55,27 +44,27 @@ namespace Flantter.MilkyWay.Views.Util
     public class FileOpenPickerNotification : Notification
     {
         /// <summary>
-        /// ファイルの種類
+        ///     ファイルの種類
         /// </summary>
         public IEnumerable<string> FileTypeFilter { get; set; }
 
         /// <summary>
-        /// 開始場所のサジェスト
+        ///     開始場所のサジェスト
         /// </summary>
         public PickerLocationId SuggestedStartLocation { get; set; }
 
         /// <summary>
-        /// 表示モード
+        ///     表示モード
         /// </summary>
         public PickerViewMode ViewMode { get; set; }
 
         /// <summary>
-        /// 複数選択可能かどうか
+        ///     複数選択可能かどうか
         /// </summary>
         public bool IsMultiple { get; set; }
 
         /// <summary>
-        /// 選択結果
+        ///     選択結果
         /// </summary>
         public IEnumerable<StorageFile> Result { get; set; }
     }

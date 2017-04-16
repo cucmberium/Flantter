@@ -1,16 +1,13 @@
-﻿using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
-using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.SettingsFlyouts;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.ViewModels.Services;
+using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
@@ -18,42 +15,39 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
     {
         public RetweetsOfMeSettingsFlyoutViewModel()
         {
-            this.Model = new RetweetsOfMeSettingsFlyoutModel();
+            Model = new RetweetsOfMeSettingsFlyoutModel();
 
-            this.Tokens = this.Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
-            this.IconSource = new ReactiveProperty<string>("http://localhost/");
-            
-            this.ClearCommand = new ReactiveCommand();
-            this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                this.Model.RetweetsOfMe.Clear();
-            });
+            Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
+            IconSource = new ReactiveProperty<string>("http://localhost/");
 
-            this.UpdateCommand = new ReactiveCommand();
-            this.UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateRetweetsOfMe();
-            });
+            ClearCommand = new ReactiveCommand();
+            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => { Model.RetweetsOfMe.Clear(); });
 
-            this.RetweetsOfMeIncrementalLoadCommand = new ReactiveCommand();
-            this.RetweetsOfMeIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (this.Model.RetweetsOfMe.Count <= 0)
-                    return;
+            UpdateCommand = new ReactiveCommand();
+            UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateRetweetsOfMe(); });
 
-                var id = this.Model.RetweetsOfMe.Last().Id;
-                var status = this.Model.RetweetsOfMe.Last();
-                if (status.HasRetweetInformation)
-                    id = status.RetweetInformation.Id;
+            RetweetsOfMeIncrementalLoadCommand = new ReactiveCommand();
+            RetweetsOfMeIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    if (Model.RetweetsOfMe.Count <= 0)
+                        return;
 
-                await this.Model.UpdateRetweetsOfMe(id);
-            });
+                    var id = Model.RetweetsOfMe.Last().Id;
+                    var status = Model.RetweetsOfMe.Last();
+                    if (status.HasRetweetInformation)
+                        id = status.RetweetInformation.Id;
 
-            this.RetweetsOfMe = this.Model.RetweetsOfMe.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
+                    await Model.UpdateRetweetsOfMe(id);
+                });
 
-            this.Updating = this.Model.ObserveProperty(x => x.Updating).ToReactiveProperty();
+            RetweetsOfMe =
+                Model.RetweetsOfMe.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, Tokens.Value.UserId));
 
-            this.Notice = Services.Notice.Instance;
+            Updating = Model.ObserveProperty(x => x.Updating).ToReactiveProperty();
+
+            Notice = Notice.Instance;
         }
 
         public RetweetsOfMeSettingsFlyoutModel Model { get; set; }
@@ -64,7 +58,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<string> IconSource { get; set; }
 
-        public ReadOnlyReactiveCollection<StatusViewModel> RetweetsOfMe { get; private set; }
+        public ReadOnlyReactiveCollection<StatusViewModel> RetweetsOfMe { get; }
 
         public ReactiveCommand ClearCommand { get; set; }
 
@@ -72,6 +66,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveCommand RetweetsOfMeIncrementalLoadCommand { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
     }
 }

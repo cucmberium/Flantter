@@ -1,53 +1,57 @@
-﻿using CoreTweet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using CoreTweet;
 
 namespace Flantter.MilkyWay.Models.Twitter
 {
     public static class TwitterConnectionHelper
     {
-        private const string Twitter_for_iPhone = "IQKbtAYlXLripLGPWd0HUA";
-        private const string Twitter_for_Android = "3nVuSoBZnx6U4vzUxf5w";
-        private const string Twitter_for_Google_TV = "iAtYJ4HpUVfIUoNnif1DA";
-        private const string Twitter_for_iPad = "CjulERsDeqhhjSme66ECg";
-        private const string Twitter_for_Mac = "3rJOl1ODzm9yZy63FACdg";
-        private const string Twitter_for_Windows_Phone = "yN3DUNVO0Me63IAQdhTfCA";
-        private const string Twitter_for_Windows = "TgHNMa7WZE7Cxi1JbkAMQ";
+        private const string TwitterForIPhone = "IQKbtAYlXLripLGPWd0HUA";
+        private const string TwitterForAndroid = "3nVuSoBZnx6U4vzUxf5w";
+        private const string TwitterForGoogleTv = "iAtYJ4HpUVfIUoNnif1DA";
+        private const string TwitterForIPad = "CjulERsDeqhhjSme66ECg";
+        private const string TwitterForMac = "3rJOl1ODzm9yZy63FACdg";
+        private const string TwitterForWindowsPhone = "yN3DUNVO0Me63IAQdhTfCA";
+        private const string TwitterForWindows = "TgHNMa7WZE7Cxi1JbkAMQ";
         private const string TweetDeck = "yT577ApRtZw51q4NPMPPOQ";
 
-        public static readonly List<string> OfficialConsumerKeyList = new List<string>() { Twitter_for_iPhone, Twitter_for_Android, Twitter_for_Google_TV, Twitter_for_iPad, Twitter_for_Mac, Twitter_for_Windows_Phone, TweetDeck };
+        public static readonly List<string> OfficialConsumerKeyList = new List<string>
+        {
+            TwitterForIPhone,
+            TwitterForAndroid,
+            TwitterForGoogleTv,
+            TwitterForIPad,
+            TwitterForMac,
+            TwitterForWindowsPhone,
+            TweetDeck
+        };
 
         public static string GetUserAgent(Tokens tokens)
         {
             switch (tokens.ConsumerKey)
             {
-                case Twitter_for_Android:
+                case TwitterForAndroid:
                     // Nexus One に偽装 (From twidere)
                     return "TwitterAndroid /5.2.4 (524-r1) Nexus One/8 (HTC;passion;google;passion;0)";
-                case Twitter_for_iPhone:
+                case TwitterForIPhone:
                     return "Twitter-iPhone";
-                case Twitter_for_Google_TV:
+                case TwitterForGoogleTv:
                     return "Twitter-GoogleTV";
-                case Twitter_for_iPad:
+                case TwitterForIPad:
                     return "Twitter-iPad";
-                case Twitter_for_Mac:
+                case TwitterForMac:
                     return "Twitter-Mac";
-                case Twitter_for_Windows_Phone:
+                case TwitterForWindowsPhone:
                     return "Twitter-WindowsPhone";
-                case Twitter_for_Windows:
+                case TwitterForWindows:
                     // 調べたヘッダがこれだった
                     return "TwitterForWindows/4.3.3.0";
                 case TweetDeck:
                     // Microsoft Edge に偽装
-                    return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.14257";
+                    return
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.14257";
                 default:
                     return "Flantter";
             }
         }
     }
 }
-
-

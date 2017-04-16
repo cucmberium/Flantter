@@ -1,208 +1,370 @@
-﻿using Flantter.MilkyWay.Common;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 using Windows.Storage;
-using Windows.UI.Notifications;
+using Flantter.MilkyWay.Common;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Prism.Mvvm;
 using WinRTXamlToolkit.Async;
 
 namespace Flantter.MilkyWay.Setting
 {
     public class AccountSetting : BindableBase
     {
-        private string _Name;
-        public string Name
-        {
-            get { return this._Name; }
-            set { this.SetProperty(ref this._Name, value); }
-        }
-
-        private string _ScreenName;
-        public string ScreenName
-        {
-            get { return this._ScreenName; }
-            set { this.SetProperty(ref this._ScreenName, value); }
-        }
-
-        private long _UserId;
-        public long UserId
-        {
-            get { return this._UserId; }
-            set { this.SetProperty(ref this._UserId, value); }
-        }
-
-        private string _ConsumerKey;
-        public string ConsumerKey
-        {
-            get { return _ConsumerKey; }
-            set { this.SetProperty(ref this._ConsumerKey, value); }
-        }
-
-        private string _ConsumerSecret;
-        public string ConsumerSecret
-        {
-            get { return _ConsumerSecret; }
-            set { this.SetProperty(ref this._ConsumerSecret, value); }
-        }
-
-        private string _AccessToken;
-        public string AccessToken
-        {
-            get { return _AccessToken; }
-            set { this.SetProperty(ref this._AccessToken, value); }
-        }
-
-        private string _AccessTokenSecret;
-        public string AccessTokenSecret
-        {
-            get { return _AccessTokenSecret; }
-            set { this.SetProperty(ref this._AccessTokenSecret, value); }
-        }
-
         public ObservableCollection<ColumnSetting> Column { get; set; }
 
-        private bool _IncludeFollowingsActivity;
+        #region Name変更通知プロパティ
+
+        private string _name;
+
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
+        #endregion
+
+        #region ScreenName変更通知プロパティ
+
+        private string _screenName;
+
+        public string ScreenName
+        {
+            get => _screenName;
+            set => SetProperty(ref _screenName, value);
+        }
+
+        #endregion
+
+        #region UserId変更通知プロパティ
+
+        private long _userId;
+
+        public long UserId
+        {
+            get => _userId;
+            set => SetProperty(ref _userId, value);
+        }
+
+        #endregion
+
+        #region ConsumerKey変更通知プロパティ
+
+        private string _consumerKey;
+
+        public string ConsumerKey
+        {
+            get => _consumerKey;
+            set => SetProperty(ref _consumerKey, value);
+        }
+
+        #endregion
+
+        #region ConsumerSecret変更通知プロパティ
+
+        private string _consumerSecret;
+
+        public string ConsumerSecret
+        {
+            get => _consumerSecret;
+            set => SetProperty(ref _consumerSecret, value);
+        }
+
+        #endregion
+
+        #region AccessToken変更通知プロパティ
+
+        private string _accessToken;
+
+        public string AccessToken
+        {
+            get => _accessToken;
+            set => SetProperty(ref _accessToken, value);
+        }
+
+        #endregion
+
+        #region AccessTokenSecret変更通知プロパティ
+
+        private string _accessTokenSecret;
+
+        public string AccessTokenSecret
+        {
+            get => _accessTokenSecret;
+            set => SetProperty(ref _accessTokenSecret, value);
+        }
+
+        #endregion
+
+        #region IncludeFollowingsActivity変更通知プロパティ
+
+        private bool _includeFollowingsActivity;
+
         public bool IncludeFollowingsActivity
         {
-            get { return _IncludeFollowingsActivity; }
-            set { this.SetProperty(ref this._IncludeFollowingsActivity, value); }
+            get => _includeFollowingsActivity;
+            set => SetProperty(ref _includeFollowingsActivity, value);
         }
 
-        private bool _PossiblySensitive;
+        #endregion
+
+        #region PossiblySensitive変更通知プロパティ
+
+        private bool _possiblySensitive;
+
         public bool PossiblySensitive
         {
-            get { return _PossiblySensitive; }
-            set { this.SetProperty(ref this._PossiblySensitive, value); }
+            get => _possiblySensitive;
+            set => SetProperty(ref _possiblySensitive, value);
         }
 
-        private string _ProfileImageUrl;
+        #endregion
+
+        #region ProfileImageUrl変更通知プロパティ
+
+        private string _profileImageUrl;
+
         public string ProfileImageUrl
         {
-            get { return _ProfileImageUrl; }
-            set { this.SetProperty(ref this._ProfileImageUrl, value); }
+            get => _profileImageUrl;
+            set => SetProperty(ref _profileImageUrl, value);
         }
 
-        private string _ProfileBannerUrl;
+        #endregion
+
+        #region ProfileBannerUrl変更通知プロパティ
+
+        private string _profileBannerUrl;
+
         public string ProfileBannerUrl
         {
-            get { return _ProfileBannerUrl; }
-            set { this.SetProperty(ref this._ProfileBannerUrl, value); }
+            get => _profileBannerUrl;
+            set => SetProperty(ref _profileBannerUrl, value);
         }
 
-        private bool _IsEnabled;
+        #endregion
+
+        #region IsEnabled変更通知プロパティ
+
+        private bool _isEnabled;
+
         public bool IsEnabled
         {
-            get { return _IsEnabled; }
-            set { this.SetProperty(ref this._IsEnabled, value); }
+            get => _isEnabled;
+            set => SetProperty(ref _isEnabled, value);
         }
 
-        private SettingSupport.PlatformEnum _Platform;
-        public SettingSupport.PlatformEnum Platform 
+        #endregion
+
+        #region Platform変更通知プロパティ
+
+        private SettingSupport.PlatformEnum _platform;
+
+        public SettingSupport.PlatformEnum Platform
         {
-            get { return _Platform; }
-            set { this.SetProperty(ref this._Platform, value); }
+            get => _platform;
+            set => SetProperty(ref _platform, value);
         }
 
-        private string _Instance;
+        #endregion
+
+        #region Instance変更通知プロパティ
+
+        private string _instance;
+
         public string Instance
         {
-            get { return _Instance; }
-            set { this.SetProperty(ref this._Instance, value); }
+            get => _instance;
+            set => SetProperty(ref _instance, value);
         }
+
+        #endregion
     }
 
     public class ColumnSetting : BindableBase
     {
-        private string _Name;
+        #region Name変更通知プロパティ
+
+        private string _name;
+
         public string Name
         {
-            get { return _Name; }
-            set { this.SetProperty(ref this._Name, value); }
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
 
-        private SettingSupport.ColumnTypeEnum _Action;
+        #endregion
+
+        #region Action変更通知プロパティ
+
+        private SettingSupport.ColumnTypeEnum _action;
+
         public SettingSupport.ColumnTypeEnum Action
         {
-            get { return _Action; }
-            set { this.SetProperty(ref this._Action, value); }
+            get => _action;
+            set => SetProperty(ref _action, value);
         }
 
-        private string _Parameter;
+        #endregion
+
+        #region Parameter変更通知プロパティ
+
+        private string _parameter;
+
         public string Parameter
         {
-            get { return _Parameter; }
-            set { this.SetProperty(ref this._Parameter, value); }
+            get => _parameter;
+            set => SetProperty(ref _parameter, value);
         }
 
-        private string _Filter;
+        #endregion
+
+        #region Filter変更通知プロパティ
+
+        private string _filter;
+
         public string Filter
         {
-            get { return _Filter; }
-            set { this.SetProperty(ref this._Filter, value); }
+            get => _filter;
+            set => SetProperty(ref _filter, value);
         }
 
-        private bool _DisableStartupRefresh;
+        #endregion
+
+        #region DisableStartupRefresh変更通知プロパティ
+
+        private bool _disableStartupRefresh;
+
         public bool DisableStartupRefresh
         {
-            get { return _DisableStartupRefresh; }
-            set { this.SetProperty(ref this._DisableStartupRefresh, value); }
+            get => _disableStartupRefresh;
+            set => SetProperty(ref _disableStartupRefresh, value);
         }
 
-        private bool _AutoRefresh;
+        #endregion
+
+        #region AutoRefresh変更通知プロパティ
+
+        private bool _autoRefresh;
+
         public bool AutoRefresh
         {
-            get { return _AutoRefresh; }
-            set { this.SetProperty(ref this._AutoRefresh, value); }
+            get => _autoRefresh;
+            set => SetProperty(ref _autoRefresh, value);
         }
 
-        private double _AutoRefreshTimerInterval;
+        #endregion
+
+        #region AutoRefreshTimerInterval変更通知プロパティ
+
+        private double _autoRefreshTimerInterval;
+
         public double AutoRefreshTimerInterval
         {
-            get { return _AutoRefreshTimerInterval; }
-            set { this.SetProperty(ref this._AutoRefreshTimerInterval, value); }
+            get => _autoRefreshTimerInterval;
+            set => SetProperty(ref _autoRefreshTimerInterval, value);
         }
-        
-        private bool _Streaming;
+
+        #endregion
+
+        #region Streaming変更通知プロパティ
+
+        private bool _streaming;
+
         public bool Streaming
         {
-            get { return _Streaming; }
-            set { this.SetProperty(ref this._Streaming, value); }
+            get => _streaming;
+            set => SetProperty(ref _streaming, value);
         }
 
-        private int _Index;
+        #endregion
+
+        #region Index変更通知プロパティ
+
+        private int _index;
+
         public int Index
         {
-            get { return _Index; }
-            set { this.SetProperty(ref this._Index, value); }
+            get => _index;
+            set => SetProperty(ref _index, value);
         }
 
-        private int _FetchingNumberOfTweet;
+        #endregion
+
+        #region FetchingNumberOfTweet変更通知プロパティ
+
+        private int _fetchingNumberOfTweet;
+
         public int FetchingNumberOfTweet
         {
-            get { return _FetchingNumberOfTweet; }
-            set { this.SetProperty(ref this._FetchingNumberOfTweet, value); }
+            get => _fetchingNumberOfTweet;
+            set => SetProperty(ref _fetchingNumberOfTweet, value);
         }
 
-        private long _Identifier;
+        #endregion
+
+        #region Identifier変更通知プロパティ
+
+        private long _identifier;
+
         public long Identifier
         {
-            get { return _Identifier; }
-            set { this.SetProperty(ref this._Identifier, value); }
+            get => _identifier;
+            set => SetProperty(ref _identifier, value);
         }
+
+        #endregion
     }
 
     public class AdvancedSettingService : AdvancedSettingServiceBase<AdvancedSettingService>
     {
-        private AsyncLock _asyncLock = new AsyncLock();
+        private readonly AsyncLock _asyncLock = new AsyncLock();
+
+        // アカウント,カラム設定
+        public ObservableCollection<AccountSetting> Accounts
+        {
+            get => GetValue((ObservableCollection<AccountSetting>) null);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
+        // ミュート設定
+        public ObservableCollection<string> MuteUsers
+        {
+            get => GetValue((ObservableCollection<string>) null);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<string> MuteClients
+        {
+            get => GetValue((ObservableCollection<string>) null);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<string> MuteWords
+        {
+            get => GetValue((ObservableCollection<string>) null);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
 
         public async Task SaveToAppSettings()
         {
@@ -211,9 +373,11 @@ namespace Flantter.MilkyWay.Setting
                 try
                 {
                     var json = JsonConvert.SerializeObject(Dict);
-                    var writeStorageFile = await ApplicationData.Current.RoamingFolder.CreateFileAsync("setting.xml", CreationCollisionOption.ReplaceExisting);
+                    var writeStorageFile =
+                        await ApplicationData.Current.RoamingFolder.CreateFileAsync("setting.xml",
+                            CreationCollisionOption.ReplaceExisting);
                     using (var s = await writeStorageFile.OpenStreamForWriteAsync())
-                    using (var st = new System.IO.StreamWriter(s))
+                    using (var st = new StreamWriter(s))
                     {
                         st.Write(json);
                     }
@@ -223,6 +387,7 @@ namespace Flantter.MilkyWay.Setting
                 }
             }
         }
+
         public async Task LoadFromAppSettings()
         {
             using (await _asyncLock.LockAsync())
@@ -233,39 +398,29 @@ namespace Flantter.MilkyWay.Setting
 
                     var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
                     using (var s = await readStorageFile.OpenStreamForReadAsync())
-                    using (var st = new System.IO.StreamReader(s))
+                    using (var st = new StreamReader(s))
                     {
                         json = st.ReadToEnd();
                     }
 
                     var jTokens = JToken.Parse(json);
 
-                    this.Dict = new Dictionary<string, object>();
+                    Dict = new Dictionary<string, object>();
                     foreach (JProperty jProperty in jTokens)
-                    {
                         if (jProperty.Name == "Accounts")
-                            this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
+                            Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
                         else
-                            this.Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
-                    }
+                            Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
                 }
                 catch
                 {
                 }
             }
         }
-
-        // アカウント,カラム設定
-        public ObservableCollection<AccountSetting> Accounts { get { return GetValue((ObservableCollection<AccountSetting>)null); } set { SetValue(value); OnPropertyChanged(); } }
-        
-        // ミュート設定
-        public ObservableCollection<string> MuteUsers { get { return GetValue((ObservableCollection<string>)null); } set { SetValue(value); OnPropertyChanged(); } }
-        public ObservableCollection<string> MuteClients { get { return GetValue((ObservableCollection<string>)null); } set { SetValue(value); OnPropertyChanged(); } }
-        public ObservableCollection<string> MuteWords { get { return GetValue((ObservableCollection<string>)null); } set { SetValue(value); OnPropertyChanged(); } }
     }
 
     public class AdvancedSettingProvider
     {
-        public AdvancedSettingService AdvancedSetting { get { return AdvancedSettingService.AdvancedSetting; } }
+        public AdvancedSettingService AdvancedSetting => AdvancedSettingService.AdvancedSetting;
     }
 }

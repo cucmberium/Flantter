@@ -1,54 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows.Input;
-using Windows.Foundation;
+﻿using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Shapes;
-
-// The Templated Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234235
 
 namespace Flantter.MilkyWay.Views.Controls
 {
     public sealed class TriangleButton : ContentControl
     {
+        public static readonly DependencyProperty PointsProperty =
+            DependencyProperty.Register("Points",
+                typeof(PointCollection),
+                typeof(TriangleButton),
+                null);
+
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(TriangleButton),
+                new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(TriangleButton),
+                new PropertyMetadata(null));
+
+        private bool _pressing;
+
         public TriangleButton()
         {
-            this.DefaultStyleKey = typeof(TriangleButton);
+            DefaultStyleKey = typeof(TriangleButton);
         }
 
         public PointCollection Points
         {
-            get { return (PointCollection)GetValue(PointsProperty); }
-            set { SetValue(PointsProperty, value); }
+            get => (PointCollection) GetValue(PointsProperty);
+            set => SetValue(PointsProperty, value);
         }
-        public static readonly DependencyProperty PointsProperty =
-            DependencyProperty.Register("Points",
-                                        typeof(PointCollection),
-                                        typeof(TriangleButton),
-                                        null);
 
         public ICommand Command
         {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+            get => (ICommand) GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(TriangleButton), new PropertyMetadata(null));
 
         public object CommandParameter
         {
-            get { return (object)GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
         }
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(TriangleButton), new PropertyMetadata(null));
 
         protected override void OnApplyTemplate()
         {
@@ -64,25 +61,23 @@ namespace Flantter.MilkyWay.Views.Controls
             base.OnApplyTemplate();
         }
 
-        private bool _Pressing;
-
         private void TriangleButton_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            _Pressing = false;
+            _pressing = false;
 
             VisualStateManager.GoToState(this, "Normal", true);
         }
 
         private void TriangleButton_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            _Pressing = true;
+            _pressing = true;
 
             VisualStateManager.GoToState(this, "Pressed", true);
         }
 
         private void TriangleButton_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            _Pressing = false;
+            _pressing = false;
 
             VisualStateManager.GoToState(this, "Normal", true);
         }
@@ -94,7 +89,7 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void TriangleButton_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_Pressing)
+            if (_pressing)
                 VisualStateManager.GoToState(this, "Pressed", true);
             else
                 VisualStateManager.GoToState(this, "PointerOver", true);

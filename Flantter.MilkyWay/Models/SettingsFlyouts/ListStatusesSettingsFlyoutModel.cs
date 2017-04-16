@@ -1,14 +1,11 @@
-﻿using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
-using Flantter.MilkyWay.Setting;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
@@ -16,92 +13,105 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
     {
         public ListStatusesSettingsFlyoutModel()
         {
-            this.ListStatuses = new ObservableCollection<Twitter.Objects.Status>();
+            ListStatuses = new ObservableCollection<Status>();
         }
 
-        #region Tokens変更通知プロパティ
-        private Tokens _Tokens;
-        public Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
-
-        #region Updating変更通知プロパティ
-        private bool _Updating;
-        public bool Updating
-        {
-            get { return this._Updating; }
-            set { this.SetProperty(ref this._Updating, value); }
-        }
-        #endregion
-
-        #region Id変更通知プロパティ
-        private long _Id;
-        public long Id
-        {
-            get { return this._Id; }
-            set { this.SetProperty(ref this._Id, value); }
-        }
-        #endregion
-
-        public ObservableCollection<Twitter.Objects.Status> ListStatuses { get; set; }
+        public ObservableCollection<Status> ListStatuses { get; set; }
 
         public async Task UpdateListStatuses(long maxid = 0, bool clear = true)
         {
-            if (this.Updating)
+            if (Updating)
                 return;
 
-            if (this._Id == 0 || this.Tokens == null)
+            if (_id == 0 || Tokens == null)
                 return;
 
-            this.Updating = true;
+            Updating = true;
 
             if (maxid == 0 && clear)
-                this.ListStatuses.Clear();
-            
+                ListStatuses.Clear();
+
             try
             {
-                var param = new Dictionary<string, object>()
+                var param = new Dictionary<string, object>
                 {
-                    {"list_id", this._Id},
+                    {"list_id", _id},
                     {"count", 20},
                     {"tweet_mode", CoreTweet.TweetMode.extended}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
 
-                var listStatuses = await this.Tokens.Lists.StatusesAsync(param);
+                var listStatuses = await Tokens.Lists.StatusesAsync(param);
                 if (maxid == 0 && clear)
-                    this.ListStatuses.Clear();
+                    ListStatuses.Clear();
 
                 foreach (var status in listStatuses)
                 {
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                        new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
 
                     var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
-                    var index = this.ListStatuses.IndexOf(this.ListStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
+                    var index = ListStatuses.IndexOf(
+                        ListStatuses.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) == id));
                     if (index == -1)
                     {
-                        index = this.ListStatuses.IndexOf(this.ListStatuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
+                        index = ListStatuses.IndexOf(
+                            ListStatuses.FirstOrDefault(
+                                x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) < id));
                         if (index == -1)
-                            this.ListStatuses.Add(status);
+                            ListStatuses.Add(status);
                         else
-                            this.ListStatuses.Insert(index, status);
+                            ListStatuses.Insert(index, status);
                     }
                 }
             }
             catch
             {
                 if (maxid == 0 && clear)
-                    this.ListStatuses.Clear();
+                    ListStatuses.Clear();
 
-                this.Updating = false;
+                Updating = false;
                 return;
             }
 
-            this.Updating = false;
+            Updating = false;
         }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region Updating変更通知プロパティ
+
+        private bool _updating;
+
+        public bool Updating
+        {
+            get => _updating;
+            set => SetProperty(ref _updating, value);
+        }
+
+        #endregion
+
+        #region Id変更通知プロパティ
+
+        private long _id;
+
+        public long Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+
+        #endregion
     }
 }

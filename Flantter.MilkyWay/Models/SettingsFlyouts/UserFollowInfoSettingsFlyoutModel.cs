@@ -1,40 +1,40 @@
-﻿using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
-using Flantter.MilkyWay.Setting;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Prism.Mvvm;
 using WinRTXamlToolkit.Async;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class UserFollowInfoSettingsFlyoutModel : BindableBase
     {
+        private long _blockCursor;
+
+        private long _crushCursor;
+
+        private long _crushedOnCursor;
+
+        private long _followersCursor;
+
+        private long _followingCursor;
+
+        private long _muteCursor;
+
         public UserFollowInfoSettingsFlyoutModel()
         {
-            this.IdsAsyncLock = new AsyncLock();
+            IdsAsyncLock = new AsyncLock();
 
-            this.Following = new ObservableCollection<Twitter.Objects.User>();
-            this.Followers = new ObservableCollection<Twitter.Objects.User>();
-            this.Crush = new ObservableCollection<Twitter.Objects.User>();
-            this.CrushedOn = new ObservableCollection<Twitter.Objects.User>();
-            this.Block = new ObservableCollection<Twitter.Objects.User>();
-            this.Mute = new ObservableCollection<Twitter.Objects.User>();
+            Following = new ObservableCollection<User>();
+            Followers = new ObservableCollection<User>();
+            Crush = new ObservableCollection<User>();
+            CrushedOn = new ObservableCollection<User>();
+            Block = new ObservableCollection<User>();
+            Mute = new ObservableCollection<User>();
         }
 
-        #region Tokens変更通知プロパティ
-        private Tokens _Tokens;
-        public Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
-        
         public bool OpenFollowers { get; set; }
 
         public bool OpenCrush { get; set; }
@@ -45,273 +45,19 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         public bool OpenMute { get; set; }
 
-        #region UpdatingFollowing変更通知プロパティ
-        private bool _UpdatingFollowing;
-        public bool UpdatingFollowing
-        {
-            get { return this._UpdatingFollowing; }
-            set { this.SetProperty(ref this._UpdatingFollowing, value); }
-        }
-        #endregion
+        public ObservableCollection<User> Following { get; set; }
 
-        #region UpdatingFollowers変更通知プロパティ
-        private bool _UpdatingFollowers;
-        public bool UpdatingFollowers
-        {
-            get { return this._UpdatingFollowers; }
-            set { this.SetProperty(ref this._UpdatingFollowers, value); }
-        }
-        #endregion
+        public ObservableCollection<User> Followers { get; set; }
 
-        #region UpdatingCrush変更通知プロパティ
-        private bool _UpdatingCrush;
-        public bool UpdatingCrush
-        {
-            get { return this._UpdatingCrush; }
-            set { this.SetProperty(ref this._UpdatingCrush, value); }
-        }
-        #endregion
+        public ObservableCollection<User> Crush { get; set; }
 
-        #region UpdatingCrushedOn変更通知プロパティ
-        private bool _UpdatingCrushedOn;
-        public bool UpdatingCrushedOn
-        {
-            get { return this._UpdatingCrushedOn; }
-            set { this.SetProperty(ref this._UpdatingCrushedOn, value); }
-        }
-        #endregion
+        public ObservableCollection<User> CrushedOn { get; set; }
 
-        #region UpdatingBlock変更通知プロパティ
-        private bool _UpdatingBlock;
-        public bool UpdatingBlock
-        {
-            get { return this._UpdatingBlock; }
-            set { this.SetProperty(ref this._UpdatingBlock, value); }
-        }
-        #endregion
+        public ObservableCollection<User> Block { get; set; }
 
-        #region UpdatingMute変更通知プロパティ
-        private bool _UpdatingMute;
-        public bool UpdatingMute
-        {
-            get { return this._UpdatingMute; }
-            set { this.SetProperty(ref this._UpdatingMute, value); }
-        }
-        #endregion
+        public ObservableCollection<User> Mute { get; set; }
 
-        public ObservableCollection<Twitter.Objects.User> Following { get; set; }
 
-        public ObservableCollection<Twitter.Objects.User> Followers { get; set; }
-
-        public ObservableCollection<Twitter.Objects.User> Crush { get; set; }
-
-        public ObservableCollection<Twitter.Objects.User> CrushedOn { get; set; }
-
-        public ObservableCollection<Twitter.Objects.User> Block { get; set; }
-
-        public ObservableCollection<Twitter.Objects.User> Mute { get; set; }
-
-        private long followingCursor = 0;
-        public async Task UpdateFollowing(bool useCursor = false)
-        {
-            if (this.UpdatingFollowing)
-                return;
-
-            if (this.Tokens == null)
-                return;
-
-            if (useCursor && followingCursor == 0)
-                return;
-
-            this.UpdatingFollowing = true;
-
-            if (!useCursor || followingCursor == 0)
-                this.Following.Clear();
-            
-            try
-            {
-                var param = new Dictionary<string, object>()
-                {
-                    {"user_id", this.Tokens.UserId},
-                    {"count", 20},
-                };
-                if (useCursor && followingCursor != 0)
-                    param.Add("cursor", followingCursor);
-
-                var following = await Tokens.Friends.ListAsync(param);
-                if (!useCursor || followingCursor == 0)
-                    this.Following.Clear();
-
-                foreach (var user in following)
-                {
-                    this.Following.Add(user);
-                }
-
-                followingCursor = following.NextCursor;
-            }
-            catch
-            {
-                if (!useCursor || followingCursor == 0)
-                    this.Following.Clear();
-
-                this.UpdatingFollowing = false;
-                return;
-            }
-
-            
-
-            this.UpdatingFollowing = false;
-        }
-
-        private long followersCursor = 0;
-        public async Task UpdateFollowers(bool useCursor = false)
-        {
-            if (this.UpdatingFollowers)
-                return;
-
-            if (this.Tokens == null)
-                return;
-
-            if (useCursor && followersCursor == 0)
-                return;
-
-            this.UpdatingFollowers = true;
-
-            if (!useCursor || followersCursor == 0)
-                this.Followers.Clear();
-            
-            try
-            {
-                var param = new Dictionary<string, object>()
-                {
-                    {"user_id", this.Tokens.UserId},
-                    {"count", 20},
-                };
-                if (useCursor && followersCursor != 0)
-                    param.Add("cursor", followersCursor);
-
-                var followers = await Tokens.Followers.ListAsync(param);
-                if (!useCursor || followersCursor == 0)
-                    this.Followers.Clear();
-
-                foreach (var user in followers)
-                {
-                    this.Followers.Add(user);
-                }
-
-                followersCursor = followers.NextCursor;
-            }
-            catch
-            {
-                if (!useCursor || followersCursor == 0)
-                    this.Followers.Clear();
-
-                this.UpdatingFollowers = false;
-                return;
-            }
-            
-            this.UpdatingFollowers = false;
-        }
-        
-        private long blockCursor = 0;
-        public async Task UpdateBlock(bool useCursor = false)
-        {
-            if (this.UpdatingBlock)
-                return;
-
-            if (this.Tokens == null)
-                return;
-
-            if (useCursor && blockCursor == 0)
-                return;
-
-            this.UpdatingBlock = true;
-
-            if (!useCursor || blockCursor == 0)
-                this.Block.Clear();
-            
-            try
-            {
-                var param = new Dictionary<string, object>()
-                {
-                    {"count", 20},
-                };
-                if (useCursor && blockCursor != 0)
-                    param.Add("cursor", blockCursor);
-
-                var block = await Tokens.Blocks.ListAsync(param);
-                if (!useCursor || blockCursor == 0)
-                    this.Block.Clear();
-
-                foreach (var user in block)
-                {
-                    this.Block.Add(user);
-                }
-
-                blockCursor = block.NextCursor;
-            }
-            catch
-            {
-                if (!useCursor || blockCursor == 0)
-                    this.Block.Clear();
-
-                this.UpdatingBlock = false;
-                return;
-            }
-
-            this.UpdatingBlock = false;
-        }
-        
-        private long muteCursor = 0;
-        public async Task UpdateMute(bool useCursor = false)
-        {
-            if (this.UpdatingMute)
-                return;
-
-            if (this.Tokens == null)
-                return;
-
-            if (useCursor && muteCursor == 0)
-                return;
-
-            this.UpdatingMute = true;
-
-            if (!useCursor || muteCursor == 0)
-                this.Mute.Clear();
-            
-            try
-            {
-                var param = new Dictionary<string, object>()
-                {
-                    {"count", 20},
-                };
-                if (useCursor && muteCursor != 0)
-                    param.Add("cursor", muteCursor);
-                
-                var mute = await Tokens.Mutes.Users.ListAsync(param);
-                if (!useCursor || muteCursor == 0)
-                    this.Mute.Clear();
-
-                foreach (var user in mute)
-                {
-                    this.Mute.Add(user);
-                }
-
-                muteCursor = mute.NextCursor;
-            }
-            catch
-            {
-                if (!useCursor || muteCursor == 0)
-                    this.Mute.Clear();
-
-                this.UpdatingMute = false;
-                return;
-            }
-            
-            this.UpdatingMute = false;
-        }
-
-        
         public AsyncLock IdsAsyncLock { get; set; }
         public bool GetIds { get; set; }
         public List<long> FollowingIds { get; set; } = new List<long>();
@@ -319,145 +65,326 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         public List<long> CrushIds { get; set; } = new List<long>();
         public List<long> CrushedOnIds { get; set; } = new List<long>();
 
-        private long crushCursor = 0;
-        public async Task UpdateCrush(bool useCursor = false)
+        public async Task UpdateFollowing(bool useCursor = false)
         {
-            if (this.UpdatingCrush)
+            if (UpdatingFollowing)
                 return;
 
-            if (this.Tokens == null)
+            if (Tokens == null)
                 return;
 
-            if (useCursor && crushCursor == 0)
+            if (useCursor && _followingCursor == 0)
                 return;
 
-            this.UpdatingCrush = true;
+            UpdatingFollowing = true;
 
-            if (!useCursor || crushCursor == 0)
-                this.Crush.Clear();
+            if (!useCursor || _followingCursor == 0)
+                Following.Clear();
 
-            if (!GetIds)
-                await this.UpdateFriendShipIds();
-
-            if (!GetIds)
+            try
             {
-                this.UpdatingCrush = true;
+                var param = new Dictionary<string, object>
+                {
+                    {"user_id", Tokens.UserId},
+                    {"count", 20}
+                };
+                if (useCursor && _followingCursor != 0)
+                    param.Add("cursor", _followingCursor);
+
+                var following = await Tokens.Friends.ListAsync(param);
+                if (!useCursor || _followingCursor == 0)
+                    Following.Clear();
+
+                foreach (var user in following)
+                    Following.Add(user);
+
+                _followingCursor = following.NextCursor;
+            }
+            catch
+            {
+                if (!useCursor || _followingCursor == 0)
+                    Following.Clear();
+
+                UpdatingFollowing = false;
                 return;
             }
 
-            using (await this.IdsAsyncLock.LockAsync())
+
+            UpdatingFollowing = false;
+        }
+
+        public async Task UpdateFollowers(bool useCursor = false)
+        {
+            if (UpdatingFollowers)
+                return;
+
+            if (Tokens == null)
+                return;
+
+            if (useCursor && _followersCursor == 0)
+                return;
+
+            UpdatingFollowers = true;
+
+            if (!useCursor || _followersCursor == 0)
+                Followers.Clear();
+
+            try
+            {
+                var param = new Dictionary<string, object>
+                {
+                    {"user_id", Tokens.UserId},
+                    {"count", 20}
+                };
+                if (useCursor && _followersCursor != 0)
+                    param.Add("cursor", _followersCursor);
+
+                var followers = await Tokens.Followers.ListAsync(param);
+                if (!useCursor || _followersCursor == 0)
+                    Followers.Clear();
+
+                foreach (var user in followers)
+                    Followers.Add(user);
+
+                _followersCursor = followers.NextCursor;
+            }
+            catch
+            {
+                if (!useCursor || _followersCursor == 0)
+                    Followers.Clear();
+
+                UpdatingFollowers = false;
+                return;
+            }
+
+            UpdatingFollowers = false;
+        }
+
+        public async Task UpdateBlock(bool useCursor = false)
+        {
+            if (UpdatingBlock)
+                return;
+
+            if (Tokens == null)
+                return;
+
+            if (useCursor && _blockCursor == 0)
+                return;
+
+            UpdatingBlock = true;
+
+            if (!useCursor || _blockCursor == 0)
+                Block.Clear();
+
+            try
+            {
+                var param = new Dictionary<string, object>
+                {
+                    {"count", 20}
+                };
+                if (useCursor && _blockCursor != 0)
+                    param.Add("cursor", _blockCursor);
+
+                var block = await Tokens.Blocks.ListAsync(param);
+                if (!useCursor || _blockCursor == 0)
+                    Block.Clear();
+
+                foreach (var user in block)
+                    Block.Add(user);
+
+                _blockCursor = block.NextCursor;
+            }
+            catch
+            {
+                if (!useCursor || _blockCursor == 0)
+                    Block.Clear();
+
+                UpdatingBlock = false;
+                return;
+            }
+
+            UpdatingBlock = false;
+        }
+
+        public async Task UpdateMute(bool useCursor = false)
+        {
+            if (UpdatingMute)
+                return;
+
+            if (Tokens == null)
+                return;
+
+            if (useCursor && _muteCursor == 0)
+                return;
+
+            UpdatingMute = true;
+
+            if (!useCursor || _muteCursor == 0)
+                Mute.Clear();
+
+            try
+            {
+                var param = new Dictionary<string, object>
+                {
+                    {"count", 20}
+                };
+                if (useCursor && _muteCursor != 0)
+                    param.Add("cursor", _muteCursor);
+
+                var mute = await Tokens.Mutes.Users.ListAsync(param);
+                if (!useCursor || _muteCursor == 0)
+                    Mute.Clear();
+
+                foreach (var user in mute)
+                    Mute.Add(user);
+
+                _muteCursor = mute.NextCursor;
+            }
+            catch
+            {
+                if (!useCursor || _muteCursor == 0)
+                    Mute.Clear();
+
+                UpdatingMute = false;
+                return;
+            }
+
+            UpdatingMute = false;
+        }
+
+        public async Task UpdateCrush(bool useCursor = false)
+        {
+            if (UpdatingCrush)
+                return;
+
+            if (Tokens == null)
+                return;
+
+            if (useCursor && _crushCursor == 0)
+                return;
+
+            UpdatingCrush = true;
+
+            if (!useCursor || _crushCursor == 0)
+                Crush.Clear();
+
+            if (!GetIds)
+                await UpdateFriendShipIds();
+
+            if (!GetIds)
+            {
+                UpdatingCrush = true;
+                return;
+            }
+
+            using (await IdsAsyncLock.LockAsync())
             {
                 var ids = new List<long>();
-                for (var idsCount = 0; crushCursor < this.CrushIds.Count && idsCount <= 99; crushCursor++, idsCount++)
-                    ids.Add(this.CrushIds[(int)crushCursor]);
-                
+                for (var idsCount = 0; _crushCursor < CrushIds.Count && idsCount <= 99; _crushCursor++, idsCount++)
+                    ids.Add(CrushIds[(int) _crushCursor]);
+
                 try
                 {
                     var crush = await Tokens.Users.LookupAsync(user_id => ids.AsEnumerable());
 
-                    if (!useCursor || crushCursor == 0)
-                        this.Crush.Clear();
+                    if (!useCursor || _crushCursor == 0)
+                        Crush.Clear();
 
                     foreach (var user in crush)
-                    {
-                        this.Crush.Add(user);
-                    }
+                        Crush.Add(user);
                 }
                 catch
                 {
-                    if (!useCursor || crushCursor == 0)
-                        this.Crush.Clear();
+                    if (!useCursor || _crushCursor == 0)
+                        Crush.Clear();
 
-                    this.UpdatingCrush = false;
+                    UpdatingCrush = false;
                     return;
                 }
             }
 
-            if (crushCursor == this.CrushIds.Count)
-                crushCursor = 0;
+            if (_crushCursor == CrushIds.Count)
+                _crushCursor = 0;
 
-            this.UpdatingCrush = false;
+            UpdatingCrush = false;
         }
 
-        private long crushedOnCursor = 0;
         public async Task UpdateCrushedOn(bool useCursor = false)
         {
-            if (this.UpdatingCrushedOn)
+            if (UpdatingCrushedOn)
                 return;
 
-            if (this.Tokens == null)
+            if (Tokens == null)
                 return;
 
-            if (useCursor && crushedOnCursor == 0)
+            if (useCursor && _crushedOnCursor == 0)
                 return;
 
-            this.UpdatingCrushedOn = true;
+            UpdatingCrushedOn = true;
 
-            if (!useCursor || crushedOnCursor == 0)
-                this.CrushedOn.Clear();
+            if (!useCursor || _crushedOnCursor == 0)
+                CrushedOn.Clear();
 
             if (!GetIds)
-                await this.UpdateFriendShipIds();
+                await UpdateFriendShipIds();
 
             if (!GetIds)
             {
-                this.UpdatingCrushedOn = true;
+                UpdatingCrushedOn = true;
                 return;
             }
 
-            using (await this.IdsAsyncLock.LockAsync())
+            using (await IdsAsyncLock.LockAsync())
             {
                 var ids = new List<long>();
-                for (var idsCount = 0; crushedOnCursor < this.CrushedOnIds.Count && idsCount <= 99; crushedOnCursor++, idsCount++)
-                    ids.Add(this.CrushedOnIds[(int)crushedOnCursor]);
-                
+                for (var idsCount = 0;
+                    _crushedOnCursor < CrushedOnIds.Count && idsCount <= 99;
+                    _crushedOnCursor++, idsCount++)
+                    ids.Add(CrushedOnIds[(int) _crushedOnCursor]);
+
                 try
                 {
                     var crushedOn = await Tokens.Users.LookupAsync(user_id => ids.AsEnumerable());
-                    if (!useCursor || crushedOnCursor == 0)
-                        this.CrushedOn.Clear();
+                    if (!useCursor || _crushedOnCursor == 0)
+                        CrushedOn.Clear();
 
                     foreach (var user in crushedOn)
-                    {
-                        this.CrushedOn.Add(user);
-                    }
+                        CrushedOn.Add(user);
                 }
                 catch
                 {
-                    if (!useCursor || crushedOnCursor == 0)
-                        this.CrushedOn.Clear();
+                    if (!useCursor || _crushedOnCursor == 0)
+                        CrushedOn.Clear();
 
-                    this.UpdatingCrushedOn = false;
+                    UpdatingCrushedOn = false;
                     return;
                 }
-
-                
             }
 
-            if (crushedOnCursor == this.CrushedOnIds.Count)
-                crushedOnCursor = 0;
+            if (_crushedOnCursor == CrushedOnIds.Count)
+                _crushedOnCursor = 0;
 
-            this.UpdatingCrushedOn = false;
+            UpdatingCrushedOn = false;
         }
 
 
         public async Task UpdateFriendShipIds()
         {
-            using (await this.IdsAsyncLock.LockAsync())
+            using (await IdsAsyncLock.LockAsync())
             {
-                if (this.GetIds)
+                if (GetIds)
                     return;
-                
+
                 long idsCursor = 0;
 
                 try
                 {
                     while (true)
                     {
-                        var param = new Dictionary<string, object>()
+                        var param = new Dictionary<string, object>
                         {
-                            {"user_id", this.Tokens.UserId },
-                            {"count", 5000},
+                            {"user_id", Tokens.UserId},
+                            {"count", 5000}
                         };
                         if (idsCursor != 0)
                             param.Add("cursor", idsCursor);
@@ -465,7 +392,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         var userFollowingIds = await Tokens.Friends.IdsAsync(param);
 
                         foreach (var id in userFollowingIds)
-                            this.FollowingIds.Add(id);
+                            FollowingIds.Add(id);
 
                         if (userFollowingIds.NextCursor == 0)
                             break;
@@ -482,10 +409,10 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 {
                     while (true)
                     {
-                        var param = new Dictionary<string, object>()
+                        var param = new Dictionary<string, object>
                         {
-                            {"user_id", this.Tokens.UserId },
-                            {"count", 5000},
+                            {"user_id", Tokens.UserId},
+                            {"count", 5000}
                         };
                         if (idsCursor != 0)
                             param.Add("cursor", idsCursor);
@@ -493,25 +420,108 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         var userFollowerIds = await Tokens.Followers.IdsAsync(param);
 
                         foreach (var id in userFollowerIds)
-                            this.FollowersIds.Add(id);
+                            FollowersIds.Add(id);
 
                         if (userFollowerIds.NextCursor == 0)
                             break;
 
                         idsCursor = userFollowerIds.NextCursor;
                     }
-
                 }
                 catch
                 {
                     return;
                 }
 
-                this.CrushIds = this.FollowingIds.Except(this.FollowersIds).ToList();
-                this.CrushedOnIds = this.FollowersIds.Except(this.FollowingIds).ToList();
+                CrushIds = FollowingIds.Except(FollowersIds).ToList();
+                CrushedOnIds = FollowersIds.Except(FollowingIds).ToList();
 
-                this.GetIds = true;
+                GetIds = true;
             }
         }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region UpdatingFollowing変更通知プロパティ
+
+        private bool _updatingFollowing;
+
+        public bool UpdatingFollowing
+        {
+            get => _updatingFollowing;
+            set => SetProperty(ref _updatingFollowing, value);
+        }
+
+        #endregion
+
+        #region UpdatingFollowers変更通知プロパティ
+
+        private bool _updatingFollowers;
+
+        public bool UpdatingFollowers
+        {
+            get => _updatingFollowers;
+            set => SetProperty(ref _updatingFollowers, value);
+        }
+
+        #endregion
+
+        #region UpdatingCrush変更通知プロパティ
+
+        private bool _updatingCrush;
+
+        public bool UpdatingCrush
+        {
+            get => _updatingCrush;
+            set => SetProperty(ref _updatingCrush, value);
+        }
+
+        #endregion
+
+        #region UpdatingCrushedOn変更通知プロパティ
+
+        private bool _updatingCrushedOn;
+
+        public bool UpdatingCrushedOn
+        {
+            get => _updatingCrushedOn;
+            set => SetProperty(ref _updatingCrushedOn, value);
+        }
+
+        #endregion
+
+        #region UpdatingBlock変更通知プロパティ
+
+        private bool _updatingBlock;
+
+        public bool UpdatingBlock
+        {
+            get => _updatingBlock;
+            set => SetProperty(ref _updatingBlock, value);
+        }
+
+        #endregion
+
+        #region UpdatingMute変更通知プロパティ
+
+        private bool _updatingMute;
+
+        public bool UpdatingMute
+        {
+            get => _updatingMute;
+            set => SetProperty(ref _updatingMute, value);
+        }
+
+        #endregion
     }
 }

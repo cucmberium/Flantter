@@ -1,12 +1,6 @@
 ﻿using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
-using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
@@ -14,61 +8,61 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
     {
         public MediaEntityViewModel(MediaEntity mediaEntity)
         {
-            this.Model = mediaEntity;
+            Model = mediaEntity;
 
-            this.MediaThumbnailUrl = mediaEntity.MediaThumbnailUrl;
+            MediaThumbnailUrl = mediaEntity.MediaThumbnailUrl;
 
-            this.Notice = Services.Notice.Instance;
-            this.Setting = SettingService.Setting;
+            Notice = Notice.Instance;
+            Setting = SettingService.Setting;
         }
 
-        public MediaEntity Model { get; private set; }
+        public MediaEntity Model { get; }
 
         public string MediaThumbnailUrl { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
 
-        public Setting.SettingService Setting { get; set; }
+        public SettingService Setting { get; set; }
     }
 
     public class EntityViewModel
     {
         public EntityViewModel(UrlEntity urlEntity)
         {
-            this.Model = urlEntity;
+            Model = urlEntity;
 
-            this.ExpandedUrl = urlEntity.ExpandedUrl;
-            this.DisplayUrl = urlEntity.DisplayUrl;
+            ExpandedUrl = urlEntity.ExpandedUrl;
+            DisplayUrl = urlEntity.DisplayUrl;
 
-            this.Notice = Services.Notice.Instance;
+            Notice = Notice.Instance;
         }
 
         public EntityViewModel(HashtagEntity hashtagEntity)
         {
-            this.Model = hashtagEntity;
+            Model = hashtagEntity;
 
-            this.ExpandedUrl = "#" + hashtagEntity.Tag;
-            this.DisplayUrl = "#" + hashtagEntity.Tag;
+            ExpandedUrl = "#" + hashtagEntity.Tag;
+            DisplayUrl = "#" + hashtagEntity.Tag;
 
-            this.Notice = Services.Notice.Instance;
+            Notice = Notice.Instance;
         }
 
         public EntityViewModel(UserMentionEntity userMentionEntity)
         {
-            this.Model = userMentionEntity;
+            Model = userMentionEntity;
 
-            this.ExpandedUrl = "@" + userMentionEntity.ScreenName;
-            this.DisplayUrl = "@" + userMentionEntity.ScreenName;
+            ExpandedUrl = "@" + userMentionEntity.ScreenName;
+            DisplayUrl = "@" + userMentionEntity.ScreenName;
 
-            this.Notice = Services.Notice.Instance;
+            Notice = Notice.Instance;
         }
 
-        public object Model { get; private set; }
+        public object Model { get; }
 
         public string ExpandedUrl { get; set; }
 
         public string DisplayUrl { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
     }
 }

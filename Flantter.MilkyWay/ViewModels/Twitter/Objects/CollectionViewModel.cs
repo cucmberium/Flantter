@@ -1,11 +1,7 @@
 ﻿using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
@@ -13,33 +9,33 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
     {
         public CollectionViewModel(Collection collection)
         {
-            this.Model = collection;
+            Model = collection;
 
-            this.BackgroundBrush = "Default";
+            BackgroundBrush = "Default";
 
-            this.Description = collection.Description;
-            this.Name = collection.Name;
-            this.ScreenName = collection.User.ScreenName;
-            this.ProfileImageUrl = collection.User.ProfileImageUrl;
+            Description = collection.Description;
+            Name = collection.Name;
+            ScreenName = collection.User.ScreenName;
+            ProfileImageUrl = collection.User.ProfileImageUrl;
 
-            this.Notice = Services.Notice.Instance;
-            this.Setting = SettingService.Setting;
+            Notice = Notice.Instance;
+            Setting = SettingService.Setting;
         }
 
-        public Collection Model { get; private set; }
-        
+        public Collection Model { get; }
+
         public string BackgroundBrush { get; set; }
 
         public string Description { get; set; }
-        
+
         public string Name { get; set; }
 
         public string ScreenName { get; set; }
 
         public string ProfileImageUrl { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
 
-        public Setting.SettingService Setting { get; set; }
+        public SettingService Setting { get; set; }
     }
 }

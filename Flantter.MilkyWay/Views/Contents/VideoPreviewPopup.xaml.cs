@@ -27,7 +27,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Flantter.MilkyWay.Views.Contents
 {
-    public sealed partial class VideoPreviewPopup : UserControl, ContentPopup
+    public sealed partial class VideoPreviewPopup : UserControl, IContentPopup
     {
         private Popup VideoPreview;
         private AppBar _BottomAppBar;

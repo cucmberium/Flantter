@@ -1,13 +1,8 @@
-﻿using Flantter.MilkyWay.Models.Exceptions;
-using Flantter.MilkyWay.Models.Filter;
-using Flantter.MilkyWay.Setting;
-using Reactive.Bindings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Exceptions;
+using Flantter.MilkyWay.Models.Filter;
+using Reactive.Bindings;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
 {
@@ -15,15 +10,16 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
     {
         public MuteSettingSettingsFlyoutViewModel()
         {
-            this.MuteFilterUpdateButtonEnabled = new ReactiveProperty<bool>();
-            this.MuteFilterCompileErrorMessage = new ReactiveProperty<string>();
-            this.MuteFilter = new ReactiveProperty<string>();
-            this.MuteFilter.Subscribe(x => 
+            MuteFilterUpdateButtonEnabled = new ReactiveProperty<bool>();
+            MuteFilterCompileErrorMessage = new ReactiveProperty<string>();
+            MuteFilter = new ReactiveProperty<string>();
+            MuteFilter.Subscribe(x =>
             {
                 if (string.IsNullOrWhiteSpace(x))
                 {
-                    this.MuteFilterCompileErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterIsEmpty");
-                    this.MuteFilterUpdateButtonEnabled.Value = false;
+                    MuteFilterCompileErrorMessage.Value =
+                        new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterIsEmpty");
+                    MuteFilterUpdateButtonEnabled.Value = false;
                     return;
                 }
 
@@ -33,19 +29,23 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                 }
                 catch (FilterCompileException e)
                 {
-                    this.MuteFilterCompileErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") + "\n" + new ResourceLoader().GetString("Filter_CompileError_" + e.Error.ToString());
-                    this.MuteFilterUpdateButtonEnabled.Value = false;
+                    MuteFilterCompileErrorMessage.Value =
+                        new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") +
+                        "\n" + new ResourceLoader().GetString("Filter_CompileError_" + e.Error.ToString());
+                    MuteFilterUpdateButtonEnabled.Value = false;
                     return;
                 }
                 catch (Exception e)
                 {
-                    this.MuteFilterCompileErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") + "\n" + e.Message;
-                    this.MuteFilterUpdateButtonEnabled.Value = false;
+                    MuteFilterCompileErrorMessage.Value =
+                        new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") +
+                        "\n" + e.Message;
+                    MuteFilterUpdateButtonEnabled.Value = false;
                     return;
                 }
 
-                this.MuteFilterCompileErrorMessage.Value = "";
-                this.MuteFilterUpdateButtonEnabled.Value = true;
+                MuteFilterCompileErrorMessage.Value = "";
+                MuteFilterUpdateButtonEnabled.Value = true;
             });
         }
 

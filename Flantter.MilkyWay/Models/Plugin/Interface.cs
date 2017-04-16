@@ -1,14 +1,10 @@
 ﻿using Flantter.MilkyWay.Setting;
-using Jint;
 using NotificationsExtensions.Toasts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
@@ -39,27 +35,24 @@ namespace Flantter.MilkyWay.Plugin
 
     public static class Event
     {
-        public class FlEventArgs : EventArgs
-        {
-            public object Info;
-        }
-
-        private static Dictionary<string, IDisposable> EventStore = new Dictionary<string, IDisposable>();
+        private static readonly Dictionary<string, IDisposable> EventStore = new Dictionary<string, IDisposable>();
         private static event EventHandler<FlEventArgs> TweetReceivedAtColumn;
 
         public static void RegisterFunction(string eventName, Delegate dele)
         {
-            if (EventStore.ContainsKey(eventName + dele.ToString()))
+            if (EventStore.ContainsKey(eventName + dele))
                 return;
-            
+
             try
             {
                 var eventInfo = typeof(Event).GetEvent(eventName, BindingFlags.Static | BindingFlags.NonPublic);
                 var iDisposable = Observable.FromEvent<FlEventArgs>(
                         x => eventInfo.AddEventHandler(null, x),
                         x => eventInfo.RemoveEventHandler(null, x)
-                    ).SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => dele.DynamicInvoke(x));
-                EventStore[eventName + dele.ToString()] = iDisposable;
+                    )
+                    .SubscribeOn(ThreadPoolScheduler.Default)
+                    .Subscribe(x => dele.DynamicInvoke(x));
+                EventStore[eventName + dele] = iDisposable;
             }
             catch
             {
@@ -68,18 +61,23 @@ namespace Flantter.MilkyWay.Plugin
 
         public static void UnregisterFunction(string eventName, Delegate dele)
         {
-            if (!EventStore.ContainsKey(eventName + dele.ToString()))
+            if (!EventStore.ContainsKey(eventName + dele))
                 return;
 
             try
             {
-                var iDisposable = EventStore[eventName + dele.ToString()];
-                EventStore.Remove(eventName + dele.ToString());
+                var iDisposable = EventStore[eventName + dele];
+                EventStore.Remove(eventName + dele);
                 iDisposable.Dispose();
             }
             catch
             {
             }
+        }
+
+        public class FlEventArgs : EventArgs
+        {
+            public object Info;
         }
     }
 
@@ -117,15 +115,16 @@ namespace Flantter.MilkyWay.Plugin
 
         public static void PopupToastNotification(string text, string imageUrl = "")
         {
-            var toastContent = new ToastContent();
-            toastContent.Visual = new ToastVisual();
-            toastContent.Visual.BodyTextLine1 = new ToastText() { Text = text };
+            var toastContent = new ToastContent
+            {
+                Visual = new ToastVisual {BodyTextLine1 = new ToastText {Text = text}}
+            };
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
-                toastContent.Visual.AppLogoOverride = new ToastAppLogo() { Source = new ToastImageSource(imageUrl) };
+                toastContent.Visual.AppLogoOverride = new ToastAppLogo {Source = new ToastImageSource(imageUrl)};
 
             if (!SettingService.Setting.NotificationSound)
-                toastContent.Audio = new ToastAudio() { Silent = true };
+                toastContent.Audio = new ToastAudio {Silent = true};
 
             var toast = new ToastNotification(toastContent.GetXml());
             ToastNotificationManager.CreateToastNotifier().Show(toast);
@@ -136,7 +135,10 @@ namespace Flantter.MilkyWay.Plugin
             if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
                 func.DynamicInvoke();
             else
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => func.DynamicInvoke()).AsTask().Wait();
+                CoreApplication.MainView.CoreWindow.Dispatcher
+                    .RunAsync(CoreDispatcherPriority.Low, () => func.DynamicInvoke())
+                    .AsTask()
+                    .Wait();
         }
 
         public static void AddMuteUser(string screenname)

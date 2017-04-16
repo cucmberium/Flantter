@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Flantter.MilkyWay.Models.Twitter.Objects
+﻿namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
     public class Relationship
     {
         public Relationship(CoreTweet.Relationship cRelationship)
         {
-            this.Target = new RelationshipTarget(cRelationship.Target);
-            this.Source = new RelationshipSource(cRelationship.Source);
+            Target = new RelationshipTarget(cRelationship.Target);
+            Source = new RelationshipSource(cRelationship.Source);
         }
 
         public Relationship(Mastonet.Entities.Relationship cRelationship)
         {
-            this.Target = new RelationshipTarget();
-            this.Source = new RelationshipSource(cRelationship);
+            Target = new RelationshipTarget();
+            Source = new RelationshipSource(cRelationship);
         }
 
         public RelationshipTarget Target { get; set; }
-        
+
         public RelationshipSource Source { get; set; }
     }
 
@@ -29,12 +23,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
     {
         public RelationshipTarget(CoreTweet.RelationshipTarget cRelationshipTarget)
         {
-            this.Id = cRelationshipTarget.Id;
-            this.ScreenName = cRelationshipTarget.ScreenName;
-            this.IsFollowing = cRelationshipTarget.IsFollowing;
-            this.IsFollowedBy = cRelationshipTarget.IsFollowedBy;
-            this.IsFollowingReceived = cRelationshipTarget.IsFollowingReceived ?? false;
-            this.IsFollowingRequested = cRelationshipTarget.IsFollowingRequested ?? false;
+            Id = cRelationshipTarget.Id;
+            ScreenName = cRelationshipTarget.ScreenName;
+            IsFollowing = cRelationshipTarget.IsFollowing;
+            IsFollowedBy = cRelationshipTarget.IsFollowedBy;
+            IsFollowingReceived = cRelationshipTarget.IsFollowingReceived ?? false;
+            IsFollowingRequested = cRelationshipTarget.IsFollowingRequested ?? false;
         }
 
         public RelationshipTarget()
@@ -53,29 +47,29 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
     {
         public RelationshipSource(CoreTweet.RelationshipSource cRelationshipSource)
         {
-            this.Id = cRelationshipSource.Id;
-            this.ScreenName = cRelationshipSource.ScreenName;
-            this.IsFollowing = cRelationshipSource.IsFollowing;
-            this.IsFollowedBy = cRelationshipSource.IsFollowedBy;
-            this.IsFollowingReceived = cRelationshipSource.IsFollowingReceived ?? false;
-            this.IsFollowingRequested = cRelationshipSource.IsFollowingRequested ?? false;
-            this.CanDM = cRelationshipSource.CanDM;
-            this.AllReplies = cRelationshipSource.AllReplies ?? false;
-            this.WantsRetweets = cRelationshipSource.WantsRetweets ?? false;
-            this.IsBlocking = cRelationshipSource.IsBlocking ?? false;
-            this.IsBlockedBy = cRelationshipSource.IsBlockedBy ?? false;
-            this.IsMarkedSpam = cRelationshipSource.IsMarkedSpam ?? false;
-            this.IsNotificationsEnabled = cRelationshipSource.IsNotificationsEnabled ?? false;
-            this.IsMuting = cRelationshipSource.IsMuting ?? false;
+            Id = cRelationshipSource.Id;
+            ScreenName = cRelationshipSource.ScreenName;
+            IsFollowing = cRelationshipSource.IsFollowing;
+            IsFollowedBy = cRelationshipSource.IsFollowedBy;
+            IsFollowingReceived = cRelationshipSource.IsFollowingReceived ?? false;
+            IsFollowingRequested = cRelationshipSource.IsFollowingRequested ?? false;
+            CanDM = cRelationshipSource.CanDM;
+            AllReplies = cRelationshipSource.AllReplies ?? false;
+            WantsRetweets = cRelationshipSource.WantsRetweets ?? false;
+            IsBlocking = cRelationshipSource.IsBlocking ?? false;
+            IsBlockedBy = cRelationshipSource.IsBlockedBy ?? false;
+            IsMarkedSpam = cRelationshipSource.IsMarkedSpam ?? false;
+            IsNotificationsEnabled = cRelationshipSource.IsNotificationsEnabled ?? false;
+            IsMuting = cRelationshipSource.IsMuting ?? false;
         }
 
         public RelationshipSource(Mastonet.Entities.Relationship cRelationshipSource)
         {
-            this.IsFollowing = cRelationshipSource.Following;
-            this.IsFollowedBy = cRelationshipSource.FollowedBy;
-            this.IsFollowingRequested = cRelationshipSource.Requested;
-            this.IsBlocking = cRelationshipSource.Blocking;
-            this.IsMuting = cRelationshipSource.Muting;
+            IsFollowing = cRelationshipSource.Following;
+            IsFollowedBy = cRelationshipSource.FollowedBy;
+            IsFollowingRequested = cRelationshipSource.Requested;
+            IsBlocking = cRelationshipSource.Blocking;
+            IsMuting = cRelationshipSource.Muting;
         }
 
         public long Id { get; set; }

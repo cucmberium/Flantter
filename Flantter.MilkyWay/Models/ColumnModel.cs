@@ -106,7 +106,7 @@ namespace Flantter.MilkyWay.Models
 
         public async Task Initialize()
         {
-            Stream.SubscribeOn(NewThreadScheduler.Default)
+            Stream.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(
                     m =>
                     {
@@ -201,7 +201,7 @@ namespace Flantter.MilkyWay.Models
                         h => Connecter.Instance.TweetCollecter[AccountSetting.UserId].TweetDeleteCommandExecute += h,
                         h => Connecter.Instance.TweetCollecter[AccountSetting.UserId].TweetDeleteCommandExecute -= h)
                     .Select(e => (object) e))
-                .SubscribeOn(ThreadPoolScheduler.Default)
+                .SubscribeOn(NewThreadScheduler.Default)
                 .Subscribe(e =>
                 {
                     if (e is TweetEventArgs)
@@ -338,7 +338,7 @@ namespace Flantter.MilkyWay.Models
                     return;
                 }
 
-                _streamingDisposableObject = iObservable
+                _streamingDisposableObject = iObservable.SubscribeOn(NewThreadScheduler.Default)
                     .Catch(
                         (Exception ex) => { return iObservable.DelaySubscription(TimeSpan.FromSeconds(10)).Retry(); })
                     .Repeat()

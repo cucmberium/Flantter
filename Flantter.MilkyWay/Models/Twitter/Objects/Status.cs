@@ -11,6 +11,9 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         private static readonly Regex ContentRegex =
             new Regex(@"<(""[^""]*""|'[^']*'|[^'"">])*>", RegexOptions.Compiled);
 
+        private static readonly Regex LinkRegex = 
+            new Regex(@"\s*<a href=\""(.*?)\"".*?>(.*?)</a>\s*", RegexOptions.Compiled);
+
         public Status(CoreTweet.Status cOrigStatus)
         {
             var cStatus = cOrigStatus;
@@ -59,7 +62,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             InReplyToScreenName = "";
             InReplyToUserId = cStatus.InReplyToAccountId.HasValue ? cStatus.InReplyToAccountId.Value : 0;
             Id = cStatus.Id;
-            Text = ContentRegex.Replace(cStatus.Content, "");
+            Text = ContentRegex.Replace(LinkRegex.Replace(cStatus.Content.Replace("<br />", "\n"), x => " " + x.Groups[2].Value + " "), "").Trim();
             User = cStatus.Account != null ? new User(cStatus.Account) : null;
             IsFavorited = cStatus.Favourited.HasValue ? cStatus.Favourited.Value : false;
             IsRetweeted = cStatus.Reblogged.HasValue ? cStatus.Reblogged.Value : false;

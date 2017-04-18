@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
     public class User
     {
+        private static readonly Regex ContentRegex =
+            new Regex(@"<(""[^""]*""|'[^']*'|[^'"">])*>", RegexOptions.Compiled);
+
+        private static readonly Regex LinkRegex =
+            new Regex(@"\s*<a href=\""(.*?)\"".*?>(.*?)</a>\s*", RegexOptions.Compiled);
+
         public User(CoreTweet.User cUser)
         {
             CreateAt = cUser.CreatedAt.DateTime;
@@ -34,7 +41,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         public User(Mastonet.Entities.Account cUser)
         {
             CreateAt = cUser.CreatedAt;
-            Description = cUser.Note;
+            Description = ContentRegex.Replace(LinkRegex.Replace(cUser.Note.Replace("<br>", "\n"), x => " " + x.Groups[1].Value + " "), "").Trim();
             Entities = new UserEntities();
             FavouritesCount = 0;
             FollowersCount = cUser.FollowersCount;
@@ -50,8 +57,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Name = string.IsNullOrWhiteSpace(cUser.DisplayName) ? cUser.UserName : cUser.DisplayName;
             ProfileBackgroundColor = "C0DEED";
             ProfileBackgroundImageUrl = "http://localhost/";
-            ProfileBannerUrl = cUser.HeaderUrl;
-            ProfileImageUrl = cUser.AvatarUrl;
+            ProfileBannerUrl = cUser.HeaderUrl.StartsWith("http") ? cUser.HeaderUrl : "http://localhost/";
+            ProfileImageUrl = cUser.AvatarUrl.StartsWith("http") ? cUser.AvatarUrl : "http://localhost/";
             ScreenName = cUser.AccountName;
             StatusesCount = cUser.StatusesCount;
             TimeZone = null;

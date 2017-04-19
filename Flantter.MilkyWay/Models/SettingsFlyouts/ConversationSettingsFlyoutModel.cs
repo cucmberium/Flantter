@@ -41,6 +41,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 : ConversationStatus.Id;
 
             if (SettingService.Setting.UseOfficialApi &&
+                Tokens.Platform == Tokens.PlatformEnum.Twitter &&
                 TwitterConnectionHelper.OfficialConsumerKeyList.Contains(Tokens.TwitterTokens.ConsumerKey))
             {
                 try
@@ -73,6 +74,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 }
             }
             else if (SettingService.Setting.UseExtendedConversation &&
+                     Tokens.Platform == Tokens.PlatformEnum.Twitter &&
                      ConversationStatus.CreatedAt.ToLocalTime() + TimeSpan.FromDays(7) > DateTime.Now)
             {
                 var conversation = new List<Status>();

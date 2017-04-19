@@ -111,6 +111,13 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     (isMyProfile, isBlocking) => !isMyProfile && isBlocking)
                 .ToReactiveProperty();
 
+            OpenUserListEnabled = Tokens
+                .Select(x => x?.Platform == Models.Twitter.Wrapper.Tokens.PlatformEnum.Twitter)
+                .ToReactiveProperty();
+            OpenUserCollectionEnabled = Tokens
+                .Select(x => x?.Platform == Models.Twitter.Wrapper.Tokens.PlatformEnum.Twitter)
+                .ToReactiveProperty();
+
             FollowButtonText = Model.ObserveProperty(x => x.IsBlocking)
                 .CombineLatest(Model.ObserveProperty(x => x.IsFollowing),
                     Model.ObserveProperty(x => x.IsFollowRequestSent),
@@ -298,7 +305,10 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             OpenUserProfileInWebCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
-                    await Launcher.LaunchUriAsync(new Uri("http://twitter.com/" + Model.ScreenName));
+                    if (Model.Tokens.Platform == Models.Twitter.Wrapper.Tokens.PlatformEnum.Twitter)
+                        await Launcher.LaunchUriAsync(new Uri("https://twitter.com/" + Model.ScreenName));
+                    else
+                        await Launcher.LaunchUriAsync(new Uri("https://" + Model.Tokens.Instance + "/@" + Model.ScreenName));
                 });
 
             AddColumnCommand = new ReactiveCommand();
@@ -359,6 +369,10 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
 
         public ReactiveProperty<bool> IsMyUserProfile { get; set; }
+
+        public ReactiveProperty<bool> OpenUserListEnabled { get; set; }
+
+        public ReactiveProperty<bool> OpenUserCollectionEnabled { get; set; }
 
         public ReactiveProperty<bool> UpdatingStatuses { get; set; }
         public ReactiveProperty<bool> UpdatingFavorites { get; set; }

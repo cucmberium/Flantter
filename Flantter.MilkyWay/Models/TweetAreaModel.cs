@@ -332,7 +332,7 @@ namespace Flantter.MilkyWay.Models
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
                 State = "Cancel";
                 Message = _resourceLoader.GetString("TweetArea_Message_Error");
                 return;

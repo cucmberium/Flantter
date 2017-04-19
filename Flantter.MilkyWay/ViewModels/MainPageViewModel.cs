@@ -227,10 +227,9 @@ namespace Flantter.MilkyWay.ViewModels
                         return;
 
                     var notification = new ShareDataNotification();
-                    notification.Title = "Twitter : @" + status.User.ScreenName;
+                    notification.Title = "@" + status.User.ScreenName;
                     notification.Description = status.Text;
-                    notification.Url = "https://twitter.com/" + status.User.ScreenName + "/status/" +
-                                       status.Id.ToString();
+                    notification.Url = status.Url;
                     notification.Text = status.Text;
                     ShowShareUIMessenger.Raise(notification);
                 });

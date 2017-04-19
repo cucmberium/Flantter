@@ -177,7 +177,7 @@
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
                     <i:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <util:OpenLinkAction x:Name="StatusDateTimeLinkAction" IsEnabled="False" Uri="{x:Bind ViewModel.StatusUrl, Mode=OneWay}"/>
+                            <util:OpenLinkAction x:Name="StatusDateTimeLinkAction" IsEnabled="False" Uri="{x:Bind ViewModel.Model.Url, Mode=OneWay}"/>
                         </core:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                     <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{x:Bind ViewModel.CreatedAt, Mode=OneWay}"/>

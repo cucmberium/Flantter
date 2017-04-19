@@ -55,8 +55,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             IsMyRetweet = false;
             IsUserProtected = false;
 
-            StatusUrl = "http://localhost/";
-
             Notice = Notice.Instance;
             Setting = SettingService.Setting;
         }
@@ -184,8 +182,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             IsMyTweet = false;
             IsMyRetweet = status.IsRetweeted;
             IsUserProtected = status.User.IsProtected;
-
-            StatusUrl = "https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id;
 
             Notice = Notice.Instance;
             Setting = SettingService.Setting;
@@ -327,8 +323,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                           status.IsRetweeted;
             IsUserProtected = status.User.IsProtected && status.User.Id != userId;
 
-            StatusUrl = "https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id;
-
             Notice = Notice.Instance;
             Setting = SettingService.Setting;
         }
@@ -465,8 +459,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                           status.IsRetweeted;
             IsUserProtected = status.User.IsProtected && status.User.Id != userId;
 
-            StatusUrl = "https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id;
-
             IsCollectionStatus = true;
             CollectionParameter = collectionParameter;
 
@@ -565,8 +557,6 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public bool IsMyRetweet { get; set; }
 
         public bool IsUserProtected { get; set; }
-
-        public string StatusUrl { get; set; }
 
         public bool IsCollectionStatus { get; set; }
 

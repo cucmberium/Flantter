@@ -13,6 +13,7 @@ using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter;
 using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Behaviors;
 using Flantter.MilkyWay.Views.Util;
@@ -239,13 +240,19 @@ namespace Flantter.MilkyWay.Models
             {
                 var param = new Dictionary<string, object>();
                 if (ReplyOrQuotedStatus != null)
+                {
                     if (!_isQuotedRetweet)
+                    {
                         param.Add("in_reply_to_status_id", ReplyOrQuotedStatus.Id);
+                    }
                     else
-                        param.Add("attachment_url",
-                            "https://twitter.com/" + ReplyOrQuotedStatus.User.ScreenName + "/status/" +
-                            ReplyOrQuotedStatus.Id);
-
+                    {
+                        if (tokens.Platform == Tokens.PlatformEnum.Twitter)
+                            param.Add("attachment_url", ReplyOrQuotedStatus.Url);
+                        else
+                            text += " " + ReplyOrQuotedStatus.Url;
+                    }
+                }
 
                 // Upload Media
 

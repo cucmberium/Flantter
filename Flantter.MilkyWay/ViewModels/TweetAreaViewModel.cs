@@ -223,14 +223,17 @@ namespace Flantter.MilkyWay.ViewModels
                     Model.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
                     userList.Add(statusViewModel.Model.User.ScreenName);
 
-                    foreach (var user in statusViewModel.Model.Entities.UserMentions)
+                    if (statusViewModel.Model.Entities?.UserMentions != null)
                     {
-                        if (userList.Contains(user.ScreenName) ||
-                            user.ScreenName == SelectedAccount.Value.ScreenName.Value)
-                            continue;
+                        foreach (var user in statusViewModel.Model.Entities.UserMentions)
+                        {
+                            if (userList.Contains(user.ScreenName) ||
+                                user.ScreenName == SelectedAccount.Value.ScreenName.Value)
+                                continue;
 
-                        Model.Text += "@" + user.ScreenName + " ";
-                        userList.Add(user.ScreenName);
+                            Model.Text += "@" + user.ScreenName + " ";
+                            userList.Add(user.ScreenName);
+                        }
                     }
 
                     Notice.Instance.TweetAreaOpenCommand.Execute(true);

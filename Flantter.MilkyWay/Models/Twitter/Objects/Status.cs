@@ -40,6 +40,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
                 ? new Status(cStatus.QuotedStatus)
                 : null;
             QuotedStatusId = cStatus.QuotedStatusId.HasValue && QuotedStatus != null ? cStatus.QuotedStatusId.Value : 0;
+            Url = "https://twitter.com/" + cStatus.User.ScreenName + "/status/" + cStatus.Id;
 
             var sourceMatch = SourceRegex.Match(cStatus.Source);
             if (sourceMatch.Success)
@@ -71,7 +72,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             MentionStatus = null;
             QuotedStatus = null;
             QuotedStatusId = 0;
-
+            Url = cStatus.Url;
             Source = cStatus.Application != null ? cStatus.Application.Name : "Web";
         }
 
@@ -184,6 +185,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         #region Id変更通知プロパティ
 
         public long Id { get; set; }
+
+        #endregion
+
+        #region Url変更通知プロパティ
+
+        public string Url { get; set; }
 
         #endregion
     }

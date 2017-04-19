@@ -91,7 +91,7 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 var textPackage = new DataPackage();
-                textPackage.SetText("https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id);
+                textPackage.SetText(status.Url);
                 Clipboard.SetContent(textPackage);
             }
             catch

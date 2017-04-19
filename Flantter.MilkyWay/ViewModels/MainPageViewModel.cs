@@ -200,8 +200,7 @@ namespace Flantter.MilkyWay.ViewModels
                     if (status == null)
                         return;
 
-                    await Launcher.LaunchUriAsync(new Uri("https://twitter.com/" + status.User.ScreenName + "/status/" +
-                                                          status.Id.ToString()));
+                    await Launcher.LaunchUriAsync(new Uri(status.Url));
                 });
 
             Notice.Instance.OpenCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default)

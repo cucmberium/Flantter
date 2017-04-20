@@ -72,7 +72,7 @@ namespace Flantter.MilkyWay.Views
                 AdvancedSettingService.AdvancedSetting.MuteWords = new ObservableCollection<string>();
 
                 AdvancedSettingService.AdvancedSetting.Accounts = new ObservableCollection<AccountSetting>();
-                AdvancedSettingService.AdvancedSetting.Accounts.Add(new AccountSetting()
+                var accountSetting = new AccountSetting()
                 {
                     AccessToken = account.AccessToken,
                     AccessTokenSecret = account.AccessTokenSecret,
@@ -80,8 +80,10 @@ namespace Flantter.MilkyWay.Views
                     ConsumerSecret = account.ConsumerSecret,
                     ScreenName = account.ScreenName,
                     UserId = account.UserId,
+                    Platform = account.Service == "Twitter" ? SettingSupport.PlatformEnum.Twitter : SettingSupport.PlatformEnum.Mastodon,
+                    Instance = account.Instance,
 
-                    Column = new ObservableCollection<ColumnSetting>() 
+                    Column = new ObservableCollection<ColumnSetting>()
                     {
                         new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Home, AutoRefresh = false, AutoRefreshTimerInterval = 60.0, Filter = "()", Name = "Home", Parameter = string.Empty, Streaming = true, Index = 0, DisableStartupRefresh = false, FetchingNumberOfTweet = 100, Identifier = DateTime.Now.Ticks },
                         new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Mentions, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = "Mentions", Parameter = string.Empty, Streaming = false, Index = 1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40, Identifier = DateTime.Now.Ticks + 1 },
@@ -90,7 +92,11 @@ namespace Flantter.MilkyWay.Views
                         new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.Favorites, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = "Favorites", Parameter = string.Empty, Streaming = false, Index = 4, DisableStartupRefresh = false, FetchingNumberOfTweet = 40, Identifier = DateTime.Now.Ticks + 4 },
                     },
                     IsEnabled = true,
-                });
+                };
+                if (accountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)
+                    accountSetting.Column.Add(new ColumnSetting { Action = SettingSupport.ColumnTypeEnum.Sample, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = "Local", Parameter = string.Empty, Streaming = true, Index = 5, DisableStartupRefresh = false, FetchingNumberOfTweet = 40, Identifier = DateTime.Now.Ticks + 5 });
+
+                AdvancedSettingService.AdvancedSetting.Accounts.Add(accountSetting);
 
                 try
                 {

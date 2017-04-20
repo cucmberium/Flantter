@@ -1,10 +1,6 @@
 ﻿using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
@@ -12,20 +8,19 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
     {
         public GapViewModel(Gap gap)
         {
-            this.Model = gap;
-            this.Id = gap.Id;
+            Model = gap;
+            Id = gap.Id;
 
-            this.Notice = Services.Notice.Instance;
-            this.Setting = SettingService.Setting;
+            Notice = Notice.Instance;
+            Setting = SettingService.Setting;
         }
 
         public Gap Model { get; set; }
 
+        public Notice Notice { get; set; }
+
+        public SettingService Setting { get; set; }
+
         public long Id { get; set; }
-
-        public Services.Notice Notice { get; set; }
-
-        public Setting.SettingService Setting { get; set; }
     }
-
 }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 
 namespace Flantter.MilkyWay.Views.Converters
@@ -13,7 +11,7 @@ namespace Flantter.MilkyWay.Views.Converters
         {
             try
             {
-                return (Brush)Windows.UI.Xaml.Markup.XamlBindingHelper.ConvertValue(typeof(Brush), value);
+                return (Brush) XamlBindingHelper.ConvertValue(typeof(Brush), value);
             }
             catch
             {

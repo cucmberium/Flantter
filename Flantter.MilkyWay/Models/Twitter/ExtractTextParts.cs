@@ -24,14 +24,11 @@
 // from https://github.com/CoreTweet/CoreTweetSupplement/blob/master/CoreTweetSupplement/CoreTweetSupplement.cs
 
 
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Twitter.Objects;
 
 namespace Flantter.MilkyWay.Models.Twitter
 {
@@ -39,13 +36,13 @@ namespace Flantter.MilkyWay.Models.Twitter
     {
         private static string CharFromInt(uint code)
         {
-            if (code <= char.MaxValue) return ((char)code).ToString();
+            if (code <= char.MaxValue) return ((char) code).ToString();
 
             code -= 0x10000;
             return new string(new[]
             {
-                (char)((code / 0x400) + 0xD800),
-                (char)((code % 0x400) + 0xDC00)
+                (char) (code / 0x400 + 0xD800),
+                (char) (code % 0x400 + 0xDC00)
             });
         }
 
@@ -67,12 +64,24 @@ namespace Flantter.MilkyWay.Models.Twitter
                 var s = source.Substring(i + 1, semicolonIndex - i - 1);
                 switch (s)
                 {
-                    case "nbsp": sb.Append(' '); break;
-                    case "lt": sb.Append('<'); break;
-                    case "gt": sb.Append('>'); break;
-                    case "amp": sb.Append('&'); break;
-                    case "quot": sb.Append('"'); break;
-                    case "apos": sb.Append('\''); break;
+                    case "nbsp":
+                        sb.Append(' ');
+                        break;
+                    case "lt":
+                        sb.Append('<');
+                        break;
+                    case "gt":
+                        sb.Append('>');
+                        break;
+                    case "amp":
+                        sb.Append('&');
+                        break;
+                    case "quot":
+                        sb.Append('"');
+                        break;
+                    case "apos":
+                        sb.Append('\'');
+                        break;
                     default:
                         if (s[0] == '#')
                         {
@@ -137,31 +146,11 @@ namespace Flantter.MilkyWay.Models.Twitter
             return new string(arr, 0, strLen);
         }
 
-        private static IEnumerable<T> Slice<T>(this T[] source, int start)
-        {
-            var len = source.Length;
-            for (var i = start; i < len; i++)
-                yield return source[i];
-        }
-
-        private static IEnumerable<T> Slice<T>(this T[] source, int start, int count)
-        {
-            var end = start + count;
-            for (var i = start; i < end; i++)
-                yield return source[i];
-        }
-
-        /// <summary>
-        /// Enumerates parts split into Tweet Entities.
-        /// </summary>
-        /// <param name="text">The text such as <see cref="Status.Text"/>, <see cref="DirectMessage.Text"/> and <see cref="User.Description"/>.</param>
-        /// <param name="entities">The <see cref="Entities"/> instance.</param>
-        /// <returns>An <see cref="IEnumerable{ITextPart}"/> whose elements are parts of <paramref name="text"/>.</returns>
         public static IEnumerable<TextPart> EnumerateTextParts(string text, Entities entities)
         {
             if (entities == null)
             {
-                yield return new TextPart()
+                yield return new TextPart
                 {
                     RawText = text,
                     Text = HtmlDecode(text)
@@ -170,39 +159,38 @@ namespace Flantter.MilkyWay.Models.Twitter
             }
 
             var list = new LinkedList<TextPart>(
-                (entities.HashTags)
-                    .Select(e => new TextPart()
+                entities.HashTags
+                    .Select(e => new TextPart
                     {
                         Type = TextPartType.Hashtag,
                         Start = e.Start,
                         End = e.End,
                         RawText = "#" + e.Tag,
                         Text = "#" + e.Tag,
-                        Entity = e,
+                        Entity = e
                     })
                     .Concat(
-                        (entities.Urls)
-                            .Select(e => new TextPart()
+                        entities.Urls
+                            .Select(e => new TextPart
                             {
                                 Type = TextPartType.Url,
                                 Start = e.Start,
                                 End = e.End,
                                 RawText = e.Url,
                                 Text = e.DisplayUrl,
-                                Entity = e,
-
+                                Entity = e
                             })
                     )
                     .Concat(
-                        (entities.UserMentions)
-                            .Select(e => new TextPart()
+                        entities.UserMentions
+                            .Select(e => new TextPart
                             {
                                 Type = TextPartType.UserMention,
                                 Start = e.Start,
                                 End = e.End,
                                 RawText = "@" + e.ScreenName,
                                 Text = "@" + e.ScreenName,
-                                Entity = e,
+                                Entity = e
                             })
                     )
                     .OrderBy(part => part.Start)
@@ -210,7 +198,7 @@ namespace Flantter.MilkyWay.Models.Twitter
 
             if (list.Count == 0)
             {
-                yield return new TextPart()
+                yield return new TextPart
                 {
                     RawText = text,
                     Text = HtmlDecode(text)
@@ -228,7 +216,7 @@ namespace Flantter.MilkyWay.Models.Twitter
                 if (count > 0)
                 {
                     var output = ToString(chars, start, count);
-                    yield return new TextPart()
+                    yield return new TextPart
                     {
                         RawText = output,
                         Text = HtmlDecode(output)
@@ -245,55 +233,24 @@ namespace Flantter.MilkyWay.Models.Twitter
             if (lastStart < chars.Count)
             {
                 var lastOutput = ToString(chars, lastStart);
-                yield return new TextPart()
+                yield return new TextPart
                 {
                     RawText = lastOutput,
                     Text = HtmlDecode(lastOutput)
                 };
             }
         }
-
     }
-
-    /// <summary>
-    /// Types of <see cref="ITextPart"/>.
-    /// </summary>
+    
     public enum TextPartType
     {
-        /// <summary>
-        /// Plain text, which is related to no entity.
-        /// <see cref="ITextPart.Entity"/> will be <c>null</c>.
-        /// </summary>
         Plain,
-
-        /// <summary>
-        /// Hashtag.
-        /// <see cref="ITextPart.Entity"/> will be a <see cref="HashtagEntity" /> instance.
-        /// </summary>
         Hashtag,
-
-        /// <summary>
-        /// Cashtag.
-        /// <see cref="ITextPart.Entity"/> will be a <see cref="CashtagEntity" /> instance.
-        /// </summary>
         Cashtag,
-
-        /// <summary>
-        /// URL.
-        /// <see cref="ITextPart.Entity"/> will be a <see cref="UrlEntity" /> instance.
-        /// </summary>
         Url,
-
-        /// <summary>
-        /// User mention.
-        /// <see cref="ITextPart.Entity"/> will be a <see cref="UserMentionEntity" /> instance.
-        /// </summary>
         UserMention
     }
-
-    /// <summary>
-    /// A part of text.
-    /// </summary>
+    
     public class TextPart
     {
         public TextPartType Type { get; set; }
@@ -311,14 +268,14 @@ namespace Flantter.MilkyWay.Models.Twitter
 
         public DoubleUtf16Char(char x)
         {
-            this.X = x;
-            this.Y = default(char);
+            X = x;
+            Y = default(char);
         }
 
         public DoubleUtf16Char(char x, char y)
         {
-            this.X = x;
-            this.Y = y;
+            X = x;
+            Y = y;
         }
     }
 }

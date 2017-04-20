@@ -1,136 +1,137 @@
-﻿using Flantter.MilkyWay.Setting;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
-using Microsoft.Xaml.Interactivity;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Flantter.MilkyWay.Setting;
+using Microsoft.Xaml.Interactivity;
 
 namespace Flantter.MilkyWay.Views.Behaviors
 {
     public class ListViewScrollControlBehavior : DependencyObject, IBehavior
     {
-        private DependencyObject _AssociatedObject;
-        public DependencyObject AssociatedObject
+        private const int ChangedVertialOffset = 1;
+
+        public static readonly DependencyProperty IsScrollControlEnabledProperty =
+            DependencyProperty.RegisterAttached("IsScrollControlEnabled", typeof(bool),
+                typeof(ListViewScrollControlBehavior), new PropertyMetadata(true));
+
+        public static readonly DependencyProperty IsScrollLockEnabledProperty =
+            DependencyProperty.RegisterAttached("IsScrollLockEnabled", typeof(bool),
+                typeof(ListViewScrollControlBehavior), new PropertyMetadata(false));
+
+        public static readonly DependencyProperty IsScrollLockToTopEnabledProperty =
+            DependencyProperty.RegisterAttached("IsScrollLockToTopEnabled", typeof(bool),
+                typeof(ListViewScrollControlBehavior), new PropertyMetadata(false, IsScrollLockToTopEnabledChanged));
+
+        public static readonly DependencyProperty UnreadCountProperty =
+            DependencyProperty.RegisterAttached("UnreadCount", typeof(int),
+                typeof(ListViewScrollControlBehavior), new PropertyMetadata(0));
+
+        private PointerEventHandler _pointerWheelChangedEventHandler;
+
+        public volatile int Cooltime;
+
+        public double CurrentOffset;
+        private volatile bool _isAnimationCooldown;
+        private volatile bool _isAnimationRunning;
+
+        private INotifyCollectionChanged _previousItemsSource;
+
+        private double _previousVerticalOffset = 2.0;
+        private volatile int _tickCount;
+
+        public ScrollViewer ScrollViewerObject { get; set; }
+
+        public bool IsScrollControlEnabled
         {
-            get { return this._AssociatedObject; }
-            set { this._AssociatedObject = value; }
+            get => (bool) GetValue(IsScrollControlEnabledProperty);
+            set => SetValue(IsScrollControlEnabledProperty, value);
         }
 
-        private PointerEventHandler _PointerWheelChangedEventHandler = null;
+        public bool IsScrollLockEnabled
+        {
+            get => (bool) GetValue(IsScrollLockEnabledProperty);
+            set => SetValue(IsScrollLockEnabledProperty, value);
+        }
+
+        public bool IsScrollLockToTopEnabled
+        {
+            get => (bool) GetValue(IsScrollLockToTopEnabledProperty);
+            set => SetValue(IsScrollLockToTopEnabledProperty, value);
+        }
+
+        public int UnreadCount
+        {
+            get => (int) GetValue(UnreadCountProperty);
+            set => SetValue(UnreadCountProperty, value);
+        }
+
+        public DependencyObject AssociatedObject { get; set; }
+
         public void Attach(DependencyObject AssociatedObject)
         {
             this.AssociatedObject = AssociatedObject;
 
-            ((ListView)this.AssociatedObject).Loaded += ListView_Loaded;
-            ((ListView)this.AssociatedObject).LayoutUpdated += ListView_LayoutUpdated;
-            ((ListView)this.AssociatedObject).DataContextChanged += ListView_DataContextChanged;
+            ((ListView) this.AssociatedObject).Loaded += ListView_Loaded;
+            ((ListView) this.AssociatedObject).LayoutUpdated += ListView_LayoutUpdated;
+            ((ListView) this.AssociatedObject).DataContextChanged += ListView_DataContextChanged;
 
-            this._PointerWheelChangedEventHandler = new PointerEventHandler(ListView_PointerWheelChanged);
-            ((ListView)this.AssociatedObject).AddHandler(ListView.PointerWheelChangedEvent, _PointerWheelChangedEventHandler, true);
+            _pointerWheelChangedEventHandler = ListView_PointerWheelChanged;
+            ((ListView) this.AssociatedObject).AddHandler(UIElement.PointerWheelChangedEvent,
+                _pointerWheelChangedEventHandler, true);
         }
 
         public void Detach()
         {
-            if (this.ScrollViewerObject != null)
+            if (ScrollViewerObject != null)
             {
-                this.ScrollViewerObject.ViewChanged -= ScrollViewerObject_ViewChanged;
-                this.ScrollViewerObject = null;
+                ScrollViewerObject.ViewChanged -= ScrollViewerObject_ViewChanged;
+                ScrollViewerObject = null;
             }
 
-            if (this.AssociatedObject != null)
+            if (AssociatedObject != null)
             {
-                ((ListView)this.AssociatedObject).Loaded -= ListView_Loaded;
-                ((ListView)this.AssociatedObject).LayoutUpdated -= ListView_LayoutUpdated;
-                ((ListView)this.AssociatedObject).DataContextChanged -= ListView_DataContextChanged;
+                ((ListView) AssociatedObject).Loaded -= ListView_Loaded;
+                ((ListView) AssociatedObject).LayoutUpdated -= ListView_LayoutUpdated;
+                ((ListView) AssociatedObject).DataContextChanged -= ListView_DataContextChanged;
 
-                ((ListView)this.AssociatedObject).RemoveHandler(ListView.PointerWheelChangedEvent, _PointerWheelChangedEventHandler);
+                ((ListView) AssociatedObject).RemoveHandler(UIElement.PointerWheelChangedEvent,
+                    _pointerWheelChangedEventHandler);
             }
         }
 
-        private ScrollViewer _ScrollViewerObject;
-        public ScrollViewer ScrollViewerObject
-        {
-            get { return this._ScrollViewerObject; }
-            set { this._ScrollViewerObject = value; }
-        }
-
-        public bool IsScrollControlEnabled
-        {
-            get { return (bool)this.GetValue(IsScrollControlEnabledProperty); }
-            set { this.SetValue(IsScrollControlEnabledProperty, value); }
-        }
-        public static readonly DependencyProperty IsScrollControlEnabledProperty =
-                        DependencyProperty.RegisterAttached("IsScrollControlEnabled", typeof(bool),
-                        typeof(ListViewScrollControlBehavior), new PropertyMetadata(true));
-
-        public bool IsScrollLockEnabled
-        {
-            get { return (bool)this.GetValue(IsScrollLockEnabledProperty); }
-            set { this.SetValue(IsScrollLockEnabledProperty, value); }
-        }
-        public static readonly DependencyProperty IsScrollLockEnabledProperty =
-                        DependencyProperty.RegisterAttached("IsScrollLockEnabled", typeof(bool),
-                        typeof(ListViewScrollControlBehavior), new PropertyMetadata(false));
-
-        public bool IsScrollLockToTopEnabled
-        {
-            get { return (bool)this.GetValue(IsScrollLockToTopEnabledProperty); }
-            set { this.SetValue(IsScrollLockToTopEnabledProperty, value); }
-        }
-        public static readonly DependencyProperty IsScrollLockToTopEnabledProperty =
-                        DependencyProperty.RegisterAttached("IsScrollLockToTopEnabled", typeof(bool),
-                        typeof(ListViewScrollControlBehavior), new PropertyMetadata(false, IsScrollLockToTopEnabledChanged));
-
-        public int UnreadCount
-        {
-            get { return (int)this.GetValue(UnreadCountProperty); }
-            set { this.SetValue(UnreadCountProperty, value); }
-        }
-        public static readonly DependencyProperty UnreadCountProperty =
-                        DependencyProperty.RegisterAttached("UnreadCount", typeof(int),
-                        typeof(ListViewScrollControlBehavior), new PropertyMetadata(0));
-
-        private INotifyCollectionChanged previousItemsSource = null;
         private void ListView_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs e)
         {
-            if (previousItemsSource != null)
+            if (_previousItemsSource != null)
             {
-                previousItemsSource.CollectionChanged -= ListView_CollectionChanged;
-                previousItemsSource = null;
+                _previousItemsSource.CollectionChanged -= ListView_CollectionChanged;
+                _previousItemsSource = null;
             }
 
-            var itemsSource = ((ListView)this.AssociatedObject).ItemsSource as INotifyCollectionChanged;
+            var itemsSource = ((ListView) AssociatedObject).ItemsSource as INotifyCollectionChanged;
             if (itemsSource != null)
             {
                 itemsSource.CollectionChanged += ListView_CollectionChanged;
-                previousItemsSource = itemsSource;
+                _previousItemsSource = itemsSource;
             }
         }
 
-        private const int ChangedVertialOffset = 1;
         private void ListView_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (!this.IsScrollControlEnabled)
+            if (!IsScrollControlEnabled)
                 return;
 
             if (e.Action != NotifyCollectionChangedAction.Add)
                 return;
 
-            if (this.IsScrollLockToTopEnabled)
+            if (IsScrollLockToTopEnabled)
             {
-                this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
+                ScrollViewerObject.ChangeView(null, 0.02, null, true);
                 return;
             }
 
@@ -139,146 +140,150 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (collection == null)
                 return;
 
-            var verticalOffset = previousVerticalOffset;
+            var verticalOffset = _previousVerticalOffset;
             var offset = verticalOffset + ChangedVertialOffset;
-            
+
             if (e.NewStartingIndex >= verticalOffset - 0.5)
                 return;
-            
-            if (this.ScrollViewerObject.ScrollableHeight + 1 - offset <= 0)
+
+            if (ScrollViewerObject.ScrollableHeight + 1 - offset <= 0)
             {
                 try
                 {
-                    this.ScrollViewerObject.UpdateLayout();
+                    ScrollViewerObject.UpdateLayout();
                 }
                 catch
                 {
                 }
 
-                if (this.ScrollViewerObject.ScrollableHeight + 1 - offset <= 0)
+                if (ScrollViewerObject.ScrollableHeight + 1 - offset <= 0)
                     return;
             }
 
-            previousVerticalOffset = offset;
+            _previousVerticalOffset = offset;
 
-            if (SettingService.Setting.DisableStreamingScroll || this.IsScrollLockEnabled)
+            if (SettingService.Setting.DisableStreamingScroll || IsScrollLockEnabled)
             {
-                this.ScrollViewerObject.ChangeView(null, offset, null, true);
-                this.IncrementUnreadCount(offset);
+                ScrollViewerObject.ChangeView(null, offset, null, true);
+                IncrementUnreadCount(offset);
                 return;
             }
 
             switch (SettingService.Setting.TweetAnimation)
             {
                 case SettingSupport.TweetAnimationEnum.ScrollToTop:
-                    if (isAnimationRunning && !isAnimationCooldown)
-                        this.RunAnimation(offset);
-                    else if (verticalOffset <= 2.5 && !isAnimationCooldown)
-                        this.RunAnimation(offset);
+                    if (_isAnimationRunning && !_isAnimationCooldown)
+                    {
+                        RunAnimation(offset);
+                    }
+                    else if (verticalOffset <= 2.5 && !_isAnimationCooldown)
+                    {
+                        RunAnimation(offset);
+                    }
                     else
                     {
-                        this.ScrollViewerObject.ChangeView(null, offset, null, true);
-                        this.IncrementUnreadCount(offset);
+                        ScrollViewerObject.ChangeView(null, offset, null, true);
+                        IncrementUnreadCount(offset);
                     }
 
                     break;
                 case SettingSupport.TweetAnimationEnum.Expand:
                 case SettingSupport.TweetAnimationEnum.Slide:
-                    if (verticalOffset > 2.5 || isAnimationCooldown)
+                    if (verticalOffset > 2.5 || _isAnimationCooldown)
                     {
-                        this.ScrollViewerObject.ChangeView(null, offset, null, true);
-                        this.IncrementUnreadCount(offset);
+                        ScrollViewerObject.ChangeView(null, offset, null, true);
+                        IncrementUnreadCount(offset);
                         return;
                     }
 
-                    var lvItem = ((ListView)this.AssociatedObject).ContainerFromIndex(0) as ListViewItem;
+                    var lvItem = ((ListView) AssociatedObject).ContainerFromIndex(0) as ListViewItem;
                     if (lvItem == null || lvItem.ContentTemplateRoot == null)
                         return;
 
-                    var storyName = SettingService.Setting.TweetAnimation == SettingSupport.TweetAnimationEnum.Slide ? "TweetSlideAnimation" :
-                                    SettingService.Setting.TweetAnimation == SettingSupport.TweetAnimationEnum.Expand ? "TweetExpandAnimation" : "";
+                    var storyName = SettingService.Setting.TweetAnimation == SettingSupport.TweetAnimationEnum.Slide
+                        ? "TweetSlideAnimation"
+                        : SettingService.Setting.TweetAnimation == SettingSupport.TweetAnimationEnum.Expand
+                            ? "TweetExpandAnimation"
+                            : "";
 
-                    var story = ((FrameworkElement)lvItem.ContentTemplateRoot).Resources[storyName] as Storyboard;
+                    var story = ((FrameworkElement) lvItem.ContentTemplateRoot).Resources[storyName] as Storyboard;
                     story.Begin();
 
-                    this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
-                    previousVerticalOffset = 2;
+                    ScrollViewerObject.ChangeView(null, 0.02, null, true);
+                    _previousVerticalOffset = 2;
 
                     break;
                 case SettingSupport.TweetAnimationEnum.None:
                     if (verticalOffset > 2.5)
                     {
-                        this.ScrollViewerObject.ChangeView(null, offset, null, true);
-                        this.IncrementUnreadCount(offset);
+                        ScrollViewerObject.ChangeView(null, offset, null, true);
+                        IncrementUnreadCount(offset);
                     }
                     else
                     {
-                        this.ScrollViewerObject.ChangeView(null, 0.02, null, true);
-                        previousVerticalOffset = 2;
+                        ScrollViewerObject.ChangeView(null, 0.02, null, true);
+                        _previousVerticalOffset = 2;
                     }
 
                     break;
             }
         }
 
-        public double currentOffset;
-        volatile private bool isAnimationRunning;
-        volatile private bool isAnimationCooldown;
-        volatile private int tickCount;
         public async void RunAnimation(double offset)
         {
-            if (isAnimationCooldown)
+            if (_isAnimationCooldown)
                 return;
 
-            currentOffset = offset;
-            this.ScrollViewerObject.ChangeView(null, offset, null, true);
+            CurrentOffset = offset;
+            ScrollViewerObject.ChangeView(null, offset, null, true);
 
-            if (isAnimationRunning)
+            if (_isAnimationRunning)
             {
-                tickCount += 16;
+                _tickCount += 16;
 
-                if (tickCount > 72)
-                    tickCount = 72;
+                if (_tickCount > 72)
+                    _tickCount = 72;
             }
             else
             {
-                tickCount = 27;
+                _tickCount = 27;
 
-                isAnimationRunning = true;
+                _isAnimationRunning = true;
                 await Task.Run(() => RunAnimationTask()).ConfigureAwait(false);
             }
         }
+
         public void RunAnimationTask()
         {
-            for (; tickCount > 0; tickCount--)
+            for (; _tickCount > 0; _tickCount--)
             {
-                var dx = currentOffset / tickCount;
-                currentOffset -= dx;
-                if (isAnimationCooldown)
+                var dx = CurrentOffset / _tickCount;
+                CurrentOffset -= dx;
+                if (_isAnimationCooldown)
                 {
-                    isAnimationRunning = false;
+                    _isAnimationRunning = false;
                     return;
                 }
-                else
-                {
-                    this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                    {
-                        this.ScrollViewerObject.ChangeView(null, currentOffset, null, true);
-                    }).AsTask().Wait();
-                }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                        () => { ScrollViewerObject.ChangeView(null, CurrentOffset, null, true); })
+                    .AsTask()
+                    .Wait();
 
                 Task.Delay(12).Wait();
             }
-            isAnimationRunning = false;
-            this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => this.ScrollViewerObject.ChangeView(null, 0.02, null, true)).AsTask().Wait();
+            _isAnimationRunning = false;
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => ScrollViewerObject.ChangeView(null, 0.02, null, true))
+                .AsTask()
+                .Wait();
         }
 
         private void ListView_LayoutUpdated(object sender, object e)
         {
-            if (this.ScrollViewerObject != null)
+            if (ScrollViewerObject != null)
                 return;
 
-            var grid = VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0) as Grid;
+            var grid = VisualTreeHelper.GetChild((ListView) AssociatedObject, 0) as Grid;
             if (grid == null)
                 return;
 
@@ -286,17 +291,17 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (listViewScroll == null)
                 return;
 
-            this.ScrollViewerObject = listViewScroll;
-            this.ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
-            previousVerticalOffset = this.ScrollViewerObject.VerticalOffset <= 2 ? 2 : this.ScrollViewerObject.VerticalOffset;
+            ScrollViewerObject = listViewScroll;
+            ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
+            _previousVerticalOffset = ScrollViewerObject.VerticalOffset <= 2 ? 2 : ScrollViewerObject.VerticalOffset;
         }
 
         private void ListView_Loaded(object sender, RoutedEventArgs e)
         {
-            if (this.ScrollViewerObject != null)
+            if (ScrollViewerObject != null)
                 return;
 
-            var grid = VisualTreeHelper.GetChild(((ListView)this.AssociatedObject), 0) as Grid;
+            var grid = VisualTreeHelper.GetChild((ListView) AssociatedObject, 0) as Grid;
             if (grid == null)
                 return;
 
@@ -304,46 +309,45 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (listViewScroll == null)
                 return;
 
-            this.ScrollViewerObject = listViewScroll;
-            this.ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
-            previousVerticalOffset = this.ScrollViewerObject.VerticalOffset <= 2 ? 2 : this.ScrollViewerObject.VerticalOffset;
+            ScrollViewerObject = listViewScroll;
+            ScrollViewerObject.ViewChanged += ScrollViewerObject_ViewChanged;
+            _previousVerticalOffset = ScrollViewerObject.VerticalOffset <= 2 ? 2 : ScrollViewerObject.VerticalOffset;
         }
-        
+
         private void ListView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
         {
-            if (e.GetCurrentPoint((ListView)this.AssociatedObject).Properties.MouseWheelDelta < 0 && this.isAnimationRunning && this.ScrollViewerObject?.ScrollableHeight > 0.0)
-                this.AnimationCooldown(200);
+            if (e.GetCurrentPoint((ListView) AssociatedObject).Properties.MouseWheelDelta < 0 && _isAnimationRunning &&
+                ScrollViewerObject?.ScrollableHeight > 0.0)
+                AnimationCooldown(200);
         }
 
-        private double previousVerticalOffset = 2.0;
         private void ScrollViewerObject_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            if (e != null && e.IsIntermediate && this.isAnimationRunning)
-                this.AnimationCooldown(200);
-            
-            previousVerticalOffset = this.ScrollViewerObject.VerticalOffset;
-            currentOffset = previousVerticalOffset;
+            if (e != null && e.IsIntermediate && _isAnimationRunning)
+                AnimationCooldown(200);
 
-            var verticalOffset = this.ScrollViewerObject.VerticalOffset;
-            var maxVerticalOffset = this.ScrollViewerObject.ExtentHeight - this.ScrollViewerObject.ViewportHeight;
+            _previousVerticalOffset = ScrollViewerObject.VerticalOffset;
+            CurrentOffset = _previousVerticalOffset;
+
+            var verticalOffset = ScrollViewerObject.VerticalOffset;
+            var maxVerticalOffset = ScrollViewerObject.ExtentHeight - ScrollViewerObject.ViewportHeight;
             if (verticalOffset != maxVerticalOffset)
             {
-                var unreadCount = this.UnreadCount > verticalOffset - 2 ? (int)verticalOffset - 2 : this.UnreadCount;
-                this.UnreadCount = unreadCount >= 0 ? unreadCount : 0;
+                var unreadCount = UnreadCount > verticalOffset - 2 ? (int) verticalOffset - 2 : UnreadCount;
+                UnreadCount = unreadCount >= 0 ? unreadCount : 0;
             }
         }
 
-        public volatile int cooltime;
         private async void AnimationCooldown(int time)
         {
-            cooltime += time;
-            if (cooltime > 400)
-                cooltime = 400;
+            Cooltime += time;
+            if (Cooltime > 400)
+                Cooltime = 400;
 
-            if (isAnimationCooldown)
+            if (_isAnimationCooldown)
                 return;
 
-            isAnimationCooldown = true;
+            _isAnimationCooldown = true;
 
             await Task.Run(() => AnimationCooldownTask()).ConfigureAwait(false);
         }
@@ -352,35 +356,35 @@ namespace Flantter.MilkyWay.Views.Behaviors
         {
             while (true)
             {
-                if (!isAnimationCooldown)
+                if (!_isAnimationCooldown)
                     break;
 
-                if (cooltime < 0)
+                if (Cooltime < 0)
                     break;
 
-                cooltime -= 20;
+                Cooltime -= 20;
                 Task.Delay(20).Wait();
             }
-            cooltime = 0;
-            isAnimationCooldown = false;
+            Cooltime = 0;
+            _isAnimationCooldown = false;
         }
 
         private void IncrementUnreadCount(double offset)
         {
-            if (this.ScrollViewerObject == null)
+            if (ScrollViewerObject == null)
                 return;
 
-            var unreadCount = 0;
-            if (this.ScrollViewerObject.ScrollableHeight <= 2)
+            int unreadCount;
+            if (ScrollViewerObject.ScrollableHeight <= 2)
                 unreadCount = 0;
-            else if (this.isAnimationRunning)
+            else if (_isAnimationRunning)
                 unreadCount = 0;
-            else if (!this.IsScrollControlEnabled)
+            else if (!IsScrollControlEnabled)
                 unreadCount = 0;
             else
-                unreadCount = this.UnreadCount > offset - 2 ? (int)offset - 2 : this.UnreadCount + 1;
+                unreadCount = UnreadCount > offset - 2 ? (int) offset - 2 : UnreadCount + 1;
 
-            this.UnreadCount = unreadCount >= 0 ? unreadCount : 0;
+            UnreadCount = unreadCount >= 0 ? unreadCount : 0;
         }
 
         private static void IsScrollLockToTopEnabledChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
@@ -389,7 +393,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (behavior == null)
                 return;
 
-            if ((bool)e.NewValue)
+            if ((bool) e.NewValue)
             {
                 behavior.UnreadCount = 0;
                 behavior.ScrollViewerObject.ChangeView(null, 0.01, null, true);

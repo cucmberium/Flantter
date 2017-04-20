@@ -1,13 +1,10 @@
-﻿using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
@@ -15,83 +12,95 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
     {
         public EventMessageViewModel(EventMessage eventMessage, long userId)
         {
-            this.Model = eventMessage;
+            Model = eventMessage;
 
-            this.BackgroundBrush = "Default";
+            BackgroundBrush = "Default";
             if (eventMessage.Source.Id == userId)
-                this.BackgroundBrush = "MyTweet";
+                BackgroundBrush = "MyTweet";
             else if (eventMessage.Target != null && eventMessage.Target.Id == userId)
-                this.BackgroundBrush = "Mention";
+                BackgroundBrush = "Mention";
             else if (eventMessage.Type == "Retweet" || eventMessage.Type == "RetweetedRetweet")
-                this.BackgroundBrush = "Retweet";
+                BackgroundBrush = "Retweet";
             else if (eventMessage.Type == "Favorite" || eventMessage.Type == "FavoritedRetweet")
-                this.BackgroundBrush = "Favorite";
+                BackgroundBrush = "Favorite";
 
-            this.CreatedAt = eventMessage.CreatedAt.ToLocalTime().ToString();
-            this.ScreenName = eventMessage.Source.ScreenName;
-            this.Name = eventMessage.Source.Name;
-            this.ProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.Source.ProfileImageUrl) ? "http://localhost/" : eventMessage.Source.ProfileImageUrl;
-            this.Id = 0;
+            CreatedAt = eventMessage.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
+            ScreenName = eventMessage.Source.ScreenName;
+            Name = eventMessage.Source.Name;
+            ProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.Source.ProfileImageUrl)
+                ? "http://localhost/"
+                : eventMessage.Source.ProfileImageUrl;
+            Id = 0;
 
             var resourceLoader = new ResourceLoader();
             var sourceUser = "@" + eventMessage.Source.ScreenName + " (" + eventMessage.Source.Name + ") ";
-            var targetUser = "@" + eventMessage.Target.ScreenName + " (" + eventMessage.Target.Name + ") ";
+            var targetUser = "";
+            if (eventMessage.Target != null)
+                targetUser = "@" + eventMessage.Target.ScreenName + " (" + eventMessage.Target.Name + ") ";
+            else
+                targetUser = resourceLoader.GetString("Event_Me");
 
             switch (eventMessage.Type)
             {
                 case "Favorite":
-                    this.Text = string.Format(resourceLoader.GetString("Event_Favorite"), sourceUser, targetUser);
+                    Text = string.Format(resourceLoader.GetString("Event_Favorite"), sourceUser, targetUser);
                     break;
                 case "Follow":
-                    this.Text = string.Format(resourceLoader.GetString("Event_Follow"), sourceUser, targetUser);
+                    Text = string.Format(resourceLoader.GetString("Event_Follow"), sourceUser, targetUser);
                     break;
                 case "Unfavorite":
-                    this.Text = string.Format(resourceLoader.GetString("Event_Unfavorite"), sourceUser, targetUser);
+                    Text = string.Format(resourceLoader.GetString("Event_Unfavorite"), sourceUser, targetUser);
                     break;
                 case "UserUpdate":
-                    this.Text = string.Format(resourceLoader.GetString("Event_UserUpdate"), sourceUser);
+                    Text = string.Format(resourceLoader.GetString("Event_UserUpdate"), sourceUser);
                     break;
                 case "FavoritedRetweet":
-                    this.Text = string.Format(resourceLoader.GetString("Event_FavoritedRetweet"), sourceUser, targetUser);
+                    Text = string.Format(resourceLoader.GetString("Event_FavoritedRetweet"), sourceUser, targetUser);
                     break;
                 case "RetweetedRetweet":
-                    this.Text = string.Format(resourceLoader.GetString("Event_RetweetedRetweet"), sourceUser, targetUser);
+                    Text = string.Format(resourceLoader.GetString("Event_RetweetedRetweet"), sourceUser, targetUser);
                     break;
                 case "QuotedTweet":
-                    this.Text = string.Format(resourceLoader.GetString("Event_QuotedTweet"), sourceUser, targetUser);
+                    Text = string.Format(resourceLoader.GetString("Event_QuotedTweet"), sourceUser, targetUser);
                     break;
                 case "Retweet":
-                    this.Text = string.Format(resourceLoader.GetString("Event_RetweetTweet"), sourceUser, targetUser);
+                    Text = string.Format(resourceLoader.GetString("Event_RetweetTweet"), sourceUser, targetUser);
+                    break;
+                case "Mention":
+                    Text = string.Format(resourceLoader.GetString("Event_Mention"), sourceUser, targetUser);
                     break;
             }
 
             if (eventMessage.TargetStatus != null)
             {
-                this.TargetStatusVisibility = true;
-                this.TargetStatusId = eventMessage.TargetStatus.Id;
-                this.TargetStatusName = eventMessage.TargetStatus.User.Name;
-                this.TargetStatusScreenName = eventMessage.TargetStatus.User.ScreenName;
-                this.TargetStatusText = eventMessage.TargetStatus.Text;
-                this.TargetStatusEntities = eventMessage.TargetStatus.Entities;
-                this.TargetStatusProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.TargetStatus.User.ProfileImageUrl) ? "http://localhost/" : eventMessage.TargetStatus.User.ProfileImageUrl;
+                TargetStatusVisibility = true;
+                TargetStatusId = eventMessage.TargetStatus.Id;
+                TargetStatusName = eventMessage.TargetStatus.User.Name;
+                TargetStatusScreenName = eventMessage.TargetStatus.User.ScreenName;
+                TargetStatusText = eventMessage.TargetStatus.Text;
+                TargetStatusEntities = eventMessage.TargetStatus.Entities;
+                TargetStatusProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.TargetStatus.User.ProfileImageUrl)
+                    ? "http://localhost/"
+                    : eventMessage.TargetStatus.User.ProfileImageUrl;
 
-                this.TargetStatusMediaVisibility = (eventMessage.TargetStatus.Entities.Media.Count == 0 ? false : true) && SettingService.Setting.ShowQuotedStatusMedia;
+                TargetStatusMediaVisibility = (eventMessage.TargetStatus.Entities.Media.Count != 0) &&
+                                              SettingService.Setting.ShowQuotedStatusMedia;
 
-                this.TargetStatusMediaEntities = new List<MediaEntityViewModel>();
+                TargetStatusMediaEntities = new List<MediaEntityViewModel>();
                 foreach (var mediaEntity in eventMessage.TargetStatus.Entities.Media)
-                    this.TargetStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                    TargetStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity));
             }
             else
             {
-                this.TargetStatusVisibility = false;
-                this.TargetStatusProfileImageUrl = "http://localhost/";
+                TargetStatusVisibility = false;
+                TargetStatusProfileImageUrl = "http://localhost/";
             }
 
-            this.Notice = Services.Notice.Instance;
-            this.Setting = SettingService.Setting;
+            Notice = Notice.Instance;
+            Setting = SettingService.Setting;
         }
 
-        public EventMessage Model { get; private set; }
+        public EventMessage Model { get; }
 
         public string BackgroundBrush { get; set; }
 
@@ -105,12 +114,10 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public string ProfileImageUrl { get; set; }
 
-        public long Id { get; set; }
-
-        public bool TargetStatusVisibility { get; set;}
+        public bool TargetStatusVisibility { get; set; }
 
         public long TargetStatusId { get; set; }
-        
+
         public string TargetStatusText { get; set; }
 
         public string TargetStatusScreenName { get; set; }
@@ -123,10 +130,12 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public Entities TargetStatusEntities { get; set; }
 
-        public List<MediaEntityViewModel> TargetStatusMediaEntities { get; private set; }
+        public List<MediaEntityViewModel> TargetStatusMediaEntities { get; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
 
-        public Setting.SettingService Setting { get; set; }
+        public SettingService Setting { get; set; }
+
+        public long Id { get; set; }
     }
 }

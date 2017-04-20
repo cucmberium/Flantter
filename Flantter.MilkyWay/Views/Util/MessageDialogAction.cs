@@ -1,11 +1,8 @@
-﻿using Microsoft.Xaml.Interactivity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.Pickers;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Microsoft.Xaml.Interactivity;
 
 namespace Flantter.MilkyWay.Views.Util
 {
@@ -13,12 +10,13 @@ namespace Flantter.MilkyWay.Views.Util
     {
         public object Execute(object sender, object parameter)
         {
-            return this.ExecuteAsync((MessageDialogNotification)parameter);
+            return ExecuteAsync((MessageDialogNotification) parameter);
         }
 
         private async Task ExecuteAsync(MessageDialogNotification confirmMessageDialogNotification)
         {
-            Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(confirmMessageDialogNotification.Message, confirmMessageDialogNotification.Title);
+            var msg = new MessageDialog(confirmMessageDialogNotification.Message,
+                confirmMessageDialogNotification.Title);
             await msg.ShowAsync();
         }
     }
@@ -26,7 +24,7 @@ namespace Flantter.MilkyWay.Views.Util
     public class MessageDialogNotification : Notification
     {
         /// <summary>
-        /// メッセージ
+        ///     メッセージ
         /// </summary>
         public string Message { get; set; }
     }

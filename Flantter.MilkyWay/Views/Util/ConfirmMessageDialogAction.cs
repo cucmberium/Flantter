@@ -1,11 +1,8 @@
-﻿using Microsoft.Xaml.Interactivity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.Pickers;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Microsoft.Xaml.Interactivity;
 
 namespace Flantter.MilkyWay.Views.Util
 {
@@ -13,15 +10,16 @@ namespace Flantter.MilkyWay.Views.Util
     {
         public object Execute(object sender, object parameter)
         {
-            return this.ExecuteAsync((ConfirmMessageDialogNotification)parameter);
+            return ExecuteAsync((ConfirmMessageDialogNotification) parameter);
         }
 
         private async Task ExecuteAsync(ConfirmMessageDialogNotification confirmMessageDialogNotification)
         {
-            bool result = false;
-            Windows.UI.Popups.MessageDialog msg = new Windows.UI.Popups.MessageDialog(confirmMessageDialogNotification.Message, confirmMessageDialogNotification.Title);
-            msg.Commands.Add(new Windows.UI.Popups.UICommand("Yes", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = true; })));
-            msg.Commands.Add(new Windows.UI.Popups.UICommand("No", new Windows.UI.Popups.UICommandInvokedHandler(_ => { result = false; })));
+            var result = false;
+            var msg = new MessageDialog(confirmMessageDialogNotification.Message,
+                confirmMessageDialogNotification.Title);
+            msg.Commands.Add(new UICommand("Yes", _ => { result = true; }));
+            msg.Commands.Add(new UICommand("No", _ => { result = false; }));
             await msg.ShowAsync();
 
             confirmMessageDialogNotification.Result = result;
@@ -30,14 +28,8 @@ namespace Flantter.MilkyWay.Views.Util
 
     public class ConfirmMessageDialogNotification : Notification
     {
-        /// <summary>
-        /// メッセージ
-        /// </summary>
         public string Message { get; set; }
-
-        /// <summary>
-        /// 結果
-        /// </summary>
+        
         public bool Result { get; set; }
     }
 }

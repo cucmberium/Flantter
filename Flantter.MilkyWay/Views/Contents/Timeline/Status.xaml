@@ -177,7 +177,7 @@
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
                     <i:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <util:OpenLinkAction x:Name="StatusDateTimeLinkAction" IsEnabled="False" Uri="{x:Bind ViewModel.StatusUrl, Mode=OneWay}"/>
+                            <util:OpenLinkAction x:Name="StatusDateTimeLinkAction" IsEnabled="False" Uri="{x:Bind ViewModel.Model.Url, Mode=OneWay}"/>
                         </core:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                     <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{x:Bind ViewModel.CreatedAt, Mode=OneWay}"/>
@@ -392,7 +392,7 @@
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_CopyTweetUrl" Text="&#xE71B;    ツイートURLのコピー" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.CopyTweetUrlCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Retweeter" Text="&#xE1CA;    リツイートした人" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.RetweetCount, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowRetweetersCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                             <MenuFlyoutSeparator />
-                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_MuteUser" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Text="&#xE1E0;    ユーザーミュート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Model.User.ScreenName, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_MuteUser" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Text="&#xE1E0;    ユーザーミュート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Model.User, Mode=OneWay}"/>
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_MuteClient" Text="&#xE1E0;    クライアントミュート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.MuteClientCommand}" CommandParameter="{x:Bind ViewModel.Model.Source, Mode=OneWay}"/>
                             <MenuFlyoutSeparator />
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_AddToCollection" Text="&#xE109;    コレクションに追加" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.AddToCollectionCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>

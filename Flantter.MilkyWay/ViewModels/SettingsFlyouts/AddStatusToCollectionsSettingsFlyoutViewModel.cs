@@ -1,17 +1,15 @@
-﻿using Flantter.MilkyWay.Models.SettingsFlyouts;
+﻿using System;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.SettingsFlyouts;
 using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.ViewModels.Services;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
@@ -19,79 +17,84 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
     {
         public AddStatusToCollectionSettingsFlyoutViewModel()
         {
-            this.Model = new AddStatusToCollectionSettingsFlyoutModel();
+            Model = new AddStatusToCollectionSettingsFlyoutModel();
 
-            this.Tokens = this.Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
-            this.IconSource = new ReactiveProperty<string>("http://localhost/");
+            Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
+            IconSource = new ReactiveProperty<string>("http://localhost/");
 
-            this.ScreenName = this.Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
+            ScreenName = Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
 
-            this.Status = new ReactiveProperty<Status>();
+            Status = new ReactiveProperty<Status>();
 
-            this.SelectedIndex = new ReactiveProperty<int>(-1);
+            SelectedIndex = new ReactiveProperty<int>(-1);
 
-            this.ClearCommand = new ReactiveCommand();
-            this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                this.Status.Value = null;
-                this.ScreenName.Value = "";
-                this.Model.UserCollections.Clear();
-            });
+            ClearCommand = new ReactiveCommand();
+            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
+                {
+                    Status.Value = null;
+                    ScreenName.Value = "";
+                    Model.UserCollections.Clear();
+                });
 
-            this.UpdateCommand = new ReactiveCommand();
-            this.UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateUserCollections();
-            });
+            UpdateCommand = new ReactiveCommand();
+            UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateUserCollections(); });
 
-            this.UserCollectionsIncrementalLoadCommand = new ReactiveCommand();
-            this.UserCollectionsIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (this.Model.UserCollections.Count > 0)
-                    await this.Model.UpdateUserCollections(true);
-            });
+            UserCollectionsIncrementalLoadCommand = new ReactiveCommand();
+            UserCollectionsIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    if (Model.UserCollections.Count > 0)
+                        await Model.UpdateUserCollections(true);
+                });
 
-            this.AddStatusToCollectionCommand = new ReactiveCommand();
-            this.AddStatusToCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (this.Status.Value == null)
-                    return;
+            AddStatusToCollectionCommand = new ReactiveCommand();
+            AddStatusToCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    if (Status.Value == null)
+                        return;
 
-                if (this.SelectedIndex.Value == -1)
-                    return;
+                    if (SelectedIndex.Value == -1)
+                        return;
 
-                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_AddToCollection"), Title = "Confirmation" };
-                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
+                    var msgNotification = new ConfirmMessageDialogNotification
+                    {
+                        Message = new ResourceLoader().GetString("ConfirmDialog_AddToCollection"),
+                        Title = "Confirmation"
+                    };
+                    await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-                if (!msgNotification.Result)
-                    return;
+                    if (!msgNotification.Result)
+                        return;
 
-                await this.Model.AddStatusToCollection(this.Model.UserCollections[this.SelectedIndex.Value].Id, this.Status.Value.Id);
-            });
+                    await Model.AddStatusToCollection(Model.UserCollections[SelectedIndex.Value].Id, Status.Value.Id);
+                });
 
-            this.UserCollections = this.Model.UserCollections.ToReadOnlyReactiveCollection(x => new CollectionViewModel(x));
+            UserCollections = Model.UserCollections.ToReadOnlyReactiveCollection(x => new CollectionViewModel(x));
 
-            this.UpdatingUserCollections = this.Model.ObserveProperty(x => x.UpdatingUserCollections).ToReactiveProperty();
+            UpdatingUserCollections = Model.ObserveProperty(x => x.UpdatingUserCollections).ToReactiveProperty();
 
-            this.Notice = Services.Notice.Instance;
+            Notice = Notice.Instance;
         }
 
         public AddStatusToCollectionSettingsFlyoutModel Model { get; set; }
 
         public ReactiveProperty<bool> UpdatingUserCollections { get; set; }
 
-        public ReactiveProperty<CoreTweet.Tokens> Tokens { get; set; }
+        public ReactiveProperty<Tokens> Tokens { get; set; }
 
         public ReactiveProperty<string> IconSource { get; set; }
 
         public ReactiveProperty<string> ScreenName { get; set; }
-        
+
         public ReactiveProperty<Status> Status { get; set; }
 
-        public ReadOnlyReactiveCollection<CollectionViewModel> UserCollections { get; private set; }
+        public ReadOnlyReactiveCollection<CollectionViewModel> UserCollections { get; }
 
         public ReactiveProperty<int> SelectedIndex { get; set; }
-        
+
 
         public ReactiveCommand ClearCommand { get; set; }
 
@@ -101,6 +104,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveCommand AddStatusToCollectionCommand { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
     }
 }

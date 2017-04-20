@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -11,53 +6,52 @@ namespace Flantter.MilkyWay.Views.Controls
 {
     public class ExtendedTextBox : TextBox
     {
-        public ExtendedTextBox() : base()
+        public static readonly DependencyProperty CursorPositionProperty =
+            DependencyProperty.Register("CursorPosition",
+                typeof(int),
+                typeof(ExtendedTextBox),
+                new PropertyMetadata(0, CursorPositionChanged));
+
+        private bool _changeFromUi;
+
+        public ExtendedTextBox()
         {
-            this.SelectionChanged += ExtendedTextBox_SelectionChanged;
+            SelectionChanged += ExtendedTextBox_SelectionChanged;
         }
 
-        private bool changeFromUI = false;
+        public int CursorPosition
+        {
+            get => (int) GetValue(CursorPositionProperty);
+            set => SetValue(CursorPositionProperty, value);
+        }
+
         private void ExtendedTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (this.CursorPosition != this.SelectionStart)
+            if (CursorPosition != SelectionStart)
             {
-                changeFromUI = true;
-                this.CursorPosition = this.SelectionStart;
+                _changeFromUi = true;
+                CursorPosition = SelectionStart;
             }
-
         }
 
         public event KeyEventHandler PreKeyDown;
 
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
-            if (PreKeyDown != null)
-                PreKeyDown(this, e);
+            PreKeyDown?.Invoke(this, e);
 
             if (!e.Handled)
                 base.OnKeyDown(e);
         }
 
-        public int CursorPosition
-        {
-            get { return (int)GetValue(CursorPositionProperty); }
-            set { SetValue(CursorPositionProperty, value); }
-        }
-        public static readonly DependencyProperty CursorPositionProperty =
-            DependencyProperty.Register("CursorPosition",
-                                        typeof(int),
-                                        typeof(ExtendedTextBox),
-                                        new PropertyMetadata(0, CursorPositionChanged));
-
         private static void CursorPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var textBox = d as ExtendedTextBox;
 
-            if (!textBox.changeFromUI)
-                textBox.SelectionStart = (int)e.NewValue;
+            if (!textBox._changeFromUi)
+                textBox.SelectionStart = (int) e.NewValue;
             else
-                textBox.changeFromUI = false;
-
+                textBox._changeFromUi = false;
         }
     }
 }

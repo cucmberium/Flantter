@@ -1,371 +1,434 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Twitter;
-using Flantter.MilkyWay.Setting;
-using Prism.Mvvm;
-using Reactive.Bindings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
-using Windows.Globalization;
+using Flantter.MilkyWay.Models.Notifications;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Twitter;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.Setting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class SearchSettingsFlyoutModel : BindableBase
     {
+        private string _savedSearchesLastScreenName = "";
+        private DateTime _savedSearchesLastUpdate = DateTime.Now - TimeSpan.FromDays(1.0);
+        private DateTime _trendsLastUpdate = DateTime.Now - TimeSpan.FromDays(1.0);
+        private long _trendsLastWoeId;
+
+        private long _usersCursor;
+
         public SearchSettingsFlyoutModel()
         {
-            this.Statuses = new ObservableCollection<Twitter.Objects.Status>();
-            this.Users = new ObservableCollection<Twitter.Objects.User>();
+            Statuses = new ObservableCollection<Status>();
+            Users = new ObservableCollection<User>();
 
-            this.Trends = new ObservableCollection<Twitter.Objects.Trend>();
-            this.SavedSearches = new ObservableCollection<Twitter.Objects.SearchQuery>();
+            Trends = new ObservableCollection<Trend>();
+            SavedSearches = new ObservableCollection<SearchQuery>();
         }
 
-        #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
+        public ObservableCollection<Status> Statuses { get; set; }
 
-        #region UserSearchWords変更通知プロパティ
-        private string _UserSearchWords;
-        public string UserSearchWords
-        {
-            get { return this._UserSearchWords; }
-            set { this.SetProperty(ref this._UserSearchWords, value); }
-        }
-        #endregion
+        public ObservableCollection<User> Users { get; set; }
 
-        #region UpdatingUserSearch変更通知プロパティ
-        private bool _UpdatingUserSearch;
-        public bool UpdatingUserSearch
-        {
-            get { return this._UpdatingUserSearch; }
-            set { this.SetProperty(ref this._UpdatingUserSearch, value); }
-        }
-        #endregion
+        public ObservableCollection<Trend> Trends { get; set; }
 
-        #region StatusSearchWords変更通知プロパティ
-        private string _StatusSearchWords;
-        public string StatusSearchWords
-        {
-            get { return this._StatusSearchWords; }
-            set { this.SetProperty(ref this._StatusSearchWords, value); }
-        }
-        #endregion
+        public ObservableCollection<SearchQuery> SavedSearches { get; set; }
 
-        #region UpdatingStatusSearch変更通知プロパティ
-        private bool _UpdatingStatusSearch;
-        public bool UpdatingStatusSearch
-        {
-            get { return this._UpdatingStatusSearch; }
-            set { this.SetProperty(ref this._UpdatingStatusSearch, value); }
-        }
-        #endregion
+        public bool UpdatingTrends { get; set; }
 
-        #region SavedSearchesScreenName変更通知プロパティ
-        private string _SavedSearchesScreenName;
-        public string SavedSearchesScreenName
-        {
-            get { return this._SavedSearchesScreenName; }
-            set { this.SetProperty(ref this._SavedSearchesScreenName, value); }
-        }
-        #endregion
-
-        #region TrendsPlace変更通知プロパティ
-        private string _TrendsPlace;
-        public string TrendsPlace
-        {
-            get { return this._TrendsPlace; }
-            set { this.SetProperty(ref this._TrendsPlace, value); }
-        }
-        #endregion
-
-        public ObservableCollection<Twitter.Objects.Status> Statuses { get; set; }
-
-        public ObservableCollection<Twitter.Objects.User> Users { get; set; }
-
-        public ObservableCollection<Twitter.Objects.Trend> Trends { get; set; }
-
-        public ObservableCollection<Twitter.Objects.SearchQuery> SavedSearches { get; set; }
+        public bool UpdatingSavedSearches { get; set; }
 
         public async Task UpdateStatuses(long maxid = 0, bool clear = true)
         {
-            if (this.UpdatingStatusSearch)
+            if (UpdatingStatusSearch)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._StatusSearchWords) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_statusSearchWords) || Tokens == null)
                 return;
 
-            this.UpdatingStatusSearch = true;
+            UpdatingStatusSearch = true;
 
             if (maxid == 0 && clear)
-                this.Statuses.Clear();
+                Statuses.Clear();
 
-            IEnumerable<CoreTweet.Status> search = null;
+            IEnumerable<Status> search;
 
-            if (SettingService.Setting.UseOfficialApi && TwitterConnectionHelper.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
+            if (SettingService.Setting.UseOfficialApi &&
+                TwitterConnectionHelper.OfficialConsumerKeyList.Contains(Tokens.ConsumerKey))
             {
-                var param = new Dictionary<string, object>() { { "q", this._StatusSearchWords }, { "count", 100 }, { "result_type", "recent" }, { "modules", "status" }, { "tweet_mode", TweetMode.extended } };
+                var param = new Dictionary<string, object>
+                {
+                    {"q", _statusSearchWords},
+                    {"count", 20},
+                    {"result_type", "recent"},
+                    {"modules", "status"},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
                 if (maxid != 0)
                     param["q"] = param["q"] + " max_id:" + maxid;
 
                 try
                 {
-                    var res = await this.Tokens.SendRequestAsync(MethodType.Get, "https://api.twitter.com/1.1/search/universal.json", param);
+                    var res = await Tokens.TwitterTokens.SendRequestAsync(CoreTweet.MethodType.Get,
+                        "https://api.twitter.com/1.1/search/universal.json", param);
                     var json = await res.Source.Content.ReadAsStringAsync();
-                    var jsonObject = Newtonsoft.Json.Linq.JObject.Parse(json);
-                    var modules = jsonObject["modules"].Children<Newtonsoft.Json.Linq.JObject>();
+                    var jsonObject = JObject.Parse(json);
+                    var modules = jsonObject["modules"].Children<JObject>();
 
                     var tweets = new List<CoreTweet.Status>();
                     foreach (var status in modules)
-                    {
-                        foreach (Newtonsoft.Json.Linq.JProperty prop in status.Properties())
-                        {
-                            if (prop.Name == "status")
-                                tweets.Add(CoreBase.Convert<CoreTweet.Status>(Newtonsoft.Json.JsonConvert.SerializeObject(status["status"]["data"])));
-                        }
-                    }
+                    foreach (var prop in status.Properties())
+                        if (prop.Name == "status")
+                            tweets.Add(
+                                CoreTweet.Core.CoreBase.Convert<CoreTweet.Status>(
+                                    JsonConvert.SerializeObject(status["status"]["data"])));
 
-                    search = tweets;
+                    search = tweets.Select(x => new Status(x));
                 }
                 catch
                 {
                     if (maxid == 0 && clear)
-                        this.Statuses.Clear();
+                        Statuses.Clear();
 
-                    this.UpdatingStatusSearch = false;
+                    UpdatingStatusSearch = false;
                     return;
                 }
             }
             else
             {
-                var param = new Dictionary<string, object>() { { "count", 100 }, { "include_entities", true }, { "q", this._StatusSearchWords }, { "tweet_mode", TweetMode.extended } };
+                var param = new Dictionary<string, object>
+                {
+                    {"count", 20},
+                    {"include_entities", true},
+                    {"q", _statusSearchWords},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
 
                 try
                 {
-                    search = await this.Tokens.Search.TweetsAsync(param);
+                    search = await Tokens.Search.TweetsAsync(param);
                 }
                 catch
                 {
                     if (maxid == 0 && clear)
-                        this.Statuses.Clear();
+                        Statuses.Clear();
 
-                    this.UpdatingStatusSearch = false;
+                    UpdatingStatusSearch = false;
                     return;
                 }
             }
-            
-            if (maxid == 0 && clear)
-                this.Statuses.Clear();
 
-            foreach (var item in search)
+            if (maxid == 0 && clear)
+                Statuses.Clear();
+
+            foreach (var status in search)
             {
-                var status = new Twitter.Objects.Status(item);
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+                Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                    new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
 
                 var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
-                var index = this.Statuses.IndexOf(this.Statuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
+                var index = Statuses.IndexOf(
+                    Statuses.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) == id));
                 if (index == -1)
                 {
-                    index = this.Statuses.IndexOf(this.Statuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
+                    index = Statuses.IndexOf(
+                        Statuses.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) < id));
                     if (index == -1)
-                        this.Statuses.Add(status);
+                        Statuses.Add(status);
                     else
-                        this.Statuses.Insert(index, status);
+                        Statuses.Insert(index, status);
                 }
             }
 
-            this.UpdatingStatusSearch = false;
+            UpdatingStatusSearch = false;
         }
 
-        private long usersCursor = 0;
         public async Task UpdateUsers(bool useCursor = false)
         {
-            if (this.UpdatingUserSearch)
+            if (UpdatingUserSearch)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._UserSearchWords) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_userSearchWords) || Tokens == null)
                 return;
 
-            this.UpdatingUserSearch = true;
+            UpdatingUserSearch = true;
 
-            if (!useCursor || usersCursor == 0)
-                this.Users.Clear();
+            if (!useCursor || _usersCursor == 0)
+                Users.Clear();
 
-            ListedResponse<CoreTweet.User> following;
             try
             {
-                if (useCursor && usersCursor != 0)
-                    following = await Tokens.Users.SearchAsync(q => this._UserSearchWords, count => 20, page => usersCursor);
+                var param = new Dictionary<string, object>
+                {
+                    {"count", 20},
+                    {"include_entities", true},
+                    {"q", _userSearchWords},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
+                if (useCursor && _usersCursor != 0)
+                    param.Add("page", _usersCursor);
+
+                var following = await Tokens.Users.SearchAsync(param);
+                if (!useCursor || _usersCursor == 0)
+                    Users.Clear();
+
+                foreach (var user in following)
+                    Users.Add(user);
+
+                if (useCursor)
+                    _usersCursor += 1;
                 else
-                    following = await Tokens.Users.SearchAsync(q => this._UserSearchWords, count => 20);
+                    _usersCursor = 2;
             }
             catch
             {
-                if (!useCursor || usersCursor == 0)
-                    this.Users.Clear();
+                if (!useCursor || _usersCursor == 0)
+                    Users.Clear();
 
-                this.UpdatingUserSearch = false;
+                UpdatingUserSearch = false;
                 return;
             }
 
-            if (!useCursor || usersCursor == 0)
-                this.Users.Clear();
-
-            foreach (var item in following)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Users.Add(user);
-            }
-
-            if (useCursor)
-                usersCursor += 1;
-            else
-                usersCursor = 2;
-
-            this.UpdatingUserSearch = false;
+            UpdatingUserSearch = false;
         }
 
         public async Task CreateSavedSearches(string word)
         {
             try
             {
-                await this.Tokens.SavedSearches.CreateAsync(query => word);
+                await Tokens.SavedSearches.CreateAsync(query => word);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
-            Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_SaveSearchSuccessfully"));
+            Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                new ResourceLoader().GetString("Notification_System_SaveSearchSuccessfully"));
 
-            await this.UpdateSavedSearches(true);
+            await UpdateSavedSearches(true);
         }
 
         public async Task DestroySavedSearches(long savedSearchId)
         {
             try
             {
-                await this.Tokens.SavedSearches.DestroyAsync(id => savedSearchId);
+                await Tokens.SavedSearches.DestroyAsync(id => savedSearchId);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
-            Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_DestroySearchSuccessfully"));
+            Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                new ResourceLoader().GetString("Notification_System_DestroySearchSuccessfully"));
 
-            await this.UpdateSavedSearches(true);
+            await UpdateSavedSearches(true);
         }
 
-        public bool UpdatingTrends { get; set; } = false;
-        private long trendsLastWoeId = 0;
-        private DateTime trendsLastUpdate = DateTime.Now - TimeSpan.FromDays(1.0);
         public async Task UpdateTrends(bool forceUpdate = false)
         {
-            if (this.UpdatingTrends)
+            if (UpdatingTrends)
                 return;
 
-            if (!forceUpdate && trendsLastUpdate + TimeSpan.FromMinutes(15) > DateTime.Now && trendsLastWoeId == SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsRegion))
+            if (!forceUpdate && _trendsLastUpdate + TimeSpan.FromMinutes(15) > DateTime.Now && _trendsLastWoeId ==
+                SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsRegion))
                 return;
 
-            this.UpdatingTrends = true;
-            
-            this.TrendsPlace = SettingSupport.GetTrendsPlaceString(SettingService.Setting.TrendsRegion);
+            UpdatingTrends = true;
 
-            this.Trends.Clear();
+            TrendsPlace = SettingSupport.GetTrendsPlaceString(SettingService.Setting.TrendsRegion);
+
+            Trends.Clear();
             try
             {
-                var trends = await this.Tokens.Trends.PlaceAsync(id => SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsRegion));
+                var trends = await Tokens.Trends.PlaceAsync(
+                    id => SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsRegion));
 
                 if (trends.Count == 0)
                 {
-                    this.UpdatingTrends = false;
+                    UpdatingTrends = false;
                     return;
                 }
 
-                this.Trends.Clear();
-                foreach (var trend in trends.First().Trends)
-                    this.Trends.Add(new Twitter.Objects.Trend(trend));
+                Trends.Clear();
+                foreach (var trend in trends)
+                    Trends.Add(trend);
 
-                trendsLastUpdate = trends.First().CreatedAt.DateTime.ToLocalTime();
-
-                trendsLastWoeId = SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsRegion);
+                _trendsLastUpdate = DateTime.Now.ToLocalTime();
+                _trendsLastWoeId = SettingSupport.GetTrendsWoeId(SettingService.Setting.TrendsRegion);
             }
             catch
             {
-                this.UpdatingTrends = false;
+                UpdatingTrends = false;
                 return;
             }
 
-            this.UpdatingTrends = false;
+            UpdatingTrends = false;
         }
 
-        public bool UpdatingSavedSearches { get; set; } = false;
-        private DateTime savedSearchesLastUpdate = DateTime.Now - TimeSpan.FromDays(1.0);
-        private string savedSearchesLastScreenName = "";
         public async Task UpdateSavedSearches(bool forceUpdate = false)
         {
-            if (this.UpdatingSavedSearches)
+            if (UpdatingSavedSearches)
                 return;
 
-            if (!forceUpdate && savedSearchesLastUpdate + TimeSpan.FromMinutes(15) > DateTime.Now && savedSearchesLastScreenName == this.Tokens.ScreenName)
+            if (!forceUpdate && _savedSearchesLastUpdate + TimeSpan.FromMinutes(15) > DateTime.Now &&
+                _savedSearchesLastScreenName == Tokens.ScreenName)
                 return;
 
-            this.UpdatingSavedSearches = true;
+            UpdatingSavedSearches = true;
 
-            this.SavedSearchesScreenName = this.Tokens.ScreenName;
-            
-            this.SavedSearches.Clear();
+            SavedSearchesScreenName = Tokens.ScreenName;
+
+            SavedSearches.Clear();
             try
             {
-                var savedSearches = await this.Tokens.SavedSearches.ListAsync();
+                var savedSearches = await Tokens.SavedSearches.ListAsync();
 
                 if (savedSearches.Count == 0)
                 {
-                    this.UpdatingSavedSearches = false;
+                    UpdatingSavedSearches = false;
                     return;
                 }
 
-                this.SavedSearches.Clear();
+                SavedSearches.Clear();
                 foreach (var savedSearch in savedSearches)
-                    this.SavedSearches.Add(new Twitter.Objects.SearchQuery(savedSearch));
+                    SavedSearches.Add(savedSearch);
 
-                savedSearchesLastUpdate = DateTime.Now;
-                savedSearchesLastScreenName = this.Tokens.ScreenName;
+                _savedSearchesLastUpdate = DateTime.Now;
+                _savedSearchesLastScreenName = Tokens.ScreenName;
             }
             catch
             {
-                this.UpdatingSavedSearches = false;
+                UpdatingSavedSearches = false;
                 return;
             }
 
-            this.UpdatingSavedSearches = false;
+            UpdatingSavedSearches = false;
         }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region UserSearchWords変更通知プロパティ
+
+        private string _userSearchWords;
+
+        public string UserSearchWords
+        {
+            get => _userSearchWords;
+            set => SetProperty(ref _userSearchWords, value);
+        }
+
+        #endregion
+
+        #region UpdatingUserSearch変更通知プロパティ
+
+        private bool _updatingUserSearch;
+
+        public bool UpdatingUserSearch
+        {
+            get => _updatingUserSearch;
+            set => SetProperty(ref _updatingUserSearch, value);
+        }
+
+        #endregion
+
+        #region StatusSearchWords変更通知プロパティ
+
+        private string _statusSearchWords;
+
+        public string StatusSearchWords
+        {
+            get => _statusSearchWords;
+            set => SetProperty(ref _statusSearchWords, value);
+        }
+
+        #endregion
+
+        #region UpdatingStatusSearch変更通知プロパティ
+
+        private bool _updatingStatusSearch;
+
+        public bool UpdatingStatusSearch
+        {
+            get => _updatingStatusSearch;
+            set => SetProperty(ref _updatingStatusSearch, value);
+        }
+
+        #endregion
+
+        #region SavedSearchesScreenName変更通知プロパティ
+
+        private string _savedSearchesScreenName;
+
+        public string SavedSearchesScreenName
+        {
+            get => _savedSearchesScreenName;
+            set => SetProperty(ref _savedSearchesScreenName, value);
+        }
+
+        #endregion
+
+        #region TrendsPlace変更通知プロパティ
+
+        private string _trendsPlace;
+
+        public string TrendsPlace
+        {
+            get => _trendsPlace;
+            set => SetProperty(ref _trendsPlace, value);
+        }
+
+        #endregion
     }
 }

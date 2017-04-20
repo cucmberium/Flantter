@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
@@ -10,19 +6,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
     {
         public Gap(long id, long maxId, DateTime createAt)
         {
-            this.CreatedAt = createAt;
-            this.Id = id;
-            this.MaxId = maxId;
+            CreatedAt = createAt;
+            Id = id;
+            MaxId = maxId;
         }
 
         public Gap()
         {
         }
 
+        public long MaxId { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public long Id { get; set; }
-
-        public long MaxId { get; set; }
     }
 }

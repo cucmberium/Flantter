@@ -1,23 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Models.Exceptions
 {
     public class FilterCompileException : Exception
     {
-        public FilterCompileException(ErrorCode errorCode, string message, Exception innerException, string param = "")
-            : base(message, innerException)
-        {
-            this.Error = errorCode;
-            this.Param = param;
-        }
-
-        public ErrorCode Error { get; set; }
-        public string Param { get; set; }
-
         public enum ErrorCode
         {
             InternalError,
@@ -37,16 +23,32 @@ namespace Flantter.MilkyWay.Models.Exceptions
             WrongOperation,
             ArrayIncomplete,
             WrongArray,
-            ArrayPositionIsWrong,
+            ArrayPositionIsWrong
         }
+
+        public FilterCompileException(ErrorCode errorCode, string message, Exception innerException, string param = "")
+            : base(message, innerException)
+        {
+            Error = errorCode;
+            Param = param;
+        }
+
+        public ErrorCode Error { get; set; }
+        public string Param { get; set; }
     }
 
     public class SuggestionTokenNotFoundException : Exception
     {
-        public SuggestionTokenNotFoundException() { }
+        public SuggestionTokenNotFoundException()
+        {
+        }
 
-        public SuggestionTokenNotFoundException(string message) : base(message) { }
+        public SuggestionTokenNotFoundException(string message) : base(message)
+        {
+        }
 
-        public SuggestionTokenNotFoundException(string message, Exception inner) : base(message) { }
+        public SuggestionTokenNotFoundException(string message, Exception inner) : base(message)
+        {
+        }
     }
 }

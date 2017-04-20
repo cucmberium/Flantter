@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel.Channels;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -15,31 +10,7 @@ namespace Flantter.MilkyWay.Views.Contents
     {
         public ColumnAreaListBox()
         {
-            this.DefaultStyleKey = typeof(ColumnAreaListBox);
-        }
-
-        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
-        {
-            base.PrepareContainerForItemOverride(element, item);
-
-            var container = element as FrameworkElement;
-            var binding = new Windows.UI.Xaml.Data.Binding
-            {
-                Source = item,
-                Path = new PropertyPath("Left.Value"),
-                Mode = BindingMode.OneWay
-            };
-
-            container.SetBinding(Canvas.LeftProperty, binding);
-        }
-
-        protected override void OnKeyDown(KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Left || e.Key == Windows.System.VirtualKey.Right || 
-                e.Key == Windows.System.VirtualKey.Up || e.Key == Windows.System.VirtualKey.Down)
-                e.Handled = true;
-
-            base.OnKeyDown(e);
+            DefaultStyleKey = typeof(ColumnAreaListBox);
         }
 
         bool ISemanticZoomInformation.IsActiveView { get; set; }
@@ -68,12 +39,38 @@ namespace Flantter.MilkyWay.Views.Contents
         {
         }
 
-        void ISemanticZoomInformation.CompleteViewChangeFrom(SemanticZoomLocation source, SemanticZoomLocation destination)
+        void ISemanticZoomInformation.CompleteViewChangeFrom(SemanticZoomLocation source,
+            SemanticZoomLocation destination)
         {
         }
 
-        void ISemanticZoomInformation.CompleteViewChangeTo(SemanticZoomLocation source, SemanticZoomLocation destination)
+        void ISemanticZoomInformation.CompleteViewChangeTo(SemanticZoomLocation source,
+            SemanticZoomLocation destination)
         {
+        }
+
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            base.PrepareContainerForItemOverride(element, item);
+
+            var container = element as FrameworkElement;
+            var binding = new Binding
+            {
+                Source = item,
+                Path = new PropertyPath("Left.Value"),
+                Mode = BindingMode.OneWay
+            };
+
+            container.SetBinding(Canvas.LeftProperty, binding);
+        }
+
+        protected override void OnKeyDown(KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right ||
+                e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
+                e.Handled = true;
+
+            base.OnKeyDown(e);
         }
     }
 }

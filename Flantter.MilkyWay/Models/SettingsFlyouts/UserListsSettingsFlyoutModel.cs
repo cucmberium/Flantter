@@ -1,243 +1,268 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Setting;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class UserListsSettingsFlyoutModel : BindableBase
     {
+        private long _memberListsCursor;
+
+        private long _subscribeListsCursor;
+
+        private long _userListsCursor;
+
         public UserListsSettingsFlyoutModel()
         {
-            this.UserLists = new ObservableCollection<Twitter.Objects.List>();
-            this.SubscribeLists = new ObservableCollection<Twitter.Objects.List>();
-            this.MembershipLists = new ObservableCollection<Twitter.Objects.List>();
+            UserLists = new ObservableCollection<List>();
+            SubscribeLists = new ObservableCollection<List>();
+            MembershipLists = new ObservableCollection<List>();
         }
 
-        #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
-
-        #region ScreenName変更通知プロパティ
-        private string _ScreenName;
-        public string ScreenName
-        {
-            get { return this._ScreenName; }
-            set { this.SetProperty(ref this._ScreenName, value); }
-        }
-        #endregion
-        
         public bool OpenSubscribeLists { get; set; }
         public bool OpenMembershipLists { get; set; }
 
-        #region UserLists変更通知プロパティ
-        private ObservableCollection<Twitter.Objects.List> _UserLists;
-        public ObservableCollection<Twitter.Objects.List> UserLists
+        public async Task UpdateUserLists(bool useCursor = false)
         {
-            get { return this._UserLists; }
-            set { this.SetProperty(ref this._UserLists, value); }
+            if (UpdatingUserLists)
+                return;
+
+            if (_screenName == null || Tokens == null)
+                return;
+
+            if (useCursor && _userListsCursor == 0)
+                return;
+
+            UpdatingUserLists = true;
+
+            if (!useCursor || _userListsCursor == 0)
+                UserLists.Clear();
+
+            try
+            {
+                var param = new Dictionary<string, object>
+                {
+                    {"screen_name", _screenName},
+                    {"count", 20}
+                };
+                if (useCursor && _userListsCursor != 0)
+                    param.Add("cursor", _userListsCursor);
+
+                var userLists = await Tokens.Lists.OwnershipsAsync(param);
+
+                if (!useCursor || _userListsCursor == 0)
+                    UserLists.Clear();
+
+                foreach (var list in userLists)
+                    UserLists.Add(list);
+
+                _userListsCursor = userLists.NextCursor;
+            }
+            catch
+            {
+                if (!useCursor || _userListsCursor == 0)
+                    UserLists.Clear();
+
+                UpdatingUserLists = false;
+                return;
+            }
+
+            UpdatingUserLists = false;
         }
+
+        public async Task UpdateSubscribeLists(bool useCursor = false)
+        {
+            if (UpdatingSubscribeLists)
+                return;
+
+            if (_screenName == null || Tokens == null)
+                return;
+
+            if (useCursor && _subscribeListsCursor == 0)
+                return;
+
+            UpdatingSubscribeLists = true;
+
+            if (!useCursor || _subscribeListsCursor == 0)
+                SubscribeLists.Clear();
+
+            try
+            {
+                var param = new Dictionary<string, object>
+                {
+                    {"screen_name", _screenName},
+                    {"count", 20}
+                };
+                if (useCursor && _subscribeListsCursor != 0)
+                    param.Add("cursor", _subscribeListsCursor);
+
+                var subscribeLists = await Tokens.Lists.SubscriptionsAsync(param);
+
+                if (!useCursor || _subscribeListsCursor == 0)
+                    SubscribeLists.Clear();
+
+                foreach (var list in subscribeLists)
+                    SubscribeLists.Add(list);
+
+                _subscribeListsCursor = subscribeLists.NextCursor;
+            }
+            catch
+            {
+                if (!useCursor || _subscribeListsCursor == 0)
+                    SubscribeLists.Clear();
+
+                UpdatingSubscribeLists = false;
+                return;
+            }
+
+            UpdatingSubscribeLists = false;
+        }
+
+        public async Task UpdateMembershipLists(bool useCursor = false)
+        {
+            if (UpdatingMembershipLists)
+                return;
+
+            if (_screenName == null || Tokens == null)
+                return;
+
+            if (useCursor && _memberListsCursor == 0)
+                return;
+
+            UpdatingMembershipLists = true;
+
+            if (!useCursor || _memberListsCursor == 0)
+                MembershipLists.Clear();
+
+            try
+            {
+                var param = new Dictionary<string, object>
+                {
+                    {"screen_name", _screenName},
+                    {"count", 20}
+                };
+                if (useCursor && _memberListsCursor != 0)
+                    param.Add("cursor", _memberListsCursor);
+
+                var membershipLists = await Tokens.Lists.MembershipsAsync(param);
+
+                if (!useCursor || _memberListsCursor == 0)
+                    MembershipLists.Clear();
+
+                foreach (var list in membershipLists)
+                    MembershipLists.Add(list);
+
+                _memberListsCursor = membershipLists.NextCursor;
+            }
+            catch
+            {
+                if (!useCursor || _memberListsCursor == 0)
+                    MembershipLists.Clear();
+
+                UpdatingMembershipLists = false;
+                return;
+            }
+
+            UpdatingMembershipLists = false;
+        }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region ScreenName変更通知プロパティ
+
+        private string _screenName;
+
+        public string ScreenName
+        {
+            get => _screenName;
+            set => SetProperty(ref _screenName, value);
+        }
+
+        #endregion
+
+        #region UserLists変更通知プロパティ
+
+        private ObservableCollection<List> _userLists;
+
+        public ObservableCollection<List> UserLists
+        {
+            get => _userLists;
+            set => SetProperty(ref _userLists, value);
+        }
+
         #endregion
 
         #region SubscribeLists変更通知プロパティ
-        private ObservableCollection<Twitter.Objects.List> _SubscribeLists;
-        public ObservableCollection<Twitter.Objects.List> SubscribeLists
+
+        private ObservableCollection<List> _subscribeLists;
+
+        public ObservableCollection<List> SubscribeLists
         {
-            get { return this._SubscribeLists; }
-            set { this.SetProperty(ref this._SubscribeLists, value); }
+            get => _subscribeLists;
+            set => SetProperty(ref _subscribeLists, value);
         }
+
         #endregion
 
         #region MembershipLists変更通知プロパティ
-        private ObservableCollection<Twitter.Objects.List> _MembershipLists;
-        public ObservableCollection<Twitter.Objects.List> MembershipLists
+
+        private ObservableCollection<List> _membershipLists;
+
+        public ObservableCollection<List> MembershipLists
         {
-            get { return this._MembershipLists; }
-            set { this.SetProperty(ref this._MembershipLists, value); }
+            get => _membershipLists;
+            set => SetProperty(ref _membershipLists, value);
         }
+
         #endregion
 
         #region UpdatingUserLists変更通知プロパティ
-        private bool _UpdatingUserLists;
+
+        private bool _updatingUserLists;
+
         public bool UpdatingUserLists
         {
-            get { return this._UpdatingUserLists; }
-            set { this.SetProperty(ref this._UpdatingUserLists, value); }
+            get => _updatingUserLists;
+            set => SetProperty(ref _updatingUserLists, value);
         }
+
         #endregion
 
         #region UpdatingSubscribeLists変更通知プロパティ
-        private bool _UpdatingSubscribeLists;
+
+        private bool _updatingSubscribeLists;
+
         public bool UpdatingSubscribeLists
         {
-            get { return this._UpdatingSubscribeLists; }
-            set { this.SetProperty(ref this._UpdatingSubscribeLists, value); }
+            get => _updatingSubscribeLists;
+            set => SetProperty(ref _updatingSubscribeLists, value);
         }
+
         #endregion
 
         #region UpdatingMembershipLists変更通知プロパティ
-        private bool _UpdatingMembershipLists;
+
+        private bool _updatingMembershipLists;
+
         public bool UpdatingMembershipLists
         {
-            get { return this._UpdatingMembershipLists; }
-            set { this.SetProperty(ref this._UpdatingMembershipLists, value); }
+            get => _updatingMembershipLists;
+            set => SetProperty(ref _updatingMembershipLists, value);
         }
+
         #endregion
-        
-        private long userListsCursor = 0;
-        public async Task UpdateUserLists(bool useCursor = false)
-        {
-            if (this.UpdatingUserLists)
-                return;
-
-            if (this._ScreenName == null || this.Tokens == null)
-                return;
-
-            if (useCursor && userListsCursor == 0)
-                return;
-
-            this.UpdatingUserLists = true;
-
-            if (!useCursor || userListsCursor == 0)
-                this.UserLists.Clear();
-
-            Cursored<CoreTweet.List> userLists;
-            try
-            {
-                if (useCursor && userListsCursor != 0)
-                    userLists = await Tokens.Lists.OwnershipsAsync(screen_name => this._ScreenName, count => 20, cursor => userListsCursor);
-                else
-                    userLists = await Tokens.Lists.OwnershipsAsync(screen_name => this._ScreenName, count => 20);
-            }
-            catch
-            {
-                if (!useCursor || userListsCursor == 0)
-                    this.UserLists.Clear();
-
-                this.UpdatingUserLists = false;
-                return;
-            }
-
-            if (!useCursor || userListsCursor == 0)
-                this.UserLists.Clear();
-
-            foreach (var item in userLists)
-            {
-                var list = new Twitter.Objects.List(item);
-                this.UserLists.Add(list);
-            }
-
-            userListsCursor = userLists.NextCursor;
-
-            this.UpdatingUserLists = false;
-        }
-
-        private long subscribeListsCursor = 0;
-        public async Task UpdateSubscribeLists(bool useCursor = false)
-        {
-            if (this.UpdatingSubscribeLists)
-                return;
-
-            if (this._ScreenName == null || this.Tokens == null)
-                return;
-
-            if (useCursor && subscribeListsCursor == 0)
-                return;
-
-            this.UpdatingSubscribeLists = true;
-
-            if (!useCursor || subscribeListsCursor == 0)
-                this.SubscribeLists.Clear();
-
-            Cursored<CoreTweet.List> subscribeLists;
-            try
-            {
-                if (useCursor && userListsCursor != 0)
-                    subscribeLists = await Tokens.Lists.SubscriptionsAsync(screen_name => this._ScreenName, count => 20, cursor => subscribeListsCursor);
-                else
-                    subscribeLists = await Tokens.Lists.SubscriptionsAsync(screen_name => this._ScreenName, count => 20);
-            }
-            catch
-            {
-                if (!useCursor || subscribeListsCursor == 0)
-                    this.SubscribeLists.Clear();
-
-                this.UpdatingSubscribeLists = false;
-                return;
-            }
-
-            if (!useCursor || subscribeListsCursor == 0)
-                this.SubscribeLists.Clear();
-
-            foreach (var item in subscribeLists)
-            {
-                var list = new Twitter.Objects.List(item);
-                this.SubscribeLists.Add(list);
-            }
-
-            subscribeListsCursor = subscribeLists.NextCursor;
-
-            this.UpdatingSubscribeLists = false;
-        }
-
-        private long memberListsCursor = 0;
-        public async Task UpdateMembershipLists(bool useCursor = false)
-        {
-            if (this.UpdatingMembershipLists)
-                return;
-
-            if (this._ScreenName == null || this.Tokens == null)
-                return;
-
-            if (useCursor && memberListsCursor == 0)
-                return;
-
-            this.UpdatingMembershipLists = true;
-
-            if (!useCursor || memberListsCursor == 0)
-                this.MembershipLists.Clear();
-
-            Cursored<CoreTweet.List> membershipLists;
-            try
-            {
-                if (useCursor && memberListsCursor != 0)
-                    membershipLists = await Tokens.Lists.MembershipsAsync(screen_name => this._ScreenName, count => 20, cursor => memberListsCursor);
-                else
-                    membershipLists = await Tokens.Lists.MembershipsAsync(screen_name => this._ScreenName, count => 20);
-            }
-            catch
-            {
-                if (!useCursor || memberListsCursor == 0)
-                    this.MembershipLists.Clear();
-
-                this.UpdatingMembershipLists = false;
-                return;
-            }
-
-            if (!useCursor || memberListsCursor == 0)
-                this.MembershipLists.Clear();
-
-            foreach (var item in membershipLists)
-            {
-                var list = new Twitter.Objects.List(item);
-                this.MembershipLists.Add(list);
-            }
-
-            memberListsCursor = membershipLists.NextCursor;
-
-            this.UpdatingMembershipLists = false;
-        }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Common
 {
@@ -16,18 +13,15 @@ namespace Flantter.MilkyWay.Common
 
         public static IEnumerable<MethodInfo> GetMethods(this TypeInfo typeInfo, string name)
         {
-            TypeInfo currentTypeInfo = typeInfo;
+            var currentTypeInfo = typeInfo;
 
             do
             {
-                foreach (MethodInfo methodInfo in currentTypeInfo.GetDeclaredMethods(name))
-                {
+                foreach (var methodInfo in currentTypeInfo.GetDeclaredMethods(name))
                     yield return methodInfo;
-                }
 
                 currentTypeInfo = typeInfo.BaseType.GetTypeInfo();
             } while (currentTypeInfo != null);
         }
-
     }
 }

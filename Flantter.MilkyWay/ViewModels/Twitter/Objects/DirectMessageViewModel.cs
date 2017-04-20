@@ -1,12 +1,9 @@
-﻿using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
@@ -14,83 +11,95 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
     {
         public DirectMessageViewModel(DirectMessage directMessage, long userId)
         {
-            this.Model = directMessage;
+            Model = directMessage;
 
-            this.BackgroundBrush = "Default";
+            BackgroundBrush = "Default";
             if (directMessage.Recipient.Id == userId)
-                this.BackgroundBrush = "Mention";
+                BackgroundBrush = "Mention";
             else if (directMessage.Sender.Id == userId)
-                this.BackgroundBrush = "MyTweet";
+                BackgroundBrush = "MyTweet";
 
-            this.CreatedAt = directMessage.CreatedAt.ToLocalTime().ToString();
-            this.Text = directMessage.Text;
-            this.ScreenName = directMessage.Sender.ScreenName;
-            this.Name = directMessage.Sender.Name;
-            this.ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileImageUrl) ? "http://localhost/" : directMessage.Sender.ProfileImageUrl;
-            this.Id = directMessage.Id;
-            this.Entities = directMessage.Entities;
+            CreatedAt = directMessage.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
+            Text = directMessage.Text;
+            ScreenName = directMessage.Sender.ScreenName;
+            Name = directMessage.Sender.Name;
+            ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileImageUrl)
+                ? "http://localhost/"
+                : directMessage.Sender.ProfileImageUrl;
+            Id = directMessage.Id;
+            Entities = directMessage.Entities;
 
-            this.MediaVisibility = directMessage.Entities.Media.Count == 0 ? false : true;
-            this.MediaEntities = new List<MediaEntityViewModel>();
+            MediaVisibility = directMessage.Entities.Media.Count != 0;
+            MediaEntities = new List<MediaEntityViewModel>();
             foreach (var mediaEntity in directMessage.Entities.Media)
-                this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
 
-            this.EntitiesList = new List<EntityViewModel>();
-            foreach (var urlEntity in directMessage.Entities.Urls)
-                this.EntitiesList.Add(new EntityViewModel(urlEntity));
-            foreach (var hashTagEntity in directMessage.Entities.HashTags)
-                this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
-            foreach (var userMentionEntity in directMessage.Entities.UserMentions)
-                this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
+            EntitiesList = new List<EntityViewModel>();
+            if (directMessage.Entities.Urls != null && directMessage.Entities.HashTags != null &&
+                directMessage.Entities.UserMentions != null)
+            {
+                foreach (var urlEntity in directMessage.Entities.Urls)
+                    EntitiesList.Add(new EntityViewModel(urlEntity));
+                foreach (var hashTagEntity in directMessage.Entities.HashTags)
+                    EntitiesList.Add(new EntityViewModel(hashTagEntity));
+                foreach (var userMentionEntity in directMessage.Entities.UserMentions)
+                    EntitiesList.Add(new EntityViewModel(userMentionEntity));
+            }
 
-            this.RecipientName = directMessage.Recipient.Name;
-            this.RecipientProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Recipient.ProfileImageUrl) ? "http://localhost/" : directMessage.Recipient.ProfileImageUrl;
-            this.RecipientScreenName = directMessage.Recipient.ScreenName;
+            RecipientName = directMessage.Recipient.Name;
+            RecipientProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Recipient.ProfileImageUrl)
+                ? "http://localhost/"
+                : directMessage.Recipient.ProfileImageUrl;
+            RecipientScreenName = directMessage.Recipient.ScreenName;
 
-            this.IsMyTweet = (directMessage.Sender.Id == userId);
+            IsMyTweet = directMessage.Sender.Id == userId;
 
-            this.Notice = Services.Notice.Instance;
-            this.Setting = SettingService.Setting;
+            Notice = Notice.Instance;
+            Setting = SettingService.Setting;
         }
 
         public DirectMessageViewModel(DirectMessage directMessage)
         {
-            this.Model = directMessage;
+            Model = directMessage;
 
-            this.BackgroundBrush = "Default";
+            BackgroundBrush = "Default";
 
-            this.CreatedAt = directMessage.CreatedAt.ToLocalTime().ToString();
-            this.Text = directMessage.Text;
-            this.ScreenName = directMessage.Sender.ScreenName;
-            this.Name = directMessage.Sender.Name;
-            this.ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileImageUrl) ? "http://localhost/" : directMessage.Sender.ProfileImageUrl;
-            this.Id = directMessage.Id;
-            this.Entities = directMessage.Entities;
+            CreatedAt = directMessage.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
+            Text = directMessage.Text;
+            ScreenName = directMessage.Sender.ScreenName;
+            Name = directMessage.Sender.Name;
+            ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileImageUrl)
+                ? "http://localhost/"
+                : directMessage.Sender.ProfileImageUrl;
+            Id = directMessage.Id;
+            Entities = directMessage.Entities;
 
-            this.MediaVisibility = directMessage.Entities.Media.Count == 0 ? false : true;
-            this.MediaEntities = new List<MediaEntityViewModel>();
+            MediaVisibility = directMessage.Entities.Media.Count != 0;
+            MediaEntities = new List<MediaEntityViewModel>();
             foreach (var mediaEntity in directMessage.Entities.Media)
-                this.MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
 
-            this.EntitiesList = new List<EntityViewModel>();
+            EntitiesList = new List<EntityViewModel>();
             foreach (var urlEntity in directMessage.Entities.Urls)
-                this.EntitiesList.Add(new EntityViewModel(urlEntity));
+                EntitiesList.Add(new EntityViewModel(urlEntity));
             foreach (var hashTagEntity in directMessage.Entities.HashTags)
-                this.EntitiesList.Add(new EntityViewModel(hashTagEntity));
+                EntitiesList.Add(new EntityViewModel(hashTagEntity));
             foreach (var userMentionEntity in directMessage.Entities.UserMentions)
-                this.EntitiesList.Add(new EntityViewModel(userMentionEntity));
+                EntitiesList.Add(new EntityViewModel(userMentionEntity));
 
-            this.RecipientName = directMessage.Recipient.Name;
-            this.RecipientProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Recipient.ProfileImageUrl) ? "http://localhost/" : directMessage.Recipient.ProfileImageUrl;
-            this.RecipientScreenName = directMessage.Recipient.ScreenName;
+            RecipientName = directMessage.Recipient.Name;
+            RecipientProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Recipient.ProfileImageUrl)
+                ? "http://localhost/"
+                : directMessage.Recipient.ProfileImageUrl;
+            RecipientScreenName = directMessage.Recipient.ScreenName;
 
-            this.IsMyTweet = false;
+            IsMyTweet = false;
 
-            this.Notice = Services.Notice.Instance;
-            this.Setting = SettingService.Setting;
+            Notice = Notice.Instance;
+            Setting = SettingService.Setting;
         }
 
-        public DirectMessage Model { get; private set; }
+        public DirectMessage Model { get; }
 
         public string BackgroundBrush { get; set; }
 
@@ -104,15 +113,13 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public string ProfileImageUrl { get; set; }
 
-        public long Id { get; set; }
-
         public Entities Entities { get; set; }
 
         public bool MediaVisibility { get; set; }
 
-        public List<MediaEntityViewModel> MediaEntities { get; private set; }
+        public List<MediaEntityViewModel> MediaEntities { get; }
 
-        public List<EntityViewModel> EntitiesList { get; private set; }
+        public List<EntityViewModel> EntitiesList { get; }
 
         public string RecipientProfileImageUrl { get; set; }
 
@@ -122,8 +129,10 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
         public bool IsMyTweet { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
 
-        public Setting.SettingService Setting { get; set; }
+        public SettingService Setting { get; set; }
+
+        public long Id { get; set; }
     }
 }

@@ -1,17 +1,15 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Services.Database;
-using Flantter.MilkyWay.Models.Twitter;
-using Flantter.MilkyWay.Setting;
-using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Services.Database;
+using Flantter.MilkyWay.Models.Twitter;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.Setting;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
@@ -19,148 +17,143 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
     {
         public ConversationSettingsFlyoutModel()
         {
-            this.Conversation = new ObservableCollection<Twitter.Objects.Status>();
+            Conversation = new ObservableCollection<Status>();
         }
 
-        #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
-
-        #region ConversationId変更通知プロパティ
-        private Twitter.Objects.Status _ConversationStatus;
-        public Twitter.Objects.Status ConversationStatus
-        {
-            get { return this._ConversationStatus; }
-            set { this.SetProperty(ref this._ConversationStatus, value); }
-        }
-        #endregion
-
-        #region Updating変更通知プロパティ
-        private bool _Updating;
-        public bool Updating
-        {
-            get { return this._Updating; }
-            set { this.SetProperty(ref this._Updating, value); }
-        }
-        #endregion
-
-        public ObservableCollection<Twitter.Objects.Status> Conversation { get; set; }
+        public ObservableCollection<Status> Conversation { get; set; }
 
         public async Task UpdateConversation()
         {
-            if (this.Updating)
+            if (Updating)
                 return;
 
-            if (this.ConversationStatus == null || this.Tokens == null)
+            if (ConversationStatus == null || Tokens == null)
                 return;
 
-            this.Updating = true;
+            Updating = true;
 
-            this.Conversation.Clear();
+            Conversation.Clear();
 
             var updateCount = 0;
 
-            long nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
+            var nextId = ConversationStatus.HasRetweetInformation
+                ? ConversationStatus.RetweetInformation.Id
+                : ConversationStatus.Id;
 
-            if (SettingService.Setting.UseOfficialApi && TwitterConnectionHelper.OfficialConsumerKeyList.Contains(this.Tokens.ConsumerKey))
+            if (SettingService.Setting.UseOfficialApi &&
+                Tokens.Platform == Tokens.PlatformEnum.Twitter &&
+                TwitterConnectionHelper.OfficialConsumerKeyList.Contains(Tokens.TwitterTokens.ConsumerKey))
             {
-                AsyncResponse res;
                 try
                 {
-                    res = await this.Tokens.SendRequestAsync(MethodType.Get, "https://api.twitter.com/1.1/conversation/show.json", new Dictionary<string, object>() { { "id", nextId }, { "tweet_mode", TweetMode.extended } });
+                    var res = await Tokens.TwitterTokens.SendRequestAsync(CoreTweet.MethodType.Get,
+                        "https://api.twitter.com/1.1/conversation/show.json",
+                        new Dictionary<string, object> {{"id", nextId}, {"tweet_mode", CoreTweet.TweetMode.extended}});
                     var json = await res.Source.Content.ReadAsStringAsync();
-                    var statuses = CoreBase.ConvertArray<Status>(json, string.Empty);
+                    var statuses = CoreTweet.Core.CoreBase.ConvertArray<CoreTweet.Status>(json, string.Empty);
 
                     statuses.Reverse();
 
-                    this.Conversation.Clear();
+                    Conversation.Clear();
 
                     foreach (var item in statuses)
                     {
-                        var statusObject = new Twitter.Objects.Status(item);
-                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(statusObject, this.Tokens.UserId, new List<string>() { "none://" }, false));
+                        var statusObject = new Status(item);
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                            new TweetEventArgs(statusObject, Tokens.UserId, new List<string> {"none://"}, false));
 
                         statusObject.InReplyToStatusId = 0;
 
-                        this.Conversation.Add(statusObject);                        
+                        Conversation.Add(statusObject);
                     }
                 }
                 catch
                 {
-                    this.Updating = false;
+                    Updating = false;
                     return;
                 }
             }
-            else if (SettingService.Setting.UseExtendedConversation && this.ConversationStatus.CreatedAt.ToLocalTime() + TimeSpan.FromDays(7) > DateTime.Now)
+            else if (SettingService.Setting.UseExtendedConversation &&
+                     Tokens.Platform == Tokens.PlatformEnum.Twitter &&
+                     ConversationStatus.CreatedAt.ToLocalTime() + TimeSpan.FromDays(7) > DateTime.Now)
             {
                 var conversation = new List<Status>();
                 foreach (var user in ConversationStatus.Entities.UserMentions)
                 {
-                    var conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + this.ConversationStatus.User.ScreenName + " to:" + user.ScreenName, count => 100, tweet_mode => TweetMode.extended);
+                    var conversationTweets =
+                        await Tokens.Search.TweetsAsync(
+                            q => "from:" + ConversationStatus.User.ScreenName + " to:" + user.ScreenName, count => 100,
+                            tweet_mode => CoreTweet.TweetMode.extended);
                     foreach (var item in conversationTweets)
                     {
                         conversation.Add(item);
-                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(item), this.Tokens.UserId, new List<string>() { "none://" }, false));
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                            new TweetEventArgs(item, Tokens.UserId, new List<string> {"none://"}, false));
                     }
-                    conversationTweets = await this.Tokens.Search.TweetsAsync(q => "from:" + user.ScreenName + " to:" + this.ConversationStatus.User.ScreenName, count => 100, tweet_mode => TweetMode.extended);
+                    conversationTweets =
+                        await Tokens.Search.TweetsAsync(
+                            q => "from:" + user.ScreenName + " to:" + ConversationStatus.User.ScreenName, count => 100,
+                            tweet_mode => CoreTweet.TweetMode.extended);
                     foreach (var item in conversationTweets)
                     {
                         conversation.Add(item);
-                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(new Twitter.Objects.Status(item), this.Tokens.UserId, new List<string>() { "none://" }, false));
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                            new TweetEventArgs(item, Tokens.UserId, new List<string> {"none://"}, false));
                     }
 
                     while (true)
                     {
-                        var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetReplyStatusFromId(nextId) : null;
+                        var status = SettingService.Setting.EnableDatabase
+                            ? Database.Instance.GetReplyStatusFromId(nextId)
+                            : null;
 
                         if (status == null && !conversation.Any(x => x.InReplyToStatusId == nextId))
                             break;
 
-                        status = status ?? new Twitter.Objects.Status(conversation.First(x => x.InReplyToStatusId == nextId));
+                        status = status ?? conversation.First(x => x.InReplyToStatusId == nextId);
 
                         status.InReplyToStatusId = 0;
-                        this.Conversation.Insert(0, status);
+                        Conversation.Insert(0, status);
                         nextId = status.Id;
                     }
 
-                    nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
+                    nextId = ConversationStatus.HasRetweetInformation
+                        ? ConversationStatus.RetweetInformation.Id
+                        : ConversationStatus.Id;
                     while (true)
                     {
-                        var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatusFromId(nextId) : null;
+                        var status = SettingService.Setting.EnableDatabase
+                            ? Database.Instance.GetStatusFromId(nextId)
+                            : null;
                         if (status == null)
-                        {
                             if (conversation.Any(x => x.Id == nextId))
                             {
-                                status = new Twitter.Objects.Status(conversation.First(x => x.Id == nextId));
+                                status = conversation.First(x => x.Id == nextId);
                             }
                             else
                             {
                                 Status item;
                                 try
                                 {
-                                    item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true, tweet_mode => TweetMode.extended);
+                                    item = await Tokens.Statuses.ShowAsync(id => nextId, include_entities => true,
+                                        tweet_mode => CoreTweet.TweetMode.extended);
                                 }
                                 catch
                                 {
-                                    this.Updating = false;
+                                    Updating = false;
                                     return;
                                 }
 
-                                status = new Twitter.Objects.Status(item);
-                                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+                                status = item;
+                                Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                                    new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
                             }
-                        }
 
                         nextId = status.InReplyToStatusId;
 
                         status.InReplyToStatusId = 0;
 
-                        this.Conversation.Add(status);
+                        Conversation.Add(status);
 
                         if (nextId == 0 || updateCount > 20)
                             break;
@@ -171,54 +164,98 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 while (true)
                 {
-                    var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetReplyStatusFromId(nextId) : null;
+                    var status = SettingService.Setting.EnableDatabase
+                        ? Database.Instance.GetReplyStatusFromId(nextId)
+                        : null;
 
                     if (status == null)
                         break;
 
                     status.InReplyToStatusId = 0;
 
-                    this.Conversation.Insert(0, status);
+                    Conversation.Insert(0, status);
 
                     nextId = status.Id;
                 }
 
-                nextId = this.ConversationStatus.HasRetweetInformation ? this.ConversationStatus.RetweetInformation.Id : this.ConversationStatus.Id;
+                nextId = ConversationStatus.HasRetweetInformation
+                    ? ConversationStatus.RetweetInformation.Id
+                    : ConversationStatus.Id;
                 while (true)
                 {
                     updateCount += 1;
 
-                    var status = SettingService.Setting.EnableDatabase ? Database.Instance.GetStatusFromId(nextId) : null;
+                    var status = SettingService.Setting.EnableDatabase
+                        ? Database.Instance.GetStatusFromId(nextId)
+                        : null;
 
                     if (status == null)
                     {
                         Status item;
                         try
                         {
-                            item = await this.Tokens.Statuses.ShowAsync(id => nextId, include_entities => true, tweet_mode => TweetMode.extended);
+                            item = await Tokens.Statuses.ShowAsync(id => nextId, include_entities => true,
+                                tweet_mode => CoreTweet.TweetMode.extended);
                         }
                         catch
                         {
-                            this.Updating = false;
+                            Updating = false;
                             return;
                         }
 
-                        status = new Twitter.Objects.Status(item);
-                        Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
+                        status = item;
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                            new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
                     }
 
                     nextId = status.InReplyToStatusId;
 
                     status.InReplyToStatusId = 0;
 
-                    this.Conversation.Add(status);
+                    Conversation.Add(status);
 
                     if (nextId == 0 || updateCount > 20)
                         break;
                 }
             }
 
-            this.Updating = false;
+            Updating = false;
         }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region ConversationId変更通知プロパティ
+
+        private Status _conversationStatus;
+
+        public Status ConversationStatus
+        {
+            get => _conversationStatus;
+            set => SetProperty(ref _conversationStatus, value);
+        }
+
+        #endregion
+
+        #region Updating変更通知プロパティ
+
+        private bool _updating;
+
+        public bool Updating
+        {
+            get => _updating;
+            set => SetProperty(ref _updating, value);
+        }
+
+        #endregion
     }
 }

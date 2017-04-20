@@ -1,16 +1,12 @@
-﻿using Flantter.MilkyWay.Models.Exceptions;
+﻿using System;
+using System.Reactive.Linq;
+using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Exceptions;
 using Flantter.MilkyWay.Models.Filter;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Services;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
 {
@@ -18,90 +14,106 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
     {
         public ColumnSettingSettingsFlyoutViewModel()
         {
-            this.CanChangeSetting = new ReactiveProperty<bool>(true);
+            CanChangeSetting = new ReactiveProperty<bool>(true);
 
-            this.Name = new ReactiveProperty<string>();
-            this.Filter = new ReactiveProperty<string>();
-            this.DisableStartupRefresh = new ReactiveProperty<bool>();
-            this.AutoRefresh = new ReactiveProperty<bool>();
-            this.AutoRefreshTimerInterval = new ReactiveProperty<double>();
-            this.FetchingNumberOfTweet = new ReactiveProperty<int>();
+            Name = new ReactiveProperty<string>();
+            Filter = new ReactiveProperty<string>();
+            DisableStartupRefresh = new ReactiveProperty<bool>();
+            AutoRefresh = new ReactiveProperty<bool>();
+            AutoRefreshTimerInterval = new ReactiveProperty<double>();
+            FetchingNumberOfTweet = new ReactiveProperty<int>();
 
-            this.ErrorMessage = new ReactiveProperty<string>();
-            this.UpdateButtonEnabled = new ReactiveProperty<bool>(true);
+            ErrorMessage = new ReactiveProperty<string>();
+            UpdateButtonEnabled = new ReactiveProperty<bool>(true);
 
-            this.ColumnSetting = new ReactiveProperty<ColumnSetting>();
-            this.ColumnSetting.Subscribe(x =>
+            ColumnSetting = new ReactiveProperty<ColumnSetting>();
+            ColumnSetting.Subscribe(x =>
             {
                 if (x == null)
                     return;
 
-                this.Filter.Value = x.Filter;
-                this.Name.Value = x.Name;
-                this.DisableStartupRefresh.Value = x.DisableStartupRefresh;
-                this.AutoRefresh.Value = x.AutoRefresh;
-                this.AutoRefreshTimerInterval.Value = x.AutoRefreshTimerInterval;
-                this.FetchingNumberOfTweet.Value = x.FetchingNumberOfTweet;
+                Filter.Value = x.Filter;
+                Name.Value = x.Name;
+                DisableStartupRefresh.Value = x.DisableStartupRefresh;
+                AutoRefresh.Value = x.AutoRefresh;
+                AutoRefreshTimerInterval.Value = x.AutoRefreshTimerInterval;
+                FetchingNumberOfTweet.Value = x.FetchingNumberOfTweet;
 
-                if (this.ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Home || this.ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Mentions || this.ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.DirectMessages || this.ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Events || this.ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Favorites)
-                    this.CanChangeSetting.Value = false;
+                if (ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Home ||
+                    ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Mentions ||
+                    ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.DirectMessages ||
+                    ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Events || ColumnSetting.Value.Action ==
+                    SettingSupport.ColumnTypeEnum.Favorites)
+                    CanChangeSetting.Value = false;
                 else
-                    this.CanChangeSetting.Value = true;
+                    CanChangeSetting.Value = true;
             });
 
 
-            Observable.CombineLatest(this.Filter, this.Name, (filter, name) => new { Filter = filter, Name = name }).Subscribe(x =>
+            Filter.CombineLatest(Name, (filter, name) => new {Filter = filter, Name = name})
+                .Subscribe(x =>
+                {
+                    if (string.IsNullOrEmpty(x.Name))
+                    {
+                        ErrorMessage.Value =
+                            new ResourceLoader().GetString("SettingsFlyout_Settings_Column_Name_NameIsEmpty");
+                        UpdateButtonEnabled.Value = false;
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(x.Filter))
+                    {
+                        ErrorMessage.Value =
+                            new ResourceLoader().GetString("SettingsFlyout_Settings_Column_Filter_FilterIsEmpty");
+                        UpdateButtonEnabled.Value = false;
+                        return;
+                    }
+
+                    try
+                    {
+                        Compiler.Compile(x.Filter, false);
+                    }
+                    catch (FilterCompileException e)
+                    {
+                        ErrorMessage.Value =
+                            new ResourceLoader().GetString(
+                                "SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") +
+                            "\n" + new ResourceLoader().GetString("Filter_CompileError_" + e.Error.ToString());
+                        UpdateButtonEnabled.Value = false;
+                        return;
+                    }
+                    catch (Exception e)
+                    {
+                        ErrorMessage.Value =
+                            new ResourceLoader().GetString(
+                                "SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") +
+                            "\n" + e.Message;
+                        UpdateButtonEnabled.Value = false;
+                        return;
+                    }
+
+                    ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Column_SaveOK");
+                    UpdateButtonEnabled.Value = true;
+                });
+
+
+            SaveColumnSettingCommand = new ReactiveCommand();
+            SaveColumnSettingCommand.Subscribe(async x =>
             {
-                if (string.IsNullOrEmpty(x.Name))
-                {
-                    this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Column_Name_NameIsEmpty");
-                    this.UpdateButtonEnabled.Value = false;
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(x.Filter))
-                {
-                    this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Column_Filter_FilterIsEmpty");
-                    this.UpdateButtonEnabled.Value = false;
-                    return;
-                }
-
-                try
-                {
-                    Compiler.Compile(x.Filter, false);
-                }
-                catch (FilterCompileException e)
-                {
-                    this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") + "\n" + new ResourceLoader().GetString("Filter_CompileError_" + e.Error.ToString());
-                    this.UpdateButtonEnabled.Value = false;
-                    return;
-                }
-                catch (Exception e)
-                {
-                    this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") + "\n" + e.Message;
-                    this.UpdateButtonEnabled.Value = false;
-                    return;
-                }
-
-                this.ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Column_SaveOK");
-                this.UpdateButtonEnabled.Value = true;
-            });
-
-
-            this.SaveColumnSettingCommand = new ReactiveCommand();
-            this.SaveColumnSettingCommand.Subscribe(async x => 
-            {
-                this.ColumnSetting.Value.Name = this.Name.Value;
-                this.ColumnSetting.Value.Filter = this.Filter.Value;
-                this.ColumnSetting.Value.DisableStartupRefresh = this.DisableStartupRefresh.Value;
-                this.ColumnSetting.Value.AutoRefresh = this.AutoRefresh.Value;
-                this.ColumnSetting.Value.AutoRefreshTimerInterval = this.AutoRefreshTimerInterval.Value;
-                this.ColumnSetting.Value.FetchingNumberOfTweet = this.FetchingNumberOfTweet.Value;
+                ColumnSetting.Value.Name = Name.Value;
+                ColumnSetting.Value.Filter = Filter.Value;
+                ColumnSetting.Value.DisableStartupRefresh = DisableStartupRefresh.Value;
+                ColumnSetting.Value.AutoRefresh = AutoRefresh.Value;
+                ColumnSetting.Value.AutoRefreshTimerInterval = AutoRefreshTimerInterval.Value;
+                ColumnSetting.Value.FetchingNumberOfTweet = FetchingNumberOfTweet.Value;
 
                 await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
-                await Services.Notice.Instance.ShowMessageDialogMessenger.Raise(new MessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_UpdateColumnSettingSuccessfully"), Title = "Message" });
-                return;
+                await Notice.Instance.ShowMessageDialogMessenger.Raise(new MessageDialogNotification
+                {
+                    Message = new ResourceLoader().GetString("ConfirmDialog_UpdateColumnSettingSuccessfully"),
+                    Title = "Message"
+                });
             });
         }
 

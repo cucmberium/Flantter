@@ -1,15 +1,13 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Setting;
-using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Notifications;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
@@ -17,168 +15,181 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
     {
         public DirectMessageConversationSettingsFlyoutModel()
         {
-            this.DirectMessages = new ObservableCollection<Twitter.Objects.DirectMessage>();
+            DirectMessages = new ObservableCollection<DirectMessage>();
         }
 
-        #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
-
-        #region ScreenName変更通知プロパティ
-        private string _ScreenName;
-        public string ScreenName
-        {
-            get { return this._ScreenName; }
-            set { this.SetProperty(ref this._ScreenName, value); }
-        }
-        #endregion
-
-        #region Text変更通知プロパティ
-        private string _Text;
-        public string Text
-        {
-            get { return this._Text; }
-            set { this.SetProperty(ref this._Text, value); }
-        }
-        #endregion
-
-        #region UpdatingDirectMessages変更通知プロパティ
-        private bool _UpdatingDirectMessages;
-        public bool UpdatingDirectMessages
-        {
-            get { return this._UpdatingDirectMessages; }
-            set { this.SetProperty(ref this._UpdatingDirectMessages, value); }
-        }
-        #endregion
-
-        #region SendingDirectMessage変更通知プロパティ
-        private bool _SendingDirectMessage;
-        public bool SendingDirectMessage
-        {
-            get { return this._SendingDirectMessage; }
-            set { this.SetProperty(ref this._SendingDirectMessage, value); }
-        }
-        #endregion
-
-        public ObservableCollection<Twitter.Objects.DirectMessage> DirectMessages { get; set; }
+        public ObservableCollection<DirectMessage> DirectMessages { get; set; }
 
         public async Task UpdateDirectMessageConversation(long maxid = 0, bool clear = true)
         {
-            if (this.UpdatingDirectMessages)
+            if (UpdatingDirectMessages)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
                 return;
 
-            this.UpdatingDirectMessages = true;
+            UpdatingDirectMessages = true;
 
 
             if (maxid == 0 && clear)
-                this.DirectMessages.Clear();
+                DirectMessages.Clear();
 
-            ListedResponse<DirectMessage> receivedDirectMessages;
-            ListedResponse<DirectMessage> sentDirectMessages;
             try
             {
-                if (maxid == 0)
+                var param = new Dictionary<string, object>
                 {
-                    receivedDirectMessages = await Tokens.DirectMessages.ReceivedAsync(count => 50, full_text => true);
-                    sentDirectMessages = await Tokens.DirectMessages.SentAsync(count => 50, full_text => true);
-                }
-                else
+                    {"count", 50},
+                    {"include_entities", true},
+                    {"full_text", true}
+                };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+
+                if (maxid == 0 && clear)
+                    DirectMessages.Clear();
+
+                IEnumerable<DirectMessage> directMessages =
+                    await Tokens.DirectMessages.ReceivedAsync(param);
+                if (Tokens.Platform == Tokens.PlatformEnum.Twitter)
+                    directMessages = directMessages.Concat(await Tokens.DirectMessages.SentAsync(param));
+                directMessages = directMessages.OrderByDescending(x => x.Id);
+
+                foreach (var directMessage in directMessages)
                 {
-                    receivedDirectMessages = await Tokens.DirectMessages.ReceivedAsync(count => 50, max_id => maxid, full_text => true);
-                    sentDirectMessages = await Tokens.DirectMessages.SentAsync(count => 50, max_id => maxid, full_text => true);
+                    if (directMessage.Sender.ScreenName != _screenName && directMessage.Recipient.ScreenName != _screenName)
+                        continue;
+
+                    var index = DirectMessages.IndexOf(DirectMessages.FirstOrDefault(x => x.Id == directMessage.Id));
+                    if (index == -1)
+                    {
+                        index = DirectMessages.IndexOf(DirectMessages.FirstOrDefault(x => x.Id < directMessage.Id));
+                        if (index == -1)
+                            DirectMessages.Add(directMessage);
+                        else
+                            DirectMessages.Insert(index, directMessage);
+                    }
                 }
             }
             catch
             {
                 if (maxid == 0 && clear)
-                    this.DirectMessages.Clear();
+                    DirectMessages.Clear();
 
-                this.UpdatingDirectMessages = false;
+                UpdatingDirectMessages = false;
                 return;
             }
 
-            if (maxid == 0 && clear)
-                this.DirectMessages.Clear();
-
-            foreach (var item in receivedDirectMessages)
-            {
-                var directMessage = new Twitter.Objects.DirectMessage(item);
-
-                if (directMessage.Sender.ScreenName != this._ScreenName)
-                    continue;
-
-                var index = this.DirectMessages.IndexOf(this.DirectMessages.FirstOrDefault(x => x.Id == directMessage.Id));
-                if (index == -1)
-                {
-                    index = this.DirectMessages.IndexOf(this.DirectMessages.FirstOrDefault(x => x.Id < directMessage.Id));
-                    if (index == -1)
-                        this.DirectMessages.Add(directMessage);
-                    else
-                        this.DirectMessages.Insert(index, directMessage);
-                }
-            }
-            foreach (var item in sentDirectMessages)
-            {
-                var directMessage = new Twitter.Objects.DirectMessage(item);
-
-                if (directMessage.Recipient.ScreenName != this._ScreenName)
-                    continue;
-
-                var index = this.DirectMessages.IndexOf(this.DirectMessages.FirstOrDefault(x => x.Id == directMessage.Id));
-                if (index == -1)
-                {
-                    index = this.DirectMessages.IndexOf(this.DirectMessages.FirstOrDefault(x => x.Id < directMessage.Id));
-                    if (index == -1)
-                        this.DirectMessages.Add(directMessage);
-                    else
-                        this.DirectMessages.Insert(index, directMessage);
-                }
-            }
-
-            this.UpdatingDirectMessages = false;
+            UpdatingDirectMessages = false;
         }
 
         public async Task SendDirectMessage()
         {
-            if (this.SendingDirectMessage)
+            if (SendingDirectMessage)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._ScreenName) || string.IsNullOrWhiteSpace(this._Text) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_screenName) || string.IsNullOrWhiteSpace(_text) || Tokens == null)
                 return;
 
-            this.SendingDirectMessage = true;
+            SendingDirectMessage = true;
 
-            DirectMessageResponse directMessageResponse = null;
             try
             {
-                directMessageResponse = await this.Tokens.DirectMessages.NewAsync(text => this._Text, screen_name => this._ScreenName);
+                var param = new Dictionary<string, object>
+                {
+                    {"text", _text},
+                    {"screen_name", _screenName}
+                };
+                if (Tokens.Platform == Tokens.PlatformEnum.Mastodon)
+                {
+                    var id = DirectMessages.FirstOrDefault(x => x.Sender.Id != Tokens.UserId)?.Id;
+                    if (id == 0)
+                    {
+                        var userTimeline = await Tokens.Statuses.UserTimelineAsync(screen_name => _screenName);
+                        id = userTimeline.FirstOrDefault()?.Id;
+                    }
+                    param.Add("in_reply_to_status_id", id);
+                }
+                var directMessage = await Tokens.DirectMessages.NewAsync(text => _text, screen_name => _screenName);
+                DirectMessages.Insert(0, directMessage);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
-                this.SendingDirectMessage = false;
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                SendingDirectMessage = false;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
             }
             catch (Exception e)
             {
-                this.SendingDirectMessage = false;
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                SendingDirectMessage = false;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
-            var directMessage = new Twitter.Objects.DirectMessage(directMessageResponse);
-            this.DirectMessages.Insert(0, directMessage);
-
-            this.Text = "";
-            this.SendingDirectMessage = false;
+            Text = "";
+            SendingDirectMessage = false;
         }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region ScreenName変更通知プロパティ
+
+        private string _screenName;
+
+        public string ScreenName
+        {
+            get => _screenName;
+            set => SetProperty(ref _screenName, value);
+        }
+
+        #endregion
+
+        #region Text変更通知プロパティ
+
+        private string _text;
+
+        public string Text
+        {
+            get => _text;
+            set => SetProperty(ref _text, value);
+        }
+
+        #endregion
+
+        #region UpdatingDirectMessages変更通知プロパティ
+
+        private bool _updatingDirectMessages;
+
+        public bool UpdatingDirectMessages
+        {
+            get => _updatingDirectMessages;
+            set => SetProperty(ref _updatingDirectMessages, value);
+        }
+
+        #endregion
+
+        #region SendingDirectMessage変更通知プロパティ
+
+        private bool _sendingDirectMessage;
+
+        public bool SendingDirectMessage
+        {
+            get => _sendingDirectMessage;
+            set => SetProperty(ref _sendingDirectMessage, value);
+        }
+
+        #endregion
     }
 }

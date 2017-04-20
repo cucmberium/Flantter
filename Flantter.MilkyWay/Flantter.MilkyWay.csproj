@@ -135,6 +135,8 @@
     <Compile Include="Models\Twitter\ExtractTextParts.cs" />
     <Compile Include="Models\Twitter\Objects\Gap.cs" />
     <Compile Include="Models\Twitter\Objects\Collection.cs" />
+    <Compile Include="Models\Twitter\Objects\Relationship.cs" />
+    <Compile Include="Models\Twitter\Objects\StreamingMessage.cs" />
     <Compile Include="Models\Twitter\Thumbnail\Pixiv.cs" />
     <Compile Include="Models\Twitter\TweetRegexPatterns.cs" />
     <Compile Include="Models\Twitter\TwitterConnectionHelper.cs" />
@@ -173,6 +175,7 @@
     <Compile Include="Models\Twitter\Objects\User.cs" />
     <Compile Include="Models\Twitter\SuggestionService.cs" />
     <Compile Include="Models\Twitter\Thumbnail\NicoVideo.cs" />
+    <Compile Include="Models\Twitter\Wrapper\Core.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setting\AdvancedSettingService.cs" />
     <Compile Include="Setting\SettingService.cs" />
@@ -419,7 +422,6 @@
   <ItemGroup>
     <Content Include="Assets\Tweet.png" />
     <None Include="Package.StoreAssociation.xml" />
-    <Content Include="Models\Plugin\Scripts\require.js" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -671,6 +673,10 @@
     <ProjectReference Include="..\Flantter.MilkyWay.BackgroundTask\Flantter.MilkyWay.BackgroundTask.csproj">
       <Project>{7bf7968d-b999-43f9-b34f-3e6c5bb80440}</Project>
       <Name>Flantter.MilkyWay.BackgroundTask</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mastonet\Mastonet\Mastonet.csproj">
+      <Project>{d251aa8d-14c3-45d1-9e8b-0ff2bcd6e7d6}</Project>
+      <Name>Mastonet</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

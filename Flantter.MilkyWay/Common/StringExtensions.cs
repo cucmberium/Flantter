@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Flantter.MilkyWay.Common
 {
@@ -13,12 +11,12 @@ namespace Flantter.MilkyWay.Common
         {
             return new StringInfo(self).LengthInTextElements;
         }
-        
+
         public static IEnumerable<string> GetTextElementEnumerable(this string self)
         {
             var e = StringInfo.GetTextElementEnumerator(self);
             while (e.MoveNext())
-                yield return (string)e.Current;
+                yield return (string) e.Current;
         }
 
         public static string SubstringByTextElements(this string self, int startIndex, int length)

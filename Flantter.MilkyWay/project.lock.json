@@ -2737,6 +2737,14 @@
           "Newtonsoft.Json": "10.0.2",
           "NotificationsExtensions.Win10": "14332.0.2"
         }
+      },
+      "Mastonet/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.1",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.2"
+        }
       }
     },
     "UAP,Version=v10.0/win10-arm": {
@@ -5504,6 +5512,14 @@
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.2",
           "Newtonsoft.Json": "10.0.2",
           "NotificationsExtensions.Win10": "14332.0.2"
+        }
+      },
+      "Mastonet/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.1",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       }
     },
@@ -8312,6 +8328,14 @@
           "Newtonsoft.Json": "10.0.2",
           "NotificationsExtensions.Win10": "14332.0.2"
         }
+      },
+      "Mastonet/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.1",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.2"
+        }
       }
     },
     "UAP,Version=v10.0/win10-x64": {
@@ -11088,6 +11112,14 @@
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.2",
           "Newtonsoft.Json": "10.0.2",
           "NotificationsExtensions.Win10": "14332.0.2"
+        }
+      },
+      "Mastonet/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.1",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       }
     },
@@ -13905,6 +13937,14 @@
           "Newtonsoft.Json": "10.0.2",
           "NotificationsExtensions.Win10": "14332.0.2"
         }
+      },
+      "Mastonet/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.1",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.2"
+        }
       }
     },
     "UAP,Version=v10.0/win10-x86": {
@@ -16681,6 +16721,14 @@
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.2",
           "Newtonsoft.Json": "10.0.2",
           "NotificationsExtensions.Win10": "14332.0.2"
+        }
+      },
+      "Mastonet/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.1",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       }
     },
@@ -19497,6 +19545,14 @@
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.2",
           "Newtonsoft.Json": "10.0.2",
           "NotificationsExtensions.Win10": "14332.0.2"
+        }
+      },
+      "Mastonet/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.1",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       }
     }
@@ -29140,6 +29196,11 @@
       "type": "project",
       "path": "../Flantter.MilkyWay.BackgroundTask/project.json",
       "msbuildProject": "../Flantter.MilkyWay.BackgroundTask/Flantter.MilkyWay.BackgroundTask.csproj"
+    },
+    "Mastonet/1.0.0": {
+      "type": "project",
+      "path": "../Mastonet/Mastonet/Mastonet.csproj",
+      "msbuildProject": "../Mastonet/Mastonet/Mastonet.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -29176,6 +29237,9 @@
           "projectReferences": {
             "D:\\Users\\cucmberium\\Documents\\GitHub\\Flantter.MilkyWay\\Flantter.MilkyWay.BackgroundTask\\Flantter.MilkyWay.BackgroundTask.csproj": {
               "projectPath": "D:\\Users\\cucmberium\\Documents\\GitHub\\Flantter.MilkyWay\\Flantter.MilkyWay.BackgroundTask\\Flantter.MilkyWay.BackgroundTask.csproj"
+            },
+            "D:\\Users\\cucmberium\\Documents\\GitHub\\Flantter.MilkyWay\\Mastonet\\Mastonet\\Mastonet.csproj": {
+              "projectPath": "D:\\Users\\cucmberium\\Documents\\GitHub\\Flantter.MilkyWay\\Mastonet\\Mastonet\\Mastonet.csproj"
             }
           }
         }

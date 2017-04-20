@@ -123,7 +123,7 @@
   <data name="AuthorizePopup_AuthorizeCompleted" xml:space="preserve">
     <value>認証しました！</value>
   </data>
-  <data name="AuthorizePopup_CustomCKCSCheckBox.Content" xml:space="preserve">
+  <data name="AuthorizePopup_TwitterEditConsumerKeyCheckBox.Content" xml:space="preserve">
     <value>ConsumerKeyを変更する</value>
   </data>
   <data name="AuthorizePopup_ConfigNextButton.Content" xml:space="preserve">
@@ -1032,5 +1032,17 @@
   </data>
   <data name="SettingsFlyout_UserCollections_Url_TextBox.Header" xml:space="preserve">
     <value>Url</value>
+  </data>
+  <data name="AuthorizePopup_ChoiceService.Text" xml:space="preserve">
+    <value>どちらのサービスで認証しますか？</value>
+  </data>
+  <data name="Event_Me" xml:space="preserve">
+    <value>あなた</value>
+  </data>
+  <data name="Event_Mention" xml:space="preserve">
+    <value>{0} が {1} に対してリプライを飛ばしました</value>
+  </data>
+  <data name="Notification_System_NotImplementedException" xml:space="preserve">
+    <value>その動作は現在使っているプラットフォームに対応していません</value>
   </data>
 </root>

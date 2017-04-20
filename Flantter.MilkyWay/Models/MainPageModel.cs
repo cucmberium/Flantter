@@ -1,75 +1,55 @@
-﻿using Flantter.MilkyWay.Models.Exceptions;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
-using Windows.Storage;
 
 namespace Flantter.MilkyWay.Models
 {
     public class MainPageModel : BindableBase
     {
-        private bool _Initialized = false;
+        private bool _initialized;
 
-        #region Accounts
-        private ObservableCollection<AccountModel> _Accounts;
-        private ReadOnlyObservableCollection<AccountModel> _ReadOnlyAccounts;
-        public ReadOnlyObservableCollection<AccountModel> ReadOnlyAccounts
+        #region Constructor
+
+        private MainPageModel()
         {
-            get
-            {
-                return _ReadOnlyAccounts;
-            }
+            _accounts = new ObservableCollection<AccountModel>();
+            ReadOnlyAccounts = new ReadOnlyObservableCollection<AccountModel>(_accounts);
+
+            foreach (var account in AdvancedSettingService.AdvancedSetting.Accounts)
+                _accounts.Add(new AccountModel(account));
         }
+
         #endregion
 
         #region Initialize
+
         public async Task Initialize()
         {
-            if (_Initialized)
+            if (_initialized)
                 return;
 
             Connecter.Instance.Initialize();
 
-            await Task.WhenAll(this._Accounts.Select(x => x.Initialize()));
+            await Task.WhenAll(_accounts.Select(x => x.Initialize()));
 
-            Notifications.Core.Instance.Initialize();
+            Core.Instance.Initialize();
 
-            if (Setting.SettingService.Setting.EnablePlugins)
+            if (SettingService.Setting.EnablePlugins)
                 await Task.Run(() => Plugin.Core.Instance.Initialize());
 
-            _Initialized = true;
+            _initialized = true;
         }
-        #endregion
 
-        #region Constructor
-        private MainPageModel()
-        {
-            this._Accounts = new ObservableCollection<AccountModel>();
-            this._ReadOnlyAccounts = new ReadOnlyObservableCollection<AccountModel>(this._Accounts);
-            
-            foreach (var account in AdvancedSettingService.AdvancedSetting.Accounts)
-            {
-                this._Accounts.Add(new AccountModel(account));
-            }
-        }
         #endregion
-
-        #region Destructor
-        ~MainPageModel()
-        {
-        }
-        #endregion
-
+        
 
         public void CopyTweetToClipBoard(object tweet)
         {
@@ -91,7 +71,6 @@ namespace Flantter.MilkyWay.Models
 
             var directMessage = tweet as DirectMessage;
             if (directMessage != null)
-            {
                 try
                 {
                     var textPackage = new DataPackage();
@@ -101,9 +80,6 @@ namespace Flantter.MilkyWay.Models
                 catch
                 {
                 }
-
-                return;
-            }
         }
 
         public void CopyTweetUrlToClipBoard(object tweet)
@@ -115,7 +91,7 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 var textPackage = new DataPackage();
-                textPackage.SetText("https://twitter.com/" + status.User.ScreenName + "/status/" + status.Id.ToString());
+                textPackage.SetText(status.Url);
                 Clipboard.SetContent(textPackage);
             }
             catch
@@ -129,8 +105,10 @@ namespace Flantter.MilkyWay.Models
 
             try
             {
-                await file.CopyAsync(ApplicationData.Current.LocalFolder, "background_image" + file.FileType, NameCollisionOption.ReplaceExisting);
-                SettingService.Setting.BackgroundImagePath = "ms-appdata:///local/" + "background_image" + file.FileType;
+                await file.CopyAsync(ApplicationData.Current.LocalFolder, "background_image" + file.FileType,
+                    NameCollisionOption.ReplaceExisting);
+                SettingService.Setting.BackgroundImagePath =
+                    "ms-appdata:///local/" + "background_image" + file.FileType;
             }
             catch
             {
@@ -141,7 +119,8 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                await file.CopyAsync(ApplicationData.Current.LocalFolder, "Theme.xaml", NameCollisionOption.ReplaceExisting);
+                await file.CopyAsync(ApplicationData.Current.LocalFolder, "Theme.xaml",
+                    NameCollisionOption.ReplaceExisting);
                 SettingService.Setting.CustomThemePath = "ms-appdata:///local/" + "Theme.xaml";
             }
             catch
@@ -215,15 +194,15 @@ namespace Flantter.MilkyWay.Models
             await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
             var accountModel = new AccountModel(account);
-            this._Accounts.Add(accountModel);
+            _accounts.Add(accountModel);
             await accountModel.Initialize();
         }
 
         public async Task ChangeAccount(AccountSetting account)
         {
-            foreach (var accountModel in this._Accounts)
+            foreach (var accountModel in _accounts)
             {
-                if (account.UserId == accountModel.UserId)
+                if (account.UserId == accountModel.AccountSetting.UserId)
                     accountModel.IsEnabled = true;
                 else
                     accountModel.IsEnabled = false;
@@ -232,46 +211,52 @@ namespace Flantter.MilkyWay.Models
             }
 
             foreach (var accountSetting in AdvancedSettingService.AdvancedSetting.Accounts)
-            {
                 if (account.UserId == accountSetting.UserId)
                     accountSetting.IsEnabled = true;
                 else
                     accountSetting.IsEnabled = false;
-            }
 
             await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }
 
         public async Task DeleteAccount(AccountSetting account)
         {
-            var accountModel = this._Accounts.First(x => x.UserId == account.UserId);
+            var accountModel = _accounts.First(x => x.AccountSetting.UserId == account.UserId);
 
             accountModel.LeftSwipeMenuIsOpen = false;
 
             accountModel.Dispose();
-            this._Accounts.Remove(accountModel);
-            
+            _accounts.Remove(accountModel);
+
             AdvancedSettingService.AdvancedSetting.Accounts.Remove(account);
 
             if (accountModel.IsEnabled)
             {
                 accountModel.IsEnabled = false;
-                this._Accounts.First().IsEnabled = true;
+                _accounts.First().IsEnabled = true;
 
-                AdvancedSettingService.AdvancedSetting.Accounts.First(x => x.UserId == this._Accounts.First().UserId).IsEnabled = true;
+                AdvancedSettingService.AdvancedSetting.Accounts
+                    .First(x => x.UserId == _accounts.First().AccountSetting.UserId)
+                    .IsEnabled = true;
             }
 
             await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
             Connecter.Instance.RemoveAccount(account);
         }
-        
+
+        #region Accounts
+
+        private readonly ObservableCollection<AccountModel> _accounts;
+
+        public ReadOnlyObservableCollection<AccountModel> ReadOnlyAccounts { get; }
+
+        #endregion
+
         #region Instance
-        private static MainPageModel _Instance = new MainPageModel();
-        public static MainPageModel Instance
-        {
-            get { return _Instance; }
-        }
+
+        public static MainPageModel Instance { get; } = new MainPageModel();
+
         #endregion
     }
 }

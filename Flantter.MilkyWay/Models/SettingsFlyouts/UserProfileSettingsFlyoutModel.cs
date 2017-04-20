@@ -1,717 +1,867 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Notifications;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class UserProfileSettingsFlyoutModel : BindableBase
     {
+        private long _followersCursor;
+
+        private long _followingCursor;
+
         public UserProfileSettingsFlyoutModel()
         {
-            this.Statuses = new ObservableCollection<Twitter.Objects.Status>();
-            this.Favorites = new ObservableCollection<Twitter.Objects.Status>();
-            this.Followers = new ObservableCollection<Twitter.Objects.User>();
-            this.Following = new ObservableCollection<Twitter.Objects.User>();
+            Statuses = new ObservableCollection<Status>();
+            Favorites = new ObservableCollection<Status>();
+            Followers = new ObservableCollection<User>();
+            Following = new ObservableCollection<User>();
         }
-
-        #region Tokens変更通知プロパティ
-        private CoreTweet.Tokens _Tokens;
-        public CoreTweet.Tokens Tokens
-        {
-            get { return this._Tokens; }
-            set { this.SetProperty(ref this._Tokens, value); }
-        }
-        #endregion
-
-        #region ScreenName変更通知プロパティ
-        private string _ScreenName;
-        public string ScreenName
-        {
-            get { return this._ScreenName; }
-            set { this.SetProperty(ref this._ScreenName, value); }
-        }
-        #endregion
 
         public bool OpenFollowing { get; set; }
         public bool OpenFollowers { get; set; }
         public bool OpenFavorite { get; set; }
 
-        public ObservableCollection<Twitter.Objects.Status> Statuses { get; set; }
-        public ObservableCollection<Twitter.Objects.Status> Favorites { get; set; }
-        public ObservableCollection<Twitter.Objects.User> Followers { get; set; }
-        public ObservableCollection<Twitter.Objects.User> Following { get; set; }
-
-
-        #region DescriptionEntities変更通知プロパティ
-        private Twitter.Objects.Entities _DescriptionEntities;
-        public Twitter.Objects.Entities DescriptionEntities
-        {
-            get { return this._DescriptionEntities; }
-            set { this.SetProperty(ref this._DescriptionEntities, value); }
-        }
-        #endregion
-
-        #region UrlEntities変更通知プロパティ
-        private Twitter.Objects.Entities _UrlEntities;
-        public Twitter.Objects.Entities UrlEntities
-        {
-            get { return this._UrlEntities; }
-            set { this.SetProperty(ref this._UrlEntities, value); }
-        }
-        #endregion
-
-        #region Description変更通知プロパティ
-        private string _Description;
-        public string Description
-        {
-            get { return this._Description; }
-            set { this.SetProperty(ref this._Description, value); }
-        }
-        #endregion
-
-        #region FavouritesCount変更通知プロパティ
-        private int _FavouritesCount;
-        public int FavouritesCount
-        {
-            get { return this._FavouritesCount; }
-            set { this.SetProperty(ref this._FavouritesCount, value); }
-        }
-        #endregion
-
-        #region FollowersCount変更通知プロパティ
-        private int _FollowersCount;
-        public int FollowersCount
-        {
-            get { return this._FollowersCount; }
-            set { this.SetProperty(ref this._FollowersCount, value); }
-        }
-        #endregion
-
-        #region FriendsCount変更通知プロパティ
-        private int _FriendsCount;
-        public int FriendsCount
-        {
-            get { return this._FriendsCount; }
-            set { this.SetProperty(ref this._FriendsCount, value); }
-        }
-        #endregion
-
-        #region ListedCount変更通知プロパティ
-        private int _ListedCount;
-        public int ListedCount
-        {
-            get { return this._ListedCount; }
-            set { this.SetProperty(ref this._ListedCount, value); }
-        }
-        #endregion
-
-        #region IsMuting変更通知プロパティ
-        private bool _IsMuting;
-        public bool IsMuting
-        {
-            get { return this._IsMuting; }
-            set { this.SetProperty(ref this._IsMuting, value); }
-        }
-        #endregion
-
-        #region IsProtected変更通知プロパティ
-        private bool _IsProtected;
-        public bool IsProtected
-        {
-            get { return this._IsProtected; }
-            set { this.SetProperty(ref this._IsProtected, value); }
-        }
-        #endregion
-
-        #region IsVerified変更通知プロパティ
-        private bool _IsVerified;
-        public bool IsVerified
-        {
-            get { return this._IsVerified; }
-            set { this.SetProperty(ref this._IsVerified, value); }
-        }
-        #endregion
-
-        #region Location変更通知プロパティ
-        private string _Location;
-        public string Location
-        {
-            get { return this._Location; }
-            set { this.SetProperty(ref this._Location, value); }
-        }
-        #endregion
-
-        #region ProfileBackgroundColor変更通知プロパティ
-        private string _ProfileBackgroundColor;
-        public string ProfileBackgroundColor
-        {
-            get { return this._ProfileBackgroundColor; }
-            set { this.SetProperty(ref this._ProfileBackgroundColor, value); }
-        }
-        #endregion
-
-        #region ProfileBannerUrl変更通知プロパティ
-        private string _ProfileBannerUrl;
-        public string ProfileBannerUrl
-        {
-            get { return this._ProfileBannerUrl; }
-            set { this.SetProperty(ref this._ProfileBannerUrl, value); }
-        }
-        #endregion
-
-        #region ProfileImageUrl変更通知プロパティ
-        private string _ProfileImageUrl;
-        public string ProfileImageUrl
-        {
-            get { return this._ProfileImageUrl; }
-            set { this.SetProperty(ref this._ProfileImageUrl, value); }
-        }
-        #endregion
-
-        #region StatusesCount変更通知プロパティ
-        private int _StatusesCount;
-        public int StatusesCount
-        {
-            get { return this._StatusesCount; }
-            set { this.SetProperty(ref this._StatusesCount, value); }
-        }
-        #endregion
-
-        #region Url変更通知プロパティ
-        private string _Url;
-        public string Url
-        {
-            get { return this._Url; }
-            set { this.SetProperty(ref this._Url, value); }
-        }
-        #endregion
-
-        #region Name変更通知プロパティ
-        private string _Name;
-        public string Name
-        {
-            get { return this._Name; }
-            set { this.SetProperty(ref this._Name, value); }
-        }
-        #endregion
-
-        #region IsFollowRequestSent変更通知プロパティ
-        private bool _IsFollowRequestSent;
-        public bool IsFollowRequestSent
-        {
-            get { return this._IsFollowRequestSent; }
-            set { this.SetProperty(ref this._IsFollowRequestSent, value); }
-        }
-        #endregion
-
-        #region IsFollowing変更通知プロパティ
-        private bool _IsFollowing;
-        public bool IsFollowing
-        {
-            get { return this._IsFollowing; }
-            set { this.SetProperty(ref this._IsFollowing, value); }
-        }
-        #endregion
-
-        #region IsFollowedBy変更通知プロパティ
-        private bool _IsFollowedBy;
-        public bool IsFollowedBy
-        {
-            get { return this._IsFollowedBy; }
-            set { this.SetProperty(ref this._IsFollowedBy, value); }
-        }
-        #endregion
-
-        #region IsBlocking変更通知プロパティ
-        private bool _IsBlocking;
-        public bool IsBlocking
-        {
-            get { return this._IsBlocking; }
-            set { this.SetProperty(ref this._IsBlocking, value); }
-        }
-        #endregion
-
-        #region UserId変更通知プロパティ
-        private long _UserId;
-        public long UserId
-        {
-            get { return this._UserId; }
-            set { this.SetProperty(ref this._UserId, value); }
-        }
-        #endregion
-
-
-        #region UpdatingUserInformation変更通知プロパティ
-        private bool _UpdatingUserInformation;
-        public bool UpdatingUserInformation
-        {
-            get { return this._UpdatingUserInformation; }
-            set { this.SetProperty(ref this._UpdatingUserInformation, value); }
-        }
-        #endregion
-
-        #region UpdatingRelationShip変更通知プロパティ
-        private bool _UpdatingRelationShip;
-        public bool UpdatingRelationShip
-        {
-            get { return this._UpdatingRelationShip; }
-            set { this.SetProperty(ref this._UpdatingRelationShip, value); }
-        }
-        #endregion
-
-        #region UpdatingStatuses変更通知プロパティ
-        private bool _UpdatingStatuses;
-        public bool UpdatingStatuses
-        {
-            get { return this._UpdatingStatuses; }
-            set { this.SetProperty(ref this._UpdatingStatuses, value); }
-        }
-        #endregion
-
-        #region UpdatingFavorites変更通知プロパティ
-        private bool _UpdatingFavorites;
-        public bool UpdatingFavorites
-        {
-            get { return this._UpdatingFavorites; }
-            set { this.SetProperty(ref this._UpdatingFavorites, value); }
-        }
-        #endregion
-
-        #region UpdatingFollowers変更通知プロパティ
-        private bool _UpdatingFollowers;
-        public bool UpdatingFollowers
-        {
-            get { return this._UpdatingFollowers; }
-            set { this.SetProperty(ref this._UpdatingFollowers, value); }
-        }
-        #endregion
-
-        #region UpdatingFollowing変更通知プロパティ
-        private bool _UpdatingFollowing;
-        public bool UpdatingFollowing
-        {
-            get { return this._UpdatingFollowing; }
-            set { this.SetProperty(ref this._UpdatingFollowing, value); }
-        }
-        #endregion
+        public ObservableCollection<Status> Statuses { get; set; }
+        public ObservableCollection<Status> Favorites { get; set; }
+        public ObservableCollection<User> Followers { get; set; }
+        public ObservableCollection<User> Following { get; set; }
 
         public async Task UpdateUserInfomation()
         {
-            if (this.UpdatingUserInformation)
+            if (UpdatingUserInformation)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
                 return;
 
-            this.UpdatingUserInformation = true;
+            UpdatingUserInformation = true;
 
-            UserResponse user;
             try
             {
-                user = await Tokens.Users.ShowAsync(screen_name => this._ScreenName, include_entities => true);
+                var user = await Tokens.Users.ShowAsync(screen_name => _screenName, include_entities => true);
+
+                UrlEntities = user.Entities.Url;
+                DescriptionEntities = user.Entities.Description;
+                Description = user.Description;
+                FavouritesCount = user.FavouritesCount;
+                FollowersCount = user.FollowersCount;
+                FriendsCount = user.FriendsCount;
+                ListedCount = user.ListedCount;
+                IsMuting = user.IsMuting;
+                IsProtected = user.IsProtected;
+                IsVerified = user.IsVerified;
+                Location = user.Location;
+                ProfileBackgroundColor = user.ProfileBackgroundColor;
+                ProfileBannerUrl = user.ProfileBannerUrl;
+                ProfileImageUrl = user.ProfileImageUrl;
+                StatusesCount = user.StatusesCount;
+                Url = user.Url;
+                Name = user.Name;
+                IsFollowRequestSent = user.IsFollowRequestSent;
+                UserId = user.Id;
             }
             catch
             {
-                this.UpdatingUserInformation = false;
+                UpdatingUserInformation = false;
                 return;
             }
 
-            var userObj = new Twitter.Objects.User(user);
-
-            this.UrlEntities = userObj.Entities.Url;
-            this.DescriptionEntities = userObj.Entities.Description;
-            this.Description = userObj.Description;
-            this.FavouritesCount = userObj.FavouritesCount;
-            this.FollowersCount = userObj.FollowersCount;
-            this.FriendsCount = userObj.FriendsCount;
-            this.ListedCount = userObj.ListedCount;
-            this.IsMuting = userObj.IsMuting;
-            this.IsProtected = userObj.IsProtected;
-            this.IsVerified = userObj.IsVerified;
-            this.Location = userObj.Location;
-            this.ProfileBackgroundColor = userObj.ProfileBackgroundColor;
-            this.ProfileBannerUrl = userObj.ProfileBannerUrl;
-            this.ProfileImageUrl = userObj.ProfileImageUrl;
-            this.StatusesCount = userObj.StatusesCount;
-            this.Url = userObj.Url;
-            this.Name = userObj.Name;
-            this.IsFollowRequestSent = userObj.IsFollowRequestSent;
-            this.UserId = userObj.Id;
-            
-            this.UpdatingUserInformation = false;
+            UpdatingUserInformation = false;
         }
 
         public async Task UpdateRelationShip()
         {
-            if (this.UpdatingRelationShip)
+            if (UpdatingRelationShip)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
                 return;
 
-            this.UpdatingRelationShip = true;
+            UpdatingRelationShip = true;
 
-            Relationship relationShip;
             try
             {
-                relationShip = await Tokens.Friendships.ShowAsync(source_screen_name => Tokens.ScreenName, target_screen_name => this._ScreenName);
+                var relationShip = await Tokens.Friendships.ShowAsync(source_screen_name => Tokens.ScreenName,
+                    target_screen_name => _screenName);
+                IsFollowing = relationShip.Source.IsFollowing;
+                IsFollowedBy = relationShip.Source.IsFollowedBy;
+                IsBlocking = relationShip.Source.IsBlocking;
+                IsMuting = relationShip.Source.IsMuting;
+                IsFollowRequestSent = relationShip.Source.IsFollowingRequested;
             }
             catch
             {
-                this.UpdatingRelationShip = false;
+                UpdatingRelationShip = false;
                 return;
             }
 
-            this.IsFollowing = relationShip.Source.IsFollowing;
-            this.IsFollowedBy = relationShip.Source.IsFollowedBy;
-            this.IsBlocking = relationShip.Source.IsBlocking.HasValue ? relationShip.Source.IsBlocking.Value : false;
-            this.IsMuting = relationShip.Source.IsMuting.HasValue ? relationShip.Source.IsMuting.Value : false;
-            this.IsFollowRequestSent = relationShip.Source.IsFollowingRequested.HasValue ? relationShip.Source.IsFollowingRequested.Value : false;
-
-            this.UpdatingRelationShip = false;
+            UpdatingRelationShip = false;
         }
 
         public async Task UpdateStatuses(long maxid = 0)
         {
-            if (this.UpdatingStatuses)
+            if (UpdatingStatuses)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
                 return;
 
-            this.UpdatingStatuses = true;
+            UpdatingStatuses = true;
 
-            ListedResponse<CoreTweet.Status> userTweets;
             try
             {
+                var param = new Dictionary<string, object>
+                {
+                    {"count", 20},
+                    {"include_entities", true},
+                    {"screen_name", _screenName},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+
+                var userTweets = await Tokens.Statuses.UserTimelineAsync(param);
                 if (maxid == 0)
-                    userTweets = await Tokens.Statuses.UserTimelineAsync(screen_name => this._ScreenName, count => 20, tweet_mode => TweetMode.extended);
-                else
-                    userTweets = await Tokens.Statuses.UserTimelineAsync(screen_name => this._ScreenName, count => 20, max_id => maxid, tweet_mode => TweetMode.extended);
+                    Statuses.Clear();
+
+                foreach (var status in userTweets)
+                {
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                        new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
+
+                    var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
+                    var index = Statuses.IndexOf(
+                        Statuses.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) == id));
+                    if (index == -1)
+                    {
+                        index = Statuses.IndexOf(
+                            Statuses.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) < id));
+                        if (index == -1)
+                            Statuses.Add(status);
+                        else
+                            Statuses.Insert(index, status);
+                    }
+                }
             }
             catch
             {
                 if (maxid == 0)
-                    this.Statuses.Clear();
+                    Statuses.Clear();
 
-                this.UpdatingStatuses = false;
+                UpdatingStatuses = false;
                 return;
             }
 
-            if (maxid == 0)
-                this.Statuses.Clear();
-
-            foreach (var item in userTweets)
-            {
-                var status = new Twitter.Objects.Status(item);
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
-
-                var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
-                var index = this.Statuses.IndexOf(this.Statuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
-                if (index == -1)
-                {
-                    index = this.Statuses.IndexOf(this.Statuses.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
-                    if (index == -1)
-                        this.Statuses.Add(status);
-                    else
-                        this.Statuses.Insert(index, status);
-                }
-            }
-
-            this.UpdatingStatuses = false;
+            UpdatingStatuses = false;
         }
 
         public async Task UpdateFavorites(long maxid = 0)
         {
-            if (this.UpdatingFavorites)
+            if (UpdatingFavorites)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
                 return;
 
-            this.UpdatingFavorites = true;
+            UpdatingFavorites = true;
 
-            ListedResponse<CoreTweet.Status> favorites;
             try
             {
-                if (maxid == 0)
-                    favorites = await Tokens.Favorites.ListAsync(screen_name => this._ScreenName, count => 20, tweet_mode => TweetMode.extended);
-                else
-                    favorites = await Tokens.Favorites.ListAsync(screen_name => this._ScreenName, count => 20, max_id => maxid, tweet_mode => TweetMode.extended);
-            }
-            catch
-            {
-                if (maxid == 0)
-                    this.Favorites.Clear();
-
-                this.UpdatingFavorites = false;
-                return;
-            }
-
-            if (maxid == 0)
-                this.Favorites.Clear();
-
-            foreach (var item in favorites)
-            {
-                var status = new Twitter.Objects.Status(item);
-                Connecter.Instance.TweetReceive_OnCommandExecute(this, new TweetEventArgs(status, this.Tokens.UserId, new List<string>() { "none://" }, false));
-
-                var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
-                var index = this.Favorites.IndexOf(this.Favorites.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) == id));
-                if (index == -1)
+                var param = new Dictionary<string, object>
                 {
-                    index = this.Favorites.IndexOf(this.Favorites.FirstOrDefault(x => x is Twitter.Objects.Status && (((Twitter.Objects.Status)x).HasRetweetInformation ? ((Twitter.Objects.Status)x).RetweetInformation.Id : ((Twitter.Objects.Status)x).Id) < id));
+                    {"count", 20},
+                    {"include_entities", true},
+                    {"screen_name", _screenName},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+
+                var favorites = await Tokens.Favorites.ListAsync(param);
+
+                if (maxid == 0)
+                    Favorites.Clear();
+
+                foreach (var status in favorites)
+                {
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                        new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
+
+                    var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
+                    var index = Favorites.IndexOf(
+                        Favorites.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) == id));
                     if (index == -1)
-                        this.Favorites.Add(status);
-                    else
-                        this.Favorites.Insert(index, status);
+                    {
+                        index = Favorites.IndexOf(
+                            Favorites.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) < id));
+                        if (index == -1)
+                            Favorites.Add(status);
+                        else
+                            Favorites.Insert(index, status);
+                    }
                 }
             }
+            catch
+            {
+                if (maxid == 0)
+                    Favorites.Clear();
 
-            this.UpdatingFavorites = false;
+                UpdatingFavorites = false;
+                return;
+            }
+
+            UpdatingFavorites = false;
         }
 
-        private long followersCursor = 0;
         public async Task UpdateFollowers(bool useCursor = false)
         {
-            if (this.UpdatingFollowers)
+            if (UpdatingFollowers)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
                 return;
 
-            if (useCursor && followersCursor == 0)
+            if (useCursor && _followersCursor == 0)
                 return;
 
-            this.UpdatingFollowers = true;
+            UpdatingFollowers = true;
 
-            Cursored<CoreTweet.User> follower;
             try
             {
-                if (useCursor && followersCursor != 0)
-                    follower = await Tokens.Followers.ListAsync(screen_name => this._ScreenName, count => 20, cursor => followersCursor);
-                else
-                    follower = await Tokens.Followers.ListAsync(screen_name => this._ScreenName, count => 20);
+                var param = new Dictionary<string, object>
+                {
+                    {"count", 20},
+                    {"include_entities", true},
+                    {"screen_name", _screenName},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
+                if (useCursor && _followersCursor != 0)
+                    param.Add("cursor", _followersCursor);
+
+                var follower = await Tokens.Followers.ListAsync(param);
+                if (!useCursor || _followersCursor == 0)
+                    Followers.Clear();
+
+                foreach (var user in follower)
+                    Followers.Add(user);
+
+                _followersCursor = follower.NextCursor;
             }
             catch
             {
-                if (!useCursor || followersCursor == 0)
-                    this.Followers.Clear();
+                if (!useCursor || _followersCursor == 0)
+                    Followers.Clear();
 
-                this.UpdatingFollowers = false;
+                UpdatingFollowers = false;
                 return;
             }
 
-            if (!useCursor || followersCursor == 0)
-                this.Followers.Clear();
-
-            foreach (var item in follower)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Followers.Add(user);
-            }
-
-            followersCursor = follower.NextCursor;
-            this.UpdatingFollowers = false;
+            UpdatingFollowers = false;
         }
 
-        private long followingCursor = 0;
         public async Task UpdateFollowing(bool useCursor = false)
         {
-            if (this.UpdatingFollowing)
+            if (UpdatingFollowing)
                 return;
 
-            if (string.IsNullOrWhiteSpace(this._ScreenName) || this.Tokens == null)
+            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
                 return;
 
-            if (useCursor && followingCursor == 0)
+            if (useCursor && _followingCursor == 0)
                 return;
 
-            this.UpdatingFollowing = true;
+            UpdatingFollowing = true;
 
-            Cursored<CoreTweet.User> following;
             try
             {
-                if (useCursor && followingCursor != 0)
-                    following = await Tokens.Friends.ListAsync(screen_name => this._ScreenName, count => 20, cursor => followingCursor);
-                else
-                    following = await Tokens.Friends.ListAsync(screen_name => this._ScreenName, count => 20);
+                var param = new Dictionary<string, object>
+                {
+                    {"count", 20},
+                    {"include_entities", true},
+                    {"screen_name", _screenName},
+                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                };
+                if (useCursor && _followingCursor != 0)
+                    param.Add("cursor", _followingCursor);
+
+                var following = await Tokens.Friends.ListAsync(param);
+                if (!useCursor || _followingCursor == 0)
+                    Following.Clear();
+
+                foreach (var user in following)
+                    Following.Add(user);
+
+                _followingCursor = following.NextCursor;
             }
             catch
             {
-                if (!useCursor || followingCursor == 0)
-                    this.Following.Clear();
+                if (!useCursor || _followingCursor == 0)
+                    Following.Clear();
 
-                this.UpdatingFollowing = false;
+                UpdatingFollowing = false;
                 return;
             }
 
-            if (!useCursor || followingCursor == 0)
-                this.Following.Clear();
-
-            foreach (var item in following)
-            {
-                var user = new Twitter.Objects.User(item);
-                this.Following.Add(user);
-            }
-
-            followingCursor = following.NextCursor;
-            this.UpdatingFollowing = false;
+            UpdatingFollowing = false;
         }
 
         public async Task Follow()
         {
-            if (this.IsBlocking)
-            {
-                await this.DestroyBlock();
-            }
-            else if (this.IsFollowing)
-            {
-                await this.DestroyFollow();
-            }
-            else if (this.IsFollowRequestSent)
-            {
-                await this.DestroyFollow();
-            }
+            if (IsBlocking)
+                await DestroyBlock();
+            else if (IsFollowing)
+                await DestroyFollow();
+            else if (IsFollowRequestSent)
+                await DestroyFollow();
             else
-            {
-                await this.CreateFollow();
-            }
+                await CreateFollow();
         }
 
         public async Task CreateFollow()
         {
-            UserResponse user = null;
             try
             {
-                user = await this.Tokens.Friendships.CreateAsync(screen_name => this._ScreenName);
+                var user = await Tokens.Friendships.CreateAsync(screen_name => _screenName);
+                if (user.IsProtected)
+                    IsFollowRequestSent = true;
+                else
+                    IsFollowing = true;
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                return;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                return;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
-
-            if (user.IsProtected)
-                this.IsFollowRequestSent = true;
-            else
-                this.IsFollowing = true;
         }
 
         public async Task DestroyFollow()
         {
-            UserResponse user = null;
             try
             {
-                user = await this.Tokens.Friendships.DestroyAsync(screen_name => this._ScreenName);
+                await Tokens.Friendships.DestroyAsync(screen_name => _screenName);
+                IsFollowing = false;
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                return;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                return;
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
             }
-            
-            this.IsFollowing = false;
         }
 
         public async Task CreateBlock()
         {
             try
             {
-                await this.Tokens.Blocks.CreateAsync(screen_name => this._ScreenName);
+                await Tokens.Blocks.CreateAsync(screen_name => _screenName);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
-            this.IsFollowing = false;
-            this.IsBlocking = true;
+            IsFollowing = false;
+            IsBlocking = true;
         }
 
         public async Task DestroyBlock()
         {
             try
             {
-                await this.Tokens.Blocks.DestroyAsync(screen_name => this._ScreenName);
+                await Tokens.Blocks.DestroyAsync(screen_name => _screenName);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
-            this.IsBlocking = false;
+            IsBlocking = false;
         }
 
         public async Task CreateMute()
         {
             try
             {
-                await this.Tokens.Mutes.Users.CreateAsync(screen_name => this._ScreenName);
+                await Tokens.Mutes.Users.CreateAsync(screen_name => _screenName);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
-            
-            this.IsMuting = true;
+
+            IsMuting = true;
         }
 
         public async Task DestroyMute()
         {
             try
             {
-                await this.Tokens.Mutes.Users.DestroyAsync(screen_name => this._ScreenName);
+                await Tokens.Mutes.Users.DestroyAsync(screen_name => _screenName);
             }
-            catch (TwitterException ex)
+            catch (CoreTweet.TwitterException ex)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return;
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
             {
-                Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, new ResourceLoader().GetString("Notification_System_ErrorOccurred"), new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
-            this.IsMuting = false;
+            IsMuting = false;
         }
+
+        #region Tokens変更通知プロパティ
+
+        private Tokens _tokens;
+
+        public Tokens Tokens
+        {
+            get => _tokens;
+            set => SetProperty(ref _tokens, value);
+        }
+
+        #endregion
+
+        #region ScreenName変更通知プロパティ
+
+        private string _screenName;
+
+        public string ScreenName
+        {
+            get => _screenName;
+            set => SetProperty(ref _screenName, value);
+        }
+
+        #endregion
+
+
+        #region DescriptionEntities変更通知プロパティ
+
+        private Entities _descriptionEntities;
+
+        public Entities DescriptionEntities
+        {
+            get => _descriptionEntities;
+            set => SetProperty(ref _descriptionEntities, value);
+        }
+
+        #endregion
+
+        #region UrlEntities変更通知プロパティ
+
+        private Entities _urlEntities;
+
+        public Entities UrlEntities
+        {
+            get => _urlEntities;
+            set => SetProperty(ref _urlEntities, value);
+        }
+
+        #endregion
+
+        #region Description変更通知プロパティ
+
+        private string _description;
+
+        public string Description
+        {
+            get => _description;
+            set => SetProperty(ref _description, value);
+        }
+
+        #endregion
+
+        #region FavouritesCount変更通知プロパティ
+
+        private int _favouritesCount;
+
+        public int FavouritesCount
+        {
+            get => _favouritesCount;
+            set => SetProperty(ref _favouritesCount, value);
+        }
+
+        #endregion
+
+        #region FollowersCount変更通知プロパティ
+
+        private int _followersCount;
+
+        public int FollowersCount
+        {
+            get => _followersCount;
+            set => SetProperty(ref _followersCount, value);
+        }
+
+        #endregion
+
+        #region FriendsCount変更通知プロパティ
+
+        private int _friendsCount;
+
+        public int FriendsCount
+        {
+            get => _friendsCount;
+            set => SetProperty(ref _friendsCount, value);
+        }
+
+        #endregion
+
+        #region ListedCount変更通知プロパティ
+
+        private int _listedCount;
+
+        public int ListedCount
+        {
+            get => _listedCount;
+            set => SetProperty(ref _listedCount, value);
+        }
+
+        #endregion
+
+        #region IsMuting変更通知プロパティ
+
+        private bool _isMuting;
+
+        public bool IsMuting
+        {
+            get => _isMuting;
+            set => SetProperty(ref _isMuting, value);
+        }
+
+        #endregion
+
+        #region IsProtected変更通知プロパティ
+
+        private bool _isProtected;
+
+        public bool IsProtected
+        {
+            get => _isProtected;
+            set => SetProperty(ref _isProtected, value);
+        }
+
+        #endregion
+
+        #region IsVerified変更通知プロパティ
+
+        private bool _isVerified;
+
+        public bool IsVerified
+        {
+            get => _isVerified;
+            set => SetProperty(ref _isVerified, value);
+        }
+
+        #endregion
+
+        #region Location変更通知プロパティ
+
+        private string _location;
+
+        public string Location
+        {
+            get => _location;
+            set => SetProperty(ref _location, value);
+        }
+
+        #endregion
+
+        #region ProfileBackgroundColor変更通知プロパティ
+
+        private string _profileBackgroundColor;
+
+        public string ProfileBackgroundColor
+        {
+            get => _profileBackgroundColor;
+            set => SetProperty(ref _profileBackgroundColor, value);
+        }
+
+        #endregion
+
+        #region ProfileBannerUrl変更通知プロパティ
+
+        private string _profileBannerUrl;
+
+        public string ProfileBannerUrl
+        {
+            get => _profileBannerUrl;
+            set => SetProperty(ref _profileBannerUrl, value);
+        }
+
+        #endregion
+
+        #region ProfileImageUrl変更通知プロパティ
+
+        private string _profileImageUrl;
+
+        public string ProfileImageUrl
+        {
+            get => _profileImageUrl;
+            set => SetProperty(ref _profileImageUrl, value);
+        }
+
+        #endregion
+
+        #region StatusesCount変更通知プロパティ
+
+        private int _statusesCount;
+
+        public int StatusesCount
+        {
+            get => _statusesCount;
+            set => SetProperty(ref _statusesCount, value);
+        }
+
+        #endregion
+
+        #region Url変更通知プロパティ
+
+        private string _url;
+
+        public string Url
+        {
+            get => _url;
+            set => SetProperty(ref _url, value);
+        }
+
+        #endregion
+
+        #region Name変更通知プロパティ
+
+        private string _name;
+
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
+        #endregion
+
+        #region IsFollowRequestSent変更通知プロパティ
+
+        private bool _isFollowRequestSent;
+
+        public bool IsFollowRequestSent
+        {
+            get => _isFollowRequestSent;
+            set => SetProperty(ref _isFollowRequestSent, value);
+        }
+
+        #endregion
+
+        #region IsFollowing変更通知プロパティ
+
+        private bool _isFollowing;
+
+        public bool IsFollowing
+        {
+            get => _isFollowing;
+            set => SetProperty(ref _isFollowing, value);
+        }
+
+        #endregion
+
+        #region IsFollowedBy変更通知プロパティ
+
+        private bool _isFollowedBy;
+
+        public bool IsFollowedBy
+        {
+            get => _isFollowedBy;
+            set => SetProperty(ref _isFollowedBy, value);
+        }
+
+        #endregion
+
+        #region IsBlocking変更通知プロパティ
+
+        private bool _isBlocking;
+
+        public bool IsBlocking
+        {
+            get => _isBlocking;
+            set => SetProperty(ref _isBlocking, value);
+        }
+
+        #endregion
+
+        #region UserId変更通知プロパティ
+
+        private long _userId;
+
+        public long UserId
+        {
+            get => _userId;
+            set => SetProperty(ref _userId, value);
+        }
+
+        #endregion
+
+
+        #region UpdatingUserInformation変更通知プロパティ
+
+        private bool _updatingUserInformation;
+
+        public bool UpdatingUserInformation
+        {
+            get => _updatingUserInformation;
+            set => SetProperty(ref _updatingUserInformation, value);
+        }
+
+        #endregion
+
+        #region UpdatingRelationShip変更通知プロパティ
+
+        private bool _updatingRelationShip;
+
+        public bool UpdatingRelationShip
+        {
+            get => _updatingRelationShip;
+            set => SetProperty(ref _updatingRelationShip, value);
+        }
+
+        #endregion
+
+        #region UpdatingStatuses変更通知プロパティ
+
+        private bool _updatingStatuses;
+
+        public bool UpdatingStatuses
+        {
+            get => _updatingStatuses;
+            set => SetProperty(ref _updatingStatuses, value);
+        }
+
+        #endregion
+
+        #region UpdatingFavorites変更通知プロパティ
+
+        private bool _updatingFavorites;
+
+        public bool UpdatingFavorites
+        {
+            get => _updatingFavorites;
+            set => SetProperty(ref _updatingFavorites, value);
+        }
+
+        #endregion
+
+        #region UpdatingFollowers変更通知プロパティ
+
+        private bool _updatingFollowers;
+
+        public bool UpdatingFollowers
+        {
+            get => _updatingFollowers;
+            set => SetProperty(ref _updatingFollowers, value);
+        }
+
+        #endregion
+
+        #region UpdatingFollowing変更通知プロパティ
+
+        private bool _updatingFollowing;
+
+        public bool UpdatingFollowing
+        {
+            get => _updatingFollowing;
+            set => SetProperty(ref _updatingFollowing, value);
+        }
+
+        #endregion
     }
 }

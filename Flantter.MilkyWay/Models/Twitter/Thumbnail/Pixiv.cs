@@ -1,14 +1,10 @@
 ﻿//using HtmlAgilityPack;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Web.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Flantter.MilkyWay.Models.Twitter.Thumbnail
 {
@@ -44,16 +40,18 @@ namespace Flantter.MilkyWay.Models.Twitter.Thumbnail
 
             var imgUrl = imgContainer.First().Descendants("img").First().GetAttributeValue("src", "");*/
 
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36");
-            HttpResponseMessage response = await client.GetAsync(new Uri("http://embed.pixiv.net/embed_json.php?callback=test&size=large&id=" + id));
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("User-Agent",
+                "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36");
+            var response = await client.GetAsync(
+                new Uri("http://embed.pixiv.net/embed_json.php?callback=test&size=large&id=" + id));
             if (!response.IsSuccessStatusCode)
                 return;
 
             var resjson = await response.Content.ReadAsStringAsync();
             resjson = resjson.Remove(0, 5).TrimEnd(')');
             var json = JsonConvert.DeserializeObject<JObject>(resjson);
-            
+
             response = await client.GetAsync(new Uri(json["img"].ToString()));
             //var imageFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
             //await FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());

@@ -1,324 +1,345 @@
-﻿using Flantter.MilkyWay.Common;
+﻿using System;
+using System.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using Windows.ApplicationModel.Resources;
+using Windows.System;
 using Flantter.MilkyWay.Models.SettingsFlyouts;
 using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Services;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
-using Windows.System;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
     public class UserProfileSettingsFlyoutViewModel
     {
-        private readonly ResourceLoader resourceLoader = new ResourceLoader();
+        private readonly ResourceLoader _resourceLoader = new ResourceLoader();
+
         public UserProfileSettingsFlyoutViewModel()
         {
-            this.Model = new UserProfileSettingsFlyoutModel();
+            Model = new UserProfileSettingsFlyoutModel();
 
-            this.Tokens = this.Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
-            this.ScreenName = this.Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
-            this.IconSource = new ReactiveProperty<string>("http://localhost/");
+            Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
+            ScreenName = Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
+            IconSource = new ReactiveProperty<string>("http://localhost/");
 
-            this.PivotSelectedIndex = new ReactiveProperty<int>(0);
-            this.PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                switch (x)
+            PivotSelectedIndex = new ReactiveProperty<int>(0);
+            PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
                 {
-                    case 1:
-                        if (!this.Model.OpenFollowing)
-                        {
-                            await this.Model.UpdateFollowing();
-                            this.Model.OpenFollowing = true;
-                        }
-                        break;
-                    case 2:
-                        if (!this.Model.OpenFollowers)
-                        {
-                            await this.Model.UpdateFollowers();
-                            this.Model.OpenFollowers = true;
-                        }
-                        break;
-                    case 3:
-                        if (!this.Model.OpenFavorite)
-                        {
-                            await this.Model.UpdateFavorites();
-                            this.Model.OpenFavorite = true;
-                        }
-                        break;
-                }
+                    switch (x)
+                    {
+                        case 1:
+                            if (!Model.OpenFollowing)
+                            {
+                                await Model.UpdateFollowing();
+                                Model.OpenFollowing = true;
+                            }
+                            break;
+                        case 2:
+                            if (!Model.OpenFollowers)
+                            {
+                                await Model.UpdateFollowers();
+                                Model.OpenFollowers = true;
+                            }
+                            break;
+                        case 3:
+                            if (!Model.OpenFavorite)
+                            {
+                                await Model.UpdateFavorites();
+                                Model.OpenFavorite = true;
+                            }
+                            break;
+                    }
+                });
+
+            UrlEntities = Model.ObserveProperty(x => x.UrlEntities).ToReactiveProperty();
+            DescriptionEntities = Model.ObserveProperty(x => x.DescriptionEntities).ToReactiveProperty();
+            Description = Model.ObserveProperty(x => x.Description).ToReactiveProperty();
+            FavouritesCount = Model.ObserveProperty(x => x.FavouritesCount).ToReactiveProperty();
+            FollowersCount = Model.ObserveProperty(x => x.FollowersCount).ToReactiveProperty();
+            FriendsCount = Model.ObserveProperty(x => x.FriendsCount).ToReactiveProperty();
+            ListedCount = Model.ObserveProperty(x => x.ListedCount).ToReactiveProperty();
+            IsMuting = Model.ObserveProperty(x => x.IsMuting).Select(x => x ? "" : "").ToReactiveProperty();
+            IsProtected = Model.ObserveProperty(x => x.IsProtected).Select(x => x ? "🔒" : "").ToReactiveProperty();
+            IsVerified = Model.ObserveProperty(x => x.IsVerified).Select(x => x ? "" : "").ToReactiveProperty();
+            Location = Model.ObserveProperty(x => x.Location).ToReactiveProperty();
+            ProfileBackgroundColor = Model.ObserveProperty(x => x.ProfileBackgroundColor)
+                .Select(x => string.IsNullOrWhiteSpace(x) ? "#C0DEED" : "#" + x)
+                .ToReactiveProperty();
+            ProfileBannerUrl = Model.ObserveProperty(x => x.ProfileBannerUrl)
+                .Select(x => string.IsNullOrWhiteSpace(x) ? "http://localhost/" : x + "/1500x500")
+                .ToReactiveProperty();
+            ProfileImageUrl = Model.ObserveProperty(x => x.ProfileImageUrl)
+                .Select(x => string.IsNullOrWhiteSpace(x) ? "http://localhost/" : x.Replace("_normal", ""))
+                .ToReactiveProperty();
+            StatusesCount = Model.ObserveProperty(x => x.StatusesCount).ToReactiveProperty();
+            Url = Model.ObserveProperty(x => x.Url).ToReactiveProperty();
+            Name = Model.ObserveProperty(x => x.Name).ToReactiveProperty();
+
+            UpdatingStatuses = Model.ObserveProperty(x => x.UpdatingStatuses).ToReactiveProperty();
+            UpdatingFavorites = Model.ObserveProperty(x => x.UpdatingFavorites).ToReactiveProperty();
+            UpdatingFollowers = Model.ObserveProperty(x => x.UpdatingFollowers).ToReactiveProperty();
+            UpdationFollowing = Model.ObserveProperty(x => x.UpdatingFollowing).ToReactiveProperty();
+
+            IsMyUserProfile = Model.ObserveProperty(x => x.ScreenName)
+                .CombineLatest(Tokens,
+                    (screenName, tokens) =>
+                    {
+                        if (tokens == null)
+                            return false;
+
+                        return screenName == tokens.ScreenName;
+                    })
+                .ToReactiveProperty();
+
+            MuteMenuEnabled = IsMyUserProfile.CombineLatest(Model.ObserveProperty(x => x.IsMuting),
+                    (isMyProfile, isMuting) => !isMyProfile && !isMuting)
+                .ToReactiveProperty();
+            UnmuteMenuEnabled = IsMyUserProfile.CombineLatest(Model.ObserveProperty(x => x.IsMuting),
+                    (isMyProfile, isMuting) => !isMyProfile && isMuting)
+                .ToReactiveProperty();
+            BlockMenuEnabled = IsMyUserProfile.CombineLatest(Model.ObserveProperty(x => x.IsBlocking),
+                    (isMyProfile, isBlocking) => !isMyProfile && !isBlocking)
+                .ToReactiveProperty();
+            UnblockMenuEnabled = IsMyUserProfile.CombineLatest(Model.ObserveProperty(x => x.IsBlocking),
+                    (isMyProfile, isBlocking) => !isMyProfile && isBlocking)
+                .ToReactiveProperty();
+
+            OpenUserListEnabled = Tokens
+                .Select(x => x?.Platform == Models.Twitter.Wrapper.Tokens.PlatformEnum.Twitter)
+                .ToReactiveProperty();
+            OpenUserCollectionEnabled = Tokens
+                .Select(x => x?.Platform == Models.Twitter.Wrapper.Tokens.PlatformEnum.Twitter)
+                .ToReactiveProperty();
+
+            FollowButtonText = Model.ObserveProperty(x => x.IsBlocking)
+                .CombineLatest(Model.ObserveProperty(x => x.IsFollowing),
+                    Model.ObserveProperty(x => x.IsFollowRequestSent),
+                    (isBlocking, isFollowing, isFollowRequestSent) =>
+                    {
+                        if (isBlocking)
+                            return "Blocking";
+                        if (isFollowing)
+                            return "Following";
+                        if (isFollowRequestSent)
+                            return "Reqest Sent";
+                        return "Follow";
+                    })
+                .ToReactiveProperty();
+            FollowButtonPointerOverText = Model.ObserveProperty(x => x.IsBlocking)
+                .CombineLatest(Model.ObserveProperty(x => x.IsFollowing),
+                    Model.ObserveProperty(x => x.IsFollowRequestSent),
+                    (isBlocking, isFollowing, isFollowRequestSent) =>
+                    {
+                        if (isBlocking)
+                            return "Unblock";
+                        if (isFollowing)
+                            return "Unfollow";
+                        if (isFollowRequestSent)
+                            return "Cancel Request";
+                        return "Follow";
+                    })
+                .ToReactiveProperty();
+
+            FollowedByText = Model.ObserveProperty(x => x.IsFollowedBy)
+                .CombineLatest(IsMyUserProfile,
+                    (isFollowedBy, isMyUserProfile) =>
+                    {
+                        if (isFollowedBy)
+                            return _resourceLoader.GetString("SettingsFlyout_UserProfile_FollowBacked");
+                        if (isMyUserProfile)
+                            return _resourceLoader.GetString("SettingsFlyout_UserProfile_ThatsYou");
+                        return "";
+                    })
+                .ToReactiveProperty();
+
+            ClearCommand = new ReactiveCommand();
+            ClearCommand.Subscribe(x =>
+            {
+                PivotSelectedIndex.Value = 0;
+
+                Model.OpenFavorite = false;
+                Model.OpenFollowers = false;
+                Model.OpenFollowing = false;
+
+                Model.Statuses.Clear();
+                Model.Favorites.Clear();
+                Model.Following.Clear();
+                Model.Followers.Clear();
+
+                Model.UrlEntities = null;
+                Model.DescriptionEntities = null;
+                Model.Description = "";
+                Model.FavouritesCount = 0;
+                Model.FollowersCount = 0;
+                Model.FriendsCount = 0;
+                Model.ListedCount = 0;
+                Model.IsMuting = false;
+                Model.IsProtected = false;
+                Model.IsVerified = false;
+                Model.Location = "";
+                Model.ProfileBackgroundColor = "";
+                Model.ProfileBannerUrl = "";
+                Model.ProfileImageUrl = "";
+                Model.StatusesCount = 0;
+                Model.Url = "";
+                Model.Name = "";
+                Model.IsFollowRequestSent = false;
+                Model.IsFollowing = false;
+                Model.IsFollowedBy = false;
+                Model.IsBlocking = false;
             });
 
-            this.UrlEntities = this.Model.ObserveProperty(x => x.UrlEntities).ToReactiveProperty();
-            this.DescriptionEntities = this.Model.ObserveProperty(x => x.DescriptionEntities).ToReactiveProperty();
-            this.Description = this.Model.ObserveProperty(x => x.Description).ToReactiveProperty();
-            this.FavouritesCount = this.Model.ObserveProperty(x => x.FavouritesCount).ToReactiveProperty();
-            this.FollowersCount = this.Model.ObserveProperty(x => x.FollowersCount).ToReactiveProperty();
-            this.FriendsCount = this.Model.ObserveProperty(x => x.FriendsCount).ToReactiveProperty();
-            this.ListedCount = this.Model.ObserveProperty(x => x.ListedCount).ToReactiveProperty();
-            this.IsMuting = this.Model.ObserveProperty(x => x.IsMuting).Select(x => x ? "" : "").ToReactiveProperty();
-            this.IsProtected = this.Model.ObserveProperty(x => x.IsProtected).Select(x => x ? "🔒" : "").ToReactiveProperty();
-            this.IsVerified = this.Model.ObserveProperty(x => x.IsVerified).Select(x => x ? "" : "").ToReactiveProperty();
-            this.Location = this.Model.ObserveProperty(x => x.Location).ToReactiveProperty();
-            this.ProfileBackgroundColor = this.Model.ObserveProperty(x => x.ProfileBackgroundColor).Select(x => string.IsNullOrWhiteSpace(x) ? "#C0DEED" : "#" + x).ToReactiveProperty();
-            this.ProfileBannerUrl = this.Model.ObserveProperty(x => x.ProfileBannerUrl).Select(x => string.IsNullOrWhiteSpace(x) ? "http://localhost/" : x + "/1500x500").ToReactiveProperty();
-            this.ProfileImageUrl = this.Model.ObserveProperty(x => x.ProfileImageUrl).Select(x => string.IsNullOrWhiteSpace(x) ? "http://localhost/" : x.Replace("_normal", "")).ToReactiveProperty();
-            this.StatusesCount = this.Model.ObserveProperty(x => x.StatusesCount).ToReactiveProperty();
-            this.Url = this.Model.ObserveProperty(x => x.Url).ToReactiveProperty();
-            this.Name = this.Model.ObserveProperty(x => x.Name).ToReactiveProperty();
-
-            this.UpdatingStatuses = this.Model.ObserveProperty(x => x.UpdatingStatuses).ToReactiveProperty();
-            this.UpdatingFavorites = this.Model.ObserveProperty(x => x.UpdatingFavorites).ToReactiveProperty();
-            this.UpdatingFollowers = this.Model.ObserveProperty(x => x.UpdatingFollowers).ToReactiveProperty();
-            this.UpdationFollowing = this.Model.ObserveProperty(x => x.UpdatingFollowing).ToReactiveProperty();
-
-            this.IsMyUserProfile = Observable.CombineLatest(
-                                this.Model.ObserveProperty(x => x.ScreenName),
-                                this.Tokens,
-                                (screenName, tokens) =>
-                                {
-                                    if (tokens == null)
-                                        return false;
-
-                                    return screenName == tokens.ScreenName;
-                                }).ToReactiveProperty();
-
-            this.MuteMenuEnabled = Observable.CombineLatest(
-                                this.IsMyUserProfile,
-                                this.Model.ObserveProperty(x => x.IsMuting),
-                                (isMyProfile, isMuting) =>
-                                {
-                                    return (!isMyProfile && !isMuting);
-                                }).ToReactiveProperty();
-            this.UnmuteMenuEnabled = Observable.CombineLatest(
-                                this.IsMyUserProfile,
-                                this.Model.ObserveProperty(x => x.IsMuting),
-                                (isMyProfile, isMuting) =>
-                                {
-                                    return (!isMyProfile && isMuting);
-                                }).ToReactiveProperty();
-            this.BlockMenuEnabled = Observable.CombineLatest(
-                                this.IsMyUserProfile,
-                                this.Model.ObserveProperty(x => x.IsBlocking),
-                                (isMyProfile, isBlocking) =>
-                                {
-                                    return (!isMyProfile && !isBlocking);
-                                }).ToReactiveProperty();
-            this.UnblockMenuEnabled = Observable.CombineLatest(
-                                this.IsMyUserProfile,
-                                this.Model.ObserveProperty(x => x.IsBlocking),
-                                (isMyProfile, isBlocking) =>
-                                {
-                                    return (!isMyProfile && isBlocking);
-                                }).ToReactiveProperty();
-
-            this.FollowButtonText = Observable.CombineLatest(
-                                this.Model.ObserveProperty(x => x.IsBlocking),
-                                this.Model.ObserveProperty(x => x.IsFollowing),
-                                this.Model.ObserveProperty(x => x.IsFollowRequestSent),
-                                (isBlocking, isFollowing, isFollowRequestSent) =>
-                                {
-                                    if (isBlocking)
-                                        return "Blocking";
-                                    else if (isFollowing)
-                                        return "Following";
-                                    else if (isFollowRequestSent)
-                                        return "Reqest Sent";
-                                    else
-                                        return "Follow";
-                                }).ToReactiveProperty();
-            this.FollowButtonPointerOverText = Observable.CombineLatest(
-                                this.Model.ObserveProperty(x => x.IsBlocking),
-                                this.Model.ObserveProperty(x => x.IsFollowing),
-                                this.Model.ObserveProperty(x => x.IsFollowRequestSent),
-                                (isBlocking, isFollowing, isFollowRequestSent) =>
-                                {
-                                    if (isBlocking)
-                                        return "Unblock";
-                                    else if (isFollowing)
-                                        return "Unfollow";
-                                    else if (isFollowRequestSent)
-                                        return "Cancel Request";
-                                    else
-                                        return "Follow";
-                                }).ToReactiveProperty();
-
-            this.FollowedByText = Observable.CombineLatest(
-                                this.Model.ObserveProperty(x => x.IsFollowedBy),
-                                this.IsMyUserProfile,
-                                (isFollowedBy, isMyUserProfile) =>
-                                {
-                                    if (isFollowedBy)
-                                        return resourceLoader.GetString("SettingsFlyout_UserProfile_FollowBacked");
-                                    else if (isMyUserProfile)
-                                        return resourceLoader.GetString("SettingsFlyout_UserProfile_ThatsYou");
-                                    else
-                                        return "";
-                                }).ToReactiveProperty();
-
-            this.ClearCommand = new ReactiveCommand();
-            this.ClearCommand.Subscribe(x => 
+            UpdateCommand = new ReactiveCommand();
+            UpdateCommand.Subscribe(async x =>
             {
-                this.PivotSelectedIndex.Value = 0;
-
-                this.Model.OpenFavorite = false;
-                this.Model.OpenFollowers = false;
-                this.Model.OpenFollowing = false;
-
-                this.Model.Statuses.Clear();
-                this.Model.Favorites.Clear();
-                this.Model.Following.Clear();
-                this.Model.Followers.Clear();
-
-                this.Model.UrlEntities = null;
-                this.Model.DescriptionEntities = null;
-                this.Model.Description = "";
-                this.Model.FavouritesCount = 0;
-                this.Model.FollowersCount = 0;
-                this.Model.FriendsCount = 0;
-                this.Model.ListedCount = 0;
-                this.Model.IsMuting = false;
-                this.Model.IsProtected = false;
-                this.Model.IsVerified = false;
-                this.Model.Location = "";
-                this.Model.ProfileBackgroundColor = "";
-                this.Model.ProfileBannerUrl = "";
-                this.Model.ProfileImageUrl = "";
-                this.Model.StatusesCount = 0;
-                this.Model.Url = "";
-                this.Model.Name = "";
-                this.Model.IsFollowRequestSent = false;
-                this.Model.IsFollowing = false;
-                this.Model.IsFollowedBy = false;
-                this.Model.IsBlocking = false;
+                await Model.UpdateUserInfomation();
+                await Model.UpdateRelationShip();
+                await Model.UpdateStatuses();
             });
 
-            this.UpdateCommand = new ReactiveCommand();
-            this.UpdateCommand.Subscribe(async x => 
-            {
-                await this.Model.UpdateUserInfomation();
-                await this.Model.UpdateRelationShip();
-                await this.Model.UpdateStatuses();
-            });
+            FollowCommand = new ReactiveCommand();
+            FollowCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => { await Model.Follow(); });
 
-            this.FollowCommand = new ReactiveCommand();
-            this.FollowCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.Follow();
-            });
-
-            this.BlockUserCommand = new ReactiveCommand();
-            this.BlockUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_Block"), Title = "Confirmation" };
-                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
-
-                if (!msgNotification.Result)
-                    return;
-                
-                await this.Model.CreateBlock();
-            });
-
-            this.UnblockUserCommand = new ReactiveCommand();
-            this.UnblockUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.DestroyBlock();
-            });
-            
-            this.MuteUserCommand = new ReactiveCommand();
-            this.MuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                var msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_Mute"), Title = "Confirmation" };
-                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
-
-                if (msgNotification.Result)
-                    await this.Model.CreateMute();
-
-                msgNotification = new ConfirmMessageDialogNotification() { Message = new ResourceLoader().GetString("ConfirmDialog_MuteInFlantter"), Title = "Confirmation" };
-                await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
-
-                if (!msgNotification.Result)
-                    return;
-
-                if (!AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(this.Model.ScreenName))
+            BlockUserCommand = new ReactiveCommand();
+            BlockUserCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
                 {
-                    AdvancedSettingService.AdvancedSetting.MuteUsers.Add(this.Model.ScreenName);
-                    await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
-                }
-            });
+                    var msgNotification = new ConfirmMessageDialogNotification
+                    {
+                        Message = new ResourceLoader().GetString("ConfirmDialog_Block"),
+                        Title = "Confirmation"
+                    };
+                    await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-            this.UnmuteUserCommand = new ReactiveCommand();
-            this.UnmuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.DestroyMute();
-            });
+                    if (!msgNotification.Result)
+                        return;
 
-            this.StatusesIncrementalLoadCommand = new ReactiveCommand();
-            this.StatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (this.Model.Statuses.Count <= 0)
-                    return;
+                    await Model.CreateBlock();
+                });
 
-                var id = this.Model.Statuses.Last().Id;
-                var status = this.Model.Statuses.Last();
-                if (status.HasRetweetInformation)
-                    id = status.RetweetInformation.Id;
+            UnblockUserCommand = new ReactiveCommand();
+            UnblockUserCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.DestroyBlock(); });
 
-                await this.Model.UpdateStatuses(id);
-            });
+            MuteUserCommand = new ReactiveCommand();
+            MuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    var msgNotification = new ConfirmMessageDialogNotification
+                    {
+                        Message = new ResourceLoader().GetString("ConfirmDialog_Mute"),
+                        Title = "Confirmation"
+                    };
+                    await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-            this.FavoritesIncrementalLoadCommand = new ReactiveCommand();
-            this.FavoritesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (this.Model.Favorites.Count <= 0)
-                    return;
+                    if (msgNotification.Result)
+                        await Model.CreateMute();
 
-                var id = this.Model.Favorites.Last().Id;
-                var status = this.Model.Favorites.Last();
-                if (status.HasRetweetInformation)
-                    id = status.RetweetInformation.Id;
+                    msgNotification = new ConfirmMessageDialogNotification
+                    {
+                        Message = new ResourceLoader().GetString("ConfirmDialog_MuteInFlantter"),
+                        Title = "Confirmation"
+                    };
+                    await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
 
-                await this.Model.UpdateFavorites(id);
-            });
+                    if (!msgNotification.Result)
+                        return;
 
-            this.FollowersIncrementalLoadCommand = new ReactiveCommand();
-            this.FollowersIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => await this.Model.UpdateFollowers(true));
+                    if (!AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(Model.ScreenName))
+                    {
+                        AdvancedSettingService.AdvancedSetting.MuteUsers.Add(Model.ScreenName);
+                        await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+                    }
+                });
 
-            this.FollowingIncrementalLoadCommand = new ReactiveCommand();
-            this.FollowingIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => await this.Model.UpdateFollowing(true));
+            UnmuteUserCommand = new ReactiveCommand();
+            UnmuteUserCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.DestroyMute(); });
 
-            this.OpenUserProfileInWebCommand = new ReactiveCommand();
-            this.OpenUserProfileInWebCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await Launcher.LaunchUriAsync(new Uri("http://twitter.com/" + this.Model.ScreenName));
-            });
+            StatusesIncrementalLoadCommand = new ReactiveCommand();
+            StatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    if (Model.Statuses.Count <= 0)
+                        return;
 
-            this.AddColumnCommand = new ReactiveCommand();
-            this.AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                if (string.IsNullOrWhiteSpace(this.Model.ScreenName))
-                    return;
+                    var id = Model.Statuses.Last().Id;
+                    var status = Model.Statuses.Last();
+                    if (status.HasRetweetInformation)
+                        id = status.RetweetInformation.Id;
 
-                var columnSetting = new ColumnSetting() { Action = SettingSupport.ColumnTypeEnum.UserTimeline, AutoRefresh = false, AutoRefreshTimerInterval = 180.0, Filter = "()", Name = ("User : " + this.Model.ScreenName), Parameter = this.Model.UserId.ToString(), Streaming = false, Index = -1, DisableStartupRefresh = false, FetchingNumberOfTweet = 40 };
-                Services.Notice.Instance.AddColumnCommand.Execute(columnSetting);
-            });
+                    await Model.UpdateStatuses(id);
+                });
 
-            this.Statuses = this.Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
-            this.Favorites = this.Model.Favorites.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
-            this.Followers = this.Model.Followers.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
-            this.Following = this.Model.Following.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+            FavoritesIncrementalLoadCommand = new ReactiveCommand();
+            FavoritesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    if (Model.Favorites.Count <= 0)
+                        return;
 
-            this.Notice = Services.Notice.Instance;
+                    var id = Model.Favorites.Last().Id;
+                    var status = Model.Favorites.Last();
+                    if (status.HasRetweetInformation)
+                        id = status.RetweetInformation.Id;
+
+                    await Model.UpdateFavorites(id);
+                });
+
+            FollowersIncrementalLoadCommand = new ReactiveCommand();
+            FollowersIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => await Model.UpdateFollowers(true));
+
+            FollowingIncrementalLoadCommand = new ReactiveCommand();
+            FollowingIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => await Model.UpdateFollowing(true));
+
+            OpenUserProfileInWebCommand = new ReactiveCommand();
+            OpenUserProfileInWebCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    if (Model.Tokens.Platform == Models.Twitter.Wrapper.Tokens.PlatformEnum.Twitter)
+                        await Launcher.LaunchUriAsync(new Uri("https://twitter.com/" + Model.ScreenName));
+                    else
+                        await Launcher.LaunchUriAsync(new Uri("https://" + Model.Tokens.Instance + "/@" + Model.ScreenName));
+                });
+
+            AddColumnCommand = new ReactiveCommand();
+            AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
+                {
+                    if (string.IsNullOrWhiteSpace(Model.ScreenName))
+                        return;
+
+                    var columnSetting = new ColumnSetting
+                    {
+                        Action = SettingSupport.ColumnTypeEnum.UserTimeline,
+                        AutoRefresh = false,
+                        AutoRefreshTimerInterval = 180.0,
+                        Filter = "()",
+                        Name = "User : " + Model.ScreenName,
+                        Parameter = Model.UserId.ToString(),
+                        Streaming = false,
+                        Index = -1,
+                        DisableStartupRefresh = false,
+                        FetchingNumberOfTweet = 40
+                    };
+                    Notice.Instance.AddColumnCommand.Execute(columnSetting);
+                });
+
+            Statuses = Model.Statuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, Tokens.Value.UserId));
+            Favorites = Model.Favorites.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, Tokens.Value.UserId));
+            Followers = Model.Followers.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+            Following = Model.Following.ToReadOnlyReactiveCollection(x => new UserViewModel(x));
+
+            Notice = Notice.Instance;
         }
 
         public ReactiveProperty<bool> MuteMenuEnabled { get; set; }
@@ -331,23 +352,27 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public UserProfileSettingsFlyoutModel Model { get; set; }
 
-        public ReactiveProperty<CoreTweet.Tokens> Tokens { get; set; }
+        public ReactiveProperty<Tokens> Tokens { get; set; }
 
         public ReactiveProperty<string> IconSource { get; set; }
 
         public ReactiveProperty<int> PivotSelectedIndex { get; set; }
-        
 
-        public ReadOnlyReactiveCollection<StatusViewModel> Statuses { get; private set; }
-        
-        public ReadOnlyReactiveCollection<StatusViewModel> Favorites { get; private set; }
 
-        public ReadOnlyReactiveCollection<UserViewModel> Following { get; private set; }
+        public ReadOnlyReactiveCollection<StatusViewModel> Statuses { get; }
 
-        public ReadOnlyReactiveCollection<UserViewModel> Followers { get; private set; }
+        public ReadOnlyReactiveCollection<StatusViewModel> Favorites { get; }
+
+        public ReadOnlyReactiveCollection<UserViewModel> Following { get; }
+
+        public ReadOnlyReactiveCollection<UserViewModel> Followers { get; }
 
 
         public ReactiveProperty<bool> IsMyUserProfile { get; set; }
+
+        public ReactiveProperty<bool> OpenUserListEnabled { get; set; }
+
+        public ReactiveProperty<bool> OpenUserCollectionEnabled { get; set; }
 
         public ReactiveProperty<bool> UpdatingStatuses { get; set; }
         public ReactiveProperty<bool> UpdatingFavorites { get; set; }
@@ -359,8 +384,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveProperty<string> FollowButtonText { get; set; }
 
         public ReactiveProperty<string> FollowButtonPointerOverText { get; set; }
-        
-        
+
+
         public ReactiveProperty<Entities> UrlEntities { get; set; }
 
         public ReactiveProperty<Entities> DescriptionEntities { get; set; }
@@ -423,6 +448,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveCommand AddColumnCommand { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
     }
 }

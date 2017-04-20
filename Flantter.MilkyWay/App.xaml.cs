@@ -1,33 +1,23 @@
-﻿using CoreTweet;
-using Flantter.MilkyWay.Setting;
-using Flantter.MilkyWay.Views.Contents.ShareContract;
-using Flantter.MilkyWay.Views.Util;
-using Microsoft.HockeyApp;
-using Newtonsoft.Json.Linq;
-using Prism.Windows;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
-
-// 空のアプリケーション テンプレートについては、http://go.microsoft.com/fwlink/?LinkId=234227 を参照してください
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.Views.Behaviors;
+using Flantter.MilkyWay.Views.Contents.ShareContract;
+using Microsoft.HockeyApp;
+using Newtonsoft.Json.Linq;
+using Prism.Windows;
 
 namespace Flantter.MilkyWay
 {
@@ -36,24 +26,23 @@ namespace Flantter.MilkyWay
         public App()
         {
             HockeyClient.Current.Configure("12d0f9780e5645e3bf16ee0557054a03");
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.UnhandledException += App_UnhandledException;
-            this.Suspending += App_Suspending;
-            this.Resuming += App_Resuming;
+            UnhandledException += App_UnhandledException;
+            Suspending += App_Suspending;
+            Resuming += App_Resuming;
         }
 
         private void App_Suspending(object sender, SuspendingEventArgs e)
         {
             if (BackgroundTaskRegistration.AllTasks.Count > 1)
-            {
                 foreach (var task in BackgroundTaskRegistration.AllTasks)
                     task.Value.Unregister(true);
-            }
 
             SettingService.Setting.LatestNotificationDate = DateTimeOffset.Now;
 
-            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None && !SettingService.Setting.BackgroundNotification)
+            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None &&
+                !SettingService.Setting.BackgroundNotification)
                 return;
 
             try
@@ -74,10 +63,8 @@ namespace Flantter.MilkyWay
         private void App_Resuming(object sender, object e)
         {
             if (BackgroundTaskRegistration.AllTasks.Count > 1)
-            {
                 foreach (var task in BackgroundTaskRegistration.AllTasks)
                     task.Value.Unregister(true);
-            }
 
             SettingService.Setting.LatestNotificationDate = DateTimeOffset.Now;
         }
@@ -88,13 +75,13 @@ namespace Flantter.MilkyWay
             if (SettingService.Setting.PreventForcedTermination)
                 e.Handled = true;
 
-            System.Diagnostics.Debug.WriteLine(stacktrace);
+            Debug.WriteLine(stacktrace);
         }
 
         protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
 #if _DEBUG
-            // デバッグ用コードをここに突っ込む
+// デバッグ用コードをここに突っ込む
             var sw = System.Diagnostics.Stopwatch.StartNew();
             //Models.Filter.Compiler.Compile("(!(User.ScreenName In [\"cucmberium\", \"cucmberium_sub\"] || User.Id !In [10, 20, 30]) && RetweetCount >= FavoriteCount * 10 + 10 / (2 + 3))");
 
@@ -108,25 +95,24 @@ namespace Flantter.MilkyWay
             System.Diagnostics.Debug.WriteLine(sw.Elapsed);
 #endif
             if (BackgroundTaskRegistration.AllTasks.Count > 1)
-            {
                 foreach (var task in BackgroundTaskRegistration.AllTasks)
                     task.Value.Unregister(true);
-            }
 
             await AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
 
             SettingService.Setting.LatestNotificationDate = DateTimeOffset.Now;
 
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 500 });
-            
-            if (AdvancedSettingService.AdvancedSetting.Accounts == null || AdvancedSettingService.AdvancedSetting.Accounts.Count == 0)
-                this.NavigationService.Navigate("Initialize", "");
-            else
-                this.NavigationService.Navigate("Main", "");
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size {Width = 320, Height = 500});
 
-            this.DeviceGestureService.GoBackRequested += (s, e) =>
+            if (AdvancedSettingService.AdvancedSetting.Accounts == null ||
+                AdvancedSettingService.AdvancedSetting.Accounts.Count == 0)
+                NavigationService.Navigate("Initialize", "");
+            else
+                NavigationService.Navigate("Main", "");
+
+            DeviceGestureService.GoBackRequested += (s, e) =>
             {
-                var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
+                var behavior = ShowSettingsFlyoutAction.GetForCurrentView();
                 if (behavior == null)
                     return;
 
@@ -141,11 +127,6 @@ namespace Flantter.MilkyWay
             //return Task.FromResult<object>(null);
         }
 
-        protected override Task OnInitializeAsync(IActivatedEventArgs args)
-        {
-            return base.OnInitializeAsync(args);
-        }
-
         protected override void OnShareTargetActivated(ShareTargetActivatedEventArgs e)
         {
             base.OnShareTargetActivated(e);
@@ -153,7 +134,7 @@ namespace Flantter.MilkyWay
             shareTargetPage.Activate(e);
         }
 
-        protected async override void OnActivated(IActivatedEventArgs e)
+        protected override async void OnActivated(IActivatedEventArgs e)
         {
             base.OnActivated(e);
 
@@ -164,7 +145,7 @@ namespace Flantter.MilkyWay
                 if (string.IsNullOrWhiteSpace(args.Argument))
                     return;
 
-                var data = args.Argument.Split(new char[] { ',' });
+                var data = args.Argument.Split(',');
                 var type = data.ElementAt(0);
                 var screenName = data.ElementAt(1);
                 var targetScreenName = data.ElementAt(2);
@@ -174,7 +155,7 @@ namespace Flantter.MilkyWay
 
                 var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
                 using (var s = await readStorageFile.OpenStreamForReadAsync())
-                using (var st = new System.IO.StreamReader(s))
+                using (var st = new StreamReader(s))
                 {
                     json = st.ReadToEnd();
                 }
@@ -184,18 +165,19 @@ namespace Flantter.MilkyWay
                 var accounts = jaccounts.Value.ToObject<List<AccountSetting>>();
 
                 var account = accounts.First(x => x.ScreenName == screenName);
-                var tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret);
+                var tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken,
+                    account.AccessTokenSecret, account.UserId, account.ScreenName, account.Instance);
                 if (type == "mention")
                 {
                     var id = long.Parse(data.ElementAt(3));
-                    await tokens.Statuses.UpdateAsync(status => "@" + targetScreenName + " " + tweet, in_reply_to_status_id => id);
+                    await tokens.Statuses.UpdateAsync(status => "@" + targetScreenName + " " + tweet,
+                        in_reply_to_status_id => id);
                 }
                 else if (type == "dm")
                 {
                     await tokens.DirectMessages.NewAsync(text => tweet, screen_name => targetScreenName);
                 }
             }
-            
         }
     }
 }

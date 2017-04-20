@@ -1,15 +1,13 @@
-﻿using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
-using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.SettingsFlyouts;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.ViewModels.Services;
+using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
@@ -17,58 +15,52 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
     {
         public DirectMessageConversationSettingsFlyoutViewModel()
         {
-            this.Model = new DirectMessageConversationSettingsFlyoutModel();
+            Model = new DirectMessageConversationSettingsFlyoutModel();
 
-            this.Tokens = this.Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
-            this.ScreenName = this.Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
-            this.IconSource = new ReactiveProperty<string>("http://localhost/");
+            Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
+            ScreenName = Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
+            IconSource = new ReactiveProperty<string>("http://localhost/");
 
-            this.Text = this.Model.ToReactivePropertyAsSynchronized(x => x.Text);
+            Text = Model.ToReactivePropertyAsSynchronized(x => x.Text);
 
-            this.ClearCommand = new ReactiveCommand();
-            this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                this.Model.DirectMessages.Clear();
-            });
+            ClearCommand = new ReactiveCommand();
+            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => { Model.DirectMessages.Clear(); });
 
-            this.UpdateCommand = new ReactiveCommand();
-            this.UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateDirectMessageConversation();
-            });
+            UpdateCommand = new ReactiveCommand();
+            UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateDirectMessageConversation(); });
 
-            this.SendCommand = new ReactiveCommand();
-            this.SendCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.SendDirectMessage();
-            });
+            SendCommand = new ReactiveCommand();
+            SendCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.SendDirectMessage(); });
 
-            this.RefreshCommand = new ReactiveCommand();
-            this.RefreshCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateDirectMessageConversation(clear: false);
-            });
+            RefreshCommand = new ReactiveCommand();
+            RefreshCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateDirectMessageConversation(clear: false); });
 
-            this.DirectMessagesIncrementalLoadCommand = new ReactiveCommand();
-            this.DirectMessagesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (this.Model.DirectMessages.Count > 0)
-                    await this.Model.UpdateDirectMessageConversation(this.Model.DirectMessages.LastOrDefault().Id);
-            });
+            DirectMessagesIncrementalLoadCommand = new ReactiveCommand();
+            DirectMessagesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    if (Model.DirectMessages.Count > 0)
+                        await Model.UpdateDirectMessageConversation(Model.DirectMessages.LastOrDefault().Id);
+                });
 
-            this.DirectMessages = this.Model.DirectMessages.ToReadOnlyReactiveCollection(x => new DirectMessageViewModel(x, this.Tokens.Value.UserId));
-            
-            this.Updating = Observable.CombineLatest(
-                                this.Model.ObserveProperty(x => x.UpdatingDirectMessages),
-                                this.Model.ObserveProperty(x => x.SendingDirectMessage),
-                                (updatingDirectMessages, sendingDirectMessage) =>
-                                {
-                                    return (updatingDirectMessages || sendingDirectMessage);
-                                }).ToReactiveProperty();
+            DirectMessages =
+                Model.DirectMessages.ToReadOnlyReactiveCollection(
+                    x => new DirectMessageViewModel(x, Tokens.Value.UserId));
 
-            this.SendingDirectMessage = this.Model.ObserveProperty(x => x.SendingDirectMessage).ToReactiveProperty();
+            Updating = Model.ObserveProperty(x => x.UpdatingDirectMessages)
+                .CombineLatest(Model.ObserveProperty(x => x.SendingDirectMessage),
+                    (updatingDirectMessages, sendingDirectMessage) =>
+                    {
+                        return updatingDirectMessages || sendingDirectMessage;
+                    })
+                .ToReactiveProperty();
 
-            this.Notice = Services.Notice.Instance;
+            SendingDirectMessage = Model.ObserveProperty(x => x.SendingDirectMessage).ToReactiveProperty();
+
+            Notice = Notice.Instance;
         }
 
         public DirectMessageConversationSettingsFlyoutModel Model { get; set; }
@@ -77,7 +69,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<bool> SendingDirectMessage { get; set; }
 
-        public ReactiveProperty<CoreTweet.Tokens> Tokens { get; set; }
+        public ReactiveProperty<Tokens> Tokens { get; set; }
 
         public ReactiveProperty<string> IconSource { get; set; }
 
@@ -85,7 +77,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<string> Text { get; set; }
 
-        public ReadOnlyReactiveCollection<DirectMessageViewModel> DirectMessages { get; private set; }
+        public ReadOnlyReactiveCollection<DirectMessageViewModel> DirectMessages { get; }
 
         public ReactiveCommand ClearCommand { get; set; }
 
@@ -97,6 +89,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveCommand DirectMessagesIncrementalLoadCommand { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
     }
 }

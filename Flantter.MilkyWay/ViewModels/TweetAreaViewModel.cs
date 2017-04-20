@@ -1,35 +1,326 @@
-﻿using Flantter.MilkyWay.Models;
-using Reactive.Bindings;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Reactive.Bindings.Extensions;
-using System.Reactive.Linq;
-using Windows.UI.Xaml.Controls;
-using Flantter.MilkyWay.Views.Util;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Xaml.Media;
-using Windows.Storage.Streams;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Objects;
 using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using Windows.Storage.FileProperties;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Setting;
-using System.Collections;
+using Flantter.MilkyWay.ViewModels.Services;
+using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Flantter.MilkyWay.Views.Util;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace Flantter.MilkyWay.ViewModels
 {
     public class TweetAreaViewModel
     {
+        public TweetAreaViewModel(ReadOnlyReactiveCollection<AccountViewModel> accounts)
+        {
+            Model = new TweetAreaModel();
+
+            Accounts = accounts;
+            SelectedAccount = new ReactiveProperty<AccountViewModel>();
+
+            SelectionStart = Model.ToReactivePropertyAsSynchronized(x => x.SelectionStart);
+            Text = Model.ToReactivePropertyAsSynchronized(x => x.Text);
+            CharacterCount = Model.ObserveProperty(x => x.CharacterCount)
+                .Select(x => x.ToString())
+                .ToReactiveProperty();
+
+            Message = Model.ObserveProperty(x => x.Message).ToReactiveProperty();
+            ToolTipIsOpen = Model.ToReactivePropertyAsSynchronized(x => x.ToolTipIsOpen);
+
+            LockingHashTagsSymbol = Model.ObserveProperty(x => x.LockingHashTags)
+                .Select(x => x ? Symbol.UnPin : Symbol.Pin)
+                .ToReactiveProperty();
+
+            StateSymbol = Model.ObserveProperty(x => x.State)
+                .Select(x =>
+                {
+                    switch (x)
+                    {
+                        case "Accept":
+                            return Symbol.Accept;
+                        case "Cancel":
+                            return Symbol.Cancel;
+                        default:
+                            return Symbol.Accept;
+                    }
+                })
+                .ToReactiveProperty();
+
+            Updating = Model.ObserveProperty(x => x.Updating).ToReactiveProperty();
+
+            ReplyOrQuotedStatus = new ReactiveProperty<StatusViewModel>();
+            IsQuotedRetweet = Model.ObserveProperty(x => x.IsQuotedRetweet).ToReactiveProperty();
+            IsReply = Model.ObserveProperty(x => x.IsReply).ToReactiveProperty();
+
+            Notice = Notice.Instance;
+            Setting = SettingService.Setting;
+
+            SuggestionMessenger = new Messenger();
+            Model.SuggestionMessenger = SuggestionMessenger;
+            TextBoxFocusMessenger = new Messenger();
+
+            Pictures = Model.ReadonlyPictures.ToReadOnlyReactiveCollection(x => new PictureViewModel(x));
+
+            Model.ObserveProperty(x => x.ReplyOrQuotedStatus)
+                .Subscribe(x =>
+                {
+                    var status = x;
+                    if (status == null)
+                        ReplyOrQuotedStatus.Value = null;
+                });
+
+            MessageShowCommand = new ReactiveCommand();
+            MessageShowCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x => { Model.ToolTipIsOpen = !Model.ToolTipIsOpen; });
+
+            ChangeLockHashTagsCommand = new ReactiveCommand();
+            ChangeLockHashTagsCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x => { Model.LockingHashTags = !Model.LockingHashTags; });
+
+            AddPictureCommand = new ReactiveCommand();
+            AddPictureCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    var result = await Notice.ShowFilePickerMessenger.Raise(new FileOpenPickerNotification
+                    {
+                        FileTypeFilter = new[] {".jpg", ".jpeg", ".png", ".gif", ".mp4", ".mov"},
+                        IsMultiple = true
+                    });
+
+                    Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                    foreach (var pic in result.Result)
+                        await Model.AddPicture(pic);
+                });
+
+            TweetCommand = Model.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand();
+            TweetCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    await Model.Tweet(SelectedAccount.Value.Model);
+
+                    if (SettingService.Setting.CloseAppBarAfterTweet)
+                    {
+                        Notice.Instance.TweetAreaOpenCommand.Execute(false);
+                    }
+                    else
+                    {
+                        await Task.Delay(50);
+                        await TextBoxFocusMessenger.Raise(new Notification());
+                    }
+
+                    if (SettingService.Setting.RefreshTimelineAfterTweet && SelectedAccount.Value != null)
+                    {
+                        var column =
+                            SelectedAccount.Value.Columns.First(
+                                y => y.Model.Action == SettingSupport.ColumnTypeEnum.Home);
+                        if (!column.Model.Streaming)
+                            column.RefreshCommand.Execute();
+                    }
+                });
+
+            SuggestSelectedCommand = new ReactiveCommand();
+            SuggestSelectedCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x => { Model.SuggestionSelected((string) x); });
+
+            DeleteReplyOrQuotedStatusCommand = new ReactiveCommand();
+            DeleteReplyOrQuotedStatusCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    ReplyOrQuotedStatus.Value = null;
+
+                    Model.IsQuotedRetweet = false;
+                    Model.IsReply = false;
+                    Model.ReplyOrQuotedStatus = null;
+
+                    Model.Text = string.Empty;
+
+                    await Task.Delay(50);
+                    await TextBoxFocusMessenger.Raise(new Notification());
+                });
+
+            PasteClipbordPictureCommand = new ReactiveCommand();
+            PasteClipbordPictureCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.AddPictureFromClipboard(); });
+
+            Notice.Instance.TweetAreaAccountChangeCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
+                {
+                    var accountVm = x as AccountViewModel;
+                    SelectedAccount.Value = accountVm;
+                    Model.SelectedAccountUserId = accountVm.Model.AccountSetting.UserId;
+                });
+
+            Notice.Instance.TweetAreaDeletePictureCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
+                {
+                    var pictureViewModel = x as PictureViewModel;
+                    Model.DeletePicture(pictureViewModel.PictureModel);
+                });
+
+            Notice.Instance.ReplyCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    var statusViewModel = x as StatusViewModel;
+                    if (statusViewModel != null)
+                    {
+                        ReplyOrQuotedStatus.Value = statusViewModel;
+
+                        Model.IsQuotedRetweet = false;
+                        Model.IsReply = true;
+                        Model.ReplyOrQuotedStatus = statusViewModel.Model;
+
+                        Model.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
+
+                        Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                        await Task.Delay(50);
+
+                        Model.SelectionStart = Model.Text.Length;
+
+                        return;
+                    }
+
+                    var screenName = x as string;
+                    if (!string.IsNullOrWhiteSpace(screenName))
+                    {
+                        Model.Text = "@" + screenName + " ";
+
+                        Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                        await Task.Delay(50);
+
+                        Model.SelectionStart = Model.Text.Length;
+                    }
+                });
+
+            Notice.Instance.ReplyToAllCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    var statusViewModel = x as StatusViewModel;
+                    if (statusViewModel == null)
+                        return;
+
+                    ReplyOrQuotedStatus.Value = statusViewModel;
+
+                    Model.IsQuotedRetweet = false;
+                    Model.IsReply = true;
+                    Model.ReplyOrQuotedStatus = statusViewModel.Model;
+
+                    var userList = new List<string>();
+
+                    Model.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
+                    userList.Add(statusViewModel.Model.User.ScreenName);
+
+                    if (statusViewModel.Model.Entities?.UserMentions != null)
+                    {
+                        foreach (var user in statusViewModel.Model.Entities.UserMentions)
+                        {
+                            if (userList.Contains(user.ScreenName) ||
+                                user.ScreenName == SelectedAccount.Value.ScreenName.Value)
+                                continue;
+
+                            Model.Text += "@" + user.ScreenName + " ";
+                            userList.Add(user.ScreenName);
+                        }
+                    }
+
+                    Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                    await Task.Delay(50);
+
+                    Model.SelectionStart = Model.Text.Length;
+                });
+
+            Notice.Instance.ReplyToStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    var items = x as IEnumerable;
+                    if (items == null)
+                        return;
+
+                    var statusViewModels = items.Cast<StatusViewModel>();
+                    if (!statusViewModels.Any())
+                        return;
+
+                    var statusViewModel = statusViewModels.First();
+
+                    ReplyOrQuotedStatus.Value = statusViewModels.First();
+
+                    Model.IsQuotedRetweet = false;
+                    Model.IsReply = true;
+                    Model.ReplyOrQuotedStatus = statusViewModel.Model;
+
+                    var userList = new List<string>();
+                    foreach (var sVm in statusViewModels)
+                    {
+                        if (userList.Contains(sVm.ScreenName) ||
+                            sVm.ScreenName == SelectedAccount.Value.ScreenName.Value)
+                            continue;
+
+                        userList.Add(sVm.Model.User.ScreenName);
+
+                        foreach (var user in sVm.Model.Entities.UserMentions)
+                        {
+                            if (userList.Contains(user.ScreenName) ||
+                                user.ScreenName == SelectedAccount.Value.ScreenName.Value)
+                                continue;
+
+                            Model.Text += "@" + user.ScreenName + " ";
+                            userList.Add(user.ScreenName);
+                        }
+                    }
+
+                    Model.Text = string.Join(" ", userList.Select(screenName => "@" + screenName)) + " ";
+
+                    Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                    await Task.Delay(50);
+
+                    Model.SelectionStart = Model.Text.Length;
+                });
+
+            Notice.Instance.UrlQuoteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    var statusViewModel = x as StatusViewModel;
+                    if (statusViewModel == null)
+                        return;
+
+                    ReplyOrQuotedStatus.Value = statusViewModel;
+
+                    Model.IsQuotedRetweet = true;
+                    Model.IsReply = false;
+                    Model.ReplyOrQuotedStatus = statusViewModel.Model;
+
+                    Model.Text = "";
+
+                    Notice.Instance.TweetAreaOpenCommand.Execute(true);
+
+                    await Task.Delay(50);
+
+                    Model.SelectionStart = 0;
+                });
+        }
+
         public TweetAreaModel Model { get; set; }
-        public Services.Notice Notice { get; set; }
-        public Setting.SettingService Setting { get; set; }
+        public Notice Notice { get; set; }
+        public SettingService Setting { get; set; }
 
-        public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; private set; }
+        public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; }
 
-        public ReadOnlyReactiveCollection<PictureViewModel> Pictures { get; private set; }
+        public ReadOnlyReactiveCollection<PictureViewModel> Pictures { get; }
 
         public ReactiveProperty<AccountViewModel> SelectedAccount { get; set; }
 
@@ -62,335 +353,59 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveCommand MessageShowCommand { get; set; }
 
-        public Messenger SuggestionMessenger { get; private set; }
+        public Messenger SuggestionMessenger { get; }
 
-        public Messenger TextBoxFocusMessenger { get; private set; }
-
-        public TweetAreaViewModel(ReadOnlyReactiveCollection<AccountViewModel> accounts)
-        {
-            this.Model = new TweetAreaModel();
-
-            this.Accounts = accounts;
-            this.SelectedAccount = new ReactiveProperty<AccountViewModel>();
-
-            this.SelectionStart = this.Model.ToReactivePropertyAsSynchronized(x => x.SelectionStart);
-            this.Text = this.Model.ToReactivePropertyAsSynchronized(x => x.Text);
-            this.CharacterCount = this.Model.ObserveProperty(x => x.CharacterCount).Select(x => x.ToString()).ToReactiveProperty();
-
-            this.Message = this.Model.ObserveProperty(x => x.Message).ToReactiveProperty();
-            this.ToolTipIsOpen = this.Model.ToReactivePropertyAsSynchronized(x => x.ToolTipIsOpen);
-
-            this.LockingHashTagsSymbol = this.Model.ObserveProperty(x => x.LockingHashTags).Select(x => x ? Symbol.UnPin : Symbol.Pin).ToReactiveProperty();
-
-            this.StateSymbol = this.Model.ObserveProperty(x => x.State).Select(x =>
-            {
-                switch (x)
-                {
-                    case "Accept":
-                        return Symbol.Accept;
-                    case "Cancel":
-                        return Symbol.Cancel;
-                    default:
-                        return Symbol.Accept;
-                }
-            }).ToReactiveProperty();
-
-            this.Updating = this.Model.ObserveProperty(x => x.Updating).ToReactiveProperty();
-
-            this.ReplyOrQuotedStatus = new ReactiveProperty<StatusViewModel>();
-            this.IsQuotedRetweet = this.Model.ObserveProperty(x => x.IsQuotedRetweet).ToReactiveProperty();
-            this.IsReply = this.Model.ObserveProperty(x => x.IsReply).ToReactiveProperty();
-
-            this.Notice = Services.Notice.Instance;
-            this.Setting = SettingService.Setting;
-
-            this.SuggestionMessenger = new Messenger();
-            this.Model.SuggestionMessenger = this.SuggestionMessenger;
-            this.TextBoxFocusMessenger = new Messenger();
-
-            this.Pictures = this.Model.ReadonlyPictures.ToReadOnlyReactiveCollection(x => new PictureViewModel(x));
-
-            this.Model.ObserveProperty(x => x.ReplyOrQuotedStatus).Subscribe(x => 
-            {
-                var status = x as Status;
-                if (status == null)
-                    this.ReplyOrQuotedStatus.Value = null;
-            });
-
-            this.MessageShowCommand = new ReactiveCommand();
-            this.MessageShowCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                this.Model.ToolTipIsOpen = !this.Model.ToolTipIsOpen;
-            });
-
-            this.ChangeLockHashTagsCommand = new ReactiveCommand();
-            this.ChangeLockHashTagsCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
-            {
-                this.Model.LockingHashTags = !this.Model.LockingHashTags;
-            });
-
-            this.AddPictureCommand = new ReactiveCommand();
-            this.AddPictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                var result = await Notice.ShowFilePickerMessenger.Raise(new FileOpenPickerNotification
-                {
-                    FileTypeFilter = new[] { ".jpg", ".jpeg", ".png", ".gif", ".mp4", ".mov" },
-                    IsMultiple = true,
-                });
-
-                Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
-
-                foreach (var pic in result.Result)
-                    await this.Model.AddPicture(pic);
-            });
-
-            this.TweetCommand = this.Model.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand();
-            this.TweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
-            {
-                await this.Model.Tweet(this.SelectedAccount.Value.Model);
-                
-                if (SettingService.Setting.CloseAppBarAfterTweet)
-                {
-                    Services.Notice.Instance.TweetAreaOpenCommand.Execute(false);
-                }
-                else
-                {
-                    await Task.Delay(50);
-                    await this.TextBoxFocusMessenger.Raise(new Notification());
-                }
-
-                if (SettingService.Setting.RefreshTimelineAfterTweet && this.SelectedAccount.Value != null)
-                {
-                    var column = this.SelectedAccount.Value.Columns.First(y => y.Model.Action == SettingSupport.ColumnTypeEnum.Home);
-                    if (!column.Model.Streaming)
-                        column.RefreshCommand.Execute();
-                }
-            });
-
-            this.SuggestSelectedCommand = new ReactiveCommand();
-            this.SuggestSelectedCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
-            {
-                this.Model.SuggestionSelected((string)x);
-            });
-
-            this.DeleteReplyOrQuotedStatusCommand = new ReactiveCommand();
-            this.DeleteReplyOrQuotedStatusCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
-            {
-                this.ReplyOrQuotedStatus.Value = null;
-
-                this.Model.IsQuotedRetweet = false;
-                this.Model.IsReply = false;
-                this.Model.ReplyOrQuotedStatus = null;
-
-                this.Model.Text = string.Empty;
-
-                await Task.Delay(50);
-                await this.TextBoxFocusMessenger.Raise(new Notification());
-            });
-
-            this.PasteClipbordPictureCommand = new ReactiveCommand();
-            this.PasteClipbordPictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
-            {
-                await this.Model.AddPictureFromClipboard();
-            });
-
-            Services.Notice.Instance.TweetAreaAccountChangeCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => 
-            {
-                var accountVM = x as AccountViewModel;
-                this.SelectedAccount.Value = accountVM;
-                this.Model.SelectedAccountUserId = accountVM.Model.UserId;
-            });
-
-            Services.Notice.Instance.TweetAreaDeletePictureCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                var pictureViewModel = x as PictureViewModel;
-                this.Model.DeletePicture(pictureViewModel._PictureModel);
-            });
-
-            Services.Notice.Instance.ReplyCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
-            {
-                var statusViewModel = x as StatusViewModel;
-                if (statusViewModel != null)
-                {
-                    this.ReplyOrQuotedStatus.Value = statusViewModel;
-
-                    this.Model.IsQuotedRetweet = false;
-                    this.Model.IsReply = true;
-                    this.Model.ReplyOrQuotedStatus = statusViewModel.Model;
-
-                    this.Model.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
-
-                    Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
-
-                    await Task.Delay(50);
-
-                    this.Model.SelectionStart = this.Model.Text.Length;
-
-                    return;
-                }
-
-                var screenName = x as string;
-                if (!string.IsNullOrWhiteSpace(screenName))
-                {
-                    this.Model.Text = "@" + screenName + " ";
-
-                    Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
-
-                    await Task.Delay(50);
-
-                    this.Model.SelectionStart = this.Model.Text.Length;
-
-                    return;
-                }
-            });
-
-            Services.Notice.Instance.ReplyToAllCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                var statusViewModel = x as StatusViewModel;
-                if (statusViewModel == null)
-                    return;
-
-                this.ReplyOrQuotedStatus.Value = statusViewModel;
-
-                this.Model.IsQuotedRetweet = false;
-                this.Model.IsReply = true;
-                this.Model.ReplyOrQuotedStatus = statusViewModel.Model;
-
-                var userList = new List<string>();
-
-                this.Model.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
-                userList.Add(statusViewModel.Model.User.ScreenName);
-
-                foreach (var user in statusViewModel.Model.Entities.UserMentions)
-                {
-                    if (userList.Contains(user.ScreenName) || user.ScreenName == this.SelectedAccount.Value.ScreenName.Value)
-                        continue;
-
-                    this.Model.Text += "@" + user.ScreenName + " ";
-                    userList.Add(user.ScreenName);
-                }
-
-                Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
-
-                await Task.Delay(50);
-
-                this.Model.SelectionStart = this.Model.Text.Length;
-            });
-
-            Services.Notice.Instance.ReplyToStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                var items = x as IEnumerable;
-                if (items == null)
-                    return;
-
-                var statusViewModels = items.Cast<StatusViewModel>();
-                if (statusViewModels.Count() == 0)
-                    return;
-                
-                var statusViewModel = statusViewModels.First();
-
-                this.ReplyOrQuotedStatus.Value = statusViewModels.First();
-
-                this.Model.IsQuotedRetweet = false;
-                this.Model.IsReply = true;
-                this.Model.ReplyOrQuotedStatus = statusViewModel.Model;
-
-                var userList = new List<string>();
-                foreach (var sVM in statusViewModels)
-                {
-                    if (userList.Contains(sVM.ScreenName) || sVM.ScreenName == this.SelectedAccount.Value.ScreenName.Value)
-                        continue;
-
-                    userList.Add(sVM.Model.User.ScreenName);
-
-                    foreach (var user in sVM.Model.Entities.UserMentions)
-                    {
-                        if (userList.Contains(user.ScreenName) || user.ScreenName == this.SelectedAccount.Value.ScreenName.Value)
-                            continue;
-
-                        this.Model.Text += "@" + user.ScreenName + " ";
-                        userList.Add(user.ScreenName);
-                    }
-                }
-
-                this.Model.Text = string.Join(" ", userList.Select(screenName => "@" + screenName)) + " ";
-                
-                Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
-
-                await Task.Delay(50);
-
-                this.Model.SelectionStart = this.Model.Text.Length;
-            });
-
-            Services.Notice.Instance.UrlQuoteRetweetCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x => 
-            {
-                var statusViewModel = x as StatusViewModel;
-                if (statusViewModel == null)
-                    return;
-
-                this.ReplyOrQuotedStatus.Value = statusViewModel;
-
-                this.Model.IsQuotedRetweet = true;
-                this.Model.IsReply = false;
-                this.Model.ReplyOrQuotedStatus = statusViewModel.Model;
-
-                this.Model.Text = "";
-
-                Services.Notice.Instance.TweetAreaOpenCommand.Execute(true);
-
-                await Task.Delay(50);
-
-                this.Model.SelectionStart = 0;
-            });
-        }
+        public Messenger TextBoxFocusMessenger { get; }
     }
 
     public class PictureViewModel : IDisposable
     {
         public PictureViewModel(PictureModel picture)
         {
-            this.Image = picture.ObserveProperty(x => x.Stream).SubscribeOnUIDispatcher().Select(x => 
-            {
-                if (!picture.IsVideo)
-                { 
-                    BitmapImage bitmap = new BitmapImage();
-
-                    var stream = x as IRandomAccessStream;
-                    if (stream != null)
-                        bitmap.SetSource(stream);
-
-                    return (ImageSource)bitmap;
-                }
-                else if (picture.StorageFile != null)
+            Image = picture.ObserveProperty(x => x.Stream)
+                .SubscribeOnUIDispatcher()
+                .Select(x =>
                 {
-                    var thumbnailTask = picture.StorageFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.VideosView).AsTask();
-                    thumbnailTask.Wait();
+                    if (!picture.IsVideo)
+                    {
+                        var bitmap = new BitmapImage();
 
-                    BitmapImage bitmap = new BitmapImage();
+                        var stream = x;
+                        if (stream != null)
+                            bitmap.SetSource(stream);
 
-                    var stream = thumbnailTask.Result as IRandomAccessStream;
-                    if (stream != null)
-                        bitmap.SetSource(stream);
+                        return (ImageSource) bitmap;
+                    }
+                    if (picture.StorageFile != null)
+                    {
+                        var thumbnailTask = picture.StorageFile.GetThumbnailAsync(ThumbnailMode.VideosView).AsTask();
+                        thumbnailTask.Wait();
 
-                    return (ImageSource)bitmap;
-                }
+                        var bitmap = new BitmapImage();
 
-                return new BitmapImage();
+                        var stream = thumbnailTask.Result as IRandomAccessStream;
+                        if (stream != null)
+                            bitmap.SetSource(stream);
 
-            }).ToReactiveProperty();
+                        return (ImageSource) bitmap;
+                    }
 
-            this.Notice = Services.Notice.Instance;
-            this._PictureModel = picture;
+                    return new BitmapImage();
+                })
+                .ToReactiveProperty();
+
+            Notice = Notice.Instance;
+            PictureModel = picture;
         }
 
         public ReactiveProperty<ImageSource> Image { get; set; }
 
-        public PictureModel _PictureModel { get; set; }
-        public Services.Notice Notice { get; set; }
+        public PictureModel PictureModel { get; set; }
+        public Notice Notice { get; set; }
 
         public void Dispose()
         {
-            this.Image.Dispose();
+            Image.Dispose();
         }
     }
 }

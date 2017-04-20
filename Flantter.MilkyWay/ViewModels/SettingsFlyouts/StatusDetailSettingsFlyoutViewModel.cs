@@ -1,18 +1,12 @@
-﻿using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Setting;
+﻿using System;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using Flantter.MilkyWay.Models.SettingsFlyouts;
+using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.ViewModels.Services;
 using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Search.Core;
-using Windows.Storage.Streams;
-using Windows.UI.Xaml.Controls;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
@@ -20,72 +14,75 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
     {
         public StatusDetailSettingsFlyoutViewModel()
         {
-            this.Model = new StatusDetailSettingsFlyoutModel();
+            Model = new StatusDetailSettingsFlyoutModel();
 
-            this.Tokens = this.Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
-            this.IconSource = new ReactiveProperty<string>("http://localhost/");
+            Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
+            IconSource = new ReactiveProperty<string>("http://localhost/");
 
-            this.StatusId = this.Model.ToReactivePropertyAsSynchronized(x => x.StatusId);
-            this.Status = this.Model.ObserveProperty(x => x.Status).Select(x => x != null ? new StatusViewModel(x, this.Tokens.Value.UserId) : new StatusViewModel()).ToReactiveProperty();
+            StatusId = Model.ToReactivePropertyAsSynchronized(x => x.StatusId);
+            Status = Model.ObserveProperty(x => x.Status)
+                .Select(x => x != null ? new StatusViewModel(x, Tokens.Value.UserId) : new StatusViewModel())
+                .ToReactiveProperty();
 
-            this.UpdatingStatus = this.Model.ToReactivePropertyAsSynchronized(x => x.UpdatingStatus);
-            this.UpdatingActionStatuses = this.Model.ToReactivePropertyAsSynchronized(x => x.UpdatingActionStatuses);
+            UpdatingStatus = Model.ToReactivePropertyAsSynchronized(x => x.UpdatingStatus);
+            UpdatingActionStatuses = Model.ToReactivePropertyAsSynchronized(x => x.UpdatingActionStatuses);
 
-            this.PivotSelectedIndex = new ReactiveProperty<int>(0);
-            this.PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                if (x == 1)
+            PivotSelectedIndex = new ReactiveProperty<int>(0);
+            PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
                 {
-                    if (this.Model.UpdatingActionStatuses || this.Model.ActionStatuses.Count > 0)
-                        return;
+                    if (x == 1)
+                    {
+                        if (Model.UpdatingActionStatuses || Model.ActionStatuses.Count > 0)
+                            return;
 
-                    await this.Model.UpdateActionStatuses();
-                }
-            });
-            
-            this.ClearCommand = new ReactiveCommand();
-            this.ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
-            {
-                this.PivotSelectedIndex.Value = 0;
+                        await Model.UpdateActionStatuses();
+                    }
+                });
 
-                this.Model.ActionStatuses.Clear();
-            });
+            ClearCommand = new ReactiveCommand();
+            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
+                {
+                    PivotSelectedIndex.Value = 0;
 
-            this.UpdateStatusCommand = new ReactiveCommand();
-            this.UpdateStatusCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(async x =>
-            {
-                await this.Model.UpdateStatus();
-            });            
+                    Model.ActionStatuses.Clear();
+                });
 
-            this.ActionStatuses = this.Model.ActionStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, this.Tokens.Value.UserId));
+            UpdateStatusCommand = new ReactiveCommand();
+            UpdateStatusCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x => { await Model.UpdateStatus(); });
 
-            this.Notice = Services.Notice.Instance;
+            ActionStatuses =
+                Model.ActionStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, Tokens.Value.UserId));
+
+            Notice = Notice.Instance;
         }
 
         public StatusDetailSettingsFlyoutModel Model { get; set; }
-        
+
         public ReactiveProperty<long> StatusId { get; set; }
 
         public ReactiveProperty<bool> UpdatingStatus { get; set; }
 
         public ReactiveProperty<bool> UpdatingActionStatuses { get; set; }
 
-        public ReactiveProperty<CoreTweet.Tokens> Tokens { get; set; }
+        public ReactiveProperty<Tokens> Tokens { get; set; }
 
         public ReactiveProperty<string> IconSource { get; set; }
 
         public ReactiveProperty<int> PivotSelectedIndex { get; set; }
-        
+
 
         public ReactiveProperty<StatusViewModel> Status { get; set; }
 
 
-        public ReadOnlyReactiveCollection<StatusViewModel> ActionStatuses { get; private set; }
-        
+        public ReadOnlyReactiveCollection<StatusViewModel> ActionStatuses { get; }
+
         public ReactiveCommand ClearCommand { get; set; }
 
         public ReactiveCommand UpdateStatusCommand { get; set; }
 
-        public Services.Notice Notice { get; set; }
+        public Notice Notice { get; set; }
     }
 }

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 
 namespace Flantter.MilkyWay.Common
 {
-    public class AdvancedSettingServiceBase<Impl> : INotifyPropertyChanged
-        where Impl : class, new()
+    public class AdvancedSettingServiceBase<TImpl> : INotifyPropertyChanged
+        where TImpl : class, new()
     {
         protected AdvancedSettingServiceBase()
         {
@@ -19,11 +14,12 @@ namespace Flantter.MilkyWay.Common
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             try
             {
-                if (!Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.HasThreadAccess)
+                if (!CoreApplication.MainView.Dispatcher.HasThreadAccess)
                     return;
             }
             catch
@@ -31,23 +27,22 @@ namespace Flantter.MilkyWay.Common
                 return;
             }
 
-            var h = PropertyChanged;
-            if (h != null) h(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        private static Impl _instance;
-        public static Impl AdvancedSetting { get { return _instance ?? (_instance = new Impl()); } }
+        private static TImpl _instance;
+        public static TImpl AdvancedSetting => _instance ?? (_instance = new TImpl());
 
         protected T GetValue<T>([CallerMemberName] string name = null)
         {
-            return GetValue<T>(default(T), name);
+            return GetValue(default(T), name);
         }
 
         protected T GetValue<T>(T defaultValue, [CallerMemberName] string name = null)
         {
             try
             {
-                if (Dict.ContainsKey(name)) return (T)Dict[name];
+                if (Dict.ContainsKey(name)) return (T) Dict[name];
                 return defaultValue;
             }
             catch

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Composition;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -13,21 +8,15 @@ namespace Flantter.MilkyWay.Common
     {
         public static T GetVisualChild<T>(this DependencyObject parent) where T : DependencyObject
         {
-            T child = default(T);
+            var child = default(T);
 
-            int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < numVisuals; i++)
+            var numVisuals = VisualTreeHelper.GetChildrenCount(parent);
+            for (var i = 0; i < numVisuals; i++)
             {
-                DependencyObject v = VisualTreeHelper.GetChild(parent, i) as DependencyObject;
-                child = v as T;
-                if (child == null)
-                {
-                    child = GetVisualChild<T>(v);
-                }
+                var v = VisualTreeHelper.GetChild(parent, i);
+                child = v as T ?? GetVisualChild<T>(v);
                 if (child != null)
-                {
                     break;
-                }
             }
             return child;
         }
@@ -39,7 +28,7 @@ namespace Flantter.MilkyWay.Common
 
         public static IEnumerable<FrameworkElement> GetVisualAncestors(this FrameworkElement node)
         {
-            FrameworkElement parent = node.GetVisualParent();
+            var parent = node.GetVisualParent();
             while (parent != null)
             {
                 yield return parent;
@@ -51,18 +40,14 @@ namespace Flantter.MilkyWay.Common
         {
             if (depObj != null)
             {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
                 {
-                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-                    if (child != null && child is T)
-                    {
+                    var child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child is T)
                         yield return (T)child;
-                    }
 
-                    foreach (T childOfChild in FindVisualChildren<T>(child))
-                    {
+                    foreach (var childOfChild in FindVisualChildren<T>(child))
                         yield return childOfChild;
-                    }
                 }
             }
         }

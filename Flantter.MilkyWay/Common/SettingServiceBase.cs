@@ -1,31 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 
 namespace Flantter.MilkyWay.Common
 {
-    public class SettingServiceBase<Impl> : INotifyPropertyChanged
-        where Impl : class, new()
+    public class SettingServiceBase<TImpl> : INotifyPropertyChanged
+        where TImpl : class, new()
     {
-        public Dictionary<string, object> Cache { get; set; }
-        
+        private static TImpl _instance;
+
         protected SettingServiceBase()
         {
             Cache = new Dictionary<string, object>();
         }
 
+        public Dictionary<string, object> Cache { get; set; }
+        public static TImpl Setting => _instance ?? (_instance = new TImpl());
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             try
             {
-                if (!Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.HasThreadAccess)
+                if (!CoreApplication.MainView.Dispatcher.HasThreadAccess)
                     return;
             }
             catch
@@ -33,12 +35,8 @@ namespace Flantter.MilkyWay.Common
                 return;
             }
 
-            var h = PropertyChanged;
-            if (h != null) h(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
-        private static Impl _instance;
-        public static Impl Setting { get { return _instance ?? (_instance = new Impl()); } }
 
         private T GetLocalValue<T>(string name, T defaultValue)
         {
@@ -47,14 +45,12 @@ namespace Flantter.MilkyWay.Common
                 var values = ApplicationData.Current.LocalSettings.Values;
                 if (values.ContainsKey(name))
                 {
-                    Cache[name] = (T)values[name];
-                    return (T)Cache[name];
+                    Cache[name] = (T) values[name];
+                    return (T) Cache[name];
                 }
-                else
-                {
-                    Cache[name] = defaultValue;
-                    return defaultValue;
-                }
+
+                Cache[name] = defaultValue;
+                return defaultValue;
             }
             catch
             {
@@ -85,14 +81,11 @@ namespace Flantter.MilkyWay.Common
                 var values = ApplicationData.Current.RoamingSettings.Values;
                 if (values.ContainsKey(name))
                 {
-                    Cache[name] = (T)values[name];
-                    return (T)Cache[name];
+                    Cache[name] = (T) values[name];
+                    return (T) Cache[name];
                 }
-                else
-                {
-                    Cache[name] = defaultValue;
-                    return defaultValue;
-                }
+                Cache[name] = defaultValue;
+                return defaultValue;
             }
             catch
             {
@@ -119,7 +112,7 @@ namespace Flantter.MilkyWay.Common
         private T GetValueProxy<T>(string name, T defaultValue)
         {
             if (Cache.ContainsKey(name))
-                return (T)Cache[name];
+                return (T) Cache[name];
 
             var prop = GetType().GetRuntimeProperty(name);
             var attr = prop.GetCustomAttribute(typeof(LocalValueAttribute));
@@ -152,5 +145,7 @@ namespace Flantter.MilkyWay.Common
         }
     }
 
-    public class LocalValueAttribute : Attribute { }
+    public class LocalValueAttribute : Attribute
+    {
+    }
 }

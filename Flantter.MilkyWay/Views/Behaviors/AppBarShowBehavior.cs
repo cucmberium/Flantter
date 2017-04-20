@@ -1,60 +1,86 @@
-﻿using Flantter.MilkyWay.Views.Controls;
-using Flantter.MilkyWay.Views.Util;
-using Microsoft.Xaml.Interactivity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.System;
+﻿using System.Threading.Tasks;
+using Windows.Devices.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Core;
-using Windows.Devices.Input;
 using Flantter.MilkyWay.Views.Contents;
+using Flantter.MilkyWay.Views.Util;
+using Microsoft.Xaml.Interactivity;
 
 namespace Flantter.MilkyWay.Views.Behaviors
 {
     public class AppBarShowBehavior : DependencyObject, IBehavior
     {
-        private DependencyObject _AssociatedObject;
-        public DependencyObject AssociatedObject
+        public static readonly DependencyProperty AppBarProperty =
+            DependencyProperty.Register(
+                "AppBar",
+                typeof(AppBar),
+                typeof(AppBarShowBehavior),
+                new PropertyMetadata(null, AppBarChanged));
+
+        public static readonly DependencyProperty IsTopAppBarProperty =
+            DependencyProperty.Register(
+                "IsTopAppBar",
+                typeof(bool),
+                typeof(AppBarShowBehavior),
+                new PropertyMetadata(false, IsTopAppBarChanged));
+
+        public static readonly DependencyProperty IsOpenProperty =
+            DependencyProperty.Register("IsOpen", typeof(bool), typeof(AppBarShowBehavior),
+                new PropertyMetadata(false, IsOpenChanged));
+
+        private bool _rightMouseButtonPressed;
+
+        private bool _appBarIsOpenChanging;
+
+        public AppBar AppBar
         {
-            get { return this._AssociatedObject; }
-            set { this._AssociatedObject = value; }
+            get => (AppBar) GetValue(AppBarProperty);
+            set => SetValue(AppBarProperty, value);
         }
+
+        public bool IsTopAppBar
+        {
+            get => (bool) GetValue(IsTopAppBarProperty);
+            set => SetValue(IsTopAppBarProperty, value);
+        }
+
+        public bool IsOpen
+        {
+            get => (bool) GetValue(IsOpenProperty);
+            set => SetValue(IsOpenProperty, value);
+        }
+
+        public DependencyObject AssociatedObject { get; set; }
 
         public void Attach(DependencyObject AssociatedObject)
         {
             this.AssociatedObject = AssociatedObject;
-            ((UIElement)this.AssociatedObject).PointerPressed += AppBarShowBehavior_PointerPressed; ;
-            ((UIElement)this.AssociatedObject).PointerReleased += AppBarShowBehavior_PointerReleased; ;
+            ((UIElement) this.AssociatedObject).PointerPressed += AppBarShowBehavior_PointerPressed;
+            ((UIElement) this.AssociatedObject).PointerReleased += AppBarShowBehavior_PointerReleased;
 
             var page = this.AssociatedObject as Page;
             if (page == null)
                 return;
 
-            page.Tag = this.AppBar;
+            page.Tag = AppBar;
         }
 
-        private bool _rightMouseButtonPressed;
+        public void Detach()
+        {
+        }
+
         private void AppBarShowBehavior_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (e.GetCurrentPoint(((UIElement)this.AssociatedObject)).PointerDevice.PointerDeviceType == PointerDeviceType.Mouse &&
-                !e.GetCurrentPoint(((UIElement)this.AssociatedObject)).Properties.IsLeftButtonPressed &&
-                !e.GetCurrentPoint(((UIElement)this.AssociatedObject)).Properties.IsMiddleButtonPressed &&
+            if (e.GetCurrentPoint((UIElement) AssociatedObject).PointerDevice.PointerDeviceType ==
+                PointerDeviceType.Mouse &&
+                !e.GetCurrentPoint((UIElement) AssociatedObject).Properties.IsLeftButtonPressed &&
+                !e.GetCurrentPoint((UIElement) AssociatedObject).Properties.IsMiddleButtonPressed &&
                 _rightMouseButtonPressed &&
                 !e.Handled)
             {
-                if (!appBarIsOpenChanging)
-                {
-                    if (this.IsOpen)
-                        this.IsOpen = false;
-                    else
-                        this.IsOpen = true;
-                }
+                if (!_appBarIsOpenChanging)
+                    IsOpen = !IsOpen;
 
                 e.Handled = true;
                 _rightMouseButtonPressed = false;
@@ -66,55 +92,27 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (e.Handled)
                 return;
 
-            if (e.GetCurrentPoint(((UIElement)this.AssociatedObject)).PointerDevice.PointerDeviceType == PointerDeviceType.Mouse)
+            if (e.GetCurrentPoint((UIElement) AssociatedObject).PointerDevice.PointerDeviceType ==
+                PointerDeviceType.Mouse)
             {
                 _rightMouseButtonPressed =
-                    e.GetCurrentPoint(((UIElement)this.AssociatedObject)).Properties.IsRightButtonPressed &&
-                    !e.GetCurrentPoint(((UIElement)this.AssociatedObject)).Properties.IsLeftButtonPressed &&
-                    !e.GetCurrentPoint(((UIElement)this.AssociatedObject)).Properties.IsMiddleButtonPressed;
+                    e.GetCurrentPoint((UIElement) AssociatedObject).Properties.IsRightButtonPressed &&
+                    !e.GetCurrentPoint((UIElement) AssociatedObject).Properties.IsLeftButtonPressed &&
+                    !e.GetCurrentPoint((UIElement) AssociatedObject).Properties.IsMiddleButtonPressed;
 
                 if (_rightMouseButtonPressed)
-                {
                     e.Handled = true;
-                }
             }
-        }
-
-        public void Detach()
-        {
         }
 
         public void AppBarLayoutRefresh()
         {
-            ((this.AppBar.Content as TweetArea).Content as Grid).BorderThickness = this.IsTopAppBar ? new Thickness(0, 0, 0, 2) : new Thickness(0, 2, 0, 0);
-            this.AppBar.Margin = this.IsTopAppBar ? new Thickness(0, WindowSizeHelper.Instance.StatusBarHeight, 0, 0) : new Thickness();
+            ((AppBar.Content as TweetArea).Content as Grid).BorderThickness =
+                IsTopAppBar ? new Thickness(0, 0, 0, 2) : new Thickness(0, 2, 0, 0);
+            AppBar.Margin = IsTopAppBar
+                ? new Thickness(0, WindowSizeHelper.Instance.StatusBarHeight, 0, 0)
+                : new Thickness();
         }
-
-        public AppBar AppBar
-        {
-            get { return (AppBar)GetValue(AppBarProperty); }
-            set { SetValue(AppBarProperty, value); }
-        }
-
-        public static readonly DependencyProperty AppBarProperty =
-            DependencyProperty.Register(
-                "AppBar",
-                typeof(AppBar),
-                typeof(AppBarShowBehavior),
-                new PropertyMetadata(null, AppBarChanged));
-
-        public bool IsTopAppBar
-        {
-            get { return (bool)GetValue(IsTopAppBarProperty); }
-            set { SetValue(IsTopAppBarProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsTopAppBarProperty =
-            DependencyProperty.Register(
-                "IsTopAppBar",
-                typeof(bool),
-                typeof(AppBarShowBehavior),
-                new PropertyMetadata(false, IsTopAppBarChanged));
 
         private static void IsTopAppBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -152,30 +150,28 @@ namespace Flantter.MilkyWay.Views.Behaviors
             }
         }
 
-        private bool appBarIsOpenChanging = false;
-
         private void AppBar_Closing(object sender, object e)
         {
-            appBarIsOpenChanging = true;
+            _appBarIsOpenChanging = true;
         }
 
         private void AppBar_Opening(object sender, object e)
         {
-            appBarIsOpenChanging = true;
+            _appBarIsOpenChanging = true;
         }
 
         private void AppBar_Opened(object sender, object e)
         {
-            appBarIsOpenChanging = false;
-            this.IsOpen = true;
+            _appBarIsOpenChanging = false;
+            IsOpen = true;
         }
 
         private void AppBar_Closed(object sender, object e)
         {
-            appBarIsOpenChanging = false;
-            this.IsOpen = false;
+            _appBarIsOpenChanging = false;
+            IsOpen = false;
 
-            var page = this.AssociatedObject as Page;
+            var page = AssociatedObject as Page;
             if (page == null)
                 return;
 
@@ -183,14 +179,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
             page.TopAppBar = null;
         }
 
-        public bool IsOpen
-        {
-            get { return (bool)GetValue(IsOpenProperty); }
-            set { SetValue(IsOpenProperty, value); }
-        }
-        public static readonly DependencyProperty IsOpenProperty =
-            DependencyProperty.Register("IsOpen", typeof(bool), typeof(AppBarShowBehavior), new PropertyMetadata(false, IsOpenChanged));
-        
         private static async void IsOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var behavior = d as AppBarShowBehavior;
@@ -198,15 +186,15 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (page == null)
                 return;
 
-            if (behavior.appBarIsOpenChanging)
+            if (behavior._appBarIsOpenChanging)
                 return;
 
-            if (behavior.AppBar.IsOpen == (bool)e.NewValue)
+            if (behavior.AppBar.IsOpen == (bool) e.NewValue)
                 return;
 
             behavior.AppBarLayoutRefresh();
 
-            var isOpen = (bool)e.NewValue;
+            var isOpen = (bool) e.NewValue;
             if (behavior.IsTopAppBar)
             {
                 if (isOpen)

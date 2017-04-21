@@ -85,10 +85,6 @@
                                 <TextBox x:Name="AuthorizePopupMastodonInstanceTextBox" Margin="0,5"/>
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="AppName :"/>
                                 <TextBox x:Name="AuthorizePopupMastodonAppNameTextBox" Margin="0,5"/>
-                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="Email :"/>
-                                <TextBox x:Name="AuthorizePopupMastodonEmailTextBox" Margin="0,5"/>
-                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="Password :"/>
-                                <PasswordBox x:Name="AuthorizePopupMastodonPasswordPasswordBox" Margin="0,5"/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>

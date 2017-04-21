@@ -78,7 +78,7 @@
                         <ItemsControl ItemsSource="{x:Bind ViewModel.Accounts}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="viewModels:AccountViewModel">
-                                    <MenuFlyoutItem ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind ScreenName.Value, Mode=OneWay}" Text="{x:Bind ScreenName.Value, Mode=OneWay}" Command="{x:Bind Notice.TweetAreaAccountChangeCommand}" CommandParameter="{x:Bind Mode=OneWay}"/>
+                                    <MenuFlyoutItem ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind AccountName.Value, Mode=OneWay}" Text="{x:Bind AccountName.Value, Mode=OneWay}" Command="{x:Bind Notice.TweetAreaAccountChangeCommand}" CommandParameter="{x:Bind Mode=OneWay}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

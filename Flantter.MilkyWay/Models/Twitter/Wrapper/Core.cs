@@ -2296,7 +2296,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                                                                      ClientId = this.ConsumerKey,
                                                                      ClientSecret = this.ConsumerSecret,
                                                                      Instance = this.Instance
-                                                                 }, this.AccessToken));
+                                                                 }, 
+                                                                 new Mastonet.Entities.Auth()
+                                                                 {
+                                                                     AccessToken = this.AccessToken,
+                                                                     Scope = "read write follow"
+                                                                 }));
 
         public Activity Activity { get; }
         public Favorites Favorites { get; }

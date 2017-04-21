@@ -96,7 +96,7 @@
                                 <TextBlock Grid.Column="0" Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <Run Text="{x:Bind Name.Value, Mode=OneWay}"/>
                                     <Run Text=" - "/>
-                                    <Run Text="@"/><Run Text="{x:Bind ScreenName.Value, Mode=OneWay}"/>
+                                    <Run Text="@"/><Run Text="{x:Bind AccountName.Value, Mode=OneWay}"/>
                                 </TextBlock>
 
                                 <Border Grid.Column="3" Visibility="{x:Bind UnreadCount.Value, Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
@@ -170,7 +170,7 @@
                                 
                                 <Rectangle Grid.Row="4" Fill="{StaticResource ColumnViewControlBarUnselectedForegroundBrush}"/>
                                 <TextBlock Grid.Row="4" Foreground="{StaticResource ColumnViewControlBarTextblockForegroundBrush}" HorizontalAlignment="Left" Margin="5,0" VerticalAlignment="Center">
-                                    <Run Text="@"/><Run Text="{x:Bind ScreenName.Value, Mode=OneWay}" />
+                                    <Run Text="@"/><Run Text="{x:Bind AccountName.Value, Mode=OneWay}" />
                                 </TextBlock>
                             </Grid>
                         </Border>

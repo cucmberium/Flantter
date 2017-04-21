@@ -65,7 +65,15 @@ namespace Flantter.MilkyWay.ViewModels
                 .ToReactiveProperty()
                 .AddTo(Disposable);
             Name = column.ObserveProperty(x => x.Name).ToReactiveProperty().AddTo(Disposable);
-            ScreenName = column.ObserveProperty(x => x.ScreenName).ToReactiveProperty().AddTo(Disposable);
+            AccountName = Observable.CombineLatest(
+                    column.ObserveProperty(x => x.ScreenName),
+                    column.ObserveProperty(x => x.Instance),
+                    (screenName, instance) => string.IsNullOrWhiteSpace(instance)
+                        ? screenName
+                        : screenName + "@" + instance
+                )
+                .ToReactiveProperty()
+                .AddTo(Disposable);
             StreamingSymbol = column.ObserveProperty(x => x.Streaming)
                 .Select(x => x ? Symbol.Pause : Symbol.Play)
                 .ToReactiveProperty()
@@ -315,7 +323,7 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveProperty<Symbol> ActionSymbol { get; }
         public ReactiveProperty<string> Name { get; }
-        public ReactiveProperty<string> ScreenName { get; }
+        public ReactiveProperty<string> AccountName { get; }
         public ReactiveProperty<bool> EnableCreateFilterColumn { get; }
         public ReactiveProperty<Symbol> StreamingSymbol { get; }
         public ReactiveProperty<bool> IsEnabledStreaming { get; }

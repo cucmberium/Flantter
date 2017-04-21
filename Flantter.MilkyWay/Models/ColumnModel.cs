@@ -250,6 +250,7 @@ namespace Flantter.MilkyWay.Models
             ColumnSetting.ObserveProperty(x => x.Filter).Subscribe(x => Filter = x).AddTo(Disposable);
             ColumnSetting.ObserveProperty(x => x.Name).Subscribe(x => Name = x).AddTo(Disposable);
             AccountSetting.ObserveProperty(x => x.ScreenName).Subscribe(x => ScreenName = x).AddTo(Disposable);
+            AccountSetting.ObserveProperty(x => x.Instance).Subscribe(x => Instance = x).AddTo(Disposable);
             AccountSetting.ObserveProperty(x => x.ProfileImageUrl)
                 .Subscribe(x => ProfileImageUrl = x)
                 .AddTo(Disposable);
@@ -1405,6 +1406,18 @@ namespace Flantter.MilkyWay.Models
         {
             get => _screenName;
             set => SetProperty(ref _screenName, value);
+        }
+
+        #endregion
+
+        #region Instance変更通知プロパティ
+
+        private string _instance;
+
+        public string Instance
+        {
+            get => _instance;
+            set => SetProperty(ref _instance, value);
         }
 
         #endregion

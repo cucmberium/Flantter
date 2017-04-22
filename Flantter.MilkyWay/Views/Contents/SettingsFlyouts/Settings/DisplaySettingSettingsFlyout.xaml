@@ -40,7 +40,11 @@
                 <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_UseBackgroundImage_ToggleSwitch" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.UseBackgroundImage, Mode=TwoWay}" Header="背景画像を表示"/>
                 <Button x:Uid="SettingsFlyout_Settings_Display_Browse_Button" Command="{Binding Source={StaticResource Notice},Path=Notice.ChangeBackgroundImageCommand}" Content="参照" Width="60" Background="#FF21A4E4" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" />
             </Grid>
-            
+
+            <controls:HorizontalBar/>
+
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_UseTransparentBackground_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.UseTransparentBackground, Mode=TwoWay}" Header="背景画像を透過する"/>
+
             <controls:HorizontalBar/>
 
             <Slider x:Uid="SettingsFlyout_Settings_Display_ColumnBackgroundBrushAlpha_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="カラムの背景の透明度" Maximum="255" Minimum="0" LargeChange="10" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.ColumnBackgroundBrushAlpha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

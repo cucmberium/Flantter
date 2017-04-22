@@ -141,6 +141,8 @@
 
         <Image Grid.Row="1" Source="{x:Bind ViewModel.Setting.BackgroundImagePath, Mode=OneWay}" Stretch="UniformToFill"/>
 
+        <Grid x:Name="Flantter_HostBackgroundGrid" Grid.Row="1" Background="Transparent"/>
+        
         <ItemsControl Grid.Row="1" ItemsSource="{x:Bind ViewModel.Accounts}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

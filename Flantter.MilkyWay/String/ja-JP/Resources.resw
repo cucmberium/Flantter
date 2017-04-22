@@ -1045,4 +1045,7 @@
   <data name="Notification_System_NotImplementedException" xml:space="preserve">
     <value>その動作は現在使っているプラットフォームに対応していません</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_UseTransparentBackground_ToggleSwitch.Header" xml:space="preserve">
+    <value>背景画像を透明にする</value>
+  </data>
 </root>

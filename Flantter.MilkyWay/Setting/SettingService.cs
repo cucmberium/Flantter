@@ -553,6 +553,16 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        public bool UseTransparentBackground
+        {
+            get => GetValue(false);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
         [LocalValue]
         public bool UseBackgroundImage
         {

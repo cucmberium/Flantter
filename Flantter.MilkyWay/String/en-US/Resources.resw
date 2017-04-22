@@ -1045,4 +1045,7 @@
   <data name="Notification_System_NotImplementedException" xml:space="preserve">
     <value>This feature is not impremented in target platform.</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_UseTransparentBackground_ToggleSwitch.Header" xml:space="preserve">
+    <value>Use transparent background</value>
+  </data>
 </root>

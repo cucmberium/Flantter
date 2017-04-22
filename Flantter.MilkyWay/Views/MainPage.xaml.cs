@@ -1,58 +1,62 @@
-﻿using Flantter.MilkyWay.Setting;
-using Flantter.MilkyWay.ViewModels;
-using Flantter.MilkyWay.Views.Util;
-using Prism.Windows.AppModel;
-using Prism.Windows.Mvvm;
-using Reactive.Bindings.Extensions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
+﻿using System;
+using System.Numerics;
+using System.Reactive.Linq;
 using Windows.ApplicationModel.Background;
-using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.System.Profile;
 using Windows.UI;
-using Windows.UI.Core;
+using Windows.UI.Composition;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// 空白ページのアイテム テンプレートについては、http://go.microsoft.com/fwlink/?LinkId=234238 を参照してください
+using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.Themes;
+using Flantter.MilkyWay.ViewModels;
+using Flantter.MilkyWay.ViewModels.Services;
+using Flantter.MilkyWay.Views.Behaviors;
+using Flantter.MilkyWay.Views.Util;
+using Prism.Windows.Mvvm;
+using Reactive.Bindings.Extensions;
 
 namespace Flantter.MilkyWay.Views
 {
-    /// <summary>
-    /// それ自体で使用できる空白ページまたはフレーム内に移動できる空白ページ。
-    /// </summary>
     public sealed partial class MainPage : SessionStateAwarePage
     {
-        public MainPageViewModel ViewModel
-        {
-            get { return (MainPageViewModel)this.DataContext; }
-            set { this.DataContext = value; }
-        }
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(MainPageViewModel), typeof(MainPage), null);
 
+        private readonly Compositor _compositor;
+        private SpriteVisual _hostSprite;
+
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            Themes.ThemeService.Theme.ChangeTheme();
-            
-            this.UpdateTitleBar(WindowSizeHelper.Instance.StatusBarHeight > 0);
-            WindowSizeHelper.Instance.ObserveProperty(x => x.StatusBarHeight).SubscribeOnUIDispatcher().Subscribe(x => this.UpdateTitleBar(x > 0));
-            
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
+
+            Loaded += (s, e) =>
+            {
+                _hostSprite = _compositor.CreateSpriteVisual();
+                UpdateBackgroundBrush(SettingService.Setting.UseTransparentBackground);
+            };
+
+            ThemeService.Theme.ChangeTheme();
+
+            UpdateTitleBar(WindowSizeHelper.Instance.StatusBarHeight > 0);
+            WindowSizeHelper.Instance.ObserveProperty(x => x.StatusBarHeight)
+                .SubscribeOnUIDispatcher()
+                .Subscribe(x => UpdateTitleBar(x > 0));
+            SettingService.Setting.ObserveProperty(x => x.UseTransparentBackground)
+                .SubscribeOnUIDispatcher()
+                .Subscribe(x => UpdateBackgroundBrush(x));
+            WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth)
+                .Merge(WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight)
+                )
+                .SubscribeOnUIDispatcher()
+                .Subscribe(x => UpdateBackgroundBrushSizeChange());
+
             /*SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
             {
                 var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
@@ -68,10 +72,10 @@ namespace Flantter.MilkyWay.Views
 
             Window.Current.CoreWindow.PointerPressed += (s, e) =>
             {
-                var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
+                var behavior = ShowSettingsFlyoutAction.GetForCurrentView();
 
-                bool backPressed = e.CurrentPoint.Properties.IsXButton1Pressed;
-                bool nextPressed = e.CurrentPoint.Properties.IsXButton2Pressed;
+                var backPressed = e.CurrentPoint.Properties.IsXButton1Pressed;
+                var nextPressed = e.CurrentPoint.Properties.IsXButton2Pressed;
 
                 if (behavior != null && behavior.ShowingPopupCount != 0)
                 {
@@ -83,13 +87,18 @@ namespace Flantter.MilkyWay.Views
 
                 // Taboo : 禁忌
                 if (backPressed)
-                    ViewModels.Services.Notice.Instance.DecrementColumnSelectedIndexCommand.Execute();
+                    Notice.Instance.DecrementColumnSelectedIndexCommand.Execute();
                 else if (nextPressed)
-                    ViewModels.Services.Notice.Instance.IncrementColumnSelectedIndexCommand.Execute();
-
+                    Notice.Instance.IncrementColumnSelectedIndexCommand.Execute();
             };
         }
-        
+
+        public MainPageViewModel ViewModel
+        {
+            get => (MainPageViewModel) DataContext;
+            set => DataContext = value;
+        }
+
         private void UpdateTitleBar(bool isVisible)
         {
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
@@ -99,37 +108,71 @@ namespace Flantter.MilkyWay.Views
 
             if (isVisible)
             {
-                applicationView.TitleBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
+                applicationView.TitleBar.BackgroundColor =
+                    ((SolidColorBrush) Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
                 applicationView.TitleBar.ButtonBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
-                applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
+                applicationView.TitleBar.ButtonForegroundColor =
+                    ((SolidColorBrush) Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
                 applicationView.TitleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0x00, 0xff, 0xff, 0xff);
-                applicationView.TitleBar.ButtonInactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
+                applicationView.TitleBar.ButtonInactiveForegroundColor =
+                    ((SolidColorBrush) Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
             }
             else
             {
-                applicationView.TitleBar.BackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
-                applicationView.TitleBar.ButtonBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonBackgroundBrush"]).Color;
-                applicationView.TitleBar.ButtonForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
-                applicationView.TitleBar.ButtonInactiveBackgroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveBackgroundBrush"]).Color;
-                applicationView.TitleBar.ButtonInactiveForegroundColor = ((SolidColorBrush)Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
+                applicationView.TitleBar.BackgroundColor =
+                    ((SolidColorBrush) Application.Current.Resources["TitleBarBackgroundBrush"]).Color;
+                applicationView.TitleBar.ButtonBackgroundColor =
+                    ((SolidColorBrush) Application.Current.Resources["TitleBarButtonBackgroundBrush"]).Color;
+                applicationView.TitleBar.ButtonForegroundColor =
+                    ((SolidColorBrush) Application.Current.Resources["TitleBarButtonForegroundBrush"]).Color;
+                applicationView.TitleBar.ButtonInactiveBackgroundColor =
+                    ((SolidColorBrush) Application.Current.Resources["TitleBarButtonInactiveBackgroundBrush"]).Color;
+                applicationView.TitleBar.ButtonInactiveForegroundColor =
+                    ((SolidColorBrush) Application.Current.Resources["TitleBarButtonInactiveForegroundBrush"]).Color;
             }
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        private void UpdateBackgroundBrush(bool isTransparent)
+        {
+            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                return;
+
+            if (_hostSprite == null)
+                return;
+
+            if (isTransparent)
+            {
+                _hostSprite.Size = new Vector2(
+                    (float) Flantter_HostBackgroundGrid.ActualWidth,
+                    (float) Flantter_HostBackgroundGrid.ActualHeight);
+                _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
+                ElementCompositionPreview.SetElementChildVisual(Flantter_HostBackgroundGrid, _hostSprite);
+            }
+            else
+            {
+                ElementCompositionPreview.SetElementChildVisual(Flantter_HostBackgroundGrid, null);
+            }
+        }
+
+        private void UpdateBackgroundBrushSizeChange()
+        {
+            if (_hostSprite != null)
+                _hostSprite.Size = new Vector2(
+                    (float) Flantter_HostBackgroundGrid.ActualWidth,
+                    (float) Flantter_HostBackgroundGrid.ActualHeight);
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            this.Frame.BackStack.Clear();
-            this.Frame.ForwardStack.Clear();
+            Frame.BackStack.Clear();
+            Frame.ForwardStack.Clear();
 
-            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None && !SettingService.Setting.BackgroundNotification)
+            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None &&
+                !SettingService.Setting.BackgroundNotification)
                 return;
 
             await BackgroundExecutionManager.RequestAccessAsync();
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
         }
     }
 }

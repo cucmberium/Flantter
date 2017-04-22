@@ -112,6 +112,8 @@ namespace Flantter.MilkyWay.ViewModels.Services
             IncrementColumnSelectedIndexCommand = new ReactiveCommand();
             DecrementColumnSelectedIndexCommand = new ReactiveCommand();
 
+            UpdateAllTimelineCommand = new ReactiveCommand();
+
             DeleteDatabaseFileCommand = new ReactiveCommand();
 
             ShowFilePickerMessenger = new Messenger();
@@ -226,8 +228,11 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowUserProfileOfSelectedTweetCommand { get; }
         public ReactiveCommand ShowConversationOfSelectedTweetCommand { get; }
         public ReactiveCommand ChangeSelectedTweetCommand { get; }
+
         public ReactiveCommand IncrementColumnSelectedIndexCommand { get; }
         public ReactiveCommand DecrementColumnSelectedIndexCommand { get; }
+
+        public ReactiveCommand UpdateAllTimelineCommand { get; }
 
         public ReactiveCommand DeleteDatabaseFileCommand { get; }
     }

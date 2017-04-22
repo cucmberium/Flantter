@@ -1166,6 +1166,14 @@ namespace Flantter.MilkyWay.ViewModels
                 })
                 .AddTo(Disposable);
 
+            Notice.Instance.UpdateAllTimelineCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Where(_ => Model.IsEnabled)
+                .Subscribe(async x =>
+                {
+                    await Task.WhenAll(Model.ReadOnlyColumns.Select(y => y.Update()));
+                })
+                .AddTo(Disposable);
+
             Notice.Instance.GetGapStatusCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Where(_ => Model.IsEnabled)
                 .Subscribe(async x =>

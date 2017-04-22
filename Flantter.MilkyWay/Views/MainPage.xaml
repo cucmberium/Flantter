@@ -95,6 +95,10 @@
             <util:KeyTrigger Key="Left">
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.DecrementColumnSelectedIndexCommand}"/>
             </util:KeyTrigger>
+            
+            <util:KeyTrigger Key="F5">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.UpdateAllTimelineCommand}"/>
+            </util:KeyTrigger>
         </util:GlobalKeyTriggerBehavior>
     </i:Interaction.Behaviors>
 

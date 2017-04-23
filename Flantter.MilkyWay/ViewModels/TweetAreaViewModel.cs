@@ -191,6 +191,7 @@ namespace Flantter.MilkyWay.ViewModels
                 .Subscribe(async x =>
                 {
                     var statusViewModel = x as StatusViewModel;
+                    var screenName = x as string;
                     if (statusViewModel != null)
                     {
                         ReplyOrQuotedStatus.Value = statusViewModel;
@@ -206,12 +207,8 @@ namespace Flantter.MilkyWay.ViewModels
                         await Task.Delay(50);
 
                         Model.SelectionStart = Model.Text.Length;
-
-                        return;
                     }
-
-                    var screenName = x as string;
-                    if (!string.IsNullOrWhiteSpace(screenName))
+                    else if (!string.IsNullOrWhiteSpace(screenName))
                     {
                         Model.Text = "@" + screenName + " ";
 
@@ -221,6 +218,10 @@ namespace Flantter.MilkyWay.ViewModels
 
                         Model.SelectionStart = Model.Text.Length;
                     }
+
+                    if (Setting.ResetPostingAccountBeforeTweetAreaOpening)
+                        foreach (var account in Accounts)
+                            account.IsTweetEnabled.Value = account.Model.IsEnabled;
                 });
 
             Notice.Instance.ReplyToAllCommand.SubscribeOn(ThreadPoolScheduler.Default)

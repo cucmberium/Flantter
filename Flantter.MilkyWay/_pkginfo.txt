@@ -1,1 +1,1 @@
-D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\ARM\Release\Upload\Flantter.MilkyWay_3.1.6.0\Flantter.MilkyWay_3.1.6.0_x86_x64_arm.appxbundle
+D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\ARM\Release\Upload\Flantter.MilkyWay_3.1.7.0\Flantter.MilkyWay_3.1.7.0_x86_x64_arm.appxbundle

@@ -2067,11 +2067,11 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
 
             internal class StreamingConnection : IDisposable
             {
-                private readonly CancellationTokenSource cancel = new CancellationTokenSource();
+                private readonly CancellationTokenSource _cancel = new CancellationTokenSource();
 
                 public async void Start(IObserver<Twitter.Objects.StreamingMessage> observer, Tokens tokens, string url)
                 {
-                    var token = this.cancel.Token;
+                    var token = this._cancel.Token;
                     try
                     {
                         using (var client = new HttpClient())
@@ -2151,7 +2151,13 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
 
                 public void Dispose()
                 {
-                    this.cancel.Cancel();
+                    try
+                    {
+                        _cancel.Cancel();
+                    }
+                    catch
+                    {
+                    }
                 }
             }
         }

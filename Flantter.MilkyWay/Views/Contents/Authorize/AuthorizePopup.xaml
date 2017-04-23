@@ -82,9 +82,9 @@
                         <StackPanel Margin="0,5">
                             <StackPanel Margin="0,10">
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="Instance :"/>
-                                <TextBox x:Name="AuthorizePopupMastodonInstanceTextBox" Margin="0,5"/>
+                                <TextBox x:Name="AuthorizePopupMastodonInstanceTextBox" Margin="0,5" Text="mstdn.jp"/>
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="AppName :"/>
-                                <TextBox x:Name="AuthorizePopupMastodonAppNameTextBox" Margin="0,5"/>
+                                <TextBox x:Name="AuthorizePopupMastodonAppNameTextBox" Margin="0,5" Text="Flantter"/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>

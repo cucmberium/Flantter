@@ -1048,4 +1048,7 @@
   <data name="SettingsFlyout_Settings_Display_UseTransparentBackground_ToggleSwitch.Header" xml:space="preserve">
     <value>Use transparent background</value>
   </data>
+  <data name="SettingsFlyout_Settings_Posting_ResetPostingAccountBeforeTweetAreaOpening_ToggleSwitch.Header" xml:space="preserve">
+    <value>Reset posting account before tweet area opening.</value>
+  </data>
 </root>

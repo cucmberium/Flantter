@@ -190,8 +190,11 @@ namespace Flantter.MilkyWay.Models
             CharacterCountChanged();
         }
 
-        public async Task Tweet(AccountModel account)
+        public async Task Tweet(IEnumerable<AccountModel> accounts)
         {
+            if (!accounts.Any())
+                return;
+
             if (Updating)
                 return;
 
@@ -233,138 +236,142 @@ namespace Flantter.MilkyWay.Models
             }
 
             Updating = true;
-            var tokens = account.Tokens;
-            var text = Text;
 
-            try
+            foreach (var account in accounts)
             {
-                var param = new Dictionary<string, object>();
-                if (ReplyOrQuotedStatus != null)
+                var tokens = account.Tokens;
+                var text = Text;
+
+                try
                 {
-                    if (!_isQuotedRetweet)
+                    var param = new Dictionary<string, object>();
+                    if (ReplyOrQuotedStatus != null)
                     {
-                        param.Add("in_reply_to_status_id", ReplyOrQuotedStatus.Id);
-                    }
-                    else
-                    {
-                        if (tokens.Platform == Tokens.PlatformEnum.Twitter)
-                            param.Add("attachment_url", ReplyOrQuotedStatus.Url);
+                        if (!_isQuotedRetweet)
+                        {
+                            param.Add("in_reply_to_status_id", ReplyOrQuotedStatus.Id);
+                        }
                         else
-                            text += " " + ReplyOrQuotedStatus.Url;
-                    }
-                }
-
-                // Upload Media
-
-                if (_pictures.Count > 0)
-                {
-                    Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + "0.0%";
-
-                    var resultList = new List<long>();
-
-                    if (_pictures.First().IsVideo)
-                    {
-                        var pic = _pictures.First();
-                        var progress = new Progress<CoreTweet.UploadChunkedProgressInfo>();
-                        progress.ProgressChanged += (s, e) =>
                         {
-                            var progressPercentage = 0.0;
-                            if (e.Stage == CoreTweet.UploadChunkedProgressStage.InProgress)
-                                progressPercentage = 0.5 + e.ProcessingProgressPercent / 100.0 / 2.0;
-                            else if (e.Stage == CoreTweet.UploadChunkedProgressStage.Pending)
-                                progressPercentage = 0.5;
-                            else if (e.Stage == CoreTweet.UploadChunkedProgressStage.SendingContent)
-                                progressPercentage = e.BytesSent / (double) pic.Stream.Size * 0.5 >= 0.5
-                                    ? 0.5
-                                    : e.BytesSent / (double) pic.Stream.Size * 0.5;
+                            if (tokens.Platform == Tokens.PlatformEnum.Twitter)
+                                param.Add("attachment_url", ReplyOrQuotedStatus.Url);
                             else
-                                progressPercentage = 0.0;
-
-                            progressPercentage *= 100.0;
-                            Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " +
-                                      progressPercentage.ToString("#0.0") + "%";
-                        };
-
-                        pic.Stream.Seek(0);
-                        resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(),
-                            Twitter.Wrapper.Media.UploadMediaTypeEnum.Video, "tweet_video", progress: progress));
+                                text += " " + ReplyOrQuotedStatus.Url;
+                        }
                     }
-                    else
+
+                    // Upload Media
+
+                    if (_pictures.Count > 0)
                     {
-                        foreach (var item in _pictures.Select((v, i) => new {v, i}))
+                        Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + "0.0%";
+
+                        var resultList = new List<long>();
+
+                        if (_pictures.First().IsVideo)
                         {
-                            var progress = new Progress<CoreTweet.UploadProgressInfo>();
+                            var pic = _pictures.First();
+                            var progress = new Progress<CoreTweet.UploadChunkedProgressInfo>();
                             progress.ProgressChanged += (s, e) =>
                             {
-                                var progressPercentage = (item.i / (double) _pictures.Count +
-                                                          (e.BytesSent / (double) item.v.Stream.Size > 1.0
-                                                              ? 1.0
-                                                              : e.BytesSent / (double) item.v.Stream.Size) /
-                                                          _pictures.Count) * 100.0;
+                                var progressPercentage = 0.0;
+                                if (e.Stage == CoreTweet.UploadChunkedProgressStage.InProgress)
+                                    progressPercentage = 0.5 + e.ProcessingProgressPercent / 100.0 / 2.0;
+                                else if (e.Stage == CoreTweet.UploadChunkedProgressStage.Pending)
+                                    progressPercentage = 0.5;
+                                else if (e.Stage == CoreTweet.UploadChunkedProgressStage.SendingContent)
+                                    progressPercentage = e.BytesSent / (double)pic.Stream.Size * 0.5 >= 0.5
+                                        ? 0.5
+                                        : e.BytesSent / (double)pic.Stream.Size * 0.5;
+                                else
+                                    progressPercentage = 0.0;
+
+                                progressPercentage *= 100.0;
                                 Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " +
                                           progressPercentage.ToString("#0.0") + "%";
                             };
 
-                            var pic = item.v;
                             pic.Stream.Seek(0);
-                            resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), progress: progress));
+                            resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(),
+                                Twitter.Wrapper.Media.UploadMediaTypeEnum.Video, "tweet_video", progress: progress));
                         }
+                        else
+                        {
+                            foreach (var item in _pictures.Select((v, i) => new { v, i }))
+                            {
+                                var progress = new Progress<CoreTweet.UploadProgressInfo>();
+                                progress.ProgressChanged += (s, e) =>
+                                {
+                                    var progressPercentage = (item.i / (double)_pictures.Count +
+                                                              (e.BytesSent / (double)item.v.Stream.Size > 1.0
+                                                                  ? 1.0
+                                                                  : e.BytesSent / (double)item.v.Stream.Size) /
+                                                              _pictures.Count) * 100.0;
+                                    Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " +
+                                              progressPercentage.ToString("#0.0") + "%";
+                                };
+
+                                var pic = item.v;
+                                pic.Stream.Seek(0);
+                                resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), progress: progress));
+                            }
+                        }
+
+                        param.Add("media_ids", resultList);
+                        param.Add("possibly_sensitive", account.AccountSetting.PossiblySensitive);
                     }
 
-                    param.Add("media_ids", resultList);
-                    param.Add("possibly_sensitive", account.AccountSetting.PossiblySensitive);
+                    param.Add("status", text);
+
+                    Message = _resourceLoader.GetString("TweetArea_Message_UpdatingStatus");
+                    await tokens.Statuses.UpdateAsync(param);
                 }
-
-                param.Add("status", text);
-
-                Message = _resourceLoader.GetString("TweetArea_Message_UpdatingStatus");
-                await tokens.Statuses.UpdateAsync(param);
-            }
-            catch (CoreTweet.TwitterException ex)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_Error");
-                return;
-            }
-            catch (NotImplementedException ex)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_Error");
-                return;
-            }
-            catch (Exception ex)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_Error");
-                return;
-            }
-            finally
-            {
-                Updating = false;
+                catch (CoreTweet.TwitterException ex)
+                {
+                    Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                        new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    State = "Cancel";
+                    Message = _resourceLoader.GetString("TweetArea_Message_Error");
+                    return;
+                }
+                catch (NotImplementedException ex)
+                {
+                    Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                        new ResourceLoader().GetString("Notification_System_NotImplementedException"),
+                        new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                    State = "Cancel";
+                    Message = _resourceLoader.GetString("TweetArea_Message_Error");
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                        new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
+                        new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    State = "Cancel";
+                    Message = _resourceLoader.GetString("TweetArea_Message_Error");
+                    return;
+                }
+                finally
+                {
+                    Updating = false;
+                }
             }
 
             Core.Instance.PopupToastNotification(PopupNotificationType.TweetCompleted,
-                new ResourceLoader().GetString("Notification_TweetCompleted_TweetCompleted"), text);
+                new ResourceLoader().GetString("Notification_TweetCompleted_TweetCompleted"), Text);
 
             foreach (var pic in _pictures)
                 pic.Dispose();
 
             _pictures.Clear();
 
-            text = string.Empty;
+            var newtext = string.Empty;
             if (LockingHashTags)
                 foreach (var token in _tokens.Where(
                     x => x.Type == SuggestionService.SuggestionToken.SuggestionTokenId.HashTag))
-                    text += " #" + token.Value;
-            Text = text;
+                    newtext += " #" + token.Value;
+            Text = newtext;
 
             ReplyOrQuotedStatus = null;
             IsQuotedRetweet = false;

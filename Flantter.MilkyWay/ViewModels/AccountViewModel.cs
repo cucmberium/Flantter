@@ -186,6 +186,8 @@ namespace Flantter.MilkyWay.ViewModels
 
             IsZoomedInViewActive = new ReactiveProperty<bool>(true).AddTo(Disposable);
 
+            IsTweetEnabled = new ReactiveProperty<bool>(false).AddTo(Disposable);
+
             ZoomOutOrientation = WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth)
                 .Select(x =>
                 {
@@ -1220,6 +1222,8 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> BottomBarSearchBoxEnabled { get; }
 
         public ReactiveProperty<bool> IsZoomedInViewActive { get; }
+
+        public ReactiveProperty<bool> IsTweetEnabled { get; }
 
         public ReactiveProperty<Orientation> ZoomOutOrientation { get; }
 

@@ -39,6 +39,10 @@
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_RefreshTimelineAfterTweet_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RefreshTimelineAfterTweet, Mode=TwoWay}" Header="ツイート後にタイムラインを更新する"/>
 
             <controls:HorizontalBar/>
+
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_ResetPostingAccountBeforeTweetAreaOpening_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ResetPostingAccountBeforeTweetAreaOpening, Mode=TwoWay}" Header="投稿画面を開く際にアカウントを初期化する"/>
+
+            <controls:HorizontalBar/>
             
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_ConvertPostingImage_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ConvertPostingImage, Mode=TwoWay}" Header="投稿画像が劣化しないように変換する"/>
 

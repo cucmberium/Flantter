@@ -52,8 +52,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             AddListColumnCommand = new ReactiveCommand();
             AddFilterColumnCommand = new ReactiveCommand();
             AddCollectionColumnCommand = new ReactiveCommand();
-
-            TweetAreaAccountChangeCommand = new ReactiveCommand();
+            
             TweetAreaDeletePictureCommand = new ReactiveCommand();
             TweetAreaOpenCommand = new ReactiveCommand();
 
@@ -172,8 +171,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand AddListColumnCommand { get; }
         public ReactiveCommand AddFilterColumnCommand { get; }
         public ReactiveCommand AddCollectionColumnCommand { get; }
-
-        public ReactiveCommand TweetAreaAccountChangeCommand { get; }
+        
         public ReactiveCommand TweetAreaDeletePictureCommand { get; }
         public ReactiveCommand TweetAreaOpenCommand { get; }
 

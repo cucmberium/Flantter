@@ -13,6 +13,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
+    xmlns:WinRTXamlToolkit="using:WinRTXamlToolkit.Controls"
     mc:Ignorable="d"
     d:DesignHeight="160"
     d:DesignWidth="1280">
@@ -72,13 +73,26 @@
         <Grid Grid.Row="1" MinHeight="140" MaxHeight="200">
 
             <Button x:Name="BottomAppBar_AccountButton" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" VerticalAlignment="Top" Width="60" Height="60" Margin="5,5,0,0" Padding="0" BorderThickness="0">
-                <Image Stretch="UniformToFill" Source="{x:Bind ViewModel.SelectedAccount.Value.ProfileImageUrl.Value, Mode=OneWay}"/>
+
+                <ItemsControl ItemsSource="{x:Bind ViewModel.SelectedAccounts.Value, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VariableSizedWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal" ItemHeight="{Binding TweetArea.AccountImageSize.Value, Mode=OneWay}" ItemWidth="{Binding TweetArea.AccountImageSize.Value, Mode=OneWay}"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:AccountViewModel">
+                            <Image Source="{x:Bind ProfileImageUrl.Value, Mode=OneWay}" Stretch="Uniform"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
                 <Button.Flyout>
                     <Flyout Placement="Top">
                         <ItemsControl ItemsSource="{x:Bind ViewModel.Accounts}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="viewModels:AccountViewModel">
-                                    <MenuFlyoutItem ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind AccountName.Value, Mode=OneWay}" Text="{x:Bind AccountName.Value, Mode=OneWay}" Command="{x:Bind Notice.TweetAreaAccountChangeCommand}" CommandParameter="{x:Bind Mode=OneWay}"/>
+                                    <ToggleMenuFlyoutItem ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind AccountName.Value, Mode=OneWay}" Text="{x:Bind AccountName.Value, Mode=OneWay}" IsChecked="{x:Bind IsTweetEnabled.Value, Mode=TwoWay}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

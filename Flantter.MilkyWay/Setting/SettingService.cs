@@ -399,6 +399,16 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        public bool ResetPostingAccountBeforeTweetAreaOpening
+        {
+            get => GetValue(true);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
         public bool RefreshTimelineAfterTweet
         {
             get => GetValue(true);

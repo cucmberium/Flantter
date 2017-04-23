@@ -1048,4 +1048,7 @@
   <data name="SettingsFlyout_Settings_Display_UseTransparentBackground_ToggleSwitch.Header" xml:space="preserve">
     <value>背景画像を透明にする</value>
   </data>
+  <data name="SettingsFlyout_Settings_Posting_ResetPostingAccountBeforeTweetAreaOpening_ToggleSwitch.Header" xml:space="preserve">
+    <value>投稿画面を開く際にアカウントを初期化する</value>
+  </data>
 </root>

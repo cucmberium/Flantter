@@ -27,7 +27,8 @@ namespace Flantter.MilkyWay.ViewModels
             Model = new TweetAreaModel();
 
             Accounts = accounts;
-            SelectedAccount = new ReactiveProperty<AccountViewModel>();
+            SelectedAccounts = Accounts.ObserveElementObservableProperty(x => x.IsTweetEnabled)
+                .Select(y => accounts.Where(z => z.IsTweetEnabled.Value)).ToReactiveProperty();
 
             SelectionStart = Model.ToReactivePropertyAsSynchronized(x => x.SelectionStart);
             Text = Model.ToReactivePropertyAsSynchronized(x => x.Text);
@@ -72,6 +73,28 @@ namespace Flantter.MilkyWay.ViewModels
 
             Pictures = Model.ReadonlyPictures.ToReadOnlyReactiveCollection(x => new PictureViewModel(x));
 
+            AccountImageSize = Observable.Merge(
+                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth).Select(x => (object)null),
+                SelectedAccounts.Select(x => (object)null)
+                ).Select(_ =>
+                {
+                    if (WindowSizeHelper.Instance.ClientWidth <= 700)
+                    {
+                        if (SelectedAccounts.Value.Count() < 2)
+                            return 40.0;
+                        else
+                            return 20.0;
+                    }
+                    else
+                    {
+                        if (SelectedAccounts.Value.Count() < 2)
+                            return 60.0;
+                        else
+                            return 30.0;
+                    }
+                }
+                ).ToReactiveProperty();
+
             Model.ObserveProperty(x => x.ReplyOrQuotedStatus)
                 .Subscribe(x =>
                 {
@@ -108,7 +131,7 @@ namespace Flantter.MilkyWay.ViewModels
             TweetCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
-                    await Model.Tweet(SelectedAccount.Value.Model);
+                    await Model.Tweet(SelectedAccounts.Value.Select(y => y.Model));
 
                     if (SettingService.Setting.CloseAppBarAfterTweet)
                     {
@@ -120,13 +143,16 @@ namespace Flantter.MilkyWay.ViewModels
                         await TextBoxFocusMessenger.Raise(new Notification());
                     }
 
-                    if (SettingService.Setting.RefreshTimelineAfterTweet && SelectedAccount.Value != null)
+                    if (SettingService.Setting.RefreshTimelineAfterTweet)
                     {
-                        var column =
-                            SelectedAccount.Value.Columns.First(
-                                y => y.Model.Action == SettingSupport.ColumnTypeEnum.Home);
-                        if (!column.Model.Streaming)
-                            column.RefreshCommand.Execute();
+                        foreach (var account in accounts)
+                        {
+                            var column =
+                                account.Columns.First(
+                                    y => y.Model.Action == SettingSupport.ColumnTypeEnum.Home);
+                            if (!column.Model.Streaming)
+                                column.RefreshCommand.Execute();
+                        }
                     }
                 });
 
@@ -153,14 +179,6 @@ namespace Flantter.MilkyWay.ViewModels
             PasteClipbordPictureCommand = new ReactiveCommand();
             PasteClipbordPictureCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x => { await Model.AddPictureFromClipboard(); });
-
-            Notice.Instance.TweetAreaAccountChangeCommand.SubscribeOn(ThreadPoolScheduler.Default)
-                .Subscribe(x =>
-                {
-                    var accountVm = x as AccountViewModel;
-                    SelectedAccount.Value = accountVm;
-                    Model.SelectedAccountUserId = accountVm.Model.AccountSetting.UserId;
-                });
 
             Notice.Instance.TweetAreaDeletePictureCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x =>
@@ -228,7 +246,7 @@ namespace Flantter.MilkyWay.ViewModels
                         foreach (var user in statusViewModel.Model.Entities.UserMentions)
                         {
                             if (userList.Contains(user.ScreenName) ||
-                                user.ScreenName == SelectedAccount.Value.ScreenName.Value)
+                                SelectedAccounts.Value.Select(y => y.ScreenName.Value).Contains(user.ScreenName))
                                 continue;
 
                             Model.Text += "@" + user.ScreenName + " ";
@@ -266,7 +284,7 @@ namespace Flantter.MilkyWay.ViewModels
                     foreach (var sVm in statusViewModels)
                     {
                         if (userList.Contains(sVm.ScreenName) ||
-                            sVm.ScreenName == SelectedAccount.Value.ScreenName.Value)
+                            SelectedAccounts.Value.Select(y => y.ScreenName.Value).Contains(sVm.ScreenName))
                             continue;
 
                         userList.Add(sVm.Model.User.ScreenName);
@@ -274,7 +292,7 @@ namespace Flantter.MilkyWay.ViewModels
                         foreach (var user in sVm.Model.Entities.UserMentions)
                         {
                             if (userList.Contains(user.ScreenName) ||
-                                user.ScreenName == SelectedAccount.Value.ScreenName.Value)
+                                SelectedAccounts.Value.Select(y => y.ScreenName.Value).Contains(user.ScreenName))
                                 continue;
 
                             Model.Text += "@" + user.ScreenName + " ";
@@ -319,11 +337,10 @@ namespace Flantter.MilkyWay.ViewModels
         public SettingService Setting { get; set; }
 
         public ReadOnlyReactiveCollection<AccountViewModel> Accounts { get; }
+        public ReactiveProperty<IEnumerable<AccountViewModel>> SelectedAccounts { get; }
 
         public ReadOnlyReactiveCollection<PictureViewModel> Pictures { get; }
-
-        public ReactiveProperty<AccountViewModel> SelectedAccount { get; set; }
-
+        
         public ReactiveProperty<StatusViewModel> ReplyOrQuotedStatus { get; set; }
         public ReactiveProperty<bool> IsQuotedRetweet { get; set; }
         public ReactiveProperty<bool> IsReply { get; set; }
@@ -341,6 +358,8 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<Symbol> StateSymbol { get; set; }
 
         public ReactiveProperty<bool> Updating { get; set; }
+
+        public ReactiveProperty<double> AccountImageSize { get; set; }
 
         public ReactiveCommand ChangeLockHashTagsCommand { get; set; }
         public ReactiveCommand AddPictureCommand { get; set; }

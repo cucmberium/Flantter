@@ -59,7 +59,9 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 if (isOpen && Accounts.Any(x => x.IsEnabled.Value))
                 {
-                    Notice.Instance.TweetAreaAccountChangeCommand.Execute(Accounts.First(x => x.IsEnabled.Value));
+                    if (Setting.ResetPostingAccountBeforeTweetAreaOpening)
+                        foreach (var account in Accounts)
+                            account.IsTweetEnabled.Value = account.Model.IsEnabled;
 
                     await Task.Delay(50);
                     await TweetArea.TextBoxFocusMessenger.Raise(new Notification());
@@ -891,7 +893,8 @@ namespace Flantter.MilkyWay.ViewModels
 
             await Task.Run(async () => await Model.Initialize());
 
-            Notice.Instance.TweetAreaAccountChangeCommand.Execute(Accounts.First(x => x.IsEnabled.Value));
+            foreach (var account in Accounts)
+                account.IsTweetEnabled.Value = account.Model.IsEnabled;
         }
 
         public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState,

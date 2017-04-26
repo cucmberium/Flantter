@@ -1940,7 +1940,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     return (await Tokens.TwitterTokens.Media.UploadAsync(media, additional_owners, progress: progress))
                         .MediaId;
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    return (await Tokens.MastodonTokens.UploadMedia(media, "file")).Id;
             }
             throw new NotImplementedException();
         }

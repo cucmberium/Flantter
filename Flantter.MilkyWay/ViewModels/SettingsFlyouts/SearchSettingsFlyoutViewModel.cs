@@ -55,6 +55,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             UpdatingStatusSearch = Model.ObserveProperty(x => x.UpdatingStatusSearch).ToReactiveProperty();
             UpdatingUserSearch = Model.ObserveProperty(x => x.UpdatingUserSearch).ToReactiveProperty();
 
+            StatusSuggestion = new ReactiveCollection<string>();
+            UserSuggestion = new ReactiveCollection<string>();
+
             ClearCommand = new ReactiveCommand();
             ClearCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x =>
@@ -78,6 +81,10 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             UpdateStatusSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
+                    var e = x as AutoSuggestBoxQuerySubmittedEventArgs;
+                    if (!string.IsNullOrWhiteSpace(e?.QueryText))
+                        StatusSearchWords.Value = e.QueryText;
+
                     if (string.IsNullOrWhiteSpace(StatusSearchWords.Value))
                     {
                         Model.Statuses.Clear();
@@ -144,10 +151,14 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             UpdateUserSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
+                    var e = x as AutoSuggestBoxQuerySubmittedEventArgs;
+                    if (!string.IsNullOrWhiteSpace(e?.QueryText))
+                        UserSearchWords.Value = e.QueryText;
+
                     if (string.IsNullOrWhiteSpace(UserSearchWords.Value))
                     {
-                        Model.UserSearchWords = "";
                         Model.Users.Clear();
+                        Model.UserSearchWords = "";
                         return;
                     }
 
@@ -156,43 +167,46 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     await Model.UpdateUsers();
                 });
 
-            SuggestionsRequestedStatusSearchCommand = new ReactiveCommand();
-            SuggestionsRequestedStatusSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
+            TextChangedStatusSearchCommand = new ReactiveCommand();
+            TextChangedStatusSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(y =>
                 {
-                    var e = y as SearchBoxSuggestionsRequestedEventArgs;
+                    var e = y as AutoSuggestBoxTextChangedEventArgs;
                     if (e == null || string.IsNullOrWhiteSpace(StatusSearchWords.Value))
+                    {
+                        StatusSuggestion.ClearOnScheduler();
                         return;
-
-                    var deferral = e.Request.GetDeferral();
-
+                    }
+                    
                     IEnumerable<string> suggestHashtags;
                     lock (Connecter.Instance.TweetCollecter[Tokens.Value.UserId].EntitiesObjectsLock)
                     {
                         suggestHashtags = Connecter.Instance.TweetCollecter[Tokens.Value.UserId]
                             .HashTagObjects.Where(x => x.StartsWith(StatusSearchWords.Value.TrimStart('#')))
-                            .OrderBy(x => x);
+                            .OrderBy(x => x).Select(x => "#" + x);
                     }
                     if (suggestHashtags.Any())
                     {
-                        e.Request.SearchSuggestionCollection.AppendSearchSeparator("HashTag");
-                        foreach (var hashtag in suggestHashtags)
-                            e.Request.SearchSuggestionCollection.AppendQuerySuggestion("#" + hashtag);
+                        StatusSuggestion.ClearOnScheduler();
+                        StatusSuggestion.AddRangeOnScheduler(suggestHashtags);
                     }
-
-                    deferral.Complete();
+                    else
+                    {
+                        StatusSuggestion.ClearOnScheduler();
+                    }
                 });
 
-            SuggestionsRequestedUserSearchCommand = new ReactiveCommand();
-            SuggestionsRequestedUserSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
+            TextChangedUserSearchCommand = new ReactiveCommand();
+            TextChangedUserSearchCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(y =>
                 {
-                    var e = y as SearchBoxSuggestionsRequestedEventArgs;
+                    var e = y as AutoSuggestBoxTextChangedEventArgs;
                     if (e == null || string.IsNullOrWhiteSpace(UserSearchWords.Value) &&
                         UserSearchWords.Value.Length <= 1)
+                    {
+                        UserSuggestion.ClearOnScheduler();
                         return;
-
-                    var deferral = e.Request.GetDeferral();
+                    }
 
                     IEnumerable<string> suggestUsers;
                     lock (Connecter.Instance.TweetCollecter[Tokens.Value.UserId].EntitiesObjectsLock)
@@ -203,12 +217,13 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     }
                     if (suggestUsers.Any())
                     {
-                        e.Request.SearchSuggestionCollection.AppendSearchSeparator("User");
-                        foreach (var user in suggestUsers)
-                            e.Request.SearchSuggestionCollection.AppendQuerySuggestion(user);
+                        UserSuggestion.ClearOnScheduler();
+                        UserSuggestion.AddRangeOnScheduler(suggestUsers);
                     }
-
-                    deferral.Complete();
+                    else
+                    {
+                        UserSuggestion.ClearOnScheduler();
+                    }
                 });
 
             SaveSearchCommand = new ReactiveCommand();
@@ -369,6 +384,10 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReadOnlyReactiveCollection<SearchQueryViewModel> SavedSearches { get; }
 
+        public ReactiveCollection<string> StatusSuggestion { get; }
+
+        public ReactiveCollection<string> UserSuggestion { get; }
+
         public ReactiveProperty<bool> AdvancedSearchOpen { get; set; }
         public ReactiveProperty<bool> AdvancedSearchContentOpen { get; set; }
         public ReactiveProperty<bool> AdvancedSearchEngagementOpen { get; set; }
@@ -386,9 +405,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveCommand UpdateUserSearchCommand { get; set; }
 
-        public ReactiveCommand SuggestionsRequestedStatusSearchCommand { get; set; }
+        public ReactiveCommand TextChangedStatusSearchCommand { get; set; }
 
-        public ReactiveCommand SuggestionsRequestedUserSearchCommand { get; set; }
+        public ReactiveCommand TextChangedUserSearchCommand { get; set; }
 
         public ReactiveCommand SaveSearchCommand { get; set; }
 

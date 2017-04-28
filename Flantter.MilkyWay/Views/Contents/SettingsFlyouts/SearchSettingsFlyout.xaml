@@ -219,16 +219,16 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <SearchBox x:Name="SearchSettingsFlyoutStatusSearchBox" Grid.Column="0" RequestedTheme="Light" QueryText="{Binding StatusSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SearchHistoryEnabled="False">
+                    <AutoSuggestBox x:Name="SearchSettingsFlyoutStatusSearchBox" Grid.Column="0" RequestedTheme="Light" QueryIcon="Find" Text="{Binding StatusSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{x:Bind ViewModel.StatusSuggestion, Mode=OneWay}">
                         <i:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="SuggestionsRequested">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedStatusSearchCommand}" />
+                            <core:EventTriggerBehavior EventName="TextChanged">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedStatusSearchCommand}" />
                             </core:EventTriggerBehavior>
                             <core:EventTriggerBehavior EventName="QuerySubmitted">
                                 <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateStatusSearchCommand}" />
                             </core:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
-                    </SearchBox>
+                    </AutoSuggestBox>
 
                     <Button Grid.Column="1" FlowDirection="LeftToRight" Width="48" Background="#FF21A4E4" Foreground="White" Margin="1,1" Command="{x:Bind ViewModel.AdvancedSearchCommand}">
                         <SymbolIcon Symbol="Add" Foreground="White"/>
@@ -405,16 +405,16 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <SearchBox x:Name="SearchSettingsFlyoutUserSearchBox" Grid.Row="0" RequestedTheme="Light" QueryText="{Binding UserSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SearchHistoryEnabled="False">
+                <AutoSuggestBox x:Name="SearchSettingsFlyoutUserSearchBox" Grid.Row="0" RequestedTheme="Light" QueryIcon="Find" Text="{Binding UserSearchWords.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{x:Bind ViewModel.UserSuggestion, Mode=OneWay}">
                     <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="SuggestionsRequested">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.SuggestionsRequestedUserSearchCommand}" />
+                        <core:EventTriggerBehavior EventName="TextChanged">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.TextChangedUserSearchCommand}" />
                         </core:EventTriggerBehavior>
                         <core:EventTriggerBehavior EventName="QuerySubmitted">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.UpdateUserSearchCommand}" />
                         </core:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
-                </SearchBox>
+                </AutoSuggestBox>
 
                 <ListView Grid.Row="1" x:Name="SearchSettingsFlyoutUsersListView" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.Users}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}">
                     <i:Interaction.Behaviors>

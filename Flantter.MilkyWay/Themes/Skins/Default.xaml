@@ -1,221 +1,13 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Flantter.MilkyWay.Themes">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="SearchBoxBackgroundThemeBrush" Color="#CCFFFFFF" />
-    <SolidColorBrush x:Key="SearchBoxBorderThemeBrush" Color="#FF2A2A2A" />
-    <SolidColorBrush x:Key="SearchBoxDisabledBackgroundThemeBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="SearchBoxDisabledTextThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SearchBoxDisabledBorderThemeBrush" Color="#FF666666" />
-    <SolidColorBrush x:Key="SearchBoxPointerOverBackgroundThemeBrush" Color="#DDFFFFFF" />
-    <SolidColorBrush x:Key="SearchBoxPointerOverTextThemeBrush" Color="#99000000" />
-    <SolidColorBrush x:Key="SearchBoxPointerOverBorderThemeBrush" Color="#FFDDDDDD" />
-    <SolidColorBrush x:Key="SearchBoxFocusedBackgroundThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="SearchBoxFocusedTextThemeBrush" Color="#FF000000" />
-    <SolidColorBrush x:Key="SearchBoxFocusedBorderThemeBrush" Color="#FF2A2A2A" />
-    <SolidColorBrush x:Key="SearchBoxButtonBackgroundThemeBrush" Color="{ThemeResource SystemAccentColor}" />
-    <SolidColorBrush x:Key="SearchBoxButtonForegroundThemeBrush" Color="White" />
-    <SolidColorBrush x:Key="SearchBoxButtonPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="SearchBoxButtonPointerOverBackgroundThemeBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.6" />
-    <SolidColorBrush x:Key="SearchBoxSeparatorSuggestionForegroundThemeBrush" Color="#FF000000" />
-    <SolidColorBrush x:Key="SearchBoxHitHighlightForegroundThemeBrush" Color="{ThemeResource SystemAccentColor}" />
-    <SolidColorBrush x:Key="SearchBoxHitHighlightSelectedForegroundThemeBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.3" />
-    <SolidColorBrush x:Key="SearchBoxIMECandidateListSeparatorThemeBrush" Color="#FF2A2A2A"/>
-    <SolidColorBrush x:Key="SearchBoxForegroundThemeBrush" Color="#FF000000" />
-
-    <SolidColorBrush x:Key="ToggleSwitchForegroundThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchPointerOverOuterBorderStrokeThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchPointerOverSwitchKnobOffFillThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchPointerOverSwitchKnobBoundsFillThemeBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.7" />
-    <SolidColorBrush x:Key="ToggleSwitchPointerOverSwitchKnobBoundsStrokeThemeBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.7" />
-    <SolidColorBrush x:Key="ToggleSwitchPressedOuterBorderFillThemeBrush" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchPressedSwitchKnobBoundsStrokeThemeBrush" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchPressedSwitchKnobBoundsFillThemeBrush" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchPressedSwitchKnobOffFillThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchDisabledHeaderContentPresenterForegroundThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchDisabledOffContentPresenterForegroundThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchDisabledOnContentPresenterForegroundThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchDisabledOuterBorderStrokeThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobBoundsFillThemeBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobBoundsStrokeThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobOffFillThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchDisabledSwitchKnobOnFillThemeBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchHeaderContentPresenterForegroundThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchOuterBorderStrokeThemeBrush" Color="#CCFFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobBoundsFillThemeBrush" Color="{ThemeResource SystemAccentColor}" />
-    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobBoundsStrokeThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobOnFillThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ToggleSwitchSwitchKnobOffFillThemeBrush" Color="#CCFFFFFF" />
-
-    <SolidColorBrush x:Key="SliderBackgroundThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SliderForegroundThemeBrush" Color="{ThemeResource SystemAccentColor}" />
-    <SolidColorBrush x:Key="SliderThumbBackgroundThemeBrush" Color="{ThemeResource SystemAccentColor}" />
-    <SolidColorBrush x:Key="SliderPressedHorizontalThumbBackgroundThemeBrush" Color="#FF767676" />
-    <SolidColorBrush x:Key="SliderPressedVerticalThumbBackgroundThemeBrush" Color="#FF767676" />
-    <SolidColorBrush x:Key="SliderDisabledHeaderContentPresenterForegroundThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SliderDisabledHorizontalDecreaseRectFillThemeBrush" Color="#FF333333" />
-    <SolidColorBrush x:Key="SliderDisabledHorizontalTrackRectFillThemeBrush" Color="#FF333333" />
-    <SolidColorBrush x:Key="SliderDisabledVerticalDecreaseRectFillThemeBrush" Color="#FF333333" />
-    <SolidColorBrush x:Key="SliderDisabledVerticalTrackRectFillThemeBrush" Color="#FF333333" />
-    <SolidColorBrush x:Key="SliderDisabledHorizontalThumbBackgroundThemeBrush" Color="#FF333333" />
-    <SolidColorBrush x:Key="SliderDisabledVerticalThumbBackgroundThemeBrush" Color="#FF333333" />
-    <SolidColorBrush x:Key="SliderDisabledTopTickBarFillThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SliderDisabledBottomTickBarFillThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SliderDisabledLeftTickBarFillThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SliderDisabledRightTickBarFillThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SliderPointerOverHorizontalTrackRectFillThemeBrush" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="SliderPointerOverVerticalTrackRectFillThemeBrush" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="SliderPointerOverHorizontalThumbBackgroundThemeBrush" Color="#FFF2F2F2" />
-    <SolidColorBrush x:Key="SliderPointerOverVerticalThumbBackgroundThemeBrush" Color="#FFF2F2F2" />
-    <SolidColorBrush x:Key="SliderHeaderContentPresenterForegroundThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="SliderTopTickBarFillThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SliderHorizontalInlineTickBarFillThemeBrush" Color="#FF000000" />
-    <SolidColorBrush x:Key="SliderBottomTickBarFillThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SliderHorizontalThumbBackgroundThemeBrush" Color="{ThemeResource SystemAccentColor}" />
-    <SolidColorBrush x:Key="SliderLeftTickBarFillThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SliderVerticalInlineTickBarFillThemeBrush" Color="#FF000000" />
-    <SolidColorBrush x:Key="SliderRightTickBarFillThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="SliderVerticalThumbBackgroundThemeBrush" Color="{ThemeResource SystemAccentColor}" />
-
-    <SolidColorBrush x:Key="FlyoutBackgroundThemeBrush" Color="#FF2B2B2B"/>
-    <SolidColorBrush x:Key="FlyoutBorderThemeBrush" Color="#FF767676"/>
-    <SolidColorBrush x:Key="MenuFlyoutSeparatorBackgroundThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="MenuFlyoutItemPointerOverBackgroundThemeBrush" Color="#19FFFFFF" />
-    <SolidColorBrush x:Key="MenuFlyoutItemDisabledTextblockForegroundThemeBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="MenuFlyoutItemPressedBackgroundThemeBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="MenuFlyoutItemFocusVisualWhiteStrokeThemeBrush" Color="White" />
-    <SolidColorBrush x:Key="MenuFlyoutItemFocusVisualBlackStrokeThemeBrush" Color="#FF000000" />
-    <SolidColorBrush x:Key="MenuFlyoutItemTextblockForegroundThemeBrush" Color="White" />
-
-    <SolidColorBrush x:Key="ScrollBarRepeatButtonPointerOverBackgroundBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ScrollBarArrowPointerOverForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ScrollBarRepeatButtonPressedBackgroundBrush" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="ScrollBarArrowPressedForegroundBrush" Color="#FF000000" />
-    <SolidColorBrush x:Key="ScrollBarArrowDisabledForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ScrollBarArrowForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ScrollBarThumbFillBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ScrollBarThumbPointerOverFillBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ScrollBarThumbPressedFillBrush" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="ScrollBarTrackRectDisabledStrokeBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="ScrollBarPanningThumbDisabledStrokeBrush" Color="#FF767676" />
-    <SolidColorBrush x:Key="ScrollBarTrackRectFillBrush" Color="#FF1F1F1F" />
-    <SolidColorBrush x:Key="ScrollBarTrackRectStrokeBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="ScrollBarPanningThumbBackgroundBrush" Color="#FF767676" />
-
-    <SolidColorBrush x:Key="TextBoxForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="#FF000000" />
-    <SolidColorBrush x:Key="TextBoxBorderBrush" Color="#FF858585" />
-    <SolidColorBrush x:Key="TextBoxSelectionHighlightBrush" Color="#FF0078D7" />
-    <SolidColorBrush x:Key="TextBoxButtonBorderBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="TextBoxButtonBackgroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="TextBoxGlyphElementPointerOverForegroundBrush" Color="#FF0078D7" />
-    <SolidColorBrush x:Key="TextBoxButtonLayoutGridPressedForegroundBrush" Color="#FF0078D7" />
-    <SolidColorBrush x:Key="TextBoxGlyphElementPressedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="TextBoxGlyphElementForegroundBrush" Color="#CC000000" />
-    <SolidColorBrush x:Key="TextBoxHeaderContentPresenterDisabledForegroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="TextBoxBackgroundElementDisabledBackgroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="TextBoxBorderElementDisabledBackgroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="TextBoxBorderElementDisabledBorderBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="TextBoxContentElementDisabledForegroundBrush" Color="#FF858585" />
-    <SolidColorBrush x:Key="TextBoxPlaceholderTextContentPresenterDisabledForegroundBrush" Color="#FF858585" />
-    <SolidColorBrush x:Key="TextBoxBorderElementPointerOverBorderBrush" Color="#FFF2F2F2" />
-    <SolidColorBrush x:Key="TextBoxPlaceholderTextContentPresenterFocusedForegroundBrush" Color="#66000000" />
-    <SolidColorBrush x:Key="TextBoxBackgroundElementFocusedBackgroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="TextBoxBorderElementFocusedBorderBrush" Color="#FF0078D7" />
-    <SolidColorBrush x:Key="TextBoxContentElementFocusedForegroundBrush" Color="#FF000000" />
-    <SolidColorBrush x:Key="TextBoxHeaderContentPresenterForegroundBrush" Color="#99FFFFFF" />
-
-    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ButtonBorderBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="ButtonContentPresenterPointerOverBorderBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ButtonContentPresenterPointerOverForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ButtonRootGridPressedBackgroundBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ButtonContentPresenterPressedBorderBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="ButtonContentPresenterPressedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ButtonRootGridDisabledBackgroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ButtonContentPresenterDisabledForegroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ButtonContentPresenterDisabledBorderBrush" Color="Transparent" />
+    <!-- Base -->
+    <x:String x:Key="BaseThemeString">Dark</x:String>
     
-    <SolidColorBrush x:Key="AppBarButtonItemBackgroundThemeBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="AppBarButtonItemDisabledForegroundThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="AppBarButtonItemForegroundThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="AppBarButtonItemPointerOverBackgroundThemeBrush" Color="#21FFFFFF" />
-    <SolidColorBrush x:Key="AppBarButtonItemPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="AppBarButtonItemPressedForegroundThemeBrush" Color="#FF000000" />
-
-    <SolidColorBrush x:Key="PivotButtonBorderBackgroundBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="PivotButtonBorderBorderBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="PivotButtonBorderPointerOverBackgroundBrush" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="PivotButtonArrowPointerOverForegroundBrush" Color="#CC000000" />
-    <SolidColorBrush x:Key="PivotButtonArrowPressedForegroundBrush" Color="#CC000000" />
-    <SolidColorBrush x:Key="PivotButtonBorderPressedBackgroundBrush" Color="#CCFFFFFF" />
-    <SolidColorBrush x:Key="PivotButtonArrowForegroundBrush" Color="#CC000000" />
-    <SolidColorBrush x:Key="PivotHeaderBorderBachgroundBrush" Color="#FF1F1F1F" />
-    <SolidColorBrush x:Key="PivotHeaderBorderBorderBrush" Color="#FF1F1F1F" />
-    
-    <SolidColorBrush x:Key="PivotHeaderItemForegroundBrush" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="PivotHeaderItemDisabledForegroundBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="PivotHeaderItemSelectedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="PivotHeaderItemSelectedBackgroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="PivotHeaderItemUnselectedPointerOverBackgroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="PivotHeaderItemSelectedPointerOverBackgroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="PivotHeaderItemUnselectedPressedBackgroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="PivotHeaderItemSelectedPressedBackgroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="PivotHeaderItemUnselectedPointerOverForegroundBrush" Color="#CCFFFFFF" />
-    <SolidColorBrush x:Key="PivotHeaderItemSelectedPointerOverForegroundBrush" Color="#CCFFFFFF" />
-    <SolidColorBrush x:Key="PivotHeaderItemUnselectedPressedForegroundBrush" Color="#CCFFFFFF" />
-    <SolidColorBrush x:Key="PivotHeaderItemSelectedPressedForegroundBrush" Color="#CCFFFFFF" />
-    
-    <SolidColorBrush x:Key="ComboBoxItemForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxItemLayoutRootPointerOverBackgroundBrush" Color="#19FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxItemContentPresenterPointerOverForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxItemContentPresenterPressedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxItemContentPresenterSelectedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxItemContentPresenterSelectedUnfocusedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxItemContentPresenterSelectedPointerOverForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxItemContentPresenterSelectedPressedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxItemContentPresenterSelectedDisabledForegroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxItemLayoutRootPressedForegroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxItemLayoutRootSelectedForegroundBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.6" />
-    <SolidColorBrush x:Key="ComboBoxItemLayoutRootSelectedUnfocusedForegroundBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.6" />
-    <SolidColorBrush x:Key="ComboBoxItemLayoutRootSelectedPointerOverForegroundBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.8" />
-    <SolidColorBrush x:Key="ComboBoxItemLayoutRootSelectedPressedForegroundBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.9" />
-
-    <SolidColorBrush x:Key="ComboBoxForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxBackgroundBrush" Color="#66000000" />
-    <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxBackgroundPointerOverBackgroundBrush" Color="#99000000" />
-    <SolidColorBrush x:Key="ComboBoxBackgroundPointerOverBorderBrush" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxBackgroundPressedBackgroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxBackgroundPressedBorderBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxHighlightBackgroundBorderBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxBackgroundDisabledBackgroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxBackgroundDisabledBorderBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxContentPresenterDisabledForegroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxPlaceholderTextBlockDisabledForegroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxDropDownGlyphDisabledForegroundBrush" Color="#33FFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxHighlightBackgroundFocusedBorderBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="ComboBoxContentPresenterFocusedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxPlaceholderTextBlockFocusedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxContentPresenterFocusedPressedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxPlaceholderTextBlockFocusedPressedForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxDropDownGlyphFocusedForegroundBrush" Color="#CCFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxDropDownGlyphFocusedPressedForegroundBrush" Color="#CCFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxHighlightBackgroundBackgroundBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.6" />
-    <SolidColorBrush x:Key="ComboBoxPlaceholderTextBlockForegroundBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundBrush" Color="#CCFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxPopupBorderBrush" Color="#CCFFFFFF" />
-    <SolidColorBrush x:Key="ComboBoxPopupBackgroundBrush" Color="#FF2B2B2B" />
-    <SolidColorBrush x:Key="ComboBoxScrollViewerForegroundBrush" Color="#FFFFFFFF" />
-
-
     <!-- App -->
     <SolidColorBrush x:Key="ProgressBarForegroundBrush" Color="#FF0078D7" />
     <SolidColorBrush x:Key="ProgressRingForegroundBrush" Color="#FF0078D7" />
-    
-    <SolidColorBrush x:Key="TextSelectionHighlightColorThemeBrush" Color="{ThemeResource SystemAccentColor}"/>
 
     <SolidColorBrush x:Key="AppBarBackgroundBrush" Color="#FF282836" />
     <SolidColorBrush x:Key="AppBarBorderBrush" Color="Black" />
@@ -255,13 +47,6 @@
     <SolidColorBrush x:Key="BottomBarAppBarButtonItemPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="BottomBarAppBarButtonItemPressedForegroundThemeBrush" Color="#FF000000" />
 
-    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemBackgroundThemeBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemDisabledForegroundThemeBrush" Color="#66FFFFFF" />
-    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemForegroundThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemPointerOverBackgroundThemeBrush" Color="#21FFFFFF" />
-    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="TweetMultipulActionAppBarButtonItemPressedForegroundThemeBrush" Color="#FF000000" />
-
     <SolidColorBrush x:Key="PullToRefreshCharacterBrush" Color="White" />
 
     <SolidColorBrush x:Key="ColumnViewBackgroundBrush" Color="#FF121212" />
@@ -275,21 +60,6 @@
     <SolidColorBrush x:Key="ColumnViewControlBarUnreadCountTextblockForegroundBrush" Color="White" />
     
 	<!-- Tweet -->
-    <SolidColorBrush x:Key="TweetCheckBrush" Color="Gray" />
-    <SolidColorBrush x:Key="TweetCheckBoxBrush" Color="Gray" />
-    <SolidColorBrush x:Key="TweetDragBackgroundBrush" Color="#14808080" />
-    <SolidColorBrush x:Key="TweetDragForegroundBrush" Color="White" />
-    <SolidColorBrush x:Key="TweetFocusBorderBrush" Color="White" />
-    <SolidColorBrush x:Key="TweetFocusSecondaryBorderBrush" Color="White" />
-    <SolidColorBrush x:Key="TweetPlaceholderBackgroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="TweetPointerOverBackgroundBrush" Color="#14808080" />
-    <SolidColorBrush x:Key="TweetPointerOverForegroundBrush" Color="Transparent" />
-    <SolidColorBrush x:Key="TweetSelectedBackgroundBrush" Color="#18808080" />
-    <SolidColorBrush x:Key="TweetSelectedForegroundBrush" Color="White" />
-    <SolidColorBrush x:Key="TweetSelectedPointerOverBackgroundBrush" Color="#20808080" />
-    <SolidColorBrush x:Key="TweetPressedBackgroundBrush" Color="#24808080" />
-    <SolidColorBrush x:Key="TweetSelectedPressedBackgroundBrush" Color="#24808080" />
-
     <SolidColorBrush x:Key="TweetFavoriteBackgroundBrush" Color="Yellow" />
     <SolidColorBrush x:Key="TweetRetweetBackgroundBrush" Color="Lime" />
     <SolidColorBrush x:Key="TweetMentionBackgroundBrush" Color="Red" />

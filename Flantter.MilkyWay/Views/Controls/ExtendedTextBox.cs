@@ -16,6 +16,7 @@ namespace Flantter.MilkyWay.Views.Controls
 
         public ExtendedTextBox()
         {
+            DefaultStyleKey = typeof(TextBox);
             SelectionChanged += ExtendedTextBox_SelectionChanged;
         }
 

@@ -119,20 +119,27 @@ namespace Flantter.MilkyWay.Themes
                     throw new ArgumentException();
             }
 
-            Application.Current.Resources.ThemeDictionaries["Dark"] = baseThemeResourceDictionary;
+            //Application.Current.Resources.ThemeDictionaries["Dark"] = baseThemeResourceDictionary;
             var targetResourceDictionary = Application.Current.Resources.ThemeDictionaries["Dark"] as ResourceDictionary;
             if (targetResourceDictionary == null)
                 return;
 
-            /*foreach (var pair in baseThemeResourceDictionary)
+            foreach (var pair in baseThemeResourceDictionary)
             {
                 var key = pair.Key as string;
                 var brush = pair.Value as SolidColorBrush;
-                if (string.IsNullOrWhiteSpace(key) || brush == null)
+                if (string.IsNullOrWhiteSpace(key) || brush == null || key == "DefaultTextForegroundThemeBrush")
                     continue;
-                
-                targetResourceDictionary[key] = brush;
-            }*/
+
+                try
+                {
+                    ((SolidColorBrush)targetResourceDictionary[key]).Color = brush.Color;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(key);
+                }
+            }
             if (customThemeResourceDictionary != null)
             {
                 foreach (var pair in customThemeResourceDictionary)
@@ -142,9 +149,17 @@ namespace Flantter.MilkyWay.Themes
                     if (string.IsNullOrWhiteSpace(key) || brush == null)
                         continue;
 
-                    targetResourceDictionary[key] = brush;
+                    try
+                    {
+                        ((SolidColorBrush)targetResourceDictionary[key]).Color = brush.Color;
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(key);
+                    }
                 }
             }
+            ChangeBackgroundAlpha();
 
             ThemeString = customThemeResourceDictionary == null ? baseThemeName : "Custom";
         }

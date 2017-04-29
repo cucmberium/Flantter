@@ -325,7 +325,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_FirstTextblock" Grid.Column="0" Foreground="{ThemeResource SettingsFlyoutTextblockForegroundBrush}" Text="At least " VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                        <controls:NumericTextBox Grid.Column="1" Style="{StaticResource ExtendedTextBoxStyle}" Margin="15,0" Width="50" InputScope="Number" Text="{Binding AdvancedSearchEngagementRetweetsCount.Value, Mode=TwoWay, Converter={StaticResource IntToStringConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                        <controls:NumericTextBox Grid.Column="1" Margin="15,0" Width="50" InputScope="Number" Text="{Binding AdvancedSearchEngagementRetweetsCount.Value, Mode=TwoWay, Converter={StaticResource IntToStringConverter}, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Retweets_SecondTextblock" Grid.Column="2" Foreground="{ThemeResource SettingsFlyoutTextblockForegroundBrush}" Text=" retweets" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     </Grid>
 
@@ -337,7 +337,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_FirstTextblock" Grid.Column="0" Foreground="{ThemeResource SettingsFlyoutTextblockForegroundBrush}" Text="At least " VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                        <controls:NumericTextBox Grid.Column="1" Style="{StaticResource ExtendedTextBoxStyle}" Margin="15,0" Width="50" InputScope="Number" Text="{Binding AdvancedSearchEngagementFavoritesCount.Value, Mode=TwoWay, Converter={StaticResource IntToStringConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                        <controls:NumericTextBox Grid.Column="1" Margin="15,0" Width="50" InputScope="Number" Text="{Binding AdvancedSearchEngagementFavoritesCount.Value, Mode=TwoWay, Converter={StaticResource IntToStringConverter}, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBlock x:Uid="SettingsFlyout_Search_AdvancedSearch_Engagement_Favorites_SecondTextblock" Grid.Column="2" Foreground="{ThemeResource SettingsFlyoutTextblockForegroundBrush}" Text=" favorites" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     </Grid>
                 </StackPanel>

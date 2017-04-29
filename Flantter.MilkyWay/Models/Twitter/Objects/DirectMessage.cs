@@ -29,6 +29,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Sender = new User(cDirectMessage.Account);
         }
 
+        public DirectMessage()
+        {
+        }
+
         #region Entities変更通知プロパティ
 
         public Entities Entities { get; set; }

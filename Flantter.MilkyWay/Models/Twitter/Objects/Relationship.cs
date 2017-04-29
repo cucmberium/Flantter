@@ -14,6 +14,10 @@
             Source = new RelationshipSource(cRelationship);
         }
 
+        public Relationship()
+        {
+        }
+
         public RelationshipTarget Target { get; set; }
 
         public RelationshipSource Source { get; set; }
@@ -70,6 +74,10 @@
             IsFollowingRequested = cRelationshipSource.Requested;
             IsBlocking = cRelationshipSource.Blocking;
             IsMuting = cRelationshipSource.Muting;
+        }
+
+        public RelationshipSource()
+        {
         }
 
         public long Id { get; set; }

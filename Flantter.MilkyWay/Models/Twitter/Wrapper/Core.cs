@@ -6,8 +6,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Reactive.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Twitter.Objects;
 
 namespace Flantter.MilkyWay.Models.Twitter.Wrapper
 {
@@ -2034,38 +2036,38 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 public StreamingObservable(Tokens tokens, StreamingType type,
                     IDictionary<string, object> parameters = null)
                 {
-                    this.tokens = tokens;
-                    this.type = type;
-                    this.parameters = parameters;
+                    this._tokens = tokens;
+                    this._type = type;
+                    this._parameters = parameters;
                 }
 
-                private readonly Tokens tokens;
-                private readonly StreamingType type;
-                private readonly IDictionary<string, object> parameters;
+                private readonly Tokens _tokens;
+                private readonly StreamingType _type;
+                private readonly IDictionary<string, object> _parameters;
 
                 public IDisposable Subscribe(IObserver<Twitter.Objects.StreamingMessage> observer)
                 {
-                    var streamingUrl = tokens.Instance == "mstdn.jp" ? "streaming.mstdn.jp" : tokens.Instance;
+                    var streamingUrl = _tokens.Instance == "mstdn.jp" ? "streaming.mstdn.jp" : _tokens.Instance;
                     var conn = new StreamingConnection();
-                    switch (type)
+                    switch (_type)
                     {
                         case StreamingType.User:
-                            conn.Start(observer, tokens, "https://" + streamingUrl + "/api/v1/streaming/user");
+                            conn.Start(observer, _tokens, "https://" + streamingUrl + "/api/v1/streaming/user");
                             break;
                         case StreamingType.Tag:
-                            conn.Start(observer, tokens,
+                            conn.Start(observer, _tokens,
                                 "https://" + streamingUrl + "/api/v1/streaming/hashtag" + "?tag=" +
-                                parameters["track"]);
+                                _parameters["track"]);
                             break;
                         case StreamingType.Public:
-                            conn.Start(observer, tokens, "https://" + streamingUrl + "/api/v1/streaming/public");
+                            conn.Start(observer, _tokens, "https://" + streamingUrl + "/api/v1/streaming/public");
                             break;
                     }
                     return conn;
                 }
             }
 
-            internal class StreamingConnection : IDisposable
+            public class StreamingConnection : IDisposable
             {
                 private readonly CancellationTokenSource _cancel = new CancellationTokenSource();
 
@@ -2162,6 +2164,149 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             }
         }
 
+        public static class TwitterStreaming
+        {
+            public enum StreamingType
+            {
+                User = 0,
+                Site = 1,
+                Filter = 2,
+                Sample = 3,
+                Firehose = 4
+            }
+
+            public class StreamingObservable : IObservable<Twitter.Objects.StreamingMessage>
+            {
+                public StreamingObservable(Tokens tokens, StreamingType type,
+                    IDictionary<string, object> parameters = null)
+                {
+                    this._tokens = tokens;
+                    this._type = type;
+                    this._parameters = parameters;
+                }
+
+                private readonly Tokens _tokens;
+                private readonly StreamingType _type;
+                private readonly IDictionary<string, object> _parameters;
+
+                public IDisposable Subscribe(IObserver<Twitter.Objects.StreamingMessage> observer)
+                {
+                    var conn = new StreamingConnection();
+                    conn.Start(observer, this._tokens, this._type, this._parameters);
+                    return conn;
+                }
+            }
+
+            public class StreamingConnection : IDisposable
+            {
+                private readonly CancellationTokenSource _cancel = new CancellationTokenSource();
+
+                internal static string GetUrl(CoreTweet.ConnectionOptions options, string baseUrl, bool needsVersion, string rest)
+                {
+                    var result = new StringBuilder(baseUrl.TrimEnd('/'));
+                    if (needsVersion)
+                    {
+                        result.Append('/');
+                        result.Append(options.ApiVersion);
+                    }
+                    result.Append('/');
+                    result.Append(rest);
+                    return result.ToString();
+                }
+
+                internal string GetUrl(StreamingType type, CoreTweet.Tokens tokens)
+                {
+                    var options = tokens.ConnectionOptions;
+                    string baseUrl;
+                    string apiName;
+                    switch (type)
+                    {
+                        case StreamingType.User:
+                            baseUrl = options.UserStreamUrl;
+                            apiName = "user.json";
+                            break;
+                        case StreamingType.Site:
+                            baseUrl = options.SiteStreamUrl;
+                            apiName = "site.json";
+                            break;
+                        case StreamingType.Filter:
+                            baseUrl = options.StreamUrl;
+                            apiName = "statuses/filter.json";
+                            break;
+                        case StreamingType.Sample:
+                            baseUrl = options.StreamUrl;
+                            apiName = "statuses/sample.json";
+                            break;
+                        case StreamingType.Firehose:
+                            baseUrl = options.StreamUrl;
+                            apiName = "statuses/firehose.json";
+                            break;
+                        default:
+                            throw new ArgumentException("Invalid StreamingType.");
+                    }
+                    return GetUrl(options, baseUrl, true, apiName);
+                }
+
+
+                public async void Start(IObserver<Twitter.Objects.StreamingMessage> observer, Tokens tokens, StreamingType type, IDictionary<string, object> parameters)
+                {
+                    var token = this._cancel.Token;
+                    var methodType = type == StreamingType.Filter ? CoreTweet.MethodType.Post : CoreTweet.MethodType.Get;
+
+                    try
+                    {
+                        using (var res =
+                            await tokens.TwitterTokens.SendStreamingRequestAsync(methodType,
+                                GetUrl(type, tokens.TwitterTokens), parameters, token))
+                        using (token.Register(res.Dispose))
+                        {
+                            using (var stream = await res.GetResponseStreamAsync())
+                            using (token.Register(stream.Dispose))
+                            {
+                                using (var reader = new StreamReader(stream))
+                                using (token.Register(reader.Dispose))
+                                {
+                                    while (!reader.EndOfStream)
+                                    {
+                                        var s = await reader.ReadLineAsync();
+                                        if (string.IsNullOrWhiteSpace(s))
+                                            continue;
+
+                                        try
+                                        {
+                                            observer.OnNext(new StreamingMessage(CoreTweet.Streaming.StreamingMessage.Parse(s)));
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                        }
+                                    }
+                                }
+                                observer.OnCompleted();
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (!token.IsCancellationRequested)
+                        {
+                            observer.OnError(e);
+                        }
+                    }
+                }
+
+                public void Dispose()
+                {
+                    try
+                    {
+                        _cancel.Cancel();
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+        }
+
         public IObservable<Twitter.Objects.StreamingMessage> FilterAsObservable(
             params Expression<Func<string, object>>[] parameters)
         {
@@ -2179,8 +2324,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return Tokens.TwitterTokens.Streaming.FilterAsObservable(parameters)
-                        .Select(x => new Twitter.Objects.StreamingMessage(x));
+                    return new TwitterStreaming.StreamingObservable(Tokens, TwitterStreaming.StreamingType.Filter,
+                        parameters);
                 case Tokens.PlatformEnum.Mastodon:
                     return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Tag,
                         parameters);
@@ -2205,8 +2350,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return Tokens.TwitterTokens.Streaming.SampleAsObservable(parameters)
-                        .Select(x => new Twitter.Objects.StreamingMessage(x));
+                    return new TwitterStreaming.StreamingObservable(Tokens, TwitterStreaming.StreamingType.Sample,
+                        parameters);
                 case Tokens.PlatformEnum.Mastodon:
                     return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Public,
                         parameters);
@@ -2231,8 +2376,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return Tokens.TwitterTokens.Streaming.UserAsObservable(parameters)
-                        .Select(x => new Twitter.Objects.StreamingMessage(x));
+                    return new TwitterStreaming.StreamingObservable(Tokens, TwitterStreaming.StreamingType.User,
+                        parameters);
                 case Tokens.PlatformEnum.Mastodon:
                     return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.User,
                         parameters);

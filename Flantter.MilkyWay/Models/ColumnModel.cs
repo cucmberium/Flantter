@@ -339,10 +339,11 @@ namespace Flantter.MilkyWay.Models
                     return;
                 }
 
-                _streamingDisposableObject = iObservable.SubscribeOn(NewThreadScheduler.Default)
+                _streamingDisposableObject = iObservable
                     .Catch(
-                        (Exception ex) => { return iObservable.DelaySubscription(TimeSpan.FromSeconds(10)).Retry(); })
+                        (Exception ex) => iObservable.DelaySubscription(TimeSpan.FromSeconds(10)).Retry())
                     .Repeat()
+                    .SubscribeOn(NewThreadScheduler.Default)
                     .Subscribe(x => _stream.OnNext(x), ex => _stream.OnError(ex), () => _stream.OnCompleted());
             }
             catch (CoreTweet.TwitterException ex)

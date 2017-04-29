@@ -56,6 +56,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             SortIndex = cCollectionEntry.SortIndex;
         }
 
+        public CollectionEntry()
+        {
+        }
+
         #region Status変更通知プロパティ
 
         public Status Status { get; set; }

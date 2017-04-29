@@ -76,10 +76,10 @@
                                 <controls:HorizontalBar x:Name="TweetMultipulActionHorizontalBar"/>
 
                                 <StackPanel x:Name="TweetMultipulActionStackPanel" Height="0" HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="ReShare" Command="{x:Bind Notice.RetweetStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
-                                    <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Favorite" Command="{x:Bind Notice.FavoriteStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
-                                    <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Message" Command="{x:Bind Notice.ReplyToStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}" />
-                                    <AppBarButton Style="{StaticResource TweetMultipulActionAppButtonStyle}" Foreground="{StaticResource TweetMultipulActionAppBarButtonItemForegroundThemeBrush}" IsCompact="True" Icon="Cancel" Command="{x:Bind CloseStatusMultipulSelectCommand}"/>
+                                    <AppBarButton IsCompact="True" Icon="ReShare" Command="{x:Bind Notice.RetweetStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
+                                    <AppBarButton IsCompact="True" Icon="Favorite" Command="{x:Bind Notice.FavoriteStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
+                                    <AppBarButton IsCompact="True" Icon="Message" Command="{x:Bind Notice.ReplyToStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}" />
+                                    <AppBarButton IsCompact="True" Icon="Cancel" Command="{x:Bind CloseStatusMultipulSelectCommand}"/>
                                 </StackPanel>
                             </Grid>
 

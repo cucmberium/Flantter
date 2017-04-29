@@ -382,7 +382,6 @@
     <Compile Include="Views\Controls\VerticalBar.cs" />
     <Compile Include="Views\Converters\DoubleToIntConverter.cs" />
     <Compile Include="Views\Converters\ColorCodeToBrushConverter.cs" />
-    <Compile Include="Views\Converters\EnumToStringConverter.cs" />
     <Compile Include="Views\Converters\EnumToDoubleConverter.cs" />
     <Compile Include="Views\Converters\IntToStringConverter.cs" />
     <Compile Include="Views\Converters\DoublePlusConverter.cs" />
@@ -456,11 +455,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Skins\Dark.xaml">
+    <Page Include="Themes\Skins\Default.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Skins\Default.xaml">
+    <Page Include="Themes\Skins\Dark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -468,9 +467,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Style\Style.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Themes\Style.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\Contents\Authorize\AuthorizePopup.xaml">
       <Generator>MSBuild:Compile</Generator>

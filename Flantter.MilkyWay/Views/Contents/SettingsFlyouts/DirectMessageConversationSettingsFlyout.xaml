@@ -55,7 +55,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <controls:ExtendedTextBox Grid.Column="0" Style="{StaticResource ExtendedTextBoxStyle}" IsEnabled="{x:Bind ViewModel.SendingDirectMessage.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Text="{Binding Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" MaxHeight="100">
+            <controls:ExtendedTextBox Grid.Column="0" IsEnabled="{x:Bind ViewModel.SendingDirectMessage.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Text="{Binding Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" MaxHeight="100">
                 <i:Interaction.Behaviors>
                     <behaviors:TextBoxKeyTriggerBehavior>
                         <util:KeyTrigger Key="Enter" Modifiers="Control">

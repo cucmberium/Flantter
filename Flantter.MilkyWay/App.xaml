@@ -3,8 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:prism="using:Prism.Windows"
-    xmlns:mvvm="using:Prism.Windows.Mvvm"
-    xmlns:local="using:Flantter.MilkyWay"
     xmlns:converters="using:Flantter.MilkyWay.Views.Converters"
     xmlns:setting="using:Flantter.MilkyWay.Setting"
     xmlns:notice="using:Flantter.MilkyWay.ViewModels.Services"
@@ -13,16 +11,18 @@
     
     <prism:PrismApplication.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark" Source="ms-appx:///Themes/Skins/Default.xaml" />
+                <ResourceDictionary x:Key="Light" Source="ms-appx:///Themes/Skins/Default.xaml" />
+            </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Themes/Skins/Default.xaml" />
-                <ResourceDictionary Source="ms-appx:///Themes/Style/Style.xaml" />
+                <ResourceDictionary Source="ms-appx:///Themes/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <SolidColorBrush x:Key="AppThemeBrush" Color="#FFB01E00"/>
 
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <converters:EnumToDoubleConverter x:Key="EnumToDoubleConverter"/>
-            <!--<converters:EnumToStringConverter x:Key="EnumToStringConverter"/>-->
             <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
 			<converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
 			<converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
@@ -41,7 +41,6 @@
             <setting:SettingSupportProvider x:Key="SettingSupport" />
             <notice:NoticeProvider x:Key="Notice"/>
             <license:LicenseProvider x:Key="License"/>
-
 
         </ResourceDictionary>
     </prism:PrismApplication.Resources>

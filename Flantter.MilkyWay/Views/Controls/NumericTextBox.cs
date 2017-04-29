@@ -9,6 +9,7 @@ namespace Flantter.MilkyWay.Views.Controls
     {
         public NumericTextBox()
         {
+            DefaultStyleKey = typeof(TextBox);
             LostFocus += NumericTextBox_LostFocus;
         }
 

@@ -44,7 +44,7 @@
 
         <behaviors:AppBarShowBehavior IsOpen="{x:Bind ViewModel.AppBarIsOpen.Value, Mode=TwoWay}" IsTopAppBar="{x:Bind ViewModel.Setting.ShowAppBarToTop, Mode=OneWay}">
             <behaviors:AppBarShowBehavior.AppBar>
-                <AppBar ClosedDisplayMode="Hidden" IsSticky="False" BorderBrush="{StaticResource AppBarBorderBrush}">
+                <AppBar Style="{StaticResource ExpandedAppBar}" ClosedDisplayMode="Hidden" IsSticky="False" BorderBrush="{StaticResource AppBarBorderBrush}">
                     <contents:TweetArea ViewModel="{x:Bind ViewModel.TweetArea, Mode=OneWay}" />
                 </AppBar>
             </behaviors:AppBarShowBehavior.AppBar>

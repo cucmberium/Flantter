@@ -26427,11 +26427,8 @@
     "dependencies": {
       "CoreTweet": "0.7.2.352",
       "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-      "Newtonsoft.Json": "10.0.2",
-      "Microsoft.Toolkit.Uwp.Notifications": {
-        "target": "Package",
-        "version": "[1.4.1, )"
-      }
+      "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+      "Newtonsoft.Json": "10.0.2"
     },
     "frameworks": {
       "uap10.0": {}

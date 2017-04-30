@@ -190,7 +190,7 @@
                         <AdaptiveTrigger MinWindowWidth="0" MinWindowHeight="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ColumnArea_ColumnList.Margin" Value="0" />
+                        <Setter Target="ColumnAreaColumnList.Margin" Value="0" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Min">
@@ -198,7 +198,7 @@
                         <AdaptiveTrigger MinWindowWidth="352" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ColumnArea_ColumnList.Margin" Value="0" />
+                        <Setter Target="ColumnAreaColumnList.Margin" Value="0" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">

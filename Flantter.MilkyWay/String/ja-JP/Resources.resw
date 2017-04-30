@@ -583,8 +583,8 @@
   <data name="SettingsFlyout_Settings_Display_TweetCommandBarHeight_Slider.Header" xml:space="preserve">
     <value>ツイート操作ボタンの大きさ</value>
   </data>
-  <data name="SettingsFlyout_Settings_Display_TweetMediaThumbnailSize_ToggleSwitch.Header" xml:space="preserve">
-    <value>サムネイルの表示サイズ</value>
+  <data name="SettingsFlyout_Settings_Display_TweetMediaThumbnailHeight_Slider.Header" xml:space="preserve">
+    <value>サムネイルの表示サイズ (縦幅)</value>
   </data>
   <data name="SettingsFlyout_Settings_Display_UseBackgroundImage_ToggleSwitch.Header" xml:space="preserve">
     <value>背景画像を表示</value>
@@ -1050,5 +1050,8 @@
   </data>
   <data name="SettingsFlyout_Settings_Posting_ResetPostingAccountBeforeTweetAreaOpening_ToggleSwitch.Header" xml:space="preserve">
     <value>投稿画面を開く際にアカウントを初期化する</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetMediaThumbnailWidth_Slider.Header" xml:space="preserve">
+    <value>サムネイルの表示サイズ (横幅)</value>
   </data>
 </root>

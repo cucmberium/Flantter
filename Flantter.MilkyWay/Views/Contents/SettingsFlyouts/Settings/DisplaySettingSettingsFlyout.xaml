@@ -73,7 +73,11 @@
 
             <controls:HorizontalBar/>
 
-            <Slider x:Uid="SettingsFlyout_Settings_Display_TweetMediaThumbnailSize_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="サムネイルの表示サイズ" Maximum="180" Minimum="80" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.TweetMediaThumbnailSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider x:Uid="SettingsFlyout_Settings_Display_TweetMediaThumbnailHeight_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="サムネイルの表示サイズ (縦幅)" Maximum="200" Minimum="80" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.TweetMediaThumbnailHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <controls:HorizontalBar/>
+
+            <Slider x:Uid="SettingsFlyout_Settings_Display_TweetMediaThumbnailWidth_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="サムネイルの表示サイズ (横幅)" Maximum="300" Minimum="80" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.TweetMediaThumbnailWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <controls:HorizontalBar/>
 

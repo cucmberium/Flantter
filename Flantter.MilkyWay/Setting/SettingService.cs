@@ -543,9 +543,19 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
-        public double TweetMediaThumbnailSize
+        public double TweetMediaThumbnailHeight
         {
             get => GetValue(100.0);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
+        public double TweetMediaThumbnailWidth
+        {
+            get => GetValue(200.0);
             set
             {
                 SetValue(value);

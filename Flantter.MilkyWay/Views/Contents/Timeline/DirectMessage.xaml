@@ -8,7 +8,7 @@
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:uwpToolKit="using:Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel"
+    xmlns:uwpToolKit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -73,20 +73,22 @@
                     <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{x:Bind ViewModel.CreatedAt, Mode=OneWay}"/>
                 </TextBlock>
 
-                <ItemsControl x:DeferLoadStrategy="Lazy" x:Name="MediaItemsControl" Visibility="Collapsed" ItemsSource="{x:Bind ViewModel.MediaEntities, Mode=OneWay}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <uwpToolKit:WrapPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+                <uwpToolKit:AdaptiveGridView x:DeferLoadStrategy="Lazy" x:Name="MediaItemsControl" Visibility="Collapsed" ItemsSource="{x:Bind ViewModel.MediaEntities, Mode=OneWay}" ItemHeight="{x:Bind ViewModel.Setting.TweetMediaThumbnailHeight, Mode=OneWay}" DesiredWidth="{x:Bind ViewModel.Setting.TweetMediaThumbnailWidth, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="True" StretchContentForSingleRow="False">
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection/>
+                    </ItemsControl.ItemContainerTransitions>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="twitterObjectsViewModel:MediaEntityViewModel">
-                            <Button Background="Transparent" BorderThickness="0" Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}">
-                                <Image Height="{x:Bind Setting.TweetMediaThumbnailSize, Mode=OneWay}" MinWidth="{x:Bind Setting.TweetMediaThumbnailSize, Mode=OneWay}" MaxWidth="150"  Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="Uniform"/>
-                            </Button>
+                            <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill">
+                                <i:Interaction.Behaviors>
+                                    <core:EventTriggerBehavior EventName="Tapped">
+                                        <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
+                                    </core:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                            </Image>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                </uwpToolKit:AdaptiveGridView>
 
                 <Grid Margin="0,2,0,0" Background="Transparent" HorizontalAlignment="Left">
 

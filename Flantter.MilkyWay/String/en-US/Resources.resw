@@ -583,8 +583,8 @@
   <data name="SettingsFlyout_Settings_Display_TweetCommandBarHeight_Slider.Header" xml:space="preserve">
     <value>Tweet command bar height</value>
   </data>
-  <data name="SettingsFlyout_Settings_Display_TweetMediaThumbnailSize_ToggleSwitch.Header" xml:space="preserve">
-    <value>Thumbnail size</value>
+  <data name="SettingsFlyout_Settings_Display_TweetMediaThumbnailHeight_Slider.Header" xml:space="preserve">
+    <value>Thumbnail size (Height)</value>
   </data>
   <data name="SettingsFlyout_Settings_Display_UseBackgroundImage_ToggleSwitch.Header" xml:space="preserve">
     <value>Use background image</value>
@@ -1050,5 +1050,8 @@
   </data>
   <data name="SettingsFlyout_Settings_Posting_ResetPostingAccountBeforeTweetAreaOpening_ToggleSwitch.Header" xml:space="preserve">
     <value>Reset posting account before tweet area opening.</value>
+  </data>
+  <data name="SettingsFlyout_Settings_Display_TweetMediaThumbnailWidth_Slider.Header" xml:space="preserve">
+    <value>Thumbnail size (Width)</value>
   </data>
 </root>

@@ -79,13 +79,15 @@
                     </ItemsControl.ItemContainerTransitions>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="twitterObjectsViewModel:MediaEntityViewModel">
-                            <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill">
-                                <i:Interaction.Behaviors>
-                                    <core:EventTriggerBehavior EventName="Tapped">
-                                        <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
-                                    </core:EventTriggerBehavior>
-                                </i:Interaction.Behaviors>
-                            </Image>
+                            <Border>
+                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <i:Interaction.Behaviors>
+                                        <core:EventTriggerBehavior EventName="Tapped">
+                                            <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
+                                        </core:EventTriggerBehavior>
+                                    </i:Interaction.Behaviors>
+                                </Image>
+                            </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </uwpToolKit:AdaptiveGridView>

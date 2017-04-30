@@ -77,10 +77,14 @@
 
             <controls:HorizontalBar/>
 
-            <Slider x:Uid="SettingsFlyout_Settings_Display_TweetMediaThumbnailWidth_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="サムネイルの表示サイズ (横幅)" Maximum="300" Minimum="80" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.TweetMediaThumbnailWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider x:Uid="SettingsFlyout_Settings_Display_TweetMediaThumbnailWidth_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="サムネイルの表示サイズ (横幅)" Maximum="1000" Minimum="100" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.TweetMediaThumbnailWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_ShowHighQualityImageResolution_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ShowHighQualityImageResolution, Mode=TwoWay}" Header="高画質なサムネイルを表示する"/>
+
+            <controls:HorizontalBar/>
+            
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_ShowQuotedStatusMedia_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ShowQuotedStatusMedia, Mode=TwoWay}" Header="引用ツイート等のサムネイルを表示する"/>
 
             <controls:HorizontalBar/>

@@ -65,11 +65,6 @@ namespace Flantter.MilkyWay.Models.Twitter
                 @"^https?://(?:www\.)?(?:flickr\.com/photos/(?:[\w\-_@]+)/(\d+)(?:/in/[\w\-]*)?|flic\.kr/p/(\w+))/?(?:\?.*)?$",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex RegexDropbox =
-            new Regex(
-                @"^https?://(?:(?:www\.|dl\.)?dropbox\.com/s/(\w+)/([\w\-\.%]+\.(?:jpeg?|jpg|png|gif|bmp|dib|tiff?))|(?:www\.)?db\.tt/(\w+))/?(?:\?.*)?$",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
         private static readonly Regex RegexNicoVideo =
             new Regex(
                 @"^https?://(?:(?:www\.)?nicovideo\.jp/watch|nico\.(?:ms|sc))/(?<VideoId>(?:sm|nm)?\d+)?(?:\?.*)?$",
@@ -219,8 +214,6 @@ namespace Flantter.MilkyWay.Models.Twitter
 
                         yield return new Media
                         {
-                            //MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],
-                            //MediaUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],
                             MediaThumbnailUrl = "http://embed.pixiv.net/decorate.php?illust_id=" + match.Groups["Id"],
                             MediaUrl = "http://embed.pixiv.net/decorate.php?illust_id=" + match.Groups["Id"],
                             ExpandedUrl = match.Value,
@@ -398,24 +391,6 @@ namespace Flantter.MilkyWay.Models.Twitter
 
                     #endregion
 
-                    #region Dropbox (外部サービス使用)
-
-                    match = RegexDropbox.Match(url.ExpandedUrl);
-                    if (match.Success)
-                    {
-                        yield return new Media
-                        {
-                            MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=thumb&uri=" + match.Value,
-                            MediaUrl = "http://img.azyobuzi.net/api/redirect?size=full&uri=" + match.Value,
-                            ExpandedUrl = match.Value,
-                            DisplayUrl = url.DisplayUrl,
-                            Type = "Image"
-                        };
-                        continue;
-                    }
-
-                    #endregion
-
                     #region Twitpic
 
                     match = RegexTwitpic.Match(url.ExpandedUrl);
@@ -538,17 +513,14 @@ namespace Flantter.MilkyWay.Models.Twitter
                         Type = "Image"
                     };
 
-            if (cExtendedEntities != null && cExtendedEntities.Media != null)
+            if (cExtendedEntities?.Media != null)
                 foreach (var media in cExtendedEntities.Media)
                     if (media.Type == "animated_gif" || media.Type == "video")
                     {
                         CoreTweet.VideoVariant variant;
 
                         var variants = media.VideoInfo.Variants.Where(x => x.ContentType == "video/mp4");
-                        if (!variants.Any())
-                            variant = media.VideoInfo.Variants.First();
-                        else
-                            variant = variants.FindMax(x => x.Bitrate ?? 0);
+                        variant = !variants.Any() ? media.VideoInfo.Variants.First() : variants.FindMax(x => x.Bitrate ?? 0);
 
                         yield return new Media
                         {
@@ -719,8 +691,6 @@ namespace Flantter.MilkyWay.Models.Twitter
 
                     yield return new Media
                     {
-                        //MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],
-                        //MediaUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=large&uri=" + "http://www.pixiv.net/member_illust.php?illust_id=" + match.Groups["Id"],
                         MediaThumbnailUrl = "http://embed.pixiv.net/decorate.php?illust_id=" + match.Groups["Id"],
                         MediaUrl = "http://embed.pixiv.net/decorate.php?illust_id=" + match.Groups["Id"],
                         ExpandedUrl = match.Value,
@@ -888,24 +858,6 @@ namespace Flantter.MilkyWay.Models.Twitter
                     {
                         MediaThumbnailUrl = "http://twitgoo.com/" + match.Groups[1] + "/mini",
                         MediaUrl = "http://twitgoo.com/" + match.Groups[1] + "/img",
-                        ExpandedUrl = match.Value,
-                        DisplayUrl = url.DisplayUrl,
-                        Type = "Image"
-                    };
-                    continue;
-                }
-
-                #endregion
-
-                #region Dropbox (外部サービス使用)
-
-                match = RegexDropbox.Match(url.ExpandedUrl);
-                if (match.Success)
-                {
-                    yield return new Media
-                    {
-                        MediaThumbnailUrl = "http://img.azyobuzi.net/api/redirect?size=thumb&uri=" + match.Value,
-                        MediaUrl = "http://img.azyobuzi.net/api/redirect?size=full&uri=" + match.Value,
                         ExpandedUrl = match.Value,
                         DisplayUrl = url.DisplayUrl,
                         Type = "Image"

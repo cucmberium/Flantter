@@ -1054,4 +1054,7 @@
   <data name="SettingsFlyout_Settings_Display_TweetMediaThumbnailWidth_Slider.Header" xml:space="preserve">
     <value>Thumbnail size (Width)</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_ShowHighQualityImageResolution_ToggleSwitch.Header" xml:space="preserve">
+    <value>Show high quality image resolution</value>
+  </data>
 </root>

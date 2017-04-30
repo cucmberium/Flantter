@@ -10,7 +10,9 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         {
             Model = mediaEntity;
 
-            MediaThumbnailUrl = mediaEntity.MediaThumbnailUrl;
+            MediaThumbnailUrl = SettingService.Setting.ShowHighQualityImageResolution && !string.IsNullOrWhiteSpace(mediaEntity.MediaUrl)
+                ? mediaEntity.MediaUrl
+                : mediaEntity.MediaThumbnailUrl;
 
             Notice = Notice.Instance;
             Setting = SettingService.Setting;

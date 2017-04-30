@@ -1054,4 +1054,7 @@
   <data name="SettingsFlyout_Settings_Display_TweetMediaThumbnailWidth_Slider.Header" xml:space="preserve">
     <value>サムネイルの表示サイズ (横幅)</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_ShowHighQualityImageResolution_ToggleSwitch.Header" xml:space="preserve">
+    <value>高画質なサムネイルを表示する</value>
+  </data>
 </root>

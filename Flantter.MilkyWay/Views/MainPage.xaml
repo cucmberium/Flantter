@@ -128,7 +128,7 @@
             <Button Grid.Column="0" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderBrush="Transparent" Width="48" Command="{x:Bind ViewModel.Notice.ShowLeftSwipeMenuCommand}">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
             </Button>
-            <Border Grid.Column="1" Background="Transparent">
+            <Border x:Name="FlantterTitleBarMain" Grid.Column="1" Background="Transparent">
                 <TextBlock FontSize="11.5" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Text="Flantter" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0"/>
             </Border>
             <Button x:Name="FlantterTitleBarColumnButton" Grid.Column="2" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" Command="{x:Bind ViewModel.Notice.SortColumnCommand}">

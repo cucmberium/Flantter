@@ -8,7 +8,6 @@ using Flantter.MilkyWay.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Prism.Mvvm;
-using WinRTXamlToolkit.Async;
 
 namespace Flantter.MilkyWay.Setting
 {

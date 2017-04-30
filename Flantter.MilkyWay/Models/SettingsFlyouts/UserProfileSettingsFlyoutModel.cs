@@ -14,12 +14,16 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class UserProfileSettingsFlyoutModel : BindableBase
     {
+        private ResourceLoader _resourceLoader;
+
         private long _followersCursor;
 
         private long _followingCursor;
 
         public UserProfileSettingsFlyoutModel()
         {
+            _resourceLoader = new ResourceLoader();
+
             Statuses = new ObservableCollection<Status>();
             Favorites = new ObservableCollection<Status>();
             Followers = new ObservableCollection<User>();
@@ -339,19 +343,19 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             catch (CoreTweet.TwitterException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -365,19 +369,19 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             catch (CoreTweet.TwitterException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
             }
         }
 
@@ -390,21 +394,21 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             catch (CoreTweet.TwitterException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
             }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
@@ -421,21 +425,21 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             catch (CoreTweet.TwitterException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
             }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
@@ -451,21 +455,21 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             catch (CoreTweet.TwitterException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
             }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
@@ -481,21 +485,21 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             catch (CoreTweet.TwitterException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
             }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
                 return;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
                 return;
             }
 

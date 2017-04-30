@@ -21,8 +21,6 @@ FlantterはWindowsで使用できるストアアプリのツイッタークラ�
 * [ToriatamaText](https://github.com/azyobuzin/ToriatamaText)
 * [The Prism Mvvm library](https://github.com/PrismLibrary/Prism)
 * [ReactiveProperty](https://github.com/runceel/ReactiveProperty)
-* [NotificationsExtensions](https://github.com/WindowsNotifications/NotificationsExtensions)
-* [WinRT Xaml Toolkit](https://github.com/xyzzer/WinRTXamlToolkit)
 * [SharpDX](https://github.com/sharpdx/SharpDX)
 * [jint](https://github.com/sebastienros/jint)
 * [Mastonet](https://github.com/glacasa/Mastonet)

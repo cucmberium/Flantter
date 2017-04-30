@@ -13,10 +13,13 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class AddStatusToCollectionSettingsFlyoutModel : BindableBase
     {
+        private ResourceLoader _resourceLoader;
+
         private string _userCollectionsCursor = "";
 
         public AddStatusToCollectionSettingsFlyoutModel()
         {
+            _resourceLoader = new ResourceLoader();
             UserCollections = new ObservableCollection<Collection>();
         }
 
@@ -85,19 +88,19 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             catch (CoreTweet.TwitterException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
             }
         }
 

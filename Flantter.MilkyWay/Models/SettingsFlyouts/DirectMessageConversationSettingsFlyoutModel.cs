@@ -13,8 +13,11 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class DirectMessageConversationSettingsFlyoutModel : BindableBase
     {
+        private ResourceLoader _resourceLoader;
+
         public DirectMessageConversationSettingsFlyoutModel()
         {
+            _resourceLoader = new ResourceLoader();
             DirectMessages = new ObservableCollection<DirectMessage>();
         }
 
@@ -116,15 +119,15 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 SendingDirectMessage = false;
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
             }
             catch (Exception e)
             {
                 SendingDirectMessage = false;
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
                 return;
             }
 

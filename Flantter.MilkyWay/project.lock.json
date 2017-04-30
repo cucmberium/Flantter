@@ -341,6 +341,69 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
+      "Microsoft.Toolkit.Uwp/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Robmikh.CompositionSurfaceFactory": "0.7.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        }
+      },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -456,15 +519,6 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14332.0.2": {
-        "type": "package",
-        "compile": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        },
-        "runtime": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        }
-      },
       "Prism.Core/6.3.0": {
         "type": "package",
         "compile": {
@@ -501,6 +555,44 @@
         "runtime": {
           "lib/uap10.0/ReactiveProperty.UWP.dll": {},
           "lib/uap10.0/ReactiveProperty.dll": {}
+        }
+      },
+      "Robmikh.CompositionSurfaceFactory/0.7.1": {
+        "type": "package",
+        "dependencies": {
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win10-arm/native/Robmikh.CompositionSurfaceFactory.dll": {
+            "assetType": "native",
+            "rid": "win10-arm"
+          },
+          "runtimes/win10-arm/native/Robmikh.CompositionSurfaceFactory.pri": {
+            "assetType": "native",
+            "rid": "win10-arm"
+          },
+          "runtimes/win10-x64/native/Robmikh.CompositionSurfaceFactory.dll": {
+            "assetType": "native",
+            "rid": "win10-x64"
+          },
+          "runtimes/win10-x64/native/Robmikh.CompositionSurfaceFactory.pri": {
+            "assetType": "native",
+            "rid": "win10-x64"
+          },
+          "runtimes/win10-x86/native/Robmikh.CompositionSurfaceFactory.dll": {
+            "assetType": "native",
+            "rid": "win10-x86"
+          },
+          "runtimes/win10-x86/native/Robmikh.CompositionSurfaceFactory.pri": {
+            "assetType": "native",
+            "rid": "win10-x86"
+          }
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -2713,19 +2805,27 @@
           "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
         }
       },
-      "WinRTXamlToolkit/2.3.0": {
+      "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
         },
         "runtime": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
-        }
-      },
-      "WinRTXamlToolkit.UWP/2.3.0": {
-        "type": "package",
-        "dependencies": {
-          "WinRTXamlToolkit": "2.3.0"
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win10-arm/native/Microsoft.Graphics.Canvas.dll": {
+            "assetType": "native",
+            "rid": "win10-arm"
+          },
+          "runtimes/win10-x64/native/Microsoft.Graphics.Canvas.dll": {
+            "assetType": "native",
+            "rid": "win10-x64"
+          },
+          "runtimes/win10-x86/native/Microsoft.Graphics.Canvas.dll": {
+            "assetType": "native",
+            "rid": "win10-x86"
+          }
         }
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
@@ -2734,8 +2834,8 @@
         "dependencies": {
           "CoreTweet": "0.7.2.352",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-          "Newtonsoft.Json": "10.0.2",
-          "NotificationsExtensions.Win10": "14332.0.2"
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       },
       "Mastonet/1.0.0": {
@@ -3034,6 +3134,69 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
+      "Microsoft.Toolkit.Uwp/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Robmikh.CompositionSurfaceFactory": "0.7.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        }
+      },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -3150,15 +3313,6 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14332.0.2": {
-        "type": "package",
-        "compile": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        },
-        "runtime": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        }
-      },
       "Prism.Core/6.3.0": {
         "type": "package",
         "compile": {
@@ -3195,6 +3349,22 @@
         "runtime": {
           "lib/uap10.0/ReactiveProperty.UWP.dll": {},
           "lib/uap10.0/ReactiveProperty.dll": {}
+        }
+      },
+      "Robmikh.CompositionSurfaceFactory/0.7.1": {
+        "type": "package",
+        "dependencies": {
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-arm/native/Robmikh.CompositionSurfaceFactory.dll": {},
+          "runtimes/win10-arm/native/Robmikh.CompositionSurfaceFactory.pri": {}
         }
       },
       "runtime.any.System.Collections/4.3.0": {
@@ -5489,19 +5659,16 @@
           "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
         }
       },
-      "WinRTXamlToolkit/2.3.0": {
+      "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
         },
         "runtime": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
-        }
-      },
-      "WinRTXamlToolkit.UWP/2.3.0": {
-        "type": "package",
-        "dependencies": {
-          "WinRTXamlToolkit": "2.3.0"
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-arm/native/Microsoft.Graphics.Canvas.dll": {}
         }
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
@@ -5510,8 +5677,8 @@
         "dependencies": {
           "CoreTweet": "0.7.2.352",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-          "Newtonsoft.Json": "10.0.2",
-          "NotificationsExtensions.Win10": "14332.0.2"
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       },
       "Mastonet/1.0.0": {
@@ -5811,6 +5978,69 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
+      "Microsoft.Toolkit.Uwp/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Robmikh.CompositionSurfaceFactory": "0.7.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        }
+      },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -5927,15 +6157,6 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14332.0.2": {
-        "type": "package",
-        "compile": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        },
-        "runtime": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        }
-      },
       "Prism.Core/6.3.0": {
         "type": "package",
         "compile": {
@@ -5972,6 +6193,22 @@
         "runtime": {
           "lib/uap10.0/ReactiveProperty.UWP.dll": {},
           "lib/uap10.0/ReactiveProperty.dll": {}
+        }
+      },
+      "Robmikh.CompositionSurfaceFactory/0.7.1": {
+        "type": "package",
+        "dependencies": {
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-arm/native/Robmikh.CompositionSurfaceFactory.dll": {},
+          "runtimes/win10-arm/native/Robmikh.CompositionSurfaceFactory.pri": {}
         }
       },
       "runtime.aot.System.Collections/4.3.0": {
@@ -8304,19 +8541,16 @@
           "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
         }
       },
-      "WinRTXamlToolkit/2.3.0": {
+      "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
         },
         "runtime": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
-        }
-      },
-      "WinRTXamlToolkit.UWP/2.3.0": {
-        "type": "package",
-        "dependencies": {
-          "WinRTXamlToolkit": "2.3.0"
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-arm/native/Microsoft.Graphics.Canvas.dll": {}
         }
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
@@ -8325,8 +8559,8 @@
         "dependencies": {
           "CoreTweet": "0.7.2.352",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-          "Newtonsoft.Json": "10.0.2",
-          "NotificationsExtensions.Win10": "14332.0.2"
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       },
       "Mastonet/1.0.0": {
@@ -8628,6 +8862,69 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
+      "Microsoft.Toolkit.Uwp/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Robmikh.CompositionSurfaceFactory": "0.7.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        }
+      },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -8744,15 +9041,6 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14332.0.2": {
-        "type": "package",
-        "compile": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        },
-        "runtime": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        }
-      },
       "Prism.Core/6.3.0": {
         "type": "package",
         "compile": {
@@ -8789,6 +9077,22 @@
         "runtime": {
           "lib/uap10.0/ReactiveProperty.UWP.dll": {},
           "lib/uap10.0/ReactiveProperty.dll": {}
+        }
+      },
+      "Robmikh.CompositionSurfaceFactory/0.7.1": {
+        "type": "package",
+        "dependencies": {
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-x64/native/Robmikh.CompositionSurfaceFactory.dll": {},
+          "runtimes/win10-x64/native/Robmikh.CompositionSurfaceFactory.pri": {}
         }
       },
       "runtime.any.System.Collections/4.3.0": {
@@ -11089,19 +11393,16 @@
           "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
         }
       },
-      "WinRTXamlToolkit/2.3.0": {
+      "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
         },
         "runtime": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
-        }
-      },
-      "WinRTXamlToolkit.UWP/2.3.0": {
-        "type": "package",
-        "dependencies": {
-          "WinRTXamlToolkit": "2.3.0"
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-x64/native/Microsoft.Graphics.Canvas.dll": {}
         }
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
@@ -11110,8 +11411,8 @@
         "dependencies": {
           "CoreTweet": "0.7.2.352",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-          "Newtonsoft.Json": "10.0.2",
-          "NotificationsExtensions.Win10": "14332.0.2"
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       },
       "Mastonet/1.0.0": {
@@ -11414,6 +11715,69 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
+      "Microsoft.Toolkit.Uwp/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Robmikh.CompositionSurfaceFactory": "0.7.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        }
+      },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -11530,15 +11894,6 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14332.0.2": {
-        "type": "package",
-        "compile": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        },
-        "runtime": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        }
-      },
       "Prism.Core/6.3.0": {
         "type": "package",
         "compile": {
@@ -11575,6 +11930,22 @@
         "runtime": {
           "lib/uap10.0/ReactiveProperty.UWP.dll": {},
           "lib/uap10.0/ReactiveProperty.dll": {}
+        }
+      },
+      "Robmikh.CompositionSurfaceFactory/0.7.1": {
+        "type": "package",
+        "dependencies": {
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-x64/native/Robmikh.CompositionSurfaceFactory.dll": {},
+          "runtimes/win10-x64/native/Robmikh.CompositionSurfaceFactory.pri": {}
         }
       },
       "runtime.aot.System.Collections/4.3.0": {
@@ -13913,19 +14284,16 @@
           "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
         }
       },
-      "WinRTXamlToolkit/2.3.0": {
+      "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
         },
         "runtime": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
-        }
-      },
-      "WinRTXamlToolkit.UWP/2.3.0": {
-        "type": "package",
-        "dependencies": {
-          "WinRTXamlToolkit": "2.3.0"
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-x64/native/Microsoft.Graphics.Canvas.dll": {}
         }
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
@@ -13934,8 +14302,8 @@
         "dependencies": {
           "CoreTweet": "0.7.2.352",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-          "Newtonsoft.Json": "10.0.2",
-          "NotificationsExtensions.Win10": "14332.0.2"
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       },
       "Mastonet/1.0.0": {
@@ -14237,6 +14605,69 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
+      "Microsoft.Toolkit.Uwp/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Robmikh.CompositionSurfaceFactory": "0.7.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        }
+      },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -14353,15 +14784,6 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14332.0.2": {
-        "type": "package",
-        "compile": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        },
-        "runtime": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        }
-      },
       "Prism.Core/6.3.0": {
         "type": "package",
         "compile": {
@@ -14398,6 +14820,22 @@
         "runtime": {
           "lib/uap10.0/ReactiveProperty.UWP.dll": {},
           "lib/uap10.0/ReactiveProperty.dll": {}
+        }
+      },
+      "Robmikh.CompositionSurfaceFactory/0.7.1": {
+        "type": "package",
+        "dependencies": {
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-x86/native/Robmikh.CompositionSurfaceFactory.dll": {},
+          "runtimes/win10-x86/native/Robmikh.CompositionSurfaceFactory.pri": {}
         }
       },
       "runtime.any.System.Collections/4.3.0": {
@@ -16698,19 +17136,16 @@
           "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
         }
       },
-      "WinRTXamlToolkit/2.3.0": {
+      "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
         },
         "runtime": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
-        }
-      },
-      "WinRTXamlToolkit.UWP/2.3.0": {
-        "type": "package",
-        "dependencies": {
-          "WinRTXamlToolkit": "2.3.0"
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-x86/native/Microsoft.Graphics.Canvas.dll": {}
         }
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
@@ -16719,8 +17154,8 @@
         "dependencies": {
           "CoreTweet": "0.7.2.352",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-          "Newtonsoft.Json": "10.0.2",
-          "NotificationsExtensions.Win10": "14332.0.2"
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       },
       "Mastonet/1.0.0": {
@@ -17023,6 +17458,69 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
+      "Microsoft.Toolkit.Uwp/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Toolkit.Uwp": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Robmikh.CompositionSurfaceFactory": "0.7.1"
+        },
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll": {}
+        }
+      },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -17139,15 +17637,6 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "NotificationsExtensions.Win10/14332.0.2": {
-        "type": "package",
-        "compile": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        },
-        "runtime": {
-          "lib/uap10.0/NotificationsExtensions.Win10.dll": {}
-        }
-      },
       "Prism.Core/6.3.0": {
         "type": "package",
         "compile": {
@@ -17184,6 +17673,22 @@
         "runtime": {
           "lib/uap10.0/ReactiveProperty.UWP.dll": {},
           "lib/uap10.0/ReactiveProperty.dll": {}
+        }
+      },
+      "Robmikh.CompositionSurfaceFactory/0.7.1": {
+        "type": "package",
+        "dependencies": {
+          "Win2D.uwp": "1.19.0"
+        },
+        "compile": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-x86/native/Robmikh.CompositionSurfaceFactory.dll": {},
+          "runtimes/win10-x86/native/Robmikh.CompositionSurfaceFactory.pri": {}
         }
       },
       "runtime.aot.System.Collections/4.3.0": {
@@ -19522,19 +20027,16 @@
           "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll": {}
         }
       },
-      "WinRTXamlToolkit/2.3.0": {
+      "Win2D.uwp/1.19.0": {
         "type": "package",
         "compile": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
         },
         "runtime": {
-          "lib/uap10.0/WinRTXamlToolkit.dll": {}
-        }
-      },
-      "WinRTXamlToolkit.UWP/2.3.0": {
-        "type": "package",
-        "dependencies": {
-          "WinRTXamlToolkit": "2.3.0"
+          "lib/uap10.0/Microsoft.Graphics.Canvas.winmd": {}
+        },
+        "native": {
+          "runtimes/win10-x86/native/Microsoft.Graphics.Canvas.dll": {}
         }
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
@@ -19543,8 +20045,8 @@
         "dependencies": {
           "CoreTweet": "0.7.2.352",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-          "Newtonsoft.Json": "10.0.2",
-          "NotificationsExtensions.Win10": "14332.0.2"
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "Newtonsoft.Json": "10.0.2"
         }
       },
       "Mastonet/1.0.0": {
@@ -21956,6 +22458,102 @@
         "runtime.json"
       ]
     },
+    "Microsoft.Toolkit.Uwp/1.4.1": {
+      "sha512": "9bThPlEnIREgukNQQe4ufQSl86kODoGkRLOWrSanUDuApe9X68sgVBN61diPdy7LDQ9wvcEa6vYw5+Tao/Tk1A==",
+      "type": "package",
+      "path": "microsoft.toolkit.uwp/1.4.1",
+      "files": [
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.dll",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.pdb",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.pri",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.xml",
+        "microsoft.toolkit.uwp.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.nuspec"
+      ]
+    },
+    "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+      "sha512": "Xi32HrnQLgas2Tz4a/3LZGZvY+4KZnlQZQdPFkK0G3AfMHKDxnREI/QKUOyLK6zxr62uaCME18pyStu8ueP1FA==",
+      "type": "package",
+      "path": "microsoft.toolkit.uwp.notifications/1.4.1",
+      "files": [
+        "build/native/Microsoft.Toolkit.Uwp.Notifications.targets",
+        "lib/dotnet/Microsoft.Toolkit.Uwp.Notifications.dll",
+        "lib/dotnet/Microsoft.Toolkit.Uwp.Notifications.pdb",
+        "lib/dotnet/Microsoft.Toolkit.Uwp.Notifications.xml",
+        "lib/native/Microsoft.Toolkit.Uwp.Notifications.pdb",
+        "lib/native/Microsoft.Toolkit.Uwp.Notifications.pri",
+        "lib/native/Microsoft.Toolkit.Uwp.Notifications.winmd",
+        "lib/native/Microsoft.Toolkit.Uwp.Notifications.winmd.xml",
+        "lib/native/Microsoft.Toolkit.Uwp.Notifications.xml",
+        "lib/portable-net40+sl50+win+wpa81+wp80/Microsoft.Toolkit.Uwp.Notifications.dll",
+        "lib/portable-net40+sl50+win+wpa81+wp80/Microsoft.Toolkit.Uwp.Notifications.pdb",
+        "lib/portable-net40+sl50+win+wpa81+wp80/Microsoft.Toolkit.Uwp.Notifications.xml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.pdb",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.xml",
+        "microsoft.toolkit.uwp.notifications.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.notifications.nuspec"
+      ]
+    },
+    "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+      "sha512": "UMQD7B756FgCnu7Tt6C6xxqDG8ojJKwnOv6R/+ErCCDMH5HzDxLqkLOTFI95s8uzNVF/m+jZLZONuf5ltmrs9g==",
+      "type": "package",
+      "path": "microsoft.toolkit.uwp.ui/1.4.1",
+      "files": [
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.XML",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.pdb",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.pri",
+        "microsoft.toolkit.uwp.ui.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.ui.nuspec"
+      ]
+    },
+    "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+      "sha512": "o1FA/JPT2AMlcGWa7ikTic87XuTK/AlfTyVKxXIP4AJ65UXJYdDwGx73tdMZV6J9GhtqNQEobACJnQjJruRqHA==",
+      "type": "package",
+      "path": "microsoft.toolkit.uwp.ui.animations/1.4.1",
+      "files": [
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.pdb",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.pri",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.xml",
+        "microsoft.toolkit.uwp.ui.animations.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.ui.animations.nuspec"
+      ]
+    },
+    "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+      "sha512": "PP61sDIQh0CHYzoAq4LNIeeEcZCyGo/HbWB6kuFR2EPldeCN4ZnBoI7BfK7G6Qj9hlgFwUz+n/jiE1C9hvwGUw==",
+      "type": "package",
+      "path": "microsoft.toolkit.uwp.ui.controls/1.4.1",
+      "files": [
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.pdb",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.pri",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.xml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/BladeView/BladeView.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/Carousel/Carousel.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel/DropShadowPanel.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/Expander/Expander.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter/GridSplitter.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu/HamburgerMenu.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock/HeaderedTextBlock.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/Loading/Loading.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView/MasterDetailsView.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/Microsoft.Toolkit.Uwp.UI.Controls.xr.xml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView/PullToRefreshListView.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/RadialGauge/RadialGauge.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/RangeSelector/RangeSelector.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/RotatorTile/RotatorTile.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/ScrollHeader/ScrollHeader.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/Themes/Generic.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/TileControl/TileControl.xaml",
+        "microsoft.toolkit.uwp.ui.controls.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.ui.controls.nuspec"
+      ]
+    },
     "Microsoft.VisualBasic/10.0.1": {
       "sha512": "HpNyOf/4Tp2lh4FyywB55VITk0SqVxEjDzsVDDyF1yafDN6Bq18xcHowzCPINyYHUTgGcEtmpYiRsFdSo0KKdQ==",
       "type": "package",
@@ -22090,30 +22688,6 @@
         "tools/install.ps1"
       ]
     },
-    "NotificationsExtensions.Win10/14332.0.2": {
-      "sha512": "UN5yNMpYIs06ULFSGkNYINN/ZtqK19wt3IbotUvH7rlGPVOcbvNvM2Jzxs9wZAolX97L5/Y4u+6twFP0oeXk2A==",
-      "type": "package",
-      "path": "notificationsextensions.win10/14332.0.2",
-      "files": [
-        "NotificationsExtensions.Win10.14332.0.2.nupkg.sha512",
-        "NotificationsExtensions.Win10.nuspec",
-        "build/native/NotificationsExtensions.Win10.targets",
-        "lib/dotnet/NotificationsExtensions.Win10.dll",
-        "lib/dotnet/NotificationsExtensions.Win10.pdb",
-        "lib/dotnet/NotificationsExtensions.Win10.xml",
-        "lib/native/NotificationsExtensions.pdb",
-        "lib/native/NotificationsExtensions.pri",
-        "lib/native/NotificationsExtensions.winmd",
-        "lib/native/NotificationsExtensions.winmd.xml",
-        "lib/native/NotificationsExtensions.xml",
-        "lib/portable-net45+sl50+win+wpa81+wp80/NotificationsExtensions.Win10.dll",
-        "lib/portable-net45+sl50+win+wpa81+wp80/NotificationsExtensions.Win10.pdb",
-        "lib/portable-net45+sl50+win+wpa81+wp80/NotificationsExtensions.Win10.xml",
-        "lib/uap10.0/NotificationsExtensions.Win10.XML",
-        "lib/uap10.0/NotificationsExtensions.Win10.dll",
-        "lib/uap10.0/NotificationsExtensions.Win10.pdb"
-      ]
-    },
     "Prism.Core/6.3.0": {
       "sha512": "8KKRF/1Hx76dXFrYb3XUbkGFWTZjjI99DTGcPt5/aGghb3iYBscxiT4WDVlGmUpfqw7QS/jDI2BGs5ZsAy8XVA==",
       "type": "package",
@@ -22221,6 +22795,25 @@
         "lib/uap10.0/ReactiveProperty.pdb",
         "reactiveproperty.3.6.0.nupkg.sha512",
         "reactiveproperty.nuspec"
+      ]
+    },
+    "Robmikh.CompositionSurfaceFactory/0.7.1": {
+      "sha512": "wbTtNg4/svj+foIP3sRZszbL/SwA2bioLTQzd58HKdcfFE2CIQyhwQeL829ioWseo0zU0fIqZyiw5CUDqKWS3g==",
+      "type": "package",
+      "path": "robmikh.compositionsurfacefactory/0.7.1",
+      "files": [
+        "build/native/Robmikh.CompositionSurfaceFactory.props",
+        "build/native/Robmikh.CompositionSurfaceFactory.targets",
+        "lib/uap10.0/Robmikh.CompositionSurfaceFactory.winmd",
+        "lib/uap10.0/Robmikh.CompositionSurfaceFactory.xml",
+        "robmikh.compositionsurfacefactory.0.7.1.nupkg.sha512",
+        "robmikh.compositionsurfacefactory.nuspec",
+        "runtimes/win10-arm/native/Robmikh.CompositionSurfaceFactory.dll",
+        "runtimes/win10-arm/native/Robmikh.CompositionSurfaceFactory.pri",
+        "runtimes/win10-x64/native/Robmikh.CompositionSurfaceFactory.dll",
+        "runtimes/win10-x64/native/Robmikh.CompositionSurfaceFactory.pri",
+        "runtimes/win10-x86/native/Robmikh.CompositionSurfaceFactory.dll",
+        "runtimes/win10-x86/native/Robmikh.CompositionSurfaceFactory.pri"
       ]
     },
     "runtime.any.System.Collections/4.3.0": {
@@ -28709,486 +29302,22 @@
         "lib/portable-net45+win+wpa81+wp80/ToriatamaText.dll"
       ]
     },
-    "WinRTXamlToolkit/2.3.0": {
-      "sha512": "xwc0GmuZlbwrCFhBcsEjTzURsRQ+d0wI8N+qPOIY+dpJuT31hRtaxo6zNINCDaSbM7/9KdYIESWdMqC4VE/NyQ==",
+    "Win2D.uwp/1.19.0": {
+      "sha512": "pLL/gLb3uY75IlswAKzOvQnwwiGrMxZyBl2DbJOjuzG6SOWMp0sg+tkj+HZU8uyQ8jIdAbOE0Iu5+z9zyT5E6Q==",
       "type": "package",
-      "path": "winrtxamltoolkit/2.3.0",
+      "path": "win2d.uwp/1.19.0",
       "files": [
-        "lib/uap10.0/WinRTXamlToolkit.dll",
-        "lib/uap10.0/WinRTXamlToolkit.pri",
-        "lib/uap10.0/WinRTXamlToolkit/Async/_._",
-        "lib/uap10.0/WinRTXamlToolkit/AwaitableUI/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Common/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/AlternativeFrame/AlternativeFrame.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/AlternativeFrame/AlternativeFrame.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/AnimatingContainer/AnimatingContainer.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/AnimatingContainer/AnimatingContainer.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/AutoCompleteTextBox/Algorithm/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/AutoOrientingStackPanel/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/Behaviors/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CameraCaptureControl/CameraCaptureControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CameraCaptureControl/CameraCaptureControl.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CascadingImageControl/CascadingImageControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CascadingImageControl/CascadingImageControl.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CascadingTextBlock/CascadingTextBlock.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CascadingTextBlock/CascadingTextBlock.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ColorPicker/ColorPicker.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ColorPicker/ColorPicker.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/Common/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CountdownControl/CountdownControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CountdownControl/CountdownControl.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CustomAppBar/CustomAppBar.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CustomAppBar/CustomAppBar.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CustomGridSplitter/CustomGridSplitter.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/CustomGridSplitter/CustomGridSplitter.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/Data/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/DelayedLoadControl/DelayedLoadControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/DelayedLoadControl/DelayedLoadControl.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/DockPanel/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/Extensions/Forms/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/FocusVisualizer/FocusVisualizer.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/FocusVisualizer/FocusVisualizer.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/FxContentControl/FxContentControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/FxContentControl/FxContentControl.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/HeaderedItemsControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ImageButton/ImageButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ImageButton/ImageButton.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ImageToggleButton/ImageToggleButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ImageToggleButton/ImageToggleButton.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/InputDialog/InputDialog.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/InputDialog/InputDialog.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/LayoutTransformControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ListItemButton/ListItemButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ListItemButton/ListItemButton.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/NumericUpDown/NumericUpDown.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/NumericUpDown/NumericUpDown.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/PieSlice/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/RingSlice/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/SquareGrid/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ToolStrip/ToolStrip.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ToolStrip/ToolStrip.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ToolWindow/ToolWindow.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/ToolWindow/ToolWindow.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/TreeView/TreeView.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/TreeView/TreeView.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/TreeView/TreeViewItem.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/TreeView/TreeViewItem.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/TreeView/TreeViewMouse.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/TreeView/TreeViewMouse.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/TreeView/TreeViewTouch.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/TreeView/TreeViewTouch.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/UniformGrid/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/WatermarkPasswordBox/WatermarkPasswordBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/WatermarkPasswordBox/WatermarkPasswordBox.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/WatermarkTextBox/WatermarkTextBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/WatermarkTextBox/WatermarkTextBox.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/WebBrowser/WebBrowser.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/WebBrowser/WebBrowser.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Controls/WrapPanel/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Converters/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Device/_._",
-        "lib/uap10.0/WinRTXamlToolkit/IO/Extensions/_._",
-        "lib/uap10.0/WinRTXamlToolkit/IO/Serialization/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Imaging/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Input/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Interactivity/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Licensing/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Net/_._",
-        "lib/uap10.0/WinRTXamlToolkit/Properties/WinRTXamlToolkit.rd.xml",
-        "lib/uap10.0/WinRTXamlToolkit/Themes/Generic.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/Themes/Generic.xbf",
-        "lib/uap10.0/WinRTXamlToolkit/Tools/_._",
-        "lib/uap10.0/WinRTXamlToolkit/WinRTXamlToolkit.xr.xml",
-        "lib/uap10.0/WinRTXamlToolkit/bin/ARM/Debug/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/ARM/Release/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Debug/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/AlternativeFrame/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/AnimatingContainer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/AutoCompleteTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/CameraCaptureControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/CascadingImageControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/CascadingTextBlock/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/ColorPicker/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/CountdownControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/CustomAppBar/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/CustomGridSplitter/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/DelayedLoadControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/FocusVisualizer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/FxContentControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/ImageButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/ImageToggleButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/InputDialog/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/ListItemButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/NumericUpDown/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/ToolStrip/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/ToolWindow/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/TreeView/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/WatermarkPasswordBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/WatermarkTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Controls/WebBrowser/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/Release/Themes/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/AlternativeFrame/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/AnimatingContainer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/AutoCompleteTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CameraCaptureControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CascadingImageControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CascadingTextBlock/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ColorPicker/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CountdownControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CustomAppBar/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/CustomGridSplitter/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/DelayedLoadControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/FocusVisualizer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/FxContentControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ImageButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ImageToggleButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/InputDialog/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ListItemButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/NumericUpDown/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ToolStrip/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/ToolWindow/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/TreeView/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/WatermarkPasswordBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/WatermarkTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Controls/WebBrowser/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Debug/Themes/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/AlternativeFrame/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/AnimatingContainer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/AutoCompleteTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CameraCaptureControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CascadingImageControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CascadingTextBlock/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ColorPicker/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CountdownControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CustomAppBar/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/CustomGridSplitter/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/DelayedLoadControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/FocusVisualizer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/FxContentControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ImageButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ImageToggleButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/InputDialog/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ListItemButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/NumericUpDown/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ToolStrip/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/ToolWindow/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/TreeView/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/WatermarkPasswordBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/WatermarkTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Controls/WebBrowser/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x64/Release/Themes/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/AlternativeFrame/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/AnimatingContainer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/AutoCompleteTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/CameraCaptureControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/CascadingImageControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/CascadingTextBlock/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/ColorPicker/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/CountdownControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/CustomAppBar/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/CustomGridSplitter/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/DelayedLoadControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/FocusVisualizer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/FxContentControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/ImageButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/ImageToggleButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/InputDialog/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/ListItemButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/NumericUpDown/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/ToolStrip/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/ToolWindow/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/TreeView/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/WatermarkPasswordBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/WatermarkTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Controls/WebBrowser/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Debug/Themes/_._",
-        "lib/uap10.0/WinRTXamlToolkit/bin/x86/Release/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/AlternativeFrame/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/AnimatingContainer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/AutoCompleteTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CameraCaptureControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CascadingImageControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CascadingTextBlock/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ColorPicker/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CountdownControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CustomAppBar/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/CustomGridSplitter/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/DelayedLoadControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/FocusVisualizer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/FxContentControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ImageButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ImageToggleButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/InputDialog/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ListItemButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/NumericUpDown/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ToolStrip/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/ToolWindow/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/TreeView/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/WatermarkPasswordBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/WatermarkTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Controls/WebBrowser/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/TempPE/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/Themes/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/ARM/Debug/intermediatexaml/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/AlternativeFrame/AlternativeFrame.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/AnimatingContainer/AnimatingContainer.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/CameraCaptureControl/CameraCaptureControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/CascadingImageControl/CascadingImageControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/CascadingTextBlock/CascadingTextBlock.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/ColorPicker/ColorPicker.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/CountdownControl/CountdownControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/CustomAppBar/CustomAppBar.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/CustomGridSplitter/CustomGridSplitter.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/DelayedLoadControl/DelayedLoadControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/FocusVisualizer/FocusVisualizer.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/FxContentControl/FxContentControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/ImageButton/ImageButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/ImageToggleButton/ImageToggleButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/InputDialog/InputDialog.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/ListItemButton/ListItemButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/NumericUpDown/NumericUpDown.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/ToolStrip/ToolStrip.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/ToolWindow/ToolWindow.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/TreeView/TreeView.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/TreeView/TreeViewItem.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/TreeView/TreeViewMouse.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/TreeView/TreeViewTouch.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/WatermarkPasswordBox/WatermarkPasswordBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/WatermarkTextBox/WatermarkTextBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Controls/WebBrowser/WebBrowser.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/Themes/Generic.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/AlternativeFrame/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/AnimatingContainer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/AutoCompleteTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/CameraCaptureControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/CascadingImageControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/CascadingTextBlock/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/ColorPicker/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/CountdownControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/CustomAppBar/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/CustomGridSplitter/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/DelayedLoadControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/FocusVisualizer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/FxContentControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/ImageButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/ImageToggleButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/InputDialog/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/ListItemButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/NumericUpDown/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/ToolStrip/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/ToolWindow/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/TreeView/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/WatermarkPasswordBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/WatermarkTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Controls/WebBrowser/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/WinRTXamlToolkit/Themes/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/Release/intermediatexaml/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/AlternativeFrame/AlternativeFrame.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/AnimatingContainer/AnimatingContainer.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CameraCaptureControl/CameraCaptureControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CascadingImageControl/CascadingImageControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CascadingTextBlock/CascadingTextBlock.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ColorPicker/ColorPicker.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CountdownControl/CountdownControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CustomAppBar/CustomAppBar.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/CustomGridSplitter/CustomGridSplitter.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/DelayedLoadControl/DelayedLoadControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/FocusVisualizer/FocusVisualizer.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/FxContentControl/FxContentControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ImageButton/ImageButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ImageToggleButton/ImageToggleButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/InputDialog/InputDialog.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ListItemButton/ListItemButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/NumericUpDown/NumericUpDown.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ToolStrip/ToolStrip.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/ToolWindow/ToolWindow.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/TreeView/TreeView.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/TreeView/TreeViewItem.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/TreeView/TreeViewMouse.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/TreeView/TreeViewTouch.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/WatermarkPasswordBox/WatermarkPasswordBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/WatermarkTextBox/WatermarkTextBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Controls/WebBrowser/WebBrowser.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/TempPE/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/Themes/Generic.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/AlternativeFrame/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/AnimatingContainer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/AutoCompleteTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CameraCaptureControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CascadingImageControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CascadingTextBlock/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ColorPicker/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CountdownControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CustomAppBar/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/CustomGridSplitter/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/DelayedLoadControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/FocusVisualizer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/FxContentControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ImageButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ImageToggleButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/InputDialog/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ListItemButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/NumericUpDown/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ToolStrip/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/ToolWindow/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/TreeView/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/WatermarkPasswordBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/WatermarkTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Controls/WebBrowser/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/WinRTXamlToolkit/Themes/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Debug/intermediatexaml/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/AlternativeFrame/AlternativeFrame.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/AnimatingContainer/AnimatingContainer.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CameraCaptureControl/CameraCaptureControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CascadingImageControl/CascadingImageControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CascadingTextBlock/CascadingTextBlock.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ColorPicker/ColorPicker.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CountdownControl/CountdownControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CustomAppBar/CustomAppBar.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/CustomGridSplitter/CustomGridSplitter.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/DelayedLoadControl/DelayedLoadControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/FocusVisualizer/FocusVisualizer.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/FxContentControl/FxContentControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ImageButton/ImageButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ImageToggleButton/ImageToggleButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/InputDialog/InputDialog.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ListItemButton/ListItemButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/NumericUpDown/NumericUpDown.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ToolStrip/ToolStrip.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/ToolWindow/ToolWindow.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/TreeView/TreeView.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/TreeView/TreeViewItem.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/TreeView/TreeViewMouse.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/TreeView/TreeViewTouch.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/WatermarkPasswordBox/WatermarkPasswordBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/WatermarkTextBox/WatermarkTextBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Controls/WebBrowser/WebBrowser.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/TempPE/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/Themes/Generic.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/AlternativeFrame/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/AnimatingContainer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/AutoCompleteTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CameraCaptureControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CascadingImageControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CascadingTextBlock/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ColorPicker/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CountdownControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CustomAppBar/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/CustomGridSplitter/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/DelayedLoadControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/FocusVisualizer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/FxContentControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ImageButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ImageToggleButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/InputDialog/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ListItemButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/NumericUpDown/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ToolStrip/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/ToolWindow/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/TreeView/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/WatermarkPasswordBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/WatermarkTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Controls/WebBrowser/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/WinRTXamlToolkit/Themes/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x64/Release/intermediatexaml/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/AlternativeFrame/AlternativeFrame.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/AnimatingContainer/AnimatingContainer.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/AutoCompleteTextBox/AutoCompleteTextBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/CameraCaptureControl/CameraCaptureControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/CascadingImageControl/CascadingImageControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/CascadingTextBlock/CascadingTextBlock.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/ColorPicker/ColorPicker.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/CountdownControl/CountdownControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/CustomAppBar/CustomAppBar.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/CustomGridSplitter/CustomGridSplitter.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/DelayedLoadControl/DelayedLoadControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/FocusVisualizer/FocusVisualizer.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/FxContentControl/FxContentControl.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/ImageButton/ImageButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/ImageToggleButton/ImageToggleButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/InputDialog/InputDialog.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/ListItemButton/ListItemButton.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/NumericUpDown/NumericUpDown.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/ToolStrip/ToolStrip.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/ToolWindow/ToolWindow.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/TreeView/TreeView.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/TreeView/TreeViewItem.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/TreeView/TreeViewMouse.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/TreeView/TreeViewTouch.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/WatermarkPasswordBox/WatermarkPasswordBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/WatermarkTextBox/WatermarkTextBox.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Controls/WebBrowser/WebBrowser.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/TempPE/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/Themes/Generic.xaml",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/AlternativeFrame/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/AnimatingContainer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/AutoCompleteTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/CameraCaptureControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/CascadingImageControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/CascadingTextBlock/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/ColorPicker/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/CountdownControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/CustomAppBar/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/CustomGridSplitter/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/DelayedLoadControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/FocusVisualizer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/FxContentControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/ImageButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/ImageToggleButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/InputDialog/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/ListItemButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/NumericUpDown/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/ToolStrip/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/ToolWindow/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/TreeView/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/WatermarkPasswordBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/WatermarkTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Controls/WebBrowser/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/WinRTXamlToolkit/Themes/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Debug/intermediatexaml/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/AlternativeFrame/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/AnimatingContainer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/AutoCompleteTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CameraCaptureControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CascadingImageControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CascadingTextBlock/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ColorPicker/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CountdownControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CustomAppBar/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/CustomGridSplitter/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/DelayedLoadControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/FocusVisualizer/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/FxContentControl/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ImageButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ImageToggleButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/InputDialog/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ListItemButton/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/NumericUpDown/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ToolStrip/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/ToolWindow/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/TreeView/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/WatermarkPasswordBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/WatermarkTextBox/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Controls/WebBrowser/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/TempPE/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/Themes/_._",
-        "lib/uap10.0/WinRTXamlToolkit/obj/x86/Release/intermediatexaml/_._",
-        "winrtxamltoolkit.2.3.0.nupkg.sha512",
-        "winrtxamltoolkit.nuspec"
-      ]
-    },
-    "WinRTXamlToolkit.UWP/2.3.0": {
-      "sha512": "eXm0xK37hHhF2PzYRenCrvaPKrM/gfu3ODMVe7EH4rNyzQwkwDnue6hY0smd2hiC9ZwNeLTgPzT1A0mdcJkTMA==",
-      "type": "package",
-      "path": "winrtxamltoolkit.uwp/2.3.0",
-      "files": [
-        "winrtxamltoolkit.uwp.2.3.0.nupkg.sha512",
-        "winrtxamltoolkit.uwp.nuspec"
+        "Win2d.githash.txt",
+        "build/native/Win2D.uwp.targets",
+        "include/Microsoft.Graphics.Canvas.h",
+        "include/Microsoft.Graphics.Canvas.native.h",
+        "lib/uap10.0/Microsoft.Graphics.Canvas.winmd",
+        "lib/uap10.0/Microsoft.Graphics.Canvas.xml",
+        "runtimes/win10-arm/native/Microsoft.Graphics.Canvas.dll",
+        "runtimes/win10-x64/native/Microsoft.Graphics.Canvas.dll",
+        "runtimes/win10-x86/native/Microsoft.Graphics.Canvas.dll",
+        "win2d.uwp.1.19.0.nupkg.sha512",
+        "win2d.uwp.nuspec"
       ]
     },
     "Flantter.MilkyWay.BackgroundTask/1.0.0": {
@@ -29207,16 +29336,16 @@
       "CoreTweet >= 0.7.2.352",
       "HockeySDK.UWP >= 4.1.6",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.3.3",
+      "Microsoft.Toolkit.Uwp.Notifications >= 1.4.1",
+      "Microsoft.Toolkit.Uwp.UI.Controls >= 1.4.1",
       "Microsoft.Xaml.Behaviors.Uwp.Managed >= 2.0.0",
       "Newtonsoft.Json >= 10.0.2",
-      "NotificationsExtensions.Win10 >= 14332.0.2",
       "Prism.Core >= 6.3.0",
       "Prism.Windows >= 6.3.0",
       "ReactiveProperty >= 3.6.0",
       "SQLite.Net-PCL >= 3.1.1",
       "SharpDX.Direct2D1 >= 3.1.1",
       "ToriatamaText >= 1.1.0",
-      "WinRTXamlToolkit.UWP >= 2.3.0",
       "jint >= 2.10.4"
     ],
     "UAP,Version=v10.0": []
@@ -29249,16 +29378,16 @@
       "HockeySDK.UWP": "4.1.6",
       "jint": "2.10.4",
       "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+      "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+      "Microsoft.Toolkit.Uwp.UI.Controls": "1.4.1",
       "Microsoft.Xaml.Behaviors.Uwp.Managed": "2.0.0",
       "Newtonsoft.Json": "10.0.2",
-      "NotificationsExtensions.Win10": "14332.0.2",
       "Prism.Core": "6.3.0",
       "Prism.Windows": "6.3.0",
       "ReactiveProperty": "3.6.0",
       "SharpDX.Direct2D1": "3.1.1",
       "SQLite.Net-PCL": "3.1.1",
-      "ToriatamaText": "1.1.0",
-      "WinRTXamlToolkit.UWP": "2.3.0"
+      "ToriatamaText": "1.1.0"
     },
     "frameworks": {
       "uap10.0": {}

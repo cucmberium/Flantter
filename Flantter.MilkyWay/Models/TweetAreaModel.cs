@@ -329,7 +329,7 @@ namespace Flantter.MilkyWay.Models
                 catch (CoreTweet.TwitterException ex)
                 {
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                        new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                        _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                     State = "Cancel";
                     Message = _resourceLoader.GetString("TweetArea_Message_Error");
                     return;
@@ -337,8 +337,8 @@ namespace Flantter.MilkyWay.Models
                 catch (NotImplementedException ex)
                 {
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                        new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                        new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                        _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                        _resourceLoader.GetString("Notification_System_NotImplementedException"));
                     State = "Cancel";
                     Message = _resourceLoader.GetString("TweetArea_Message_Error");
                     return;
@@ -346,8 +346,8 @@ namespace Flantter.MilkyWay.Models
                 catch (Exception ex)
                 {
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                        new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                        new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                        _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                        _resourceLoader.GetString("Notification_System_CheckNetwork"));
                     State = "Cancel";
                     Message = _resourceLoader.GetString("TweetArea_Message_Error");
                     return;
@@ -359,7 +359,7 @@ namespace Flantter.MilkyWay.Models
             }
 
             Core.Instance.PopupToastNotification(PopupNotificationType.TweetCompleted,
-                new ResourceLoader().GetString("Notification_TweetCompleted_TweetCompleted"), Text);
+                _resourceLoader.GetString("Notification_TweetCompleted_TweetCompleted"), Text);
 
             foreach (var pic in _pictures)
                 pic.Dispose();

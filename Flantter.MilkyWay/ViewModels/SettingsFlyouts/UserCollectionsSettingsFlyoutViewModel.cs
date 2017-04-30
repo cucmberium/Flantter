@@ -15,8 +15,12 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
     public class UserCollectionsSettingsFlyoutViewModel
     {
+        private ResourceLoader _resourceLoader;
+
         public UserCollectionsSettingsFlyoutViewModel()
         {
+            _resourceLoader = new ResourceLoader();
+
             Model = new UserCollectionsSettingsFlyoutModel();
 
             Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
@@ -170,7 +174,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_DeleteCollection"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_DeleteCollection"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);

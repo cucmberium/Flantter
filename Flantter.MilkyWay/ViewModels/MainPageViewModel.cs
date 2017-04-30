@@ -33,10 +33,14 @@ namespace Flantter.MilkyWay.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private ResourceLoader _resourceLoader;
+
         #region Constructor
 
         public MainPageViewModel()
         {
+            _resourceLoader = new ResourceLoader();
+
             Model = MainPageModel.Instance;
             Setting = SettingService.Setting;
             Notice = Notice.Instance;
@@ -255,7 +259,7 @@ namespace Flantter.MilkyWay.ViewModels
                 {
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_ExitApp"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_ExitApp"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -361,7 +365,7 @@ namespace Flantter.MilkyWay.ViewModels
                     {
                         await Notice.ShowMessageDialogMessenger.Raise(new MessageDialogNotification
                         {
-                            Message = new ResourceLoader().GetString("ConfirmDialog_DonatedAlready"),
+                            Message = _resourceLoader.GetString("ConfirmDialog_DonatedAlready"),
                             Title = "Donation"
                         });
                         return;
@@ -369,7 +373,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_NeedAppDonation"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_NeedAppDonation"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -382,13 +386,13 @@ namespace Flantter.MilkyWay.ViewModels
                     if (donateResult)
                         await Notice.ShowMessageDialogMessenger.Raise(new MessageDialogNotification
                         {
-                            Message = new ResourceLoader().GetString("ConfirmDialog_DonateSuccessfully"),
+                            Message = _resourceLoader.GetString("ConfirmDialog_DonateSuccessfully"),
                             Title = "Confirmation"
                         });
                     else
                         await Notice.ShowMessageDialogMessenger.Raise(new MessageDialogNotification
                         {
-                            Message = new ResourceLoader().GetString("ConfirmDialog_FailedToDonate"),
+                            Message = _resourceLoader.GetString("ConfirmDialog_FailedToDonate"),
                             Title = "Confirmation"
                         });
                 });
@@ -445,7 +449,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_MuteClient"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_MuteClient"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -465,7 +469,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_MuteWord"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_MuteWord"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -544,7 +548,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                     await Notice.ShowMessageDialogMessenger.Raise(new MessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_CompiledMuteFilterSuccessfully"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_CompiledMuteFilterSuccessfully"),
                         Title = "Compile Filter"
                     });
                 });
@@ -705,7 +709,7 @@ namespace Flantter.MilkyWay.ViewModels
                     {
                         await Notice.ShowMessageDialogMessenger.Raise(new MessageDialogNotification
                         {
-                            Message = new ResourceLoader().GetString("ConfirmDialog_CannotDeleteAccount"),
+                            Message = _resourceLoader.GetString("ConfirmDialog_CannotDeleteAccount"),
                             Title = "Error"
                         });
                         return;
@@ -713,7 +717,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_DeleteAccount"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_DeleteAccount"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);

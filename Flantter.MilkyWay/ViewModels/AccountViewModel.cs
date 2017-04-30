@@ -29,10 +29,14 @@ namespace Flantter.MilkyWay.ViewModels
 {
     public class AccountViewModel : IDisposable
     {
+        private ResourceLoader _resourceLoader;
+
         #region Constructor
 
         public AccountViewModel(AccountModel account)
         {
+            _resourceLoader = new ResourceLoader();
+
             Model = account;
             ScreenName = account.ObserveProperty(x => x.ScreenName).ToReactiveProperty().AddTo(Disposable);
             Name = account.ObserveProperty(x => x.Name).ToReactiveProperty().AddTo(Disposable);
@@ -364,7 +368,7 @@ namespace Flantter.MilkyWay.ViewModels
                     {
                         var msgNotification = new ConfirmMessageDialogNotification
                         {
-                            Message = new ResourceLoader().GetString("ConfirmDialog_Retweet"),
+                            Message = _resourceLoader.GetString("ConfirmDialog_Retweet"),
                             Title = "Confirmation"
                         };
                         await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -417,7 +421,7 @@ namespace Flantter.MilkyWay.ViewModels
                     {
                         var msgNotification = new ConfirmMessageDialogNotification
                         {
-                            Message = new ResourceLoader().GetString("ConfirmDialog_Favorite"),
+                            Message = _resourceLoader.GetString("ConfirmDialog_Favorite"),
                             Title = "Confirmation"
                         };
                         await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -465,7 +469,7 @@ namespace Flantter.MilkyWay.ViewModels
                     {
                         var msgNotification = new ConfirmMessageDialogNotification
                         {
-                            Message = new ResourceLoader().GetString("ConfirmDialog_RetweetFavorite"),
+                            Message = _resourceLoader.GetString("ConfirmDialog_RetweetFavorite"),
                             Title = "Confirmation"
                         };
                         await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -519,7 +523,7 @@ namespace Flantter.MilkyWay.ViewModels
                     }
 
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                        new ResourceLoader().GetString("Notification_System_ClearColumn"));
+                        _resourceLoader.GetString("Notification_System_ClearColumn"));
                 })
                 .AddTo(Disposable);
 
@@ -559,7 +563,7 @@ namespace Flantter.MilkyWay.ViewModels
                     statusViewModel.OnPropertyChanged("RetweetFavoriteTriangleIconVisibility");
 
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                        new ResourceLoader().GetString("Notification_System_ClearColumn"));
+                        _resourceLoader.GetString("Notification_System_ClearColumn"));
                 })
                 .AddTo(Disposable);
 
@@ -574,7 +578,7 @@ namespace Flantter.MilkyWay.ViewModels
                     await Model.DeleteTweetFromCollection(statusViewModel.Id, statusViewModel.CollectionParameter);
 
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                        new ResourceLoader().GetString("Notification_System_ClearColumn"));
+                        _resourceLoader.GetString("Notification_System_ClearColumn"));
                 })
                 .AddTo(Disposable);
 
@@ -669,7 +673,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_AddColumn"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_AddColumn"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -861,7 +865,7 @@ namespace Flantter.MilkyWay.ViewModels
                     {
                         var msgNotification = new ConfirmMessageDialogNotification
                         {
-                            Message = new ResourceLoader().GetString("ConfirmDialog_RetweetFavorite"),
+                            Message = _resourceLoader.GetString("ConfirmDialog_RetweetFavorite"),
                             Title = "Confirmation"
                         };
                         await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -920,7 +924,7 @@ namespace Flantter.MilkyWay.ViewModels
                     {
                         var msgNotification = new ConfirmMessageDialogNotification
                         {
-                            Message = new ResourceLoader().GetString("ConfirmDialog_Favorite"),
+                            Message = _resourceLoader.GetString("ConfirmDialog_Favorite"),
                             Title = "Confirmation"
                         };
                         await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -1004,7 +1008,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_Mute"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_Mute"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -1014,7 +1018,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                     msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_MuteInFlantter"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_MuteInFlantter"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -1086,7 +1090,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_DeleteColumn"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_DeleteColumn"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);

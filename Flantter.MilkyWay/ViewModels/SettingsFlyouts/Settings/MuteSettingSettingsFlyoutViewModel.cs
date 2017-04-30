@@ -8,8 +8,12 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
 {
     public class MuteSettingSettingsFlyoutViewModel
     {
+        private ResourceLoader _resourceLoader;
+
         public MuteSettingSettingsFlyoutViewModel()
         {
+            _resourceLoader = new ResourceLoader();
+
             MuteFilterUpdateButtonEnabled = new ReactiveProperty<bool>();
             MuteFilterCompileErrorMessage = new ReactiveProperty<string>();
             MuteFilter = new ReactiveProperty<string>();
@@ -18,7 +22,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                 if (string.IsNullOrWhiteSpace(x))
                 {
                     MuteFilterCompileErrorMessage.Value =
-                        new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterIsEmpty");
+                        _resourceLoader.GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterIsEmpty");
                     MuteFilterUpdateButtonEnabled.Value = false;
                     return;
                 }
@@ -30,15 +34,15 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                 catch (FilterCompileException e)
                 {
                     MuteFilterCompileErrorMessage.Value =
-                        new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") +
-                        "\n" + new ResourceLoader().GetString("Filter_CompileError_" + e.Error.ToString());
+                        _resourceLoader.GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") +
+                        "\n" + _resourceLoader.GetString("Filter_CompileError_" + e.Error.ToString());
                     MuteFilterUpdateButtonEnabled.Value = false;
                     return;
                 }
                 catch (Exception e)
                 {
                     MuteFilterCompileErrorMessage.Value =
-                        new ResourceLoader().GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") +
+                        _resourceLoader.GetString("SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") +
                         "\n" + e.Message;
                     MuteFilterUpdateButtonEnabled.Value = false;
                     return;

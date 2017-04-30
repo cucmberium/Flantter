@@ -15,8 +15,12 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
     public class AddStatusToCollectionSettingsFlyoutViewModel
     {
+        private ResourceLoader _resourceLoader;
+
         public AddStatusToCollectionSettingsFlyoutViewModel()
         {
+            _resourceLoader = new ResourceLoader();
+
             Model = new AddStatusToCollectionSettingsFlyoutModel();
 
             Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
@@ -61,7 +65,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_AddToCollection"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_AddToCollection"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);

@@ -12,8 +12,12 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
 {
     public class ColumnSettingSettingsFlyoutViewModel
     {
+        private ResourceLoader _resourceLoader;
+
         public ColumnSettingSettingsFlyoutViewModel()
         {
+            _resourceLoader = new ResourceLoader();
+
             CanChangeSetting = new ReactiveProperty<bool>(true);
 
             Name = new ReactiveProperty<string>();
@@ -56,7 +60,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                     if (string.IsNullOrEmpty(x.Name))
                     {
                         ErrorMessage.Value =
-                            new ResourceLoader().GetString("SettingsFlyout_Settings_Column_Name_NameIsEmpty");
+                            _resourceLoader.GetString("SettingsFlyout_Settings_Column_Name_NameIsEmpty");
                         UpdateButtonEnabled.Value = false;
                         return;
                     }
@@ -64,7 +68,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                     if (string.IsNullOrWhiteSpace(x.Filter))
                     {
                         ErrorMessage.Value =
-                            new ResourceLoader().GetString("SettingsFlyout_Settings_Column_Filter_FilterIsEmpty");
+                            _resourceLoader.GetString("SettingsFlyout_Settings_Column_Filter_FilterIsEmpty");
                         UpdateButtonEnabled.Value = false;
                         return;
                     }
@@ -76,23 +80,23 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                     catch (FilterCompileException e)
                     {
                         ErrorMessage.Value =
-                            new ResourceLoader().GetString(
+                            _resourceLoader.GetString(
                                 "SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") +
-                            "\n" + new ResourceLoader().GetString("Filter_CompileError_" + e.Error.ToString());
+                            "\n" + _resourceLoader.GetString("Filter_CompileError_" + e.Error.ToString());
                         UpdateButtonEnabled.Value = false;
                         return;
                     }
                     catch (Exception e)
                     {
                         ErrorMessage.Value =
-                            new ResourceLoader().GetString(
+                            _resourceLoader.GetString(
                                 "SettingsFlyout_Settings_Mute_MuteFilter_FilterCompileError") +
                             "\n" + e.Message;
                         UpdateButtonEnabled.Value = false;
                         return;
                     }
 
-                    ErrorMessage.Value = new ResourceLoader().GetString("SettingsFlyout_Settings_Column_SaveOK");
+                    ErrorMessage.Value = _resourceLoader.GetString("SettingsFlyout_Settings_Column_SaveOK");
                     UpdateButtonEnabled.Value = true;
                 });
 
@@ -111,7 +115,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
 
                 await Notice.Instance.ShowMessageDialogMessenger.Raise(new MessageDialogNotification
                 {
-                    Message = new ResourceLoader().GetString("ConfirmDialog_UpdateColumnSettingSuccessfully"),
+                    Message = _resourceLoader.GetString("ConfirmDialog_UpdateColumnSettingSuccessfully"),
                     Title = "Message"
                 });
             });

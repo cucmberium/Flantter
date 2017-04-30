@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Prism.Mvvm;
-using WinRTXamlToolkit.Async;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {

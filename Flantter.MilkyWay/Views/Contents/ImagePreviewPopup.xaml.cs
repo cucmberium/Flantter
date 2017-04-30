@@ -8,7 +8,6 @@ using Windows.Graphics.Display;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -18,11 +17,11 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Web.Http;
+using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Controls;
 using Flantter.MilkyWay.Views.Util;
-using NotificationsExtensions.Toasts;
 
 namespace Flantter.MilkyWay.Views.Contents
 {
@@ -485,20 +484,6 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private async void ImagePreviewMenu_SaveImage(object sender, RoutedEventArgs e)
         {
-            var toastContent = new ToastContent
-            {
-                Visual = new ToastVisual
-                {
-                    TitleText = new ToastText {Text = "Flantter"},
-                    BodyTextLine1 = new ToastText
-                    {
-                        Text = _resourceLoader.GetString("ImagePreviewPopup_ImageSavedSuccessfuly")
-                    }
-                }
-            };
-
-            toastContent.Audio = !SettingService.Setting.NotificationSound ? new ToastAudio {Silent = true} : new ToastAudio();
-
             try
             {
                 var extension = "";
@@ -558,15 +543,11 @@ namespace Flantter.MilkyWay.Views.Contents
             }
             catch
             {
-                toastContent.Visual.BodyTextLine1.Text =
-                    new ResourceLoader().GetString("ImagePreviewPopup_FailedtoImageSave");
+                Core.Instance.PopupToastNotification(PopupNotificationType.System, _resourceLoader.GetString("ImagePreviewPopup_FailedtoImageSave"));
+                return;
             }
 
-            if (SettingService.Setting.SystemNotification)
-            {
-                var toast = new ToastNotification(toastContent.GetXml());
-                ToastNotificationManager.CreateToastNotifier().Show(toast);
-            }
+            Core.Instance.PopupToastNotification(PopupNotificationType.System, _resourceLoader.GetString("ImagePreviewPopup_ImageSavedSuccessfuly"));
         }
 
         private async void ImagePreviewMenu_ShowinBrowser(object sender, RoutedEventArgs e)

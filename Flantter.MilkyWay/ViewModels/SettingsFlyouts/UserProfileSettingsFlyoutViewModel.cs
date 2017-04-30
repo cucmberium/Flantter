@@ -213,7 +213,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 {
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_Block"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_Block"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -234,7 +234,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 {
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_Mute"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_Mute"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -244,7 +244,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
                     msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = new ResourceLoader().GetString("ConfirmDialog_MuteInFlantter"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_MuteInFlantter"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);

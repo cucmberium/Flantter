@@ -8,8 +8,8 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Contents.Authorize;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Prism.Windows.Mvvm;
-using WinRTXamlToolkit.AwaitableUI;
 
 namespace Flantter.MilkyWay.Views
 {

@@ -10,6 +10,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
     public class EventMessageViewModel : ExtendedBindableBase, ITweetViewModel
     {
+        private static ResourceLoader _resourceLoader = new ResourceLoader();
+
         public EventMessageViewModel(EventMessage eventMessage, long userId)
         {
             Model = eventMessage;
@@ -32,42 +34,41 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 : eventMessage.Source.ProfileImageUrl;
             Id = 0;
 
-            var resourceLoader = new ResourceLoader();
             var sourceUser = "@" + eventMessage.Source.ScreenName + " (" + eventMessage.Source.Name + ") ";
             string targetUser;
             if (eventMessage.Target != null)
                 targetUser = "@" + eventMessage.Target.ScreenName + " (" + eventMessage.Target.Name + ") ";
             else
-                targetUser = resourceLoader.GetString("Event_Me");
+                targetUser = _resourceLoader.GetString("Event_Me");
 
             switch (eventMessage.Type)
             {
                 case "Favorite":
-                    Text = string.Format(resourceLoader.GetString("Event_Favorite"), sourceUser, targetUser);
+                    Text = string.Format(_resourceLoader.GetString("Event_Favorite"), sourceUser, targetUser);
                     break;
                 case "Follow":
-                    Text = string.Format(resourceLoader.GetString("Event_Follow"), sourceUser, targetUser);
+                    Text = string.Format(_resourceLoader.GetString("Event_Follow"), sourceUser, targetUser);
                     break;
                 case "Unfavorite":
-                    Text = string.Format(resourceLoader.GetString("Event_Unfavorite"), sourceUser, targetUser);
+                    Text = string.Format(_resourceLoader.GetString("Event_Unfavorite"), sourceUser, targetUser);
                     break;
                 case "UserUpdate":
-                    Text = string.Format(resourceLoader.GetString("Event_UserUpdate"), sourceUser);
+                    Text = string.Format(_resourceLoader.GetString("Event_UserUpdate"), sourceUser);
                     break;
                 case "FavoritedRetweet":
-                    Text = string.Format(resourceLoader.GetString("Event_FavoritedRetweet"), sourceUser, targetUser);
+                    Text = string.Format(_resourceLoader.GetString("Event_FavoritedRetweet"), sourceUser, targetUser);
                     break;
                 case "RetweetedRetweet":
-                    Text = string.Format(resourceLoader.GetString("Event_RetweetedRetweet"), sourceUser, targetUser);
+                    Text = string.Format(_resourceLoader.GetString("Event_RetweetedRetweet"), sourceUser, targetUser);
                     break;
                 case "QuotedTweet":
-                    Text = string.Format(resourceLoader.GetString("Event_QuotedTweet"), sourceUser, targetUser);
+                    Text = string.Format(_resourceLoader.GetString("Event_QuotedTweet"), sourceUser, targetUser);
                     break;
                 case "Retweet":
-                    Text = string.Format(resourceLoader.GetString("Event_RetweetTweet"), sourceUser, targetUser);
+                    Text = string.Format(_resourceLoader.GetString("Event_RetweetTweet"), sourceUser, targetUser);
                     break;
                 case "Mention":
-                    Text = string.Format(resourceLoader.GetString("Event_Mention"), sourceUser, targetUser);
+                    Text = string.Format(_resourceLoader.GetString("Event_Mention"), sourceUser, targetUser);
                     break;
             }
 

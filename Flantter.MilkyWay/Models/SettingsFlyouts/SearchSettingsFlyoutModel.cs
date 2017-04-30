@@ -18,6 +18,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class SearchSettingsFlyoutModel : BindableBase
     {
+        private ResourceLoader _resourceLoader;
         private string _savedSearchesLastScreenName = "";
         private DateTime _savedSearchesLastUpdate = DateTime.Now - TimeSpan.FromDays(1.0);
         private DateTime _trendsLastUpdate = DateTime.Now - TimeSpan.FromDays(1.0);
@@ -27,6 +28,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         public SearchSettingsFlyoutModel()
         {
+            _resourceLoader = new ResourceLoader();
+
             Statuses = new ObservableCollection<Status>();
             Users = new ObservableCollection<User>();
 
@@ -211,25 +214,25 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             catch (CoreTweet.TwitterException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
             }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
             Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                new ResourceLoader().GetString("Notification_System_SaveSearchSuccessfully"));
+                _resourceLoader.GetString("Notification_System_SaveSearchSuccessfully"));
 
             await UpdateSavedSearches(true);
         }
@@ -243,25 +246,25 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             catch (CoreTweet.TwitterException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
             }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"),
-                    new ResourceLoader().GetString("Notification_System_NotImplementedException"));
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    new ResourceLoader().GetString("Notification_System_ErrorOccurred"),
-                    new ResourceLoader().GetString("Notification_System_CheckNetwork"));
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
                 return;
             }
 
             Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                new ResourceLoader().GetString("Notification_System_DestroySearchSuccessfully"));
+                _resourceLoader.GetString("Notification_System_DestroySearchSuccessfully"));
 
             await UpdateSavedSearches(true);
         }

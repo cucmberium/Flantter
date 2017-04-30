@@ -7,9 +7,8 @@ using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI.Notifications;
 using CoreTweet;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json.Linq;
-using NotificationsExtensions.Tiles;
-using NotificationsExtensions.Toasts;
 
 namespace Flantter.MilkyWay.BackgroundTask
 {
@@ -21,15 +20,6 @@ namespace Flantter.MilkyWay.BackgroundTask
 
             try
             {
-#if _DEBUG
-                var toastContent = new ToastContent();
-                toastContent.Visual = new ToastVisual();
-                toastContent.Visual.TitleText = new ToastText() { Text = "DebugMsg" };
-                toastContent.Visual.BodyTextLine1 = new ToastText() { Text = "Background task is running!!" };
-
-                var toast = new ToastNotification(toastContent.GetXml());
-                ToastNotificationManager.CreateToastNotifier().Show(toast);
-#endif
                 string json;
 
                 var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
@@ -52,6 +42,9 @@ namespace Flantter.MilkyWay.BackgroundTask
                 if (tileNotificationType != 0)
                 {
                     var account = accounts.First(x => x.IsEnabled);
+                    if (!string.IsNullOrWhiteSpace(account.Instance))
+                        return;
+
                     var tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken,
                         account.AccessTokenSecret);
 
@@ -131,7 +124,7 @@ namespace Flantter.MilkyWay.BackgroundTask
             {
                 Children =
                 {
-                    new TileText {Text = text, Style = TileTextStyle.Caption, Wrap = true}
+                    new AdaptiveText {Text = text, HintStyle = AdaptiveTextStyle.Caption, HintWrap = true}
                 }
             };
 
@@ -168,19 +161,31 @@ namespace Flantter.MilkyWay.BackgroundTask
             {
                 Visual = new ToastVisual
                 {
-                    TitleText = new ToastText {Text = type},
-                    BodyTextLine1 = new ToastText {Text = text}
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = type
+                            },
+                            new AdaptiveText
+                            {
+                                Text = text
+                            }
+                        }
+                    }
                 }
             };
 
             if (!string.IsNullOrWhiteSpace(text2))
-                toastContent.Visual.BodyTextLine2 = new ToastText {Text = text2};
+                toastContent.Visual.BindingGeneric.Children.Add(new AdaptiveText {Text = text2});
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
-                toastContent.Visual.AppLogoOverride = new ToastAppLogo {Source = new ToastImageSource(imageUrl)};
+                toastContent.Visual.BindingGeneric.AppLogoOverride = new ToastGenericAppLogo {Source = imageUrl};
 
             if (!string.IsNullOrWhiteSpace(inlineImageUrl))
-                toastContent.Visual.InlineImages.Add(new ToastImage {Source = new ToastImageSource(inlineImageUrl)});
+                toastContent.Visual.BindingGeneric.Children.Add(new AdaptiveImage {Source = inlineImageUrl});
 
             if (!string.IsNullOrWhiteSpace(textboxPlaceholder) && !string.IsNullOrWhiteSpace(buttonImageUrl) &&
                 !string.IsNullOrWhiteSpace(param))
@@ -225,18 +230,15 @@ namespace Flantter.MilkyWay.BackgroundTask
 
         public string ProfileBannerUrl { get; set; }
 
+        public string Platform { get; set; }
+
         public bool IsEnabled { get; set; }
+
+        public string Instance { get; set; }
     }
 
     internal class ColumnSetting
     {
-        /*private SettingSupport.ColumnTypeEnum _Action;
-        public SettingSupport.ColumnTypeEnum Action
-        {
-            get { return _Action; }
-            set { this._Action = value; }
-        }*/
-
         public string Name { get; set; }
 
         public string Parameter { get; set; }

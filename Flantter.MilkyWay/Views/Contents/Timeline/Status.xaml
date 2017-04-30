@@ -9,7 +9,7 @@
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:winRtXamlToolkit="using:WinRTXamlToolkit.Controls"
+    xmlns:uwpToolKit="using:Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -185,7 +185,7 @@
                 <ItemsControl x:DeferLoadStrategy="Lazy" x:Name="MediaItemsControl" Visibility="Collapsed" ItemsSource="{x:Bind ViewModel.MediaEntities, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <winRtXamlToolkit:WrapPanel Orientation="Horizontal"/>
+                            <uwpToolKit:WrapPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -261,7 +261,7 @@
                 <ItemsControl Grid.Row="1" x:DeferLoadStrategy="Lazy" x:Name="QuotedStatusMediaItemsControl" Visibility="Collapsed" ItemsSource="{x:Bind ViewModel.QuotedStatusMediaEntities, Mode=OneWay}" Margin="38,0,0,0">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <winRtXamlToolkit:WrapPanel Orientation="Horizontal"/>
+                            <uwpToolKit:WrapPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>

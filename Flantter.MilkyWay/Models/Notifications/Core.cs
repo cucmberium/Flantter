@@ -1,13 +1,12 @@
-﻿using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Setting;
-using NotificationsExtensions.Tiles;
-using NotificationsExtensions.Toasts;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Notifications;
+using Flantter.MilkyWay.Models.Services;
+using Flantter.MilkyWay.Setting;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace Flantter.MilkyWay.Models.Notifications
 {
@@ -67,7 +66,8 @@ namespace Flantter.MilkyWay.Models.Notifications
                                         e.Status.RetweetInformation.User.Name), e.Status.Text,
                                     e.Status.RetweetInformation.User.ProfileImageUrl);
 
-                            if (e.Status.InReplyToUserId == e.UserId && e.Parameter.Contains("home://") && !e.Status.HasRetweetInformation)
+                            if (e.Status.InReplyToUserId == e.UserId && e.Parameter.Contains("home://") &&
+                                !e.Status.HasRetweetInformation)
                                 PopupToastNotification(PopupNotificationType.Mention,
                                     string.Format(_resourceLoader.GetString("Notification_Mention_Mention"),
                                         e.Status.User.Name), e.Status.Text, e.Status.User.ProfileImageUrl,
@@ -157,7 +157,7 @@ namespace Flantter.MilkyWay.Models.Notifications
             {
                 Children =
                 {
-                    new TileText {Text = text, Style = TileTextStyle.Caption, Wrap = true}
+                    new AdaptiveText {Text = text, HintStyle = AdaptiveTextStyle.Caption, HintWrap = true}
                 }
             };
 
@@ -250,19 +250,27 @@ namespace Flantter.MilkyWay.Models.Notifications
             {
                 Visual = new ToastVisual
                 {
-                    TitleText = new ToastText {Text = type.ToString()},
-                    BodyTextLine1 = new ToastText {Text = text}
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = text
+                            }
+                        }
+                    }
                 }
             };
 
             if (!string.IsNullOrWhiteSpace(text2))
-                toastContent.Visual.BodyTextLine2 = new ToastText {Text = text2};
+                toastContent.Visual.BindingGeneric.Children.Add(new AdaptiveText {Text = text2});
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
-                toastContent.Visual.AppLogoOverride = new ToastAppLogo {Source = new ToastImageSource(imageUrl)};
+                toastContent.Visual.BindingGeneric.AppLogoOverride = new ToastGenericAppLogo {Source = imageUrl};
 
             if (!string.IsNullOrWhiteSpace(inlineImageUrl))
-                toastContent.Visual.InlineImages.Add(new ToastImage {Source = new ToastImageSource(inlineImageUrl)});
+                toastContent.Visual.BindingGeneric.Children.Add(new AdaptiveImage {Source = inlineImageUrl});
 
             if (!SettingService.Setting.NotificationSound)
                 toastContent.Audio = new ToastAudio {Silent = true};

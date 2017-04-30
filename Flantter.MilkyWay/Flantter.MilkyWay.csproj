@@ -115,6 +115,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\AdvancedSettingBase.cs" />
+    <Compile Include="Common\AsyncLock.cs" />
     <Compile Include="Common\ExtendedBindableBase.cs" />
     <Compile Include="Common\DataTypeTempleteSelector.cs" />
     <Compile Include="Common\GetMethodHelper.cs" />

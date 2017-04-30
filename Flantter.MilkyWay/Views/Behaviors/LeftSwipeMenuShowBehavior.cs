@@ -5,8 +5,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Xaml.Interactivity;
-using WinRTXamlToolkit.AwaitableUI;
 
 namespace Flantter.MilkyWay.Views.Behaviors
 {

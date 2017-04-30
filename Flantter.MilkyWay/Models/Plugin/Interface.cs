@@ -1,5 +1,4 @@
 ﻿using Flantter.MilkyWay.Setting;
-using NotificationsExtensions.Toasts;
 using System;
 using System.Collections.Generic;
 using System.Reactive.Concurrency;
@@ -9,6 +8,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace Flantter.MilkyWay.Plugin
 {
@@ -117,11 +117,23 @@ namespace Flantter.MilkyWay.Plugin
         {
             var toastContent = new ToastContent
             {
-                Visual = new ToastVisual {BodyTextLine1 = new ToastText {Text = text}}
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = text
+                            }
+                        }
+                    }
+                }
             };
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
-                toastContent.Visual.AppLogoOverride = new ToastAppLogo {Source = new ToastImageSource(imageUrl)};
+                toastContent.Visual.BindingGeneric.AppLogoOverride = new ToastGenericAppLogo {Source = imageUrl};
 
             if (!SettingService.Setting.NotificationSound)
                 toastContent.Audio = new ToastAudio {Silent = true};

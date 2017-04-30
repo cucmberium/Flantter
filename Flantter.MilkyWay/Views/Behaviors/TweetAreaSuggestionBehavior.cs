@@ -122,7 +122,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (SuggestionPopup == null)
                 return;
 
-            if (!SuggestionPopup._Popup.IsOpen)
+            if (!SuggestionPopup.Popup.IsOpen)
                 return;
 
             switch (e.Key)
@@ -179,7 +179,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             var ttv = ((ExtendedTextBox) AssociatedObject).TransformToVisual(Window.Current.Content);
             var screenCoords = ttv.TransformPoint(new Point(0, 0));
 
-            if (!SuggestionPopup._Popup.IsOpen)
+            if (!SuggestionPopup.Popup.IsOpen)
             {
                 if (IsTopAppBar)
                     SuggestionPopup.SetPosition(

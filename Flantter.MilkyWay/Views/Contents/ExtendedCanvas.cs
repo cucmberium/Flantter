@@ -90,14 +90,12 @@ namespace Flantter.MilkyWay.Views.Contents
 
         public void HorizontalSnapPointsChanged_OnCommandExecute()
         {
-            if (HorizontalSnapPointsChanged != null)
-                HorizontalSnapPointsChanged(this, EventArgs.Empty);
+            HorizontalSnapPointsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void VerticalSnapPointsChanged_OnCommandExecute()
         {
-            if (VerticalSnapPointsChanged != null)
-                VerticalSnapPointsChanged(this, EventArgs.Empty);
+            VerticalSnapPointsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

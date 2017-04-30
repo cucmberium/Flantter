@@ -28,7 +28,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             {
                 coreApplicationView.TitleBar.ExtendViewIntoTitleBar = true;
                 VisualStateManager.GoToState(page, "TitleBarOpened", true);
-                Window.Current.SetTitleBar(page.FindName("Flantter_TitleBarMain") as UIElement);
+                Window.Current.SetTitleBar(page.FindName("FlantterTitleBarMain") as UIElement);
             }
             else
             {

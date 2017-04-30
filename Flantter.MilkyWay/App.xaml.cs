@@ -49,7 +49,6 @@ namespace Flantter.MilkyWay
             {
                 var trigger = new TimeTrigger(15, false);
                 var taskBuilder = new BackgroundTaskBuilder();
-
                 taskBuilder.Name = "Flantter_BackgroundTask";
                 taskBuilder.TaskEntryPoint = "Flantter.MilkyWay.BackgroundTask.BackgroundWorker";
                 taskBuilder.SetTrigger(trigger);
@@ -151,7 +150,7 @@ namespace Flantter.MilkyWay
                 var targetScreenName = data.ElementAt(2);
                 var tweet = args.UserInput["tweet"] as string;
 
-                var json = string.Empty;
+                string json;
 
                 var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
                 using (var s = await readStorageFile.OpenStreamForReadAsync())

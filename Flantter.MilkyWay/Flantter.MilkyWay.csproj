@@ -101,9 +101,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\DM.png" />
     <Content Include="Assets\Square310x310Logo.scale-200.png" />
@@ -388,7 +385,6 @@
     <Compile Include="Views\Converters\BooleanNegationConverter.cs" />
     <Compile Include="Views\Converters\BooleanNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Views\Converters\DateTimeToStringConverter.cs" />
     <Compile Include="Views\Converters\IntNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\LongToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\IntToVisibilityConverter.cs" />

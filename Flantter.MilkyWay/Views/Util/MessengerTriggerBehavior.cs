@@ -7,9 +7,6 @@ using Microsoft.Xaml.Interactivity;
 
 namespace Flantter.MilkyWay.Views.Util
 {
-    /// <summary>
-    ///     VMのMessengerからの通知を受け取るトリガー
-    /// </summary>
     [ContentProperty(Name = "Actions")]
     public class MessengerTriggerBehavior : DependencyObject, IBehavior
     {
@@ -24,18 +21,12 @@ namespace Flantter.MilkyWay.Views.Util
             DependencyProperty.Register("Actions", typeof(ActionCollection), typeof(MessengerTriggerBehavior),
                 new PropertyMetadata(null));
 
-        /// <summary>
-        ///     メッセンジャー
-        /// </summary>
         public Messenger Messenger
         {
             get => (Messenger) GetValue(MessengerProperty);
             set => SetValue(MessengerProperty, value);
         }
 
-        /// <summary>
-        ///     子のアクション
-        /// </summary>
         public ActionCollection Actions
         {
             get
@@ -63,7 +54,6 @@ namespace Flantter.MilkyWay.Views.Util
 
         private static void MessengerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            // Messengerプロパティに変更があったらイベントを購読する
             var self = (MessengerTriggerBehavior) d;
             if (e.OldValue != null)
             {
@@ -81,26 +71,15 @@ namespace Flantter.MilkyWay.Views.Util
 
         private async void MessengerRaised(object sender, MessengerEventArgs e)
         {
-            // アクションを実行する。戻り値がTaskのものがあったら待ち合わせる
             await Task.WhenAll(Interaction.ExecuteActions(this, Actions, e.Notification).OfType<Task>());
-            // コールバック
             e.Callback();
         }
     }
 
-    /// <summary>
-    ///     メッセンジャー
-    /// </summary>
     public class Messenger
     {
-        /// <summary>
-        ///     Vへ通知するためのイベント
-        /// </summary>
         public event EventHandler<MessengerEventArgs> Raised;
 
-        /// <summary>
-        ///     NotificationをVに通知して結果のNotificationを返す
-        /// </summary>
         public Task<T> Raise<T>(T n)
             where T : Notification
         {
@@ -115,25 +94,13 @@ namespace Flantter.MilkyWay.Views.Util
         }
     }
 
-    /// <summary>
-    ///     Raisedイベントの引数
-    /// </summary>
     public class MessengerEventArgs : EventArgs
     {
-        /// <summary>
-        ///     通知用のNotification
-        /// </summary>
         public Notification Notification { get; set; }
 
-        /// <summary>
-        ///     Actionの実行が終わった時に呼び出されるコールバック
-        /// </summary>
         public Action Callback { get; set; }
     }
 
-    /// <summary>
-    ///     通知用データの基本クラス
-    /// </summary>
     public class Notification
     {
         public string Title { get; set; }

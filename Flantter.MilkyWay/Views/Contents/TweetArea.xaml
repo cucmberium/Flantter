@@ -1,19 +1,15 @@
 ﻿<UserControl
     x:Class="Flantter.MilkyWay.Views.Contents.TweetArea"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Flantter.MilkyWay.Views.Contents"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
-    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
-    xmlns:common="using:Flantter.MilkyWay.Common"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
+    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
-    xmlns:WinRTXamlToolkit="using:WinRTXamlToolkit.Controls"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d"
     d:DesignHeight="160"
     d:DesignWidth="1280">
@@ -54,7 +50,7 @@
                             <ImageBrush ImageSource="{x:Bind ViewModel.ReplyOrQuotedStatus.Value.ProfileImageUrl, Mode=OneWay}" />
                         </Border.Background>
                     </Border>
-                    <StackPanel Grid.Column="2" x:Name="StatusBox">
+                    <StackPanel Grid.Column="2">
                         <TextBlock>
                             <Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaNameBackgroundBrush}" FontSize="12" Text="{x:Bind ViewModel.ReplyOrQuotedStatus.Value.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource AppBarReplyOrQuotedStatusAreaScreenNameBackgroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ReplyOrQuotedStatus.Value.ScreenName, Mode=OneWay}"/>
                         </TextBlock>
@@ -72,7 +68,7 @@
 
         <Grid Grid.Row="1" MinHeight="140" MaxHeight="200">
 
-            <Button x:Name="BottomAppBar_AccountButton" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" VerticalAlignment="Top" Width="60" Height="60" Margin="5,5,0,0" Padding="0" BorderThickness="0">
+            <Button x:Name="BottomAppBarAccountButton" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" VerticalAlignment="Top" Width="60" Height="60" Margin="5,5,0,0" Padding="0" BorderThickness="0">
 
                 <ItemsControl ItemsSource="{x:Bind ViewModel.SelectedAccounts.Value, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
@@ -100,7 +96,7 @@
                 </Button.Flyout>
             </Button>
 
-            <controls:ExtendedTextBox x:Name="BottomAppBar_TextBox" IsEnabled="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" CursorPosition="{x:Bind ViewModel.SelectionStart.Value, Mode=TwoWay}" Text="{Binding TweetArea.Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{x:Bind ViewModel.Setting.TweetAreaFontSize, Mode=OneWay}" IsSpellCheckEnabled="False">
+            <controls:ExtendedTextBox x:Name="BottomAppBarTextBox" IsEnabled="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" CursorPosition="{x:Bind ViewModel.SelectionStart.Value, Mode=TwoWay}" Text="{Binding TweetArea.Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{x:Bind ViewModel.Setting.TweetAreaFontSize, Mode=OneWay}" IsSpellCheckEnabled="False">
                 <i:Interaction.Behaviors>
                     <behaviors:TextBoxKeyTriggerBehavior>
                         <util:KeyTrigger Key="Enter" Modifiers="Control">
@@ -118,13 +114,13 @@
                 </i:Interaction.Behaviors>
             </controls:ExtendedTextBox>
 
-            <AppBarButton x:Name="BottomAppBar_TweetButton"  Style="{StaticResource OldAppBarButtonStyle}" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Width="100" IsCompact="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,0,0" Label="Tweet" Height="90" Command="{x:Bind ViewModel.TweetCommand}">
+            <AppBarButton x:Name="BottomAppBarTweetButton"  Style="{StaticResource OldAppBarButtonStyle}" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Width="100" IsCompact="False" HorizontalAlignment="Right" Margin="0,5,0,0" Label="Tweet" Height="90" Command="{x:Bind ViewModel.TweetCommand}">
                 <AppBarButton.Icon>
                     <PathIcon Data="M20.3599987030029,17.0200004577637L20.2982959747314,15.3165817260742 20.7248592376709,13.8618698120117 21.6109313964844,12.6718635559082 22.9277572631836,11.7625598907471 24.349178314209,11.3314666748047 25.7337284088135,11.3477125167847 27.0583534240723,11.8207426071167 28.2999992370605,12.7600002288818 31.2799987792969,11.6399993896484 30.5911140441895,13.0404796600342 29.2799987792969,14.1999998092651 31.9199981689453,13.5 29.5999984741211,15.8999996185303 29.3917999267578,18.8514404296875 28.6413745880127,21.4481601715088 27.5722007751465,23.5763988494873 25.5548362731934,26.1680793762207 23.3233985900879,27.9143581390381 20.9852809906006,29.036039352417 17.6354751586914,29.7396450042725 14.4869346618652,29.6789989471436 11.6279172897339,28.9678649902344 9.14667892456055,27.7199993133545 12.7489204406738,27.4371242523193 14.4411554336548,26.7908344268799 16.0533199310303,25.7733192443848 13.3364295959473,24.83811378479 11.7066783905029,22.5200004577637 13.7333202362061,22.4133186340332 12.1511697769165,21.7406959533691 11.0099296569824,20.7355556488037 10.3170547485352,19.4226360321045 10.0799999237061,17.8266792297363 12.1066799163818,18.3600006103516 10.8615303039551,17.0618438720703 10.2149152755737,15.5937051773071 10.1675119400024,13.9553833007813 10.7199993133545,12.1466808319092 12.8063335418701,14.1511659622192 15.1005001068115,15.6508445739746 17.6144161224365,16.616771697998 20.3599987030029,17.0200004577637z">
                     </PathIcon>
                 </AppBarButton.Icon>
             </AppBarButton>
-            <Button x:Name="BottomAppBar_TweetSmallButton" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value, Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Visibility="Collapsed" Background="{StaticResource AppBarTweetButtonBackgroundBrush}" Height="40" Width="60" VerticalAlignment="Bottom" BorderThickness="0" Padding="0" Margin="0,0,5,0" HorizontalAlignment="Right" Command="{x:Bind ViewModel.TweetCommand}">
+            <Button x:Name="BottomAppBarTweetSmallButton" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value, Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Visibility="Collapsed" Background="{StaticResource AppBarTweetButtonBackgroundBrush}" Height="40" Width="60" VerticalAlignment="Bottom" BorderThickness="0" Padding="0" Margin="0,0,5,0" HorizontalAlignment="Right" Command="{x:Bind ViewModel.TweetCommand}">
                 <PathIcon Foreground="{StaticResource AppBarTweetButtonForegroundBrush}" Data="M20.3599987030029,17.0200004577637L20.2982959747314,15.3165817260742 20.7248592376709,13.8618698120117 21.6109313964844,12.6718635559082 22.9277572631836,11.7625598907471 24.349178314209,11.3314666748047 25.7337284088135,11.3477125167847 27.0583534240723,11.8207426071167 28.2999992370605,12.7600002288818 31.2799987792969,11.6399993896484 30.5911140441895,13.0404796600342 29.2799987792969,14.1999998092651 31.9199981689453,13.5 29.5999984741211,15.8999996185303 29.3917999267578,18.8514404296875 28.6413745880127,21.4481601715088 27.5722007751465,23.5763988494873 25.5548362731934,26.1680793762207 23.3233985900879,27.9143581390381 20.9852809906006,29.036039352417 17.6354751586914,29.7396450042725 14.4869346618652,29.6789989471436 11.6279172897339,28.9678649902344 9.14667892456055,27.7199993133545 12.7489204406738,27.4371242523193 14.4411554336548,26.7908344268799 16.0533199310303,25.7733192443848 13.3364295959473,24.83811378479 11.7066783905029,22.5200004577637 13.7333202362061,22.4133186340332 12.1511697769165,21.7406959533691 11.0099296569824,20.7355556488037 10.3170547485352,19.4226360321045 10.0799999237061,17.8266792297363 12.1066799163818,18.3600006103516 10.8615303039551,17.0618438720703 10.2149152755737,15.5937051773071 10.1675119400024,13.9553833007813 10.7199993133545,12.1466808319092 12.8063335418701,14.1511659622192 15.1005001068115,15.6508445739746 17.6144161224365,16.616771697998 20.3599987030029,17.0200004577637z">
                     <PathIcon.RenderTransform>
                         <CompositeTransform ScaleX="1" ScaleY="1" TranslateX="-4" TranslateY="-5"/>
@@ -132,7 +128,7 @@
                 </PathIcon>
             </Button>
 
-            <Grid x:Name="BottomAppBar_CommandGrid" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <Grid x:Name="BottomAppBarCommandGrid" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -141,7 +137,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="BottomAppBar_CounterTextBlock" Grid.Column="4" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
+                <TextBlock x:Name="BottomAppBarCounterTextBlock" Grid.Column="4" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
                 <Button Command="{x:Bind ViewModel.MessageShowCommand}" Grid.Column="3" IsTabStop="False" ToolTipService.Placement="Top" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
                     <Grid>
                         <SymbolIcon Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Symbol="{x:Bind ViewModel.StateSymbol.Value, Mode=OneWay}"/>
@@ -154,10 +150,10 @@
                 <Button x:Uid="TweetArea_LockingHashTagsButton" Grid.Column="2" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.ChangeLockHashTagsCommand}">
                     <SymbolIcon Symbol="{x:Bind ViewModel.LockingHashTagsSymbol.Value, Mode=OneWay}"/>
                 </Button>
-                <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBar_PictureButton" Grid.Column="1" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
+                <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBarPictureButton" Grid.Column="1" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
                     <SymbolIcon Symbol="Pictures"/>
                 </Button>
-                <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBar_SmallPictureButton" Grid.Column="1" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Visibility="Collapsed" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
+                <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBarSmallPictureButton" Grid.Column="1" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Visibility="Collapsed" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
                     <SymbolIcon Symbol="Pictures"/>
                     <Button.Flyout>
                         <Flyout>
@@ -189,7 +185,7 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <ItemsControl x:Name="BottomAppBar_PictureItemsControl" Grid.Column="0" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" ItemsSource="{x:Bind ViewModel.Pictures, Mode=OneWay}" VerticalAlignment="Center" Height="40">
+                <ItemsControl x:Name="BottomAppBarPictureItemsControl" Grid.Column="0" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" ItemsSource="{x:Bind ViewModel.Pictures, Mode=OneWay}" VerticalAlignment="Center" Height="40">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" />
@@ -218,18 +214,18 @@
                         <AdaptiveTrigger MinWindowWidth="0" MinWindowHeight="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="BottomAppBar_AccountButton.Width" Value="40"/>
-                        <Setter Target="BottomAppBar_AccountButton.Height" Value="40"/>
-                        <Setter Target="BottomAppBar_AccountButton.Margin" Value="5,0,0,0"/>
-                        <Setter Target="BottomAppBar_AccountButton.VerticalAlignment" Value="Bottom"/>
-                        <Setter Target="BottomAppBar_TextBox.Margin" Value="5,5,5,40"/>
-                        <Setter Target="BottomAppBar_TweetButton.Visibility" Value="Collapsed"/>
-                        <Setter Target="BottomAppBar_TweetSmallButton.Visibility" Value="Visible"/>
-                        <Setter Target="BottomAppBar_CommandGrid.Margin" Value="50,0,72.5,0"/>
-                        <Setter Target="BottomAppBar_CounterTextBlock.Margin" Value="0"/>
-                        <Setter Target="BottomAppBar_PictureButton.Visibility" Value="Collapsed"/>
-                        <Setter Target="BottomAppBar_PictureItemsControl.Visibility" Value="Collapsed"/>
-                        <Setter Target="BottomAppBar_SmallPictureButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBarAccountButton.Width" Value="40"/>
+                        <Setter Target="BottomAppBarAccountButton.Height" Value="40"/>
+                        <Setter Target="BottomAppBarAccountButton.Margin" Value="5,0,0,0"/>
+                        <Setter Target="BottomAppBarAccountButton.VerticalAlignment" Value="Bottom"/>
+                        <Setter Target="BottomAppBarTextBox.Margin" Value="5,5,5,40"/>
+                        <Setter Target="BottomAppBarTweetButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBarTweetSmallButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBarCommandGrid.Margin" Value="50,0,72.5,0"/>
+                        <Setter Target="BottomAppBarCounterTextBlock.Margin" Value="0"/>
+                        <Setter Target="BottomAppBarPictureButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBarPictureItemsControl.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBarSmallPictureButton.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Min">
@@ -238,18 +234,18 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Target="BottomAppBar_AccountButton.Width" Value="40"/>
-                        <Setter Target="BottomAppBar_AccountButton.Height" Value="40"/>
-                        <Setter Target="BottomAppBar_AccountButton.Margin" Value="5,0,0,0"/>
-                        <Setter Target="BottomAppBar_AccountButton.VerticalAlignment" Value="Bottom"/>
-                        <Setter Target="BottomAppBar_TextBox.Margin" Value="5,5,5,40"/>
-                        <Setter Target="BottomAppBar_TweetButton.Visibility" Value="Collapsed"/>
-                        <Setter Target="BottomAppBar_TweetSmallButton.Visibility" Value="Visible"/>
-                        <Setter Target="BottomAppBar_CommandGrid.Margin" Value="50,0,72.5,0"/>
-                        <Setter Target="BottomAppBar_CounterTextBlock.Margin" Value="0"/>
-                        <Setter Target="BottomAppBar_PictureButton.Visibility" Value="Collapsed"/>
-                        <Setter Target="BottomAppBar_PictureItemsControl.Visibility" Value="Collapsed"/>
-                        <Setter Target="BottomAppBar_SmallPictureButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBarAccountButton.Width" Value="40"/>
+                        <Setter Target="BottomAppBarAccountButton.Height" Value="40"/>
+                        <Setter Target="BottomAppBarAccountButton.Margin" Value="5,0,0,0"/>
+                        <Setter Target="BottomAppBarAccountButton.VerticalAlignment" Value="Bottom"/>
+                        <Setter Target="BottomAppBarTextBox.Margin" Value="5,5,5,40"/>
+                        <Setter Target="BottomAppBarTweetButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBarTweetSmallButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBarCommandGrid.Margin" Value="50,0,72.5,0"/>
+                        <Setter Target="BottomAppBarCounterTextBlock.Margin" Value="0"/>
+                        <Setter Target="BottomAppBarPictureButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBarPictureItemsControl.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBarSmallPictureButton.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
@@ -257,18 +253,18 @@
                         <AdaptiveTrigger MinWindowWidth="500" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="BottomAppBar_AccountButton.Width" Value="40"/>
-                        <Setter Target="BottomAppBar_AccountButton.Height" Value="40"/>
-                        <Setter Target="BottomAppBar_AccountButton.Margin" Value="5,0,0,0"/>
-                        <Setter Target="BottomAppBar_AccountButton.VerticalAlignment" Value="Bottom"/>
-                        <Setter Target="BottomAppBar_TextBox.Margin" Value="5,5,5,40"/>
-                        <Setter Target="BottomAppBar_TweetButton.Visibility" Value="Collapsed"/>
-                        <Setter Target="BottomAppBar_TweetSmallButton.Visibility" Value="Visible"/>
-                        <Setter Target="BottomAppBar_CommandGrid.Margin" Value="50,0,72.5,0"/>
-                        <Setter Target="BottomAppBar_CounterTextBlock.Margin" Value="0"/>
-                        <Setter Target="BottomAppBar_PictureButton.Visibility" Value="Visible"/>
-                        <Setter Target="BottomAppBar_PictureItemsControl.Visibility" Value="Visible"/>
-                        <Setter Target="BottomAppBar_SmallPictureButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBarAccountButton.Width" Value="40"/>
+                        <Setter Target="BottomAppBarAccountButton.Height" Value="40"/>
+                        <Setter Target="BottomAppBarAccountButton.Margin" Value="5,0,0,0"/>
+                        <Setter Target="BottomAppBarAccountButton.VerticalAlignment" Value="Bottom"/>
+                        <Setter Target="BottomAppBarTextBox.Margin" Value="5,5,5,40"/>
+                        <Setter Target="BottomAppBarTweetButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBarTweetSmallButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBarCommandGrid.Margin" Value="50,0,72.5,0"/>
+                        <Setter Target="BottomAppBarCounterTextBlock.Margin" Value="0"/>
+                        <Setter Target="BottomAppBarPictureButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBarPictureItemsControl.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBarSmallPictureButton.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Wide">

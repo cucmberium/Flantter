@@ -1,36 +1,23 @@
-﻿using Flantter.MilkyWay.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
+using Flantter.MilkyWay.ViewModels;
 
 namespace Flantter.MilkyWay.Views.Contents
 {
     public sealed partial class TweetArea : UserControl
     {
-        public TweetAreaViewModel ViewModel
-        {
-            get { return (TweetAreaViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(TweetAreaViewModel), typeof(TweetArea), null);
 
         public TweetArea()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+        }
+
+        public TweetAreaViewModel ViewModel
+        {
+            get => (TweetAreaViewModel) GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
         }
     }
 }

@@ -24,9 +24,9 @@ namespace Flantter.MilkyWay.Views.Util
 
         public DependencyObject AssociatedObject { get; set; }
 
-        public void Attach(DependencyObject AssociatedObject)
+        public void Attach(DependencyObject associatedObject)
         {
-            this.AssociatedObject = AssociatedObject;
+            this.AssociatedObject = associatedObject;
         }
 
         public void Detach()
@@ -49,7 +49,7 @@ namespace Flantter.MilkyWay.Views.Util
 
             var collection = e.NewValue as IList;
 
-            if (menuFlyoutExtension == null || menuFlyout == null || collection == null)
+            if (menuFlyout == null || collection == null)
                 return;
 
             menuFlyout.Items.Clear();

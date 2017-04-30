@@ -51,17 +51,17 @@ namespace Flantter.MilkyWay.Views.Util
 
         public void Attach(DependencyObject associatedObject)
         {
-            this.AssociatedObject = associatedObject;
+            AssociatedObject = associatedObject;
 
             _keysEventArgs = new KeysEventArgs();
 
-            var uiElement = this.AssociatedObject as UIElement;
+            var uiElement = AssociatedObject as UIElement;
             _keyupEventHandler = UIElement_KeyUp;
             _keydownEventHandler = UIElement_KeyDown;
             uiElement.AddHandler(UIElement.KeyDownEvent, _keydownEventHandler, true);
             uiElement.AddHandler(UIElement.KeyUpEvent, _keyupEventHandler, true);
 
-            var control = this.AssociatedObject as Control;
+            var control = AssociatedObject as Control;
             if (control != null)
                 control.IsEnabledChanged += Control_IsEnabledChanged;
         }
@@ -146,7 +146,7 @@ namespace Flantter.MilkyWay.Views.Util
 
         public void Attach(DependencyObject associatedObject)
         {
-            this.AssociatedObject = associatedObject;
+            AssociatedObject = associatedObject;
 
             _keysEventArgs = new KeysEventArgs();
 

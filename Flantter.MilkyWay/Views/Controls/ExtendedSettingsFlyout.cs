@@ -9,8 +9,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 
-// テンプレート コントロールのアイテム テンプレートについては、http://go.microsoft.com/fwlink/?LinkId=234235 を参照してください
-
 namespace Flantter.MilkyWay.Views.Controls
 {
     internal interface IContentPopup
@@ -44,7 +42,6 @@ namespace Flantter.MilkyWay.Views.Controls
             DependencyProperty.Register("IsOpenFromLeftEnabled", typeof(bool), typeof(ExtendedSettingsFlyout),
                 new PropertyMetadata(false, IsOpenFromLeftEnabledProperty_ChangedCallback));
 
-        private readonly SolidColorBrush _transparentBrush;
         private readonly Popup _contentPopup;
         private readonly Grid _popupGrid;
 
@@ -58,11 +55,11 @@ namespace Flantter.MilkyWay.Views.Controls
             _contentPopup.Opened += ContentPopup_Opened;
             _contentPopup.Closed += ContentPopup_Closed;
 
-            _transparentBrush = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
+            var transparentBrush = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
 
             _popupGrid = new Grid
             {
-                Background = _transparentBrush,
+                Background = transparentBrush,
                 Width = Window.Current.Bounds.Width,
                 Height = Window.Current.Bounds.Height
             };

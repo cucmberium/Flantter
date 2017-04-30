@@ -34,8 +34,9 @@ namespace Flantter.MilkyWay.Views.Util
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
             {
                 bool titleBarVisiblity;
-                titleBarVisiblity = (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode ==
-                                    UserInteractionMode.Mouse || SettingService.Setting.ExtendTitleBar;
+                titleBarVisiblity =
+                    (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode ==
+                    UserInteractionMode.Mouse || SettingService.Setting.ExtendTitleBar;
 
                 WindowWidth = Window.Current.Bounds.Width;
                 WindowHeight = Window.Current.Bounds.Height;
@@ -66,8 +67,9 @@ namespace Flantter.MilkyWay.Views.Util
                     .Subscribe(_ =>
                     {
                         titleBarVisiblity = false;
-                        titleBarVisiblity = (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode ==
-                                            UserInteractionMode.Mouse || SettingService.Setting.ExtendTitleBar;
+                        titleBarVisiblity =
+                            (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode ==
+                            UserInteractionMode.Mouse || SettingService.Setting.ExtendTitleBar;
 
                         WindowWidth = Window.Current.Bounds.Width;
                         WindowHeight = Window.Current.Bounds.Height;

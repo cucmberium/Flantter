@@ -1,77 +1,87 @@
-﻿using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Setting;
-using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.Views.Controls;
-using Flantter.MilkyWay.Views.Util;
-using NotificationsExtensions.Toasts;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Graphics.Display;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.Views.Controls;
+using Flantter.MilkyWay.Views.Util;
+using NotificationsExtensions.Toasts;
 
 namespace Flantter.MilkyWay.Views.Contents
 {
     public sealed partial class ImagePreviewPopup : UserControl, IContentPopup
     {
-        private Popup ImagePreview;
+        private readonly ResourceLoader _resourceLoader;
 
-        private bool imageOpened = false; 
-        public List<MediaEntity> Images { get; set; }
-        public int ImageIndex { get; set; }
+        private bool _imageOpened;
+        private readonly Popup _imagePreview;
 
-        ResourceLoader _ResourceLoader;
-
-        public bool IsOpen { get { return this.ImagePreview.IsOpen; } }
-        
         public ImagePreviewPopup()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            _ResourceLoader = new ResourceLoader();
+            _resourceLoader = new ResourceLoader();
 
-            this.KeyDown += ImagePreviewPopup_KeyDown;
-            Window.Current.SizeChanged += (s, e) => this.ImagePreviewPopup_LayoutRefresh();
-            Windows.Graphics.Display.DisplayInformation.GetForCurrentView().OrientationChanged += (s, e) => this.ImagePreviewPopup_LayoutRefresh();
+            KeyDown += ImagePreviewPopup_KeyDown;
+            Window.Current.SizeChanged += (s, e) => ImagePreviewPopup_LayoutRefresh();
+            DisplayInformation.GetForCurrentView().OrientationChanged += (s, e) => ImagePreviewPopup_LayoutRefresh();
 
-            this.ImagePreview = new Popup
+            _imagePreview = new Popup
             {
                 Child = this,
                 IsLightDismissEnabled = false,
                 Opacity = 1
             };
-            
-            this.Width = WindowSizeHelper.Instance.ClientWidth;
-            this.Height = WindowSizeHelper.Instance.ClientHeight;
 
-            Canvas.SetTop(this.ImagePreview, WindowSizeHelper.Instance.StatusBarHeight);
-            Canvas.SetLeft(this.ImagePreview, WindowSizeHelper.Instance.StatusBarWidth);
+            Width = WindowSizeHelper.Instance.ClientWidth;
+            Height = WindowSizeHelper.Instance.ClientHeight;
 
-            //this.ImagePreviewImage.Source = new BitmapImage(new Uri("http://localhost"));
+            Canvas.SetTop(_imagePreview, WindowSizeHelper.Instance.StatusBarHeight);
+            Canvas.SetLeft(_imagePreview, WindowSizeHelper.Instance.StatusBarWidth);
         }
 
-        ~ImagePreviewPopup()
+        public List<MediaEntity> Images { get; set; }
+        public int ImageIndex { get; set; }
+
+        public bool IsOpen => _imagePreview.IsOpen;
+
+        public void Show()
         {
+            Canvas.SetTop(_imagePreview, WindowSizeHelper.Instance.StatusBarHeight);
+            Canvas.SetLeft(_imagePreview, WindowSizeHelper.Instance.StatusBarWidth);
+
+            ImagePreviewCanvas.Clip = new RectangleGeometry
+            {
+                Rect = new Rect(0, 0, WindowSizeHelper.Instance.ClientWidth, WindowSizeHelper.Instance.ClientHeight)
+            };
+
+            if (_imageOpened)
+                ImageInitialize();
+
+            _imagePreview.IsOpen = true;
+            Focus(FocusState.Programmatic);
+        }
+
+        public void Hide()
+        {
+            _imagePreview.IsOpen = false;
         }
 
         private void ImagePreviewPopup_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -79,58 +89,60 @@ namespace Flantter.MilkyWay.Views.Contents
             if (e.Key == VirtualKey.Left)
             {
                 e.Handled = true;
-                if (this.ImageIndex <= 0 || this.Images.Count <= 1)
+                if (ImageIndex <= 0 || Images.Count <= 1)
                     return;
 
-                this.ImageIndex -= 1;
-                this.ImageRefresh();
+                ImageIndex -= 1;
+                ImageRefresh();
 
                 e.Handled = true;
             }
             else if (e.Key == VirtualKey.Right)
             {
                 e.Handled = true;
-                if (this.ImageIndex >= this.Images.Count - 1 || this.Images.Count <= 1)
+                if (ImageIndex >= Images.Count - 1 || Images.Count <= 1)
                     return;
 
-                this.ImageIndex += 1;
-                this.ImageRefresh();
+                ImageIndex += 1;
+                ImageRefresh();
             }
             else if (e.Key == VirtualKey.Escape)
             {
-                if (!this.IsOpen)
+                if (!IsOpen)
                     return;
 
-                this.Hide();
+                Hide();
                 e.Handled = true;
             }
         }
 
         private void ImagePreviewPopup_LayoutRefresh()
         {
-            Canvas.SetTop(this.ImagePreview, WindowSizeHelper.Instance.StatusBarHeight);
-            Canvas.SetLeft(this.ImagePreview, WindowSizeHelper.Instance.StatusBarWidth);
+            Canvas.SetTop(_imagePreview, WindowSizeHelper.Instance.StatusBarHeight);
+            Canvas.SetLeft(_imagePreview, WindowSizeHelper.Instance.StatusBarWidth);
 
-            this.Width = WindowSizeHelper.Instance.ClientWidth;
-            this.Height = WindowSizeHelper.Instance.ClientHeight;
+            Width = WindowSizeHelper.Instance.ClientWidth;
+            Height = WindowSizeHelper.Instance.ClientHeight;
 
-            this.ImagePreviewCanvas.Clip = new RectangleGeometry()
+            ImagePreviewCanvas.Clip = new RectangleGeometry
             {
                 Rect = new Rect(0, 0, WindowSizeHelper.Instance.ClientWidth, WindowSizeHelper.Instance.ClientHeight)
             };
 
-            var imageWidth = ((BitmapImage)this.ImagePreviewImage.Source).PixelWidth;
-            var imageHeight = ((BitmapImage)this.ImagePreviewImage.Source).PixelHeight;
+            var imageWidth = ((BitmapImage) ImagePreviewImage.Source).PixelWidth;
+            var imageHeight = ((BitmapImage) ImagePreviewImage.Source).PixelHeight;
             var windowWidth = WindowSizeHelper.Instance.ClientWidth;
             var windowHeight = WindowSizeHelper.Instance.ClientHeight;
 
-            double raito = 1.0;
+            var raito = 1.0;
 
             if (imageWidth > windowWidth * 0.95 && imageHeight > windowHeight * 0.95)
             {
                 var imageWindowWidthRaito = windowWidth / imageWidth;
                 var imageWindowHeightRaito = windowHeight / imageHeight;
-                raito = (imageWindowHeightRaito < imageWindowWidthRaito ? imageWindowHeightRaito : imageWindowWidthRaito) * 0.95;
+                raito =
+                    (imageWindowHeightRaito < imageWindowWidthRaito ? imageWindowHeightRaito : imageWindowWidthRaito) *
+                    0.95;
             }
             else if (imageWidth <= windowWidth * 0.95 && imageHeight <= windowHeight * 0.95)
             {
@@ -145,44 +157,42 @@ namespace Flantter.MilkyWay.Views.Contents
                 raito = windowHeight / imageHeight * 0.95;
             }
 
-            this.ImagePreviewImage.Width = imageWidth * raito;
-            this.ImagePreviewImage.Height = imageHeight * raito;
+            ImagePreviewImage.Width = imageWidth * raito;
+            ImagePreviewImage.Height = imageHeight * raito;
 
-            var canvasTop = (WindowSizeHelper.Instance.ClientHeight - this.ImagePreviewImage.Height) / 2;
-            var canvasLeft = (WindowSizeHelper.Instance.ClientWidth - this.ImagePreviewImage.Width) / 2;
+            var canvasTop = (WindowSizeHelper.Instance.ClientHeight - ImagePreviewImage.Height) / 2;
+            var canvasLeft = (WindowSizeHelper.Instance.ClientWidth - ImagePreviewImage.Width) / 2;
 
-            Canvas.SetTop(this.ImagePreviewImage, canvasTop);
-            Canvas.SetLeft(this.ImagePreviewImage, canvasLeft);
+            Canvas.SetTop(ImagePreviewImage, canvasTop);
+            Canvas.SetLeft(ImagePreviewImage, canvasLeft);
         }
 
         public void ImageRefresh()
         {
-            this.ImagePreviewProgressRing.Visibility = Visibility.Visible;
-            this.ImagePreviewProgressRing.IsActive = true;
-            this.ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
-            this.ImagePreviewImage.Visibility = Visibility.Collapsed;
+            ImagePreviewProgressRing.Visibility = Visibility.Visible;
+            ImagePreviewProgressRing.IsActive = true;
+            ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
+            ImagePreviewImage.Visibility = Visibility.Collapsed;
             // こっちのほうが画像がキャッシュされるような気がする(気のせい)
-            this.ImagePreviewImage.Source = (ImageSource)Windows.UI.Xaml.Markup.XamlBindingHelper.ConvertValue(typeof(ImageSource), this.Images[this.ImageIndex].MediaUrl);
-            imageOpened = false;
+            ImagePreviewImage.Source =
+                (ImageSource) XamlBindingHelper.ConvertValue(typeof(ImageSource), Images[ImageIndex].MediaUrl);
+            _imageOpened = false;
 
-            if (this.ImageIndex <= 0 || this.Images.Count <= 1)
-                this.ImagePreviewPreviousButton.Visibility = Visibility.Collapsed;
+            if (ImageIndex <= 0 || Images.Count <= 1)
+                ImagePreviewPreviousButton.Visibility = Visibility.Collapsed;
             else
-                this.ImagePreviewPreviousButton.Visibility = Visibility.Visible;
+                ImagePreviewPreviousButton.Visibility = Visibility.Visible;
 
-            if (this.ImageIndex >= this.Images.Count - 1 || this.Images.Count <= 1)
-                this.ImagePreviewNextButton.Visibility = Visibility.Collapsed;
+            if (ImageIndex >= Images.Count - 1 || Images.Count <= 1)
+                ImagePreviewNextButton.Visibility = Visibility.Collapsed;
             else
-                this.ImagePreviewNextButton.Visibility = Visibility.Visible;
+                ImagePreviewNextButton.Visibility = Visibility.Visible;
         }
 
         public void ImageInitialize()
         {
-            var element = this.ImagePreviewImage as UIElement;
-            var transform = element.RenderTransform as CompositeTransform;
-
-            if (transform == null)
-                transform = new CompositeTransform();
+            var element = ImagePreviewImage as UIElement;
+            var transform = element.RenderTransform as CompositeTransform ?? new CompositeTransform();
 
             transform.TranslateX = 0.0;
             transform.TranslateY = 0.0;
@@ -191,19 +201,21 @@ namespace Flantter.MilkyWay.Views.Contents
             transform.ScaleY = 1.0;
 
             element.RenderTransform = transform;
-            
-            var imageWidth = ((BitmapImage)this.ImagePreviewImage.Source).PixelWidth;
-            var imageHeight = ((BitmapImage)this.ImagePreviewImage.Source).PixelHeight;
+
+            var imageWidth = ((BitmapImage) ImagePreviewImage.Source).PixelWidth;
+            var imageHeight = ((BitmapImage) ImagePreviewImage.Source).PixelHeight;
             var windowWidth = WindowSizeHelper.Instance.ClientWidth;
             var windowHeight = WindowSizeHelper.Instance.ClientHeight;
 
-            double raito = 1.0;
+            var raito = 1.0;
 
             if (imageWidth > windowWidth * 0.95 && imageHeight > windowHeight * 0.95)
             {
                 var imageWindowWidthRaito = windowWidth / imageWidth;
                 var imageWindowHeightRaito = windowHeight / imageHeight;
-                raito = (imageWindowHeightRaito < imageWindowWidthRaito ? imageWindowHeightRaito : imageWindowWidthRaito) * 0.95;
+                raito =
+                    (imageWindowHeightRaito < imageWindowWidthRaito ? imageWindowHeightRaito : imageWindowWidthRaito) *
+                    0.95;
             }
             else if (imageWidth <= windowWidth * 0.95 && imageHeight <= windowHeight * 0.95)
             {
@@ -218,67 +230,42 @@ namespace Flantter.MilkyWay.Views.Contents
                 raito = windowHeight / imageHeight * 0.95;
             }
 
-            this.ImagePreviewImage.Width = imageWidth * raito;
-            this.ImagePreviewImage.Height = imageHeight * raito;
+            ImagePreviewImage.Width = imageWidth * raito;
+            ImagePreviewImage.Height = imageHeight * raito;
 
-            var canvasTop = (windowHeight - this.ImagePreviewImage.Height) / 2;
-            var canvasLeft = (windowWidth - this.ImagePreviewImage.Width) / 2;
+            var canvasTop = (windowHeight - ImagePreviewImage.Height) / 2;
+            var canvasLeft = (windowWidth - ImagePreviewImage.Width) / 2;
 
-            Canvas.SetTop(this.ImagePreviewImage, canvasTop);
-            Canvas.SetLeft(this.ImagePreviewImage, canvasLeft);
-        }
-
-        public void Show()
-        {
-            Canvas.SetTop(this.ImagePreview, WindowSizeHelper.Instance.StatusBarHeight);
-            Canvas.SetLeft(this.ImagePreview, WindowSizeHelper.Instance.StatusBarWidth);
-
-            this.ImagePreviewCanvas.Clip = new RectangleGeometry()
-            {
-                Rect = new Rect(0, 0, WindowSizeHelper.Instance.ClientWidth, WindowSizeHelper.Instance.ClientHeight)
-            };
-            
-            if (imageOpened)
-                this.ImageInitialize();
-
-            this.ImagePreview.IsOpen = true;
-            this.Focus(FocusState.Programmatic);
-        }
-
-        public void Hide()
-        {
-            this.ImagePreview.IsOpen = false;
+            Canvas.SetTop(ImagePreviewImage, canvasTop);
+            Canvas.SetLeft(ImagePreviewImage, canvasLeft);
         }
 
         private void ImagePreviewImage_ImageOpened(object sender, RoutedEventArgs e)
         {
-            imageOpened = true;
+            _imageOpened = true;
 
-            this.ImagePreviewProgressRing.Visibility = Visibility.Collapsed;
-            this.ImagePreviewProgressRing.IsActive = false;
-            this.ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
-            this.ImagePreviewImage.Visibility = Visibility.Collapsed;
+            ImagePreviewProgressRing.Visibility = Visibility.Collapsed;
+            ImagePreviewProgressRing.IsActive = false;
+            ImagePreviewSymbolIcon.Visibility = Visibility.Collapsed;
+            ImagePreviewImage.Visibility = Visibility.Collapsed;
 
-            this.ImageInitialize();
+            ImageInitialize();
 
-            this.ImagePreviewImage.Visibility = Visibility.Visible;
+            ImagePreviewImage.Visibility = Visibility.Visible;
         }
 
         private void ImagePreviewImage_ImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            this.ImagePreviewProgressRing.Visibility = Visibility.Collapsed;
-            this.ImagePreviewProgressRing.IsActive = false;
-            this.ImagePreviewSymbolIcon.Visibility = Visibility.Visible;
-            this.ImagePreviewImage.Visibility = Visibility.Collapsed;
+            ImagePreviewProgressRing.Visibility = Visibility.Collapsed;
+            ImagePreviewProgressRing.IsActive = false;
+            ImagePreviewSymbolIcon.Visibility = Visibility.Visible;
+            ImagePreviewImage.Visibility = Visibility.Collapsed;
         }
 
         private void ImagePreviewGrid_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
         {
-            var element = this.ImagePreviewImage as UIElement;
-            var transform = element.RenderTransform as CompositeTransform;
-
-            if (transform == null)
-                transform = new CompositeTransform();
+            var element = ImagePreviewImage as UIElement;
+            var transform = element.RenderTransform as CompositeTransform ?? new CompositeTransform();
 
             if (e.GetCurrentPoint(element).Properties.MouseWheelDelta > 0)
             {
@@ -299,8 +286,8 @@ namespace Flantter.MilkyWay.Views.Contents
                 if (transform.ScaleX <= 0.40 || transform.ScaleY <= 0.40)
                     return;
 
-                transform.ScaleX *= (1.0 / 1.07);
-                transform.ScaleY *= (1.0 / 1.07);
+                transform.ScaleX *= 1.0 / 1.07;
+                transform.ScaleY *= 1.0 / 1.07;
 
                 if (transform.ScaleX <= 0.30 || transform.ScaleY <= 0.30)
                 {
@@ -308,16 +295,24 @@ namespace Flantter.MilkyWay.Views.Contents
                     transform.ScaleY = 0.30;
                 }
             }
-            
-            if (transform.TranslateX + (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2 < -WindowSizeHelper.Instance.ClientWidth / 2)
-                transform.TranslateX = -WindowSizeHelper.Instance.ClientWidth / 2 - (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2;
-            else if (transform.TranslateX - (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2 > WindowSizeHelper.Instance.ClientWidth / 2)
-                transform.TranslateX = WindowSizeHelper.Instance.ClientWidth / 2 + (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2;
 
-            if (transform.TranslateY + (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2 < -WindowSizeHelper.Instance.ClientHeight / 2)
-                transform.TranslateY = -(WindowSizeHelper.Instance.ClientHeight) / 2 - (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
-            else if (transform.TranslateY - (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2 > WindowSizeHelper.Instance.ClientHeight / 2)
-                transform.TranslateY = (WindowSizeHelper.Instance.ClientHeight) / 2 + (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
+            if (transform.TranslateX + ImagePreviewImage.ActualWidth * transform.ScaleX / 2 <
+                -WindowSizeHelper.Instance.ClientWidth / 2)
+                transform.TranslateX = -WindowSizeHelper.Instance.ClientWidth / 2 -
+                                       ImagePreviewImage.ActualWidth * transform.ScaleX / 2;
+            else if (transform.TranslateX - ImagePreviewImage.ActualWidth * transform.ScaleX / 2 >
+                     WindowSizeHelper.Instance.ClientWidth / 2)
+                transform.TranslateX = WindowSizeHelper.Instance.ClientWidth / 2 +
+                                       ImagePreviewImage.ActualWidth * transform.ScaleX / 2;
+
+            if (transform.TranslateY + ImagePreviewImage.ActualHeight * transform.ScaleY / 2 <
+                -WindowSizeHelper.Instance.ClientHeight / 2)
+                transform.TranslateY = -WindowSizeHelper.Instance.ClientHeight / 2 -
+                                       ImagePreviewImage.ActualHeight * transform.ScaleY / 2;
+            else if (transform.TranslateY - ImagePreviewImage.ActualHeight * transform.ScaleY / 2 >
+                     WindowSizeHelper.Instance.ClientHeight / 2)
+                transform.TranslateY = WindowSizeHelper.Instance.ClientHeight / 2 +
+                                       ImagePreviewImage.ActualHeight * transform.ScaleY / 2;
 
             element.RenderTransform = transform;
 
@@ -326,17 +321,14 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private void ImagePreviewGrid_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.Hide();
+            Hide();
             e.Handled = true;
         }
 
         private void ImagePreviewCanvas_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            var element = this.ImagePreviewImage as UIElement;
-            var transform = element.RenderTransform as CompositeTransform;
-            
-            if (transform == null)
-                transform = new CompositeTransform();
+            var element = ImagePreviewImage as UIElement;
+            var transform = element.RenderTransform as CompositeTransform ?? new CompositeTransform();
 
             transform.ScaleX *= e.Delta.Scale;
             transform.ScaleY *= e.Delta.Scale;
@@ -355,9 +347,15 @@ namespace Flantter.MilkyWay.Views.Contents
             transform.TranslateX += e.Delta.Translation.X;
             transform.TranslateY += e.Delta.Translation.Y;
 
-            transform.TranslateX = transform.TranslateX + (e.Position.X - (Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) * (1 - e.Delta.Scale);
-            transform.TranslateY = transform.TranslateY + (e.Position.Y - (Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - e.Delta.Scale);
-            
+            transform.TranslateX = transform.TranslateX + (e.Position.X -
+                                                           (Canvas.GetLeft(element) +
+                                                            ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) *
+                                   (1 - e.Delta.Scale);
+            transform.TranslateY = transform.TranslateY + (e.Position.Y -
+                                                           (Canvas.GetTop(element) +
+                                                            ImagePreviewImage.ActualHeight / 2 +
+                                                            transform.TranslateY)) * (1 - e.Delta.Scale);
+
             element.RenderTransform = transform;
 
             e.Handled = true;
@@ -365,21 +363,26 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private void ImagePreviewCanvas_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            var element = this.ImagePreviewImage as UIElement;
-            var transform = element.RenderTransform as CompositeTransform;
+            var element = ImagePreviewImage as UIElement;
+            var transform = element.RenderTransform as CompositeTransform ?? new CompositeTransform();
 
-            if (transform == null)
-                transform = new CompositeTransform();
-            
-            if (transform.TranslateX + (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2 < -WindowSizeHelper.Instance.ClientWidth / 2)
-                transform.TranslateX = -WindowSizeHelper.Instance.ClientWidth / 2 - (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2;
-            else if (transform.TranslateX - (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2 > WindowSizeHelper.Instance.ClientWidth / 2)
-                transform.TranslateX = WindowSizeHelper.Instance.ClientWidth / 2 + (this.ImagePreviewImage.ActualWidth * transform.ScaleX) / 2;
+            if (transform.TranslateX + ImagePreviewImage.ActualWidth * transform.ScaleX / 2 <
+                -WindowSizeHelper.Instance.ClientWidth / 2)
+                transform.TranslateX = -WindowSizeHelper.Instance.ClientWidth / 2 -
+                                       ImagePreviewImage.ActualWidth * transform.ScaleX / 2;
+            else if (transform.TranslateX - ImagePreviewImage.ActualWidth * transform.ScaleX / 2 >
+                     WindowSizeHelper.Instance.ClientWidth / 2)
+                transform.TranslateX = WindowSizeHelper.Instance.ClientWidth / 2 +
+                                       ImagePreviewImage.ActualWidth * transform.ScaleX / 2;
 
-            if (transform.TranslateY + (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2 < -WindowSizeHelper.Instance.ClientHeight / 2)
-                transform.TranslateY = -(WindowSizeHelper.Instance.ClientHeight) / 2 - (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
-            else if (transform.TranslateY - (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2 > WindowSizeHelper.Instance.ClientHeight / 2)
-                transform.TranslateY = (WindowSizeHelper.Instance.ClientHeight) / 2 + (this.ImagePreviewImage.ActualHeight * transform.ScaleY) / 2;
+            if (transform.TranslateY + ImagePreviewImage.ActualHeight * transform.ScaleY / 2 <
+                -WindowSizeHelper.Instance.ClientHeight / 2)
+                transform.TranslateY = -WindowSizeHelper.Instance.ClientHeight / 2 -
+                                       ImagePreviewImage.ActualHeight * transform.ScaleY / 2;
+            else if (transform.TranslateY - ImagePreviewImage.ActualHeight * transform.ScaleY / 2 >
+                     WindowSizeHelper.Instance.ClientHeight / 2)
+                transform.TranslateY = WindowSizeHelper.Instance.ClientHeight / 2 +
+                                       ImagePreviewImage.ActualHeight * transform.ScaleY / 2;
 
             element.RenderTransform = transform;
 
@@ -393,13 +396,10 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private void ImagePreviewImage_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            var element = this.ImagePreviewImage as UIElement;
-            var transform = element.RenderTransform as CompositeTransform;
+            var element = ImagePreviewImage as UIElement;
+            var transform = element.RenderTransform as CompositeTransform ?? new CompositeTransform();
 
-            if (transform == null)
-                transform = new CompositeTransform();
-
-            var scale = 1.0;
+            double scale;
             if (transform.ScaleX >= 4 || transform.ScaleY >= 4)
                 scale = 1.0;
             else if (transform.ScaleX >= 2 || transform.ScaleY >= 2)
@@ -409,70 +409,102 @@ namespace Flantter.MilkyWay.Views.Contents
             else
                 scale = 1.0;
 
-            Storyboard storyboard = new Storyboard();
-            DoubleAnimation scaleAnimX = new DoubleAnimation() { To = scale, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+            var storyboard = new Storyboard();
+            var scaleAnimX = new DoubleAnimation
+            {
+                To = scale,
+                Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                EasingFunction = new PowerEase {EasingMode = EasingMode.EaseInOut}
+            };
             storyboard.Children.Add(scaleAnimX);
             Storyboard.SetTarget(scaleAnimX, element);
             Storyboard.SetTargetProperty(scaleAnimX, "(UIElement.RenderTransform).(CompositeTransform.ScaleX)");
-            DoubleAnimation scaleAnimY = new DoubleAnimation() { To = scale, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+            var scaleAnimY = new DoubleAnimation
+            {
+                To = scale,
+                Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                EasingFunction = new PowerEase {EasingMode = EasingMode.EaseInOut}
+            };
             storyboard.Children.Add(scaleAnimY);
             Storyboard.SetTarget(scaleAnimY, element);
             Storyboard.SetTargetProperty(scaleAnimY, "(UIElement.RenderTransform).(CompositeTransform.ScaleY)");
 
-            var translateAnimXVal = transform.TranslateX + (e.GetPosition(Window.Current.Content).X - (WindowSizeHelper.Instance.StatusBarWidth + Canvas.GetLeft(element) + this.ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) * (1 - scale / transform.ScaleX);
-            var translateAnimYVal = transform.TranslateY + (e.GetPosition(Window.Current.Content).Y - (WindowSizeHelper.Instance.StatusBarHeight + Canvas.GetTop(element) + this.ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) * (1 - scale / transform.ScaleY);
+            var translateAnimXVal = transform.TranslateX +
+                                    (e.GetPosition(Window.Current.Content).X -
+                                     (WindowSizeHelper.Instance.StatusBarWidth + Canvas.GetLeft(element) +
+                                      ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) *
+                                    (1 - scale / transform.ScaleX);
+            var translateAnimYVal = transform.TranslateY +
+                                    (e.GetPosition(Window.Current.Content).Y -
+                                     (WindowSizeHelper.Instance.StatusBarHeight + Canvas.GetTop(element) +
+                                      ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) *
+                                    (1 - scale / transform.ScaleY);
             if (scale <= 1.0)
             {
                 translateAnimYVal = 0.0;
                 translateAnimXVal = 0.0;
             }
 
-            DoubleAnimation translateAnimX = new DoubleAnimation() { To = translateAnimXVal, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+            var translateAnimX = new DoubleAnimation
+            {
+                To = translateAnimXVal,
+                Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                EasingFunction = new PowerEase {EasingMode = EasingMode.EaseInOut}
+            };
             storyboard.Children.Add(translateAnimX);
             Storyboard.SetTarget(translateAnimX, element);
             Storyboard.SetTargetProperty(translateAnimX, "(UIElement.RenderTransform).(CompositeTransform.TranslateX)");
-            DoubleAnimation translateAnimY = new DoubleAnimation() { To = translateAnimYVal, Duration = new Duration(TimeSpan.FromMilliseconds(200)), EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut } };
+            var translateAnimY = new DoubleAnimation
+            {
+                To = translateAnimYVal,
+                Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                EasingFunction = new PowerEase {EasingMode = EasingMode.EaseInOut}
+            };
             storyboard.Children.Add(translateAnimY);
             Storyboard.SetTarget(translateAnimY, element);
             Storyboard.SetTargetProperty(translateAnimY, "(UIElement.RenderTransform).(CompositeTransform.TranslateY)");
-            
+
             storyboard.Begin();
         }
 
         private void ImagePreviewPreviousButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.ImageIndex -= 1;
-            this.ImageRefresh();
+            ImageIndex -= 1;
+            ImageRefresh();
 
             e.Handled = true;
         }
 
         private void ImagePreviewNextButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.ImageIndex += 1;
-            this.ImageRefresh();
+            ImageIndex += 1;
+            ImageRefresh();
 
             e.Handled = true;
         }
 
         private async void ImagePreviewMenu_SaveImage(object sender, RoutedEventArgs e)
         {
-            var toastContent = new ToastContent();
-            toastContent.Visual = new ToastVisual();
-            toastContent.Visual.TitleText = new ToastText() { Text = "Flantter" };
-            toastContent.Visual.BodyTextLine1 = new ToastText() { Text = _ResourceLoader.GetString("ImagePreviewPopup_ImageSavedSuccessfuly") };
+            var toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    TitleText = new ToastText {Text = "Flantter"},
+                    BodyTextLine1 = new ToastText
+                    {
+                        Text = _resourceLoader.GetString("ImagePreviewPopup_ImageSavedSuccessfuly")
+                    }
+                }
+            };
 
-            if (!SettingService.Setting.NotificationSound)
-                toastContent.Audio = new ToastAudio() { Silent = true };
-            else
-                toastContent.Audio = new ToastAudio() { };
+            toastContent.Audio = !SettingService.Setting.NotificationSound ? new ToastAudio {Silent = true} : new ToastAudio();
 
             try
             {
                 var extension = "";
                 var imageFileName = DateTime.Now.ToString("yyyyMMddHHmmss");
                 var client = new HttpClient();
-                var response = await client.GetAsync(new Uri(this.Images[this.ImageIndex].MediaUrl));
+                var response = await client.GetAsync(new Uri(Images[ImageIndex].MediaUrl));
                 switch (response.Content.Headers.ContentType.MediaType)
                 {
                     case "image/jpeg":
@@ -502,27 +534,32 @@ namespace Flantter.MilkyWay.Views.Contents
                 switch (SettingService.Setting.PictureSavePath)
                 {
                     case 0:
-                        imageFile = await KnownFolders.PicturesLibrary.CreateFileAsync(imageFileName, CreationCollisionOption.GenerateUniqueName);
+                        imageFile = await KnownFolders.PicturesLibrary.CreateFileAsync(imageFileName,
+                            CreationCollisionOption.GenerateUniqueName);
                         break;
                     case 1:
                         var folders = await KnownFolders.PicturesLibrary.GetFoldersAsync();
-                        var storage = folders.Any(x => x.Name == "Flantter") ? folders.First(x => x.Name == "Flantter") : await KnownFolders.PicturesLibrary.CreateFolderAsync("Flantter");
-                        imageFile = await storage.CreateFileAsync(imageFileName, CreationCollisionOption.GenerateUniqueName);
+                        var storage = folders.Any(x => x.Name == "Flantter")
+                            ? folders.First(x => x.Name == "Flantter")
+                            : await KnownFolders.PicturesLibrary.CreateFolderAsync("Flantter");
+                        imageFile =
+                            await storage.CreateFileAsync(imageFileName, CreationCollisionOption.GenerateUniqueName);
                         break;
                     case 2:
                         var filePicker = new FileSavePicker();
                         filePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-                        filePicker.FileTypeChoices.Add("ImageFile", new List<string>() { extension });
+                        filePicker.FileTypeChoices.Add("ImageFile", new List<string> {extension});
                         filePicker.SuggestedFileName = imageFileName;
                         imageFile = await filePicker.PickSaveFileAsync();
                         break;
                 }
-                
-                await Windows.Storage.FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
+
+                await FileIO.WriteBytesAsync(imageFile, (await response.Content.ReadAsBufferAsync()).ToArray());
             }
             catch
             {
-                toastContent.Visual.BodyTextLine1.Text = new ResourceLoader().GetString("ImagePreviewPopup_FailedtoImageSave");
+                toastContent.Visual.BodyTextLine1.Text =
+                    new ResourceLoader().GetString("ImagePreviewPopup_FailedtoImageSave");
             }
 
             if (SettingService.Setting.SystemNotification)
@@ -534,22 +571,23 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private async void ImagePreviewMenu_ShowinBrowser(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri(this.Images[this.ImageIndex].ExpandedUrl));
+            await Launcher.LaunchUriAsync(new Uri(Images[ImageIndex].ExpandedUrl));
         }
 
         private async void ImagePreviewMenu_SearchSimilarImage(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("http://www.google.co.jp/searchbyimage?image_url=" + this.Images[this.ImageIndex].MediaUrl));
+            await Launcher.LaunchUriAsync(new Uri("http://www.google.co.jp/searchbyimage?image_url=" +
+                                                  Images[ImageIndex].MediaUrl));
         }
 
         private void ImagePreviewMenu_Close(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            Hide();
         }
 
         private void ImagePreviewTriangleButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            FlyoutBase.ShowAttachedFlyout(this.ImagePreviewTriangleButton);
+            FlyoutBase.ShowAttachedFlyout(ImagePreviewTriangleButton);
 
             e.Handled = true;
         }

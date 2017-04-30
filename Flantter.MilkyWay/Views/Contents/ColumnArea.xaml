@@ -1,29 +1,27 @@
 ﻿<UserControl
     x:Class="Flantter.MilkyWay.Views.Contents.ColumnArea"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Flantter.MilkyWay.Views.Contents"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
+    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
-    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
-    xmlns:common="using:Flantter.MilkyWay.Common"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d"
     d:DesignHeight="720"
     d:DesignWidth="400">
 
-    <SemanticZoom x:Name="ColumnArea_SemanticZoom" IsZoomOutButtonEnabled="False" IsZoomedInViewActive="{x:Bind ViewModel.IsZoomedInViewActive.Value, Mode=TwoWay}">
+    <SemanticZoom IsZoomOutButtonEnabled="False" IsZoomedInViewActive="{x:Bind ViewModel.IsZoomedInViewActive.Value, Mode=TwoWay}">
         <SemanticZoom.ZoomedInView>
-            <contents:ColumnAreaListBox x:Name="ColumnArea_ColumnList" Margin="5,10" Style="{StaticResource ExtendedListBox}" Background="Transparent" ItemsSource="{x:Bind ViewModel.Columns}" ItemContainerStyle="{StaticResource ColumnListBoxItemStyle}" SelectedIndex="{x:Bind ViewModel.ColumnSelectedIndex.Value, Mode=OneWay}">
+            <contents:ColumnAreaListBox x:Name="ColumnAreaColumnList" Margin="5,10" Style="{StaticResource ExtendedListBox}" Background="Transparent" ItemsSource="{x:Bind ViewModel.Columns}" ItemContainerStyle="{StaticResource ColumnListBoxItemStyle}" SelectedIndex="{x:Bind ViewModel.ColumnSelectedIndex.Value, Mode=OneWay}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <!-- 本当はここもx:Bindにしたいけどすると "error WMC9999" が発生する -->
-                        <contents:ExtendedCanvas x:Name="ColumnListCanvas" Width="{Binding PanelWidth.Value, Mode=OneWay}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value, Mode=OneWay}" MaxSnapPoint="{Binding MaxSnapPoint.Value, Mode=OneWay}" MinSnapPoint="{Binding MinSnapPoint.Value, Mode=OneWay}"/>
-                        <!--<contents:ExtendedCanvas x:Name="ColumnListCanvas" Width="{x:Bind ViewModel.PanelWidth.Value, Mode=OneWay}" SnapPointsSpaceing="{x:Bind ViewModel.SnapPointsSpaceing.Value, Mode=OneWay}" MaxSnapPoint="{x:Bind ViewModel.MaxSnapPoint.Value, Mode=OneWay}" MinSnapPoint="{x:Bind ViewModel.MinSnapPoint.Value, Mode=OneWay}"/>-->
+                        <contents:ExtendedCanvas Width="{Binding PanelWidth.Value, Mode=OneWay}" SnapPointsSpaceing="{Binding SnapPointsSpaceing.Value, Mode=OneWay}" MaxSnapPoint="{Binding MaxSnapPoint.Value, Mode=OneWay}" MinSnapPoint="{Binding MinSnapPoint.Value, Mode=OneWay}"/>
+                        <!--<contents:ExtendedCanvas Width="{x:Bind ViewModel.PanelWidth.Value, Mode=OneWay}" SnapPointsSpaceing="{x:Bind ViewModel.SnapPointsSpaceing.Value, Mode=OneWay}" MaxSnapPoint="{x:Bind ViewModel.MaxSnapPoint.Value, Mode=OneWay}" MinSnapPoint="{x:Bind ViewModel.MinSnapPoint.Value, Mode=OneWay}"/>-->
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

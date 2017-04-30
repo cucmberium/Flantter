@@ -1,26 +1,22 @@
 ﻿<UserControl
     x:Class="Flantter.MilkyWay.Views.Contents.Timeline.User"
-    x:Name="UserUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Flantter.MilkyWay.Views.Contents.Timeline"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
-    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
-    xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <StackPanel x:Name="TweetStackPanel" Background="{StaticResource TweetDefaultBackgroundBrush}" RenderTransformOrigin="0.5,0.5" Padding="0,7">
+    <StackPanel Background="{StaticResource TweetDefaultBackgroundBrush}" RenderTransformOrigin="0.5,0.5" Padding="0,7">
         <StackPanel.RenderTransform>
             <CompositeTransform/>
         </StackPanel.RenderTransform>
 
-        <Grid x:Name="UserGrid" Margin="0,0,7,0">
+        <Grid Margin="0,0,7,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -38,7 +34,7 @@
                 </i:Interaction.Behaviors>
             </Border>
 
-            <StackPanel x:Name="UserBox" Grid.Column="1" Margin="5,0">
+            <StackPanel Grid.Column="1" Margin="5,0">
                 <TextBlock>
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>

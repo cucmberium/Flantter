@@ -60,7 +60,6 @@ namespace Flantter.MilkyWay.Views.Contents
                 Path = new PropertyPath("Left.Value"),
                 Mode = BindingMode.OneWay
             };
-
             container.SetBinding(Canvas.LeftProperty, binding);
         }
 

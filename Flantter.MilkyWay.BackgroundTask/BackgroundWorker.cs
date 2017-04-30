@@ -1,18 +1,15 @@
-﻿using CoreTweet;
-using CoreTweet.Core;
-using Newtonsoft.Json.Linq;
-using NotificationsExtensions.Tiles;
-using NotificationsExtensions.Toasts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI.Notifications;
+using CoreTweet;
+using Newtonsoft.Json.Linq;
+using NotificationsExtensions.Tiles;
+using NotificationsExtensions.Toasts;
 
 namespace Flantter.MilkyWay.BackgroundTask
 {
@@ -20,8 +17,8 @@ namespace Flantter.MilkyWay.BackgroundTask
     {
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
-            BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
-            
+            var deferral = taskInstance.GetDeferral();
+
             try
             {
 #if _DEBUG
@@ -33,11 +30,11 @@ namespace Flantter.MilkyWay.BackgroundTask
                 var toast = new ToastNotification(toastContent.GetXml());
                 ToastNotificationManager.CreateToastNotifier().Show(toast);
 #endif
-                var json = string.Empty;
+                string json;
 
                 var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
                 using (var s = await readStorageFile.OpenStreamForReadAsync())
-                using (var st = new System.IO.StreamReader(s))
+                using (var st = new StreamReader(s))
                 {
                     json = st.ReadToEnd();
                 }
@@ -48,53 +45,77 @@ namespace Flantter.MilkyWay.BackgroundTask
 
                 var resourceLoader = new ResourceLoader();
 
-                var tileNotificationType = Windows.Storage.ApplicationData.Current.RoamingSettings.Values.ContainsKey("TileNotification") ? (int)Windows.Storage.ApplicationData.Current.RoamingSettings.Values["TileNotification"] : 0;
+                var tileNotificationType =
+                    ApplicationData.Current.RoamingSettings.Values.ContainsKey("TileNotification")
+                        ? (int) ApplicationData.Current.RoamingSettings.Values["TileNotification"]
+                        : 0;
                 if (tileNotificationType != 0)
                 {
                     var account = accounts.First(x => x.IsEnabled);
-                    var tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret);
+                    var tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken,
+                        account.AccessTokenSecret);
 
                     if (tileNotificationType == 1)
                     {
                         var statuses = await tokens.Statuses.MentionsTimelineAsync(count => 5);
                         foreach (var status in statuses)
-                        {
-                            this.UpdateTileNotification(status.User.Name + "(@" + status.User.ScreenName + ")" + "\n" + status.Text);
-                        }
+                            UpdateTileNotification(status.User.Name + "(@" + status.User.ScreenName + ")" + "\n" +
+                                                   status.Text);
                     }
                     else if (tileNotificationType == 2)
                     {
-                        var statuses = (await tokens.Statuses.HomeTimelineAsync(count => 20)).Select(x => x.RetweetedStatus == null ? x : x.RetweetedStatus);
+                        var statuses =
+                            (await tokens.Statuses.HomeTimelineAsync(count => 20)).Select(x => x.RetweetedStatus ?? x);
                         foreach (var status in statuses)
                         {
                             if (status.Entities.Media == null || status.Entities.Media.Length == 0)
                                 continue;
 
-                            this.UpdateTileNotification(status.User.Name + "(@" + status.User.ScreenName + ")" + "\n" + status.Text, status.Entities.Media.First().MediaUrl);
+                            UpdateTileNotification(
+                                status.User.Name + "(@" + status.User.ScreenName + ")" + "\n" + status.Text,
+                                status.Entities.Media.First().MediaUrl);
                         }
                     }
                 }
 
-                var backgroundNotification = Windows.Storage.ApplicationData.Current.RoamingSettings.Values.ContainsKey("BackgroundNotification") ? (bool)Windows.Storage.ApplicationData.Current.RoamingSettings.Values["BackgroundNotification"] : false ;
+                var backgroundNotification =
+                    ApplicationData.Current.RoamingSettings.Values.ContainsKey("BackgroundNotification") &&
+                    (bool) ApplicationData.Current.RoamingSettings.Values["BackgroundNotification"];
                 if (backgroundNotification)
                 {
-                    var latestNotificationDate = new DateTimeOffset((long)Windows.Storage.ApplicationData.Current.LocalSettings.Values["LatestNotificationDate"], DateTimeOffset.Now.Offset);
+                    var latestNotificationDate =
+                        new DateTimeOffset(
+                            (long) ApplicationData.Current.LocalSettings.Values["LatestNotificationDate"],
+                            DateTimeOffset.Now.Offset);
 
                     foreach (var account in accounts)
                     {
-                        var tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken, account.AccessTokenSecret);
+                        var tokens = Tokens.Create(account.ConsumerKey, account.ConsumerSecret, account.AccessToken,
+                            account.AccessTokenSecret);
 
-                        var statuses = (await tokens.Statuses.MentionsTimelineAsync(count => 10)).Where(x => x.CreatedAt.ToLocalTime() > latestNotificationDate);
+                        var statuses =
+                            (await tokens.Statuses.MentionsTimelineAsync(count => 10)).Where(
+                                x => x.CreatedAt.ToLocalTime() > latestNotificationDate);
                         foreach (var status in statuses)
-                            this.PopupToastNotification("Mention", string.Format(resourceLoader.GetString("Notification_Mention_Mention"), status.User.Name), status.Text, status.User.ProfileImageUrl, "Reply to @" + status.User.ScreenName, "Assets/Tweet.png", "mention" + "," + account.ScreenName + "," + status.User.ScreenName + "," + status.Id.ToString(), status.Entities?.Media?.Length != 0 ? status.Entities.Media.First().MediaUrl : "");
+                            PopupToastNotification("Mention",
+                                string.Format(resourceLoader.GetString("Notification_Mention_Mention"),
+                                    status.User.Name), status.Text, status.User.ProfileImageUrl,
+                                "Reply to @" + status.User.ScreenName, "Assets/Tweet.png",
+                                "mention" + "," + account.ScreenName + "," + status.User.ScreenName + "," + status.Id,
+                                status.Entities?.Media?.Length != 0 ? status.Entities.Media.First().MediaUrl : "");
 
-                        var directMessages = (await tokens.DirectMessages.ReceivedAsync(count => 10)).Where(x => x.CreatedAt.ToLocalTime() > latestNotificationDate);
+                        var directMessages =
+                            (await tokens.DirectMessages.ReceivedAsync(count => 10)).Where(
+                                x => x.CreatedAt.ToLocalTime() > latestNotificationDate);
                         foreach (var dm in directMessages)
-                            this.PopupToastNotification("DirectMessage", string.Format(resourceLoader.GetString("Notification_DirectMessage_DirectMessage"), dm.Sender.Name), dm.Text, dm.Sender.ProfileImageUrl, "Send DM to @" + dm.Sender.ScreenName, "Assets/DM.png", "dm" + "," + account.ScreenName + "," + dm.Sender.ScreenName);
-
+                            PopupToastNotification("DirectMessage",
+                                string.Format(resourceLoader.GetString("Notification_DirectMessage_DirectMessage"),
+                                    dm.Sender.Name), dm.Text, dm.Sender.ProfileImageUrl,
+                                "Send DM to @" + dm.Sender.ScreenName, "Assets/DM.png",
+                                "dm" + "," + account.ScreenName + "," + dm.Sender.ScreenName);
                     }
 
-                    Windows.Storage.ApplicationData.Current.LocalSettings.Values["LatestNotificationDate"] = DateTimeOffset.Now.Ticks;
+                    ApplicationData.Current.LocalSettings.Values["LatestNotificationDate"] = DateTimeOffset.Now.Ticks;
                 }
             }
             catch
@@ -102,7 +123,6 @@ namespace Flantter.MilkyWay.BackgroundTask
             }
 
             deferral.Complete();
-            return;
         }
 
         private void UpdateTileNotification(string text, string imageUrl = "")
@@ -111,18 +131,18 @@ namespace Flantter.MilkyWay.BackgroundTask
             {
                 Children =
                 {
-                    new TileText { Text = text, Style = TileTextStyle.Caption, Wrap = true },
+                    new TileText {Text = text, Style = TileTextStyle.Caption, Wrap = true}
                 }
             };
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
-                tileBindingContent.PeekImage = new TilePeekImage { Source = imageUrl };
+                tileBindingContent.PeekImage = new TilePeekImage {Source = imageUrl};
 
             var tileBinding = new TileBinding
             {
                 Branding = TileBranding.Auto,
                 Content = tileBindingContent,
-                DisplayName = "Flantter",
+                DisplayName = "Flantter"
             };
 
             var tileContent = new TileContent
@@ -132,38 +152,43 @@ namespace Flantter.MilkyWay.BackgroundTask
                     TileSmall = tileBinding,
                     TileMedium = tileBinding,
                     TileLarge = tileBinding,
-                    TileWide = tileBinding,
+                    TileWide = tileBinding
                 }
             };
 
             var n = new TileNotification(tileContent.GetXml());
             TileUpdateManager.CreateTileUpdaterForApplication().Update(n);
-
         }
 
 
-        private void PopupToastNotification(string type, string text, string text2 = "", string imageUrl = "", string textboxPlaceholder = "", string buttonImageUrl = "", string param = "", string inlineImageUrl = "")
+        private void PopupToastNotification(string type, string text, string text2 = "", string imageUrl = "",
+            string textboxPlaceholder = "", string buttonImageUrl = "", string param = "", string inlineImageUrl = "")
         {
-            var toastContent = new ToastContent();
-            toastContent.Visual = new ToastVisual();
-            toastContent.Visual.TitleText = new ToastText() { Text = type };
-            toastContent.Visual.BodyTextLine1 = new ToastText() { Text = text };
+            var toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    TitleText = new ToastText {Text = type},
+                    BodyTextLine1 = new ToastText {Text = text}
+                }
+            };
 
             if (!string.IsNullOrWhiteSpace(text2))
-                toastContent.Visual.BodyTextLine2 = new ToastText() { Text = text2 };
+                toastContent.Visual.BodyTextLine2 = new ToastText {Text = text2};
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
-                toastContent.Visual.AppLogoOverride = new ToastAppLogo() { Source = new ToastImageSource(imageUrl) };
-            
-            if (!string.IsNullOrWhiteSpace(inlineImageUrl))
-                toastContent.Visual.InlineImages.Add(new ToastImage() { Source = new ToastImageSource(inlineImageUrl) });
+                toastContent.Visual.AppLogoOverride = new ToastAppLogo {Source = new ToastImageSource(imageUrl)};
 
-            if (!string.IsNullOrWhiteSpace(textboxPlaceholder) && !string.IsNullOrWhiteSpace(buttonImageUrl) && !string.IsNullOrWhiteSpace(param))
+            if (!string.IsNullOrWhiteSpace(inlineImageUrl))
+                toastContent.Visual.InlineImages.Add(new ToastImage {Source = new ToastImageSource(inlineImageUrl)});
+
+            if (!string.IsNullOrWhiteSpace(textboxPlaceholder) && !string.IsNullOrWhiteSpace(buttonImageUrl) &&
+                !string.IsNullOrWhiteSpace(param))
             {
-                var toastAction = new ToastActionsCustom()
+                var toastAction = new ToastActionsCustom
                 {
-                    Inputs = { new ToastTextBox("tweet") { PlaceholderContent = textboxPlaceholder } },
-                    Buttons = { new ToastButton("send", param) { TextBoxId = "tweet", ImageUri = buttonImageUrl } },
+                    Inputs = {new ToastTextBox("tweet") {PlaceholderContent = textboxPlaceholder}},
+                    Buttons = {new ToastButton("send", param) {TextBoxId = "tweet", ImageUri = buttonImageUrl}}
                 };
 
                 toastContent.Actions = toastAction;
@@ -176,102 +201,35 @@ namespace Flantter.MilkyWay.BackgroundTask
 
     internal class AccountSetting
     {
-        private string _Name;
-        public string Name
-        {
-            get { return this._Name; }
-            set { this._Name = value; }
-        }
+        public string Name { get; set; }
 
-        private string _ScreenName;
-        public string ScreenName
-        {
-            get { return this._ScreenName; }
-            set { this._ScreenName = value; }
-        }
+        public string ScreenName { get; set; }
 
-        private long _UserId;
-        public long UserId
-        {
-            get { return this._UserId; }
-            set { this._UserId = value; }
-        }
+        public long UserId { get; set; }
 
-        private string _ConsumerKey;
-        public string ConsumerKey
-        {
-            get { return _ConsumerKey; }
-            set { this._ConsumerKey = value; }
-        }
+        public string ConsumerKey { get; set; }
 
-        private string _ConsumerSecret;
-        public string ConsumerSecret
-        {
-            get { return _ConsumerSecret; }
-            set { this._ConsumerSecret = value; }
-        }
+        public string ConsumerSecret { get; set; }
 
-        private string _AccessToken;
-        public string AccessToken
-        {
-            get { return _AccessToken; }
-            set { this._AccessToken = value; }
-        }
+        public string AccessToken { get; set; }
 
-        private string _AccessTokenSecret;
-        public string AccessTokenSecret
-        {
-            get { return _AccessTokenSecret; }
-            set { this._AccessTokenSecret = value; }
-        }
+        public string AccessTokenSecret { get; set; }
 
         public List<ColumnSetting> Column { get; set; }
 
-        private bool _IncludeFollowingsActivity;
-        public bool IncludeFollowingsActivity
-        {
-            get { return _IncludeFollowingsActivity; }
-            set { this._IncludeFollowingsActivity = value; }
-        }
+        public bool IncludeFollowingsActivity { get; set; }
 
-        private bool _PossiblySensitive;
-        public bool PossiblySensitive
-        {
-            get { return _PossiblySensitive; }
-            set { this._PossiblySensitive = value; }
-        }
+        public bool PossiblySensitive { get; set; }
 
-        private string _ProfileImageUrl;
-        public string ProfileImageUrl
-        {
-            get { return _ProfileImageUrl; }
-            set { this._ProfileImageUrl = value; }
-        }
+        public string ProfileImageUrl { get; set; }
 
-        private string _ProfileBannerUrl;
-        public string ProfileBannerUrl
-        {
-            get { return _ProfileBannerUrl; }
-            set { this._ProfileBannerUrl = value; }
-        }
+        public string ProfileBannerUrl { get; set; }
 
-        private bool _IsEnabled;
-        public bool IsEnabled
-        {
-            get { return _IsEnabled; }
-            set { this._IsEnabled = value; }
-        }
+        public bool IsEnabled { get; set; }
     }
 
     internal class ColumnSetting
     {
-        private string _Name;
-        public string Name
-        {
-            get { return _Name; }
-            set { this._Name = value; }
-        }
-
         /*private SettingSupport.ColumnTypeEnum _Action;
         public SettingSupport.ColumnTypeEnum Action
         {
@@ -279,67 +237,24 @@ namespace Flantter.MilkyWay.BackgroundTask
             set { this._Action = value; }
         }*/
 
-        private string _Parameter;
-        public string Parameter
-        {
-            get { return _Parameter; }
-            set { this._Parameter = value; }
-        }
+        public string Name { get; set; }
 
-        private string _Filter;
-        public string Filter
-        {
-            get { return _Filter; }
-            set { this._Filter = value; }
-        }
+        public string Parameter { get; set; }
 
-        private bool _DisableStartupRefresh;
-        public bool DisableStartupRefresh
-        {
-            get { return _DisableStartupRefresh; }
-            set { this._DisableStartupRefresh = value; }
-        }
+        public string Filter { get; set; }
 
-        private bool _AutoRefresh;
-        public bool AutoRefresh
-        {
-            get { return _AutoRefresh; }
-            set { this._AutoRefresh = value; }
-        }
+        public bool DisableStartupRefresh { get; set; }
 
-        private double _AutoRefreshTimerInterval;
-        public double AutoRefreshTimerInterval
-        {
-            get { return _AutoRefreshTimerInterval; }
-            set { this._AutoRefreshTimerInterval = value; }
-        }
+        public bool AutoRefresh { get; set; }
 
-        private bool _Streaming;
-        public bool Streaming
-        {
-            get { return _Streaming; }
-            set { this._Streaming = value; }
-        }
+        public double AutoRefreshTimerInterval { get; set; }
 
-        private int _Index;
-        public int Index
-        {
-            get { return _Index; }
-            set { this._Index = value; }
-        }
+        public bool Streaming { get; set; }
 
-        private int _FetchingNumberOfTweet;
-        public int FetchingNumberOfTweet
-        {
-            get { return _FetchingNumberOfTweet; }
-            set { this._FetchingNumberOfTweet = value; }
-        }
+        public int Index { get; set; }
 
-        private long _Identifier;
-        public long Identifier
-        {
-            get { return _Identifier; }
-            set { this._Identifier = value; }
-        }
+        public int FetchingNumberOfTweet { get; set; }
+
+        public long Identifier { get; set; }
     }
 }

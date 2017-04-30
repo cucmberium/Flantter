@@ -29,7 +29,7 @@ namespace Flantter.MilkyWay.Views.Util
     public class ConfirmMessageDialogNotification : Notification
     {
         public string Message { get; set; }
-        
+
         public bool Result { get; set; }
     }
 }

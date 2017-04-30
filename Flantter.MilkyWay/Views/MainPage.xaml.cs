@@ -143,14 +143,14 @@ namespace Flantter.MilkyWay.Views
             if (isTransparent)
             {
                 _hostSprite.Size = new Vector2(
-                    (float) Flantter_HostBackgroundGrid.ActualWidth,
-                    (float) Flantter_HostBackgroundGrid.ActualHeight);
+                    (float) FlantterHostBackgroundCanvas.ActualWidth,
+                    (float) FlantterHostBackgroundCanvas.ActualHeight);
                 _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
-                ElementCompositionPreview.SetElementChildVisual(Flantter_HostBackgroundGrid, _hostSprite);
+                ElementCompositionPreview.SetElementChildVisual(FlantterHostBackgroundCanvas, _hostSprite);
             }
             else
             {
-                ElementCompositionPreview.SetElementChildVisual(Flantter_HostBackgroundGrid, null);
+                ElementCompositionPreview.SetElementChildVisual(FlantterHostBackgroundCanvas, null);
             }
         }
 
@@ -158,8 +158,8 @@ namespace Flantter.MilkyWay.Views
         {
             if (_hostSprite != null)
                 _hostSprite.Size = new Vector2(
-                    (float) Flantter_HostBackgroundGrid.ActualWidth,
-                    (float) Flantter_HostBackgroundGrid.ActualHeight);
+                    (float) FlantterHostBackgroundCanvas.ActualWidth,
+                    (float) FlantterHostBackgroundCanvas.ActualHeight);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

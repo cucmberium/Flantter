@@ -1,14 +1,13 @@
 ﻿<UserControl
     x:Class="Flantter.MilkyWay.Views.Contents.SwipeMenu.MainSwipeMenu"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Flantter.MilkyWay.Views.Contents"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -36,7 +35,7 @@
         <CompositeTransform/>
     </UserControl.RenderTransform>
 
-    <Grid x:Name="SwipeMenuGrid" Grid.Column="0" Width="280" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
+    <Grid x:Name="SwipeMenuGrid" Width="280" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="160"/>
@@ -51,7 +50,7 @@
                 </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
 
-            <Border x:Name="UserProfileBackgroundImageBorder" Margin="0,0,0,0" Background="#00000000">
+            <Border Margin="0,0,0,0" Background="#00000000">
                 <Image Source="{x:Bind ViewModel.ProfileBannerUrl.Value, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" Stretch="UniformToFill" />
             </Border>
 
@@ -78,7 +77,7 @@
             
         </Grid>
 
-        <ScrollViewer Grid.Row="1" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <controls:HorizontalBar/>
 
@@ -163,15 +162,6 @@
 
                 <controls:HorizontalBar Margin="50,0,0,0"/>
 
-                <!--<Button Visibility="{Binding Source={StaticResource License}, Path=License.AppDonationIsActive, Converter={StaticResource BooleanNegationToVisibilityConverter}, Mode=OneWay}" Command="{x:Bind ViewModel.Notice.DonateCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <Grid>
-                        <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Shop" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                        <TextBlock x:Uid="MainSwipeMenu_Donation" Text="寄付" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    </Grid>
-                </Button>
-
-                <controls:HorizontalBar Visibility="{Binding Source={StaticResource License}, Path=License.AppDonationIsActive, Converter={StaticResource BooleanNegationToVisibilityConverter}, Mode=OneWay}" Margin="50,0,0,0"/>-->
-
                 <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <i:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
@@ -198,4 +188,5 @@
             </StackPanel>
         </ScrollViewer>
     </Grid>
+    
 </UserControl>

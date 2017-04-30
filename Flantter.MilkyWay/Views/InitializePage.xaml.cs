@@ -166,7 +166,7 @@ namespace Flantter.MilkyWay.Views
                 {
                     await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
                 }
-                catch (Exception ex)
+                catch
                 {
                 }
 

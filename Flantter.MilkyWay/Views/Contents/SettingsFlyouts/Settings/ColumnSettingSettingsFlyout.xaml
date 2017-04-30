@@ -1,20 +1,10 @@
 ﻿<controls:ExtendedSettingsFlyout
     x:Class="Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings.ColumnSettingSettingsFlyout"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Flantter.MilkyWay.Views.Contents.SettingsFlyouts"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
-    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
-    xmlns:common="using:Flantter.MilkyWay.Common"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
-    xmlns:util="using:Flantter.MilkyWay.Views.Util"
-	xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
-    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
     mc:Ignorable="d"
     Title="Setting"
     HorizontalContentAlignment="Stretch"
@@ -30,7 +20,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
             <StackPanel>
 
@@ -62,10 +52,11 @@
         </ScrollViewer>
 
         <StackPanel Grid.Row="1">
+
             <controls:HorizontalBar/>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="10" TextWrapping="Wrap" Text="{x:Bind ViewModel.ErrorMessage.Value, Mode=OneWay}"/>
-            
+
             <controls:HorizontalBar/>
 
             <Button IsEnabled="{x:Bind ViewModel.UpdateButtonEnabled.Value, Mode=OneWay}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.SaveColumnSettingCommand, Mode=OneWay}">
@@ -76,7 +67,6 @@
             </Button>
 
         </StackPanel>
-        
     </Grid>
     
 </controls:ExtendedSettingsFlyout>

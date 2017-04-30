@@ -1,20 +1,10 @@
 ﻿<controls:ExtendedSettingsFlyout
     x:Class="Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings.NotificationSettingSettingsFlyout"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Flantter.MilkyWay.Views.Contents.SettingsFlyouts"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
-    xmlns:viewModels="using:Flantter.MilkyWay.ViewModels"
-    xmlns:common="using:Flantter.MilkyWay.Common"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
-    xmlns:util="using:Flantter.MilkyWay.Views.Util"
-	xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
-    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
     mc:Ignorable="d"
     Title="Setting"
     HorizontalContentAlignment="Stretch"
@@ -61,7 +51,7 @@
             <controls:HorizontalBar/>
 
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Notification_TweetCompleted_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.TweetCompleteNotification, Mode=TwoWay}" Header="ツイート完了通知"/>
-            
+
             <controls:HorizontalBar/>
 
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Notification_System_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.SystemNotification, Mode=TwoWay}" Header="システム通知"/>
@@ -73,9 +63,9 @@
             <controls:HorizontalBar/>
 
             <ComboBox x:Uid="SettingsFlyout_Settings_Notification_TileNotification_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="タイル通知" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=TileNotificationListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.TileNotification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            
+
             <controls:HorizontalBar/>
-            
+
         </StackPanel>
     </ScrollViewer>
     

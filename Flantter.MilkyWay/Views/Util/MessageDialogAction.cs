@@ -23,9 +23,6 @@ namespace Flantter.MilkyWay.Views.Util
 
     public class MessageDialogNotification : Notification
     {
-        /// <summary>
-        ///     メッセージ
-        /// </summary>
         public string Message { get; set; }
     }
 }

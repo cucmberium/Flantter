@@ -89,10 +89,7 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void TriangleButton_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_pressing)
-                VisualStateManager.GoToState(this, "Pressed", true);
-            else
-                VisualStateManager.GoToState(this, "PointerOver", true);
+            VisualStateManager.GoToState(this, _pressing ? "Pressed" : "PointerOver", true);
         }
 
         public new event TappedEventHandler Tapped;
@@ -102,8 +99,7 @@ namespace Flantter.MilkyWay.Views.Controls
             if (Command != null && Command.CanExecute(CommandParameter))
                 Command.Execute(CommandParameter);
 
-            if (Tapped != null)
-                Tapped(this, e);
+            Tapped?.Invoke(this, e);
         }
     }
 }

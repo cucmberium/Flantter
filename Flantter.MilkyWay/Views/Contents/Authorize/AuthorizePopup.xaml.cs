@@ -219,10 +219,9 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
 
             if (_authorizeStep == AuthorizeStep.TwitterAuthorize)
             {
-                Tokens tokens;
                 try
                 {
-                    tokens = await _twitterOAuthSettion.GetTokensAsync(pin);
+                    var tokens = await _twitterOAuthSettion.GetTokensAsync(pin);
                     _accountInfo = new AccountInfo
                     {
                         ConsumerKey = tokens.ConsumerKey,

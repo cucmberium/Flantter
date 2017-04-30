@@ -4,6 +4,7 @@ using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Services;
+using System.Globalization;
 
 namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
@@ -15,7 +16,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
             // BackgroundBrush
             BackgroundBrush = "Default";
-            CreatedAt = DateTime.Now.ToString();
+            CreatedAt = DateTime.Now.ToString(CultureInfo.InvariantCulture);
             Source = "";
             Text = "";
             ScreenName = "";
@@ -70,7 +71,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else if (status.IsFavorited)
                 BackgroundBrush = "Favorite";
 
-            CreatedAt = status.CreatedAt.ToLocalTime().ToString();
+            CreatedAt = status.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
             Source = status.Source;
             Text = status.Text;
             ScreenName = status.User.ScreenName;
@@ -83,7 +84,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             ProtectedText = status.User.IsProtected ? "🔒" : "";
 
             RetweetInformationVisibility = status.HasRetweetInformation;
-            MediaVisibility = status.Entities.Media.Count == 0 ? false : true;
+            MediaVisibility = status.Entities.Media.Count != 0;
             MediaEntities = new List<MediaEntityViewModel>();
             foreach (var mediaEntity in status.Entities.Media)
                 MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
@@ -155,7 +156,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else
                 RetweetFavoriteTriangleIconVisibility = false;
 
-            QuotedStatusVisibility = status.QuotedStatusId != 0 && status.QuotedStatus != null ? true : false;
+            QuotedStatusVisibility = status.QuotedStatusId != 0 && status.QuotedStatus != null;
             if (status.QuotedStatus != null)
             {
                 QuotedStatusName = status.QuotedStatus.User.Name;
@@ -202,7 +203,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else if (status.User.Id == userId)
                 BackgroundBrush = "MyTweet";
 
-            CreatedAt = status.CreatedAt.ToLocalTime().ToString();
+            CreatedAt = status.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
             Source = status.Source;
             Text = status.Text;
             ScreenName = status.User.ScreenName;
@@ -215,7 +216,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             ProtectedText = status.User.IsProtected ? "🔒" : "";
 
             RetweetInformationVisibility = status.HasRetweetInformation;
-            MediaVisibility = status.Entities.Media.Count == 0 ? false : true;
+            MediaVisibility = status.Entities.Media.Count != 0;
             MediaEntities = new List<MediaEntityViewModel>();
             foreach (var mediaEntity in status.Entities.Media)
                 MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
@@ -287,7 +288,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else
                 RetweetFavoriteTriangleIconVisibility = false;
 
-            QuotedStatusVisibility = status.QuotedStatusId != 0 ? true : false;
+            QuotedStatusVisibility = status.QuotedStatusId != 0;
             if (status.QuotedStatus != null)
             {
                 QuotedStatusName = status.QuotedStatus.User.Name;
@@ -298,7 +299,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                     ? "http://localhost/"
                     : status.QuotedStatus.User.ProfileImageUrl;
 
-                QuotedStatusMediaVisibility = (status.QuotedStatus.Entities.Media.Count == 0 ? false : true) &&
+                QuotedStatusMediaVisibility = (status.QuotedStatus.Entities.Media.Count != 0) &&
                                               SettingService.Setting.ShowQuotedStatusMedia;
 
                 QuotedStatusMediaEntities = new List<MediaEntityViewModel>();
@@ -342,7 +343,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else if (status.User.Id == userId)
                 BackgroundBrush = "MyTweet";
 
-            CreatedAt = status.CreatedAt.ToLocalTime().ToString();
+            CreatedAt = status.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
             Source = status.Source;
             Text = status.Text;
             ScreenName = status.User.ScreenName;
@@ -355,7 +356,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             ProtectedText = status.User.IsProtected ? "🔒" : "";
 
             RetweetInformationVisibility = status.HasRetweetInformation;
-            MediaVisibility = status.Entities.Media.Count == 0 ? false : true;
+            MediaVisibility = status.Entities.Media.Count != 0;
             MediaEntities = new List<MediaEntityViewModel>();
             foreach (var mediaEntity in status.Entities.Media)
                 MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
@@ -423,7 +424,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else
                 RetweetFavoriteTriangleIconVisibility = false;
 
-            QuotedStatusVisibility = status.QuotedStatusId != 0 ? true : false;
+            QuotedStatusVisibility = status.QuotedStatusId != 0;
             if (status.QuotedStatus != null)
             {
                 QuotedStatusName = status.QuotedStatus.User.Name;
@@ -434,7 +435,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                     ? "http://localhost/"
                     : status.QuotedStatus.User.ProfileImageUrl;
 
-                QuotedStatusMediaVisibility = (status.QuotedStatus.Entities.Media.Count == 0 ? false : true) &&
+                QuotedStatusMediaVisibility = (status.QuotedStatus.Entities.Media.Count != 0) &&
                                               SettingService.Setting.ShowQuotedStatusMedia;
 
                 QuotedStatusMediaEntities = new List<MediaEntityViewModel>();

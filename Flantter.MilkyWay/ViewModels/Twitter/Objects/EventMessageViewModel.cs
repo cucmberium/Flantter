@@ -34,7 +34,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
             var resourceLoader = new ResourceLoader();
             var sourceUser = "@" + eventMessage.Source.ScreenName + " (" + eventMessage.Source.Name + ") ";
-            var targetUser = "";
+            string targetUser;
             if (eventMessage.Target != null)
                 targetUser = "@" + eventMessage.Target.ScreenName + " (" + eventMessage.Target.Name + ") ";
             else

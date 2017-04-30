@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using Windows.Foundation;
 using Windows.UI;
@@ -12,9 +11,8 @@ namespace Flantter.MilkyWay.Views.Controls
 {
     public class PullToRefreshListView : ListView
     {
-        private bool _directManipulationDelta;
-
         private readonly Rect _emptyRect = new Rect(0.0, 0.0, 0.0, 0.0);
+        private bool _directManipulationDelta;
 
         public PullToRefreshListView()
         {
@@ -111,9 +109,12 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
         {
+            if (_timer == null || _renderTimer == null)
+                return;
+
             if (e.NextView.VerticalOffset <= 2)
             {
-                if (!e.IsInertial && _timer != null && _renderTimer != null && _directManipulationDelta)
+                if (!e.IsInertial && _directManipulationDelta)
                 {
                     _timer.Start();
                     _renderTimer.Start();
@@ -129,8 +130,6 @@ namespace Flantter.MilkyWay.Views.Controls
                 _timer.Stop();
                 _renderTimer.Stop();
 
-                //_IsCompressionTimerRunning = false;
-                //_IsCompressedEnough = false;
                 _isReadyToRefresh = false;
 
                 VisualStateManager.GoToState(this, "Normal", true);
@@ -166,30 +165,6 @@ namespace Flantter.MilkyWay.Views.Controls
                 InvokeRefresh();
             }
         }
-
-        #region Helper
-
-        private T FindChild<T>(DependencyObject d)
-            where T : DependencyObject
-        {
-            var q = new Queue<DependencyObject>();
-            q.Enqueue(d);
-            while (q.Count > 0)
-            {
-                var e = q.Dequeue();
-                if (e is T) return (T) e;
-                var n = VisualTreeHelper.GetChildrenCount(e);
-                for (var i = 0; i < n; i++)
-                {
-                    var c = VisualTreeHelper.GetChild(e, i);
-                    if (c is T) return (T) c;
-                    q.Enqueue(c);
-                }
-            }
-            return null;
-        }
-
-        #endregion
 
         #region Event
 
@@ -278,10 +253,7 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private ItemsPresenter _listViewItemsPresenter;
 
-        //private bool _IsCompressionTimerRunning;
         private bool _isReadyToRefresh;
-
-        //private bool _IsCompressedEnough;
 
         #endregion
 

@@ -143,8 +143,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     if (parameters.ContainsKey("id") || parameters.ContainsKey("screen_name"))
                         throw new NotImplementedException();
                     var result = (await Tokens.MastodonTokens.GetFavourites(
-                            (long?)parameters.GetValueOrDefault("max_id", null),
-                            (long?)parameters.GetValueOrDefault("since_id", null)))
+                            (long?) parameters.GetValueOrDefault("max_id", null),
+                            (long?) parameters.GetValueOrDefault("since_id", null)))
                         .Select(x => new Twitter.Objects.Status(x))
                         .ToList();
                     foreach (var u in result)
@@ -403,8 +403,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                         .ToList();
                 case Tokens.PlatformEnum.Mastodon:
                     var result = (await Tokens.MastodonTokens.GetNotifications(
-                            (long?)parameters.GetValueOrDefault("max_id", null),
-                            (long?)parameters.GetValueOrDefault("since_id", null)))
+                            (long?) parameters.GetValueOrDefault("max_id", null),
+                            (long?) parameters.GetValueOrDefault("since_id", null)))
                         .Where(x => x.Type == "mention" && x.Status.Visibility != "direct")
                         .Select(x => new Twitter.Objects.Status(x.Status))
                         .ToList();
@@ -758,7 +758,15 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                         .Select(x => new Twitter.Objects.Status(x))
                         .ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    var result = (await Tokens.MastodonTokens.Search((string) parameters["q"], true)).Statuses
+                    //var result = (await Tokens.MastodonTokens.Search((string) parameters["q"], true)).Statuses
+                    //    .Select(x => new Twitter.Objects.Status(x))
+                    //    .ToList();
+                    var query = (string) parameters["q"];
+                    if (query.StartsWith("#"))
+                        query = query.Replace("#", "");
+                    var result = (await Tokens.MastodonTokens.GetTagTimeline(query,
+                            (long?) parameters.GetValueOrDefault("max_id", null),
+                            (long?) parameters.GetValueOrDefault("since_id", null)))
                         .Select(x => new Twitter.Objects.Status(x))
                         .ToList();
                     foreach (var u in result)
@@ -2008,8 +2016,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
 
                 case Tokens.PlatformEnum.Mastodon:
                     var result = (await Tokens.MastodonTokens.GetNotifications(
-                            (long?)parameters.GetValueOrDefault("max_id", null),
-                            (long?)parameters.GetValueOrDefault("since_id", null)))
+                            (long?) parameters.GetValueOrDefault("max_id", null),
+                            (long?) parameters.GetValueOrDefault("since_id", null)))
                         .Select(x => new Twitter.Objects.EventMessage(x))
                         .ToList();
                     foreach (var u in result)
@@ -2201,7 +2209,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             {
                 private readonly CancellationTokenSource _cancel = new CancellationTokenSource();
 
-                internal static string GetUrl(CoreTweet.ConnectionOptions options, string baseUrl, bool needsVersion, string rest)
+                internal static string GetUrl(CoreTweet.ConnectionOptions options, string baseUrl, bool needsVersion,
+                    string rest)
                 {
                     var result = new StringBuilder(baseUrl.TrimEnd('/'));
                     if (needsVersion)
@@ -2248,10 +2257,13 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                 }
 
 
-                public async void Start(IObserver<Twitter.Objects.StreamingMessage> observer, Tokens tokens, StreamingType type, IDictionary<string, object> parameters)
+                public async void Start(IObserver<Twitter.Objects.StreamingMessage> observer, Tokens tokens,
+                    StreamingType type, IDictionary<string, object> parameters)
                 {
                     var token = this._cancel.Token;
-                    var methodType = type == StreamingType.Filter ? CoreTweet.MethodType.Post : CoreTweet.MethodType.Get;
+                    var methodType = type == StreamingType.Filter
+                        ? CoreTweet.MethodType.Post
+                        : CoreTweet.MethodType.Get;
 
                     try
                     {
@@ -2274,7 +2286,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
 
                                         try
                                         {
-                                            observer.OnNext(new StreamingMessage(CoreTweet.Streaming.StreamingMessage.Parse(s)));
+                                            observer.OnNext(
+                                                new StreamingMessage(CoreTweet.Streaming.StreamingMessage.Parse(s)));
                                         }
                                         catch (Exception ex)
                                         {
@@ -2447,7 +2460,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                                                                      ClientId = this.ConsumerKey,
                                                                      ClientSecret = this.ConsumerSecret,
                                                                      Instance = this.Instance
-                                                                 }, 
+                                                                 },
                                                                  new Mastonet.Entities.Auth()
                                                                  {
                                                                      AccessToken = this.AccessToken,

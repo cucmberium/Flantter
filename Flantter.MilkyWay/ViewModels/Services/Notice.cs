@@ -239,23 +239,4 @@ namespace Flantter.MilkyWay.ViewModels.Services
     {
         public Notice Notice => Notice.Instance;
     }
-
-
-    public class ShareNotice
-    {
-        private ShareNotice()
-        {
-            ShareContractAccountChangeCommand =
-                new ReactiveCommand(new SynchronizationContextScheduler(SynchronizationContext.Current));
-        }
-
-        public static ShareNotice Instance { get; } = new ShareNotice();
-
-        public ReactiveCommand ShareContractAccountChangeCommand { get; }
-    }
-
-    public class ShareNoticeProvider
-    {
-        public ShareNotice Notice => ShareNotice.Instance;
-    }
 }

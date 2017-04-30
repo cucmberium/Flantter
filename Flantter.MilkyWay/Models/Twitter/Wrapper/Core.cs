@@ -2289,7 +2289,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                                             observer.OnNext(
                                                 new StreamingMessage(CoreTweet.Streaming.StreamingMessage.Parse(s)));
                                         }
-                                        catch (Exception ex)
+                                        catch
                                         {
                                         }
                                     }

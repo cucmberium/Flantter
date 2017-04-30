@@ -4,21 +4,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:setting="using:Flantter.MilkyWay.Setting"
-    xmlns:notice="using:Flantter.MilkyWay.ViewModels.Services"
     xmlns:share="using:Flantter.MilkyWay.ViewModels.ShareContract"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:shareContractViewModel="using:Flantter.MilkyWay.ViewModels.ShareContract"
     mc:Ignorable="d">
-
-    <Page.Resources>
-        <ResourceDictionary>
-            <notice:ShareNoticeProvider x:Key="ShareNotice"/>
-        </ResourceDictionary>
-    </Page.Resources>
 
     <Grid Background="{StaticResource SettingsFlyoutBackgroundBrush}">
         <Grid.ChildrenTransitions>
@@ -44,13 +37,25 @@
         <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsEnableShareOperation.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" MinHeight="200" MaxHeight="320" Margin="5,0">
 
             <Button IsEnabled="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" VerticalAlignment="Bottom" Width="40" Height="40" Margin="5,0,0,0" Padding="0" BorderThickness="0">
-                <Image Stretch="UniformToFill" Source="{x:Bind ViewModel.SelectedAccount.Value.ProfileImageUrl, Mode=OneWay}"/>
+                <ItemsControl ItemsSource="{x:Bind ViewModel.SelectedAccounts.Value, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VariableSizedWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal" ItemHeight="{Binding TweetArea.AccountImageSize.Value, Mode=OneWay}" ItemWidth="{Binding TweetArea.AccountImageSize.Value, Mode=OneWay}"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="shareContractViewModel:ShareAccountViewModel">
+                            <Image Source="{x:Bind AccountSetting.Value.ProfileImageUrl, Mode=OneWay}" Stretch="Uniform"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
                 <Button.Flyout>
                     <Flyout Placement="Top">
                         <ItemsControl ItemsSource="{x:Bind ViewModel.Accounts}">
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="setting:AccountSetting">
-                                    <MenuFlyoutItem ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind ScreenName, Mode=OneWay}" Text="{x:Bind ScreenName, Mode=OneWay}" Command="{Binding Notice.ShareContractAccountChangeCommand, Source={StaticResource ShareNotice}}" CommandParameter="{x:Bind Mode=OneWay}"/>
+                                <DataTemplate x:DataType="shareContractViewModel:ShareAccountViewModel">
+                                    <ToggleMenuFlyoutItem ToolTipService.Placement="Top" ToolTipService.ToolTip="{x:Bind AccountSetting.Value.ScreenName, Mode=OneWay}" Text="{x:Bind AccountSetting.Value.ScreenName, Mode=OneWay}" IsChecked="{x:Bind IsTweetEnabled.Value, Mode=TwoWay}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -113,14 +118,11 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
+            
         </Grid>
 
         <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsEnableShareOperation.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Margin="25,10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <TextBlock x:Uid="ShareContract_NeedAuthorize" Grid.Row="0" Style="{StaticResource SubtitleTextBlockStyle}" Text="この機能を使うには一度アプリを立ち上げてアカウントの認証を行う必要があります。"/>
+            <TextBlock x:Uid="ShareContract_NeedAuthorize" Style="{StaticResource SubtitleTextBlockStyle}" Text="この機能を使うには一度アプリを立ち上げてアカウントの認証を行う必要があります。"/>
         </Grid>
     </Grid>
 </Page>

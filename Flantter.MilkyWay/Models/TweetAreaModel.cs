@@ -274,7 +274,7 @@ namespace Flantter.MilkyWay.Models
                             var progress = new Progress<CoreTweet.UploadChunkedProgressInfo>();
                             progress.ProgressChanged += (s, e) =>
                             {
-                                var progressPercentage = 0.0;
+                                double progressPercentage;
                                 if (e.Stage == CoreTweet.UploadChunkedProgressStage.InProgress)
                                     progressPercentage = 0.5 + e.ProcessingProgressPercent / 100.0 / 2.0;
                                 else if (e.Stage == CoreTweet.UploadChunkedProgressStage.Pending)
@@ -402,7 +402,7 @@ namespace Flantter.MilkyWay.Models
 
         private void SuggestionCheck()
         {
-            if (_tokens == null || !Connecter.Instance.TweetCollecter.ContainsKey(SelectedAccountUserId))
+            if (_tokens == null)
             {
                 SuggestionMessenger.Raise(new SuggestionNotification {SuggestWords = null, IsOpen = false});
                 return;
@@ -411,31 +411,39 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 var token = SuggestionService.GetTokenFromPosition(_tokens, _selectionStart);
-                IEnumerable<string> words = null;
+                var words = new List<string>();
 
                 switch (token.Type)
                 {
                     case SuggestionService.SuggestionToken.SuggestionTokenId.HashTag:
-                        lock (Connecter.Instance.TweetCollecter[SelectedAccountUserId].EntitiesObjectsLock)
+                        foreach (var userId in Connecter.Instance.TweetCollecter.Keys)
                         {
-                            words = Connecter.Instance.TweetCollecter[SelectedAccountUserId]
-                                .HashTagObjects.Where(x => x.StartsWith(token.Value))
-                                .OrderBy(x => x);
+                            lock (Connecter.Instance.TweetCollecter[userId].EntitiesObjectsLock)
+                            {
+                                words.AddRange(Connecter.Instance.TweetCollecter[userId]
+                                    .HashTagObjects.Where(x => x.StartsWith(token.Value))
+                                    .OrderBy(x => x));
+                            }
                         }
                         break;
                     case SuggestionService.SuggestionToken.SuggestionTokenId.ScreenName:
                         if (!string.IsNullOrEmpty(token.Value))
-                            lock (Connecter.Instance.TweetCollecter[SelectedAccountUserId].EntitiesObjectsLock)
+                        {
+                            foreach (var userId in Connecter.Instance.TweetCollecter.Keys)
                             {
-                                words = Connecter.Instance.TweetCollecter[SelectedAccountUserId]
-                                    .ScreenNameObjects.Where(x => x.StartsWith(token.Value))
-                                    .OrderBy(x => x);
+                                lock (Connecter.Instance.TweetCollecter[userId].EntitiesObjectsLock)
+                                {
+                                    words.AddRange(Connecter.Instance.TweetCollecter[userId]
+                                        .ScreenNameObjects.Where(x => x.StartsWith(token.Value))
+                                        .OrderBy(x => x));
+                                }
                             }
+                        }
                         break;
                 }
 
                 SuggestionMessenger.Raise(
-                    new SuggestionNotification {SuggestWords = words, IsOpen = words != null && words.Count() != 0});
+                    new SuggestionNotification {SuggestWords = words, IsOpen = words.Count > 0});
             }
             catch
             {
@@ -608,18 +616,6 @@ namespace Flantter.MilkyWay.Models
         {
             get => _suggestionMessenger;
             set => SetProperty(ref _suggestionMessenger, value);
-        }
-
-        #endregion
-
-        #region SelectedAccountUserId変更通知プロパティ
-
-        private long _selectedAccountUserId;
-
-        public long SelectedAccountUserId
-        {
-            get => _selectedAccountUserId;
-            set => SetProperty(ref _selectedAccountUserId, value);
         }
 
         #endregion

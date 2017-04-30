@@ -126,9 +126,10 @@ namespace Flantter.MilkyWay
             //return Task.FromResult<object>(null);
         }
 
-        protected override void OnShareTargetActivated(ShareTargetActivatedEventArgs e)
+        protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs e)
         {
             base.OnShareTargetActivated(e);
+            await AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
             var shareTargetPage = new StatusShareContract();
             shareTargetPage.Activate(e);
         }

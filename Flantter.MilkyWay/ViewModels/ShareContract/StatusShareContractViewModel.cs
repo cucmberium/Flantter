@@ -15,11 +15,19 @@ using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Models.ShareContract;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Services;
+using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using System.Collections.Generic;
 
 namespace Flantter.MilkyWay.ViewModels.ShareContract
 {
+    public class ShareAccountViewModel : BindableBase
+    {
+        public ReactiveProperty<AccountSetting> AccountSetting { get; set; }
+        public ReactiveProperty<bool> IsTweetEnabled { get; set; }
+    }
+
     public class StatusShareContractViewModel : IDisposable
     {
         public StatusShareContractViewModel()
@@ -28,14 +36,19 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
 
             Model = new StatusShareContractModel();
 
-            Accounts = AdvancedSettingService.AdvancedSetting.Accounts;
-            SelectedAccount = new ReactiveProperty<AccountSetting>(uiThreadScheduler,
-                AdvancedSettingService.AdvancedSetting.Accounts.Count > 0
-                    ? AdvancedSettingService.AdvancedSetting.Accounts.First()
-                    : null);
-
             IsEnableShareOperation = new ReactiveProperty<bool>(uiThreadScheduler,
-                AdvancedSettingService.AdvancedSetting.Accounts.Count > 0);
+                AdvancedSettingService.AdvancedSetting.Accounts?.Count > 0);
+
+            if (IsEnableShareOperation.Value)
+            {
+                Accounts = new ReactiveCollection<ShareAccountViewModel>(AdvancedSettingService.AdvancedSetting.Accounts.Select(x => new ShareAccountViewModel { AccountSetting = new ReactiveProperty<AccountSetting>(x), IsTweetEnabled = new ReactiveProperty<bool>(x.IsEnabled) }).ToObservable(), uiThreadScheduler);
+                SelectedAccounts = Accounts.ObserveElementObservableProperty(x => x.IsTweetEnabled).Select(y => Accounts.Where(z => z.IsTweetEnabled.Value)).ToReactiveProperty(uiThreadScheduler);
+            }
+            else
+            {
+                Accounts = new ReactiveCollection<ShareAccountViewModel>();
+                SelectedAccounts = new ReactiveProperty<IEnumerable<ShareAccountViewModel>>();
+            }
 
             Title = new ReactiveProperty<string>(uiThreadScheduler);
             Description = new ReactiveProperty<string>(uiThreadScheduler);
@@ -47,6 +60,7 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
                 .AddTo(Disposable);
 
             Message = Model.ObserveProperty(x => x.Message).ToReactiveProperty(uiThreadScheduler).AddTo(Disposable);
+            ToolTipIsOpen = Model.ToReactivePropertyAsSynchronized(x => x.ToolTipIsOpen, uiThreadScheduler);
 
             StateSymbol = Model.ObserveProperty(x => x.State)
                 .Select(x =>
@@ -80,19 +94,11 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
             TweetCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
-                    var complete = await Model.Tweet(SelectedAccount.Value);
+                    var complete = await Model.Tweet(SelectedAccounts.Value.Select(y => y.AccountSetting.Value));
                     if (!complete)
                         return;
 
                     ShareOperation.ReportCompleted();
-                })
-                .AddTo(Disposable);
-
-            ShareNotice.Instance.ShareContractAccountChangeCommand.SubscribeOn(ThreadPoolScheduler.Default)
-                .Subscribe(x =>
-                {
-                    var accountSetting = x as AccountSetting;
-                    SelectedAccount.Value = accountSetting;
                 })
                 .AddTo(Disposable);
         }
@@ -105,11 +111,10 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
         public Notice Notice { get; set; }
         public SettingService Setting { get; set; }
 
-        public ObservableCollection<AccountSetting> Accounts { get; }
+        public ReactiveCollection<ShareAccountViewModel> Accounts { get; }
+        public ReactiveProperty<IEnumerable<ShareAccountViewModel>> SelectedAccounts { get; }
 
         public ReadOnlyReactiveCollection<PictureViewModel> Pictures { get; }
-
-        public ReactiveProperty<AccountSetting> SelectedAccount { get; set; }
 
         public ReactiveProperty<bool> IsEnableShareOperation { get; set; }
 
@@ -120,6 +125,8 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
         public ReactiveProperty<string> CharacterCount { get; set; }
 
         public ReactiveProperty<string> Message { get; set; }
+
+        public ReactiveProperty<bool> ToolTipIsOpen { get; set; }
 
         public ReactiveProperty<Symbol> StateSymbol { get; set; }
 

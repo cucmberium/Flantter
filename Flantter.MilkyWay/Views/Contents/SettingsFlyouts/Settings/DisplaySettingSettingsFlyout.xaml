@@ -45,7 +45,7 @@
 
             <controls:HorizontalBar/>
 
-            <Slider x:Uid="SettingsFlyout_Settings_Display_MinColumnSize_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="カラムの最小サイズ" Maximum="1920" Minimum="336" LargeChange="10" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.MinColumnSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider x:Uid="SettingsFlyout_Settings_Display_MinColumnSize_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="カラムの最小サイズ" Maximum="1920" Minimum="320" LargeChange="10" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.MinColumnSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <controls:HorizontalBar/>
 

@@ -475,7 +475,7 @@ namespace Flantter.MilkyWay.Setting
 
         public double MinColumnSize
         {
-            get => GetValue(336.0);
+            get => GetValue(320.0);
             set
             {
                 SetValue(value);

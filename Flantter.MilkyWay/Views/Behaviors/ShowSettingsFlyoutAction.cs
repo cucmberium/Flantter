@@ -55,7 +55,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             {
                 case "ImagePreview":
                     var mediaEntity = notification.Content as MediaEntity;
-                    if (mediaEntity.ParentEntities == null)
+                    if (mediaEntity?.ParentEntities == null)
                         return null;
 
                     if (_imagePreviewPopup == null)

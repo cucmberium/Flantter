@@ -46,9 +46,5 @@ namespace Flantter.MilkyWay.Models.Exceptions
         public SuggestionTokenNotFoundException(string message) : base(message)
         {
         }
-
-        public SuggestionTokenNotFoundException(string message, Exception inner) : base(message)
-        {
-        }
     }
 }

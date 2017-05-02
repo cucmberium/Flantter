@@ -4,7 +4,7 @@
     {
         public SearchQuery(CoreTweet.SearchQuery cSearchQuery)
         {
-            Id = cSearchQuery.Id.HasValue ? cSearchQuery.Id.Value : 0;
+            Id = cSearchQuery.Id ?? 0;
             Name = cSearchQuery.Name;
             Query = cSearchQuery.Query;
         }

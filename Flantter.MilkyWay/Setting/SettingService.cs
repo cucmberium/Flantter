@@ -180,8 +180,7 @@ namespace Flantter.MilkyWay.Setting
                     using (var fontFamily = fontCollection.GetFontFamily(i))
                     using (var familyNames = fontFamily.FamilyNames)
                     {
-                        int index;
-                        familyNames.FindLocaleName("en-us", out index);
+                        familyNames.FindLocaleName("en-us", out int index);
                         fontlist.Add(familyNames.GetString(index));
                     }
             }

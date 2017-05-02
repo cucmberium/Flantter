@@ -30,7 +30,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Thumbnail
 
             var xml = XDocument.Parse(contents);
             var responseXml = xml.Element("nicovideo_thumb_response");
-            if (responseXml.Attribute("status").Value != "ok")
+            if (responseXml?.Attribute("status")?.Value != "ok")
                 return;
 
             var thumbnailUrl = responseXml.Element("thumb").Element("thumbnail_url").Value;

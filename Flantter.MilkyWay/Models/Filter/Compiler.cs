@@ -304,7 +304,7 @@ namespace Flantter.MilkyWay.Models.Filter
                             if (++strPos >= filter.Length || filter[strPos] != '=')
                                 throw new FilterCompileException(
                                     FilterCompileException.ErrorCode.EqualMustUseWithOtherTokens,
-                                    "'=' must use with other tokens", null, "");
+                                    "'=' must use with other tokens", null);
 
                             yield return new Token(Token.TokenId.Equal, strPos++ - 1);
                             break;
@@ -373,7 +373,7 @@ namespace Flantter.MilkyWay.Models.Filter
                             if (++strPos >= filter.Length || filter[strPos] != '&')
                                 throw new FilterCompileException(
                                     FilterCompileException.ErrorCode.AndMustUseWithOtherTokens,
-                                    "'&' must use with other tokens", null, "");
+                                    "'&' must use with other tokens", null);
                             else
                                 yield return new Token(Token.TokenId.And, strPos++ - 1);
 
@@ -383,7 +383,7 @@ namespace Flantter.MilkyWay.Models.Filter
                             if (++strPos >= filter.Length || filter[strPos] != '|')
                                 throw new FilterCompileException(
                                     FilterCompileException.ErrorCode.VerticalBarMustUseWithOtherTokens,
-                                    "'|' must use with other tokens", null, "");
+                                    "'|' must use with other tokens", null);
                             else
                                 yield return new Token(Token.TokenId.Or, strPos++ - 1);
 
@@ -484,7 +484,7 @@ namespace Flantter.MilkyWay.Models.Filter
                     {
                         if (cursor + 1 == filter.Length)
                             throw new FilterCompileException(FilterCompileException.ErrorCode.FilterEndWithBacksrash,
-                                "Filter ends with backsrash", null, "");
+                                "Filter ends with backsrash", null);
                         if (filter[cursor + 1] == '"' || filter[cursor + 1] == '\\')
                             cursor++;
                     }
@@ -497,7 +497,7 @@ namespace Flantter.MilkyWay.Models.Filter
                     cursor++;
                 }
                 throw new FilterCompileException(FilterCompileException.ErrorCode.StringTokenIncomplete,
-                    "string token is incomplete", null, "");
+                    "string token is incomplete", null);
             }
 
             private static string GetFilterNumeric(string filter, ref int cursor)
@@ -636,13 +636,12 @@ namespace Flantter.MilkyWay.Models.Filter
 
         internal class TokenAnalyzer
         {
-            private int _closeBracketCount;
-            private int _openBracketCount;
-
             private readonly ParameterExpression _paramExpr;
             private readonly List<Token> _tempQueue;
 
             private readonly List<Token> _tokenQueue;
+            private int _closeBracketCount;
+            private int _openBracketCount;
 
             public TokenAnalyzer(IEnumerable<Token> tokens, ParameterExpression paramExpr)
             {
@@ -916,7 +915,7 @@ namespace Flantter.MilkyWay.Models.Filter
                     arrayType = "Numeric";
                 else if (_tokenQueue[cursor].Type == Token.TokenId.String)
                     arrayType = "String";
-                
+
                 var arrayExpressionList = new List<Expression>();
 
                 do
@@ -962,10 +961,10 @@ namespace Flantter.MilkyWay.Models.Filter
             private static readonly MethodInfo ContainsMethod = typeof(string).GetMethods("Contains").First();
             private static readonly MethodInfo StartsWithMethod = typeof(string).GetMethods("StartsWith").First();
             private static readonly MethodInfo EndsWithMethod = typeof(string).GetMethods("EndsWith").First();
-
-            public Expression CompiledExpression;
             private readonly List<Token> _polandQueue;
             private readonly List<Token> _tempQueue;
+
+            public Expression CompiledExpression;
 
             public PolandTokenCompiler(IEnumerable<Token> tokens)
             {
@@ -1104,7 +1103,6 @@ namespace Flantter.MilkyWay.Models.Filter
                     throw new FilterCompileException(FilterCompileException.ErrorCode.WrongOperation, "Wrong operation",
                         null);
 
-                Expression expressionResult;
                 Expression frontExpression;
 
                 switch (frontToken.Type)
@@ -1123,7 +1121,8 @@ namespace Flantter.MilkyWay.Models.Filter
                             "Wrong operation", null);
                 }
 
-                expressionResult = Expression.Equal(frontExpression, Expression.Constant(false, typeof(bool)));
+                Expression expressionResult =
+                    Expression.Equal(frontExpression, Expression.Constant(false, typeof(bool)));
 
                 _tempQueue.Remove(frontToken);
                 _tempQueue.Add(new Token {Pos = -1, Type = Token.TokenId.ExpressionParam, Value = expressionResult});
@@ -1145,8 +1144,8 @@ namespace Flantter.MilkyWay.Models.Filter
                         null);
 
                 Expression expressionResult = null;
-                Expression backExpression = null;
-                Expression frontExpression = null;
+                Expression backExpression;
+                Expression frontExpression;
 
                 switch (backToken.Type)
                 {

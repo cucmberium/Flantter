@@ -23,30 +23,27 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             CreatedAt = cStatus.CreatedAt.DateTime;
             Entities = new Entities(cStatus.ExtendedTweet?.Entities ?? cStatus.Entities,
                 cStatus.ExtendedTweet?.ExtendedEntities ?? cStatus.ExtendedEntities);
-            FavoriteCount = cStatus.FavoriteCount.HasValue ? cStatus.FavoriteCount.Value : 0;
-            RetweetCount = cStatus.RetweetCount.HasValue ? cStatus.RetweetCount.Value : 0;
-            InReplyToStatusId = cStatus.InReplyToStatusId.HasValue ? cStatus.InReplyToStatusId.Value : 0;
+            FavoriteCount = cStatus.FavoriteCount ?? 0;
+            RetweetCount = cStatus.RetweetCount ?? 0;
+            InReplyToStatusId = cStatus.InReplyToStatusId ?? 0;
             InReplyToScreenName = cStatus.InReplyToScreenName;
-            InReplyToUserId = cStatus.InReplyToUserId.HasValue ? cStatus.InReplyToUserId.Value : 0;
+            InReplyToUserId = cStatus.InReplyToUserId ?? 0;
             Id = cStatus.Id;
             Text = cStatus.ExtendedTweet?.FullText ?? cStatus.FullText ?? cStatus.Text;
             User = cStatus.User != null ? new User(cStatus.User) : null;
-            IsFavorited = cStatus.IsFavorited.HasValue ? cStatus.IsFavorited.Value : false;
-            IsRetweeted = cStatus.IsRetweeted.HasValue ? cStatus.IsRetweeted.Value : false;
+            IsFavorited = cStatus.IsFavorited ?? false;
+            IsRetweeted = cStatus.IsRetweeted ?? false;
             RetweetInformation = cOrigStatus.RetweetedStatus != null ? new RetweetInformation(cOrigStatus) : null;
             HasRetweetInformation = cOrigStatus.RetweetedStatus != null;
             MentionStatus = null;
-            QuotedStatus = cStatus.QuotedStatus != null && cStatus.QuotedStatus.User != null
+            QuotedStatus = cStatus.QuotedStatus?.User != null
                 ? new Status(cStatus.QuotedStatus)
                 : null;
             QuotedStatusId = cStatus.QuotedStatusId.HasValue && QuotedStatus != null ? cStatus.QuotedStatusId.Value : 0;
             Url = "https://twitter.com/" + cStatus.User.ScreenName + "/status/" + cStatus.Id;
 
             var sourceMatch = SourceRegex.Match(cStatus.Source);
-            if (sourceMatch.Success)
-                Source = sourceMatch.Groups[1].Value;
-            else
-                Source = cStatus.Source;
+            Source = sourceMatch.Success ? sourceMatch.Groups[1].Value : cStatus.Source;
         }
 
         public Status(Mastonet.Entities.Status cOrigStatus)
@@ -59,14 +56,14 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Entities = new Entities(cStatus.MediaAttachments, cStatus.Mentions, cStatus.Tags, cStatus.Content);
             FavoriteCount = cStatus.FavouritesCount;
             RetweetCount = cStatus.ReblogCount;
-            InReplyToStatusId = cStatus.InReplyToId.HasValue ? cStatus.InReplyToId.Value : 0;
+            InReplyToStatusId = cStatus.InReplyToId ?? 0;
             InReplyToScreenName = "";
-            InReplyToUserId = cStatus.InReplyToAccountId.HasValue ? cStatus.InReplyToAccountId.Value : 0;
+            InReplyToUserId = cStatus.InReplyToAccountId ?? 0;
             Id = cStatus.Id;
             Text = ContentRegex.Replace(LinkRegex.Replace(cStatus.Content.Replace("<br />", "\n"), x => " " + x.Groups[2].Value + " "), "").Trim();
             User = cStatus.Account != null ? new User(cStatus.Account) : null;
-            IsFavorited = cStatus.Favourited.HasValue ? cStatus.Favourited.Value : false;
-            IsRetweeted = cStatus.Reblogged.HasValue ? cStatus.Reblogged.Value : false;
+            IsFavorited = cStatus.Favourited ?? false;
+            IsRetweeted = cStatus.Reblogged ?? false;
             RetweetInformation = cOrigStatus.Reblog != null ? new RetweetInformation(cOrigStatus) : null;
             HasRetweetInformation = cOrigStatus.Reblog != null;
             MentionStatus = null;

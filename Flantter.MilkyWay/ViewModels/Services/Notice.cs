@@ -1,6 +1,4 @@
-﻿using System.Reactive.Concurrency;
-using System.Threading;
-using Flantter.MilkyWay.Views.Util;
+﻿using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 
 namespace Flantter.MilkyWay.ViewModels.Services
@@ -52,7 +50,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             AddListColumnCommand = new ReactiveCommand();
             AddFilterColumnCommand = new ReactiveCommand();
             AddCollectionColumnCommand = new ReactiveCommand();
-            
+
             TweetAreaDeletePictureCommand = new ReactiveCommand();
             TweetAreaOpenCommand = new ReactiveCommand();
 
@@ -171,7 +169,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand AddListColumnCommand { get; }
         public ReactiveCommand AddFilterColumnCommand { get; }
         public ReactiveCommand AddCollectionColumnCommand { get; }
-        
+
         public ReactiveCommand TweetAreaDeletePictureCommand { get; }
         public ReactiveCommand TweetAreaOpenCommand { get; }
 

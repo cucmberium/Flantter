@@ -171,8 +171,7 @@ namespace Flantter.MilkyWay.ViewModels
                 .Subscribe(async _ =>
                 {
                     var id = Model.Tweets.Last().Id;
-                    var status = Model.Tweets.Last() as Status;
-                    if (status != null && status.HasRetweetInformation)
+                    if (Model.Tweets.Last() is Status status && status.HasRetweetInformation)
                         id = status.RetweetInformation.Id;
 
                     await Model.Update(id);

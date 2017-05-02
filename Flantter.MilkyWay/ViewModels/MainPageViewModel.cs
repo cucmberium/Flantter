@@ -151,10 +151,7 @@ namespace Flantter.MilkyWay.ViewModels
                     bool isOpen;
                     if (!(x is bool))
                         isOpen = !AppBarIsOpen.Value;
-                    else if (x == null)
-                        isOpen = !AppBarIsOpen.Value;
-                    else
-                        isOpen = (bool) x;
+                    else isOpen = (bool) x;
 
                     AppBarIsOpen.Value = isOpen;
                 });
@@ -212,14 +209,12 @@ namespace Flantter.MilkyWay.ViewModels
             Notice.Instance.OpenCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
-                    var column = x as ColumnModel;
-                    if (column != null)
+                    if (x is ColumnModel column)
                         await Launcher.LaunchUriAsync(
                             new Uri("https://twitter.com/" + column.ScreenName + "/timelines/" +
                                     column.Parameter.ToString().Replace("custom-", "")));
 
-                    var collection = x as Collection;
-                    if (collection != null)
+                    if (x is Collection collection)
                         await Launcher.LaunchUriAsync(new Uri("https://twitter.com/" + collection.User.ScreenName +
                                                               "/timelines/" +
                                                               collection.Id.ToString().Replace("custom-", "")));
@@ -232,11 +227,13 @@ namespace Flantter.MilkyWay.ViewModels
                     if (status == null)
                         return;
 
-                    var notification = new ShareDataNotification();
-                    notification.Title = "@" + status.User.ScreenName;
-                    notification.Description = status.Text;
-                    notification.Url = status.Url;
-                    notification.Text = status.Text;
+                    var notification = new ShareDataNotification
+                    {
+                        Title = "@" + status.User.ScreenName,
+                        Description = status.Text,
+                        Url = status.Url,
+                        Text = status.Text
+                    };
                     ShowShareUIMessenger.Raise(notification);
                 });
 
@@ -900,13 +897,7 @@ namespace Flantter.MilkyWay.ViewModels
             foreach (var account in Accounts)
                 account.IsTweetEnabled.Value = account.Model.IsEnabled;
         }
-
-        public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState,
-            bool suspending)
-        {
-            base.OnNavigatingFrom(e, viewModelState, suspending);
-        }
-
+        
         private void Application_Suspending(object sender, object e)
         {
             Debug.WriteLine("Suspending...");

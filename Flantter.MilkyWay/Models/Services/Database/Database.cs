@@ -1,17 +1,17 @@
-﻿using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Setting;
-using Newtonsoft.Json;
-using SQLite.Net;
-using SQLite.Net.Attributes;
-using SQLite.Net.Interop;
-using SQLite.Net.Platform.WinRT;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Windows.Storage;
+using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Setting;
+using Newtonsoft.Json;
+using SQLite.Net;
+using SQLite.Net.Attributes;
+using SQLite.Net.Interop;
+using SQLite.Net.Platform.WinRT;
 
 namespace Flantter.MilkyWay.Models.Services.Database
 {
@@ -42,8 +42,6 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 .SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(_ =>
                 {
-                    //var stopWatch = System.Diagnostics.Stopwatch.StartNew();
-
                     using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
                     {
                         db.BeginTransaction();
@@ -78,9 +76,6 @@ namespace Flantter.MilkyWay.Models.Services.Database
 
                         db.Commit();
                     }
-
-                    //stopWatch.Stop();
-                    //System.Diagnostics.Debug.WriteLine(stopWatch.ElapsedMilliseconds);
                 });
         }
 

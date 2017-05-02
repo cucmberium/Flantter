@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
@@ -18,7 +18,6 @@ using Flantter.MilkyWay.ViewModels.Services;
 using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System.Collections.Generic;
 
 namespace Flantter.MilkyWay.ViewModels.ShareContract
 {
@@ -41,8 +40,16 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
 
             if (IsEnableShareOperation.Value)
             {
-                Accounts = new ReactiveCollection<ShareAccountViewModel>(AdvancedSettingService.AdvancedSetting.Accounts.Select(x => new ShareAccountViewModel { AccountSetting = new ReactiveProperty<AccountSetting>(x), IsTweetEnabled = new ReactiveProperty<bool>(x.IsEnabled) }).ToObservable(), uiThreadScheduler);
-                SelectedAccounts = Accounts.ObserveElementObservableProperty(x => x.IsTweetEnabled).Select(y => Accounts.Where(z => z.IsTweetEnabled.Value)).ToReactiveProperty(uiThreadScheduler);
+                Accounts = new ReactiveCollection<ShareAccountViewModel>(
+                    AdvancedSettingService.AdvancedSetting.Accounts.Select(x => new ShareAccountViewModel
+                        {
+                            AccountSetting = new ReactiveProperty<AccountSetting>(x),
+                            IsTweetEnabled = new ReactiveProperty<bool>(x.IsEnabled)
+                        })
+                        .ToObservable(), uiThreadScheduler);
+                SelectedAccounts = Accounts.ObserveElementObservableProperty(x => x.IsTweetEnabled)
+                    .Select(y => Accounts.Where(z => z.IsTweetEnabled.Value))
+                    .ToReactiveProperty(uiThreadScheduler);
             }
             else
             {
@@ -167,8 +174,7 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
 
                         var bitmap = new BitmapImage();
 
-                        var stream = thumbnailTask.Result as IRandomAccessStream;
-                        if (stream != null)
+                        if (thumbnailTask.Result is IRandomAccessStream stream)
                             bitmap.SetSource(stream);
 
                         return (ImageSource) bitmap;

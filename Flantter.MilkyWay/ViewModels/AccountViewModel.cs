@@ -511,16 +511,10 @@ namespace Flantter.MilkyWay.ViewModels
                 .Where(_ => Model.IsEnabled)
                 .Subscribe(async x =>
                 {
-                    if (x is Status)
-                    {
-                        var status = x as Status;
+                    if (x is Status status)
                         await Model.DestroyStatus(status.Id);
-                    }
-                    else if (x is DirectMessage)
-                    {
-                        var directMessage = x as DirectMessage;
+                    else if (x is DirectMessage directMessage)
                         await Model.DestroyDirectMessage(directMessage.Id);
-                    }
 
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
                         _resourceLoader.GetString("Notification_System_ClearColumn"));
@@ -968,8 +962,6 @@ namespace Flantter.MilkyWay.ViewModels
                     bool isOpen;
                     if (!(x is bool))
                         isOpen = true;
-                    else if (x == null)
-                        isOpen = true;
                     else
                         isOpen = (bool) x;
 
@@ -1149,7 +1141,7 @@ namespace Flantter.MilkyWay.ViewModels
                     if (columnIndex >= Columns.Count - 1)
                         return;
 
-                    if (!Columns.Any(y => y.Index.Value == columnIndex + 1))
+                    if (Columns.All(y => y.Index.Value != columnIndex + 1))
                         return;
 
                     ColumnSelectedIndex.Value = Columns.IndexOf(Columns.First(y => y.Index.Value == columnIndex + 1));
@@ -1165,7 +1157,7 @@ namespace Flantter.MilkyWay.ViewModels
                     if (columnIndex <= 0)
                         return;
 
-                    if (!Columns.Any(y => y.Index.Value == columnIndex - 1))
+                    if (Columns.All(y => y.Index.Value != columnIndex - 1))
                         return;
 
                     ColumnSelectedIndex.Value = Columns.IndexOf(Columns.First(y => y.Index.Value == columnIndex - 1));

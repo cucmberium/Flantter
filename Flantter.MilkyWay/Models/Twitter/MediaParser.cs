@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using CoreTweet;
 using Flantter.MilkyWay.Common;
 using UrlEntity = Flantter.MilkyWay.Models.Twitter.Objects.UrlEntity;
 
@@ -517,10 +518,8 @@ namespace Flantter.MilkyWay.Models.Twitter
                 foreach (var media in cExtendedEntities.Media)
                     if (media.Type == "animated_gif" || media.Type == "video")
                     {
-                        CoreTweet.VideoVariant variant;
-
                         var variants = media.VideoInfo.Variants.Where(x => x.ContentType == "video/mp4");
-                        variant = !variants.Any() ? media.VideoInfo.Variants.First() : variants.FindMax(x => x.Bitrate ?? 0);
+                        var variant = !variants.Any() ? media.VideoInfo.Variants.First() : variants.FindMax(x => x.Bitrate ?? 0);
 
                         yield return new Media
                         {

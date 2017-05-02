@@ -19,13 +19,13 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             FavouritesCount = cUser.FavouritesCount;
             FollowersCount = cUser.FollowersCount;
             FriendsCount = cUser.FriendsCount;
-            Id = cUser.Id.HasValue ? cUser.Id.Value : 0;
-            IsFollowRequestSent = cUser.IsFollowRequestSent.HasValue ? cUser.IsFollowRequestSent.Value : false;
-            IsMuting = cUser.IsMuting.HasValue ? cUser.IsMuting.Value : false;
+            Id = cUser.Id ?? 0;
+            IsFollowRequestSent = cUser.IsFollowRequestSent ?? false;
+            IsMuting = cUser.IsMuting ?? false;
             IsProtected = cUser.IsProtected;
             IsVerified = cUser.IsVerified;
             Language = cUser.Language;
-            ListedCount = cUser.ListedCount.HasValue ? cUser.ListedCount.Value : 0;
+            ListedCount = cUser.ListedCount ?? 0;
             Location = cUser.Location;
             Name = cUser.Name;
             ProfileBackgroundColor = cUser.ProfileBackgroundColor;

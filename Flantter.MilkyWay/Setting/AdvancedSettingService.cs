@@ -393,7 +393,7 @@ namespace Flantter.MilkyWay.Setting
             {
                 try
                 {
-                    var json = string.Empty;
+                    string json;
 
                     var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
                     using (var s = await readStorageFile.OpenStreamForReadAsync())

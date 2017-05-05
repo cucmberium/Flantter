@@ -31,6 +31,8 @@ namespace Flantter.MilkyWay
             UnhandledException += App_UnhandledException;
             Suspending += App_Suspending;
             Resuming += App_Resuming;
+
+            RequestedTheme = (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), SettingService.Setting.Theme.ToString(), true);
         }
 
         private void App_Suspending(object sender, SuspendingEventArgs e)
@@ -48,9 +50,11 @@ namespace Flantter.MilkyWay
             try
             {
                 var trigger = new TimeTrigger(15, false);
-                var taskBuilder = new BackgroundTaskBuilder();
-                taskBuilder.Name = "Flantter_BackgroundTask";
-                taskBuilder.TaskEntryPoint = "Flantter.MilkyWay.BackgroundTask.BackgroundWorker";
+                var taskBuilder = new BackgroundTaskBuilder
+                {
+                    Name = "Flantter_BackgroundTask",
+                    TaskEntryPoint = "Flantter.MilkyWay.BackgroundTask.BackgroundWorker"
+                };
                 taskBuilder.SetTrigger(trigger);
                 taskBuilder.Register();
             }

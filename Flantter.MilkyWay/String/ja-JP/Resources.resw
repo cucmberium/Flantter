@@ -1057,4 +1057,7 @@
   <data name="SettingsFlyout_Settings_Display_ShowHighQualityImageResolution_ToggleSwitch.Header" xml:space="preserve">
     <value>高画質なサムネイルを表示する</value>
   </data>
+  <data name="SettingsFlyout_Setting_Display_Theme_ChangeWarning" xml:space="preserve">
+    <value>テーマの設定は再起動後に有効になります</value>
+  </data>
 </root>

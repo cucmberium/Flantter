@@ -37,7 +37,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (status == null)
                 try
                 {
-                    status = await Tokens.Statuses.ShowAsync(id => _statusId, tweet_mode => CoreTweet.TweetMode.extended);
+                    status = await Tokens.Statuses.ShowAsync(id => _statusId, tweet_mode => CoreTweet.TweetMode.Extended);
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
                         new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
                 }

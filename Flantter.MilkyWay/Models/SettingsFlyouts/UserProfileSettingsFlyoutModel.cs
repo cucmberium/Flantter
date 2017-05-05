@@ -128,7 +128,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {"count", 20},
                     {"include_entities", true},
                     {"screen_name", _screenName},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
@@ -185,7 +185,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {"count", 20},
                     {"include_entities", true},
                     {"screen_name", _screenName},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
@@ -246,7 +246,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {"count", 20},
                     {"include_entities", true},
                     {"screen_name", _screenName},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (useCursor && _followersCursor != 0)
                     param.Add("cursor", _followersCursor);
@@ -292,7 +292,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {"count", 20},
                     {"include_entities", true},
                     {"screen_name", _screenName},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (useCursor && _followingCursor != 0)
                     param.Add("cursor", _followingCursor);

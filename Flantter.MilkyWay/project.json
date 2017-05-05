@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "CoreTweet": "0.7.2.352",
+    "CoreTweet": "0.8.0.384",
     "HockeySDK.UWP": "4.1.6",
     "jint": "2.10.4",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",

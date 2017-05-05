@@ -451,7 +451,7 @@ namespace Flantter.MilkyWay.Models
                 {
                     {"count", ColumnSetting.FetchingNumberOfTweet},
                     {"include_entities", true},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
@@ -502,7 +502,7 @@ namespace Flantter.MilkyWay.Models
                 {
                     {"count", ColumnSetting.FetchingNumberOfTweet},
                     {"include_entities", true},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
@@ -601,7 +601,7 @@ namespace Flantter.MilkyWay.Models
                 {
                     {"count", ColumnSetting.FetchingNumberOfTweet},
                     {"include_entities", true},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
@@ -653,7 +653,7 @@ namespace Flantter.MilkyWay.Models
                     {"count", ColumnSetting.FetchingNumberOfTweet},
                     {"include_entities", true},
                     {"list_id", long.Parse(_parameter)},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
@@ -711,7 +711,7 @@ namespace Flantter.MilkyWay.Models
                         {"count", ColumnSetting.FetchingNumberOfTweet},
                         {"result_type", "recent"},
                         {"modules", "status"},
-                        {"tweet_mode", CoreTweet.TweetMode.extended}
+                        {"tweet_mode", CoreTweet.TweetMode.Extended}
                     };
                     if (maxid != 0)
                         param["q"] = param["q"] + " max_id:" + maxid;
@@ -740,7 +740,7 @@ namespace Flantter.MilkyWay.Models
                         {"count", ColumnSetting.FetchingNumberOfTweet},
                         {"include_entities", true},
                         {"q", _parameter},
-                        {"tweet_mode", CoreTweet.TweetMode.extended}
+                        {"tweet_mode", CoreTweet.TweetMode.Extended}
                     };
                     if (maxid != 0)
                         param.Add("max_id", maxid);
@@ -794,7 +794,7 @@ namespace Flantter.MilkyWay.Models
                     {"count", ColumnSetting.FetchingNumberOfTweet},
                     {"include_entities", true},
                     {"user_id", long.Parse(_parameter)},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
@@ -847,7 +847,7 @@ namespace Flantter.MilkyWay.Models
                     {
                         {"count", ColumnSetting.FetchingNumberOfTweet},
                         {"include_entities", true},
-                        {"tweet_mode", CoreTweet.TweetMode.extended}
+                        {"tweet_mode", CoreTweet.TweetMode.Extended}
                     };
                     if (maxid != 0)
                         param.Add("max_id", maxid);
@@ -907,7 +907,7 @@ namespace Flantter.MilkyWay.Models
                     {
                         {"count", ColumnSetting.FetchingNumberOfTweet},
                         {"include_entities", true},
-                        {"tweet_mode", CoreTweet.TweetMode.extended},
+                        {"tweet_mode", CoreTweet.TweetMode.Extended},
                         {"id", Parameter}
                     };
                     if (maxposition != 0)

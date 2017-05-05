@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.ApplicationModel.Resources;
 using Windows.Globalization;
+using Windows.UI.Popups;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Services.Database;
 using Flantter.MilkyWay.Themes;
@@ -434,6 +436,14 @@ namespace Flantter.MilkyWay.Setting
             get => (SettingSupport.ThemeEnum) GetValue(1);
             set
             {
+                if (GetValue(1) != (int)value)
+                {
+                    // Todo : 禁忌
+                    new MessageDialog(
+                        new ResourceLoader().GetString("SettingsFlyout_Setting_Display_Theme_ChangeWarning"),
+                        "Setting").ShowAsync();
+                }
+
                 SetValue((int) value);
                 OnPropertyChanged();
                 ThemeService.Theme.ChangeTheme();

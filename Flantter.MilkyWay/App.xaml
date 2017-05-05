@@ -6,14 +6,13 @@
     xmlns:setting="using:Flantter.MilkyWay.Setting"
     xmlns:notice="using:Flantter.MilkyWay.ViewModels.Services"
     xmlns:converters="using:Flantter.MilkyWay.Views.Converters"
-    xmlns:prism="using:Prism.Windows"
-    RequestedTheme="Dark">
+    xmlns:prism="using:Prism.Windows">
     
     <prism:PrismApplication.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Dark" Source="ms-appx:///Themes/Skins/Default.xaml" />
-                <ResourceDictionary x:Key="Light" Source="ms-appx:///Themes/Skins/Default.xaml" />
+                <ResourceDictionary x:Key="Dark" Source="ms-appx:///Themes/Skins/Dark.xaml" />
+                <ResourceDictionary x:Key="Light" Source="ms-appx:///Themes/Skins/Light.xaml" />
             </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Themes/Style.xaml" />

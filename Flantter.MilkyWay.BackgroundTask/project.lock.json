@@ -2,7 +2,7 @@
   "version": 2,
   "targets": {
     "UAP,Version=v10.0": {
-      "CoreTweet/0.7.2.352": {
+      "CoreTweet/0.8.0.384": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -2473,7 +2473,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
-      "CoreTweet/0.7.2.352": {
+      "CoreTweet/0.8.0.384": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -4974,7 +4974,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
-      "CoreTweet/0.7.2.352": {
+      "CoreTweet/0.8.0.384": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -7514,7 +7514,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
-      "CoreTweet/0.7.2.352": {
+      "CoreTweet/0.8.0.384": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -10024,7 +10024,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
-      "CoreTweet/0.7.2.352": {
+      "CoreTweet/0.8.0.384": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -12573,7 +12573,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
-      "CoreTweet/0.7.2.352": {
+      "CoreTweet/0.8.0.384": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -15083,7 +15083,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
-      "CoreTweet/0.7.2.352": {
+      "CoreTweet/0.8.0.384": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1"
@@ -17633,13 +17633,13 @@
     }
   },
   "libraries": {
-    "CoreTweet/0.7.2.352": {
-      "sha512": "BA24Ct4MKpw162edo/6+eqKLS8k5DUD4w3oxBGC77DYmHVf9Dw7PVbi5sgSa7YyBUb9EzPZgE3DdBv7hyt0b/Q==",
+    "CoreTweet/0.8.0.384": {
+      "sha512": "BOBI4RX3yI0/jFrRBobPX33H/kr7ql1GR/hQtavNj4KmsV7aKY0qhB8WBWsoKa0L+WF5Ti0Y1d6OL5v4gXGZZA==",
       "type": "package",
-      "path": "coretweet/0.7.2.352",
+      "path": "coretweet/0.8.0.384",
       "files": [
-        "CoreTweet.0.7.2.352.nupkg.sha512",
-        "CoreTweet.nuspec",
+        "coretweet.0.8.0.384.nupkg.sha512",
+        "coretweet.nuspec",
         "lib/monoandroid10/CoreTweet.dll",
         "lib/monoandroid10/CoreTweet.xml",
         "lib/monotouch10/CoreTweet.dll",
@@ -26406,7 +26406,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "CoreTweet >= 0.7.2.352",
+      "CoreTweet >= 0.8.0.384",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.3.3",
       "Microsoft.Toolkit.Uwp.Notifications >= 1.4.1",
       "Newtonsoft.Json >= 10.0.2"
@@ -26425,7 +26425,7 @@
       "projectStyle": "ProjectJson"
     },
     "dependencies": {
-      "CoreTweet": "0.7.2.352",
+      "CoreTweet": "0.8.0.384",
       "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
       "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
       "Newtonsoft.Json": "10.0.2"

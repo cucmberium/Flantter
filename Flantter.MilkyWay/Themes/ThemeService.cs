@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -16,48 +15,11 @@ namespace Flantter.MilkyWay.Themes
     {
         private static ThemeService _instance;
 
-        private readonly List<string> _supportedThemeNames = new List<string>
-        {
-            "Dark",
-            "Light",
-            "Custom"
-        };
-
-        private ResourceDictionary _darkResourceDictionary;
-
-        private ResourceDictionary _lightResourceDictionary;
-
         private string _themeString;
 
         private ThemeService()
         {
             ThemeString = SettingService.Setting.Theme.ToString();
-        }
-
-        public ResourceDictionary DarkResourceDictionary
-        {
-            get
-            {
-                if (_darkResourceDictionary != null)
-                    return _darkResourceDictionary;
-
-                _darkResourceDictionary =
-                    new ResourceDictionary {Source = new Uri("ms-appx:///Themes/Skins/Dark.xaml", UriKind.Absolute)};
-                return _darkResourceDictionary;
-            }
-        }
-
-        public ResourceDictionary LightResourceDictionary
-        {
-            get
-            {
-                if (_lightResourceDictionary != null)
-                    return _lightResourceDictionary;
-
-                _lightResourceDictionary =
-                    new ResourceDictionary {Source = new Uri("ms-appx:///Themes/Skins/Light.xaml", UriKind.Absolute)};
-                return _lightResourceDictionary;
-            }
         }
 
         public string ThemeString
@@ -84,59 +46,26 @@ namespace Flantter.MilkyWay.Themes
 
         public async void ChangeTheme()
         {
-            ResourceDictionary baseThemeResourceDictionary;
             ResourceDictionary customThemeResourceDictionary = null;
-            var baseThemeName = SettingService.Setting.Theme.ToString();
             if (SettingService.Setting.UseCustomTheme &&
                 !string.IsNullOrWhiteSpace(SettingService.Setting.CustomThemePath))
+            {
                 try
                 {
                     var theme = await ApplicationData.Current.LocalFolder.GetFileAsync("Theme.xaml");
                     var read = await FileIO.ReadTextAsync(theme);
                     var obj = XamlReader.Load(read);
                     customThemeResourceDictionary = obj as ResourceDictionary;
-                    baseThemeName = customThemeResourceDictionary["BaseThemeString"] as string;
                 }
                 catch
                 {
                 }
-            else
-                baseThemeName = _supportedThemeNames.Contains(baseThemeName) ? baseThemeName : "Dark";
-
-            switch (baseThemeName)
-            {
-                case "Dark":
-                    baseThemeResourceDictionary = DarkResourceDictionary;
-                    break;
-                case "Light":
-                    baseThemeResourceDictionary = LightResourceDictionary;
-                    break;
-                default:
-                    throw new ArgumentException();
             }
-
-            //Application.Current.Resources.ThemeDictionaries["Dark"] = baseThemeResourceDictionary;
-            var targetResourceDictionary =
-                Application.Current.Resources.ThemeDictionaries["Dark"] as ResourceDictionary;
+            
+            var targetResourceDictionary = Application.Current.Resources;
             if (targetResourceDictionary == null)
                 return;
 
-            foreach (var pair in baseThemeResourceDictionary)
-            {
-                var key = pair.Key as string;
-                var brush = pair.Value as SolidColorBrush;
-                if (string.IsNullOrWhiteSpace(key) || brush == null || key == "DefaultTextForegroundThemeBrush")
-                    continue;
-
-                try
-                {
-                    ((SolidColorBrush) targetResourceDictionary[key]).Color = brush.Color;
-                }
-                catch
-                {
-                    Debug.WriteLine(key);
-                }
-            }
             if (customThemeResourceDictionary != null)
                 foreach (var pair in customThemeResourceDictionary)
                 {
@@ -156,13 +85,12 @@ namespace Flantter.MilkyWay.Themes
                 }
             ChangeBackgroundAlpha();
 
-            ThemeString = customThemeResourceDictionary == null ? baseThemeName : "Custom";
+            ThemeString = customThemeResourceDictionary == null ? SettingService.Setting.Theme.ToString() : "Custom";
         }
 
         public void ChangeBackgroundAlpha()
         {
-            var targetResourceDictionary =
-                Application.Current.Resources.ThemeDictionaries["Dark"] as ResourceDictionary;
+            var targetResourceDictionary = Application.Current.Resources;
             if (targetResourceDictionary == null)
                 return;
 

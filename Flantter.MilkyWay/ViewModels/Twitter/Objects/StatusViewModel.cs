@@ -16,7 +16,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
             // BackgroundBrush
             BackgroundBrush = "Default";
-            CreatedAt = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+            CreatedAt = DateTime.Now.ToString(CultureInfo.CurrentCulture);
             Source = "";
             Text = "";
             ScreenName = "";
@@ -71,7 +71,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else if (status.IsFavorited)
                 BackgroundBrush = "Favorite";
 
-            CreatedAt = status.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
+            CreatedAt = status.CreatedAt.ToLocalTime().ToString(CultureInfo.CurrentCulture);
             Source = status.Source;
             Text = status.Text;
             ScreenName = status.User.ScreenName;
@@ -203,7 +203,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else if (status.User.Id == userId)
                 BackgroundBrush = "MyTweet";
 
-            CreatedAt = status.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
+            CreatedAt = status.CreatedAt.ToLocalTime().ToString(CultureInfo.CurrentCulture);
             Source = status.Source;
             Text = status.Text;
             ScreenName = status.User.ScreenName;
@@ -343,7 +343,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else if (status.User.Id == userId)
                 BackgroundBrush = "MyTweet";
 
-            CreatedAt = status.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
+            CreatedAt = status.CreatedAt.ToLocalTime().ToString(CultureInfo.CurrentCulture);
             Source = status.Source;
             Text = status.Text;
             ScreenName = status.User.ScreenName;

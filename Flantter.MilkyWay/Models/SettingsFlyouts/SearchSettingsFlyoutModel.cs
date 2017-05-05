@@ -73,7 +73,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {"count", 20},
                     {"result_type", "recent"},
                     {"modules", "status"},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
                     param["q"] = param["q"] + " max_id:" + maxid;
@@ -112,7 +112,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {"count", 20},
                     {"include_entities", true},
                     {"q", _statusSearchWords},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
@@ -176,7 +176,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {"count", 20},
                     {"include_entities", true},
                     {"q", _userSearchWords},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (useCursor && _usersCursor != 0)
                     param.Add("page", _usersCursor);

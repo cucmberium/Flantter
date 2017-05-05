@@ -36,7 +36,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 var param = new Dictionary<string, object>
                 {
                     {"count", 20},
-                    {"tweet_mode", CoreTweet.TweetMode.extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);

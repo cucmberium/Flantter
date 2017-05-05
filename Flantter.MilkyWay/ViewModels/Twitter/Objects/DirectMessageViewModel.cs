@@ -19,7 +19,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else if (directMessage.Sender.Id == userId)
                 BackgroundBrush = "MyTweet";
 
-            CreatedAt = directMessage.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
+            CreatedAt = directMessage.CreatedAt.ToLocalTime().ToString(CultureInfo.CurrentCulture);
             Text = directMessage.Text;
             ScreenName = directMessage.Sender.ScreenName;
             Name = directMessage.Sender.Name;
@@ -64,7 +64,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
             BackgroundBrush = "Default";
 
-            CreatedAt = directMessage.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
+            CreatedAt = directMessage.CreatedAt.ToLocalTime().ToString(CultureInfo.CurrentCulture);
             Text = directMessage.Text;
             ScreenName = directMessage.Sender.ScreenName;
             Name = directMessage.Sender.Name;

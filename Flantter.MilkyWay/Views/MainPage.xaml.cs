@@ -33,15 +33,18 @@ namespace Flantter.MilkyWay.Views
         {
             InitializeComponent();
 
-            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-
-
-            Loaded += (s, e) =>
+            var version = (ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion) & 0x00000000FFFF0000L) >> 16;
+            if (version >= 15063)
             {
-                _hostSprite = _compositor.CreateSpriteVisual();
-                UpdateBackgroundBrush(SettingService.Setting.UseTransparentBackground);
-            };
+                _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
+                Loaded += (s, e) =>
+                {
+                    _hostSprite = _compositor.CreateSpriteVisual();
+                    UpdateBackgroundBrush(SettingService.Setting.UseTransparentBackground);
+                };
+            }
+                
             ThemeService.Theme.ChangeTheme();
 
             UpdateTitleBar(WindowSizeHelper.Instance.StatusBarHeight > 0);
@@ -137,7 +140,7 @@ namespace Flantter.MilkyWay.Views
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                 return;
 
-            if (_hostSprite == null)
+            if (_hostSprite == null || _compositor == null)
                 return;
 
             if (isTransparent)
@@ -156,7 +159,7 @@ namespace Flantter.MilkyWay.Views
 
         private void UpdateBackgroundBrushSizeChange()
         {
-            if (_hostSprite != null)
+            if (_hostSprite != null && _compositor != null)
                 _hostSprite.Size = new Vector2(
                     (float) FlantterHostBackgroundCanvas.ActualWidth,
                     (float) FlantterHostBackgroundCanvas.ActualHeight);

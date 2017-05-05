@@ -26,7 +26,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             else if (eventMessage.Type == "Favorite" || eventMessage.Type == "FavoritedRetweet")
                 BackgroundBrush = "Favorite";
 
-            CreatedAt = eventMessage.CreatedAt.ToLocalTime().ToString(CultureInfo.InvariantCulture);
+            CreatedAt = eventMessage.CreatedAt.ToLocalTime().ToString(CultureInfo.CurrentCulture);
             ScreenName = eventMessage.Source.ScreenName;
             Name = eventMessage.Source.Name;
             ProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.Source.ProfileImageUrl)

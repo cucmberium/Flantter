@@ -192,8 +192,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             escapedText = TweetRegexPatterns.ValidUrl.Replace(escapedText, m =>
                 m.Groups[TweetRegexPatterns.ValidUrlGroupBefore] + "<U>" +
-                // # => &sharp; (ハッシュタグで再識別されることを防ぐ)
-                m.Groups[TweetRegexPatterns.ValidUrlGroupUrl].Value.Replace("#", "&sharp;") +
+                // # => &sharp; @ => &at;(ハッシュタグ, メンションで再識別されることを防ぐ)
+                m.Groups[TweetRegexPatterns.ValidUrlGroupUrl].Value.Replace("#", "&sharp;").Replace("@", "&at;") +
                 "<");
 
             escapedText = TweetRegexPatterns.ValidMentionOrList.Replace(escapedText, m =>
@@ -220,8 +220,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     switch (kind)
                     {
                         case 'U':
-                            // "&sharp;" => "#"  ,  "https://" => "" ,  "http://" => "", "www." => ""
+                            // "&sharp;" => "#" , "&at;" => "@" ,  "https://" => "" ,  "http://" => "", "www." => ""
                             var displayUrl = body.Replace("&sharp;", "#")
+                                .Replace("&at;", "@")
                                 .Replace("http://", "")
                                 .Replace("https://", "")
                                 .Replace("www.", "");
@@ -229,7 +230,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                                 displayUrl = displayUrl.Substring(0, 30) + "...";
                             yield return new TextPart
                             {
-                                RawText = body.Replace("&sharp;", "#"),
+                                RawText = body.Replace("&sharp;", "#").Replace("&at;", "@"),
                                 Text = displayUrl,
                                 Type = TextPartType.Url
                             };

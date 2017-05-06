@@ -1,25 +1,1592 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Flantter.MilkyWay.Models.Twitter
 {
+    public static class TldList
+    {
+        public static readonly List<string> GtldList = new List<string>
+        {
+            "삼성",
+            "닷컴",
+            "닷넷",
+            "香格里拉",
+            "餐厅",
+            "食品",
+            "飞利浦",
+            "電訊盈科",
+            "集团",
+            "通販",
+            "购物",
+            "谷歌",
+            "诺基亚",
+            "联通",
+            "网络",
+            "网站",
+            "网店",
+            "网址",
+            "组织机构",
+            "移动",
+            "珠宝",
+            "点看",
+            "游戏",
+            "淡马锡",
+            "机构",
+            "書籍",
+            "时尚",
+            "新闻",
+            "政府",
+            "政务",
+            "手表",
+            "手机",
+            "我爱你",
+            "慈善",
+            "微博",
+            "广东",
+            "工行",
+            "家電",
+            "娱乐",
+            "天主教",
+            "大拿",
+            "大众汽车",
+            "在线",
+            "嘉里大酒店",
+            "嘉里",
+            "商标",
+            "商店",
+            "商城",
+            "公益",
+            "公司",
+            "八卦",
+            "健康",
+            "信息",
+            "佛山",
+            "企业",
+            "中文网",
+            "中信",
+            "世界",
+            "ポイント",
+            "ファッション",
+            "セール",
+            "ストア",
+            "コム",
+            "グーグル",
+            "クラウド",
+            "みんな",
+            "คอม",
+            "संगठन",
+            "नेट",
+            "कॉम",
+            "همراه",
+            "موقع",
+            "موبايلي",
+            "كوم",
+            "كاثوليك",
+            "شبكة",
+            "بيتك",
+            "بازار",
+            "العليان",
+            "ارامكو",
+            "ابوظبي",
+            "קום",
+            "сайт",
+            "рус",
+            "орг",
+            "онлайн",
+            "москва",
+            "ком",
+            "католик",
+            "дети",
+            "zuerich",
+            "zone",
+            "zippo",
+            "zip",
+            "zero",
+            "zara",
+            "zappos",
+            "yun",
+            "youtube",
+            "you",
+            "yokohama",
+            "yoga",
+            "yodobashi",
+            "yandex",
+            "yamaxun",
+            "yahoo",
+            "yachts",
+            "xyz",
+            "xxx",
+            "xperia",
+            "xin",
+            "xihuan",
+            "xfinity",
+            "xerox",
+            "xbox",
+            "wtf",
+            "wtc",
+            "wow",
+            "world",
+            "works",
+            "work",
+            "woodside",
+            "wolterskluwer",
+            "wme",
+            "winners",
+            "wine",
+            "windows",
+            "win",
+            "williamhill",
+            "wiki",
+            "wien",
+            "whoswho",
+            "weir",
+            "weibo",
+            "wedding",
+            "wed",
+            "website",
+            "weber",
+            "webcam",
+            "weatherchannel",
+            "weather",
+            "watches",
+            "watch",
+            "warman",
+            "wanggou",
+            "wang",
+            "walter",
+            "walmart",
+            "wales",
+            "vuelos",
+            "voyage",
+            "voto",
+            "voting",
+            "vote",
+            "volvo",
+            "volkswagen",
+            "vodka",
+            "vlaanderen",
+            "vivo",
+            "viva",
+            "vistaprint",
+            "vista",
+            "vision",
+            "visa",
+            "virgin",
+            "vip",
+            "vin",
+            "villas",
+            "viking",
+            "vig",
+            "video",
+            "viajes",
+            "vet",
+            "versicherung",
+            "vermögensberatung",
+            "vermögensberater",
+            "verisign",
+            "ventures",
+            "vegas",
+            "vanguard",
+            "vana",
+            "vacations",
+            "ups",
+            "uol",
+            "uno",
+            "university",
+            "unicom",
+            "uconnect",
+            "ubs",
+            "ubank",
+            "tvs",
+            "tushu",
+            "tunes",
+            "tui",
+            "tube",
+            "trv",
+            "trust",
+            "travelersinsurance",
+            "travelers",
+            "travelchannel",
+            "travel",
+            "training",
+            "trading",
+            "trade",
+            "toys",
+            "toyota",
+            "town",
+            "tours",
+            "total",
+            "toshiba",
+            "toray",
+            "top",
+            "tools",
+            "tokyo",
+            "today",
+            "tmall",
+            "tkmaxx",
+            "tjx",
+            "tjmaxx",
+            "tirol",
+            "tires",
+            "tips",
+            "tiffany",
+            "tienda",
+            "tickets",
+            "tiaa",
+            "theatre",
+            "theater",
+            "thd",
+            "teva",
+            "tennis",
+            "temasek",
+            "telefonica",
+            "telecity",
+            "tel",
+            "technology",
+            "tech",
+            "team",
+            "tdk",
+            "tci",
+            "taxi",
+            "tax",
+            "tattoo",
+            "tatar",
+            "tatamotors",
+            "target",
+            "taobao",
+            "talk",
+            "taipei",
+            "tab",
+            "systems",
+            "symantec",
+            "sydney",
+            "swiss",
+            "swiftcover",
+            "swatch",
+            "suzuki",
+            "surgery",
+            "surf",
+            "support",
+            "supply",
+            "supplies",
+            "sucks",
+            "style",
+            "study",
+            "studio",
+            "stream",
+            "store",
+            "storage",
+            "stockholm",
+            "stcgroup",
+            "stc",
+            "statoil",
+            "statefarm",
+            "statebank",
+            "starhub",
+            "star",
+            "staples",
+            "stada",
+            "srt",
+            "srl",
+            "spreadbetting",
+            "spot",
+            "spiegel",
+            "space",
+            "soy",
+            "sony",
+            "song",
+            "solutions",
+            "solar",
+            "sohu",
+            "software",
+            "softbank",
+            "social",
+            "soccer",
+            "sncf",
+            "smile",
+            "smart",
+            "sling",
+            "skype",
+            "sky",
+            "skin",
+            "ski",
+            "site",
+            "singles",
+            "sina",
+            "silk",
+            "shriram",
+            "showtime",
+            "show",
+            "shouji",
+            "shopping",
+            "shop",
+            "shoes",
+            "shiksha",
+            "shia",
+            "shell",
+            "shaw",
+            "sharp",
+            "shangrila",
+            "sfr",
+            "sexy",
+            "sex",
+            "sew",
+            "seven",
+            "ses",
+            "services",
+            "sener",
+            "select",
+            "seek",
+            "security",
+            "secure",
+            "seat",
+            "scot",
+            "scor",
+            "scjohnson",
+            "science",
+            "schwarz",
+            "schule",
+            "school",
+            "scholarships",
+            "schmidt",
+            "schaeffler",
+            "scb",
+            "sca",
+            "sbs",
+            "sbi",
+            "saxo",
+            "save",
+            "sas",
+            "sarl",
+            "sapo",
+            "sap",
+            "sanofi",
+            "sandvikcoromant",
+            "sandvik",
+            "samsung",
+            "samsclub",
+            "salon",
+            "sale",
+            "sakura",
+            "safety",
+            "safe",
+            "saarland",
+            "ryukyu",
+            "rwe",
+            "run",
+            "ruhr",
+            "rsvp",
+            "room",
+            "rogers",
+            "rodeo",
+            "rocks",
+            "rocher",
+            "rmit",
+            "rip",
+            "rio",
+            "ril",
+            "rightathome",
+            "ricoh",
+            "richardli",
+            "rich",
+            "rexroth",
+            "reviews",
+            "review",
+            "restaurant",
+            "rest",
+            "republican",
+            "report",
+            "repair",
+            "rentals",
+            "rent",
+            "ren",
+            "reliance",
+            "reit",
+            "reisen",
+            "reise",
+            "rehab",
+            "redumbrella",
+            "redstone",
+            "red",
+            "recipes",
+            "realty",
+            "realtor",
+            "realestate",
+            "read",
+            "raid",
+            "radio",
+            "racing",
+            "qvc",
+            "quest",
+            "quebec",
+            "qpon",
+            "pwc",
+            "pub",
+            "prudential",
+            "pru",
+            "protection",
+            "property",
+            "properties",
+            "promo",
+            "progressive",
+            "prof",
+            "productions",
+            "prod",
+            "pro",
+            "prime",
+            "press",
+            "praxi",
+            "pramerica",
+            "post",
+            "porn",
+            "politie",
+            "poker",
+            "pohl",
+            "pnc",
+            "plus",
+            "plumbing",
+            "playstation",
+            "play",
+            "place",
+            "pizza",
+            "pioneer",
+            "pink",
+            "ping",
+            "pin",
+            "pid",
+            "pictures",
+            "pictet",
+            "pics",
+            "piaget",
+            "physio",
+            "photos",
+            "photography",
+            "photo",
+            "phone",
+            "philips",
+            "pharmacy",
+            "pfizer",
+            "pet",
+            "pccw",
+            "pay",
+            "passagens",
+            "party",
+            "parts",
+            "partners",
+            "pars",
+            "paris",
+            "panerai",
+            "panasonic",
+            "pamperedchef",
+            "page",
+            "ovh",
+            "ott",
+            "otsuka",
+            "osaka",
+            "origins",
+            "orientexpress",
+            "organic",
+            "org",
+            "orange",
+            "oracle",
+            "open",
+            "ooo",
+            "onyourside",
+            "online",
+            "onl",
+            "ong",
+            "one",
+            "omega",
+            "ollo",
+            "oldnavy",
+            "olayangroup",
+            "olayan",
+            "okinawa",
+            "office",
+            "off",
+            "observer",
+            "obi",
+            "nyc",
+            "ntt",
+            "nrw",
+            "nra",
+            "nowtv",
+            "nowruz",
+            "now",
+            "norton",
+            "northwesternmutual",
+            "nokia",
+            "nissay",
+            "nissan",
+            "ninja",
+            "nikon",
+            "nike",
+            "nico",
+            "nhk",
+            "ngo",
+            "nfl",
+            "nexus",
+            "nextdirect",
+            "next",
+            "news",
+            "newholland",
+            "new",
+            "neustar",
+            "network",
+            "netflix",
+            "netbank",
+            "net",
+            "nec",
+            "nba",
+            "navy",
+            "natura",
+            "nationwide",
+            "name",
+            "nagoya",
+            "nadex",
+            "nab",
+            "mutuelle",
+            "mutual",
+            "museum",
+            "mtr",
+            "mtpc",
+            "mtn",
+            "msd",
+            "movistar",
+            "movie",
+            "mov",
+            "motorcycles",
+            "moto",
+            "moscow",
+            "mortgage",
+            "mormon",
+            "mopar",
+            "montblanc",
+            "monster",
+            "money",
+            "monash",
+            "mom",
+            "moi",
+            "moe",
+            "moda",
+            "mobily",
+            "mobile",
+            "mobi",
+            "mma",
+            "mls",
+            "mlb",
+            "mitsubishi",
+            "mit",
+            "mint",
+            "mini",
+            "mil",
+            "microsoft",
+            "miami",
+            "metlife",
+            "meo",
+            "menu",
+            "men",
+            "memorial",
+            "meme",
+            "melbourne",
+            "meet",
+            "media",
+            "med",
+            "mckinsey",
+            "mcdonalds",
+            "mcd",
+            "mba",
+            "mattel",
+            "maserati",
+            "marshalls",
+            "marriott",
+            "markets",
+            "marketing",
+            "market",
+            "mango",
+            "management",
+            "man",
+            "makeup",
+            "maison",
+            "maif",
+            "madrid",
+            "macys",
+            "luxury",
+            "luxe",
+            "lupin",
+            "lundbeck",
+            "ltda",
+            "ltd",
+            "lplfinancial",
+            "lpl",
+            "love",
+            "lotto",
+            "lotte",
+            "london",
+            "lol",
+            "loft",
+            "locus",
+            "locker",
+            "loans",
+            "loan",
+            "lixil",
+            "living",
+            "live",
+            "lipsy",
+            "link",
+            "linde",
+            "lincoln",
+            "limo",
+            "limited",
+            "lilly",
+            "like",
+            "lighting",
+            "lifestyle",
+            "lifeinsurance",
+            "life",
+            "lidl",
+            "liaison",
+            "lgbt",
+            "lexus",
+            "lego",
+            "legal",
+            "lefrak",
+            "leclerc",
+            "lease",
+            "lds",
+            "lawyer",
+            "law",
+            "latrobe",
+            "latino",
+            "lat",
+            "lasalle",
+            "lanxess",
+            "landrover",
+            "land",
+            "lancome",
+            "lancia",
+            "lancaster",
+            "lamer",
+            "lamborghini",
+            "ladbrokes",
+            "lacaixa",
+            "kyoto",
+            "kuokgroup",
+            "kred",
+            "krd",
+            "kpn",
+            "kpmg",
+            "kosher",
+            "komatsu",
+            "koeln",
+            "kiwi",
+            "kitchen",
+            "kindle",
+            "kinder",
+            "kim",
+            "kia",
+            "kfh",
+            "kerryproperties",
+            "kerrylogistics",
+            "kerryhotels",
+            "kddi",
+            "kaufen",
+            "juniper",
+            "juegos",
+            "jprs",
+            "jpmorgan",
+            "joy",
+            "jot",
+            "joburg",
+            "jobs",
+            "jnj",
+            "jmp",
+            "jll",
+            "jlc",
+            "jio",
+            "jewelry",
+            "jetzt",
+            "jeep",
+            "jcp",
+            "jcb",
+            "java",
+            "jaguar",
+            "iwc",
+            "iveco",
+            "itv",
+            "itau",
+            "istanbul",
+            "ist",
+            "ismaili",
+            "iselect",
+            "irish",
+            "ipiranga",
+            "investments",
+            "intuit",
+            "international",
+            "intel",
+            "int",
+            "insure",
+            "insurance",
+            "institute",
+            "ink",
+            "ing",
+            "info",
+            "infiniti",
+            "industries",
+            "immobilien",
+            "immo",
+            "imdb",
+            "imamat",
+            "ikano",
+            "iinet",
+            "ifm",
+            "ieee",
+            "icu",
+            "ice",
+            "icbc",
+            "ibm",
+            "hyundai",
+            "hyatt",
+            "hughes",
+            "htc",
+            "hsbc",
+            "how",
+            "house",
+            "hotmail",
+            "hoteles",
+            "hot",
+            "hosting",
+            "host",
+            "hospital",
+            "horse",
+            "honeywell",
+            "honda",
+            "homesense",
+            "homes",
+            "homegoods",
+            "homedepot",
+            "holiday",
+            "holdings",
+            "hockey",
+            "hkt",
+            "hiv",
+            "hitachi",
+            "hisamitsu",
+            "hiphop",
+            "hgtv",
+            "hermes",
+            "here",
+            "helsinki",
+            "help",
+            "healthcare",
+            "health",
+            "hdfcbank",
+            "hdfc",
+            "hbo",
+            "haus",
+            "hangout",
+            "hamburg",
+            "hair",
+            "guru",
+            "guitars",
+            "guide",
+            "guge",
+            "gucci",
+            "guardian",
+            "group",
+            "gripe",
+            "green",
+            "gratis",
+            "graphics",
+            "grainger",
+            "gov",
+            "got",
+            "gop",
+            "google",
+            "goog",
+            "goodyear",
+            "goodhands",
+            "goo",
+            "golf",
+            "goldpoint",
+            "gold",
+            "godaddy",
+            "gmx",
+            "gmo",
+            "gmbh",
+            "gmail",
+            "globo",
+            "global",
+            "gle",
+            "glass",
+            "glade",
+            "giving",
+            "gives",
+            "gifts",
+            "gift",
+            "ggee",
+            "george",
+            "genting",
+            "gent",
+            "gea",
+            "gdn",
+            "gbiz",
+            "garden",
+            "gap",
+            "games",
+            "game",
+            "gallup",
+            "gallo",
+            "gallery",
+            "gal",
+            "fyi",
+            "futbol",
+            "furniture",
+            "fund",
+            "fun",
+            "fujixerox",
+            "fujitsu",
+            "ftr",
+            "frontier",
+            "frontdoor",
+            "frogans",
+            "frl",
+            "fresenius",
+            "free",
+            "fox",
+            "foundation",
+            "forum",
+            "forsale",
+            "forex",
+            "ford",
+            "football",
+            "foodnetwork",
+            "food",
+            "foo",
+            "fly",
+            "flsmidth",
+            "flowers",
+            "florist",
+            "flir",
+            "flights",
+            "flickr",
+            "fitness",
+            "fit",
+            "fishing",
+            "fish",
+            "firmdale",
+            "firestone",
+            "fire",
+            "financial",
+            "finance",
+            "final",
+            "film",
+            "fido",
+            "fidelity",
+            "fiat",
+            "ferrero",
+            "ferrari",
+            "feedback",
+            "fedex",
+            "fast",
+            "fashion",
+            "farmers",
+            "farm",
+            "fans",
+            "fan",
+            "family",
+            "faith",
+            "fairwinds",
+            "fail",
+            "fage",
+            "extraspace",
+            "express",
+            "exposed",
+            "expert",
+            "exchange",
+            "everbank",
+            "events",
+            "eus",
+            "eurovision",
+            "esurance",
+            "estate",
+            "esq",
+            "erni",
+            "ericsson",
+            "equipment",
+            "epson",
+            "epost",
+            "enterprises",
+            "engineering",
+            "engineer",
+            "energy",
+            "emerck",
+            "email",
+            "education",
+            "edu",
+            "edeka",
+            "eco",
+            "eat",
+            "earth",
+            "dvr",
+            "dvag",
+            "durban",
+            "dupont",
+            "duns",
+            "dunlop",
+            "duck",
+            "dubai",
+            "dtv",
+            "drive",
+            "download",
+            "dot",
+            "doosan",
+            "domains",
+            "doha",
+            "dog",
+            "dodge",
+            "doctor",
+            "docs",
+            "dnp",
+            "diy",
+            "dish",
+            "discover",
+            "discount",
+            "directory",
+            "direct",
+            "digital",
+            "diet",
+            "diamonds",
+            "dhl",
+            "dev",
+            "design",
+            "desi",
+            "dentist",
+            "dental",
+            "democrat",
+            "delta",
+            "deloitte",
+            "dell",
+            "delivery",
+            "degree",
+            "deals",
+            "dealer",
+            "deal",
+            "dds",
+            "dclk",
+            "day",
+            "datsun",
+            "dating",
+            "date",
+            "data",
+            "dance",
+            "dad",
+            "dabur",
+            "cyou",
+            "cymru",
+            "cuisinella",
+            "csc",
+            "cruises",
+            "cruise",
+            "crs",
+            "crown",
+            "cricket",
+            "creditunion",
+            "creditcard",
+            "credit",
+            "courses",
+            "coupons",
+            "coupon",
+            "country",
+            "corsica",
+            "coop",
+            "cool",
+            "cookingchannel",
+            "cooking",
+            "contractors",
+            "contact",
+            "consulting",
+            "construction",
+            "condos",
+            "comsec",
+            "computer",
+            "compare",
+            "company",
+            "community",
+            "commbank",
+            "comcast",
+            "com",
+            "cologne",
+            "college",
+            "coffee",
+            "codes",
+            "coach",
+            "clubmed",
+            "club",
+            "cloud",
+            "clothing",
+            "clinique",
+            "clinic",
+            "click",
+            "cleaning",
+            "claims",
+            "cityeats",
+            "city",
+            "citic",
+            "citi",
+            "citadel",
+            "cisco",
+            "circle",
+            "cipriani",
+            "church",
+            "chrysler",
+            "chrome",
+            "christmas",
+            "chloe",
+            "chintai",
+            "cheap",
+            "chat",
+            "chase",
+            "channel",
+            "chanel",
+            "cfd",
+            "cfa",
+            "cern",
+            "ceo",
+            "center",
+            "ceb",
+            "cbs",
+            "cbre",
+            "cbn",
+            "cba",
+            "catholic",
+            "catering",
+            "cat",
+            "casino",
+            "cash",
+            "caseih",
+            "case",
+            "casa",
+            "cartier",
+            "cars",
+            "careers",
+            "career",
+            "care",
+            "cards",
+            "caravan",
+            "car",
+            "capitalone",
+            "capital",
+            "capetown",
+            "canon",
+            "cancerresearch",
+            "camp",
+            "camera",
+            "cam",
+            "calvinklein",
+            "call",
+            "cal",
+            "cafe",
+            "cab",
+            "bzh",
+            "buzz",
+            "buy",
+            "business",
+            "builders",
+            "build",
+            "bugatti",
+            "budapest",
+            "brussels",
+            "brother",
+            "broker",
+            "broadway",
+            "bridgestone",
+            "bradesco",
+            "box",
+            "boutique",
+            "bot",
+            "boston",
+            "bostik",
+            "bosch",
+            "boots",
+            "booking",
+            "book",
+            "boo",
+            "bond",
+            "bom",
+            "bofa",
+            "boehringer",
+            "boats",
+            "bnpparibas",
+            "bnl",
+            "bmw",
+            "bms",
+            "blue",
+            "bloomberg",
+            "blog",
+            "blockbuster",
+            "blanco",
+            "blackfriday",
+            "black",
+            "biz",
+            "bio",
+            "bingo",
+            "bing",
+            "bike",
+            "bid",
+            "bible",
+            "bharti",
+            "bet",
+            "bestbuy",
+            "best",
+            "berlin",
+            "bentley",
+            "beer",
+            "beauty",
+            "beats",
+            "bcn",
+            "bcg",
+            "bbva",
+            "bbt",
+            "bbc",
+            "bayern",
+            "bauhaus",
+            "basketball",
+            "baseball",
+            "bargains",
+            "barefoot",
+            "barclays",
+            "barclaycard",
+            "barcelona",
+            "bar",
+            "bank",
+            "band",
+            "bananarepublic",
+            "banamex",
+            "baidu",
+            "baby",
+            "azure",
+            "axa",
+            "aws",
+            "avianca",
+            "autos",
+            "auto",
+            "author",
+            "auspost",
+            "audio",
+            "audible",
+            "audi",
+            "auction",
+            "attorney",
+            "athleta",
+            "associates",
+            "asia",
+            "asda",
+            "arte",
+            "art",
+            "arpa",
+            "army",
+            "archi",
+            "aramco",
+            "aquarelle",
+            "apple",
+            "app",
+            "apartments",
+            "aol",
+            "anz",
+            "anquan",
+            "android",
+            "analytics",
+            "amsterdam",
+            "amica",
+            "amfam",
+            "amex",
+            "americanfamily",
+            "americanexpress",
+            "alstom",
+            "alsace",
+            "ally",
+            "allstate",
+            "allfinanz",
+            "alipay",
+            "alibaba",
+            "alfaromeo",
+            "akdn",
+            "airtel",
+            "airforce",
+            "airbus",
+            "aigo",
+            "aig",
+            "agency",
+            "agakhan",
+            "afl",
+            "afamilycompany",
+            "aetna",
+            "aero",
+            "aeg",
+            "adult",
+            "ads",
+            "adac",
+            "actor",
+            "active",
+            "aco",
+            "accountants",
+            "accountant",
+            "accenture",
+            "academy",
+            "abudhabi",
+            "abogado",
+            "able",
+            "abc",
+            "abbvie",
+            "abbott",
+            "abb",
+            "abarth",
+            "aarp",
+            "aaa",
+            "onion"
+        };
+
+        public static readonly List<string> CtldList = new List<string>
+        {
+            "한국",
+            "香港",
+            "澳門",
+            "新加坡",
+            "台灣",
+            "台湾",
+            "中國",
+            "中国",
+            "გე",
+            "ไทย",
+            "ලංකා",
+            "ഭാരതം",
+            "ಭಾರತ",
+            "భారత్",
+            "சிங்கப்பூர்",
+            "இலங்கை",
+            "இந்தியா",
+            "ଭାରତ",
+            "ભારત",
+            "ਭਾਰਤ",
+            "ভাৰত",
+            "ভারত",
+            "বাংলা",
+            "भारोत",
+            "भारतम्",
+            "भारत",
+            "ڀارت",
+            "پاکستان",
+            "مليسيا",
+            "مصر",
+            "قطر",
+            "فلسطين",
+            "عمان",
+            "عراق",
+            "سورية",
+            "سودان",
+            "تونس",
+            "بھارت",
+            "بارت",
+            "ایران",
+            "امارات",
+            "المغرب",
+            "السعودية",
+            "الجزائر",
+            "الاردن",
+            "հայ",
+            "қаз",
+            "укр",
+            "срб",
+            "рф",
+            "мон",
+            "мкд",
+            "ею",
+            "бел",
+            "бг",
+            "ελ",
+            "zw",
+            "zm",
+            "za",
+            "yt",
+            "ye",
+            "ws",
+            "wf",
+            "vu",
+            "vn",
+            "vi",
+            "vg",
+            "ve",
+            "vc",
+            "va",
+            "uz",
+            "uy",
+            "us",
+            "um",
+            "uk",
+            "ug",
+            "ua",
+            "tz",
+            "tw",
+            "tv",
+            "tt",
+            "tr",
+            "tp",
+            "to",
+            "tn",
+            "tm",
+            "tl",
+            "tk",
+            "tj",
+            "th",
+            "tg",
+            "tf",
+            "td",
+            "tc",
+            "sz",
+            "sy",
+            "sx",
+            "sv",
+            "su",
+            "st",
+            "ss",
+            "sr",
+            "so",
+            "sn",
+            "sm",
+            "sl",
+            "sk",
+            "sj",
+            "si",
+            "sh",
+            "sg",
+            "se",
+            "sd",
+            "sc",
+            "sb",
+            "sa",
+            "rw",
+            "ru",
+            "rs",
+            "ro",
+            "re",
+            "qa",
+            "py",
+            "pw",
+            "pt",
+            "ps",
+            "pr",
+            "pn",
+            "pm",
+            "pl",
+            "pk",
+            "ph",
+            "pg",
+            "pf",
+            "pe",
+            "pa",
+            "om",
+            "nz",
+            "nu",
+            "nr",
+            "np",
+            "no",
+            "nl",
+            "ni",
+            "ng",
+            "nf",
+            "ne",
+            "nc",
+            "na",
+            "mz",
+            "my",
+            "mx",
+            "mw",
+            "mv",
+            "mu",
+            "mt",
+            "ms",
+            "mr",
+            "mq",
+            "mp",
+            "mo",
+            "mn",
+            "mm",
+            "ml",
+            "mk",
+            "mh",
+            "mg",
+            "mf",
+            "me",
+            "md",
+            "mc",
+            "ma",
+            "ly",
+            "lv",
+            "lu",
+            "lt",
+            "ls",
+            "lr",
+            "lk",
+            "li",
+            "lc",
+            "lb",
+            "la",
+            "kz",
+            "ky",
+            "kw",
+            "kr",
+            "kp",
+            "kn",
+            "km",
+            "ki",
+            "kh",
+            "kg",
+            "ke",
+            "jp",
+            "jo",
+            "jm",
+            "je",
+            "it",
+            "is",
+            "ir",
+            "iq",
+            "io",
+            "in",
+            "im",
+            "il",
+            "ie",
+            "id",
+            "hu",
+            "ht",
+            "hr",
+            "hn",
+            "hm",
+            "hk",
+            "gy",
+            "gw",
+            "gu",
+            "gt",
+            "gs",
+            "gr",
+            "gq",
+            "gp",
+            "gn",
+            "gm",
+            "gl",
+            "gi",
+            "gh",
+            "gg",
+            "gf",
+            "ge",
+            "gd",
+            "gb",
+            "ga",
+            "fr",
+            "fo",
+            "fm",
+            "fk",
+            "fj",
+            "fi",
+            "eu",
+            "et",
+            "es",
+            "er",
+            "eh",
+            "eg",
+            "ee",
+            "ec",
+            "dz",
+            "do",
+            "dm",
+            "dk",
+            "dj",
+            "de",
+            "cz",
+            "cy",
+            "cx",
+            "cw",
+            "cv",
+            "cu",
+            "cr",
+            "co",
+            "cn",
+            "cm",
+            "cl",
+            "ck",
+            "ci",
+            "ch",
+            "cg",
+            "cf",
+            "cd",
+            "cc",
+            "ca",
+            "bz",
+            "by",
+            "bw",
+            "bv",
+            "bt",
+            "bs",
+            "br",
+            "bq",
+            "bo",
+            "bn",
+            "bm",
+            "bl",
+            "bj",
+            "bi",
+            "bh",
+            "bg",
+            "bf",
+            "be",
+            "bd",
+            "bb",
+            "ba",
+            "az",
+            "ax",
+            "aw",
+            "au",
+            "at",
+            "as",
+            "ar",
+            "aq",
+            "ao",
+            "an",
+            "am",
+            "al",
+            "ai",
+            "ag",
+            "af",
+            "ae",
+            "ad",
+            "ac"
+        };
+    }
+
     public static class TweetRegexPatterns
     {
         private const string AlnumChars = "a-zA-Z0-9";
+
         private const string PunctChars = @"\p{P}\p{S}";
+        
+        private static readonly string UrlValidGtld = "(?:(?:" + string.Join("|", TldList.GtldList) + ")(?=[^" + AlnumChars + "@]|$))";
+
+        private static readonly string UrlValidCctld = "(?:(?:" + string.Join("|", TldList.CtldList) + ")(?=[^" + AlnumChars + "@]|$))";
 
         private const string UnicodeSpace = "[" +
-                                            "\u0009-\u000d" + //  # White_Space # Cc   [5] <control-0009>..<control-000D>
-                                            "\u0020" + // White_Space # Zs       SPACE
-                                            "\u0085" + // White_Space # Cc       <control-0085>
-                                            "\u00a0" + // White_Space # Zs       NO-BREAK SPACE
-                                            "\u1680" + // White_Space # Zs       OGHAM SPACE MARK
-                                            "\u180E" + // White_Space # Zs       MONGOLIAN VOWEL SEPARATOR
-                                            "\u2000-\u200a" + // # White_Space # Zs  [11] EN QUAD..HAIR SPACE
-                                            "\u2028" + // White_Space # Zl       LINE SEPARATOR
-                                            "\u2029" + // White_Space # Zp       PARAGRAPH SEPARATOR
-                                            "\u202F" + // White_Space # Zs       NARROW NO-BREAK SPACE
-                                            "\u205F" + // White_Space # Zs       MEDIUM MATHEMATICAL SPACE
-                                            "\u3000" + // White_Space # Zs       IDEOGRAPHIC SPACE
+                                            "\\u0009-\\u000d" + //  # White_Space # Cc   [5] <control-0009>..<control-000D>
+                                            "\\u0020" + // White_Space # Zs       SPACE
+                                            "\\u0085" + // White_Space # Cc       <control-0085>
+                                            "\\u00a0" + // White_Space # Zs       NO-BREAK SPACE
+                                            "\\u1680" + // White_Space # Zs       OGHAM SPACE MARK
+                                            "\\u180E" + // White_Space # Zs       MONGOLIAN VOWEL SEPARATOR
+                                            "\\u2000-\\u200a" + // # White_Space # Zs  [11] EN QUAD..HAIR SPACE
+                                            "\\u2028" + // White_Space # Zl       LINE SEPARATOR
+                                            "\\u2029" + // White_Space # Zp       PARAGRAPH SEPARATOR
+                                            "\\u202F" + // White_Space # Zs       NARROW NO-BREAK SPACE
+                                            "\\u205F" + // White_Space # Zs       MEDIUM MATHEMATICAL SPACE
+                                            "\\u3000" + // White_Space # Zs       IDEOGRAPHIC SPACE
                                             "]";
 
         private const string LatinAccentsChars = "\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u00ff" + // Latin-1
@@ -29,262 +1596,231 @@ namespace Flantter.MilkyWay.Models.Twitter
                                                  "\\u0300-\\u036f" + // Combining diacritics
                                                  "\\u1e00-\\u1eff"; // Latin Extended Additional (mostly for Vietnamese)
         
-        private const string HashtagAlphaChars = "a-z" + LatinAccentsChars +
-                                                 "\u0400-\u04ff\u0500-\u0527" + // Cyrillic
-                                                 "\u2de0-\u2dff\ua640-\ua69f" + // Cyrillic Extended A/B
-                                                 "\u0591-\u05bf\u05c1-\u05c2\u05c4-\u05c5\u05c7" +
-                                                 "\u05d0-\u05ea\u05f0-\u05f4" + // Hebrew
-                                                 "\ufb1d-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41" +
-                                                 "\ufb43-\ufb44\ufb46-\ufb4f" + // Hebrew Pres. Forms
-                                                 "\u0610-\u061a\u0620-\u065f\u066e-\u06d3\u06d5-\u06dc" +
-                                                 "\u06de-\u06e8\u06ea-\u06ef\u06fa-\u06fc\u06ff" + // Arabic
-                                                 "\u0750-\u077f\u08a0\u08a2-\u08ac\u08e4-\u08fe" + // Arabic Supplement and Extended A
-                                                 "\ufb50-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb" + // Pres. Forms A
-                                                 "\ufe70-\ufe74\ufe76-\ufefc" + // Pres. Forms B
-                                                 "\u200c" + // Zero-Width Non-Joiner
-                                                 "\u0e01-\u0e3a\u0e40-\u0e4e" + // Thai
-                                                 "\u1100-\u11ff\u3130-\u3185\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF" + // Hangul (Korean)
-                                                 "\\p{IsHiragana}\\p{IsKatakana}" + // Japanese Hiragana and Katakana
-                                                 "\\p{IsCJKUnifiedIdeographs}" + // Japanese Kanji / Chinese Han
-                                                 "\u3003\u3005\u303b" + // Kanji/Han iteration marks
-                                                 "\uff21-\uff3a\uff41-\uff5a" + // full width Alphabet
-                                                 "\uff66-\uff9f" + // half width Katakana
-                                                 "\uffa1-\uffdc"; // half width Hangul (Korean)
-  
-        private const string HashtagAlphaNumericChars = "0-9\uff10-\uff19_" + HashtagAlphaChars;
-        private const string HashtagAlpha = "[" + HashtagAlphaChars +"]";
-        private const string HashtagAlphaNumeric = "[" + HashtagAlphaNumericChars + "]";
+        // private const string HashtagLettersAndMarks = "\\p{L}\\p{M}" +
+        //                                               "\\u037f\\u0528-\\u052f\\u08a0-\\u08b2\\u08e4-\\u08ff\\u0978\\u0980\\u0c00\\u0c34\\u0c81\\u0d01" +
+        //                                               "\\u0ede\\u0edf\\u10c7\\u10cd\\u10fd-\\u10ff\\u16f1-\\u16f8\\u17b4\\u17b5\\u191d\\u191e\\u1ab0-" +
+        //                                               "\\u1abe\\u1bab-\\u1bad\\u1bba-\\u1bbf\\u1cf3-\\u1cf6\\u1cf8\\u1cf9\\u1de7-\\u1df5\\u2cf2\\u2cf3" +
+        //                                               "\\u2d27\\u2d2d\\u2d66\\u2d67\\u9fcc\\ua674-\\ua67b\\ua698-\\ua69d\\ua69f\\ua792-\\ua79f\\ua7aa-" +
+        //                                               "\\ua7ad\\ua7b0\\ua7b1\\ua7f7-\\ua7f9\\ua9e0-\\ua9ef\\ua9fa-\\ua9fe\\uaa7c-\\uaa7f\\uaae0-\\uaaef" +
+        //                                               "\\uaaf2-\\uaaf6\\uab30-\\uab5a\\uab5c-\\uab5f\\uab64\\uab65\\uf870-\\uf87f\\uf882\\uf884-\\uf89f" +
+        //                                               "\\uf8b8\\uf8c1-\\uf8d6\\ufa2e\\ufa2f\\ufe27-\\ufe2d\\ud800\\udee0\\ud800\\udf1f\\ud800\\udf50-" +
+        //                                               "\\ud800\\udf7a\\ud801\\udd00-\\ud801\\udd27\\ud801\\udd30-\\ud801\\udd63\\ud801\\ude00-\\ud801" +
+        //                                               "\\udf36\\ud801\\udf40-\\ud801\\udf55\\ud801\\udf60-\\ud801\\udf67\\ud802\\udc60-\\ud802\\udc76" +
+        //                                               "\\ud802\\udc80-\\ud802\\udc9e\\ud802\\udd80-\\ud802\\uddb7\\ud802\\uddbe\\ud802\\uddbf\\ud802" +
+        //                                               "\\ude80-\\ud802\\ude9c\\ud802\\udec0-\\ud802\\udec7\\ud802\\udec9-\\ud802\\udee6\\ud802\\udf80-" +
+        //                                               "\\ud802\\udf91\\ud804\\udc7f\\ud804\\udcd0-\\ud804\\udce8\\ud804\\udd00-\\ud804\\udd34\\ud804" +
+        //                                               "\\udd50-\\ud804\\udd73\\ud804\\udd76\\ud804\\udd80-\\ud804\\uddc4\\ud804\\uddda\\ud804\\ude00-" +
+        //                                               "\\ud804\\ude11\\ud804\\ude13-\\ud804\\ude37\\ud804\\udeb0-\\ud804\\udeea\\ud804\\udf01-\\ud804" +
+        //                                               "\\udf03\\ud804\\udf05-\\ud804\\udf0c\\ud804\\udf0f\\ud804\\udf10\\ud804\\udf13-\\ud804\\udf28" +
+        //                                               "\\ud804\\udf2a-\\ud804\\udf30\\ud804\\udf32\\ud804\\udf33\\ud804\\udf35-\\ud804\\udf39\\ud804" +
+        //                                               "\\udf3c-\\ud804\\udf44\\ud804\\udf47\\ud804\\udf48\\ud804\\udf4b-\\ud804\\udf4d\\ud804\\udf57" +
+        //                                               "\\ud804\\udf5d-\\ud804\\udf63\\ud804\\udf66-\\ud804\\udf6c\\ud804\\udf70-\\ud804\\udf74\\ud805" +
+        //                                               "\\udc80-\\ud805\\udcc5\\ud805\\udcc7\\ud805\\udd80-\\ud805\\uddb5\\ud805\\uddb8-\\ud805\\uddc0" +
+        //                                               "\\ud805\\ude00-\\ud805\\ude40\\ud805\\ude44\\ud805\\ude80-\\ud805\\udeb7\\ud806\\udca0-\\ud806" +
+        //                                               "\\udcdf\\ud806\\udcff\\ud806\\udec0-\\ud806\\udef8\\ud808\\udf6f-\\ud808\\udf98\\ud81a\\ude40-" +
+        //                                               "\\ud81a\\ude5e\\ud81a\\uded0-\\ud81a\\udeed\\ud81a\\udef0-\\ud81a\\udef4\\ud81a\\udf00-\\ud81a" +
+        //                                               "\\udf36\\ud81a\\udf40-\\ud81a\\udf43\\ud81a\\udf63-\\ud81a\\udf77\\ud81a\\udf7d-\\ud81a\\udf8f" +
+        //                                               "\\ud81b\\udf00-\\ud81b\\udf44\\ud81b\\udf50-\\ud81b\\udf7e\\ud81b\\udf8f-\\ud81b\\udf9f\\ud82f" +
+        //                                               "\\udc00-\\ud82f\\udc6a\\ud82f\\udc70-\\ud82f\\udc7c\\ud82f\\udc80-\\ud82f\\udc88\\ud82f\\udc90-" +
+        //                                               "\\ud82f\\udc99\\ud82f\\udc9d\\ud82f\\udc9e\\ud83a\\udc00-\\ud83a\\udcc4\\ud83a\\udcd0-\\ud83a" +
+        //                                               "\\udcd6\\ud83b\\ude00-\\ud83b\\ude03\\ud83b\\ude05-\\ud83b\\ude1f\\ud83b\\ude21\\ud83b\\ude22" +
+        //                                               "\\ud83b\\ude24\\ud83b\\ude27\\ud83b\\ude29-\\ud83b\\ude32\\ud83b\\ude34-\\ud83b\\ude37\\ud83b" +
+        //                                               "\\ude39\\ud83b\\ude3b\\ud83b\\ude42\\ud83b\\ude47\\ud83b\\ude49\\ud83b\\ude4b\\ud83b\\ude4d-\\ud83b" +
+        //                                               "\\ude4f\\ud83b\\ude51\\ud83b\\ude52\\ud83b\\ude54\\ud83b\\ude57\\ud83b\\ude59\\ud83b\\ude5b\\ud83b" +
+        //                                               "\\ude5d\\ud83b\\ude5f\\ud83b\\ude61\\ud83b\\ude62\\ud83b\\ude64\\ud83b\\ude67-\\ud83b\\ude6a\\ud83b" +
+        //                                               "\\ude6c-\\ud83b\\ude72\\ud83b\\ude74-\\ud83b\\ude77\\ud83b\\ude79-\\ud83b\\ude7c\\ud83b\\ude7e" +
+        //                                               "\\ud83b\\ude80-\\ud83b\\ude89\\ud83b\\ude8b-\\ud83b\\ude9b\\ud83b\\udea1-\\ud83b\\udea3\\ud83b" +
+        //                                               "\\udea5-\\ud83b\\udea9\\ud83b\\udeab-\\ud83b\\udebb";
+        // 
+        // private const string HashtagNumerals = "\\p{Nd}" +
+        //                                        "\\u0de6-\\u0def\\ua9f0-\\ua9f9\\ud804\\udcf0-\\ud804\\udcf9\\ud804\\udd36-\\ud804\\udd3f\\ud804" +
+        //                                        "\\uddd0-\\ud804\\uddd9\\ud804\\udef0-\\ud804\\udef9\\ud805\\udcd0-\\ud805\\udcd9\\ud805\\ude50-" +
+        //                                        "\\ud805\\ude59\\ud805\\udec0-\\ud805\\udec9\\ud806\\udce0-\\ud806\\udce9\\ud81a\\ude60-\\ud81a" +
+        //                                        "\\ude69\\ud81a\\udf50-\\ud81a\\udf59";
 
-        private const string UrlValidPreceedingChars = "(?:[^A-Z0-9@＠$#＃\u202A-\u202E]|^)";
+        private const string HashtagLettersAndMarks = "\\p{L}\\p{M}";
+
+        private const string HashtagNumerals = "\\p{Nd}";
+
+        private const string HashtagSpecialChars = "_" + //underscore
+                                                   "\\u200c" + // ZERO WIDTH NON-JOINER (ZWNJ)
+                                                   "\\u200d" + // ZERO WIDTH JOINER (ZWJ)
+                                                   "\\ua67e" + // CYRILLIC KAVYKA
+                                                   "\\u05be" + // HEBREW PUNCTUATION MAQAF
+                                                   "\\u05f3" + // HEBREW PUNCTUATION GERESH
+                                                   "\\u05f4" + // HEBREW PUNCTUATION GERSHAYIM
+                                                   "\\uff5e" + // FULLWIDTH TILDE
+                                                   "\\u301c" + // WAVE DASH
+                                                   "\\u309b" + // KATAKANA-HIRAGANA VOICED SOUND MARK
+                                                   "\\u309c" + // KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK
+                                                   "\\u30a0" + // KATAKANA-HIRAGANA DOUBLE HYPHEN
+                                                   "\\u30fb" + // KATAKANA MIDDLE DOT
+                                                   "\\u3003" + // DITTO MARK
+                                                   "\\u0f0b" + // TIBETAN MARK INTERSYLLABIC TSHEG
+                                                   "\\u0f0c" + // TIBETAN MARK DELIMITER TSHEG BSTAR
+                                                   "\\u00b7"; // MIDDLE DOT
+
+        private const string HashtagLettersNumerals = HashtagLettersAndMarks + HashtagNumerals + HashtagSpecialChars;
+
+        private const string HashtagLettersSet = "[" + HashtagLettersAndMarks + "]";
+
+        private const string HashtagLettersNumeralsSet = "[" + HashtagLettersNumerals + "]";
+
+        private const string UrlValidPreceedingChars = "(?:[^A-Z0-9@＠$#＃\\u202A-\\u202E]|^)";
 
         private const string UrlValidChars = AlnumChars + LatinAccentsChars;
-        private const string UrlValidSubdomain = "(?:(?:[" + UrlValidChars + "][" + UrlValidChars + "\\-_]*)?[" + UrlValidChars + "]\\.)";
+
+        private const string UrlValidSubdomain = "(?>(?:[" + UrlValidChars + "][" + UrlValidChars + "\\-_]*)?[" + UrlValidChars + "]\\.)";
+
         private const string UrlValidDomainName = "(?:(?:[" + UrlValidChars + "][" + UrlValidChars + "\\-]*)?[" + UrlValidChars + "]\\.)";
-        /* Any non-space, non-punctuation characters. \p{Z} = any kind of whitespace or invisible separator. */
-        private const string UrlValidUnicode = "[^" + PunctChars + "\\s\\p{Z}\\p{IsGeneralPunctuation}]";
+        
 
-        private const string UrlValidGtld = "(?:(?:" +
-                                            "abb|abbott|abogado|academy|accenture|accountant|accountants|aco|active|actor|ads|adult|aeg|aero|" +
-                                            "afl|agency|aig|airforce|airtel|allfinanz|alsace|amsterdam|android|apartments|app|aquarelle|" +
-                                            "archi|army|arpa|asia|associates|attorney|auction|audio|auto|autos|axa|azure|band|bank|bar|" +
-                                            "barcelona|barclaycard|barclays|bargains|bauhaus|bayern|bbc|bbva|bcn|beer|bentley|berlin|best|" +
-                                            "bet|bharti|bible|bid|bike|bing|bingo|bio|biz|black|blackfriday|bloomberg|blue|bmw|bnl|" +
-                                            "bnpparibas|boats|bond|boo|boots|boutique|bradesco|bridgestone|broker|brother|brussels|budapest|" +
-                                            "build|builders|business|buzz|bzh|cab|cafe|cal|camera|camp|cancerresearch|canon|capetown|capital|" +
-                                            "caravan|cards|care|career|careers|cars|cartier|casa|cash|casino|cat|catering|cba|cbn|ceb|center|" +
-                                            "ceo|cern|cfa|cfd|chanel|channel|chat|cheap|chloe|christmas|chrome|church|cisco|citic|city|" +
-                                            "claims|cleaning|click|clinic|clothing|cloud|club|coach|codes|coffee|college|cologne|com|" +
-                                            "commbank|community|company|computer|condos|construction|consulting|contractors|cooking|cool|" +
-                                            "coop|corsica|country|coupons|courses|credit|creditcard|cricket|crown|crs|cruises|cuisinella|" +
-                                            "cymru|cyou|dabur|dad|dance|date|dating|datsun|day|dclk|deals|degree|delivery|delta|democrat|" +
-                                            "dental|dentist|desi|design|dev|diamonds|diet|digital|direct|directory|discount|dnp|docs|dog|" +
-                                            "doha|domains|doosan|download|drive|durban|dvag|earth|eat|edu|education|email|emerck|energy|" +
-                                            "engineer|engineering|enterprises|epson|equipment|erni|esq|estate|eurovision|eus|events|everbank|" +
-                                            "exchange|expert|exposed|express|fage|fail|faith|family|fan|fans|farm|fashion|feedback|film|" +
-                                            "finance|financial|firmdale|fish|fishing|fit|fitness|flights|florist|flowers|flsmidth|fly|foo|" +
-                                            "football|forex|forsale|forum|foundation|frl|frogans|fund|furniture|futbol|fyi|gal|gallery|game|" +
-                                            "garden|gbiz|gdn|gent|genting|ggee|gift|gifts|gives|giving|glass|gle|global|globo|gmail|gmo|gmx|" +
-                                            "gold|goldpoint|golf|goo|goog|google|gop|gov|graphics|gratis|green|gripe|group|guge|guide|" +
-                                            "guitars|guru|hamburg|hangout|haus|healthcare|help|here|hermes|hiphop|hitachi|hiv|hockey|" +
-                                            "holdings|holiday|homedepot|homes|honda|horse|host|hosting|hoteles|hotmail|house|how|hsbc|ibm|" +
-                                            "icbc|ice|icu|ifm|iinet|immo|immobilien|industries|infiniti|info|ing|ink|institute|insure|int|" +
-                                            "international|investments|ipiranga|irish|ist|istanbul|itau|iwc|java|jcb|jetzt|jewelry|jlc|jll|" +
-                                            "jobs|joburg|jprs|juegos|kaufen|kddi|kim|kitchen|kiwi|koeln|komatsu|krd|kred|kyoto|lacaixa|" +
-                                            "lancaster|land|lasalle|lat|latrobe|law|lawyer|lds|lease|leclerc|legal|lexus|lgbt|liaison|lidl|" +
-                                            "life|lighting|limited|limo|link|live|lixil|loan|loans|lol|london|lotte|lotto|love|ltda|lupin|" +
-                                            "luxe|luxury|madrid|maif|maison|man|management|mango|market|marketing|markets|marriott|mba|media|" +
-                                            "meet|melbourne|meme|memorial|men|menu|miami|microsoft|mil|mini|mma|mobi|moda|moe|mom|monash|" +
-                                            "money|montblanc|mormon|mortgage|moscow|motorcycles|mov|movie|movistar|mtn|mtpc|museum|nadex|" +
-                                            "nagoya|name|navy|nec|net|netbank|network|neustar|new|news|nexus|ngo|nhk|nico|ninja|nissan|nokia|" +
-                                            "nra|nrw|ntt|nyc|office|okinawa|omega|one|ong|onl|online|ooo|oracle|orange|org|organic|osaka|" +
-                                            "otsuka|ovh|page|panerai|paris|partners|parts|party|pet|pharmacy|philips|photo|photography|" +
-                                            "photos|physio|piaget|pics|pictet|pictures|pink|pizza|place|play|plumbing|plus|pohl|poker|porn|" +
-                                            "post|praxi|press|pro|prod|productions|prof|properties|property|pub|qpon|quebec|racing|realtor|" +
-                                            "realty|recipes|red|redstone|rehab|reise|reisen|reit|ren|rent|rentals|repair|report|republican|" +
-                                            "rest|restaurant|review|reviews|rich|ricoh|rio|rip|rocks|rodeo|rsvp|ruhr|run|ryukyu|saarland|" +
-                                            "sakura|sale|samsung|sandvik|sandvikcoromant|sanofi|sap|sarl|saxo|sca|scb|schmidt|scholarships|" +
-                                            "school|schule|schwarz|science|scor|scot|seat|seek|sener|services|sew|sex|sexy|shiksha|shoes|" +
-                                            "show|shriram|singles|site|ski|sky|skype|sncf|soccer|social|software|sohu|solar|solutions|sony|" +
-                                            "soy|space|spiegel|spreadbetting|srl|starhub|statoil|studio|study|style|sucks|supplies|supply|" +
-                                            "support|surf|surgery|suzuki|swatch|swiss|sydney|systems|taipei|tatamotors|tatar|tattoo|tax|taxi|" +
-                                            "team|tech|technology|tel|telefonica|temasek|tennis|thd|theater|tickets|tienda|tips|tires|tirol|" +
-                                            "today|tokyo|tools|top|toray|toshiba|tours|town|toyota|toys|trade|trading|training|travel|trust|" +
-                                            "tui|ubs|university|uno|uol|vacations|vegas|ventures|vermögensberater|vermögensberatung|" +
-                                            "versicherung|vet|viajes|video|villas|vin|vision|vista|vistaprint|vlaanderen|vodka|vote|voting|" +
-                                            "voto|voyage|wales|walter|wang|watch|webcam|website|wed|wedding|weir|whoswho|wien|wiki|" +
-                                            "williamhill|win|windows|wine|wme|work|works|world|wtc|wtf|xbox|xerox|xin|xperia|xxx|xyz|yachts|" +
-                                            "yandex|yodobashi|yoga|yokohama|youtube|zip|zone|zuerich|дети|ком|москва|онлайн|орг|рус|сайт|קום|" +
-                                            "بازار|شبكة|كوم|موقع|कॉम|नेट|संगठन|คอม|みんな|グーグル|コム|世界|中信|中文网|企业|佛山|信息|健康|八卦|公司|公益|商城|商店|商标|在线|大拿|" +
-                                            "娱乐|工行|广东|慈善|我爱你|手机|政务|政府|新闻|时尚|机构|淡马锡|游戏|点看|移动|组织机构|网址|网店|网络|谷歌|集团|飞利浦|餐厅|닷넷|닷컴|삼성|onion" +
-                                            ")(?=[^" + AlnumChars + "]|$))";
+        private const string UrlValidUnicodeChars = "(?:\\.|[^" + PunctChars + "\\s\\p{Z}\\p{IsGeneralPunctuation}])";
 
-        private const string UrlValidCctld = "(?:(?:" +
-                                             "ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|bq|" +
-                                             "br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|" +
-                                             "ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|" +
-                                             "gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|" +
-                                             "la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|" +
-                                             "my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|" +
-                                             "rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|" +
-                                             "tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|za|zm|zw|ελ|" +
-                                             "бел|мкд|мон|рф|срб|укр|қаз|հայ|الاردن|الجزائر|السعودية|المغرب|امارات|ایران|بھارت|تونس|سودان|" +
-                                             "سورية|عراق|عمان|فلسطين|قطر|مصر|مليسيا|پاکستان|भारत|বাংলা|ভারত|ਭਾਰਤ|ભારત|இந்தியா|இலங்கை|" +
-                                             "சிங்கப்பூர்|భారత్|ලංකා|ไทย|გე|中国|中國|台湾|台灣|新加坡|澳門|香港|한국" +
-                                             ")(?=[^" + AlnumChars + "]|$))";
+        private const string UrlPunycode = "(?:xn--[0-9a-z]+)";
 
-        private const string UrlPunycode = "(?:xn\\-\\-[0-9a-z]+)";
+        private const string SpecialUrlValidCctld = "(?:(?:" + "co|tv" + ")(?=[^" + AlnumChars + "@]|$))";
 
-        private const string UrlValidDomain = "(?:" + // subdomains + domain + TLD
-                                                  UrlValidSubdomain + "+" + UrlValidDomainName + // e.g. www.twitter.com, foo.co.jp, bar.co.uk
-                                                  "(?:" + UrlValidGtld + "|" + UrlValidCctld + "|" + UrlPunycode + ")" +
-                                                ")" +
-                                              "|(?:" + // domain + gTLD
-                                                UrlValidDomainName + // e.g. twitter.com
-                                                "(?:" + UrlValidGtld + "|" + UrlPunycode + ")" +
-                                              ")" +
-                                              "|(?:" + "(?<=https?://)" +
-                                                "(?:" +
-                                                  "(?:" + UrlValidDomainName + UrlValidCctld + ")" + // protocol + domain + ccTLD
-                                                  "|(?:" +
-                                                    UrlValidUnicode + "+\\." + // protocol + unicode domain + TLD
-                                                    "(?:" + UrlValidGtld + "|" + UrlValidCctld + ")" +
-                                                  ")" +
-                                                ")" +
-                                              ")" +
-                                              "|(?:" + // domain + ccTLD + '/'
-                                                UrlValidDomainName + UrlValidCctld + "(?=/)" + // e.g. t.co/
-                                              ")";
+        private static readonly string UrlValidDomain =
+            "(?:" +                                                   // subdomains + domain + TLD
+            UrlValidSubdomain + "+" + UrlValidDomainName +   // e.g. www.twitter.com, foo.co.jp, bar.co.uk
+            "(?:" + UrlValidGtld + "|" + UrlValidCctld + "|" + UrlPunycode + ")" +
+            ")" +
+            "|(?:" +                                                  // domain + gTLD + some ccTLD
+            UrlValidDomainName +                                 // e.g. twitter.com
+            "(?:" + UrlValidGtld + "|" + UrlPunycode + "|" + SpecialUrlValidCctld + ")" +
+            ")" +
+            "|(?:" + "(?<=https?://)" +
+            "(?:" +
+            "(?:" + UrlValidDomainName + UrlValidCctld + ")" +  // protocol + domain + ccTLD
+            "|(?:" +
+            UrlValidUnicodeChars + "+\\." +                     // protocol + unicode domain + TLD
+            "(?:" + UrlValidGtld + "|" + UrlValidCctld + ")" +
+            ")" +
+            ")" +
+            ")" +
+            "|(?:" +                                                  // domain + ccTLD + '/'
+            UrlValidDomainName + UrlValidCctld + "(?=/)" +     // e.g. t.co/
+            ")";
 
-        private const string UrlValidPortNumber = "[0-9]+";
+        private const string UrlValidPortNumber = "(?>[0-9]+)";
 
-        private const string UrlValidGeneralPathChars = "[a-z0-9!\\*';:=\\+,.\\$/%#\\[\\]\\-_~\\|&@" + LatinAccentsChars + "]";
+        private const string UrlValidGeneralPathChars = "[a-z\\p{IsCyrillic}0-9!\\*';:=\\+,.\\$/%#\\[\\]\\-_~\\|&@" + LatinAccentsChars + "]";
 
-        /** Allow URL paths to contain up to two nested levels of balanced parens
-         *  1. Used in Wikipedia URLs like /Primer_(film)
-         *  2. Used in IIS sessions like /S(dfd346)/
-         *  3. Used in Rdio URLs like /track/We_Up_(Album_Version_(Edited))/
-        **/
-       private const string UrlBalancedParens = "\\(" +
-                                                  "(?:" +
-                                                    UrlValidGeneralPathChars + "+" +
-                                                    "|" +
-                                                    // allow one nested level of balanced parentheses
-                                                    "(?:" +
-                                                      UrlValidGeneralPathChars + "*" +
-                                                      "\\(" +
-                                                        UrlValidGeneralPathChars + "+" +
-                                                      "\\)" +
-                                                      UrlValidGeneralPathChars + "*" +
-                                                    ")" +
-                                                  ")" +
-                                                "\\)";
+        private const string UrlBalancedParens = "\\(" +
+                                                 "(?:" +
+                                                 UrlValidGeneralPathChars + "+" +
+                                                 "|" +
+                                                 // allow one nested level of balanced parentheses
+                                                 "(?:" +
+                                                 UrlValidGeneralPathChars + "*" +
+                                                 "\\(" +
+                                                 UrlValidGeneralPathChars + "+" +
+                                                 "\\)" +
+                                                 UrlValidGeneralPathChars + "*" +
+                                                 ")" +
+                                                 ")" +
+                                                 "\\)";
 
-  /** Valid end-of-path characters (so /foo. does not gobble the period).
-   *   2. Allow =&# for empty URL parameters and other URL-join artifacts
-  **/
-        private const string UrlValidPathEndingChars = "[a-z0-9=_#/\\-\\+" + LatinAccentsChars + "]|(?:" + UrlBalancedParens + ")";
+        private const string UrlValidPathEndingChars = "[a-z\\p{IsCyrillic}0-9=_#/\\-\\+" + LatinAccentsChars + "]|(?:" + UrlBalancedParens + ")";
 
         private const string UrlValidPath = "(?:" +
-                                              "(?:" +
-                                                UrlValidGeneralPathChars + "*" +
-                                                "(?:" + UrlBalancedParens + UrlValidGeneralPathChars + "*)*" +
-                                                UrlValidPathEndingChars +
-                                              ")|(?:@" + UrlValidGeneralPathChars + "+/)" +
+                                            "(?:" +
+                                            UrlValidGeneralPathChars + "*" +
+                                            "(?:" + UrlBalancedParens + UrlValidGeneralPathChars + "*)*" +
+                                            UrlValidPathEndingChars +
+                                            ")|(?:@" + UrlValidGeneralPathChars + "+/)" +
                                             ")";
+
         private const string UrlValidUrlQueryChars = "[a-z0-9!?\\*'\\(\\);:&=\\+\\$/%#\\[\\]\\-_\\.,~\\|@]";
+
         private const string UrlValidUrlQueryEndingChars = "[a-z0-9_&=#/]";
 
-        /*private const string ValidUrlPatternString = "(" +                                              //  $1 total match
-                                                       "(" + UrlValidPreceedingChars + ")" +            //  $2 Preceeding chracter
-                                                       "(" +                                            //  $3 URL
-                                                         "(https?://)?" +                               //  $4 Protocol (optional)
-                                                         "(" + UrlValidDomain + ")" +                   //  $5 Domain(s)
-                                                         "(?::(" + UrlValidPortNumber +"))?" +          //  $6 Port number (optional)
-                                                         "(/" +
-                                                           UrlValidPath + "*+" +
-                                                         ")?" +                                         //  $7 URL Path and anchor
-                                                         "(\\?" + UrlValidUrlQueryChars + "*" +         //  $8 Query String
-                                                                 UrlValidUrlQueryEndingChars + ")?" +
-                                                       ")" +
-                                                     ")";*/
-        private const string ValidUrlPatternString =
-            "(" + UrlValidPreceedingChars + ")" + //  $1 Preceeding chracter
-            "(" + //  $2 URL
-            "(https?://)?" + //  $3 Protocol (optional)
-            "(" + UrlValidDomain + ")" + //  $4 Domain(s)
-            "(?::(" + UrlValidPortNumber + "))?" + //  $5 Port number (optional)
-            "(/" + UrlValidPath + "*" + ")?" + //  $6 URL Path and anchor
-            "(\\?" + UrlValidUrlQueryChars + "*" + //  $7 Query string
-            UrlValidUrlQueryEndingChars + ")?" + ")";
+        private static readonly string ValidUrlPatternString =
+            "(" +                                                   //  $1 total match
+            "(" + UrlValidPreceedingChars + ")" +            //  $2 Preceeding chracter
+            "(" +                                               //  $3 URL
+            "(https?://)?" +                                //  $4 Protocol (optional)
+            "(" + UrlValidDomain + ")" +                  //  $5 Domain(s)
+            "(?::(" + UrlValidPortNumber + "))?" +       //  $6 Port number (optional)
+            "(/" +
+            "(?>" + UrlValidPath + "*)" +
+            ")?" +                                          //  $7 URL Path and anchor
+            "(\\?" + UrlValidUrlQueryChars + "*" +      //  $8 Query String 
+            UrlValidUrlQueryEndingChars + ")?" +
+            ")" +
+            ")";
 
-        private const string AtSignsChars = "@\uFF20";
+        private const string AtSignsChars = "@\\uFF20";
 
         private const string DollarSignChar = "\\$";
         private const string Cashtag = "[a-z]{1,6}(?:[._][a-z]{1,2})?";
-
-        /* Begin public constants */
+        public const int ValidHashtagGroupBefore = 1;
+        public const int ValidHashtagGroupHash = 2;
+        public const int ValidHashtagGroupTag = 3;
+        public const int ValidMentionOrListGroupBefore = 1;
+        public const int ValidMentionOrListGroupAt = 2;
+        public const int ValidMentionOrListGroupUsername = 3;
+        public const int ValidMentionOrListGroupList = 4;
+        public const int ValidUrlGroupAll = 1;
+        public const int ValidUrlGroupBefore = 2;
+        public const int ValidUrlGroupUrl = 3;
+        public const int ValidUrlGroupProtocol = 4;
+        public const int ValidUrlGroupDomain = 5;
+        public const int ValidUrlGroupPort = 6;
+        public const int ValidUrlGroupPath = 7;
+        public const int ValidUrlGroupQueryString = 8;
+        public const int ValidCashtagGroupBefore = 1;
+        public const int ValidCashtagGroupDollar = 2;
+        public const int ValidCashtagGroupCashtag = 3;
+        
 
         public static readonly Regex ValidHashtag =
             new Regex(
-                "(^|[^&" + HashtagAlphaNumericChars + "])" +
-                "(#|\uFF03)(" + HashtagAlphaNumeric + "*" + HashtagAlpha +
-                HashtagAlphaNumeric + "*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        public static readonly int ValidHashtagGroupBefore = 1;
-        public static readonly int ValidHashtagGroupHash = 2;
-        public static readonly int ValidHashtagGroupTag = 3;
+                "(^|[^&" + HashtagLettersNumerals + "])(#|\\uFF03)(?!\\uFE0F|\\u20E3)(" + HashtagLettersNumeralsSet +
+                "*" +
+                HashtagLettersSet + HashtagLettersNumeralsSet + "*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static readonly Regex InvalidHashtagMatchEnd = new Regex("^(?:[#＃]|://)", RegexOptions.Compiled);
-        public static readonly Regex RtlChars = new Regex("[\u0600-\u06FF\u0750-\u077F\u0590-\u05FF\uFE70-\uFEFF]", RegexOptions.Compiled);
+
+        public static readonly Regex RtlChars = new Regex(
+            "[\\u0600-\\u06FF\\u0750-\\u077F\\u0590-\\u05FF\\uFE70-\\uFEFF]",
+            RegexOptions.Compiled);
 
         public static readonly Regex AtSigns = new Regex("[" + AtSignsChars + "]", RegexOptions.Compiled);
-        public static readonly Regex ValidMentionOrList = new Regex("([^a-z0-9_!#$%&*" + AtSignsChars + "]|^|RT:?)(" + AtSigns + "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static readonly int ValidMentionOrListGroupBefore = 1;
-        public static readonly int ValidMentionOrListGroupAt = 2;
-        public static readonly int ValidMentionOrListGroupUsername = 3;
-        public static readonly int ValidMentionOrListGroupList = 4;
 
-        public static readonly Regex ValidReply = new Regex("^(?:" + UnicodeSpace + ")*" + AtSigns + "([a-z0-9_]{1,20})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex ValidMentionOrList =
+            new Regex(
+                "([^a-z0-9_!#$%&*" + AtSignsChars + "]|^|(?:^|[^a-z0-9_+~.-])RT:?)(" + AtSigns +
+                "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        public static readonly Regex ValidReply = new Regex(
+            "^(?:" + UnicodeSpace + ")*" + AtSigns + "([a-z0-9_]{1,20})",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         public static readonly int ValidReplyGroupUsername = 1;
 
-        public static readonly Regex InvalidMentionMatchEnd = new Regex("^(?:[" + AtSignsChars + LatinAccentsChars + "]|://)", RegexOptions.Compiled);
+        public static readonly Regex InvalidMentionMatchEnd =
+            new Regex("^(?:[" + AtSignsChars + LatinAccentsChars + "]|://)", RegexOptions.Compiled);
 
-        public static readonly Regex ValidUrl = new Regex(ValidUrlPatternString, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static readonly int ValidUrlGroupBefore = 1;
-        public static readonly int ValidUrlGroupUrl = 2;
-        public static readonly int ValidUrlGroupProtocol = 3;
-        public static readonly int ValidUrlGroupDomain = 4;
-        public static readonly int ValidUrlGroupPort = 5;
-        public static readonly int ValidUrlGroupPath = 6;
-        public static readonly int ValidUrlGroupQueryString = 7;
-
-        public static readonly Regex ValidTcoUrl = new Regex("^https?:\\/\\/t\\.co\\/[a-z0-9]+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         public static readonly Regex InvalidUrlWithoutProtocolMatchBegin = new Regex("[-_./]$", RegexOptions.Compiled);
 
-        public static readonly Regex ValidCashtag = new Regex("(^|" + UnicodeSpace + ")(" + DollarSignChar + ")(" + Cashtag + ")" + "(?=$|\\s|[" + PunctChars + "])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static readonly int ValidCashtagGroupBefore = 1;
-        public static readonly int ValidCashtagGroupDollar = 2;
-        public static readonly int ValidCashtagGroupCashtag = 3;
+        public static readonly Regex ValidUrl = new Regex(ValidUrlPatternString,
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static readonly Regex StatusUrl = new Regex(@"https?://twitter.com/(#!/)?([a-zA-Z0-9_])+/status(es)?/(?<Id>[0-9]+)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static readonly Regex UserUrl = new Regex(@"https?://twitter.com/(#!/)?(?<ScreenName>([a-zA-Z0-9_])+)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex ValidTcoUrl = new Regex("^https?:\\/\\/t\\.co\\/[a-z0-9]+",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        /*public static readonly string UTFChar = @"a-z0-9_\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff";
-        
-        public static readonly string PreChar = @"(?:[^/""':!=]|^|\:)";
-        public static readonly string DomainChar = @"([\.-]|[^\s_\!\.\/])+\.[a-z]{2,}(?::[0-9]+)?";
-        public static readonly string PathChar = @"(?:[\.,]?[" + UTFChar + @"!\*\'\(\);:=\+\$/\%#\[\]\-_,~@])";
-        public static readonly string QueryChar = @"[a-z0-9!\*\'\(\);:&=\+\$/%#\[\]\-_\.,~]";
+        public static readonly Regex ValidCashtag =
+            new Regex(
+                "(^|" + UnicodeSpace + ")(" + DollarSignChar + ")(" + Cashtag + ")" + "(?=$|\\s|[" + PunctChars + "])",
+                RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static readonly string PathEndingChar = @"[" + UTFChar + @"\)=#/]";
-        public static readonly string QueryEndingChar = @"[a-z0-9_&=#]";
+        public static readonly Regex StatusUrl = new Regex(
+            @"https?://twitter.com/(#!/)?([a-zA-Z0-9_])+/status(es)?/(?<Id>[0-9]+)$",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static readonly string UrlRegex = @"((" +
-                                                 PreChar + @")((https?://|www\\.)(" + 
-                                                 DomainChar + @")(\/(" + 
-                                                 PathChar + @"*" + 
-                                                 PathEndingChar + @")?)?(\?" + 
-                                                 QueryChar + @"*" + 
-                                                 QueryEndingChar + @")?))";*/
+        public static readonly Regex UserUrl = new Regex(@"https?://twitter.com/(#!/)?(?<ScreenName>([a-zA-Z0-9_])+)$",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
     }
 }

@@ -1057,7 +1057,7 @@
   <data name="SettingsFlyout_Settings_Display_ShowHighQualityImageResolution_ToggleSwitch.Header" xml:space="preserve">
     <value>Show high quality image resolution</value>
   </data>
-  <data name="SettingsFlyout_Setting_Display_Theme_ChangeWarning" xml:space="preserve">
+  <data name="SettingsFlyout_Settings_Display_ThemeChangeWarning_Textblock.Text" xml:space="preserve">
     <value>Theme setting will be applied after restart</value>
   </data>
 </root>

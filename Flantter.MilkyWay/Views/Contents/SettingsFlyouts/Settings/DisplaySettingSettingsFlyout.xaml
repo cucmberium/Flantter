@@ -18,6 +18,10 @@
     <ScrollViewer Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Auto">
         <StackPanel>
 
+            <TextBlock x:Uid="SettingsFlyout_Settings_Display_ThemeChangeWarning_Textblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="10" TextWrapping="Wrap" Text="テーマの設定は再起動後に有効になります"/>
+
+            <controls:HorizontalBar/>
+            
             <ComboBox x:Uid="SettingsFlyout_Settings_Display_Theme_ComboBox" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="テーマ" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=ThemeListTypeValues}" SelectedItem="{Binding Source={StaticResource Setting}, Path=Setting.Theme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <controls:HorizontalBar/>

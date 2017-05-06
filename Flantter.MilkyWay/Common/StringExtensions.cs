@@ -34,13 +34,14 @@ namespace Flantter.MilkyWay.Common
                 .Replace("&", "&amp;")
                 .Replace(">", "&gt;")
                 .Replace("<", "&lt;");
-            // .Replace("\"", "&quot;")
+                // .Replace("\"", "&quot;")
         }
 
         public static string ResolveEntity(this string text)
         {
             return text
-                // .Replace("&quot;", "\"")
+                .Replace("&quot;", "\"")
+                .Replace("&apos;", "'")
                 .Replace("&lt;", "<")
                 .Replace("&gt;", ">")
                 .Replace("&amp;", "&");

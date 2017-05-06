@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Flantter.MilkyWay.Models.Twitter.Objects
@@ -12,7 +13,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             new Regex(@"<(""[^""]*""|'[^']*'|[^'"">])*>", RegexOptions.Compiled);
 
         private static readonly Regex LinkRegex = 
-            new Regex(@"\s*<a href=\""(.*?)\"".*?>(.*?)</a>\s*", RegexOptions.Compiled);
+            new Regex(@"\s*(@?)<a href=\""(.*?)\"".*?>(.*?)</a>\s*", RegexOptions.Compiled);
 
         public Status(CoreTweet.Status cOrigStatus)
         {
@@ -60,7 +61,19 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             InReplyToScreenName = "";
             InReplyToUserId = cStatus.InReplyToAccountId ?? 0;
             Id = cStatus.Id;
-            Text = ContentRegex.Replace(LinkRegex.Replace(cStatus.Content.Replace("<br />", "\n"), x => " " + x.Groups[2].Value + " "), "").Trim();
+
+            var text = cStatus.Content.Replace("<br />", "\n");
+            text = LinkRegex.Replace(text, match =>
+            {
+                var userMention = cStatus.Mentions.Where(x => x.Url == match.Groups[2].Value || x.Url.Replace("/@", "/users/") == match.Groups[2].Value).ToArray();
+                if (userMention.Length != 0)
+                    return " @" + userMention.First().AccountName + " ";
+
+                return " " + match.Groups[1]?.Value + match.Groups[3].Value + " ";
+            });
+            text = ContentRegex.Replace(text, "").Trim();
+            Text = text;
+
             User = cStatus.Account != null ? new User(cStatus.Account) : null;
             IsFavorited = cStatus.Favourited ?? false;
             IsRetweeted = cStatus.Reblogged ?? false;

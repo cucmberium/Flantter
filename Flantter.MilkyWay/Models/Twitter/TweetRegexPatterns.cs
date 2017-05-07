@@ -1755,6 +1755,7 @@ namespace Flantter.MilkyWay.Models.Twitter
 
         private const string DollarSignChar = "\\$";
         private const string Cashtag = "[a-z]{1,6}(?:[._][a-z]{1,2})?";
+
         public const int ValidHashtagGroupBefore = 1;
         public const int ValidHashtagGroupHash = 2;
         public const int ValidHashtagGroupTag = 3;
@@ -1762,6 +1763,11 @@ namespace Flantter.MilkyWay.Models.Twitter
         public const int ValidMentionOrListGroupAt = 2;
         public const int ValidMentionOrListGroupUsername = 3;
         public const int ValidMentionOrListGroupList = 4;
+        public const int ValidMastodonMentionOrListGroupBefore = 1;
+        public const int ValidMastodonMentionOrListGroupAt = 2;
+        public const int ValidMastodonMentionOrListGroupUsername = 3;
+        public const int ValidMastodonMentionOrListGroupList = 4;
+        public const int ValidMastodonMentionOrListGroupMastodonDomain = 5;
         public const int ValidUrlGroupAll = 1;
         public const int ValidUrlGroupBefore = 2;
         public const int ValidUrlGroupUrl = 3;
@@ -1793,6 +1799,11 @@ namespace Flantter.MilkyWay.Models.Twitter
             new Regex(
                 "([^a-z0-9_!#$%&*" + AtSignsChars + "]|^|(?:^|[^a-z0-9_+~.-])RT:?)(" + AtSigns +
                 "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        public static readonly Regex ValidMastodonMentionOrList =
+            new Regex(
+                "([^a-z0-9_!#$%&*" + AtSignsChars + "]|^|(?:^|[^a-z0-9_+~.-])RT:?)(" + AtSigns +
+                "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?(@(" + UrlValidDomain + "))?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static readonly Regex ValidReply = new Regex(
             "^(?:" + UnicodeSpace + ")*" + AtSigns + "([a-z0-9_]{1,20})",

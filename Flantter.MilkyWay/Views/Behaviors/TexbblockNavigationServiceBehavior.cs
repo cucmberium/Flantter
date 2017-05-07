@@ -196,12 +196,13 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 m.Groups[TweetRegexPatterns.ValidUrlGroupUrl].Value.Replace("#", "&sharp;").Replace("@", "&at;") +
                 "<");
 
-            escapedText = TweetRegexPatterns.ValidMentionOrList.Replace(escapedText, m =>
-                m.Groups[TweetRegexPatterns.ValidMentionOrListGroupBefore].Value +
+            escapedText = TweetRegexPatterns.ValidMastodonMentionOrList.Replace(escapedText, m =>
+                m.Groups[TweetRegexPatterns.ValidMastodonMentionOrListGroupBefore].Value +
                 "<A>" +
-                m.Groups[TweetRegexPatterns.ValidMentionOrListGroupAt].Value +
-                m.Groups[TweetRegexPatterns.ValidMentionOrListGroupUsername].Value +
-                m.Groups[TweetRegexPatterns.ValidMentionOrListGroupList].Value +
+                m.Groups[TweetRegexPatterns.ValidMastodonMentionOrListGroupAt].Value +
+                m.Groups[TweetRegexPatterns.ValidMastodonMentionOrListGroupUsername].Value +
+                m.Groups[TweetRegexPatterns.ValidMastodonMentionOrListGroupList].Value +
+                m.Groups[TweetRegexPatterns.ValidMastodonMentionOrListGroupMastodonDomain].Value +
                 "<");
 
             escapedText = TweetRegexPatterns.ValidHashtag.Replace(escapedText, m =>
@@ -259,7 +260,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (entities == null || entities.HashTags == null || entities.UserMentions == null || entities.Urls == null)
                 foreach (var token in TokenizeImpl(text))
                     yield return token;
-            else if (GetDeficientEntity(sender))
+            else if (GetDeficientEntity(sender) || entities.DeficientEntity)
                 foreach (var token in TokenizeImpl(text))
                 {
                     if (token.Type == TextPartType.Url && entities.Urls.Any(x => x.Url == token.RawText))
@@ -290,7 +291,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (linkUrl.StartsWith("usermention://"))
             {
                 var userMention = linkUrl.Replace("usermention://", "");
-                Notice.Instance.ShowUserProfileCommand.Execute(userMention.Replace("@", ""));
+                Notice.Instance.ShowUserProfileCommand.Execute(userMention.Remove(0, 1));
                 return;
             }
 

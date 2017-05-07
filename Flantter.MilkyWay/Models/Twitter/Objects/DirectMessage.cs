@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
     public class DirectMessage : ITweet
     {
-        private static readonly Regex ContentRegex =
-            new Regex(@"<(""[^""]*""|'[^']*'|[^'"">])*>", RegexOptions.Compiled);
-
         public DirectMessage(CoreTweet.DirectMessage cDirectMessage)
         {
             CreatedAt = cDirectMessage.CreatedAt.DateTime;
@@ -21,10 +19,25 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         public DirectMessage(Mastonet.Entities.Status cDirectMessage, Mastonet.Entities.Account cRecipient)
         {
             CreatedAt = cDirectMessage.CreatedAt;
+
+            var urlEntities = new List<string>();
+            var text = cDirectMessage.Content.Replace("<br />", "\n");
+            text = Status.LinkRegex.Replace(text, match =>
+            {
+                var userMention = cDirectMessage.Mentions.Where(x => x.Url == match.Groups[2].Value || x.Url.Replace("/@", "/users/") == match.Groups[2].Value).ToArray();
+                if (userMention.Length != 0)
+                    return " @" + userMention.First().AccountName + " ";
+
+                urlEntities.Add(match.Groups[2].Value);
+                return " " + match.Groups[1]?.Value + match.Groups[3].Value + " ";
+            });
+            text = Status.ContentRegex.Replace(text, "").Trim();
+            Text = text;
+
             Entities = new Entities(cDirectMessage.MediaAttachments, cDirectMessage.Mentions, cDirectMessage.Tags,
-                cDirectMessage.Content);
+                urlEntities, cDirectMessage.Content);
+
             Id = cDirectMessage.Id;
-            Text = ContentRegex.Replace(cDirectMessage.Content, "");
             Recipient = new User(cRecipient);
             Sender = new User(cDirectMessage.Account);
         }

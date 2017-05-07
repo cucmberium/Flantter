@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -6,13 +7,13 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 {
     public class Status : ITweet
     {
-        private static readonly Regex SourceRegex =
+        public static readonly Regex SourceRegex =
             new Regex(@"^<a href="".+"" rel=""nofollow"">(.+)</a>$", RegexOptions.Compiled);
 
-        private static readonly Regex ContentRegex =
+        public static readonly Regex ContentRegex =
             new Regex(@"<(""[^""]*""|'[^']*'|[^'"">])*>", RegexOptions.Compiled);
 
-        private static readonly Regex LinkRegex = 
+        public static readonly Regex LinkRegex = 
             new Regex(@"\s*(@?)<a href=\""(.*?)\"".*?>(.*?)</a>\s*", RegexOptions.Compiled);
 
         public Status(CoreTweet.Status cOrigStatus)
@@ -54,7 +55,6 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
                 cStatus = cStatus.Reblog;
 
             CreatedAt = cStatus.CreatedAt;
-            Entities = new Entities(cStatus.MediaAttachments, cStatus.Mentions, cStatus.Tags, cStatus.Content);
             FavoriteCount = cStatus.FavouritesCount;
             RetweetCount = cStatus.ReblogCount;
             InReplyToStatusId = cStatus.InReplyToId ?? 0;
@@ -62,6 +62,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             InReplyToUserId = cStatus.InReplyToAccountId ?? 0;
             Id = cStatus.Id;
 
+            var urlEntities = new List<string>();
             var text = cStatus.Content.Replace("<br />", "\n");
             text = LinkRegex.Replace(text, match =>
             {
@@ -69,10 +70,13 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
                 if (userMention.Length != 0)
                     return " @" + userMention.First().AccountName + " ";
 
+                urlEntities.Add(match.Groups[2].Value);
                 return " " + match.Groups[1]?.Value + match.Groups[3].Value + " ";
             });
             text = ContentRegex.Replace(text, "").Trim();
             Text = text;
+            
+            Entities = new Entities(cStatus.MediaAttachments, cStatus.Mentions, cStatus.Tags, urlEntities, cStatus.Content);
 
             User = cStatus.Account != null ? new User(cStatus.Account) : null;
             IsFavorited = cStatus.Favourited ?? false;

@@ -151,6 +151,9 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     foreach (var u in result)
                     {
                         this.Tokens.MastodonScreenNameConversionDictionary[u.User.ScreenName] = u.User.Id;
+                        foreach (var mention in u.Entities.UserMentions)
+                            this.Tokens.MastodonScreenNameConversionDictionary[mention.ScreenName] = mention.Id;
+                        
                         if (u.HasRetweetInformation)
                             this.Tokens.MastodonScreenNameConversionDictionary[u.RetweetInformation.User.ScreenName] =
                                 u.RetweetInformation.User.Id;
@@ -350,6 +353,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     foreach (var u in result)
                     {
                         this.Tokens.MastodonScreenNameConversionDictionary[u.User.ScreenName] = u.User.Id;
+                        foreach (var mention in u.Entities.UserMentions)
+                            this.Tokens.MastodonScreenNameConversionDictionary[mention.ScreenName] = mention.Id;
                         if (u.HasRetweetInformation)
                             this.Tokens.MastodonScreenNameConversionDictionary[u.RetweetInformation.User.ScreenName] =
                                 u.RetweetInformation.User.Id;
@@ -414,6 +419,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     foreach (var u in result)
                     {
                         this.Tokens.MastodonScreenNameConversionDictionary[u.User.ScreenName] = u.User.Id;
+                        foreach (var mention in u.Entities.UserMentions)
+                            this.Tokens.MastodonScreenNameConversionDictionary[mention.ScreenName] = mention.Id;
                         if (u.HasRetweetInformation)
                             this.Tokens.MastodonScreenNameConversionDictionary[u.RetweetInformation.User.ScreenName] =
                                 u.RetweetInformation.User.Id;
@@ -642,6 +649,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                         foreach (var u in result)
                         {
                             this.Tokens.MastodonScreenNameConversionDictionary[u.User.ScreenName] = u.User.Id;
+                            foreach (var mention in u.Entities.UserMentions)
+                                this.Tokens.MastodonScreenNameConversionDictionary[mention.ScreenName] = mention.Id;
                             if (u.HasRetweetInformation)
                                 this.Tokens.MastodonScreenNameConversionDictionary[u.RetweetInformation.User.ScreenName]
                                     = u.RetweetInformation.User.Id;
@@ -659,6 +668,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                         foreach (var u in result)
                         {
                             this.Tokens.MastodonScreenNameConversionDictionary[u.User.ScreenName] = u.User.Id;
+                            foreach (var mention in u.Entities.UserMentions)
+                                this.Tokens.MastodonScreenNameConversionDictionary[mention.ScreenName] = mention.Id;
                             if (u.HasRetweetInformation)
                                 this.Tokens.MastodonScreenNameConversionDictionary[u.RetweetInformation.User.ScreenName]
                                     = u.RetweetInformation.User.Id;
@@ -779,6 +790,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     foreach (var u in result)
                     {
                         this.Tokens.MastodonScreenNameConversionDictionary[u.User.ScreenName] = u.User.Id;
+                        foreach (var mention in u.Entities.UserMentions)
+                            this.Tokens.MastodonScreenNameConversionDictionary[mention.ScreenName] = mention.Id;
                         if (u.HasRetweetInformation)
                             this.Tokens.MastodonScreenNameConversionDictionary[u.RetweetInformation.User.ScreenName] =
                                 u.RetweetInformation.User.Id;
@@ -2143,6 +2156,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                                                 }
                                                 tokens.MastodonScreenNameConversionDictionary[
                                                     status.Account.AccountName] = status.Account.Id;
+                                                foreach (var mention in status.Mentions)
+                                                    tokens.MastodonScreenNameConversionDictionary[mention.AccountName] = mention.Id;
                                                 break;
                                             case "notification":
                                                 var notification =

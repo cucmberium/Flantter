@@ -72,17 +72,31 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         }
 
         public Entities(IEnumerable<Mastonet.Entities.Attachment> cAttachments, IEnumerable<Mastonet.Entities.Mention> cMentions, IEnumerable<Mastonet.Entities.Tag> cTags,
-            string cContent)
+            IEnumerable<string> cUrls, string cContent)
         {
             var mediaList = MediaParser.Parse(cAttachments, cContent);
 
+            HashTags = new List<HashtagEntity>();
             Media = new List<MediaEntity>();
-            HashTags = null;
-            UserMentions = null;
-            Urls = null;
+            Urls = new List<UrlEntity>();
+            UserMentions = new List<UserMentionEntity>();
 
             foreach (var fMedia in mediaList)
                 Media.Add(new MediaEntity(fMedia, this));
+
+            if (cTags != null)
+                foreach (var cHashTag in cTags)
+                    HashTags.Add(new HashtagEntity(cHashTag));
+
+            if (cUrls != null)
+                foreach (var cUrl in cUrls)
+                    Urls.Add(new UrlEntity(cUrl));
+
+            if (cMentions != null)
+                foreach (var cUserMention in cMentions)
+                    UserMentions.Add(new UserMentionEntity(cUserMention));
+
+            DeficientEntity = true;
         }
 
         public Entities()
@@ -112,6 +126,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         public List<UserMentionEntity> UserMentions { get; set; }
 
         #endregion
+
+        #region DeficientEntity変更通知プロパティ
+
+        public bool DeficientEntity { get; set; }
+
+        #endregion
     }
 
     public class HashtagEntity
@@ -121,6 +141,13 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Tag = cHashTag.Text;
             Start = cHashTag.Indices.First();
             End = cHashTag.Indices.Last();
+        }
+
+        public HashtagEntity(Mastonet.Entities.Tag cHashTag)
+        {
+            Tag = cHashTag.Name;
+            Start = 0;
+            End = 0;
         }
 
         public HashtagEntity()
@@ -248,6 +275,21 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             End = cUrlEntity.Indices.Last();
         }
 
+        public UrlEntity(string cUrl)
+        {
+            var displayUrl = cUrl.Replace("http://", "")
+                .Replace("https://", "")
+                .Replace("www.", "");
+            if (displayUrl.Length >= 31)
+                displayUrl = displayUrl.Substring(0, 30) + "...";
+
+            Url = cUrl;
+            DisplayUrl = displayUrl;
+            ExpandedUrl = cUrl;
+            Start = 0;
+            End = 0;
+        }
+
         public UrlEntity()
         {
         }
@@ -292,6 +334,15 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             ScreenName = cUrlEntity.ScreenName;
             Start = cUrlEntity.Indices.First();
             End = cUrlEntity.Indices.Last();
+        }
+
+        public UserMentionEntity(Mastonet.Entities.Mention cMention)
+        {
+            Id = cMention.Id;
+            Name = cMention.UserName;
+            ScreenName = cMention.AccountName;
+            Start = 0;
+            End = 0;
         }
 
         public UserMentionEntity()

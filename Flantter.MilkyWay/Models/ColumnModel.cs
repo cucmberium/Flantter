@@ -459,7 +459,7 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var home = await Tokens.Statuses.HomeTimelineAsync(param);
-                var lastId = home.Count > 0 ? home.OrderByDescending(x => x.Id).Last().Id : -1;
+                var lastId = home.Count > 0 ? home.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in home)
@@ -510,7 +510,7 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var mentions = await Tokens.Statuses.MentionsTimelineAsync(param);
-                var lastId = mentions.Count > 0 ? mentions.OrderByDescending(x => x.Id).Last().Id : -1;
+                var lastId = mentions.Count > 0 ? mentions.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in mentions)
@@ -609,7 +609,7 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var favorites = await Tokens.Favorites.ListAsync(param);
-                var lastId = favorites.Count > 0 ? favorites.OrderByDescending(x => x.Id).Last().Id : -1;
+                var lastId = favorites.Count > 0 ? favorites.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in favorites)
@@ -661,7 +661,7 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var lists = await Tokens.Lists.StatusesAsync(param);
-                var lastId = lists.Count > 0 ? lists.OrderByDescending(x => x.Id).Last().Id : -1;
+                var lastId = lists.Count > 0 ? lists.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in lists)
@@ -750,7 +750,7 @@ namespace Flantter.MilkyWay.Models
                     search = await Tokens.Search.TweetsAsync(param);
                 }
 
-                var lastId = search.Any() ? search.OrderByDescending(x => x.Id).Last().Id : -1;
+                var lastId = search.Any() ? search.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in search)
@@ -802,7 +802,7 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var userTimeline = await Tokens.Statuses.UserTimelineAsync(param);
-                var lastId = userTimeline.Count > 0 ? userTimeline.OrderByDescending(x => x.Id).Last().Id : -1;
+                var lastId = userTimeline.Count > 0 ? userTimeline.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in userTimeline)
@@ -855,7 +855,7 @@ namespace Flantter.MilkyWay.Models
                         param.Add("since_id", sinceid);
 
                     var events = await Tokens.Activity.AboutMeAsync(param);
-                    var lastId = events.Count() > 0 ? events.OrderByDescending(x => x.Id).Last().Id : -1;
+                    var lastId = events.Count > 0 ? events.Select(x => x.Id).OrderByDescending(x => x).Last() : -1;
                     var gapCheck = GapCheck(lastId);
                     foreach (var ev in events)
                     {

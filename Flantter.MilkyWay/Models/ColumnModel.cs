@@ -131,6 +131,9 @@ namespace Flantter.MilkyWay.Models
                                     if (status.Entities.UserMentions != null &&
                                         status.Entities.UserMentions.Any(x => x.Id == AccountSetting.UserId))
                                         paramList.Add("mentions://");
+                                    else if (SettingService.Setting.ShowRetweetInMentionColumn &&
+                                        status.HasRetweetInformation && status.User.Id == AccountSetting.UserId)
+                                        paramList.Add("mentions://");
                                 }
                                 else if (_action == SettingSupport.ColumnTypeEnum.Search)
                                 {
@@ -1111,12 +1114,12 @@ namespace Flantter.MilkyWay.Models
             if (streaming)
             {
                 if (SettingService.Setting.RemoveRetweetOfMyTweet && status.HasRetweetInformation &&
-                    status.User.ScreenName == _screenName)
+                    status.User.Id == AccountSetting.UserId && !(Action == SettingSupport.ColumnTypeEnum.Mentions && SettingService.Setting.ShowRetweetInMentionColumn))
                     return;
 
                 var retindex = Tweets.IndexOf(Tweets.FirstOrDefault(x => x?.Id == status.Id));
                 if (retindex != -1 && SettingService.Setting.RemoveRetweetAlreadyReceive &&
-                    status.HasRetweetInformation && status.RetweetInformation.User.ScreenName != _screenName)
+                    status.HasRetweetInformation && status.RetweetInformation.User.Id != AccountSetting.UserId)
                     return;
 
                 // 重複確認(ストリーミングでも中断時の更新によっては重複する可能性あり)

@@ -39,7 +39,7 @@ namespace Flantter.MilkyWay.Models.ShareContract
 
         public void CharacterCountChanged()
         {
-            var text = _text.Replace("\r\n", "\n");
+            var text = _text;
 
             /*var resultReplies = this._Extractor.ExtractMentionedScreenNames(text);
             var replyScreenNames = new List<string>();
@@ -251,7 +251,7 @@ namespace Flantter.MilkyWay.Models.ShareContract
                         param.Add("possibly_sensitive", account.PossiblySensitive);
                     }
 
-                    param.Add("status", text);
+                    param.Add("status", text.Replace("\r", "\n"));
 
                     Message = _resourceLoader.GetString("TweetArea_Message_UpdatingStatus");
                     await tokens.Statuses.UpdateAsync(param);

@@ -48,7 +48,7 @@ namespace Flantter.MilkyWay.Models
 
         public void CharacterCountChanged()
         {
-            var text = _text.Replace("\r\n", "\n");
+            var text = _text;
 
             /*var resultReplies = this._Extractor.ExtractMentionedScreenNames(text);
             var replyScreenNames = new List<string>();
@@ -321,7 +321,7 @@ namespace Flantter.MilkyWay.Models
                         param.Add("possibly_sensitive", account.AccountSetting.PossiblySensitive);
                     }
 
-                    param.Add("status", text);
+                    param.Add("status", text.Replace("\r", "\n"));
 
                     Message = _resourceLoader.GetString("TweetArea_Message_UpdatingStatus");
                     await tokens.Statuses.UpdateAsync(param);
@@ -459,17 +459,17 @@ namespace Flantter.MilkyWay.Models
         public void SuggestionSelected(string word)
         {
             var token = SuggestionService.GetTokenFromPosition(_tokens, _selectionStart);
-            var text = Text.Replace("\r\n", "\n");
+            var text = Text;
 
-            var startText = text.Replace("\r\n", "\n").Substring(0, token.Pos);
-            var endText = text.Replace("\r\n", "\n")
-                .Substring(token.Pos + token.Length, text.Replace("\r\n", "\n").Length - (token.Pos + token.Length));
+            var startText = text.Substring(0, token.Pos);
+            var endText = text
+                .Substring(token.Pos + token.Length, text.Length - (token.Pos + token.Length));
             text =
             (startText + (token.Type == SuggestionService.SuggestionToken.SuggestionTokenId.HashTag ? "#" : "@") +
-             word + " " + endText).Replace("\n", "\r\n");
+             word + " " + endText);
 
             Text = text;
-            SelectionStart = text.Replace("\r\n", "\n").Length - endText.Replace("\r\n", "\n").Length;
+            SelectionStart = text.Length - endText.Length;
         }
 
         #region Text変更通知プロパティ

@@ -17,7 +17,7 @@ namespace Flantter.MilkyWay.Models.Twitter
 
         public static IEnumerable<SuggestionToken> Tokenize(string text)
         {
-            var tokens = TokenizeImpl("(" + text.Replace("\r\n", "\n") + ")").ToList();
+            var tokens = TokenizeImpl("(" + text + ")").ToList();
             tokens.RemoveAt(0);
             tokens.RemoveAt(tokens.Count - 1);
 

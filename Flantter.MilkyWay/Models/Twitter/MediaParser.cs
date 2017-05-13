@@ -561,10 +561,10 @@ namespace Flantter.MilkyWay.Models.Twitter
         {
             foreach (Match urlMatch in TweetRegexPatterns.ValidUrl.Matches(cContent))
             {
-                if (!urlMatch.Groups[2].Value.StartsWith("http"))
+                if (!urlMatch.Groups[3].Value.StartsWith("http"))
                     continue;
 
-                var url = new UrlEntity {DisplayUrl = urlMatch.Groups[2].Value, ExpandedUrl = urlMatch.Groups[2].Value};
+                var url = new UrlEntity {DisplayUrl = urlMatch.Groups[3].Value, ExpandedUrl = urlMatch.Groups[3].Value};
 
                 #region DirectLink
 

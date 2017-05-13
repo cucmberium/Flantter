@@ -78,7 +78,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
                 x => EmojiPatterns.EmojiDictionary.TryGetValue(x.Groups[2].Value, out string val) ? val : x.Value);
             Text = text;
             
-            Entities = new Entities(cStatus.MediaAttachments, cStatus.Mentions, cStatus.Tags, urlEntities, cStatus.Content);
+            Entities = new Entities(cStatus.MediaAttachments, cStatus.Mentions, cStatus.Tags, urlEntities, text);
 
             User = cStatus.Account != null ? new User(cStatus.Account) : null;
             IsFavorited = cStatus.Favourited ?? false;

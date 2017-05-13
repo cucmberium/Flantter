@@ -188,14 +188,13 @@
                     </ItemsControl.ItemContainerTransitions>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="twitterObjectsViewModel:MediaEntityViewModel">
-                            <Border>
-                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <i:Interaction.Behaviors>
-                                        <core:EventTriggerBehavior EventName="Tapped">
-                                            <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
-                                        </core:EventTriggerBehavior>
-                                    </i:Interaction.Behaviors>
-                                </Image>
+                            <Border Background="Transparent">
+                                <i:Interaction.Behaviors>
+                                    <core:EventTriggerBehavior EventName="Tapped">
+                                        <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
+                                    </core:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -268,14 +267,13 @@
                     </ItemsControl.ItemContainerTransitions>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="twitterObjectsViewModel:MediaEntityViewModel">
-                            <Border>
-                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <i:Interaction.Behaviors>
-                                        <core:EventTriggerBehavior EventName="Tapped">
-                                            <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
-                                        </core:EventTriggerBehavior>
-                                    </i:Interaction.Behaviors>
-                                </Image>
+                            <Border Background="Transparent">
+                                <i:Interaction.Behaviors>
+                                    <core:EventTriggerBehavior EventName="Tapped">
+                                        <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
+                                    </core:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

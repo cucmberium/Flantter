@@ -54,7 +54,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Language = "en";
             ListedCount = 0;
             Location = "";
-            Name = string.IsNullOrWhiteSpace(cUser.DisplayName) ? cUser.UserName : cUser.DisplayName;
+            var name = string.IsNullOrWhiteSpace(cUser.DisplayName) ? cUser.UserName : cUser.DisplayName;
+            name = EmojiPatterns.LightValidEmoji.Replace(name,
+                x => EmojiPatterns.EmojiDictionary.TryGetValue(x.Groups[2].Value, out string val) ? val : x.Value);
+            Name = name;
             ProfileBackgroundColor = "C0DEED";
             ProfileBackgroundImageUrl = "http://localhost/";
             ProfileBannerUrl = cUser.HeaderUrl.StartsWith("http") ? cUser.HeaderUrl : "http://localhost/";

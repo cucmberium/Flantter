@@ -30,7 +30,7 @@ namespace Flantter.MilkyWay.Models.Twitter
         private static IEnumerable<SuggestionToken> TokenizeImpl(string text)
         {
             var strPos = 0;
-            const string tokens = "@#.=<>!&|()\" \t\r\n";
+            const string tokens = "@#:.=<>!&|()\" \t\r\n";
             do
             {
                 int begin;
@@ -51,7 +51,6 @@ namespace Flantter.MilkyWay.Models.Twitter
                         } while (strPos < text.Length);
                         break;
                     case '@':
-                        //yield return new SuggestionToken(SuggestionToken.SuggestionTokenId.ScreenName, strPos);
                         strPos++;
                         begin = strPos;
                         do
@@ -59,6 +58,20 @@ namespace Flantter.MilkyWay.Models.Twitter
                             if (tokens.Contains(text[strPos].ToString()))
                             {
                                 yield return new SuggestionToken(SuggestionToken.SuggestionTokenId.ScreenName,
+                                    text.Substring(begin, strPos - begin), begin - 1, strPos - (begin - 1));
+                                break;
+                            }
+                            strPos++;
+                        } while (strPos < text.Length);
+                        break;
+                    case ':':
+                        strPos++;
+                        begin = strPos;
+                        do
+                        {
+                            if (tokens.Contains(text[strPos].ToString()))
+                            {
+                                yield return new SuggestionToken(SuggestionToken.SuggestionTokenId.Emoji,
                                     text.Substring(begin, strPos - begin), begin - 1, strPos - (begin - 1));
                                 break;
                             }
@@ -106,6 +119,7 @@ namespace Flantter.MilkyWay.Models.Twitter
                 String,
                 HashTag,
                 ScreenName,
+                Emoji,
                 Literal
             }
 

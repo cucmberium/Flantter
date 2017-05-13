@@ -18,6 +18,7 @@ using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Behaviors;
 using Flantter.MilkyWay.Views.Util;
 using Prism.Mvvm;
+using SharpDX.DirectWrite;
 using ToriatamaText;
 
 namespace Flantter.MilkyWay.Models
@@ -440,6 +441,15 @@ namespace Flantter.MilkyWay.Models
                             }
                         }
                         break;
+                    case SuggestionService.SuggestionToken.SuggestionTokenId.Emoji:
+                        if (!string.IsNullOrEmpty(token.Value))
+                        {
+                            words.AddRange(EmojiPatterns.EmojiDictionary
+                                .Where(x => x.Key.StartsWith(token.Value))
+                                .OrderBy(x => x.Key)
+                                .Select(x => x.Value + "\t" + x.Key));
+                        }
+                        break;
                 }
 
                 SuggestionMessenger.Raise(
@@ -464,10 +474,24 @@ namespace Flantter.MilkyWay.Models
             var startText = text.Substring(0, token.Pos);
             var endText = text
                 .Substring(token.Pos + token.Length, text.Length - (token.Pos + token.Length));
-            text =
-            (startText + (token.Type == SuggestionService.SuggestionToken.SuggestionTokenId.HashTag ? "#" : "@") +
-             word + " " + endText);
 
+            switch (token.Type)
+            {
+                case SuggestionService.SuggestionToken.SuggestionTokenId.HashTag:
+                    text = startText + "#" + word + " " + endText;
+                    break;
+                case SuggestionService.SuggestionToken.SuggestionTokenId.ScreenName:
+                    text = startText + "@" + word + " " + endText;
+                    break;
+                case SuggestionService.SuggestionToken.SuggestionTokenId.Emoji:
+                    text = startText + word.Split('\t').First().Trim() + endText;
+                    break;
+                default:
+                    text = startText + endText;
+                    break;
+            }
+
+            
             Text = text;
             SelectionStart = text.Length - endText.Length;
         }

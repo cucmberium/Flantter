@@ -74,6 +74,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
                 return " " + match.Groups[1]?.Value + match.Groups[3].Value + " ";
             });
             text = ContentRegex.Replace(text, "").Trim();
+            text = EmojiPatterns.LightValidEmoji.Replace(text,
+                x => EmojiPatterns.EmojiDictionary.TryGetValue(x.Groups[2].Value, out string val) ? val : x.Value);
             Text = text;
             
             Entities = new Entities(cStatus.MediaAttachments, cStatus.Mentions, cStatus.Tags, urlEntities, cStatus.Content);

@@ -29,6 +29,13 @@ FlantterはWindowsで使用できるストアアプリのツイッタークラ�
 
 * [img.azyobuzi.net](http://img.azyobuzi.net/) 一部のサムネイル表示に使用
 
+### その他使わせて貰ったもの
+
+#### 絵文字候補生成
+
+* [emojione](https://github.com/Ranks/emojione)
+* [emoji](https://github.com/carpedm20/emoji)
+
 #### ライセンス
 
 * MIT License

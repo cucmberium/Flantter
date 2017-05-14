@@ -10,7 +10,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
     public class EventMessageViewModel : ExtendedBindableBase, ITweetViewModel
     {
-        private static ResourceLoader _resourceLoader = new ResourceLoader();
+        private static readonly ResourceLoader _resourceLoader = new ResourceLoader();
 
         public EventMessageViewModel(EventMessage eventMessage, long userId)
         {
@@ -72,6 +72,21 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                     break;
             }
 
+            Entities = new Entities();
+            Entities.UserMentions.Add(new UserMentionEntity
+            {
+                Id = eventMessage.Source.Id,
+                ScreenName = eventMessage.Source.ScreenName,
+                Name = eventMessage.Source.Name
+            });
+            if (eventMessage.Target != null)
+                Entities.UserMentions.Add(new UserMentionEntity
+                {
+                    Id = eventMessage.Target.Id,
+                    ScreenName = eventMessage.Target.ScreenName,
+                    Name = eventMessage.Target.Name
+                });
+
             if (eventMessage.TargetStatus != null)
             {
                 TargetStatusVisibility = true;
@@ -84,7 +99,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                     ? "http://localhost/"
                     : eventMessage.TargetStatus.User.ProfileImageUrl;
 
-                TargetStatusMediaVisibility = (eventMessage.TargetStatus.Entities.Media.Count != 0) &&
+                TargetStatusMediaVisibility = eventMessage.TargetStatus.Entities.Media.Count != 0 &&
                                               SettingService.Setting.ShowQuotedStatusMedia;
 
                 TargetStatusMediaEntities = new List<MediaEntityViewModel>();
@@ -128,6 +143,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public string TargetStatusProfileImageUrl { get; set; }
 
         public bool TargetStatusMediaVisibility { get; set; }
+
+        public Entities Entities { get; set; }
 
         public Entities TargetStatusEntities { get; set; }
 

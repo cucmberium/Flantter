@@ -216,7 +216,7 @@ namespace Flantter.MilkyWay.ViewModels
                         SettingsFlyoutType = "UserProfile",
                         Tokens = Model.Tokens,
                         UserIcon = ProfileImageUrl.Value,
-                        Content = ScreenName.Value
+                        Content = Model.AccountSetting.UserId
                     };
                     Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
                 })
@@ -821,7 +821,7 @@ namespace Flantter.MilkyWay.ViewModels
                         SettingsFlyoutType = "UserLists",
                         Tokens = Model.Tokens,
                         UserIcon = ProfileImageUrl.Value,
-                        Content = ScreenName.Value
+                        Content = Model.Tokens.UserId
                     };
                     Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
                 })
@@ -836,7 +836,7 @@ namespace Flantter.MilkyWay.ViewModels
                         SettingsFlyoutType = "UserCollections",
                         Tokens = Model.Tokens,
                         UserIcon = ProfileImageUrl.Value,
-                        Content = ScreenName.Value
+                        Content = Model.AccountSetting.UserId
                     };
                     Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
                 })
@@ -984,7 +984,7 @@ namespace Flantter.MilkyWay.ViewModels
                         SettingsFlyoutType = "UserProfile",
                         Tokens = Model.Tokens,
                         UserIcon = ProfileImageUrl.Value,
-                        Content = "Flantter"
+                        Content = 2431920390L // FlantterアカウントのUserId
                     };
                     Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
                 })

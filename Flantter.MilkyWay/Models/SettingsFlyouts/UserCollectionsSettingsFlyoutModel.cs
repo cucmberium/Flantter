@@ -30,7 +30,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (UpdatingUserCollections)
                 return;
 
-            if (_screenName == null || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
             if (useCursor && string.IsNullOrWhiteSpace(_userCollectionsCursor))
@@ -45,7 +45,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 var param = new Dictionary<string, object>
                 {
-                    {"screen_name", _screenName},
+                    {"user_id", _userId},
                     {"count", 20}
                 };
                 if (useCursor && !string.IsNullOrWhiteSpace(_userCollectionsCursor))
@@ -77,10 +77,10 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (CreatingCollection)
                 return false;
 
-            if (_screenName == null || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return false;
 
-            if (_screenName != Tokens.ScreenName)
+            if (_userId != Tokens.UserId)
                 return false;
 
             CreatingCollection = true;
@@ -120,10 +120,10 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (CreatingCollection)
                 return false;
 
-            if (_screenName == null || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return false;
 
-            if (_screenName != Tokens.ScreenName)
+            if (_userId != Tokens.UserId)
                 return false;
 
             CreatingCollection = true;
@@ -164,10 +164,10 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (CreatingCollection)
                 return false;
 
-            if (_screenName == null || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return false;
 
-            if (_screenName != Tokens.ScreenName)
+            if (_userId != Tokens.UserId)
                 return false;
 
             CreatingCollection = true;
@@ -214,14 +214,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         #endregion
 
-        #region ScreenName変更通知プロパティ
+        #region UserId変更通知プロパティ
 
-        private string _screenName;
+        private long _userId;
 
-        public string ScreenName
+        public long UserId
         {
-            get => _screenName;
-            set => SetProperty(ref _screenName, value);
+            get => _userId;
+            set => SetProperty(ref _userId, value);
         }
 
         #endregion

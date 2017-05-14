@@ -1668,6 +1668,8 @@ namespace Flantter.MilkyWay.Models.Twitter
 
         private const string UrlValidPreceedingChars = "(?:[^A-Z0-9@＠$#＃\\u202A-\\u202E]|^)";
 
+        private const string UrlValidPreceedingCharsEx = "(?:[^A-Z0-9@＠$#＃\\u202A-\\u202E\\.\\-]|^)";
+
         private const string UrlValidChars = AlnumChars + LatinAccentsChars;
 
         private const string UrlValidSubdomain = "(?>(?:[" + UrlValidChars + "][" + UrlValidChars + "\\-_]*)?[" + UrlValidChars + "]\\.)";
@@ -1736,9 +1738,24 @@ namespace Flantter.MilkyWay.Models.Twitter
 
         private const string UrlValidUrlQueryEndingChars = "[a-z0-9_&=#/]";
 
-        private static readonly string ValidUrlPatternString =
+        // private static readonly string ValidUrlPatternString =
+        //     "(" +                                                   //  $1 total match
+        //     "(" + UrlValidPreceedingChars + ")" +            //  $2 Preceeding chracter
+        //     "(" +                                               //  $3 URL
+        //     "(https?://)?" +                                //  $4 Protocol (optional)
+        //     "(" + UrlValidDomain + ")" +                  //  $5 Domain(s)
+        //     "(?::(" + UrlValidPortNumber + "))?" +       //  $6 Port number (optional)
+        //     "(/" +
+        //     "(?>" + UrlValidPath + "*)" +
+        //     ")?" +                                          //  $7 URL Path and anchor
+        //     "(\\?" + UrlValidUrlQueryChars + "*" +      //  $8 Query String 
+        //     UrlValidUrlQueryEndingChars + ")?" +
+        //     ")" +
+        //     ")";
+
+        private static readonly string ValidUrlPatternStringEx =
             "(" +                                                   //  $1 total match
-            "(" + UrlValidPreceedingChars + ")" +            //  $2 Preceeding chracter
+            "(" + UrlValidPreceedingCharsEx + ")" +            //  $2 Preceeding chracter
             "(" +                                               //  $3 URL
             "(https?://)?" +                                //  $4 Protocol (optional)
             "(" + UrlValidDomain + ")" +                  //  $5 Domain(s)
@@ -1753,8 +1770,8 @@ namespace Flantter.MilkyWay.Models.Twitter
 
         private const string AtSignsChars = "@\\uFF20";
 
-        private const string DollarSignChar = "\\$";
-        private const string Cashtag = "[a-z]{1,6}(?:[._][a-z]{1,2})?";
+        // private const string DollarSignChar = "\\$";
+        // private const string Cashtag = "[a-z]{1,6}(?:[._][a-z]{1,2})?";
 
         public const int ValidHashtagGroupBefore = 1;
         public const int ValidHashtagGroupHash = 2;
@@ -1779,7 +1796,8 @@ namespace Flantter.MilkyWay.Models.Twitter
         public const int ValidCashtagGroupBefore = 1;
         public const int ValidCashtagGroupDollar = 2;
         public const int ValidCashtagGroupCashtag = 3;
-        
+        public const int ValidReplyGroupUsername = 1;
+
 
         public static readonly Regex ValidHashtag =
             new Regex(
@@ -1787,51 +1805,52 @@ namespace Flantter.MilkyWay.Models.Twitter
                 "*" +
                 HashtagLettersSet + HashtagLettersNumeralsSet + "*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static readonly Regex InvalidHashtagMatchEnd = new Regex("^(?:[#＃]|://)", RegexOptions.Compiled);
+        // public static readonly Regex InvalidHashtagMatchEnd = new Regex("^(?:[#＃]|://)", RegexOptions.Compiled);
 
-        public static readonly Regex RtlChars = new Regex(
-            "[\\u0600-\\u06FF\\u0750-\\u077F\\u0590-\\u05FF\\uFE70-\\uFEFF]",
-            RegexOptions.Compiled);
+        // public static readonly Regex RtlChars = new Regex(
+        //     "[\\u0600-\\u06FF\\u0750-\\u077F\\u0590-\\u05FF\\uFE70-\\uFEFF]",
+        //     RegexOptions.Compiled);
 
         public static readonly Regex AtSigns = new Regex("[" + AtSignsChars + "]", RegexOptions.Compiled);
 
-        public static readonly Regex ValidMentionOrList =
-            new Regex(
-                "([^a-z0-9_!#$%&*" + AtSignsChars + "]|^|(?:^|[^a-z0-9_+~.-])RT:?)(" + AtSigns +
-                "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        // public static readonly Regex ValidMentionOrList =
+        //     new Regex(
+        //         "([^a-z0-9_!#$%&*" + AtSignsChars + "]|^|(?:^|[^a-z0-9_+~.-])RT:?)(" + AtSigns +
+        //         "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static readonly Regex ValidMastodonMentionOrList =
             new Regex(
                 "([^a-z0-9_!#$%&*" + AtSignsChars + "]|^|(?:^|[^a-z0-9_+~.-])RT:?)(" + AtSigns +
-                "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?(@(" + UrlValidDomain + "))?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?(@[a-z][a-z0-9\\-\\.]*)?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static readonly Regex ValidReply = new Regex(
-            "^(?:" + UnicodeSpace + ")*" + AtSigns + "([a-z0-9_]{1,20})",
+        // public static readonly Regex ValidReply = new Regex(
+        //     "^(?:" + UnicodeSpace + ")*" + AtSigns + "([a-z0-9_]{1,20})",
+        //     RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        // public static readonly Regex InvalidMentionMatchEnd =
+        //     new Regex("^(?:[" + AtSignsChars + LatinAccentsChars + "]|://)", RegexOptions.Compiled);
+
+        // public static readonly Regex InvalidUrlWithoutProtocolMatchBegin = new Regex("[-_./]$", RegexOptions.Compiled);
+
+        // public static readonly Regex ValidUrl = new Regex(ValidUrlPatternString,
+        //     RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        public static readonly Regex VaridUrlEx = new Regex(ValidUrlPatternStringEx,
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static readonly int ValidReplyGroupUsername = 1;
+        // public static readonly Regex ValidTcoUrl = new Regex("^https?:\\/\\/t\\.co\\/[a-z0-9]+",
+        //     RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static readonly Regex InvalidMentionMatchEnd =
-            new Regex("^(?:[" + AtSignsChars + LatinAccentsChars + "]|://)", RegexOptions.Compiled);
-
-        public static readonly Regex InvalidUrlWithoutProtocolMatchBegin = new Regex("[-_./]$", RegexOptions.Compiled);
-
-        public static readonly Regex ValidUrl = new Regex(ValidUrlPatternString,
-            RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        public static readonly Regex ValidTcoUrl = new Regex("^https?:\\/\\/t\\.co\\/[a-z0-9]+",
-            RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        public static readonly Regex ValidCashtag =
-            new Regex(
-                "(^|" + UnicodeSpace + ")(" + DollarSignChar + ")(" + Cashtag + ")" + "(?=$|\\s|[" + PunctChars + "])",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        // public static readonly Regex ValidCashtag =
+        //     new Regex(
+        //         "(^|" + UnicodeSpace + ")(" + DollarSignChar + ")(" + Cashtag + ")" + "(?=$|\\s|[" + PunctChars + "])",
+        //         RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static readonly Regex StatusUrl = new Regex(
             @"https?://twitter.com/(#!/)?([a-zA-Z0-9_])+/status(es)?/(?<Id>[0-9]+)$",
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static readonly Regex UserUrl = new Regex(@"https?://twitter.com/(#!/)?(?<ScreenName>([a-zA-Z0-9_])+)$",
-            RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        // public static readonly Regex UserUrl = new Regex(@"https?://twitter.com/(#!/)?(?<ScreenName>([a-zA-Z0-9_])+)$",
+        //     RegexOptions.IgnoreCase | RegexOptions.Compiled);
     }
 }

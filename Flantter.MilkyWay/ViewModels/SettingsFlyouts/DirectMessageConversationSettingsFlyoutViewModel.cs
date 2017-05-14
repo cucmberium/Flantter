@@ -18,17 +18,27 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             Model = new DirectMessageConversationSettingsFlyoutModel();
 
             Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
-            ScreenName = Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
             IconSource = new ReactiveProperty<string>("http://localhost/");
+            UserId = Model.ToReactivePropertyAsSynchronized(x => x.UserId);
 
             Text = Model.ToReactivePropertyAsSynchronized(x => x.Text);
 
+            ScreenName = Model.ObserveProperty(x => x.ScreenName).ToReactiveProperty();
+
             ClearCommand = new ReactiveCommand();
-            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => { Model.DirectMessages.Clear(); });
+            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x =>
+            {
+                Model.UserId = 0;
+
+                Model.DirectMessages.Clear();
+            });
 
             UpdateCommand = new ReactiveCommand();
             UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default)
-                .Subscribe(async x => { await Model.UpdateDirectMessageConversation(); });
+                .Subscribe(async x => {
+                    await Model.UpdateUserInfomation();
+                    await Model.UpdateDirectMessageConversation();
+                });
 
             SendCommand = new ReactiveCommand();
             SendCommand.SubscribeOn(ThreadPoolScheduler.Default)
@@ -72,6 +82,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveProperty<Tokens> Tokens { get; set; }
 
         public ReactiveProperty<string> IconSource { get; set; }
+
+        public ReactiveProperty<long> UserId { get; set; }
 
         public ReactiveProperty<string> ScreenName { get; set; }
 

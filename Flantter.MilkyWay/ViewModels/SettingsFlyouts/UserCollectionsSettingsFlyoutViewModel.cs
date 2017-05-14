@@ -25,8 +25,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
             Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
             IconSource = new ReactiveProperty<string>("http://localhost/");
-
-            ScreenName = Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
+            UserId = Model.ToReactivePropertyAsSynchronized(x => x.UserId);
 
             CreateCollectionOpen = new ReactiveProperty<bool>();
             UpdateCollectionOpen = new ReactiveProperty<bool>();
@@ -57,7 +56,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 {
                     await Model.UpdateUserCollections();
 
-                    if (Tokens.Value.ScreenName == ScreenName.Value)
+                    if (Tokens.Value.UserId == UserId.Value)
                         CollectionMenuOpen.Value = true;
                 });
 
@@ -211,7 +210,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<string> IconSource { get; set; }
 
-        public ReactiveProperty<string> ScreenName { get; set; }
+        public ReactiveProperty<long> UserId { get; set; }
 
         public ReadOnlyReactiveCollection<CollectionViewModel> UserCollections { get; }
 

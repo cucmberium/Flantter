@@ -26,7 +26,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
             IconSource = new ReactiveProperty<string>("http://localhost/");
 
-            ScreenName = Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
+            UserId = Model.ToReactivePropertyAsSynchronized(x => x.UserId);
 
             Status = new ReactiveProperty<Status>();
 
@@ -37,7 +37,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 .Subscribe(x =>
                 {
                     Status.Value = null;
-                    ScreenName.Value = "";
+
+                    Model.UserId = 0;
                     Model.UserCollections.Clear();
                 });
 
@@ -91,7 +92,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<string> IconSource { get; set; }
 
-        public ReactiveProperty<string> ScreenName { get; set; }
+        public ReactiveProperty<long> UserId { get; set; }
 
         public ReactiveProperty<Status> Status { get; set; }
 

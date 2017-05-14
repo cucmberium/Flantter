@@ -29,7 +29,7 @@
 
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Tapped">
-                        <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.Model.Id, Mode=OneWay}"/>
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Border>
@@ -38,7 +38,7 @@
                 <TextBlock>
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities.Description, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Description, Mode=OneWay}"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.DeficientEntity="True" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities.Description, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Description, Mode=OneWay}"/>
             </StackPanel>
         </Grid>
         
@@ -77,7 +77,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="2" Width="60" ToolTipService.ToolTip="UserProfile" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}">
+            <Button Grid.Column="2" Width="60" ToolTipService.ToolTip="UserProfile" BorderThickness="0" Background="{x:Null}" Padding="15,6" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.Model.Id, Mode=OneWay}">
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="ContactInfo" />
             </Button>
 
@@ -91,7 +91,7 @@
                     <MenuFlyout>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_ReplyMenu" Text="&#xE172;    リプライ関連" FontFamily="Segoe UI Symbol">
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Reply" Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
-                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.Model.Id, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_OtherMenu" Text="&#xE16F;    その他" FontFamily="Segoe UI Symbol">
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_MuteUser" Text="&#xE1E0;    ユーザーミュート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>

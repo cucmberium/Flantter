@@ -44,15 +44,26 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (UpdatingUserInformation)
                 return;
 
-            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
+            if ((_userId == 0 && string.IsNullOrWhiteSpace(_screenName)) || Tokens == null)
                 return;
 
             UpdatingUserInformation = true;
 
             try
             {
-                var user = await Tokens.Users.ShowAsync(screen_name => _screenName, include_entities => true);
+                var param = new Dictionary<string, object>
+                {
+                    {"include_entities", true},
+                };
+                if (_userId != 0)
+                    param.Add("user_id", _userId);
+                else
+                    param.Add("screen_name", _screenName);
 
+                var user = await Tokens.Users.ShowAsync(param);
+
+                UserId = user.Id;
+                ScreenName = user.ScreenName;
                 UrlEntities = user.Entities.Url;
                 DescriptionEntities = user.Entities.Description;
                 Description = user.Description;
@@ -71,7 +82,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 Url = user.Url;
                 Name = user.Name;
                 IsFollowRequestSent = user.IsFollowRequestSent;
-                UserId = user.Id;
             }
             catch
             {
@@ -87,15 +97,15 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (UpdatingRelationShip)
                 return;
 
-            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
             UpdatingRelationShip = true;
 
             try
             {
-                var relationShip = await Tokens.Friendships.ShowAsync(source_screen_name => Tokens.ScreenName,
-                    target_screen_name => _screenName);
+                var relationShip = await Tokens.Friendships.ShowAsync(source_id => Tokens.UserId,
+                    target_id => _userId);
                 IsFollowing = relationShip.Source.IsFollowing;
                 IsFollowedBy = relationShip.Source.IsFollowedBy;
                 IsBlocking = relationShip.Source.IsBlocking;
@@ -116,7 +126,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (UpdatingStatuses)
                 return;
 
-            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
             UpdatingStatuses = true;
@@ -127,7 +137,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 {
                     {"count", 20},
                     {"include_entities", true},
-                    {"screen_name", _screenName},
+                    {"user_id", _userId},
                     {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
@@ -173,7 +183,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (UpdatingFavorites)
                 return;
 
-            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
             UpdatingFavorites = true;
@@ -184,7 +194,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 {
                     {"count", 20},
                     {"include_entities", true},
-                    {"screen_name", _screenName},
+                    {"id", _userId},
                     {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (maxid != 0)
@@ -231,7 +241,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (UpdatingFollowers)
                 return;
 
-            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
             if (useCursor && _followersCursor == 0)
@@ -245,7 +255,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 {
                     {"count", 20},
                     {"include_entities", true},
-                    {"screen_name", _screenName},
+                    {"user_id", _userId},
                     {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (useCursor && _followersCursor != 0)
@@ -277,7 +287,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (UpdatingFollowing)
                 return;
 
-            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
             if (useCursor && _followingCursor == 0)
@@ -291,7 +301,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 {
                     {"count", 20},
                     {"include_entities", true},
-                    {"screen_name", _screenName},
+                    {"user_id", _userId},
                     {"tweet_mode", CoreTweet.TweetMode.Extended}
                 };
                 if (useCursor && _followingCursor != 0)
@@ -334,7 +344,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         {
             try
             {
-                var user = await Tokens.Friendships.CreateAsync(screen_name => _screenName);
+                var user = await Tokens.Friendships.CreateAsync(user_id => _userId);
                 if (user.IsProtected)
                     IsFollowRequestSent = true;
                 else
@@ -363,7 +373,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         {
             try
             {
-                await Tokens.Friendships.DestroyAsync(screen_name => _screenName);
+                await Tokens.Friendships.DestroyAsync(user_id => _userId);
                 IsFollowing = false;
             }
             catch (CoreTweet.TwitterException ex)
@@ -389,7 +399,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         {
             try
             {
-                await Tokens.Blocks.CreateAsync(screen_name => _screenName);
+                await Tokens.Blocks.CreateAsync(user_id => _userId);
             }
             catch (CoreTweet.TwitterException ex)
             {
@@ -420,7 +430,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         {
             try
             {
-                await Tokens.Blocks.DestroyAsync(screen_name => _screenName);
+                await Tokens.Blocks.DestroyAsync(user_id => _userId);
             }
             catch (CoreTweet.TwitterException ex)
             {
@@ -450,7 +460,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         {
             try
             {
-                await Tokens.Mutes.Users.CreateAsync(screen_name => _screenName);
+                await Tokens.Mutes.Users.CreateAsync(user_id => _userId);
             }
             catch (CoreTweet.TwitterException ex)
             {
@@ -480,7 +490,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         {
             try
             {
-                await Tokens.Mutes.Users.DestroyAsync(screen_name => _screenName);
+                await Tokens.Mutes.Users.DestroyAsync(user_id => _userId);
             }
             catch (CoreTweet.TwitterException ex)
             {
@@ -518,6 +528,19 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         #endregion
 
+        #region UserId変更通知プロパティ
+
+        private long _userId;
+
+        public long UserId
+        {
+            get => _userId;
+            set => SetProperty(ref _userId, value);
+        }
+
+        #endregion
+
+
         #region ScreenName変更通知プロパティ
 
         private string _screenName;
@@ -529,7 +552,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #endregion
-
 
         #region DescriptionEntities変更通知プロパティ
 
@@ -782,19 +804,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #endregion
-
-        #region UserId変更通知プロパティ
-
-        private long _userId;
-
-        public long UserId
-        {
-            get => _userId;
-            set => SetProperty(ref _userId, value);
-        }
-
-        #endregion
-
+        
 
         #region UpdatingUserInformation変更通知プロパティ
 

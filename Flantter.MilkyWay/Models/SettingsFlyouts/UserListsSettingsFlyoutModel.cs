@@ -30,7 +30,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (UpdatingUserLists)
                 return;
 
-            if (_screenName == null || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
             if (useCursor && _userListsCursor == 0)
@@ -45,7 +45,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 var param = new Dictionary<string, object>
                 {
-                    {"screen_name", _screenName},
+                    {"user_id", _userId},
                     {"count", 20}
                 };
                 if (useCursor && _userListsCursor != 0)
@@ -78,7 +78,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (UpdatingSubscribeLists)
                 return;
 
-            if (_screenName == null || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
             if (useCursor && _subscribeListsCursor == 0)
@@ -93,7 +93,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 var param = new Dictionary<string, object>
                 {
-                    {"screen_name", _screenName},
+                    {"user_id", _userId},
                     {"count", 20}
                 };
                 if (useCursor && _subscribeListsCursor != 0)
@@ -126,7 +126,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (UpdatingMembershipLists)
                 return;
 
-            if (_screenName == null || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
             if (useCursor && _memberListsCursor == 0)
@@ -141,7 +141,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 var param = new Dictionary<string, object>
                 {
-                    {"screen_name", _screenName},
+                    {"user_id", _userId},
                     {"count", 20}
                 };
                 if (useCursor && _memberListsCursor != 0)
@@ -181,14 +181,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         #endregion
 
-        #region ScreenName変更通知プロパティ
+        #region UserId変更通知プロパティ
 
-        private string _screenName;
+        private long _userId;
 
-        public string ScreenName
+        public long UserId
         {
-            get => _screenName;
-            set => SetProperty(ref _screenName, value);
+            get => _userId;
+            set => SetProperty(ref _userId, value);
         }
 
         #endregion

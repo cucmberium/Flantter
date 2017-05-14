@@ -18,8 +18,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
             Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
             IconSource = new ReactiveProperty<string>("http://localhost/");
-
-            ScreenName = Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
+            UserId = Model.ToReactivePropertyAsSynchronized(x => x.UserId);
 
             PivotSelectedIndex = new ReactiveProperty<int>(0);
             PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default)
@@ -52,8 +51,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             ClearCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x =>
                 {
-                    ScreenName.Value = "";
                     PivotSelectedIndex.Value = 0;
+
+                    Model.UserId = 0;
 
                     Model.OpenSubscribeLists = false;
                     Model.OpenMembershipLists = false;
@@ -104,7 +104,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<string> IconSource { get; set; }
 
-        public ReactiveProperty<string> ScreenName { get; set; }
+        public ReactiveProperty<long> UserId { get; set; }
 
         public ReactiveProperty<int> PivotSelectedIndex { get; set; }
 

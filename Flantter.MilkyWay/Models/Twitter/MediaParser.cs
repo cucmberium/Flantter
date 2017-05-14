@@ -559,7 +559,7 @@ namespace Flantter.MilkyWay.Models.Twitter
 
         public static IEnumerable<Media> Parse(IEnumerable<Mastonet.Entities.Attachment> cAttachments, string cContent)
         {
-            foreach (Match urlMatch in TweetRegexPatterns.ValidUrl.Matches(cContent))
+            foreach (Match urlMatch in TweetRegexPatterns.VaridUrlEx.Matches(cContent))
             {
                 if (!urlMatch.Groups[3].Value.StartsWith("http"))
                     continue;

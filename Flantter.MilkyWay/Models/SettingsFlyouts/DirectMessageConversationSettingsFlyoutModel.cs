@@ -23,12 +23,36 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         public ObservableCollection<DirectMessage> DirectMessages { get; set; }
 
+        public async Task UpdateUserInfomation()
+        {
+            if (UpdatingDirectMessages)
+                return;
+
+            if (_userId == 0 || Tokens == null)
+                return;
+
+            UpdatingDirectMessages = true;
+
+            try
+            {
+                var user = await Tokens.Users.ShowAsync(user_id => _userId, include_entities => true);
+                ScreenName = user.ScreenName;
+            }
+            catch
+            {
+                UpdatingDirectMessages = false;
+                return;
+            }
+
+            UpdatingDirectMessages = false;
+        }
+
         public async Task UpdateDirectMessageConversation(long maxid = 0, bool clear = true)
         {
             if (UpdatingDirectMessages)
                 return;
 
-            if (string.IsNullOrWhiteSpace(_screenName) || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
             UpdatingDirectMessages = true;
@@ -90,7 +114,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (SendingDirectMessage)
                 return;
 
-            if (string.IsNullOrWhiteSpace(_screenName) || string.IsNullOrWhiteSpace(_text) || Tokens == null)
+            if (_userId == 0 || string.IsNullOrWhiteSpace(_text) || Tokens == null)
                 return;
 
             SendingDirectMessage = true;
@@ -100,19 +124,19 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 var param = new Dictionary<string, object>
                 {
                     {"text", _text},
-                    {"screen_name", _screenName}
+                    {"user_id", _userId}
                 };
                 if (Tokens.Platform == Tokens.PlatformEnum.Mastodon)
                 {
                     var id = DirectMessages.FirstOrDefault(x => x.Sender.Id != Tokens.UserId)?.Id;
                     if (id == 0)
                     {
-                        var userTimeline = await Tokens.Statuses.UserTimelineAsync(screen_name => _screenName);
+                        var userTimeline = await Tokens.Statuses.UserTimelineAsync(user_id => _userId);
                         id = userTimeline.FirstOrDefault()?.Id;
                     }
                     param.Add("in_reply_to_status_id", id);
                 }
-                var directMessage = await Tokens.DirectMessages.NewAsync(text => _text, screen_name => _screenName);
+                var directMessage = await Tokens.DirectMessages.NewAsync(text => _text, user_id => _userId);
                 DirectMessages.Insert(0, directMessage);
             }
             catch (CoreTweet.TwitterException ex)
@@ -147,6 +171,18 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         #endregion
 
+        #region UserId変更通知プロパティ
+
+        private long _userId;
+
+        public long UserId
+        {
+            get => _userId;
+            set => SetProperty(ref _userId, value);
+        }
+
+        #endregion
+        
         #region ScreenName変更通知プロパティ
 
         private string _screenName;

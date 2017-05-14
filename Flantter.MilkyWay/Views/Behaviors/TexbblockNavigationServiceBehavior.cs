@@ -190,7 +190,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             var escapedText = text.ResolveEntity().EscapeEntity();
 
-            escapedText = TweetRegexPatterns.ValidUrl.Replace(escapedText, m =>
+            escapedText = TweetRegexPatterns.VaridUrlEx.Replace(escapedText, m =>
                 m.Groups[TweetRegexPatterns.ValidUrlGroupBefore] + "<U>" +
                 // # => &sharp; @ => &at;(ハッシュタグ, メンションで再識別されることを防ぐ)
                 m.Groups[TweetRegexPatterns.ValidUrlGroupUrl].Value.Replace("#", "&sharp;").Replace("@", "&at;") +
@@ -243,7 +243,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                             yield return new TextPart {RawText = body, Text = body, Type = TextPartType.Hashtag};
                             break;
                         default:
-                            throw new InvalidOperationException("invalid grouping:" + kind);
+                            throw new InvalidOperationException("Invalid grouping:" + kind);
                     }
                 }
                 else
@@ -264,7 +264,25 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 foreach (var token in TokenizeImpl(text))
                 {
                     if (token.Type == TextPartType.Url && entities.Urls.Any(x => x.Url == token.RawText))
-                        token.Text = entities.Urls.First(x => x.Url == token.RawText).DisplayUrl;
+                    {
+                        try
+                        {
+                            token.Text = entities.Urls.First(x => x.Url == token.RawText).DisplayUrl;
+                        }
+                        catch
+                        {
+                        }
+                    }
+                    else if (token.Type == TextPartType.UserMention)
+                    {
+                        try
+                        {
+                            token.RawText = entities.UserMentions.First(x => x.ScreenName == token.Text.Substring(1)).Id.ToString();
+                        }
+                        catch
+                        {
+                        }
+                    }
 
                     yield return token;
                 }
@@ -291,16 +309,19 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (linkUrl.StartsWith("usermention://"))
             {
                 var userMention = linkUrl.Replace("usermention://", "");
-                Notice.Instance.ShowUserProfileCommand.Execute(userMention.Remove(0, 1));
+                if (userMention.StartsWith("@"))
+                    Notice.Instance.ShowUserProfileCommand.Execute(userMention.Substring(1));
+                else
+                    Notice.Instance.ShowUserProfileCommand.Execute(long.Parse(userMention));
                 return;
             }
 
             var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
-            var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
+            // var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
             if (statusMatch.Success)
                 Notice.Instance.ShowStatusDetailCommand.Execute(long.Parse(statusMatch.Groups["Id"].ToString()));
-            else if (userMatch.Success)
-                Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"].ToString());
+            // else if (userMatch.Success)
+            //     Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"].ToString());
             else
                 await Launcher.LaunchUriAsync(new Uri(linkUrl));
         }

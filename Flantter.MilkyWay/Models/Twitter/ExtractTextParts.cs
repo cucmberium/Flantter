@@ -188,7 +188,7 @@ namespace Flantter.MilkyWay.Models.Twitter
                                 Type = TextPartType.UserMention,
                                 Start = e.Start,
                                 End = e.End,
-                                RawText = "@" + e.ScreenName,
+                                RawText = e.Id.ToString(),
                                 Text = "@" + e.ScreenName,
                                 Entity = e
                             })

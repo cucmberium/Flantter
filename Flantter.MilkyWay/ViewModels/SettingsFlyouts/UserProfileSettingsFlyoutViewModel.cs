@@ -25,8 +25,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             Model = new UserProfileSettingsFlyoutModel();
 
             Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
-            ScreenName = Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
             IconSource = new ReactiveProperty<string>("http://localhost/");
+            UserId = Model.ToReactivePropertyAsSynchronized(x => x.UserId);
+            ScreenName = Model.ToReactivePropertyAsSynchronized(x => x.ScreenName);
 
             PivotSelectedIndex = new ReactiveProperty<int>(0);
             PivotSelectedIndex.SubscribeOn(ThreadPoolScheduler.Default)
@@ -163,6 +164,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             ClearCommand.Subscribe(x =>
             {
                 PivotSelectedIndex.Value = 0;
+
+                Model.UserId = 0;
+                Model.ScreenName = "";
 
                 Model.OpenFavorite = false;
                 Model.OpenFollowers = false;
@@ -385,6 +389,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReactiveProperty<string> FollowButtonPointerOverText { get; set; }
 
+
+        public ReactiveProperty<long> UserId { get; set; }
 
         public ReactiveProperty<Entities> UrlEntities { get; set; }
 

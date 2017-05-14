@@ -142,8 +142,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     ((UserProfileSettingsFlyout) settingsFlyout).ViewModel.ClearCommand.Execute();
 
-                    ((UserProfileSettingsFlyout) settingsFlyout).ViewModel.ScreenName.Value =
-                        notification.Content as string;
+                    if (notification.Content is long)
+                        ((UserProfileSettingsFlyout) settingsFlyout).ViewModel.UserId.Value =
+                            (long)notification.Content;
+                    else
+                        ((UserProfileSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value =
+                            notification.Content as string;
 
                     ((UserProfileSettingsFlyout) settingsFlyout).ViewModel.UpdateCommand.Execute();
 
@@ -237,25 +241,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     ((DirectMessageConversationSettingsFlyout) settingsFlyout).ViewModel.ClearCommand.Execute();
 
-                    if (notification.Content is Status)
-                    {
-                        var status = notification.Content as Status;
-                        if (status.User.ScreenName == notification.Tokens.ScreenName)
-                            break;
-                        ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value =
-                            status.User.ScreenName;
-                    }
-                    else if (notification.Content is string)
-                    {
-                        var screenName = notification.Content as string;
-                        if (screenName == notification.Tokens.ScreenName)
-                            break;
-
-                        ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel.ScreenName.Value = screenName;
-                    }
-
+                    ((DirectMessageConversationSettingsFlyout)settingsFlyout).ViewModel.UserId.Value = (long)notification.Content;
                     
-
                     ((DirectMessageConversationSettingsFlyout) settingsFlyout).ViewModel.UpdateCommand.Execute();
 
                     ((DirectMessageConversationSettingsFlyout) settingsFlyout).DataContext =
@@ -283,8 +270,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     ((UserListsSettingsFlyout) settingsFlyout).ViewModel.ClearCommand.Execute();
 
-                    ((UserListsSettingsFlyout) settingsFlyout).ViewModel.ScreenName.Value =
-                        notification.Content as string;
+                    ((UserListsSettingsFlyout) settingsFlyout).ViewModel.UserId.Value =
+                        (long)notification.Content;
 
                     ((UserListsSettingsFlyout) settingsFlyout).ViewModel.UpdateCommand.Execute();
 
@@ -313,8 +300,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((UserCollectionsSettingsFlyout) settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
                     ((UserCollectionsSettingsFlyout) settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
 
-                    ((UserCollectionsSettingsFlyout) settingsFlyout).ViewModel.ScreenName.Value =
-                        notification.Content as string;
+                    ((UserCollectionsSettingsFlyout) settingsFlyout).ViewModel.UserId.Value =
+                        (long)notification.Content;
 
                     ((UserCollectionsSettingsFlyout) settingsFlyout).ViewModel.ClearCommand.Execute();
 
@@ -529,8 +516,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     ((AddStatusToCollectionSettingsFlyout) settingsFlyout).ViewModel.ClearCommand.Execute();
 
-                    ((AddStatusToCollectionSettingsFlyout) settingsFlyout).ViewModel.ScreenName.Value =
-                        notification.Tokens.ScreenName;
+                    ((AddStatusToCollectionSettingsFlyout) settingsFlyout).ViewModel.UserId.Value =
+                        notification.Tokens.UserId;
                     ((AddStatusToCollectionSettingsFlyout) settingsFlyout).ViewModel.Status.Value =
                         (Status) notification.Content;
 

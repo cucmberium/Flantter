@@ -101,6 +101,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
         public Entities()
         {
+            HashTags = new List<HashtagEntity>();
+            Media = new List<MediaEntity>();
+            Urls = new List<UrlEntity>();
+            UserMentions = new List<UserMentionEntity>();
         }
 
         #region HashTags変更通知プロパティ

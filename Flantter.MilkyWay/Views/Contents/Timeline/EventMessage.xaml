@@ -58,7 +58,7 @@
 
                 <i:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Tapped">
-                        <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.Model.Source.Id, Mode=OneWay}"/>
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Border>
@@ -67,7 +67,7 @@
                 <TextBlock>
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock x:Name="EventMessageBodyText" TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
+                <TextBlock x:Name="EventMessageBodyText" TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.DeficientEntity="True" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
                     <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{x:Bind ViewModel.CreatedAt, Mode=OneWay}"/>
                 </TextBlock>
@@ -166,7 +166,7 @@
                 <SymbolIcon Foreground="{StaticResource TweetCommandBarMenuSymbolIconForegroundBrush}" Symbol="Add" />
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UserProfile" Text="&#xE136;    ユーザープロフィール" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_UserProfile" Text="&#xE136;    ユーザープロフィール" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ShowUserProfileCommand}" CommandParameter="{x:Bind ViewModel.Model.Source.Id, Mode=OneWay}"/>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_OtherMenu" Text="&#xE16F;    その他" FontFamily="Segoe UI Symbol">
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_MuteUser" Text="&#xE1E0;    ユーザーミュート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Model.Source, Mode=OneWay}"/>

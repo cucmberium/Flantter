@@ -25,7 +25,7 @@ namespace Flantter.MilkyWay
     {
         public App()
         {
-            HockeyClient.Current.Configure("12d0f9780e5645e3bf16ee0557054a03");
+            HockeyClient.Current.Configure("12d0f9780e5645e3bf16ee0557054a03").SetExceptionDescriptionLoader(ex => ex.ToString());
             InitializeComponent();
 
             UnhandledException += App_UnhandledException;

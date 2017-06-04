@@ -143,9 +143,13 @@ namespace Flantter.MilkyWay.Models
                                 {
                                     paramList.Add("list://" + _parameter);
                                 }
-                                else if (_action == SettingSupport.ColumnTypeEnum.Sample)
+                                else if (_action == SettingSupport.ColumnTypeEnum.Federated)
                                 {
-                                    paramList.Add("sample://" + _parameter);
+                                    paramList.Add("federated://" + _parameter);
+                                }
+                                else if (_action == SettingSupport.ColumnTypeEnum.Local)
+                                {
+                                    paramList.Add("local://" + _parameter);
                                 }
 
                                 Connecter.Instance.TweetReceive_OnCommandExecute(this,
@@ -322,7 +326,7 @@ namespace Flantter.MilkyWay.Models
                     param.Add("track", ColumnSetting.Parameter.ToLower());
                     iObservable = Tokens.Streaming.FilterAsObservable(param);
                 }
-                else if (Action == SettingSupport.ColumnTypeEnum.List)
+                else if (_action == SettingSupport.ColumnTypeEnum.List)
                 {
                     if (AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
                         AccountModel.DisconnectAllFilterStreaming(this);
@@ -335,10 +339,15 @@ namespace Flantter.MilkyWay.Models
                     param.Add("follow", string.Join(",", _listStreamUserIdList));
                     iObservable = Tokens.Streaming.FilterAsObservable(param);
                 }
-                else if (_action == SettingSupport.ColumnTypeEnum.Sample)
+                else if (_action == SettingSupport.ColumnTypeEnum.Federated)
                 {
                     var param = new Dictionary<string, object>();
-                    iObservable = Tokens.Streaming.SampleAsObservable(param);
+                    iObservable = Tokens.Streaming.PublicAsObservable(param);
+                }
+                else if (_action == SettingSupport.ColumnTypeEnum.Local)
+                {
+                    var param = new Dictionary<string, object> {{"local", true}};
+                    iObservable = Tokens.Streaming.PublicAsObservable(param);
                 }
                 else
                 {
@@ -440,6 +449,12 @@ namespace Flantter.MilkyWay.Models
                     break;
                 case SettingSupport.ColumnTypeEnum.Collection:
                     await UpdateCollection(maxid, sinceid);
+                    break;
+                case SettingSupport.ColumnTypeEnum.Federated:
+                    await UpdatePublicTimeline(false, maxid, sinceid);
+                    break;
+                case SettingSupport.ColumnTypeEnum.Local:
+                    await UpdatePublicTimeline(true, maxid, sinceid);
                     break;
             }
 
@@ -881,7 +896,9 @@ namespace Flantter.MilkyWay.Models
             }
             catch (NotImplementedException e)
             {
-                // Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, _resourceLoader.GetString("Notification_System_NotImplementedException"), _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                // Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                //     _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                //     _resourceLoader.GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
@@ -943,6 +960,60 @@ namespace Flantter.MilkyWay.Models
                         _resourceLoader.GetString("Notification_System_ErrorOccurred"),
                         _resourceLoader.GetString("Notification_System_CheckNetwork"));
                 }
+            }
+        }
+        
+        private async Task UpdatePublicTimeline(bool local = false, long maxid = 0, long sinceid = 0)
+        {
+            try
+            {
+                var param = new Dictionary<string, object>
+                {
+                    {"count", ColumnSetting.FetchingNumberOfTweet},
+                    {"local", local},
+                };
+                if (maxid != 0)
+                    param.Add("max_id", maxid);
+                if (sinceid != 0)
+                    param.Add("since_id", sinceid);
+
+                var publicTimeline = await Tokens.Statuses.PublicTimelineAsync(param);
+                var lastId = publicTimeline.Count > 0 ? publicTimeline.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
+                var gapCheck = GapCheck(lastId);
+
+                foreach (var status in publicTimeline)
+                {
+                    if (Check(status))
+                        Add(status);
+
+                    var paramList = new List<string>();
+                    if (local)
+                        paramList.Add("local://" + _parameter);
+                    else
+                        paramList.Add("federated://" + _parameter);
+                    Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                        new TweetEventArgs(status, AccountSetting.UserId, paramList, false));
+                }
+
+                if (gapCheck)
+                    Add(new Gap(0, lastId - 1, DateTime.Now));
+            }
+            catch (CoreTweet.TwitterException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
+            }
+            catch (Exception e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
             }
         }
 

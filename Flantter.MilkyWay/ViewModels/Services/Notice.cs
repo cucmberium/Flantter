@@ -41,6 +41,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             ShowCollectionStatusesCommand = new ReactiveCommand();
             ShowRetweetsOfMeCommand = new ReactiveCommand();
             ShowUserFollowInfoCommand = new ReactiveCommand();
+            ShowPublicTimelineCommand = new ReactiveCommand();
             RetweetStatusesCommand = new ReactiveCommand();
             FavoriteStatusesCommand = new ReactiveCommand();
             ShowMyListsCommand = new ReactiveCommand();
@@ -160,6 +161,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowCollectionStatusesCommand { get; }
         public ReactiveCommand ShowRetweetsOfMeCommand { get; }
         public ReactiveCommand ShowUserFollowInfoCommand { get; }
+        public ReactiveCommand ShowPublicTimelineCommand { get; }
         public ReactiveCommand RetweetStatusesCommand { get; }
         public ReactiveCommand FavoriteStatusesCommand { get; }
         public ReactiveCommand ShowMyListsCommand { get; }

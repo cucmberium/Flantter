@@ -131,6 +131,7 @@
     <Compile Include="Models\Plugin\Interface.cs" />
     <Compile Include="Models\SettingsFlyouts\CollectionStatusesSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\AddStatusToCollectionsSettingsFlyoutModel.cs" />
+    <Compile Include="Models\SettingsFlyouts\PublicTimelineSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\UserCollectionsSettingsFlyoutModel.cs" />
     <Compile Include="Models\ShareContract\StatusShareContractModel.cs" />
     <Compile Include="Models\Twitter\EmojiPatterns.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="ViewModels\Services\Notice.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\CollectionStatusesSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\AddStatusToCollectionsSettingsFlyoutViewModel.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\PublicTimelineSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserCollectionsSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\Settings\ColumnSettingSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\Settings\MuteSettingSettingsFlyoutViewModel.cs" />
@@ -238,6 +240,9 @@
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\CollectionStatusesSettingsFlyout.xaml.cs">
       <DependentUpon>CollectionStatusesSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\PublicTimelineSettingsFlyout.xaml.cs">
+      <DependentUpon>PublicTimelineSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\Settings\ColumnSettingSettingsFlyout.xaml.cs">
       <DependentUpon>ColumnSettingSettingsFlyout.xaml</DependentUpon>
@@ -490,6 +495,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\CollectionStatusesSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\PublicTimelineSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

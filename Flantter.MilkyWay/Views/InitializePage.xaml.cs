@@ -147,11 +147,11 @@ namespace Flantter.MilkyWay.Views
                 if (accountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)
                     accountSetting.Column.Add(new ColumnSetting
                     {
-                        Action = SettingSupport.ColumnTypeEnum.Sample,
+                        Action = SettingSupport.ColumnTypeEnum.Federated,
                         AutoRefresh = false,
                         AutoRefreshTimerInterval = 180.0,
                         Filter = "()",
-                        Name = "Local",
+                        Name = "Federated",
                         Parameter = string.Empty,
                         Streaming = true,
                         Index = 5,

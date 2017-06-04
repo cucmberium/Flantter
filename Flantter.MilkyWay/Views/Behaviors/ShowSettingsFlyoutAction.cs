@@ -495,6 +495,36 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     PopupList.Insert(0, settingsFlyout);
                     break;
+                case "PublicTimeline":
+                    settingsFlyoutList = _settingsFlyoutList.Where(x => x is PublicTimelineSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Any())
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new PublicTimelineSettingsFlyout();
+                        ((PublicTimelineSettingsFlyout)settingsFlyout).ViewModel =
+                            new PublicTimelineSettingsFlyoutViewModel();
+                        _settingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((PublicTimelineSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((PublicTimelineSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((PublicTimelineSettingsFlyout)settingsFlyout).ViewModel.Type.Value =
+                        (string)notification.Content;
+
+                    ((PublicTimelineSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+                    ((PublicTimelineSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((PublicTimelineSettingsFlyout)settingsFlyout).DataContext =
+                        ((PublicTimelineSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+
+                    PopupList.Insert(0, settingsFlyout);
+                    break;
                 case "AddToCollection":
                     settingsFlyoutList =
                         _settingsFlyoutList.Where(x => x is AddStatusToCollectionSettingsFlyout && !x.IsOpen);

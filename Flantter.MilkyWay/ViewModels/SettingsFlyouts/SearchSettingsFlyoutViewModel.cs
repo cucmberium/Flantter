@@ -424,8 +424,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveCommand AdvancedSearchCommand { get; set; }
         public ReactiveCommand AdvancedSearchContentCommand { get; set; }
         public ReactiveCommand AdvancedSearchEngagementCommand { get; set; }
-
-
+        
         public ReactiveCommand AddColumnCommand { get; set; }
 
         public Notice Notice { get; set; }

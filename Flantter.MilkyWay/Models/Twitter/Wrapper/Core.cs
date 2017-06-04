@@ -609,6 +609,34 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
             }
             throw new NotImplementedException();
         }
+
+        public Task<List<Twitter.Objects.Status>> PublicTimelineAsync(params Expression<Func<string, object>>[] parameters)
+        {
+            return this.PublicTimelineAsyncImpl(ExpressionToDictionary(parameters));
+        }
+
+        public Task<List<Twitter.Objects.Status>> PublicTimelineAsync(IDictionary<string, object> parameters)
+        {
+            return this.PublicTimelineAsyncImpl(parameters);
+        }
+
+        private async Task<List<Twitter.Objects.Status>> PublicTimelineAsyncImpl(IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    throw new NotImplementedException();
+                case Tokens.PlatformEnum.Mastodon:
+                    var result = (await Tokens.MastodonTokens.GetPublicTimeline((long?)parameters.GetValueOrDefault("max_id", null),
+                            (long?)parameters.GetValueOrDefault("since_id", null),
+                            (int?)parameters.GetValueOrDefault("count", null),
+                            (bool)parameters.GetValueOrDefault("local", false)))
+                        .Select(x => new Twitter.Objects.Status(x))
+                        .ToList();
+                    return result;
+            }
+            throw new NotImplementedException();
+        }
     }
 
     public class SavedSearches : ApiBase
@@ -1912,7 +1940,11 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                                 _parameters["track"]);
                             break;
                         case StreamingType.Public:
-                            conn.Start(observer, _tokens, "https://" + streamingUrl + "/api/v1/streaming/public");
+                            var publicStreamingUrl = "https://" + streamingUrl + "/api/v1/streaming/public";
+                            if (_parameters.ContainsKey("local") && (bool)_parameters["local"])
+                                publicStreamingUrl += "?local=1";
+
+                            conn.Start(observer, _tokens, publicStreamingUrl);
                             break;
                     }
                     return conn;
@@ -2206,8 +2238,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     return new TwitterStreaming.StreamingObservable(Tokens, TwitterStreaming.StreamingType.Sample,
                         parameters);
                 case Tokens.PlatformEnum.Mastodon:
-                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Public,
-                        parameters);
+                    throw new NotImplementedException();
             }
             throw new NotImplementedException();
         }
@@ -2233,6 +2264,31 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                         parameters);
                 case Tokens.PlatformEnum.Mastodon:
                     return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.User,
+                        parameters);
+            }
+            throw new NotImplementedException();
+        }
+
+        public IObservable<Twitter.Objects.StreamingMessage> PublicAsObservable(
+            params Expression<Func<string, object>>[] parameters)
+        {
+            return this.PublicAsObservableImpl(ExpressionToDictionary(parameters));
+        }
+
+        public IObservable<Twitter.Objects.StreamingMessage> PublicAsObservable(IDictionary<string, object> parameters)
+        {
+            return this.PublicAsObservableImpl(parameters);
+        }
+
+        private IObservable<Twitter.Objects.StreamingMessage> PublicAsObservableImpl(
+            IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    throw new NotImplementedException();
+                case Tokens.PlatformEnum.Mastodon:
+                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Public,
                         parameters);
             }
             throw new NotImplementedException();

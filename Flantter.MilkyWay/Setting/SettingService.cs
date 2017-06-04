@@ -23,7 +23,8 @@ namespace Flantter.MilkyWay.Setting
             List = 7,
             Filter = 8,
             Collection = 9,
-            Sample = 10
+            Federated = 10,
+            Local = 11
         }
 
         public enum DoubleTappedActionEnum

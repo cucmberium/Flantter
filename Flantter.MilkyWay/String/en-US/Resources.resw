@@ -1060,4 +1060,10 @@
   <data name="SettingsFlyout_Settings_Display_ThemeChangeWarning_Textblock.Text" xml:space="preserve">
     <value>Theme setting will be applied after restart</value>
   </data>
+  <data name="MainSwipeMenu_FederatedTimeline.Text" xml:space="preserve">
+    <value>Federated timeline</value>
+  </data>
+  <data name="MainSwipeMenu_LocalTimeline.Text" xml:space="preserve">
+    <value>Local timeline</value>
+  </data>
 </root>

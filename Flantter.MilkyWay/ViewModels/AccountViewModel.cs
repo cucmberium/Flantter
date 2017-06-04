@@ -57,6 +57,11 @@ namespace Flantter.MilkyWay.ViewModels
                 .Select(x => !string.IsNullOrWhiteSpace(x) ? x : "http://localhost/")
                 .ToReactiveProperty()
                 .AddTo(Disposable);
+            IsPlatformTwitter = account.ObserveProperty(x => x.Platform).Select(x => x == "Twitter")
+                .ToReactiveProperty().AddTo(Disposable);
+            IsPlatformMastodon = account.ObserveProperty(x => x.Platform).Select(x => x == "Mastodon")
+                .ToReactiveProperty().AddTo(Disposable);
+
             IsEnabled = account.ObserveProperty(x => x.IsEnabled).ToReactiveProperty().AddTo(Disposable);
 
             LeftSwipeMenuIsOpen = account.ToReactivePropertyAsSynchronized(x => x.LeftSwipeMenuIsOpen)
@@ -811,6 +816,21 @@ namespace Flantter.MilkyWay.ViewModels
                     Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
                 })
                 .AddTo(Disposable);
+            
+            Notice.Instance.ShowPublicTimelineCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Where(_ => Model.IsEnabled)
+                .Subscribe(x =>
+                {
+                    var notification = new ShowSettingsFlyoutNotification
+                    {
+                        SettingsFlyoutType = "PublicTimeline",
+                        Tokens = Model.Tokens,
+                        UserIcon = ProfileImageUrl.Value,
+                        Content = x
+                    };
+                    Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+                })
+                .AddTo(Disposable);
 
             Notice.Instance.ShowMyListsCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Where(_ => Model.IsEnabled)
@@ -1166,10 +1186,7 @@ namespace Flantter.MilkyWay.ViewModels
 
             Notice.Instance.UpdateAllTimelineCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Where(_ => Model.IsEnabled)
-                .Subscribe(async x =>
-                {
-                    await Task.WhenAll(Model.ReadOnlyColumns.Select(y => y.Update()));
-                })
+                .Subscribe(async x => { await Task.WhenAll(Model.ReadOnlyColumns.Select(y => y.Update())); })
                 .AddTo(Disposable);
 
             Notice.Instance.GetGapStatusCommand.SubscribeOn(ThreadPoolScheduler.Default)
@@ -1208,6 +1225,8 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<string> ScreenName { get; }
         public ReactiveProperty<string> Name { get; }
         public ReactiveProperty<string> AccountName { get; }
+        public ReactiveProperty<bool> IsPlatformTwitter { get; }
+        public ReactiveProperty<bool> IsPlatformMastodon { get; }
         public ReactiveProperty<bool> IsEnabled { get; }
 
         public ReactiveProperty<double> PanelWidth { get; }

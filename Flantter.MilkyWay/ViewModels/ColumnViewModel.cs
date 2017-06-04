@@ -52,8 +52,10 @@ namespace Flantter.MilkyWay.ViewModels
                             return Symbol.Repair;
                         case SettingSupport.ColumnTypeEnum.Collection:
                             return Symbol.SlideShow;
-                        case SettingSupport.ColumnTypeEnum.Sample:
+                        case SettingSupport.ColumnTypeEnum.Federated:
                             return Symbol.World;
+                        case SettingSupport.ColumnTypeEnum.Local:
+                            return Symbol.Street;
                         default:
                             return Symbol.Help;
                     }
@@ -90,7 +92,9 @@ namespace Flantter.MilkyWay.ViewModels
                             return true;
                         case SettingSupport.ColumnTypeEnum.Home:
                             return true;
-                        case SettingSupport.ColumnTypeEnum.Sample:
+                        case SettingSupport.ColumnTypeEnum.Federated:
+                            return true;
+                        case SettingSupport.ColumnTypeEnum.Local:
                             return true;
                         default:
                             return false;
@@ -100,10 +104,13 @@ namespace Flantter.MilkyWay.ViewModels
                 .AddTo(Disposable);
             Updating = column.ObserveProperty(x => x.Updating).ToReactiveProperty().AddTo(Disposable);
             CanDeleteColumn = column.ObserveProperty(x => x.Action)
-                .Select(x => x == SettingSupport.ColumnTypeEnum.Filter || x == SettingSupport.ColumnTypeEnum.List ||
+                .Select(x => x == SettingSupport.ColumnTypeEnum.Filter ||
+                             x == SettingSupport.ColumnTypeEnum.List ||
                              x == SettingSupport.ColumnTypeEnum.Search ||
                              x == SettingSupport.ColumnTypeEnum.UserTimeline ||
-                             x == SettingSupport.ColumnTypeEnum.Collection)
+                             x == SettingSupport.ColumnTypeEnum.Collection ||
+                             x == SettingSupport.ColumnTypeEnum.Federated ||
+                             x == SettingSupport.ColumnTypeEnum.Local)
                 .ToReactiveProperty()
                 .AddTo(Disposable);
             IsEnabledMultipulSelect = column.ObserveProperty(x => x.Action)
@@ -139,7 +146,9 @@ namespace Flantter.MilkyWay.ViewModels
                             return true;
                         case SettingSupport.ColumnTypeEnum.Search:
                             return true;
-                        case SettingSupport.ColumnTypeEnum.Sample:
+                        case SettingSupport.ColumnTypeEnum.Federated:
+                            return true;
+                        case SettingSupport.ColumnTypeEnum.Local:
                             return true;
                         default:
                             return false;

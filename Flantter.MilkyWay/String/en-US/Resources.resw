@@ -231,8 +231,8 @@
   <data name="VideoPreviewPopup_Close.Text" xml:space="preserve">
     <value>    Close</value>
   </data>
-  <data name="TweetArea_Message_Over140Character" xml:space="preserve">
-    <value>Character count over 140.</value>
+  <data name="TweetArea_Message_OverMaxTweetLength" xml:space="preserve">
+    <value>Your tweet is too long to post.</value>
   </data>
   <data name="TweetArea_Message_TextIsEmptyOrWhiteSpace" xml:space="preserve">
     <value>Text is empty or whitespace.</value>

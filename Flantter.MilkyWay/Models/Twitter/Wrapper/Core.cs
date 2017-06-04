@@ -1942,7 +1942,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                         case StreamingType.Public:
                             var publicStreamingUrl = "https://" + streamingUrl + "/api/v1/streaming/public";
                             if (_parameters.ContainsKey("local") && (bool)_parameters["local"])
-                                publicStreamingUrl += "?local=1";
+                                publicStreamingUrl += "/local";
 
                             conn.Start(observer, _tokens, publicStreamingUrl);
                             break;

@@ -26,6 +26,7 @@ namespace Flantter.MilkyWay.Models
     public class TweetAreaModel : BindableBase
     {
         public const int MaxTweetLength = 140;
+        public const int MaxTootLength = 500;
         private readonly Extractor _extractor;
 
         private readonly ResourceLoader _resourceLoader;
@@ -69,7 +70,16 @@ namespace Flantter.MilkyWay.Models
             var length = text.Count(x => !char.IsLowSurrogate(x)) - resultUrls.Sum(x => x.Length) +
                          23 * resultUrls.Count;
 
-            CharacterCount = MaxTweetLength - length;
+            if (MaxTweetLength - length >= 0)
+            {
+                LessThanMaxTweetLength = true;
+                CharacterCount = MaxTweetLength - length;
+            }
+            else
+            {
+                LessThanMaxTweetLength = false;
+                CharacterCount = MaxTootLength - text.Length;
+            }
         }
 
         public async Task AddPicture(StorageFile picture)
@@ -204,7 +214,13 @@ namespace Flantter.MilkyWay.Models
             if (CharacterCount < 0)
             {
                 State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_Over140Character");
+                Message = _resourceLoader.GetString("TweetArea_Message_OverMaxTweetLength");
+                return;
+            }
+            if (!LessThanMaxTweetLength && accounts.Any(x => x.Platform == "Twitter"))
+            {
+                State = "Cancel";
+                Message = _resourceLoader.GetString("TweetArea_Message_OverMaxTweetLength");
                 return;
             }
             if (_pictures.Count == 0 && string.IsNullOrWhiteSpace(Text))
@@ -555,6 +571,18 @@ namespace Flantter.MilkyWay.Models
         {
             get => _characterCount;
             set => SetProperty(ref _characterCount, value);
+        }
+
+        #endregion
+
+        #region LessThanMaxTweetLength変更通知プロパティ
+
+        private bool _lessThanMaxTweetLength;
+
+        public bool LessThanMaxTweetLength
+        {
+            get => _lessThanMaxTweetLength;
+            set => SetProperty(ref _lessThanMaxTweetLength, value);
         }
 
         #endregion

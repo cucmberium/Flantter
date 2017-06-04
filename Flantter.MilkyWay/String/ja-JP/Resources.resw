@@ -231,8 +231,8 @@
   <data name="ImagePreviewPopup_Close.Text" xml:space="preserve">
     <value>    閉じる</value>
   </data>
-  <data name="TweetArea_Message_Over140Character" xml:space="preserve">
-    <value>140字を超えています</value>
+  <data name="TweetArea_Message_OverMaxTweetLength" xml:space="preserve">
+    <value>投稿できる最大の文字数を超えています</value>
   </data>
   <data name="TweetArea_Message_TextIsEmptyOrWhiteSpace" xml:space="preserve">
     <value>投稿欄が空になっています</value>

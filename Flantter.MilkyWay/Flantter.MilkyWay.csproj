@@ -21,7 +21,7 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>1083306B43E9BCAA21CF39BD0181C195A000056D</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>7387532A419BD9545E14F9BA3FB7FC3D7402844D</PackageCertificateThumbprint>
     <HockeyAppResourceId>12d0f9780e5645e3bf16ee0557054a03</HockeyAppResourceId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">

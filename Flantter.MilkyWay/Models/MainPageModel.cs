@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Twitter.Objects;
@@ -59,7 +60,7 @@ namespace Flantter.MilkyWay.Models
                 try
                 {
                     var textPackage = new DataPackage();
-                    textPackage.SetText(status.Text);
+                    textPackage.SetText(status.Text.ResolveEntity());
                     Clipboard.SetContent(textPackage);
                 }
                 catch
@@ -74,7 +75,7 @@ namespace Flantter.MilkyWay.Models
                 try
                 {
                     var textPackage = new DataPackage();
-                    textPackage.SetText(directMessage.Text);
+                    textPackage.SetText(directMessage.Text.ResolveEntity());
                     Clipboard.SetContent(textPackage);
                 }
                 catch

@@ -3,7 +3,7 @@
     "CoreTweet": "0.8.0.384",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
     "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
-    "Newtonsoft.Json": "10.0.2"
+    "Newtonsoft.Json": "10.0.3"
   },
   "frameworks": {
     "uap10.0": {}

@@ -7,11 +7,11 @@
     "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
     "Microsoft.Toolkit.Uwp.UI.Controls": "1.4.1",
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "2.0.0",
-    "Newtonsoft.Json": "10.0.2",
+    "Newtonsoft.Json": "10.0.3",
     "Prism.Core": "6.3.0",
     "Prism.Windows": "6.3.0",
     "ReactiveProperty": "3.6.0",
-    "SharpDX.Direct2D1": "3.1.1",
+    "SharpDX.Direct2D1": "4.0.1",
     "SQLite.Net-PCL": "3.1.1",
     "ToriatamaText": "1.1.0"
   },

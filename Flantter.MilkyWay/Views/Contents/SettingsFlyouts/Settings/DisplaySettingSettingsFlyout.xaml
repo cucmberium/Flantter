@@ -93,6 +93,10 @@
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_EnableNsfwFilter_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.EnableNsfwFilter, Mode=TwoWay}" Header="NSFWフィルターを有効にする"/>
+
+            <controls:HorizontalBar/>
+
         </StackPanel>
     </ScrollViewer>
     

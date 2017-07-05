@@ -87,7 +87,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             MediaVisibility = status.Entities.Media.Count != 0;
             MediaEntities = new List<MediaEntityViewModel>();
             foreach (var mediaEntity in status.Entities.Media)
-                MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                MediaEntities.Add(new MediaEntityViewModel(mediaEntity, status.PossiblySensitive));
 
             EntitiesList = new List<EntityViewModel>();
             if (status.Entities.Urls != null && status.Entities.HashTags != null &&
@@ -219,7 +219,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             MediaVisibility = status.Entities.Media.Count != 0;
             MediaEntities = new List<MediaEntityViewModel>();
             foreach (var mediaEntity in status.Entities.Media)
-                MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                MediaEntities.Add(new MediaEntityViewModel(mediaEntity, status.PossiblySensitive));
 
             EntitiesList = new List<EntityViewModel>();
             if (status.Entities.Urls != null && status.Entities.HashTags != null &&
@@ -304,7 +304,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
                 QuotedStatusMediaEntities = new List<MediaEntityViewModel>();
                 foreach (var mediaEntity in status.QuotedStatus.Entities.Media)
-                    QuotedStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                    QuotedStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity, status.QuotedStatus.PossiblySensitive));
             }
             else
             {
@@ -359,7 +359,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             MediaVisibility = status.Entities.Media.Count != 0;
             MediaEntities = new List<MediaEntityViewModel>();
             foreach (var mediaEntity in status.Entities.Media)
-                MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                MediaEntities.Add(new MediaEntityViewModel(mediaEntity, status.PossiblySensitive));
 
             EntitiesList = new List<EntityViewModel>();
             foreach (var urlEntity in status.Entities.Urls)
@@ -440,7 +440,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
                 QuotedStatusMediaEntities = new List<MediaEntityViewModel>();
                 foreach (var mediaEntity in status.QuotedStatus.Entities.Media)
-                    QuotedStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                    QuotedStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity, status.QuotedStatus.PossiblySensitive));
             }
             else
             {

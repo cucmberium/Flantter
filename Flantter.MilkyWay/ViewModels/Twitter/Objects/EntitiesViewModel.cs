@@ -6,13 +6,15 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 {
     public class MediaEntityViewModel
     {
-        public MediaEntityViewModel(MediaEntity mediaEntity)
+        public MediaEntityViewModel(MediaEntity mediaEntity, bool possiblySensitive = false)
         {
             Model = mediaEntity;
 
             MediaThumbnailUrl = SettingService.Setting.ShowHighQualityImageResolution && !string.IsNullOrWhiteSpace(mediaEntity.MediaUrl)
                 ? mediaEntity.MediaUrl
                 : mediaEntity.MediaThumbnailUrl;
+
+            PossibilySensitiveBlur = SettingService.Setting.EnableNsfwFilter && possiblySensitive ? 4.0 : 0.0;
 
             Notice = Notice.Instance;
             Setting = SettingService.Setting;
@@ -21,6 +23,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public MediaEntity Model { get; }
 
         public string MediaThumbnailUrl { get; set; }
+
+        public double PossibilySensitiveBlur { get; set; }
 
         public Notice Notice { get; set; }
 

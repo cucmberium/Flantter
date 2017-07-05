@@ -10,6 +10,8 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:uwpToolKit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:uwpToolKitBehaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -194,7 +196,14 @@
                                         <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
                                     </core:EventTriggerBehavior>
                                 </i:Interaction.Behaviors>
-                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <i:Interaction.Behaviors>
+                                        <uwpToolKitBehaviors:Blur Value="{x:Bind PossibilySensitiveBlur}"
+                                                        Duration="0"
+                                                        Delay="0"
+                                                        AutomaticallyStart="True"/>
+                                    </i:Interaction.Behaviors>
+                                </Image>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -273,7 +282,14 @@
                                         <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
                                     </core:EventTriggerBehavior>
                                 </i:Interaction.Behaviors>
-                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <i:Interaction.Behaviors>
+                                        <uwpToolKitBehaviors:Blur Value="{x:Bind PossibilySensitiveBlur}"
+                                                                  Duration="0"
+                                                                  Delay="0"
+                                                                  AutomaticallyStart="True"/>
+                                    </i:Interaction.Behaviors>
+                                </Image>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

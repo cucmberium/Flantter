@@ -1066,4 +1066,7 @@
   <data name="MainSwipeMenu_LocalTimeline.Text" xml:space="preserve">
     <value>Local timeline</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_EnableNsfwFilter_ToggleSwitch.Header" xml:space="preserve">
+    <value>Enable NSFW filter</value>
+  </data>
 </root>

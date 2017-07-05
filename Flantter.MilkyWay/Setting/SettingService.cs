@@ -593,6 +593,16 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        public bool EnableNsfwFilter
+        {
+            get => GetValue(true);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
         [LocalValue]
         public bool UseBackgroundImage
         {

@@ -35,6 +35,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             User = cStatus.User != null ? new User(cStatus.User) : null;
             IsFavorited = cStatus.IsFavorited ?? false;
             IsRetweeted = cStatus.IsRetweeted ?? false;
+            PossiblySensitive = cStatus.PossiblySensitive ?? false;
             RetweetInformation = cOrigStatus.RetweetedStatus != null ? new RetweetInformation(cOrigStatus) : null;
             HasRetweetInformation = cOrigStatus.RetweetedStatus != null;
             MentionStatus = null;
@@ -83,6 +84,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             User = cStatus.Account != null ? new User(cStatus.Account) : null;
             IsFavorited = cStatus.Favourited ?? false;
             IsRetweeted = cStatus.Reblogged ?? false;
+            PossiblySensitive = cStatus.Sensitive ?? false;
             RetweetInformation = cOrigStatus.Reblog != null ? new RetweetInformation(cOrigStatus) : null;
             HasRetweetInformation = cOrigStatus.Reblog != null;
             MentionStatus = null;
@@ -159,6 +161,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         #region IsRetweeted変更通知プロパティ
 
         public bool IsRetweeted { get; set; }
+
+        #endregion
+
+        #region PossiblySensitive変更通知プロパティ
+
+        public bool PossiblySensitive { get; set; }
 
         #endregion
 

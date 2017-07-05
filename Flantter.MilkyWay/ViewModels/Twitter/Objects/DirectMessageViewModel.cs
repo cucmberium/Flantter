@@ -32,7 +32,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             MediaVisibility = directMessage.Entities.Media.Count != 0;
             MediaEntities = new List<MediaEntityViewModel>();
             foreach (var mediaEntity in directMessage.Entities.Media)
-                MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                MediaEntities.Add(new MediaEntityViewModel(mediaEntity, directMessage.PossiblySensitive));
 
             EntitiesList = new List<EntityViewModel>();
             if (directMessage.Entities.Urls != null && directMessage.Entities.HashTags != null &&
@@ -77,7 +77,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             MediaVisibility = directMessage.Entities.Media.Count != 0;
             MediaEntities = new List<MediaEntityViewModel>();
             foreach (var mediaEntity in directMessage.Entities.Media)
-                MediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                MediaEntities.Add(new MediaEntityViewModel(mediaEntity, directMessage.PossiblySensitive));
 
             EntitiesList = new List<EntityViewModel>();
             foreach (var urlEntity in directMessage.Entities.Urls)

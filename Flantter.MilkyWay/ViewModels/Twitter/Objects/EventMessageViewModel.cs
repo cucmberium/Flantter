@@ -104,7 +104,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
 
                 TargetStatusMediaEntities = new List<MediaEntityViewModel>();
                 foreach (var mediaEntity in eventMessage.TargetStatus.Entities.Media)
-                    TargetStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity));
+                    TargetStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity, eventMessage.TargetStatus.PossiblySensitive));
             }
             else
             {

@@ -14,6 +14,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Text = cDirectMessage.Text;
             Recipient = new User(cDirectMessage.Recipient);
             Sender = new User(cDirectMessage.Sender);
+            PossiblySensitive = false;
         }
 
         public DirectMessage(Mastonet.Entities.Status cDirectMessage, Mastonet.Entities.Account cRecipient)
@@ -42,6 +43,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Id = cDirectMessage.Id;
             Recipient = new User(cRecipient);
             Sender = new User(cDirectMessage.Account);
+            PossiblySensitive = cDirectMessage.Sensitive ?? false;
         }
 
         public DirectMessage()
@@ -75,6 +77,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         #region CreatedAt変更通知プロパティ
 
         public DateTime CreatedAt { get; set; }
+
+        #endregion
+
+        #region PossiblySensitive変更通知プロパティ
+
+        public bool PossiblySensitive { get; set; }
 
         #endregion
 

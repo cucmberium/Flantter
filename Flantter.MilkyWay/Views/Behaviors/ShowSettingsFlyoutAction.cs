@@ -18,8 +18,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
     public class ShowSettingsFlyoutAction : DependencyObject, IAction
     {
         private static ShowSettingsFlyoutAction _main;
-        private ImagePreviewPopup _imagePreviewPopup;
 
+        private ImagePreviewPopup _imagePreviewPopup;
         private readonly List<ExtendedSettingsFlyout> _settingsFlyoutList;
         private VideoPreviewPopup _videoPreviewPopup;
 

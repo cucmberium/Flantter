@@ -1,7 +1,7 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
-    "UAP,Version=v10.0": {
+    "UAP,Version=v10.0.10240": {
       "CommonServiceLocator/1.3.0": {
         "type": "package",
         "compile": {
@@ -86,33 +86,33 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Native.Compiler/1.6.2": {
+      "Microsoft.Net.Native.Compiler/1.7.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Net.Native.SharedLibrary-arm": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x64": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x86": "1.6.1"
+          "Microsoft.Net.Native.SharedLibrary-arm": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x64": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x86": "1.7.0"
         },
         "build": {
           "build/Microsoft.Net.Native.Compiler.props": {},
           "build/Microsoft.Net.Native.Compiler.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-arm/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-arm/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-arm.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-arm.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x64/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x64/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x64.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-x64.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x86/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x86/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x86.props": {},
@@ -296,14 +296,14 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.UniversalWindowsPlatform/5.3.3": {
+      "Microsoft.NETCore.UniversalWindowsPlatform/5.4.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore": "5.0.2",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
           "Microsoft.NETCore.Runtime.CoreCLR": "1.0.3",
           "Microsoft.NETCore.Targets": "1.0.2",
-          "Microsoft.Net.Native.Compiler": "1.6.2",
+          "Microsoft.Net.Native.Compiler": "1.7.0",
           "Microsoft.Win32.Primitives": "4.0.1",
           "System.Collections.NonGeneric": "4.0.1",
           "System.Collections.Specialized": "4.0.1",
@@ -341,9 +341,23 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
-      "Microsoft.Toolkit.Uwp/1.4.1": {
+      "Microsoft.Toolkit/2.0.0": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit": "2.0.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
@@ -353,7 +367,7 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+      "Microsoft.Toolkit.Uwp.Notifications/2.0.0": {
         "type": "package",
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
@@ -362,10 +376,11 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0"
         },
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
@@ -374,11 +389,12 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Animations/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
           "Win2D.uwp": "1.19.0"
         },
@@ -389,12 +405,13 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Controls/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "2.0.0",
           "Robmikh.CompositionSurfaceFactory": "0.7.1"
         },
         "compile": {
@@ -2835,7 +2852,7 @@
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.10240",
         "dependencies": {
           "CoreTweet": "0.8.0.384",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
@@ -2852,7 +2869,7 @@
         }
       }
     },
-    "UAP,Version=v10.0/win10-arm": {
+    "UAP,Version=v10.0.10240/win10-arm": {
       "CommonServiceLocator/1.3.0": {
         "type": "package",
         "compile": {
@@ -2937,33 +2954,33 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Native.Compiler/1.6.2": {
+      "Microsoft.Net.Native.Compiler/1.7.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Net.Native.SharedLibrary-arm": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x64": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x86": "1.6.1"
+          "Microsoft.Net.Native.SharedLibrary-arm": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x64": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x86": "1.7.0"
         },
         "build": {
           "build/Microsoft.Net.Native.Compiler.props": {},
           "build/Microsoft.Net.Native.Compiler.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-arm/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-arm/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-arm.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-arm.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x64/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x64/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x64.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-x64.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x86/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x86/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x86.props": {},
@@ -3094,14 +3111,14 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.UniversalWindowsPlatform/5.3.3": {
+      "Microsoft.NETCore.UniversalWindowsPlatform/5.4.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore": "5.0.2",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
           "Microsoft.NETCore.Runtime.CoreCLR": "1.0.3",
           "Microsoft.NETCore.Targets": "1.0.2",
-          "Microsoft.Net.Native.Compiler": "1.6.2",
+          "Microsoft.Net.Native.Compiler": "1.7.0",
           "Microsoft.Win32.Primitives": "4.0.1",
           "System.Collections.NonGeneric": "4.0.1",
           "System.Collections.Specialized": "4.0.1",
@@ -3139,9 +3156,23 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
-      "Microsoft.Toolkit.Uwp/1.4.1": {
+      "Microsoft.Toolkit/2.0.0": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit": "2.0.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
@@ -3151,7 +3182,7 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+      "Microsoft.Toolkit.Uwp.Notifications/2.0.0": {
         "type": "package",
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
@@ -3160,10 +3191,11 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0"
         },
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
@@ -3172,11 +3204,12 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Animations/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
           "Win2D.uwp": "1.19.0"
         },
@@ -3187,12 +3220,13 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Controls/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "2.0.0",
           "Robmikh.CompositionSurfaceFactory": "0.7.1"
         },
         "compile": {
@@ -5683,7 +5717,7 @@
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.10240",
         "dependencies": {
           "CoreTweet": "0.8.0.384",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
@@ -5700,7 +5734,7 @@
         }
       }
     },
-    "UAP,Version=v10.0/win10-arm-aot": {
+    "UAP,Version=v10.0.10240/win10-arm-aot": {
       "CommonServiceLocator/1.3.0": {
         "type": "package",
         "compile": {
@@ -5785,33 +5819,33 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Native.Compiler/1.6.2": {
+      "Microsoft.Net.Native.Compiler/1.7.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Net.Native.SharedLibrary-arm": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x64": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x86": "1.6.1"
+          "Microsoft.Net.Native.SharedLibrary-arm": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x64": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x86": "1.7.0"
         },
         "build": {
           "build/Microsoft.Net.Native.Compiler.props": {},
           "build/Microsoft.Net.Native.Compiler.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-arm/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-arm/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-arm.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-arm.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x64/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x64/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x64.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-x64.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x86/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x86/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x86.props": {},
@@ -5943,14 +5977,14 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.UniversalWindowsPlatform/5.3.3": {
+      "Microsoft.NETCore.UniversalWindowsPlatform/5.4.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore": "5.0.2",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
           "Microsoft.NETCore.Runtime.CoreCLR": "1.0.3",
           "Microsoft.NETCore.Targets": "1.0.2",
-          "Microsoft.Net.Native.Compiler": "1.6.2",
+          "Microsoft.Net.Native.Compiler": "1.7.0",
           "Microsoft.Win32.Primitives": "4.0.1",
           "System.Collections.NonGeneric": "4.0.1",
           "System.Collections.Specialized": "4.0.1",
@@ -5988,9 +6022,23 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
-      "Microsoft.Toolkit.Uwp/1.4.1": {
+      "Microsoft.Toolkit/2.0.0": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit": "2.0.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
@@ -6000,7 +6048,7 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+      "Microsoft.Toolkit.Uwp.Notifications/2.0.0": {
         "type": "package",
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
@@ -6009,10 +6057,11 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0"
         },
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
@@ -6021,11 +6070,12 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Animations/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
           "Win2D.uwp": "1.19.0"
         },
@@ -6036,12 +6086,13 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Controls/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "2.0.0",
           "Robmikh.CompositionSurfaceFactory": "0.7.1"
         },
         "compile": {
@@ -6621,9 +6672,6 @@
       },
       "runtime.win10-arm-aot.runtime.native.System.IO.Compression/4.0.1": {
         "type": "package",
-        "compile": {
-          "runtimes/win10-arm-aot/lib/netcore50/_._": {}
-        },
         "runtime": {
           "runtimes/win10-arm-aot/lib/netcore50/clrcompression.dll": {}
         }
@@ -8570,7 +8618,7 @@
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.10240",
         "dependencies": {
           "CoreTweet": "0.8.0.384",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
@@ -8587,7 +8635,7 @@
         }
       }
     },
-    "UAP,Version=v10.0/win10-x64": {
+    "UAP,Version=v10.0.10240/win10-x64": {
       "CommonServiceLocator/1.3.0": {
         "type": "package",
         "compile": {
@@ -8672,33 +8720,33 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Native.Compiler/1.6.2": {
+      "Microsoft.Net.Native.Compiler/1.7.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Net.Native.SharedLibrary-arm": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x64": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x86": "1.6.1"
+          "Microsoft.Net.Native.SharedLibrary-arm": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x64": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x86": "1.7.0"
         },
         "build": {
           "build/Microsoft.Net.Native.Compiler.props": {},
           "build/Microsoft.Net.Native.Compiler.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-arm/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-arm/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-arm.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-arm.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x64/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x64/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x64.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-x64.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x86/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x86/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x86.props": {},
@@ -8832,14 +8880,14 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.UniversalWindowsPlatform/5.3.3": {
+      "Microsoft.NETCore.UniversalWindowsPlatform/5.4.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore": "5.0.2",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
           "Microsoft.NETCore.Runtime.CoreCLR": "1.0.3",
           "Microsoft.NETCore.Targets": "1.0.2",
-          "Microsoft.Net.Native.Compiler": "1.6.2",
+          "Microsoft.Net.Native.Compiler": "1.7.0",
           "Microsoft.Win32.Primitives": "4.0.1",
           "System.Collections.NonGeneric": "4.0.1",
           "System.Collections.Specialized": "4.0.1",
@@ -8877,9 +8925,23 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
-      "Microsoft.Toolkit.Uwp/1.4.1": {
+      "Microsoft.Toolkit/2.0.0": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit": "2.0.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
@@ -8889,7 +8951,7 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+      "Microsoft.Toolkit.Uwp.Notifications/2.0.0": {
         "type": "package",
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
@@ -8898,10 +8960,11 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0"
         },
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
@@ -8910,11 +8973,12 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Animations/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
           "Win2D.uwp": "1.19.0"
         },
@@ -8925,12 +8989,13 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Controls/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "2.0.0",
           "Robmikh.CompositionSurfaceFactory": "0.7.1"
         },
         "compile": {
@@ -11427,7 +11492,7 @@
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.10240",
         "dependencies": {
           "CoreTweet": "0.8.0.384",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
@@ -11444,7 +11509,7 @@
         }
       }
     },
-    "UAP,Version=v10.0/win10-x64-aot": {
+    "UAP,Version=v10.0.10240/win10-x64-aot": {
       "CommonServiceLocator/1.3.0": {
         "type": "package",
         "compile": {
@@ -11529,33 +11594,33 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Native.Compiler/1.6.2": {
+      "Microsoft.Net.Native.Compiler/1.7.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Net.Native.SharedLibrary-arm": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x64": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x86": "1.6.1"
+          "Microsoft.Net.Native.SharedLibrary-arm": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x64": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x86": "1.7.0"
         },
         "build": {
           "build/Microsoft.Net.Native.Compiler.props": {},
           "build/Microsoft.Net.Native.Compiler.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-arm/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-arm/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-arm.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-arm.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x64/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x64/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x64.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-x64.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x86/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x86/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x86.props": {},
@@ -11690,14 +11755,14 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.UniversalWindowsPlatform/5.3.3": {
+      "Microsoft.NETCore.UniversalWindowsPlatform/5.4.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore": "5.0.2",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
           "Microsoft.NETCore.Runtime.CoreCLR": "1.0.3",
           "Microsoft.NETCore.Targets": "1.0.2",
-          "Microsoft.Net.Native.Compiler": "1.6.2",
+          "Microsoft.Net.Native.Compiler": "1.7.0",
           "Microsoft.Win32.Primitives": "4.0.1",
           "System.Collections.NonGeneric": "4.0.1",
           "System.Collections.Specialized": "4.0.1",
@@ -11735,9 +11800,23 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
-      "Microsoft.Toolkit.Uwp/1.4.1": {
+      "Microsoft.Toolkit/2.0.0": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit": "2.0.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
@@ -11747,7 +11826,7 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+      "Microsoft.Toolkit.Uwp.Notifications/2.0.0": {
         "type": "package",
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
@@ -11756,10 +11835,11 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0"
         },
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
@@ -11768,11 +11848,12 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Animations/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
           "Win2D.uwp": "1.19.0"
         },
@@ -11783,12 +11864,13 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Controls/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "2.0.0",
           "Robmikh.CompositionSurfaceFactory": "0.7.1"
         },
         "compile": {
@@ -12368,9 +12450,6 @@
       },
       "runtime.win10-x64-aot.runtime.native.System.IO.Compression/4.0.1": {
         "type": "package",
-        "compile": {
-          "runtimes/win10-x64-aot/lib/netcore50/_._": {}
-        },
         "runtime": {
           "runtimes/win10-x64-aot/lib/netcore50/clrcompression.dll": {}
         }
@@ -14323,7 +14402,7 @@
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.10240",
         "dependencies": {
           "CoreTweet": "0.8.0.384",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
@@ -14340,7 +14419,7 @@
         }
       }
     },
-    "UAP,Version=v10.0/win10-x86": {
+    "UAP,Version=v10.0.10240/win10-x86": {
       "CommonServiceLocator/1.3.0": {
         "type": "package",
         "compile": {
@@ -14425,33 +14504,33 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Native.Compiler/1.6.2": {
+      "Microsoft.Net.Native.Compiler/1.7.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Net.Native.SharedLibrary-arm": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x64": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x86": "1.6.1"
+          "Microsoft.Net.Native.SharedLibrary-arm": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x64": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x86": "1.7.0"
         },
         "build": {
           "build/Microsoft.Net.Native.Compiler.props": {},
           "build/Microsoft.Net.Native.Compiler.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-arm/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-arm/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-arm.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-arm.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x64/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x64/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x64.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-x64.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x86/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x86/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x86.props": {},
@@ -14585,14 +14664,14 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.UniversalWindowsPlatform/5.3.3": {
+      "Microsoft.NETCore.UniversalWindowsPlatform/5.4.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore": "5.0.2",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
           "Microsoft.NETCore.Runtime.CoreCLR": "1.0.3",
           "Microsoft.NETCore.Targets": "1.0.2",
-          "Microsoft.Net.Native.Compiler": "1.6.2",
+          "Microsoft.Net.Native.Compiler": "1.7.0",
           "Microsoft.Win32.Primitives": "4.0.1",
           "System.Collections.NonGeneric": "4.0.1",
           "System.Collections.Specialized": "4.0.1",
@@ -14630,9 +14709,23 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
-      "Microsoft.Toolkit.Uwp/1.4.1": {
+      "Microsoft.Toolkit/2.0.0": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit": "2.0.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
@@ -14642,7 +14735,7 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+      "Microsoft.Toolkit.Uwp.Notifications/2.0.0": {
         "type": "package",
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
@@ -14651,10 +14744,11 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0"
         },
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
@@ -14663,11 +14757,12 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Animations/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
           "Win2D.uwp": "1.19.0"
         },
@@ -14678,12 +14773,13 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Controls/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "2.0.0",
           "Robmikh.CompositionSurfaceFactory": "0.7.1"
         },
         "compile": {
@@ -17180,7 +17276,7 @@
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.10240",
         "dependencies": {
           "CoreTweet": "0.8.0.384",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
@@ -17197,7 +17293,7 @@
         }
       }
     },
-    "UAP,Version=v10.0/win10-x86-aot": {
+    "UAP,Version=v10.0.10240/win10-x86-aot": {
       "CommonServiceLocator/1.3.0": {
         "type": "package",
         "compile": {
@@ -17282,33 +17378,33 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Native.Compiler/1.6.2": {
+      "Microsoft.Net.Native.Compiler/1.7.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Net.Native.SharedLibrary-arm": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x64": "1.6.1",
-          "Microsoft.Net.Native.SharedLibrary-x86": "1.6.1"
+          "Microsoft.Net.Native.SharedLibrary-arm": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x64": "1.7.0",
+          "Microsoft.Net.Native.SharedLibrary-x86": "1.7.0"
         },
         "build": {
           "build/Microsoft.Net.Native.Compiler.props": {},
           "build/Microsoft.Net.Native.Compiler.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-arm/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-arm/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-arm.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-arm.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x64/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x64/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x64.props": {},
           "build/Microsoft.Net.Native.SharedLibrary-x64.targets": {}
         }
       },
-      "Microsoft.Net.Native.SharedLibrary-x86/1.6.1": {
+      "Microsoft.Net.Native.SharedLibrary-x86/1.7.0": {
         "type": "package",
         "build": {
           "build/Microsoft.Net.Native.SharedLibrary-x86.props": {},
@@ -17443,14 +17539,14 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.UniversalWindowsPlatform/5.3.3": {
+      "Microsoft.NETCore.UniversalWindowsPlatform/5.4.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore": "5.0.2",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.2",
           "Microsoft.NETCore.Runtime.CoreCLR": "1.0.3",
           "Microsoft.NETCore.Targets": "1.0.2",
-          "Microsoft.Net.Native.Compiler": "1.6.2",
+          "Microsoft.Net.Native.Compiler": "1.7.0",
           "Microsoft.Win32.Primitives": "4.0.1",
           "System.Collections.NonGeneric": "4.0.1",
           "System.Collections.Specialized": "4.0.1",
@@ -17488,9 +17584,23 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
-      "Microsoft.Toolkit.Uwp/1.4.1": {
+      "Microsoft.Toolkit/2.0.0": {
         "type": "package",
         "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/Microsoft.Toolkit.dll": {}
+        }
+      },
+      "Microsoft.Toolkit.Uwp/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit": "2.0.0",
           "Newtonsoft.Json": "9.0.1"
         },
         "compile": {
@@ -17500,7 +17610,7 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+      "Microsoft.Toolkit.Uwp.Notifications/2.0.0": {
         "type": "package",
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
@@ -17509,10 +17619,11 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0"
         },
         "compile": {
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
@@ -17521,11 +17632,12 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Animations/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
           "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
           "Win2D.uwp": "1.19.0"
         },
@@ -17536,12 +17648,13 @@
           "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
+      "Microsoft.Toolkit.Uwp.UI.Controls/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Toolkit.Uwp": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI": "1.4.1",
-          "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+          "Microsoft.Toolkit.Uwp": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI": "2.0.0",
+          "Microsoft.Toolkit.Uwp.UI.Animations": "2.0.0",
           "Robmikh.CompositionSurfaceFactory": "0.7.1"
         },
         "compile": {
@@ -18121,9 +18234,6 @@
       },
       "runtime.win10-x86-aot.runtime.native.System.IO.Compression/4.0.1": {
         "type": "package",
-        "compile": {
-          "runtimes/win10-x86-aot/lib/netcore50/_._": {}
-        },
         "runtime": {
           "runtimes/win10-x86-aot/lib/netcore50/clrcompression.dll": {}
         }
@@ -20076,7 +20186,7 @@
       },
       "Flantter.MilkyWay.BackgroundTask/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0",
+        "framework": "UAP,Version=v10.0.10240",
         "dependencies": {
           "CoreTweet": "0.8.0.384",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
@@ -20233,14 +20343,14 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "Microsoft.Net.Native.Compiler/1.6.2": {
-      "sha512": "28VesDpHpRatYNlydGB2JbCpjOo2Ils4v2J/O46lHKpLgmCrf6UzAwWnUZq5fhLzJETWb+a0AlENY3hABASQEg==",
+    "Microsoft.Net.Native.Compiler/1.7.0": {
+      "sha512": "g46kdqDNrrVx3CiUoSe2QDkUPi/hsncwGK2k0jti5e6PZkiUWlplhkjGHS/Xrp4dx6+KhC3tuUtStHaNX7emMQ==",
       "type": "package",
-      "path": "microsoft.net.native.compiler/1.6.2",
+      "path": "microsoft.net.native.compiler/1.7.0",
       "files": [
         "build/Microsoft.Net.Native.Compiler.props",
         "build/Microsoft.Net.Native.Compiler.targets",
-        "microsoft.net.native.compiler.1.6.2.nupkg.sha512",
+        "microsoft.net.native.compiler.1.7.0.nupkg.sha512",
         "microsoft.net.native.compiler.nuspec",
         "tools/LibraryXML/Callisto.rd.xml",
         "tools/LibraryXML/GalaSoft.MvvmLight.Extras.Win8.rd.xml",
@@ -20276,7 +20386,7 @@
         "tools/Packages/Microsoft.NETNative.Analyzer/1.0.0/tools/install.ps1",
         "tools/Packages/Microsoft.NETNative.Analyzer/1.0.0/tools/uninstall.ps1",
         "tools/Runtime/arm/CommandProvider.dll",
-        "tools/Runtime/arm/Microsoft.NET.Native.Runtime.1.6.appx",
+        "tools/Runtime/arm/Microsoft.NET.Native.Runtime.1.7.appx",
         "tools/Runtime/arm/SymbolProvider.dll",
         "tools/Runtime/arm/mrt100_app.pdb",
         "tools/Runtime/arm/mrt100dac_winarm.dll",
@@ -20292,7 +20402,7 @@
         "tools/Runtime/arm/mrt100sos_x86.dll",
         "tools/Runtime/arm/msdia120.dll",
         "tools/Runtime/x64/CommandProvider.dll",
-        "tools/Runtime/x64/Microsoft.NET.Native.Runtime.1.6.appx",
+        "tools/Runtime/x64/Microsoft.NET.Native.Runtime.1.7.appx",
         "tools/Runtime/x64/SymbolProvider.dll",
         "tools/Runtime/x64/mrt100_app.pdb",
         "tools/Runtime/x64/mrt100dac_winamd64.dll",
@@ -20302,7 +20412,7 @@
         "tools/Runtime/x64/mrt100sos.dll",
         "tools/Runtime/x64/msdia120.dll",
         "tools/Runtime/x86/CommandProvider.dll",
-        "tools/Runtime/x86/Microsoft.NET.Native.Runtime.1.6.appx",
+        "tools/Runtime/x86/Microsoft.NET.Native.Runtime.1.7.appx",
         "tools/Runtime/x86/SymbolProvider.dll",
         "tools/Runtime/x86/mrt100_app.pdb",
         "tools/Runtime/x86/mrt100dac_winx86.dll",
@@ -20471,22 +20581,22 @@
         "tools/arm/ilc/tools/McgEngine.dll",
         "tools/arm/ilc/tools/MdTransform.dll",
         "tools/arm/ilc/tools/MethodBodyEditor.dll",
-        "tools/arm/ilc/tools/Microsoft.ApplicationInsights.PersistenceChannel.dll",
-        "tools/arm/ilc/tools/Microsoft.ApplicationInsights.UniversalTelemetryChannel.dll",
-        "tools/arm/ilc/tools/Microsoft.ApplicationInsights.dll",
         "tools/arm/ilc/tools/Microsoft.Build.ILTasks.dll",
         "tools/arm/ilc/tools/Microsoft.Cci.dll",
+        "tools/arm/ilc/tools/Microsoft.DiaSymReader.Converter.dll",
+        "tools/arm/ilc/tools/Microsoft.DiaSymReader.dll",
         "tools/arm/ilc/tools/Microsoft.Diagnostics.Tracing.EventSource.dll",
         "tools/arm/ilc/tools/Microsoft.NetNative.IL2IL.dll",
         "tools/arm/ilc/tools/Microsoft.NetNative.Instrumentation.dll",
-        "tools/arm/ilc/tools/Microsoft.Threading.Tasks.Extensions.dll",
-        "tools/arm/ilc/tools/Microsoft.Threading.Tasks.dll",
         "tools/arm/ilc/tools/Microsoft.VisualStudio.RemoteControl.dll",
         "tools/arm/ilc/tools/Microsoft.VisualStudio.Telemetry.dll",
         "tools/arm/ilc/tools/Microsoft.VisualStudio.Utilities.Internal.dll",
         "tools/arm/ilc/tools/NativeFormatWriter.dll",
         "tools/arm/ilc/tools/Newtonsoft.Json.dll",
         "tools/arm/ilc/tools/ReducerEngine.dll",
+        "tools/arm/ilc/tools/System.Collections.Immutable.dll",
+        "tools/arm/ilc/tools/System.Reflection.Metadata.dll",
+        "tools/arm/ilc/tools/System.ValueTuple.dll",
         "tools/arm/ilc/tools/TypeNameUtilities.dll",
         "tools/arm/ilc/tools/WCFDispatchProxy.dll",
         "tools/arm/ilc/tools/c2n.dll",
@@ -20546,6 +20656,7 @@
         "tools/arm/ilc/tools/msvcdis140.dll",
         "tools/arm/ilc/tools/msvcp140.dll",
         "tools/arm/ilc/tools/nutc_driver.exe",
+        "tools/arm/ilc/tools/nutc_driver.exe.config",
         "tools/arm/ilc/tools/pgocvt.exe",
         "tools/arm/ilc/tools/pgodb140.dll",
         "tools/arm/ilc/tools/pgomgr.exe",
@@ -20734,22 +20845,22 @@
         "tools/x64/ilc/tools/McgEngine.dll",
         "tools/x64/ilc/tools/MdTransform.dll",
         "tools/x64/ilc/tools/MethodBodyEditor.dll",
-        "tools/x64/ilc/tools/Microsoft.ApplicationInsights.PersistenceChannel.dll",
-        "tools/x64/ilc/tools/Microsoft.ApplicationInsights.UniversalTelemetryChannel.dll",
-        "tools/x64/ilc/tools/Microsoft.ApplicationInsights.dll",
         "tools/x64/ilc/tools/Microsoft.Build.ILTasks.dll",
         "tools/x64/ilc/tools/Microsoft.Cci.dll",
+        "tools/x64/ilc/tools/Microsoft.DiaSymReader.Converter.dll",
+        "tools/x64/ilc/tools/Microsoft.DiaSymReader.dll",
         "tools/x64/ilc/tools/Microsoft.Diagnostics.Tracing.EventSource.dll",
         "tools/x64/ilc/tools/Microsoft.NetNative.IL2IL.dll",
         "tools/x64/ilc/tools/Microsoft.NetNative.Instrumentation.dll",
-        "tools/x64/ilc/tools/Microsoft.Threading.Tasks.Extensions.dll",
-        "tools/x64/ilc/tools/Microsoft.Threading.Tasks.dll",
         "tools/x64/ilc/tools/Microsoft.VisualStudio.RemoteControl.dll",
         "tools/x64/ilc/tools/Microsoft.VisualStudio.Telemetry.dll",
         "tools/x64/ilc/tools/Microsoft.VisualStudio.Utilities.Internal.dll",
         "tools/x64/ilc/tools/NativeFormatWriter.dll",
         "tools/x64/ilc/tools/Newtonsoft.Json.dll",
         "tools/x64/ilc/tools/ReducerEngine.dll",
+        "tools/x64/ilc/tools/System.Collections.Immutable.dll",
+        "tools/x64/ilc/tools/System.Reflection.Metadata.dll",
+        "tools/x64/ilc/tools/System.ValueTuple.dll",
         "tools/x64/ilc/tools/TypeNameUtilities.dll",
         "tools/x64/ilc/tools/WCFDispatchProxy.dll",
         "tools/x64/ilc/tools/c2n.dll",
@@ -20809,6 +20920,7 @@
         "tools/x64/ilc/tools/msvcdis140.dll",
         "tools/x64/ilc/tools/msvcp140.dll",
         "tools/x64/ilc/tools/nutc_driver.exe",
+        "tools/x64/ilc/tools/nutc_driver.exe.config",
         "tools/x64/ilc/tools/pgocvt.exe",
         "tools/x64/ilc/tools/pgodb140.dll",
         "tools/x64/ilc/tools/pgomgr.exe",
@@ -20997,22 +21109,22 @@
         "tools/x86/ilc/tools/McgEngine.dll",
         "tools/x86/ilc/tools/MdTransform.dll",
         "tools/x86/ilc/tools/MethodBodyEditor.dll",
-        "tools/x86/ilc/tools/Microsoft.ApplicationInsights.PersistenceChannel.dll",
-        "tools/x86/ilc/tools/Microsoft.ApplicationInsights.UniversalTelemetryChannel.dll",
-        "tools/x86/ilc/tools/Microsoft.ApplicationInsights.dll",
         "tools/x86/ilc/tools/Microsoft.Build.ILTasks.dll",
         "tools/x86/ilc/tools/Microsoft.Cci.dll",
+        "tools/x86/ilc/tools/Microsoft.DiaSymReader.Converter.dll",
+        "tools/x86/ilc/tools/Microsoft.DiaSymReader.dll",
         "tools/x86/ilc/tools/Microsoft.Diagnostics.Tracing.EventSource.dll",
         "tools/x86/ilc/tools/Microsoft.NetNative.IL2IL.dll",
         "tools/x86/ilc/tools/Microsoft.NetNative.Instrumentation.dll",
-        "tools/x86/ilc/tools/Microsoft.Threading.Tasks.Extensions.dll",
-        "tools/x86/ilc/tools/Microsoft.Threading.Tasks.dll",
         "tools/x86/ilc/tools/Microsoft.VisualStudio.RemoteControl.dll",
         "tools/x86/ilc/tools/Microsoft.VisualStudio.Telemetry.dll",
         "tools/x86/ilc/tools/Microsoft.VisualStudio.Utilities.Internal.dll",
         "tools/x86/ilc/tools/NativeFormatWriter.dll",
         "tools/x86/ilc/tools/Newtonsoft.Json.dll",
         "tools/x86/ilc/tools/ReducerEngine.dll",
+        "tools/x86/ilc/tools/System.Collections.Immutable.dll",
+        "tools/x86/ilc/tools/System.Reflection.Metadata.dll",
+        "tools/x86/ilc/tools/System.ValueTuple.dll",
         "tools/x86/ilc/tools/TypeNameUtilities.dll",
         "tools/x86/ilc/tools/WCFDispatchProxy.dll",
         "tools/x86/ilc/tools/c2n.dll",
@@ -21072,6 +21184,7 @@
         "tools/x86/ilc/tools/msvcdis140.dll",
         "tools/x86/ilc/tools/msvcp140.dll",
         "tools/x86/ilc/tools/nutc_driver.exe",
+        "tools/x86/ilc/tools/nutc_driver.exe.config",
         "tools/x86/ilc/tools/pgocvt.exe",
         "tools/x86/ilc/tools/pgodb140.dll",
         "tools/x86/ilc/tools/pgomgr.exe",
@@ -21128,14 +21241,14 @@
         "tools/x86/mrt100etw.dll"
       ]
     },
-    "Microsoft.Net.Native.SharedLibrary-arm/1.6.1": {
-      "sha512": "PmgXdc9F6HPU2J9s4rtzkgTqGcMx3ycradUvxRK82WTL0ltknTX4/+ZDgqYUiEdOMHwkXoAHnKcQfsIC3GQ2Ng==",
+    "Microsoft.Net.Native.SharedLibrary-arm/1.7.0": {
+      "sha512": "eI4KNNMOpgpBkdXHFgmXD2l5gNdJJOV+ntN1Fwwnm93Rr7pmD8MGssJpI7wo7+uieaFIfAZ2waZjEnRR4Uu90A==",
       "type": "package",
-      "path": "microsoft.net.native.sharedlibrary-arm/1.6.1",
+      "path": "microsoft.net.native.sharedlibrary-arm/1.7.0",
       "files": [
         "build/Microsoft.Net.Native.SharedLibrary-arm.props",
         "build/Microsoft.Net.Native.SharedLibrary-arm.targets",
-        "microsoft.net.native.sharedlibrary-arm.1.6.1.nupkg.sha512",
+        "microsoft.net.native.sharedlibrary-arm.1.7.0.nupkg.sha512",
         "microsoft.net.native.sharedlibrary-arm.nuspec",
         "tools/SharedLibrary/chk/AnalysisILToc/System.Collections.Concurrent.iltoc",
         "tools/SharedLibrary/chk/AnalysisILToc/System.Collections.Concurrent.iltocpdb",
@@ -21289,10 +21402,9 @@
         "tools/SharedLibrary/chk/ILTransformed/System.Text.RegularExpressions.ilpdb",
         "tools/SharedLibrary/chk/MDIL/SharedLibrary.mdildll",
         "tools/SharedLibrary/chk/MDIL/SharedLibrary.mdilpdb",
-        "tools/SharedLibrary/chk/Native/Microsoft.NET.Native.Framework.Debug.1.6.appx",
+        "tools/SharedLibrary/chk/Native/Microsoft.NET.Native.Framework.Debug.1.7.appx",
         "tools/SharedLibrary/chk/Native/SharedLibrary.dll",
         "tools/SharedLibrary/chk/Native/SharedLibrary.pdb",
-        "tools/SharedLibrary/chk/Native/SharedLibrary.pdb.srcsrv.txt",
         "tools/SharedLibrary/chk/ResW/FxResources.System.Collections.Concurrent.SR.resw",
         "tools/SharedLibrary/chk/ResW/FxResources.System.Collections.SR.resw",
         "tools/SharedLibrary/chk/ResW/FxResources.System.Diagnostics.Tracing.SR.resw",
@@ -21494,10 +21606,9 @@
         "tools/SharedLibrary/ret/ILTransformed/System.Text.RegularExpressions.ilpdb",
         "tools/SharedLibrary/ret/MDIL/SharedLibrary.mdildll",
         "tools/SharedLibrary/ret/MDIL/SharedLibrary.mdilpdb",
-        "tools/SharedLibrary/ret/Native/Microsoft.NET.Native.Framework.1.6.appx",
+        "tools/SharedLibrary/ret/Native/Microsoft.NET.Native.Framework.1.7.appx",
         "tools/SharedLibrary/ret/Native/SharedLibrary.dll",
         "tools/SharedLibrary/ret/Native/SharedLibrary.pdb",
-        "tools/SharedLibrary/ret/Native/SharedLibrary.pdb.srcsrv.txt",
         "tools/SharedLibrary/ret/SharedAssemblyILMergeInfo.csv",
         "tools/SharedLibrary/ret/SharedAssemblyList.txt",
         "tools/SharedLibrary/ret/SharedLibrary.iltransformtoc.ildll",
@@ -21528,14 +21639,14 @@
         "tools/SharedLibrary/ret/Toc/System.Text.RegularExpressions.toc"
       ]
     },
-    "Microsoft.Net.Native.SharedLibrary-x64/1.6.1": {
-      "sha512": "AEd9UK6oq46NBMO29LquKza/cyaIsrrfFRMZbmDlOArS5sMVOUGga3vBDebwgRzmYtUdFFmRu3XaaKhVrncEbw==",
+    "Microsoft.Net.Native.SharedLibrary-x64/1.7.0": {
+      "sha512": "3nrUuvayvlOdmx7yzUBu2PzKeQmZ0mwqhMfarOzt6X1tKjIrOONCFqH148rP7TgQDJBfKVSShB1f+BedF69emw==",
       "type": "package",
-      "path": "microsoft.net.native.sharedlibrary-x64/1.6.1",
+      "path": "microsoft.net.native.sharedlibrary-x64/1.7.0",
       "files": [
         "build/Microsoft.Net.Native.SharedLibrary-x64.props",
         "build/Microsoft.Net.Native.SharedLibrary-x64.targets",
-        "microsoft.net.native.sharedlibrary-x64.1.6.1.nupkg.sha512",
+        "microsoft.net.native.sharedlibrary-x64.1.7.0.nupkg.sha512",
         "microsoft.net.native.sharedlibrary-x64.nuspec",
         "tools/SharedLibrary/chk/AnalysisILToc/System.Collections.Concurrent.iltoc",
         "tools/SharedLibrary/chk/AnalysisILToc/System.Collections.Concurrent.iltocpdb",
@@ -21689,10 +21800,9 @@
         "tools/SharedLibrary/chk/ILTransformed/System.Text.RegularExpressions.ilpdb",
         "tools/SharedLibrary/chk/MDIL/SharedLibrary.mdildll",
         "tools/SharedLibrary/chk/MDIL/SharedLibrary.mdilpdb",
-        "tools/SharedLibrary/chk/Native/Microsoft.NET.Native.Framework.Debug.1.6.appx",
+        "tools/SharedLibrary/chk/Native/Microsoft.NET.Native.Framework.Debug.1.7.appx",
         "tools/SharedLibrary/chk/Native/SharedLibrary.dll",
         "tools/SharedLibrary/chk/Native/SharedLibrary.pdb",
-        "tools/SharedLibrary/chk/Native/SharedLibrary.pdb.srcsrv.txt",
         "tools/SharedLibrary/chk/ResW/FxResources.System.Collections.Concurrent.SR.resw",
         "tools/SharedLibrary/chk/ResW/FxResources.System.Collections.SR.resw",
         "tools/SharedLibrary/chk/ResW/FxResources.System.Diagnostics.Tracing.SR.resw",
@@ -21894,10 +22004,9 @@
         "tools/SharedLibrary/ret/ILTransformed/System.Text.RegularExpressions.ilpdb",
         "tools/SharedLibrary/ret/MDIL/SharedLibrary.mdildll",
         "tools/SharedLibrary/ret/MDIL/SharedLibrary.mdilpdb",
-        "tools/SharedLibrary/ret/Native/Microsoft.NET.Native.Framework.1.6.appx",
+        "tools/SharedLibrary/ret/Native/Microsoft.NET.Native.Framework.1.7.appx",
         "tools/SharedLibrary/ret/Native/SharedLibrary.dll",
         "tools/SharedLibrary/ret/Native/SharedLibrary.pdb",
-        "tools/SharedLibrary/ret/Native/SharedLibrary.pdb.srcsrv.txt",
         "tools/SharedLibrary/ret/SharedAssemblyILMergeInfo.csv",
         "tools/SharedLibrary/ret/SharedAssemblyList.txt",
         "tools/SharedLibrary/ret/SharedLibrary.iltransformtoc.ildll",
@@ -21928,14 +22037,14 @@
         "tools/SharedLibrary/ret/Toc/System.Text.RegularExpressions.toc"
       ]
     },
-    "Microsoft.Net.Native.SharedLibrary-x86/1.6.1": {
-      "sha512": "jurbK0IemAFs0NDxXRCVMmC18p3NLKkk3SU+kqjzuOQyUiz9KTl4+ZOUDBRNcPGWnwuT5DIKdv6kYvywj0LjPw==",
+    "Microsoft.Net.Native.SharedLibrary-x86/1.7.0": {
+      "sha512": "nC682cBwXA/ITw1BKnPxMBp93uHHFPmG/X9P+mQt1yCJBXnEcNi7XzzOROmqMuNwwtk5ci/cQE4HQDytn3O39g==",
       "type": "package",
-      "path": "microsoft.net.native.sharedlibrary-x86/1.6.1",
+      "path": "microsoft.net.native.sharedlibrary-x86/1.7.0",
       "files": [
         "build/Microsoft.Net.Native.SharedLibrary-x86.props",
         "build/Microsoft.Net.Native.SharedLibrary-x86.targets",
-        "microsoft.net.native.sharedlibrary-x86.1.6.1.nupkg.sha512",
+        "microsoft.net.native.sharedlibrary-x86.1.7.0.nupkg.sha512",
         "microsoft.net.native.sharedlibrary-x86.nuspec",
         "tools/SharedLibrary/chk/AnalysisILToc/System.Collections.Concurrent.iltoc",
         "tools/SharedLibrary/chk/AnalysisILToc/System.Collections.Concurrent.iltocpdb",
@@ -22089,7 +22198,7 @@
         "tools/SharedLibrary/chk/ILTransformed/System.Text.RegularExpressions.ilpdb",
         "tools/SharedLibrary/chk/MDIL/SharedLibrary.mdildll",
         "tools/SharedLibrary/chk/MDIL/SharedLibrary.mdilpdb",
-        "tools/SharedLibrary/chk/Native/Microsoft.NET.Native.Framework.Debug.1.6.appx",
+        "tools/SharedLibrary/chk/Native/Microsoft.NET.Native.Framework.Debug.1.7.appx",
         "tools/SharedLibrary/chk/Native/SharedLibrary.dll",
         "tools/SharedLibrary/chk/Native/SharedLibrary.pdb",
         "tools/SharedLibrary/chk/ResW/FxResources.System.Collections.Concurrent.SR.resw",
@@ -22293,10 +22402,9 @@
         "tools/SharedLibrary/ret/ILTransformed/System.Text.RegularExpressions.ilpdb",
         "tools/SharedLibrary/ret/MDIL/SharedLibrary.mdildll",
         "tools/SharedLibrary/ret/MDIL/SharedLibrary.mdilpdb",
-        "tools/SharedLibrary/ret/Native/Microsoft.NET.Native.Framework.1.6.appx",
+        "tools/SharedLibrary/ret/Native/Microsoft.NET.Native.Framework.1.7.appx",
         "tools/SharedLibrary/ret/Native/SharedLibrary.dll",
         "tools/SharedLibrary/ret/Native/SharedLibrary.pdb",
-        "tools/SharedLibrary/ret/Native/SharedLibrary.pdb.srcsrv.txt",
         "tools/SharedLibrary/ret/SharedAssemblyILMergeInfo.csv",
         "tools/SharedLibrary/ret/SharedAssemblyList.txt",
         "tools/SharedLibrary/ret/SharedLibrary.iltransformtoc.ildll",
@@ -22470,14 +22578,14 @@
         "runtime.json"
       ]
     },
-    "Microsoft.NETCore.UniversalWindowsPlatform/5.3.3": {
-      "sha512": "aCy8WhdcWqIl+gUoY905OWPCP1NqVOtT4Oejn7SIZb9KPKkB5cUfvLEmsY3xwud0TIaJaExKTUhrFluzKtSblQ==",
+    "Microsoft.NETCore.UniversalWindowsPlatform/5.4.0": {
+      "sha512": "n4RuBnnZXGZbpXJb49CuZxc6Yu8WeRTzkg1dutyT8a4PczoST7uRVZpH3bRAOa6+dpulzP0qUH60+xPGxmzsWA==",
       "type": "package",
-      "path": "microsoft.netcore.universalwindowsplatform/5.3.3",
+      "path": "microsoft.netcore.universalwindowsplatform/5.4.0",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
-        "microsoft.netcore.universalwindowsplatform.5.3.3.nupkg.sha512",
+        "microsoft.netcore.universalwindowsplatform.5.4.0.nupkg.sha512",
         "microsoft.netcore.universalwindowsplatform.nuspec"
       ]
     },
@@ -22493,23 +22601,34 @@
         "runtime.json"
       ]
     },
-    "Microsoft.Toolkit.Uwp/1.4.1": {
-      "sha512": "9bThPlEnIREgukNQQe4ufQSl86kODoGkRLOWrSanUDuApe9X68sgVBN61diPdy7LDQ9wvcEa6vYw5+Tao/Tk1A==",
+    "Microsoft.Toolkit/2.0.0": {
+      "sha512": "CoGwuewfUnP3vvV9LF6+GOmHRiYQrNFqnjPwzro7WjASXhLm6BQVXVS8kz9NXLIti0lfDOLVojdVRTqg76VcEQ==",
       "type": "package",
-      "path": "microsoft.toolkit.uwp/1.4.1",
+      "path": "microsoft.toolkit/2.0.0",
+      "files": [
+        "lib/netstandard1.4/Microsoft.Toolkit.dll",
+        "lib/netstandard1.4/Microsoft.Toolkit.pdb",
+        "microsoft.toolkit.2.0.0.nupkg.sha512",
+        "microsoft.toolkit.nuspec"
+      ]
+    },
+    "Microsoft.Toolkit.Uwp/2.0.0": {
+      "sha512": "ktyMt6lgMYu5+AlIq3uOyQr5k0UGBYJmx+W+Xy5iV8g8Zg3sfVfmiASXEkYS5A79iQQlZWtPUUb2Ou2SQvVtCg==",
+      "type": "package",
+      "path": "microsoft.toolkit.uwp/2.0.0",
       "files": [
         "lib/uap10.0/Microsoft.Toolkit.Uwp.dll",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.pdb",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.pri",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.xml",
-        "microsoft.toolkit.uwp.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.2.0.0.nupkg.sha512",
         "microsoft.toolkit.uwp.nuspec"
       ]
     },
-    "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
-      "sha512": "Xi32HrnQLgas2Tz4a/3LZGZvY+4KZnlQZQdPFkK0G3AfMHKDxnREI/QKUOyLK6zxr62uaCME18pyStu8ueP1FA==",
+    "Microsoft.Toolkit.Uwp.Notifications/2.0.0": {
+      "sha512": "X3WFUuznplHYm/UDG5GNVHEp6uxMYwGN5rcmt9tIgIrPbTIEOOjtCZXDBJTcCsFCIVbfZ+X30KnGyxw8fleGOQ==",
       "type": "package",
-      "path": "microsoft.toolkit.uwp.notifications/1.4.1",
+      "path": "microsoft.toolkit.uwp.notifications/2.0.0",
       "files": [
         "build/native/Microsoft.Toolkit.Uwp.Notifications.targets",
         "lib/dotnet/Microsoft.Toolkit.Uwp.Notifications.dll",
@@ -22526,40 +22645,40 @@
         "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.pdb",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.xml",
-        "microsoft.toolkit.uwp.notifications.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.notifications.2.0.0.nupkg.sha512",
         "microsoft.toolkit.uwp.notifications.nuspec"
       ]
     },
-    "Microsoft.Toolkit.Uwp.UI/1.4.1": {
-      "sha512": "UMQD7B756FgCnu7Tt6C6xxqDG8ojJKwnOv6R/+ErCCDMH5HzDxLqkLOTFI95s8uzNVF/m+jZLZONuf5ltmrs9g==",
+    "Microsoft.Toolkit.Uwp.UI/2.0.0": {
+      "sha512": "M6uQ7+pBA/66FW5EM2AHrHep0TxWBttPkK7OH3IN+eZbAcm5xzkFBwQFi7ksceKIVZFRbewL4JfXpMPF+6Qm7w==",
       "type": "package",
-      "path": "microsoft.toolkit.uwp.ui/1.4.1",
+      "path": "microsoft.toolkit.uwp.ui/2.0.0",
       "files": [
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.XML",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.dll",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.pdb",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.pri",
-        "microsoft.toolkit.uwp.ui.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.ui.2.0.0.nupkg.sha512",
         "microsoft.toolkit.uwp.ui.nuspec"
       ]
     },
-    "Microsoft.Toolkit.Uwp.UI.Animations/1.4.1": {
-      "sha512": "o1FA/JPT2AMlcGWa7ikTic87XuTK/AlfTyVKxXIP4AJ65UXJYdDwGx73tdMZV6J9GhtqNQEobACJnQjJruRqHA==",
+    "Microsoft.Toolkit.Uwp.UI.Animations/2.0.0": {
+      "sha512": "K65EdO2OABN2l/VZE1NwWUxHN3CUHlVBx4kYiwgd01r3nMHDIU4xCuDIAT9t57rskfylZAgo5N4kk8Kj5P+wjQ==",
       "type": "package",
-      "path": "microsoft.toolkit.uwp.ui.animations/1.4.1",
+      "path": "microsoft.toolkit.uwp.ui.animations/2.0.0",
       "files": [
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.dll",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.pdb",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.pri",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Animations.xml",
-        "microsoft.toolkit.uwp.ui.animations.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.ui.animations.2.0.0.nupkg.sha512",
         "microsoft.toolkit.uwp.ui.animations.nuspec"
       ]
     },
-    "Microsoft.Toolkit.Uwp.UI.Controls/1.4.1": {
-      "sha512": "PP61sDIQh0CHYzoAq4LNIeeEcZCyGo/HbWB6kuFR2EPldeCN4ZnBoI7BfK7G6Qj9hlgFwUz+n/jiE1C9hvwGUw==",
+    "Microsoft.Toolkit.Uwp.UI.Controls/2.0.0": {
+      "sha512": "aNO6B9P1pxj7pSlvSwnYUUFNqaVr2oLwS/S5A8LgnD5sNVeXTThP29Kd14Q1iJo+4FHgyV/PJq5EM7DT8sxiJQ==",
       "type": "package",
-      "path": "microsoft.toolkit.uwp.ui.controls/1.4.1",
+      "path": "microsoft.toolkit.uwp.ui.controls/2.0.0",
       "files": [
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.dll",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls.pdb",
@@ -22573,19 +22692,29 @@
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu/HamburgerMenu.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock/HeaderedTextBlock.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/RoundImageEx.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/InAppNotification.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/LayoutTransformControl/LayoutTransformControl.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/Loading/Loading.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView/MasterDetailsView.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/Menu/Menu.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/Microsoft.Toolkit.Uwp.UI.Controls.xr.xml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/OrbitView/OrbitView.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView/PullToRefreshListView.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/RadialGauge/RadialGauge.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/RadialProgressBar/RadialProgressBar.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/RangeSelector/RangeSelector.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/RotatorTile/RotatorTile.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/ScrollHeader/ScrollHeader.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Symbols/Symbols.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/TextToolbar.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/ToolbarItems/ToolbarButton.xaml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/ToolbarItems/ToolbarSeparator.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/Themes/Generic.xaml",
         "lib/uap10.0/Microsoft.Toolkit.Uwp.UI.Controls/TileControl/TileControl.xaml",
-        "microsoft.toolkit.uwp.ui.controls.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.ui.controls.2.0.0.nupkg.sha512",
         "microsoft.toolkit.uwp.ui.controls.nuspec"
       ]
     },
@@ -29391,10 +29520,10 @@
     "": [
       "CoreTweet >= 0.8.0.384",
       "HockeySDK.UWP >= 4.1.6",
-      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.3.3",
-      "Microsoft.Toolkit.Uwp.Notifications >= 1.4.1",
-      "Microsoft.Toolkit.Uwp.UI.Animations >= 1.4.1",
-      "Microsoft.Toolkit.Uwp.UI.Controls >= 1.4.1",
+      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.4.0",
+      "Microsoft.Toolkit.Uwp.Notifications >= 2.0.0",
+      "Microsoft.Toolkit.Uwp.UI.Animations >= 2.0.0",
+      "Microsoft.Toolkit.Uwp.UI.Controls >= 2.0.0",
       "Microsoft.Xaml.Behaviors.Uwp.Managed >= 2.0.0",
       "Newtonsoft.Json >= 10.0.3",
       "Prism.Core >= 6.3.0",
@@ -29405,7 +29534,7 @@
       "ToriatamaText >= 1.1.0",
       "jint >= 2.10.4"
     ],
-    "UAP,Version=v10.0": []
+    "UAP,Version=v10.0.10240": []
   },
   "packageFolders": {
     "C:\\Users\\cucmb\\.nuget\\packages\\": {}
@@ -29416,9 +29545,19 @@
       "projectName": "Flantter.MilkyWay",
       "projectPath": "D:\\Users\\cucmberium\\Documents\\GitHub\\Flantter.MilkyWay\\Flantter.MilkyWay\\Flantter.MilkyWay.csproj",
       "projectJsonPath": "D:\\Users\\cucmberium\\Documents\\GitHub\\Flantter.MilkyWay\\Flantter.MilkyWay\\project.json",
+      "packagesPath": "C:\\Users\\cucmb\\.nuget\\packages\\",
+      "outputPath": "D:\\Users\\cucmberium\\Documents\\GitHub\\Flantter.MilkyWay\\Flantter.MilkyWay\\obj\\",
       "projectStyle": "ProjectJson",
+      "configFilePaths": [
+        "C:\\Users\\cucmb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
       "frameworks": {
-        "uap10.0": {
+        "uap10.0.10240": {
           "projectReferences": {
             "D:\\Users\\cucmberium\\Documents\\GitHub\\Flantter.MilkyWay\\Flantter.MilkyWay.BackgroundTask\\Flantter.MilkyWay.BackgroundTask.csproj": {
               "projectPath": "D:\\Users\\cucmberium\\Documents\\GitHub\\Flantter.MilkyWay\\Flantter.MilkyWay.BackgroundTask\\Flantter.MilkyWay.BackgroundTask.csproj"
@@ -29434,10 +29573,7 @@
       "CoreTweet": "0.8.0.384",
       "HockeySDK.UWP": "4.1.6",
       "jint": "2.10.4",
-      "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
-      "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
-      "Microsoft.Toolkit.Uwp.UI.Animations": "1.4.1",
-      "Microsoft.Toolkit.Uwp.UI.Controls": "1.4.1",
+      "Microsoft.NETCore.UniversalWindowsPlatform": "5.4.0",
       "Microsoft.Xaml.Behaviors.Uwp.Managed": "2.0.0",
       "Newtonsoft.Json": "10.0.3",
       "Prism.Core": "6.3.0",
@@ -29445,10 +29581,22 @@
       "ReactiveProperty": "3.6.0",
       "SharpDX.Direct2D1": "4.0.1",
       "SQLite.Net-PCL": "3.1.1",
-      "ToriatamaText": "1.1.0"
+      "ToriatamaText": "1.1.0",
+      "Microsoft.Toolkit.Uwp.Notifications": {
+        "target": "Package",
+        "version": "[2.0.0, )"
+      },
+      "Microsoft.Toolkit.Uwp.UI.Animations": {
+        "target": "Package",
+        "version": "[2.0.0, )"
+      },
+      "Microsoft.Toolkit.Uwp.UI.Controls": {
+        "target": "Package",
+        "version": "[2.0.0, )"
+      }
     },
     "frameworks": {
-      "uap10.0": {}
+      "uap10.0.10240": {}
     },
     "runtimes": {
       "win10-arm": {

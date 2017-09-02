@@ -7,7 +7,7 @@
     xmlns:notice="using:Flantter.MilkyWay.ViewModels.Services"
     xmlns:converters="using:Flantter.MilkyWay.Views.Converters"
     xmlns:prism="using:Prism.Windows">
-    
+
     <prism:PrismApplication.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>

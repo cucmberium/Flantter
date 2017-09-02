@@ -105,7 +105,7 @@ namespace Flantter.MilkyWay
 
             SettingService.Setting.LatestNotificationDate = DateTimeOffset.Now;
 
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size {Width = 320, Height = 500});
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 500 });
 
             if (AdvancedSettingService.AdvancedSetting.Accounts == null ||
                 AdvancedSettingService.AdvancedSetting.Accounts.Count == 0)

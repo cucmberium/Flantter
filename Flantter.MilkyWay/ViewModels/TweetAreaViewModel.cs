@@ -111,6 +111,16 @@ namespace Flantter.MilkyWay.ViewModels
             ChangeLockHashTagsCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x => { Model.LockingHashTags = !Model.LockingHashTags; });
 
+            OpenAccountSettingCommand = new ReactiveCommand();
+            OpenAccountSettingCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x =>
+                {
+                    if (SelectedAccounts.Value.Count() == 1)
+                        Notice.Instance.ShowAccountSettingCommand.Execute(SelectedAccounts.Value.First().Model.AccountSetting);
+                    else
+                        Notice.Instance.ShowAccountsSettingCommand.Execute();
+                });
+            
             AddPictureCommand = new ReactiveCommand();
             AddPictureCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
@@ -362,6 +372,7 @@ namespace Flantter.MilkyWay.ViewModels
 
         public ReactiveProperty<double> AccountImageSize { get; set; }
 
+        public ReactiveCommand OpenAccountSettingCommand { get; set; }
         public ReactiveCommand ChangeLockHashTagsCommand { get; set; }
         public ReactiveCommand AddPictureCommand { get; set; }
         public ReactiveCommand TweetCommand { get; set; }

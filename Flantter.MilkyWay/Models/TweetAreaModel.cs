@@ -336,9 +336,12 @@ namespace Flantter.MilkyWay.Models
 
                         param.Add("media_ids", resultList);
                         param.Add("possibly_sensitive", account.AccountSetting.PossiblySensitive);
+                        
                     }
 
                     param.Add("status", text.Replace("\r", "\n"));
+                    if (account.AccountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)
+                        param.Add("visibility", account.AccountSetting.StatusPrivacy.ToString());
 
                     Message = _resourceLoader.GetString("TweetArea_Message_UpdatingStatus");
                     await tokens.Statuses.UpdateAsync(param);

@@ -570,7 +570,10 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                     return new Twitter.Objects.Status(await Tokens.TwitterTokens.Statuses.UpdateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
                     return new Twitter.Objects.Status(await Tokens.MastodonTokens.PostStatus(
-                        (string) parameters["status"], Mastonet.Visibility.Public,
+                        (string) parameters["status"],
+                        (Mastonet.Visibility)Enum.Parse(
+                            typeof(Mastonet.Visibility), 
+                            (string) parameters.GetValueOrDefault("visibility", "Public"), true),
                         (long?) parameters.GetValueOrDefault("in_reply_to_status_id", null),
                         (IEnumerable<long>) parameters.GetValueOrDefault("media_ids", null),
                         (bool) parameters.GetValueOrDefault("possibly_sensitive", false)));

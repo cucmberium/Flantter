@@ -135,10 +135,11 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="BottomAppBarCounterTextBlock" Grid.Column="4" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
-                <Button Command="{x:Bind ViewModel.MessageShowCommand}" Grid.Column="3" IsTabStop="False" ToolTipService.Placement="Top" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
+                <TextBlock x:Name="BottomAppBarCounterTextBlock" Grid.Column="5" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
+                <Button x:Name="BottomAppBarNoticeButton" Command="{x:Bind ViewModel.MessageShowCommand}" Grid.Column="4" IsTabStop="False" ToolTipService.Placement="Top" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
                     <Grid>
                         <SymbolIcon Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Symbol="{x:Bind ViewModel.StateSymbol.Value, Mode=OneWay}"/>
                         <ProgressRing Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsActive="True"/>
@@ -147,7 +148,10 @@
                         <ToolTip IsOpen="{x:Bind ViewModel.ToolTipIsOpen.Value, Mode=TwoWay}" Content="{x:Bind ViewModel.Message.Value, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </Button>
-                <Button x:Uid="TweetArea_LockingHashTagsButton" Grid.Column="2" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.ChangeLockHashTagsCommand}">
+                <Button x:Uid="TweetArea_AccountSettingButton" x:Name="BottomAppBarAccountSettingButton" Grid.Column="3" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="投稿設定" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.OpenAccountSettingCommand}">
+                    <SymbolIcon Symbol="Setting"/>
+                </Button>
+                <Button x:Uid="TweetArea_LockingHashTagsButton" x:Name="BottomAppBarLockingHashTagsButton" Grid.Column="2" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.ChangeLockHashTagsCommand}">
                     <SymbolIcon Symbol="{x:Bind ViewModel.LockingHashTagsSymbol.Value, Mode=OneWay}"/>
                 </Button>
                 <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBarPictureButton" Grid.Column="1" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
@@ -226,6 +230,10 @@
                         <Setter Target="BottomAppBarPictureButton.Visibility" Value="Collapsed"/>
                         <Setter Target="BottomAppBarPictureItemsControl.Visibility" Value="Collapsed"/>
                         <Setter Target="BottomAppBarSmallPictureButton.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBarSmallPictureButton.Margin" Value="0,0"/>
+                        <Setter Target="BottomAppBarLockingHashTagsButton.Margin" Value="0,0"/>
+                        <Setter Target="BottomAppBarNoticeButton.Margin" Value="0,0"/>
+                        <Setter Target="BottomAppBarAccountSettingButton.Margin" Value="0,0"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Min">

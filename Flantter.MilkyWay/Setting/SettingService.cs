@@ -83,6 +83,14 @@ namespace Flantter.MilkyWay.Setting
             Slide = 2,
             ScrollToTop = 3
         }
+        
+        public enum StatusPrivacyEnum
+        {
+            Public = 0,
+            Unlisted = 1,
+            Private = 2,
+            Direct = 3
+        }
 
         public static readonly List<string> PictureSavePath =
             new List<string> {"Picture/", "Picture/Flantter/", "Manual"};
@@ -217,6 +225,10 @@ namespace Flantter.MilkyWay.Setting
         public static IEnumerable<SettingSupport.ThemeEnum> ThemeListTypeValues => Enum
             .GetValues(typeof(SettingSupport.ThemeEnum))
             .Cast<SettingSupport.ThemeEnum>();
+
+        public static IEnumerable<SettingSupport.StatusPrivacyEnum> StatusPrivacyListTypeValues => Enum
+            .GetValues(typeof(SettingSupport.StatusPrivacyEnum))
+            .Cast<SettingSupport.StatusPrivacyEnum>();
 
         public static IEnumerable<string> SystemFontFamilies => SettingSupport.GetSystemFontFamilies();
 

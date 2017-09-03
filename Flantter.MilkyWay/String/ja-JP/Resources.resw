@@ -1069,4 +1069,10 @@
   <data name="SettingsFlyout_Settings_Display_EnableNsfwFilter_ToggleSwitch.Header" xml:space="preserve">
     <value>NSFWフィルターを有効にする</value>
   </data>
+  <data name="SettingsFlyout_Settings_Account_StatusPrivacy_ComboBox.Header" xml:space="preserve">
+    <value>投稿範囲</value>
+  </data>
+  <data name="TweetArea_AccountSettingButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>投稿設定</value>
+  </data>
 </root>

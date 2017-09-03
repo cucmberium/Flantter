@@ -34,6 +34,10 @@
 
             <controls:HorizontalBar/>
 
+            <ComboBox x:Uid="SettingsFlyout_Settings_Account_StatusPrivacy_ComboBox" Visibility="{x:Bind ViewModel.Platform, Converter={StaticResource PlatformEnumToVisibilityConverter}, Mode=OneWay}" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="投稿範囲 (Mastodon)" ItemsSource="{Binding Source={StaticResource SettingSupport}, Path=StatusPrivacyListTypeValues}" SelectedItem="{Binding StatusPrivacy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <controls:HorizontalBar Visibility="{x:Bind ViewModel.Platform, Converter={StaticResource PlatformEnumToVisibilityConverter}, Mode=OneWay}"/>
+
             <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Tapped="Button_Tapped" Command="{Binding Notice.DeleteAccountCommand, Source={StaticResource Notice}}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}">
                 <Grid>
                     <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="BlockContact" HorizontalAlignment="Left" VerticalAlignment="Center" />

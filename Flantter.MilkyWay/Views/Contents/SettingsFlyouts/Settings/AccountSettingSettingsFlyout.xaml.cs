@@ -19,7 +19,11 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts.Settings
         public AccountSetting ViewModel
         {
             get => (AccountSetting) GetValue(ViewModelProperty);
-            set => SetValue(ViewModelProperty, value);
+            set
+            {
+                SetValue(ViewModelProperty, value);
+                DataContext = value;
+            }
         }
 
         private void Button_Tapped(object sender, TappedRoutedEventArgs e)

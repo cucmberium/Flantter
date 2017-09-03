@@ -123,6 +123,18 @@ namespace Flantter.MilkyWay.Setting
 
         #endregion
 
+        #region StatusPrivacy変更通知プロパティ
+
+        private SettingSupport.StatusPrivacyEnum _statusPrivacy;
+
+        public SettingSupport.StatusPrivacyEnum StatusPrivacy
+        {
+            get => _statusPrivacy;
+            set => SetProperty(ref _statusPrivacy, value);
+        }
+
+        #endregion
+
         #region ProfileImageUrl変更通知プロパティ
 
         private string _profileImageUrl;

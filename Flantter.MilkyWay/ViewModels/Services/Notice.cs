@@ -74,6 +74,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
             ShowLeftSwipeMenuCommand = new ReactiveCommand();
             ShowChangeAccountCommand = new ReactiveCommand();
+            ChangeAccountFromShortcutKeyCommand = new ReactiveCommand();
             ChangeAccountCommand = new ReactiveCommand();
             ExitAppCommand = new ReactiveCommand();
 
@@ -194,6 +195,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
 
         public ReactiveCommand ShowLeftSwipeMenuCommand { get; }
         public ReactiveCommand ShowChangeAccountCommand { get; }
+        public ReactiveCommand ChangeAccountFromShortcutKeyCommand { get; }
         public ReactiveCommand ChangeAccountCommand { get; }
         public ReactiveCommand ExitAppCommand { get; }
 

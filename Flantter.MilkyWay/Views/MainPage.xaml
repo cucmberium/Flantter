@@ -98,6 +98,37 @@
             <util:KeyTrigger Key="F5">
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.UpdateAllTimelineCommand}"/>
             </util:KeyTrigger>
+
+            <util:KeyTrigger Key="Number1" Modifiers="Menu">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="0"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Number2" Modifiers="Menu">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="1"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Number3" Modifiers="Menu">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="2"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Number4" Modifiers="Menu">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="3"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Number5" Modifiers="Menu">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="4"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Number6" Modifiers="Menu">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="5"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Number7" Modifiers="Menu">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="6"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Number8" Modifiers="Menu">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="7"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Number9" Modifiers="Menu">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="8"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Number0" Modifiers="Menu">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="9"/>
+            </util:KeyTrigger>
         </util:GlobalKeyTriggerBehavior>
     </i:Interaction.Behaviors>
 

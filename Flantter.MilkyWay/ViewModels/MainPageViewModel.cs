@@ -244,6 +244,16 @@ namespace Flantter.MilkyWay.ViewModels
                     Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
                 });
 
+            Notice.Instance.ChangeAccountFromShortcutKeyCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    var index = int.Parse((string) x);
+                    if (int.Parse((string) x) >= AdvancedSettingService.AdvancedSetting.Accounts.Count)
+                        return;
+
+                    await Model.ChangeAccount(AdvancedSettingService.AdvancedSetting.Accounts[index]);
+                });
+
             Notice.Instance.ChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {

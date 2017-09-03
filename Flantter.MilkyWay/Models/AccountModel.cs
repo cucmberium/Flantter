@@ -415,7 +415,7 @@ namespace Flantter.MilkyWay.Models
             await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }
 
-        public async void RefreshMuteIds()
+        public async Task RefreshMuteIds()
         {
             try
             {

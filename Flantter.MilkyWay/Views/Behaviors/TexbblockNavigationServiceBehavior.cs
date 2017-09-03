@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -316,14 +315,23 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 return;
             }
 
-            var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
-            // var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
-            if (statusMatch.Success)
-                Notice.Instance.ShowStatusDetailCommand.Execute(long.Parse(statusMatch.Groups["Id"].ToString()));
-            // else if (userMatch.Success)
-            //     Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"].ToString());
+            // 必要なくなったのでコメントアウト
+            /*if (AdvancedSettingService.AdvancedSetting.Accounts.First(x => x.IsEnabled).Platform ==
+                SettingSupport.PlatformEnum.Twitter)
+            {
+                var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
+                var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
+                if (statusMatch.Success)
+                    Notice.Instance.ShowStatusDetailCommand.Execute(long.Parse(statusMatch.Groups["Id"].ToString()));
+                else if (userMatch.Success)
+                    Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"].ToString());
+                else
+                    await Launcher.LaunchUriAsync(new Uri(linkUrl));
+            }
             else
+            {
                 await Launcher.LaunchUriAsync(new Uri(linkUrl));
+            }*/
         }
     }
 }

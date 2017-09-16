@@ -123,6 +123,7 @@
     <Compile Include="Models\SettingsFlyouts\ConversationSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\DirectMessageConversationSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ListMembersSettingsFlyoutModel.cs" />
+    <Compile Include="Models\SettingsFlyouts\UserMediaStatusesSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ListStatusesSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\PublicTimelineSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\RetweetersSettingsFlyoutModel.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="ViewModels\SettingsFlyouts\ConversationSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\DirectMessageConversationSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ListMembersSettingsFlyoutViewModel.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\UserMediaStatusesSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ListStatusesSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\PublicTimelineSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\RetweetersSettingsFlyoutViewModel.cs" />
@@ -249,6 +251,9 @@
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\ListMembersSettingsFlyout.xaml.cs">
       <DependentUpon>ListMembersSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\UserMediaStatusesSettingsFlyout.xaml.cs">
+      <DependentUpon>UserMediaStatusesSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\ListStatusesSettingsFlyout.xaml.cs">
       <DependentUpon>ListStatusesSettingsFlyout.xaml</DependentUpon>
@@ -542,6 +547,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\ListMembersSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\UserMediaStatusesSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

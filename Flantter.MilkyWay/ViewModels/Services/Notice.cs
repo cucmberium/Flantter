@@ -33,6 +33,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             AddToCollectionCommand = new ReactiveCommand();
             ShowUserListsCommand = new ReactiveCommand();
             ShowUserCollectionsCommand = new ReactiveCommand();
+            ShowUserMediaStatusesCommand = new ReactiveCommand();
             OpenStatusUrlCommand = new ReactiveCommand();
             ShowSearchCommand = new ReactiveCommand();
             ShareStatusCommand = new ReactiveCommand();
@@ -154,6 +155,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand AddToCollectionCommand { get; }
         public ReactiveCommand ShowUserListsCommand { get; }
         public ReactiveCommand ShowUserCollectionsCommand { get; }
+        public ReactiveCommand ShowUserMediaStatusesCommand { get; }
         public ReactiveCommand OpenStatusUrlCommand { get; }
         public ReactiveCommand ShowSearchCommand { get; }
         public ReactiveCommand ShareStatusCommand { get; }

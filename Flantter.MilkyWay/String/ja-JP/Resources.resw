@@ -1075,4 +1075,10 @@
   <data name="TweetArea_AccountSettingButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>投稿設定</value>
   </data>
+  <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserMediasStatuses.Text" xml:space="preserve">
+    <value>    ユーザーのメディアを開く</value>
+  </data>
+  <data name="SettingsFlyout_UserMediaStatus_IncrementalLoad.Text" xml:space="preserve">
+    <value>メディアを更に読み込む</value>
+  </data>
 </root>

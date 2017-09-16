@@ -729,6 +729,21 @@ namespace Flantter.MilkyWay.ViewModels
                 })
                 .AddTo(Disposable);
 
+            Notice.Instance.ShowUserMediaStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Where(_ => Model.IsEnabled)
+                .Subscribe(x =>
+                {
+                    var notification = new ShowSettingsFlyoutNotification
+                    {
+                        SettingsFlyoutType = "UserMediaStatuses",
+                        Tokens = Model.Tokens,
+                        UserIcon = ProfileImageUrl.Value,
+                        Content = x
+                    };
+                    Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+                })
+                .AddTo(Disposable);
+
             Notice.Instance.ShowListStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Where(_ => Model.IsEnabled)
                 .Subscribe(x =>

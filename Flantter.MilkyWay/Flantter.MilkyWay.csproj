@@ -17,7 +17,12 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>Flantter.MilkyWay_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Flantter.MilkyWay_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>B56061D7C1D9728E9CA02173FEFB1543A4C68A92</PackageCertificateThumbprint>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <HockeyAppResourceId>12d0f9780e5645e3bf16ee0557054a03</HockeyAppResourceId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -424,6 +429,9 @@
     <Content Include="Assets\Store_PromoLogo.png" />
     <Content Include="Assets\Tweet.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <None Include="Connected Services\HockeyApp\ConnectedService.json" />
+    <None Include="Flantter.MilkyWay_StoreKey.pfx" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -440,7 +448,7 @@
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="Jint">
-      <Version>2.11.23</Version>
+      <Version>2.10.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.4.0</Version>
@@ -733,6 +741,9 @@
       <Project>{65b02b2e-ed1d-4d74-b6fa-9fdeeecfe77f}</Project>
       <Name>Mastodot</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

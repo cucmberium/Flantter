@@ -23,7 +23,7 @@ FlantterはWindowsで使用できるストアアプリのツイッタークラ�
 * [ReactiveProperty](https://github.com/runceel/ReactiveProperty)
 * [SharpDX](https://github.com/sharpdx/SharpDX)
 * [jint](https://github.com/sebastienros/jint)
-* [Mastonet](https://github.com/glacasa/Mastonet)
+* [Mastodot](https://github.com/yamachu/Mastodot)
 
 ### 使用ウェブサービス
 

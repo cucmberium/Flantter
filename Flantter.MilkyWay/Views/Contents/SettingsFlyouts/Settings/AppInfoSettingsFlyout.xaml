@@ -418,14 +418,14 @@
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink NavigateUri="https://github.com/glacasa/Mastonet">
-                    <Run Text="Mastonet"/>
+                <Hyperlink NavigateUri="https://github.com/yamachu/Mastodot">
+                    <Run Text="Mastodot"/>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
                 MIT License<LineBreak/><LineBreak/>
 
-                Copyright (c) 2017 Guillaume Lacasa<LineBreak/><LineBreak/>
+                Copyright (c) 2017 Yusuke Yamada<LineBreak/><LineBreak/>
 
                 Permission is hereby granted, free of charge, to any person obtaining a copy
                 of this software and associated documentation files (the "Software"), to deal

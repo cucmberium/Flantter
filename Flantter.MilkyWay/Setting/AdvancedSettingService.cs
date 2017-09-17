@@ -106,7 +106,11 @@ namespace Flantter.MilkyWay.Setting
         public bool IncludeFollowingsActivity
         {
             get => _includeFollowingsActivity;
-            set => SetProperty(ref _includeFollowingsActivity, value);
+            set
+            {
+                SetProperty(ref _includeFollowingsActivity, value);
+                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            }
         }
 
         #endregion
@@ -118,7 +122,12 @@ namespace Flantter.MilkyWay.Setting
         public bool PossiblySensitive
         {
             get => _possiblySensitive;
-            set => SetProperty(ref _possiblySensitive, value);
+            set
+            {
+                SetProperty(ref _possiblySensitive, value);
+                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            }
+            
         }
 
         #endregion
@@ -130,7 +139,11 @@ namespace Flantter.MilkyWay.Setting
         public SettingSupport.StatusPrivacyEnum StatusPrivacy
         {
             get => _statusPrivacy;
-            set => SetProperty(ref _statusPrivacy, value);
+            set
+            {
+                SetProperty(ref _statusPrivacy, value);
+                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+            }
         }
 
         #endregion

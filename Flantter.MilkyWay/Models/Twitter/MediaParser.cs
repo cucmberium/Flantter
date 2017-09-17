@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using CoreTweet;
 using Flantter.MilkyWay.Common;
-using UrlEntity = Flantter.MilkyWay.Models.Twitter.Objects.UrlEntity;
 
 namespace Flantter.MilkyWay.Models.Twitter
 {
@@ -81,7 +79,8 @@ namespace Flantter.MilkyWay.Models.Twitter
         private static readonly Regex RegexDirectLink = new Regex(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$",
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static IEnumerable<Media> Parse(CoreTweet.Entities cEntities, CoreTweet.Entities cExtendedEntities = null)
+        public static IEnumerable<Media> Parse(CoreTweet.Entities cEntities,
+            CoreTweet.Entities cExtendedEntities = null)
         {
             if (cEntities?.Urls != null)
                 foreach (var url in cEntities.Urls)
@@ -519,7 +518,9 @@ namespace Flantter.MilkyWay.Models.Twitter
                     if (media.Type == "animated_gif" || media.Type == "video")
                     {
                         var variants = media.VideoInfo.Variants.Where(x => x.ContentType == "video/mp4");
-                        var variant = !variants.Any() ? media.VideoInfo.Variants.First() : variants.FindMax(x => x.Bitrate ?? 0);
+                        var variant = !variants.Any()
+                            ? media.VideoInfo.Variants.First()
+                            : variants.FindMax(x => x.Bitrate ?? 0);
 
                         yield return new Media
                         {
@@ -557,14 +558,18 @@ namespace Flantter.MilkyWay.Models.Twitter
             #endregion
         }
 
-        public static IEnumerable<Media> Parse(IEnumerable<Mastonet.Entities.Attachment> cAttachments, string cContent)
+        public static IEnumerable<Media> Parse(IEnumerable<Mastodot.Entities.Attachment> cAttachments, string cContent)
         {
             foreach (Match urlMatch in TweetRegexPatterns.VaridUrlEx.Matches(cContent))
             {
                 if (!urlMatch.Groups[3].Value.StartsWith("http"))
                     continue;
 
-                var url = new UrlEntity {DisplayUrl = urlMatch.Groups[3].Value, ExpandedUrl = urlMatch.Groups[3].Value};
+                var url = new CoreTweet.UrlEntity
+                {
+                    DisplayUrl = urlMatch.Groups[3].Value,
+                    ExpandedUrl = urlMatch.Groups[3].Value
+                };
 
                 #region DirectLink
 
@@ -970,7 +975,9 @@ namespace Flantter.MilkyWay.Models.Twitter
             }
 
             foreach (var attachment in cAttachments)
-                if (attachment.Type == "video" || attachment.Type == "gifv")
+                // if (attachment.Type == "video" || attachment.Type == "gifv")
+                if (attachment.Type == Mastodot.Enums.AttachmentType.Video ||
+                    attachment.Type == Mastodot.Enums.AttachmentType.GifVideo)
                     yield return new Media
                     {
                         MediaThumbnailUrl = attachment.PreviewUrl,

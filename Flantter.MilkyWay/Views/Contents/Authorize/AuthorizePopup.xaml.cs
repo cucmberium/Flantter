@@ -9,8 +9,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using CoreTweet;
-using Mastonet;
-using Mastonet.Entities;
+using Mastodot;
+using Mastodot.Entities;
+using Mastodot.Enums;
+using Mastodot.Utils;
 
 namespace Flantter.MilkyWay.Views.Contents.Authorize
 {
@@ -48,8 +50,7 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
 
         private AuthorizeStep _authorizeStep = AuthorizeStep.Exit;
 
-        private AppRegistration _mastodonAppRegistration;
-        private AuthenticationClient _mastodonOauthSettion;
+        private RegisteredApp _mastodonAppRegistration;
         private OAuth.OAuthSession _twitterOAuthSettion;
         private bool _urlCallbackAuthorization;
 
@@ -184,10 +185,9 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                 AuthorizePopupConfigNextButton.IsEnabled = false;
                 try
                 {
-                    _mastodonOauthSettion = new AuthenticationClient(instance);
                     _mastodonAppRegistration =
-                        await _mastodonOauthSettion.CreateApp(appName, Scope.Read | Scope.Write | Scope.Follow);
-                    url = _mastodonOauthSettion.OAuthUrl();
+                        await ApplicaionManager.RegistApp(instance, appName, Scope.Read | Scope.Write | Scope.Follow);
+                    url = ApplicaionManager.GetOAuthUrl(_mastodonAppRegistration);
                 }
                 catch
                 {
@@ -249,9 +249,9 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             {
                 try
                 {
-                    var auth = await _mastodonOauthSettion.ConnectWithCode(pin);
-                    var client = new MastodonClient(_mastodonAppRegistration, auth);
-                    var user = await client.GetCurrentUser();
+                    var auth = await ApplicaionManager.GetAccessTokenByCode(_mastodonAppRegistration, pin);
+                    var client = new MastodonClient(_mastodonAppRegistration.Host, auth.AccessToken);
+                    var user = await client.GetCurrentAccount();
                     _accountInfo = new AccountInfo
                     {
                         ConsumerKey = _mastodonAppRegistration.ClientId,
@@ -261,7 +261,7 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                         ScreenName = user.UserName,
                         UserId = user.Id,
                         Service = "Mastodon",
-                        Instance = _mastodonOauthSettion.Instance
+                        Instance = _mastodonAppRegistration.Host
                     };
                 }
                 catch
@@ -302,11 +302,11 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             }
             else if (_authorizeStep == AuthorizeStep.MastodonAuthorize)
             {
-                if (url.StartsWith("https://" + _mastodonOauthSettion.Instance + "/oauth/authorize/"))
+                if (url.StartsWith("https://" + _mastodonAppRegistration.Host + "/oauth/authorize/"))
                 {
                     args.Cancel = true;
                     var match = Regex.Match(url,
-                        @"^https://" + _mastodonOauthSettion.Instance + "/oauth/authorize/(?<OauthVerifier>.*)$");
+                        @"^https://" + _mastodonAppRegistration.Host + "/oauth/authorize/(?<OauthVerifier>.*)$");
                     AuthorizeWithCallback(match.Groups["OauthVerifier"].Value);
                 }
             }
@@ -348,9 +348,9 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             {
                 try
                 {
-                    var auth = await _mastodonOauthSettion.ConnectWithCode(oauthVerifier);
-                    var client = new MastodonClient(_mastodonAppRegistration, auth);
-                    var user = await client.GetCurrentUser();
+                    var auth = await ApplicaionManager.GetAccessTokenByCode(_mastodonAppRegistration, oauthVerifier);
+                    var client = new MastodonClient(_mastodonAppRegistration.Host, auth.AccessToken);
+                    var user = await client.GetCurrentAccount();
                     _accountInfo = new AccountInfo
                     {
                         ConsumerKey = _mastodonAppRegistration.ClientId,
@@ -360,7 +360,7 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                         ScreenName = user.UserName,
                         UserId = user.Id,
                         Service = "Mastodon",
-                        Instance = _mastodonOauthSettion.Instance
+                        Instance = _mastodonAppRegistration.Host
                     };
                 }
                 catch

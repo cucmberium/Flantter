@@ -729,9 +729,9 @@
       <Project>{0e6efce5-9891-420d-9fb3-3ef3479a959d}</Project>
       <Name>Flantter.MilkyWay.BackgroundTask</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mastonet\Mastonet\Mastonet.csproj">
-      <Project>{a12c3bf8-32dd-42aa-bcd6-17173cc71b6a}</Project>
-      <Name>Mastonet</Name>
+    <ProjectReference Include="..\Mastodot\Mastodot\Mastodot.csproj">
+      <Project>{65b02b2e-ed1d-4d74-b6fa-9fdeeecfe77f}</Project>
+      <Name>Mastodot</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

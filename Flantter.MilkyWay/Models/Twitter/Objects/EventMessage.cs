@@ -23,16 +23,16 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Type = cEventMessage.Event.ToString();
         }
 
-        public EventMessage(Mastonet.Entities.Notification cNotification)
+        public EventMessage(Mastodot.Entities.Notification cNotification)
         {
             CreatedAt = cNotification.CreatedAt;
             Id = cNotification.Id;
             Source = new User(cNotification.Account);
             Target = null;
             TargetStatus = cNotification.Status != null ? new Status(cNotification.Status) : null;
-            Type = _mastodonTypeReplaceDictionary.ContainsKey(cNotification.Type)
-                ? _mastodonTypeReplaceDictionary[cNotification.Type]
-                : cNotification.Type;
+            Type = _mastodonTypeReplaceDictionary.ContainsKey(cNotification.Type.ToString().ToLower())
+                ? _mastodonTypeReplaceDictionary[cNotification.Type.ToString().ToLower()]
+                : cNotification.Type.ToString().ToLower();
         }
 
         public EventMessage(Status cStatus)

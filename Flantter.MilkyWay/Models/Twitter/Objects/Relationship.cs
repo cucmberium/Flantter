@@ -8,7 +8,7 @@
             Source = new RelationshipSource(cRelationship.Source);
         }
 
-        public Relationship(Mastonet.Entities.Relationship cRelationship)
+        public Relationship(Mastodot.Entities.Relationship cRelationship)
         {
             Target = new RelationshipTarget();
             Source = new RelationshipSource(cRelationship);
@@ -67,7 +67,7 @@
             IsMuting = cRelationshipSource.IsMuting ?? false;
         }
 
-        public RelationshipSource(Mastonet.Entities.Relationship cRelationshipSource)
+        public RelationshipSource(Mastodot.Entities.Relationship cRelationshipSource)
         {
             IsFollowing = cRelationshipSource.Following;
             IsFollowedBy = cRelationshipSource.FollowedBy;

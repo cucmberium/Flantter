@@ -1,3 +1,3 @@
-[submodule "Mastonet"]
-	path = Mastonet
-	url = https://github.com/cucmberium/Mastonet.git
+[submodule "Mastodot"]
+	path = Mastodot
+	url = https://github.com/cucmberium/Mastodot.git

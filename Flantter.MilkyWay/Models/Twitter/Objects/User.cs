@@ -38,7 +38,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Url = cUser.Url;
         }
 
-        public User(Mastonet.Entities.Account cUser)
+        public User(Mastodot.Entities.Account cUser)
         {
             CreateAt = cUser.CreatedAt;
             Description = ContentRegex.Replace(LinkRegex.Replace(cUser.Note.Replace("<br>", "\n"), x => " " + x.Groups[1].Value + " "), "").Trim();
@@ -60,12 +60,21 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Name = name;
             ProfileBackgroundColor = "C0DEED";
             ProfileBackgroundImageUrl = "http://localhost/";
-            ProfileBannerUrl = cUser.HeaderUrl.StartsWith("http") ? cUser.HeaderUrl : "http://localhost/";
-            ProfileImageUrl = cUser.AvatarUrl.StartsWith("http") ? cUser.AvatarUrl : "http://localhost/";
-            ScreenName = cUser.AccountName;
+            ProfileBannerUrl = cUser.Header.StartsWith("http") ? cUser.Header : "http://localhost/";
+            ProfileImageUrl = cUser.Avatar.StartsWith("http") ? cUser.Avatar : "http://localhost/";
+            ScreenName = cUser.FullUserName;
             StatusesCount = cUser.StatusesCount;
             TimeZone = null;
-            Url = cUser.ProfileUrl;
+            Url = cUser.Url;
+        }
+
+        public User(Mastodot.Entities.Relationship cUser)
+        {
+            Entities = new UserEntities();
+            Id = cUser.Id;
+            IsFollowRequestSent = cUser.Requested;
+            IsMuting = cUser.Muting;
+            IsVerified = false;
         }
 
         public User()

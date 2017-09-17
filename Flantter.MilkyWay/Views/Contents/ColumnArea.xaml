@@ -74,10 +74,18 @@
                                 <controls:HorizontalBar x:Name="TweetMultipulActionHorizontalBar"/>
 
                                 <StackPanel x:Name="TweetMultipulActionStackPanel" Height="0" HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <AppBarButton IsCompact="True" Icon="ReShare" Command="{x:Bind Notice.RetweetStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
-                                    <AppBarButton IsCompact="True" Icon="Favorite" Command="{x:Bind Notice.FavoriteStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}"/>
-                                    <AppBarButton IsCompact="True" Icon="Message" Command="{x:Bind Notice.ReplyToStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}" />
-                                    <AppBarButton IsCompact="True" Icon="Cancel" Command="{x:Bind CloseStatusMultipulSelectCommand}"/>
+                                    <Button Height="75" Width="80" Background="Transparent" BorderThickness="0" Command="{x:Bind Notice.RetweetStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}">
+                                        <SymbolIcon Symbol="ReShare" />
+                                    </Button>
+                                    <Button Height="75" Width="80" Background="Transparent" BorderThickness="0" Command="{x:Bind Notice.FavoriteStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}">
+                                        <SymbolIcon Symbol="Favorite" />
+                                    </Button>
+                                    <Button Height="75" Width="80" Background="Transparent" BorderThickness="0" Command="{x:Bind Notice.ReplyToStatusesCommand}" CommandParameter="{x:Bind SelectedItemsList.Value, Mode=OneWay}">
+                                        <SymbolIcon Symbol="Message" />
+                                    </Button>
+                                    <Button Height="75" Width="80" Background="Transparent" BorderThickness="0" Command="{x:Bind CloseStatusMultipulSelectCommand}">
+                                        <SymbolIcon Symbol="Cancel" />
+                                    </Button>
                                 </StackPanel>
                             </Grid>
 

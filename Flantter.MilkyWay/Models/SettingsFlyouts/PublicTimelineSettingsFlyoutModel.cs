@@ -35,9 +35,10 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 var param = new Dictionary<string, object>
                 {
-                    {"local", _type == "Local"},
                     {"count", 20}
                 };
+                if (_type == "Local")
+                    param.Add("local", true);
                 if (maxid != 0)
                     param.Add("max_id", maxid);
 

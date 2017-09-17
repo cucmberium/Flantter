@@ -17,7 +17,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             PossiblySensitive = false;
         }
 
-        public DirectMessage(Mastonet.Entities.Status cDirectMessage, Mastonet.Entities.Account cRecipient)
+        public DirectMessage(Mastodot.Entities.Status cDirectMessage, Mastodot.Entities.Account cRecipient)
         {
             CreatedAt = cDirectMessage.CreatedAt;
 
@@ -27,7 +27,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             {
                 var userMention = cDirectMessage.Mentions.Where(x => x.Url == match.Groups[2].Value || x.Url.Replace("/@", "/users/") == match.Groups[2].Value).ToArray();
                 if (userMention.Length != 0)
-                    return " @" + userMention.First().AccountName + " ";
+                    return " @" + userMention.First().FullUserName + " ";
 
                 urlEntities.Add(match.Groups[2].Value);
                 return " " + match.Groups[1]?.Value + match.Groups[3].Value + " ";

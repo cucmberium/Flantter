@@ -71,7 +71,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
                     Urls.Add(new UrlEntity(cMedia));
         }
 
-        public Entities(IEnumerable<Mastonet.Entities.Attachment> cAttachments, IEnumerable<Mastonet.Entities.Mention> cMentions, IEnumerable<Mastonet.Entities.Tag> cTags,
+        public Entities(IEnumerable<Mastodot.Entities.Attachment> cAttachments, IEnumerable<Mastodot.Entities.Mention> cMentions, IEnumerable<Mastodot.Entities.Tag> cTags,
             IEnumerable<string> cUrls, string cContent)
         {
             var mediaList = MediaParser.Parse(cAttachments, cContent);
@@ -147,7 +147,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             End = cHashTag.Indices.Last();
         }
 
-        public HashtagEntity(Mastonet.Entities.Tag cHashTag)
+        public HashtagEntity(Mastodot.Entities.Tag cHashTag)
         {
             Tag = cHashTag.Name;
             Start = 0;
@@ -340,11 +340,11 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             End = cUrlEntity.Indices.Last();
         }
 
-        public UserMentionEntity(Mastonet.Entities.Mention cMention)
+        public UserMentionEntity(Mastodot.Entities.Mention cMention)
         {
             Id = cMention.Id;
             Name = cMention.UserName;
-            ScreenName = cMention.AccountName;
+            ScreenName = cMention.FullUserName;
             Start = 0;
             End = 0;
         }

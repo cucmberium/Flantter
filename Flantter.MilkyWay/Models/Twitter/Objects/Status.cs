@@ -49,7 +49,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             Source = sourceMatch.Success ? sourceMatch.Groups[1].Value : cStatus.Source;
         }
 
-        public Status(Mastonet.Entities.Status cOrigStatus)
+        public Status(Mastodot.Entities.Status cOrigStatus)
         {
             var cStatus = cOrigStatus;
             if (cStatus.Reblog != null)
@@ -57,7 +57,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
 
             CreatedAt = cStatus.CreatedAt;
             FavoriteCount = cStatus.FavouritesCount;
-            RetweetCount = cStatus.ReblogCount;
+            RetweetCount = cStatus.ReblogsCount;
             InReplyToStatusId = cStatus.InReplyToId ?? 0;
             InReplyToScreenName = "";
             InReplyToUserId = cStatus.InReplyToAccountId ?? 0;
@@ -69,7 +69,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             {
                 var userMention = cStatus.Mentions.Where(x => x.Url == match.Groups[2].Value || x.Url.Replace("/@", "/users/") == match.Groups[2].Value).ToArray();
                 if (userMention.Length != 0)
-                    return " @" + userMention.First().AccountName + " ";
+                    return " @" + userMention.First().FullUserName + " ";
 
                 urlEntities.Add(match.Groups[2].Value);
                 return " " + match.Groups[1]?.Value + match.Groups[3].Value + " ";
@@ -231,7 +231,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             CreatedAt = cOrigStatus.CreatedAt.DateTime;
         }
 
-        public RetweetInformation(Mastonet.Entities.Status cOrigStatus)
+        public RetweetInformation(Mastodot.Entities.Status cOrigStatus)
         {
             if (cOrigStatus.Reblog == null)
                 return;

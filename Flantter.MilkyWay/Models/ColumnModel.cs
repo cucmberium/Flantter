@@ -970,8 +970,9 @@ namespace Flantter.MilkyWay.Models
                 var param = new Dictionary<string, object>
                 {
                     {"count", ColumnSetting.FetchingNumberOfTweet},
-                    {"local", local},
                 };
+                if (local)
+                    param.Add("local", local);
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)

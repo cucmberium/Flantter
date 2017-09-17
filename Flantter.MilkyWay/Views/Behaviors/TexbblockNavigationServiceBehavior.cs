@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -314,6 +315,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     Notice.Instance.ShowUserProfileCommand.Execute(long.Parse(userMention));
                 return;
             }
+
+            await Launcher.LaunchUriAsync(new Uri(linkUrl));
 
             // 必要なくなったのでコメントアウト
             /*if (AdvancedSettingService.AdvancedSetting.Accounts.First(x => x.IsEnabled).Platform ==

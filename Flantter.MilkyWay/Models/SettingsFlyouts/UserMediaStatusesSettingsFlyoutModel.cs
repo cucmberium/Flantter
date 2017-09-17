@@ -38,7 +38,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 {
                     {"user_id", _userId},
                     {"count", 200},
-                    {"tweet_mode", CoreTweet.TweetMode.Extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended},
+                    {"only_media", true}
                 };
                 if (incrementalLoad && _lastStatusId != 0)
                     param.Add("max_id", _lastStatusId);

@@ -184,7 +184,7 @@
                     <Run Foreground="{StaticResource TweetOtherTextblockForegroundBrush}" Text="via "/><Run Foreground="{StaticResource TweetSourceTextblockForegroundBrush}" Text="{x:Bind ViewModel.Source, Mode=OneWay}"/>
                 </TextBlock>
 
-                <uwpToolKit:AdaptiveGridView x:DeferLoadStrategy="Lazy" x:Name="MediaItemsControl" Visibility="Collapsed" ItemsSource="{x:Bind ViewModel.MediaEntities, Mode=OneWay}" ItemHeight="{x:Bind ViewModel.Setting.TweetMediaThumbnailHeight, Mode=OneWay}" DesiredWidth="{x:Bind ViewModel.Setting.TweetMediaThumbnailWidth, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="True" StretchContentForSingleRow="False">
+                <uwpToolKit:AdaptiveGridView x:DeferLoadStrategy="Lazy" Margin="0,3,0,0" Padding="0" x:Name="MediaItemsControl" Visibility="Collapsed" ItemsSource="{x:Bind ViewModel.MediaEntities, Mode=OneWay}" ItemHeight="{x:Bind ViewModel.Setting.TweetMediaThumbnailHeight, Mode=OneWay}" DesiredWidth="{x:Bind ViewModel.Setting.TweetMediaThumbnailWidth, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="True" StretchContentForSingleRow="False">
                     <ItemsControl.ItemContainerTransitions>
                         <TransitionCollection/>
                     </ItemsControl.ItemContainerTransitions>
@@ -228,7 +228,10 @@
                     <TextBlock Grid.Column="1" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="5,0,0,0" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetInformationText, Mode=OneWay}"/>
                 </Grid>
 
-                <TextBlock Visibility="{x:Bind ViewModel.RetweetCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,2,0,0" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetCounterText, Mode=OneWay}"/>
+                <StackPanel Orientation="Vertical" Margin="0,2,0,0">
+                    <TextBlock Visibility="{x:Bind ViewModel.RetweetCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,0" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetCounterText, Mode=OneWay}"/>
+                    <TextBlock Visibility="{x:Bind ViewModel.FavoriteCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,0" TextWrapping="Wrap" Text="{x:Bind ViewModel.FavoriteCounterText, Mode=OneWay}"/>
+                </StackPanel>
             </StackPanel>
 
             <ContentControl x:Name="RetweetTriangleIcon" x:DeferLoadStrategy="Lazy" Style="{StaticResource RetweetTriangleIcon}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-5"/>

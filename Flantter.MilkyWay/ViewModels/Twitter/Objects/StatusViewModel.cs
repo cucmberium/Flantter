@@ -41,6 +41,8 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             // RetweetCounter
             RetweetCounterVisibility = false;
             RetweetCounterText = "";
+            FavoriteCounterVisibility = false;
+            FavoriteCounterText = "";
 
             QuotedStatusVisibility = false;
             QuotedStatusProfileImageUrl = "http://localhost/";
@@ -127,6 +129,7 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 RetweetInformationProfileImageUrl = "http://localhost/";
             }
 
+            CounterVisibility = !status.HasRetweetInformation;
             // RetweetCounter
             if (!status.HasRetweetInformation && status.RetweetCount > 0)
             {
@@ -140,6 +143,20 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             {
                 RetweetCounterVisibility = false;
                 RetweetCounterText = "";
+            }
+            // FavoriteCounter
+            if (status.FavoriteCount > 0)
+            {
+                FavoriteCounterVisibility = true;
+                FavoriteCounterText = "Favorited " + status.FavoriteCount + " time";
+
+                if (status.FavoriteCount > 1)
+                    FavoriteCounterText += "s";
+            }
+            else
+            {
+                FavoriteCounterVisibility = false;
+                FavoriteCounterText = "";
             }
 
             // TriangleIcon
@@ -272,6 +289,20 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             {
                 RetweetCounterVisibility = false;
                 RetweetCounterText = "";
+            }
+            // FavoriteCounter
+            if (status.FavoriteCount > 0)
+            {
+                FavoriteCounterVisibility = true;
+                FavoriteCounterText = "Favorited " + status.FavoriteCount + " time";
+
+                if (status.FavoriteCount > 1)
+                    FavoriteCounterText += "s";
+            }
+            else
+            {
+                FavoriteCounterVisibility = false;
+                FavoriteCounterText = "";
             }
 
             // TriangleIcon
@@ -409,6 +440,20 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                 RetweetCounterVisibility = false;
                 RetweetCounterText = "";
             }
+            // FavoriteCounter
+            if (status.FavoriteCount > 0)
+            {
+                FavoriteCounterVisibility = true;
+                FavoriteCounterText = "Favorited " + status.FavoriteCount + " time";
+
+                if (status.FavoriteCount > 1)
+                    FavoriteCounterText += "s";
+            }
+            else
+            {
+                FavoriteCounterVisibility = false;
+                FavoriteCounterText = "";
+            }
 
             // TriangleIcon
             if (!status.IsRetweeted && status.IsFavorited)
@@ -506,10 +551,15 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public string RetweetInformationScreenName { get; set; }
 
 
+        public bool CounterVisibility { get; set; }
+
         public bool RetweetCounterVisibility { get; set; }
 
         public string RetweetCounterText { get; set; }
 
+        public bool FavoriteCounterVisibility { get; set; }
+
+        public string FavoriteCounterText { get; set; }
 
         public bool RetweetTriangleIconVisibility { get; set; }
 

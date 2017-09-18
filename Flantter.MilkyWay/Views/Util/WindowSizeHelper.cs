@@ -42,8 +42,8 @@ namespace Flantter.MilkyWay.Views.Util
                 WindowHeight = Window.Current.Bounds.Height;
                 ClientWidth = Window.Current.Bounds.Width;
                 ClientHeight = Window.Current.Bounds.Height -
-                               (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
-                StatusBarHeight = titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0;
+                               (titleBarVisiblity ? 32.0 : 0);
+                StatusBarHeight = titleBarVisiblity ? 32.0 : 0;
                 StatusBarWidth = 0.0;
                 UserInteractionMode =
                     (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode;
@@ -75,8 +75,8 @@ namespace Flantter.MilkyWay.Views.Util
                         WindowHeight = Window.Current.Bounds.Height;
                         ClientWidth = Window.Current.Bounds.Width;
                         ClientHeight = Window.Current.Bounds.Height -
-                                       (titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0);
-                        StatusBarHeight = titleBarVisiblity ? CoreApplication.GetCurrentView().TitleBar.Height : 0;
+                                       (titleBarVisiblity ? 32.0 : 0);
+                        StatusBarHeight = titleBarVisiblity ? 32.0 : 0;
                         StatusBarWidth = 0.0;
                         UserInteractionMode =
                             (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode;

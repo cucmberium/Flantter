@@ -1958,7 +1958,7 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
 
                 public IDisposable Subscribe(IObserver<Twitter.Objects.StreamingMessage> observer)
                 {
-                    var streamingUrl = _tokens.Instance == "mstdn.jp" ? "streaming.mstdn.jp" : _tokens.Instance;
+                    var streamingUrl = _tokens.Instance;
                     var conn = new StreamingConnection();
                     switch (_type)
                     {

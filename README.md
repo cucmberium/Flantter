@@ -8,7 +8,7 @@ To obtain the application, please visit [here] (http://apps.microsoft.com/window
 
 For more information, see [wiki] (https://github.com/cucmberium/Flantter.MilkyWay/wiki/Home_en).
 
---
+- - -
 
 FlantterはWindowsで使用できるストアアプリのツイッタークライアントです。
 また、マストドンでも使用することが可能です。(一部機能は使えません)
@@ -17,7 +17,7 @@ FlantterはWindowsで使用できるストアアプリのツイッタークラ�
 
 より詳しい情報は[wiki](https://github.com/cucmberium/Flantter.MilkyWay/wiki)を参照してください。
 
---
+- - -
 
 ### Flantter MilkyWay とは？
 

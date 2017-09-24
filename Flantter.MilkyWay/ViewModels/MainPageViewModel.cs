@@ -858,6 +858,17 @@ namespace Flantter.MilkyWay.ViewModels
                     await item.DeleteAsync();
                 });
 
+            Notice.Instance.ShowContentWarningTextCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(async x =>
+                {
+                    var statusViewModel = x as StatusViewModel;
+                    if (statusViewModel == null)
+                        return;
+
+                    statusViewModel.IsContentWarning = false;
+                    statusViewModel.OnPropertyChanged("IsContentWarning");
+                });
+
             #endregion
 
             Application.Current.Resuming += Application_Resuming;

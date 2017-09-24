@@ -317,24 +317,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
             }
 
             await Launcher.LaunchUriAsync(new Uri(linkUrl));
-
-            // 必要なくなったのでコメントアウト
-            /*if (AdvancedSettingService.AdvancedSetting.Accounts.First(x => x.IsEnabled).Platform ==
-                SettingSupport.PlatformEnum.Twitter)
-            {
-                var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
-                var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
-                if (statusMatch.Success)
-                    Notice.Instance.ShowStatusDetailCommand.Execute(long.Parse(statusMatch.Groups["Id"].ToString()));
-                else if (userMatch.Success)
-                    Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"].ToString());
-                else
-                    await Launcher.LaunchUriAsync(new Uri(linkUrl));
-            }
-            else
-            {
-                await Launcher.LaunchUriAsync(new Uri(linkUrl));
-            }*/
         }
     }
 }

@@ -172,7 +172,19 @@
                 <TextBlock HorizontalAlignment="Left">
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.ProtectedText, Mode=OneWay}" FontWeight="Bold" /><Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock x:Name="StatusBodyText" TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
+                <TextBlock Foreground="{StaticResource TweetTextTextblockForegroundBrush}" Visibility="{x:Bind ViewModel.SpoilerText, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" TextWrapping="Wrap" Margin="0,2,0,0" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" Text="{x:Bind ViewModel.SpoilerText, Mode=OneWay}"/>
+                <TextBlock x:Name="StatusReadMoreSpoilerText" Visibility="{x:Bind ViewModel.IsContentWarning, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" TextWrapping="Wrap" Margin="0,2,0,0" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}">
+                    <Hyperlink>
+                        <i:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Click">
+                                <core:ChangePropertyAction TargetObject="{Binding ElementName=StatusReadMoreSpoilerText}" PropertyName="Visibility" Value="Collapsed"/>
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowContentWarningTextCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
+                            </core:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                        <Run Foreground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" Text="続きを見る"/>
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock Visibility="{x:Bind ViewModel.IsContentWarning, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" x:Name="StatusBodyText" TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
                     <i:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">

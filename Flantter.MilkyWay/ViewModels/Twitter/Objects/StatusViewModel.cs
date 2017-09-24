@@ -201,6 +201,9 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             IsMyRetweet = status.IsRetweeted;
             IsUserProtected = status.User.IsProtected;
 
+            IsContentWarning = !string.IsNullOrWhiteSpace(status.SpoilerText);
+            SpoilerText = status.SpoilerText;
+
             Notice = Notice.Instance;
             Setting = SettingService.Setting;
         }
@@ -355,6 +358,9 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
                           status.IsRetweeted;
             IsUserProtected = status.User.IsProtected && status.User.Id != userId;
 
+            IsContentWarning = !string.IsNullOrWhiteSpace(status.SpoilerText);
+            SpoilerText = status.SpoilerText;
+
             Notice = Notice.Instance;
             Setting = SettingService.Setting;
         }
@@ -508,6 +514,9 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
             IsCollectionStatus = true;
             CollectionParameter = collectionParameter;
 
+            IsContentWarning = !string.IsNullOrWhiteSpace(status.SpoilerText);
+            SpoilerText = status.SpoilerText;
+
             Notice = Notice.Instance;
             Setting = SettingService.Setting;
         }
@@ -612,6 +621,10 @@ namespace Flantter.MilkyWay.ViewModels.Twitter.Objects
         public bool IsCollectionStatus { get; set; }
 
         public string CollectionParameter { get; set; }
+
+        public string SpoilerText { get; set; }
+
+        public bool IsContentWarning { get; set; }
 
         public Notice Notice { get; set; }
 

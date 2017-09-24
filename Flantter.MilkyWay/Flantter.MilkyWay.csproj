@@ -390,6 +390,7 @@
     <Compile Include="Views\Converters\LongToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\ObjectToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\PlatformEnumToVisibilityConverter.cs" />
+    <Compile Include="Views\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\StringToTweetBackgroundBrushConverter.cs" />
     <Compile Include="Views\InitializePage.xaml.cs">
       <DependentUpon>InitializePage.xaml</DependentUpon>

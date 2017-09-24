@@ -48,6 +48,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             ShowMyListsCommand = new ReactiveCommand();
             ShowMyCollectionsCommand = new ReactiveCommand();
             GetGapStatusCommand = new ReactiveCommand();
+            ShowContentWarningTextCommand = new ReactiveCommand();
 
             AddListColumnCommand = new ReactiveCommand();
             AddFilterColumnCommand = new ReactiveCommand();
@@ -170,6 +171,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand ShowMyListsCommand { get; }
         public ReactiveCommand ShowMyCollectionsCommand { get; }
         public ReactiveCommand GetGapStatusCommand { get; }
+        public ReactiveCommand ShowContentWarningTextCommand { get; }
 
         public ReactiveCommand AddListColumnCommand { get; }
         public ReactiveCommand AddFilterColumnCommand { get; }

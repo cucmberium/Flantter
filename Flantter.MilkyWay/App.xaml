@@ -25,6 +25,7 @@
             <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
             <converters:StringToTweetBackgroundBrushConverter x:Key="StringToTweetBackgroundBrushConverter"/>
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
             <converters:BooleanNegationToVisibilityConverter x:Key="BooleanNegationToVisibilityConverter"/>
             <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
             <converters:DoublePlusConverter x:Key="DoublePlusConverter"/>

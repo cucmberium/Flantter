@@ -92,6 +92,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
             QuotedStatusId = 0;
             Url = cStatus.Url;
             Source = cStatus.Application != null ? cStatus.Application.Name : "Web";
+
+            SpoilerText = cStatus.SpoilerText;
         }
 
         public Status()
@@ -215,6 +217,12 @@ namespace Flantter.MilkyWay.Models.Twitter.Objects
         #region Url変更通知プロパティ
 
         public string Url { get; set; }
+
+        #endregion
+
+        #region SpoilerText変更通知プロパティ
+
+        public string SpoilerText { get; set; }
 
         #endregion
     }

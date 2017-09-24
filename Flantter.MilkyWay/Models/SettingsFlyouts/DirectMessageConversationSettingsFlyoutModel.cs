@@ -123,7 +123,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 var param = new Dictionary<string, object>
                 {
-                    {"text", _text},
+                    {"text", _text.Replace("\r", "\n")},
                     {"user_id", _userId}
                 };
                 if (Tokens.Platform == Tokens.PlatformEnum.Mastodon)

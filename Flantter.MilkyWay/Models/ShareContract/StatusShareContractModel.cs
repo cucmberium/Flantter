@@ -67,49 +67,97 @@ namespace Flantter.MilkyWay.Models.ShareContract
             if (picture == null)
                 return;
 
+            var property = await picture.GetBasicPropertiesAsync();
+
             if (SettingService.Setting.ConvertPostingImage &&
                 (picture.FileType == ".jpeg" || picture.FileType == ".jpg" || picture.FileType == ".png"))
             {
-                RandomAccessStreamReference newBitmap;
-                var memoryStream = new InMemoryRandomAccessStream();
-
-                using (IRandomAccessStream fileStream =
-                    await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync())
+                if (property.Size <= 3145728 && SettingService.Setting.ConvertPostingImage)
                 {
-                    var picDecoder = await BitmapDecoder.CreateAsync(fileStream);
-                    var picDecoderPixels = await picDecoder.GetPixelDataAsync();
-                    var picEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memoryStream);
-                    var data = picDecoderPixels.DetachPixelData();
-
-                    if (SettingService.Setting.ConvertPostingImage && data[3] >= 254)
-                        data[3] = 254; // 左上1pixelの透明度情報を254に設定し,Twitter側の劣化に抗う
-
-                    picEncoder.SetPixelData(picDecoder.BitmapPixelFormat, BitmapAlphaMode.Premultiplied,
-                        picDecoder.PixelWidth, picDecoder.PixelHeight, picDecoder.DpiX, picDecoder.DpiY, data);
-
-                    await picEncoder.FlushAsync();
-
-                    newBitmap = RandomAccessStreamReference.CreateFromStream(memoryStream);
-                }
-
-                if (memoryStream.Size > 3145728)
-                {
-                    _pictures.Add(new PictureModel
+                    var memoryStream = new InMemoryRandomAccessStream();
+                    using (IRandomAccessStream fileStream =
+                        await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync())
                     {
-                        Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(),
-                        IsGifAnimation = false,
-                        IsVideo = false /*StorageFile = picture*/
-                    });
-                    memoryStream.Dispose();
+                        var picDecoder = await BitmapDecoder.CreateAsync(fileStream);
+                        var picDecoderPixels = await picDecoder.GetPixelDataAsync();
+                        var picEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memoryStream);
+                        var data = picDecoderPixels.DetachPixelData();
+
+                        if (data[3] > 254)
+                            data[3] = 254; // 左上1pixelの透明度情報を254に設定し,Twitter側の劣化に抗う
+
+                        picEncoder.SetPixelData(picDecoder.BitmapPixelFormat, BitmapAlphaMode.Premultiplied,
+                            picDecoder.PixelWidth, picDecoder.PixelHeight, picDecoder.DpiX, picDecoder.DpiY, data);
+
+                        await picEncoder.FlushAsync();
+                    }
+
+                    if (memoryStream.Size <= 3145728)
+                    {
+                        var newBitmap = RandomAccessStreamReference.CreateFromStream(memoryStream);
+                        _pictures.Add(new PictureModel
+                        {
+                            Stream = await newBitmap.OpenReadAsync(),
+                            IsVideo = false,
+                            IsGifAnimation = false,
+                            SourceStream = memoryStream
+                        });
+                    }
+                    else
+                    {
+                        _pictures.Add(new PictureModel
+                        {
+                            Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(),
+                            IsGifAnimation = false,
+                            IsVideo = false
+                        });
+                        memoryStream.Dispose();
+                    }
                 }
-                else
+                else if (property.Size > 3145728 && SettingService.Setting.ScalePostingImage)
                 {
+                    var memoryStream = new InMemoryRandomAccessStream();
+                    using (IRandomAccessStream fileStream =
+                        await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync())
+                    {
+                        var picDecoder = await BitmapDecoder.CreateAsync(fileStream);
+                        var picDecoderPixels = await picDecoder.GetPixelDataAsync();
+                        var picEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, memoryStream);
+                        picEncoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Cubic;
+
+                        var data = picDecoderPixels.DetachPixelData();
+                        picEncoder.SetPixelData(picDecoder.BitmapPixelFormat, BitmapAlphaMode.Premultiplied,
+                            picDecoder.PixelWidth, picDecoder.PixelHeight, picDecoder.DpiX, picDecoder.DpiY, data);
+
+                        await picEncoder.FlushAsync();
+
+                        var scale = 1.0;
+                        while (memoryStream.Size > 3145728)
+                        {
+                            scale -= 0.05;
+                            picEncoder.BitmapTransform.ScaledHeight = (uint)(picDecoder.PixelHeight * scale);
+                            picEncoder.BitmapTransform.ScaledWidth = (uint)(picDecoder.PixelWidth * scale);
+
+                            await picEncoder.FlushAsync();
+                        }
+                    }
+
+                    var newBitmap = RandomAccessStreamReference.CreateFromStream(memoryStream);
                     _pictures.Add(new PictureModel
                     {
                         Stream = await newBitmap.OpenReadAsync(),
                         IsVideo = false,
                         IsGifAnimation = false,
                         SourceStream = memoryStream
+                    });
+                }
+                else
+                {
+                    _pictures.Add(new PictureModel
+                    {
+                        Stream = await RandomAccessStreamReference.CreateFromFile(picture).OpenReadAsync(),
+                        IsGifAnimation = false,
+                        IsVideo = false
                     });
                 }
             }

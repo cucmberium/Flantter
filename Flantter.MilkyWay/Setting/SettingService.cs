@@ -441,6 +441,16 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        public bool ScalePostingImage
+        {
+            get => GetValue(true);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
         // 表示設定
         public SettingSupport.ThemeEnum Theme
         {

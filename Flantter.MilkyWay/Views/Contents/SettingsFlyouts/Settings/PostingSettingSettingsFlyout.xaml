@@ -38,6 +38,10 @@
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Posting_ScalePostingImage_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ScalePostingImage, Mode=TwoWay}" Header="サイズが大きい画像を縮小する"/>
+
+            <controls:HorizontalBar/>
+
         </StackPanel>
     </ScrollViewer>
     

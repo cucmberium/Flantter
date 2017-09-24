@@ -1081,4 +1081,7 @@
   <data name="SettingsFlyout_UserMediaStatus_IncrementalLoad.Text" xml:space="preserve">
     <value>メディアを更に読み込む</value>
   </data>
+  <data name="SettingsFlyout_Settings_Posting_ScalePostingImage_ToggleSwitch.Header" xml:space="preserve">
+    <value>サイズが大きい画像を縮小する</value>
+  </data>
 </root>

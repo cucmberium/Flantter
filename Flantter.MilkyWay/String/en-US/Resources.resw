@@ -1081,4 +1081,7 @@
   <data name="SettingsFlyout_UserProfile_Add_Flyout_OpenUserMediasStatuses.Text" xml:space="preserve">
     <value>    Open user medias</value>
   </data>
+  <data name="SettingsFlyout_Settings_Posting_ScalePostingImage_ToggleSwitch.Header" xml:space="preserve">
+    <value>Resize posting image which is too large for upload</value>
+  </data>
 </root>

@@ -4,9 +4,9 @@
 Flantter is a twitter client of store applications available on Windows.
 You can also use it with mastodon. (Some functions can not be used)
 
-To obtain the application, please visit [here] (http://apps.microsoft.com/windows/en-jp/app/flantter/cedc3eca-9d14-452e-bf40-0e32bd76b5b7).
+To obtain the application, please visit [here](http://apps.microsoft.com/windows/en-jp/app/flantter/cedc3eca-9d14-452e-bf40-0e32bd76b5b7).
 
-For more information, see [wiki] (https://github.com/cucmberium/Flantter.MilkyWay/wiki/Home_en).
+For more information, see [wiki](https://github.com/cucmberium/Flantter.MilkyWay/wiki/Home_en).
 
 - - -
 

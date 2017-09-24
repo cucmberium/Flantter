@@ -10,6 +10,7 @@
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:uwpToolKit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     d:DesignHeight="160"
     d:DesignWidth="1280">
@@ -161,30 +162,31 @@
                     <SymbolIcon Symbol="Pictures"/>
                     <Button.Flyout>
                         <Flyout>
-                            <Grid Height="40">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
 
-                                <Button Grid.Column="1" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
-                                    <SymbolIcon Symbol="Pictures"/>
-                                </Button>
-
-                                <ItemsControl Grid.Column="0" ItemsSource="{x:Bind ViewModel.Pictures}" VerticalAlignment="Center" Height="40">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
+                                <uwpToolKit:Carousel Grid.Row="0" x:Name="PictureCarousel" InvertPositive="True" ItemDepth="0" ItemMargin="10" ItemRotationX="0" ItemRotationY="0" ItemRotationZ ="0" Orientation="Horizontal" ItemsSource="{x:Bind ViewModel.Pictures}" Width="280" Height="160" SelectedIndex="0">
+                                    <uwpToolKit:Carousel.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut" />
+                                    </uwpToolKit:Carousel.EasingFunction>
+                                    <uwpToolKit:Carousel.ItemTemplate>
                                         <DataTemplate x:DataType="viewModels:PictureViewModel">
-                                            <Button IsTabStop="False" FlowDirection="LeftToRight" BorderThickness="0" Width="60" Height="40" Command="{x:Bind Notice.TweetAreaDeletePictureCommand}" CommandParameter="{x:Bind Mode=OneWay}">
-                                                <Image Source="{x:Bind Image.Value, Mode=OneWay}"/>
-                                            </Button>
+                                            <Image Width="200" Height="160" Source="{x:Bind Image.Value, Mode=OneWay}" />
                                         </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                    </uwpToolKit:Carousel.ItemTemplate>
+                                </uwpToolKit:Carousel>
+
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の削除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.Notice.TweetAreaDeletePictureCommand}" CommandParameter="{Binding SelectedItem, ElementName=PictureCarousel}">
+                                        <SymbolIcon Symbol="Delete"/>
+                                    </Button>
+                                    <Button IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
+                                        <SymbolIcon Symbol="Add"/>
+                                    </Button>
+                                </StackPanel>
                             </Grid>
                         </Flyout>
                     </Button.Flyout>
@@ -199,9 +201,12 @@
                         <DataTemplate x:DataType="viewModels:PictureViewModel">
                             <Button IsTabStop="False" FlowDirection="LeftToRight" BorderThickness="0" Width="60" Height="40">
                                 <Button.Flyout>
-                                    <MenuFlyout Placement="Top">
-                                        <MenuFlyoutItem x:Uid="TweetArea_PictureDelete" Command="{x:Bind Notice.TweetAreaDeletePictureCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="削除"/>
-                                    </MenuFlyout>
+                                    <Flyout>
+                                        <StackPanel Orientation="Vertical">
+                                            <Image Width="280" Height="200" Source="{x:Bind Image.Value, Mode=OneWay}"/>
+                                            <MenuFlyoutItem x:Uid="TweetArea_PictureDelete" Command="{x:Bind Notice.TweetAreaDeletePictureCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="削除"/>
+                                        </StackPanel>
+                                    </Flyout>
                                 </Button.Flyout>
                                 <Image Source="{x:Bind Image.Value, Mode=OneWay}"/>
                             </Button>

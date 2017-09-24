@@ -789,15 +789,15 @@ namespace Flantter.MilkyWay.ViewModels
                         return;
 
                     var tweet = SelectedTweet.Value;
-                    var screenName = string.Empty;
+                    var userId = 0L;
                     if (tweet is StatusViewModel)
-                        screenName = ((StatusViewModel) tweet).ScreenName;
+                        userId = ((StatusViewModel) tweet).Model.User.Id;
                     else if (tweet is DirectMessageViewModel)
-                        screenName = ((DirectMessageViewModel) tweet).ScreenName;
+                        userId = ((DirectMessageViewModel) tweet).Model.Sender.Id;
                     else if (tweet is EventMessageViewModel)
-                        screenName = ((EventMessageViewModel) tweet).ScreenName;
+                        userId = ((EventMessageViewModel) tweet).Model.Source.Id;
 
-                    Notice.Instance.SendDirectMessageCommand.Execute(screenName);
+                    Notice.Instance.SendDirectMessageCommand.Execute(userId);
                 });
 
             Notice.Instance.FavoriteSelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default)

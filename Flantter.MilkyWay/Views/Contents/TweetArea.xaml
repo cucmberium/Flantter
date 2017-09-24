@@ -180,10 +180,10 @@
                                 </uwpToolKit:Carousel>
 
                                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の削除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.Notice.TweetAreaDeletePictureCommand}" CommandParameter="{Binding SelectedItem, ElementName=PictureCarousel}">
+                                    <Button x:Uid="TweetArea_SmallPictureButton_DeletePictureButton" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の削除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.Notice.TweetAreaDeletePictureCommand}" CommandParameter="{Binding SelectedItem, ElementName=PictureCarousel}">
                                         <SymbolIcon Symbol="Delete"/>
                                     </Button>
-                                    <Button IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
+                                    <Button x:Uid="TweetArea_SmallPictureButton_AddPictureButton" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
                                         <SymbolIcon Symbol="Add"/>
                                     </Button>
                                 </StackPanel>

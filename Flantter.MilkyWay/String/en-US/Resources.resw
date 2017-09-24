@@ -1084,4 +1084,10 @@
   <data name="SettingsFlyout_Settings_Posting_ScalePostingImage_ToggleSwitch.Header" xml:space="preserve">
     <value>Resize posting image which is too large for upload</value>
   </data>
+  <data name="TweetArea_SmallPictureButton_AddPictureButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Add picture</value>
+  </data>
+  <data name="TweetArea_SmallPictureButton_DeletePictureButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Delete picture</value>
+  </data>
 </root>

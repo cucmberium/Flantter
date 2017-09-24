@@ -1084,4 +1084,10 @@
   <data name="SettingsFlyout_Settings_Posting_ScalePostingImage_ToggleSwitch.Header" xml:space="preserve">
     <value>サイズが大きい画像を縮小する</value>
   </data>
+  <data name="TweetArea_SmallPictureButton_AddPictureButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>画像の添付</value>
+  </data>
+  <data name="TweetArea_SmallPictureButton_DeletePictureButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>画像の削除</value>
+  </data>
 </root>

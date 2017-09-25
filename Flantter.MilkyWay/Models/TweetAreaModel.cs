@@ -44,6 +44,7 @@ namespace Flantter.MilkyWay.Models
             CharacterCount = 140;
             State = "Accept";
             Message = _resourceLoader.GetString("TweetArea_Message_AllSet");
+            IsContentWarning = false;
 
             _extractor = new Extractor();
         }
@@ -246,13 +247,13 @@ namespace Flantter.MilkyWay.Models
             CharacterCountChanged();
         }
 
-        public async Task Tweet(IEnumerable<AccountModel> accounts)
+        public async Task<bool> Tweet(IEnumerable<AccountModel> accounts)
         {
             if (!accounts.Any())
-                return;
+                return false;
 
             if (Updating)
-                return;
+                return false;
 
             ToolTipIsOpen = true;
 
@@ -260,19 +261,31 @@ namespace Flantter.MilkyWay.Models
             {
                 State = "Cancel";
                 Message = _resourceLoader.GetString("TweetArea_Message_OverMaxTweetLength");
-                return;
+                return false;
             }
             if (!LessThanMaxTweetLength && accounts.Any(x => x.Platform == "Twitter"))
             {
                 State = "Cancel";
                 Message = _resourceLoader.GetString("TweetArea_Message_OverMaxTweetLength");
-                return;
+                return false;
+            }
+            if (IsContentWarning == true && accounts.Any(x => x.Platform == "Twitter"))
+            {
+                State = "Cancel";
+                Message = _resourceLoader.GetString("TweetArea_Message_ContentWarningIsAvailableOnlyMastodon");
+                return false;
+            }
+            if (IsContentWarning == true && string.IsNullOrWhiteSpace(ContentWarningText))
+            {
+                State = "Cancel";
+                Message = _resourceLoader.GetString("TweetArea_Message_ContentWarningIsEmpty");
+                return false;
             }
             if (_pictures.Count == 0 && string.IsNullOrWhiteSpace(Text))
             {
                 State = "Cancel";
                 Message = _resourceLoader.GetString("TweetArea_Message_TextIsEmptyOrWhiteSpace");
-                return;
+                return false;
             }
             if (_pictures.Count(x => !x.IsVideo && !x.IsGifAnimation) > 4 ||
                 _pictures.Count(x => x.IsVideo || x.IsGifAnimation) > 1 ||
@@ -280,21 +293,21 @@ namespace Flantter.MilkyWay.Models
             {
                 State = "Cancel";
                 Message = _resourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
-                return;
+                return false;
             }
             if (_pictures.Any(x => x.IsVideo || x.IsGifAnimation) &&
                 _pictures.Any(x => !x.IsVideo && !x.IsGifAnimation))
             {
                 State = "Cancel";
                 Message = _resourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
-                return;
+                return false;
             }
             if (_pictures.Where(x => !x.IsVideo).Any(x => x.Stream.Size > 3145728) || _pictures.Where(x => x.IsVideo)
                     .Any(x => x.Stream.Size > 536870912))
             {
                 State = "Cancel";
                 Message = _resourceLoader.GetString("TweetArea_Message_MediaSizeOver");
-                return;
+                return false;
             }
 
             Updating = true;
@@ -386,7 +399,11 @@ namespace Flantter.MilkyWay.Models
 
                     param.Add("status", text.Replace("\r", "\n"));
                     if (account.AccountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)
+                    {
                         param.Add("visibility", account.AccountSetting.StatusPrivacy.ToString());
+                        if (IsContentWarning == true && !string.IsNullOrWhiteSpace(ContentWarningText))
+                            param.Add("spoiler_text", ContentWarningText.Replace("\r", "\n"));
+                    }
 
                     Message = _resourceLoader.GetString("TweetArea_Message_UpdatingStatus");
                     await tokens.Statuses.UpdateAsync(param);
@@ -397,7 +414,7 @@ namespace Flantter.MilkyWay.Models
                         _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                     State = "Cancel";
                     Message = _resourceLoader.GetString("TweetArea_Message_Error");
-                    return;
+                    return false;
                 }
                 catch (NotImplementedException ex)
                 {
@@ -406,7 +423,7 @@ namespace Flantter.MilkyWay.Models
                         _resourceLoader.GetString("Notification_System_NotImplementedException"));
                     State = "Cancel";
                     Message = _resourceLoader.GetString("TweetArea_Message_Error");
-                    return;
+                    return false;
                 }
                 catch (Exception ex)
                 {
@@ -415,7 +432,7 @@ namespace Flantter.MilkyWay.Models
                         _resourceLoader.GetString("Notification_System_CheckNetwork"));
                     State = "Cancel";
                     Message = _resourceLoader.GetString("TweetArea_Message_Error");
-                    return;
+                    return false;
                 }
                 finally
                 {
@@ -442,9 +459,13 @@ namespace Flantter.MilkyWay.Models
             IsQuotedRetweet = false;
             IsReply = false;
 
+            ContentWarningText = "";
+
             State = "Accept";
             Message = _resourceLoader.GetString("TweetArea_Message_AllSet");
             ToolTipIsOpen = false;
+
+            return true;
         }
 
         private void SuggestionTokenize()
@@ -761,6 +782,44 @@ namespace Flantter.MilkyWay.Models
         {
             get => _isReply;
             set => SetProperty(ref _isReply, value);
+        }
+
+        #endregion
+
+        #region IsContentWarning変更通知プロパティ
+
+        private bool? _isContentWarning;
+
+        public bool? IsContentWarning
+        {
+            get { return _isContentWarning; }
+            set
+            {
+                if (_isContentWarning != value)
+                {
+                    _isContentWarning = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region ContentWarningText変更通知プロパティ
+
+        private string _contentWarningText;
+
+        public string ContentWarningText
+        {
+            get { return _contentWarningText; }
+            set
+            {
+                if (_contentWarningText != value)
+                {
+                    _contentWarningText = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         #endregion

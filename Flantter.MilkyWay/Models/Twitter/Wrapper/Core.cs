@@ -575,7 +575,8 @@ namespace Flantter.MilkyWay.Models.Twitter.Wrapper
                         (int?) (long?) parameters.GetValueOrDefault("in_reply_to_status_id", null),
                         ((IEnumerable<long>) parameters.GetValueOrDefault("media_ids", null))?.Select(x => (int) x),
                         (bool) parameters.GetValueOrDefault("possibly_sensitive", false),
-                        visibility: (Mastodot.Enums.Visibility) Enum.Parse(
+                        (string)parameters.GetValueOrDefault("spoiler_text", null),
+                        (Mastodot.Enums.Visibility) Enum.Parse(
                             typeof(Mastodot.Enums.Visibility),
                             (string) parameters.GetValueOrDefault("visibility", "Public"), true)
                     ));

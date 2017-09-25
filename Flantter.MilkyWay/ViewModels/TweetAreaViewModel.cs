@@ -64,6 +64,9 @@ namespace Flantter.MilkyWay.ViewModels
             IsQuotedRetweet = Model.ObserveProperty(x => x.IsQuotedRetweet).ToReactiveProperty();
             IsReply = Model.ObserveProperty(x => x.IsReply).ToReactiveProperty();
 
+            IsContentWarning = Model.ToReactivePropertyAsSynchronized(x => x.IsContentWarning);
+            ContentWarningText = Model.ToReactivePropertyAsSynchronized(x => x.ContentWarningText);
+
             Notice = Notice.Instance;
             Setting = SettingService.Setting;
 
@@ -141,10 +144,11 @@ namespace Flantter.MilkyWay.ViewModels
             TweetCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
-                    await Model.Tweet(SelectedAccounts.Value.Select(y => y.Model));
+                    var result = await Model.Tweet(SelectedAccounts.Value.Select(y => y.Model));
 
-                    if (SettingService.Setting.CloseAppBarAfterTweet)
+                    if (SettingService.Setting.CloseAppBarAfterTweet && result)
                     {
+                        await Task.Delay(50);
                         Notice.Instance.TweetAreaOpenCommand.Execute(false);
                     }
                     else
@@ -209,6 +213,8 @@ namespace Flantter.MilkyWay.ViewModels
                         Model.IsQuotedRetweet = false;
                         Model.IsReply = true;
                         Model.ReplyOrQuotedStatus = statusViewModel.Model;
+                        
+                        Model.ContentWarningText = "";
 
                         Model.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
 
@@ -220,6 +226,8 @@ namespace Flantter.MilkyWay.ViewModels
                     }
                     else if (!string.IsNullOrWhiteSpace(screenName))
                     {
+                        Model.ContentWarningText = "";
+
                         Model.Text = "@" + screenName + " ";
 
                         Notice.Instance.TweetAreaOpenCommand.Execute(true);
@@ -246,6 +254,8 @@ namespace Flantter.MilkyWay.ViewModels
                     Model.IsQuotedRetweet = false;
                     Model.IsReply = true;
                     Model.ReplyOrQuotedStatus = statusViewModel.Model;
+
+                    Model.ContentWarningText = "";
 
                     var userList = new List<string>();
 
@@ -291,6 +301,8 @@ namespace Flantter.MilkyWay.ViewModels
                     Model.IsReply = true;
                     Model.ReplyOrQuotedStatus = statusViewModel.Model;
 
+                    Model.ContentWarningText = "";
+
                     var userList = new List<string>();
                     foreach (var sVm in statusViewModels)
                     {
@@ -333,6 +345,8 @@ namespace Flantter.MilkyWay.ViewModels
                     Model.IsReply = false;
                     Model.ReplyOrQuotedStatus = statusViewModel.Model;
 
+                    Model.ContentWarningText = "";
+
                     Model.Text = "";
 
                     Notice.Instance.TweetAreaOpenCommand.Execute(true);
@@ -355,6 +369,9 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<StatusViewModel> ReplyOrQuotedStatus { get; set; }
         public ReactiveProperty<bool> IsQuotedRetweet { get; set; }
         public ReactiveProperty<bool> IsReply { get; set; }
+
+        public ReactiveProperty<string> ContentWarningText { get; set; }
+        public ReactiveProperty<bool?> IsContentWarning { get; set; }
 
         public ReactiveProperty<string> Text { get; set; }
         public ReactiveProperty<int> SelectionStart { get; set; }

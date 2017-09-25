@@ -1090,4 +1090,16 @@
   <data name="TweetArea_SmallPictureButton_DeletePictureButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>画像の削除</value>
   </data>
+  <data name="TweetArea_ContentWarningTextBox.PlaceholderText" xml:space="preserve">
+    <value>内容注意メッセージ (Mastodonのみ)</value>
+  </data>
+  <data name="TweetArea_TweetTextBox.PlaceholderText" xml:space="preserve">
+    <value>今なにしてる？</value>
+  </data>
+  <data name="TweetArea_Message_ContentWarningIsAvailableOnlyMastodon" xml:space="preserve">
+    <value>CWはMastodonでのみ有効です</value>
+  </data>
+  <data name="TweetArea_Message_ContentWarningIsEmpty" xml:space="preserve">
+    <value>CWメッセージが空になっています</value>
+  </data>
 </root>

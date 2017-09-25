@@ -10,22 +10,21 @@
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:media="using:Microsoft.Xaml.Interactions.Media"
     xmlns:uwpToolKit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     d:DesignHeight="160"
     d:DesignWidth="1280">
 
     <Grid Background="{ThemeResource AppBarBackgroundBrush}" BorderBrush="{ThemeResource AppBarBorderBrush}">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" /><!-- Reply tweet and quoted tweet area -->
+            <RowDefinition Height="Auto" /><!-- CW area -->
             <RowDefinition Height="Auto" /><!-- Tweet area -->
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" Visibility="{x:Bind ViewModel.ReplyOrQuotedStatus.Value, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" Margin="6,6,6,2" Background="{StaticResource AppBarReplyOrQuotedStatusAreaBackgroundBrush}" Padding="4,2" CornerRadius="5">
-
             <Grid>
-
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -62,15 +61,45 @@
                         <SymbolIcon Symbol="Cancel"/>
                     </Button>
                 </Grid>
-                
             </Grid>
-
         </Border>
 
-        <Grid Grid.Row="1" MinHeight="140" MaxHeight="200">
+        <Grid x:Name="BottomAppBarContentWarningGrid" Grid.Row="1" Height="0">
+            <Grid.Resources>
+                <Storyboard x:Name="ContentWarningOpenAnimation">
+                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="BottomAppBarContentWarningGrid">
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="42">
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <SineEase EasingMode="EaseInOut"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+                <Storyboard x:Name="ContentWarningCloseAnimation">
+                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="BottomAppBarContentWarningGrid">
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <SineEase EasingMode="EaseInOut"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+            </Grid.Resources>
+            
+            <i:Interaction.Behaviors>
+                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.IsContentWarning.Value, Mode=OneWay}" ComparisonCondition="Equal" Value="True">
+                    <media:ControlStoryboardAction Storyboard="{StaticResource ContentWarningOpenAnimation}"/>
+                </core:DataTriggerBehavior>
+                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.IsContentWarning.Value, Mode=OneWay}" ComparisonCondition="Equal" Value="False">
+                    <media:ControlStoryboardAction Storyboard="{StaticResource ContentWarningCloseAnimation}"/>
+                </core:DataTriggerBehavior>
+            </i:Interaction.Behaviors>
 
-            <Button x:Name="BottomAppBarAccountButton" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" VerticalAlignment="Top" Width="60" Height="60" Margin="5,5,0,0" Padding="0" BorderThickness="0">
+            <TextBox x:Uid="TweetArea_ContentWarningTextBox" Text="{Binding TweetArea.ContentWarningText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" PlaceholderText="内容注意メッセージ (Mastodonのみ)"/>
+        </Grid>
 
+        <Grid Grid.Row="2" MinHeight="140" MaxHeight="200">
+            <Button x:Name="BottomAppBarAccountButton" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" VerticalAlignment="Top" Width="60" Height="60" Margin="5,5,0,0" Padding="0" BorderThickness="0">
                 <ItemsControl ItemsSource="{x:Bind ViewModel.SelectedAccounts.Value, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -85,7 +114,7 @@
                 </ItemsControl>
                 
                 <Button.Flyout>
-                    <Flyout Placement="Top">
+                    <Flyout Placement="Top" FlyoutPresenterStyle="{StaticResource MenuFlyoutStyleFlyoutPresenter}">
                         <ItemsControl ItemsSource="{x:Bind ViewModel.Accounts}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="viewModels:AccountViewModel">
@@ -97,7 +126,7 @@
                 </Button.Flyout>
             </Button>
 
-            <controls:ExtendedTextBox x:Name="BottomAppBarTextBox" IsEnabled="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" CursorPosition="{x:Bind ViewModel.SelectionStart.Value, Mode=TwoWay}" Text="{Binding TweetArea.Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{x:Bind ViewModel.Setting.TweetAreaFontSize, Mode=OneWay}" IsSpellCheckEnabled="False">
+            <controls:ExtendedTextBox x:Uid="TweetArea_TweetTextBox" x:Name="BottomAppBarTextBox" IsEnabled="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" CursorPosition="{x:Bind ViewModel.SelectionStart.Value, Mode=TwoWay}" Text="{Binding TweetArea.Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="70,5,100,40" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="1" BorderBrush="Black" FontSize="{x:Bind ViewModel.Setting.TweetAreaFontSize, Mode=OneWay}" IsSpellCheckEnabled="False" PlaceholderText="今なにしてる？">
                 <i:Interaction.Behaviors>
                     <behaviors:TextBoxKeyTriggerBehavior>
                         <util:KeyTrigger Key="Enter" Modifiers="Control">
@@ -129,91 +158,97 @@
                 </PathIcon>
             </Button>
 
-            <Grid x:Name="BottomAppBarCommandGrid" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+            <ScrollViewer x:Name="BottomAppBarCommandScrollViewer" Height="40" HorizontalContentAlignment="Right" VerticalContentAlignment="Stretch" VerticalAlignment="Bottom" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="BottomAppBarCounterTextBlock" Grid.Column="5" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
-                <Button x:Name="BottomAppBarNoticeButton" Command="{x:Bind ViewModel.MessageShowCommand}" Grid.Column="4" IsTabStop="False" ToolTipService.Placement="Top" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
-                    <Grid>
-                        <SymbolIcon Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Symbol="{x:Bind ViewModel.StateSymbol.Value, Mode=OneWay}"/>
-                        <ProgressRing Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsActive="True"/>
-                    </Grid>
-                    <ToolTipService.ToolTip>
-                        <ToolTip IsOpen="{x:Bind ViewModel.ToolTipIsOpen.Value, Mode=TwoWay}" Content="{x:Bind ViewModel.Message.Value, Mode=OneWay}" />
-                    </ToolTipService.ToolTip>
-                </Button>
-                <Button x:Uid="TweetArea_AccountSettingButton" x:Name="BottomAppBarAccountSettingButton" Grid.Column="3" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="投稿設定" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.OpenAccountSettingCommand}">
-                    <SymbolIcon Symbol="Setting"/>
-                </Button>
-                <Button x:Uid="TweetArea_LockingHashTagsButton" x:Name="BottomAppBarLockingHashTagsButton" Grid.Column="2" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.ChangeLockHashTagsCommand}">
-                    <SymbolIcon Symbol="{x:Bind ViewModel.LockingHashTagsSymbol.Value, Mode=OneWay}"/>
-                </Button>
-                <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBarPictureButton" Grid.Column="1" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
-                    <SymbolIcon Symbol="Pictures"/>
-                </Button>
-                <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBarSmallPictureButton" Grid.Column="1" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Visibility="Collapsed" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
-                    <SymbolIcon Symbol="Pictures"/>
-                    <Button.Flyout>
-                        <Flyout>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="40"/>
-                                </Grid.RowDefinitions>
+                    <TextBlock x:Name="BottomAppBarCounterTextBlock" Grid.Column="6" Foreground="{StaticResource AppBarCharacterCountForegroundBrush}" Text="{x:Bind ViewModel.CharacterCount.Value, Mode=OneWay}" Width="40" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" FontSize="16" TextAlignment="Center" Margin="30,0"/>
+                    <Button x:Name="BottomAppBarNoticeButton" Command="{x:Bind ViewModel.MessageShowCommand}" Grid.Column="5" IsTabStop="False" ToolTipService.Placement="Top" Background="Transparent" Width="40" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
+                        <Grid>
+                            <SymbolIcon Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Symbol="{x:Bind ViewModel.StateSymbol.Value, Mode=OneWay}"/>
+                            <ProgressRing Visibility="{x:Bind ViewModel.Updating.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsActive="True"/>
+                        </Grid>
+                        <ToolTipService.ToolTip>
+                            <ToolTip IsOpen="{x:Bind ViewModel.ToolTipIsOpen.Value, Mode=TwoWay}" Content="{x:Bind ViewModel.Message.Value, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </Button>
+                    <Button x:Uid="TweetArea_AccountSettingButton" x:Name="BottomAppBarAccountSettingButton" Grid.Column="4" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="投稿設定" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.OpenAccountSettingCommand}">
+                        <SymbolIcon Symbol="Setting"/>
+                    </Button>
+                    <Button x:Uid="TweetArea_LockingHashTagsButton" x:Name="BottomAppBarLockingHashTagsButton" Grid.Column="3" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="ハッシュタグの固定/解除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.ChangeLockHashTagsCommand}">
+                        <SymbolIcon Symbol="{x:Bind ViewModel.LockingHashTagsSymbol.Value, Mode=OneWay}"/>
+                    </Button>
+                    <ToggleButton x:Uid="TweetArea_ContentWarningButton" x:Name="BottomAppBarContentWarningButton" Grid.Column="2" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="CWを追加/解除 (Mastodonのみ)" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" IsThreeState="False" IsChecked="{x:Bind ViewModel.IsContentWarning.Value, Mode=TwoWay}">
+                        <SymbolIcon Symbol="Flag"/>
+                    </ToggleButton>
+                    <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBarPictureButton" Grid.Column="1" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
+                        <SymbolIcon Symbol="Pictures"/>
+                    </Button>
+                    <Button x:Uid="TweetArea_PictureButton" x:Name="BottomAppBarSmallPictureButton" Grid.Column="1" IsTabStop="False" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" Visibility="Collapsed" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0">
+                        <SymbolIcon Symbol="Pictures"/>
+                        <Button.Flyout>
+                            <Flyout>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
 
-                                <uwpToolKit:Carousel Grid.Row="0" x:Name="PictureCarousel" InvertPositive="True" ItemDepth="0" ItemMargin="10" ItemRotationX="0" ItemRotationY="0" ItemRotationZ ="0" Orientation="Horizontal" ItemsSource="{x:Bind ViewModel.Pictures}" Width="280" Height="160" SelectedIndex="0">
-                                    <uwpToolKit:Carousel.EasingFunction>
-                                        <CubicEase EasingMode="EaseOut" />
-                                    </uwpToolKit:Carousel.EasingFunction>
-                                    <uwpToolKit:Carousel.ItemTemplate>
-                                        <DataTemplate x:DataType="viewModels:PictureViewModel">
-                                            <Image Width="200" Height="160" Source="{x:Bind Image.Value, Mode=OneWay}" />
-                                        </DataTemplate>
-                                    </uwpToolKit:Carousel.ItemTemplate>
-                                </uwpToolKit:Carousel>
+                                    <uwpToolKit:Carousel Grid.Row="0" x:Name="PictureCarousel" InvertPositive="True" ItemDepth="0" ItemMargin="10" ItemRotationX="0" ItemRotationY="0" ItemRotationZ ="0" Orientation="Horizontal" ItemsSource="{x:Bind ViewModel.Pictures}" Width="280" Height="160" SelectedIndex="0">
+                                        <uwpToolKit:Carousel.EasingFunction>
+                                            <CubicEase EasingMode="EaseOut" />
+                                        </uwpToolKit:Carousel.EasingFunction>
+                                        <uwpToolKit:Carousel.ItemTemplate>
+                                            <DataTemplate x:DataType="viewModels:PictureViewModel">
+                                                <Image Width="200" Height="160" Source="{x:Bind Image.Value, Mode=OneWay}" />
+                                            </DataTemplate>
+                                        </uwpToolKit:Carousel.ItemTemplate>
+                                    </uwpToolKit:Carousel>
 
-                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button x:Uid="TweetArea_SmallPictureButton_DeletePictureButton" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の削除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.Notice.TweetAreaDeletePictureCommand}" CommandParameter="{Binding SelectedItem, ElementName=PictureCarousel}">
-                                        <SymbolIcon Symbol="Delete"/>
-                                    </Button>
-                                    <Button x:Uid="TweetArea_SmallPictureButton_AddPictureButton" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
-                                        <SymbolIcon Symbol="Add"/>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-                <ItemsControl x:Name="BottomAppBarPictureItemsControl" Grid.Column="0" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" ItemsSource="{x:Bind ViewModel.Pictures, Mode=OneWay}" VerticalAlignment="Center" Height="40">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="viewModels:PictureViewModel">
-                            <Button IsTabStop="False" FlowDirection="LeftToRight" BorderThickness="0" Width="60" Height="40">
-                                <Button.Flyout>
-                                    <Flyout>
-                                        <StackPanel Orientation="Vertical">
-                                            <Image Width="280" Height="200" Source="{x:Bind Image.Value, Mode=OneWay}"/>
-                                            <MenuFlyoutItem x:Uid="TweetArea_PictureDelete" Command="{x:Bind Notice.TweetAreaDeletePictureCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="削除"/>
-                                        </StackPanel>
-                                    </Flyout>
-                                </Button.Flyout>
-                                <Image Source="{x:Bind Image.Value, Mode=OneWay}"/>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button x:Uid="TweetArea_SmallPictureButton_DeletePictureButton" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の削除" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.Notice.TweetAreaDeletePictureCommand}" CommandParameter="{Binding SelectedItem, ElementName=PictureCarousel}">
+                                            <SymbolIcon Symbol="Delete"/>
+                                        </Button>
+                                        <Button x:Uid="TweetArea_SmallPictureButton_AddPictureButton" IsTabStop="False" Background="Transparent" Width="40" ToolTipService.Placement="Top" ToolTipService.ToolTip="画像の添付" VerticalAlignment="Stretch" BorderThickness="0" Padding="0" Margin="3,0" Command="{x:Bind ViewModel.AddPictureCommand}">
+                                            <SymbolIcon Symbol="Add"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <ItemsControl x:Name="BottomAppBarPictureItemsControl" Grid.Column="0" IsEnabled="{x:Bind ViewModel.Updating.Value,Mode=OneWay,Converter={StaticResource BooleanNegationConverter}}" ItemsSource="{x:Bind ViewModel.Pictures, Mode=OneWay}" VerticalAlignment="Center" Height="40">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="viewModels:PictureViewModel">
+                                <Button IsTabStop="False" FlowDirection="LeftToRight" BorderThickness="0" Width="60" Height="40">
+                                    <Button.Flyout>
+                                        <Flyout>
+                                            <StackPanel Orientation="Vertical">
+                                                <Image Width="280" Height="200" Source="{x:Bind Image.Value, Mode=OneWay}"/>
+                                                <MenuFlyoutItem x:Uid="TweetArea_PictureDelete" Command="{x:Bind Notice.TweetAreaDeletePictureCommand}" CommandParameter="{x:Bind Mode=OneWay}" Text="削除"/>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                    <Image Source="{x:Bind Image.Value, Mode=OneWay}"/>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </ScrollViewer>
         </Grid>
 
         <VisualStateManager.VisualStateGroups>
@@ -230,7 +265,7 @@
                         <Setter Target="BottomAppBarTextBox.Margin" Value="5,5,5,40"/>
                         <Setter Target="BottomAppBarTweetButton.Visibility" Value="Collapsed"/>
                         <Setter Target="BottomAppBarTweetSmallButton.Visibility" Value="Visible"/>
-                        <Setter Target="BottomAppBarCommandGrid.Margin" Value="50,0,72.5,0"/>
+                        <Setter Target="BottomAppBarCommandScrollViewer.Margin" Value="50,0,72.5,0"/>
                         <Setter Target="BottomAppBarCounterTextBlock.Margin" Value="0"/>
                         <Setter Target="BottomAppBarPictureButton.Visibility" Value="Collapsed"/>
                         <Setter Target="BottomAppBarPictureItemsControl.Visibility" Value="Collapsed"/>
@@ -245,7 +280,6 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="384" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
-
                     <VisualState.Setters>
                         <Setter Target="BottomAppBarAccountButton.Width" Value="40"/>
                         <Setter Target="BottomAppBarAccountButton.Height" Value="40"/>
@@ -254,7 +288,7 @@
                         <Setter Target="BottomAppBarTextBox.Margin" Value="5,5,5,40"/>
                         <Setter Target="BottomAppBarTweetButton.Visibility" Value="Collapsed"/>
                         <Setter Target="BottomAppBarTweetSmallButton.Visibility" Value="Visible"/>
-                        <Setter Target="BottomAppBarCommandGrid.Margin" Value="50,0,72.5,0"/>
+                        <Setter Target="BottomAppBarCommandScrollViewer.Margin" Value="50,0,72.5,0"/>
                         <Setter Target="BottomAppBarCounterTextBlock.Margin" Value="0"/>
                         <Setter Target="BottomAppBarPictureButton.Visibility" Value="Collapsed"/>
                         <Setter Target="BottomAppBarPictureItemsControl.Visibility" Value="Collapsed"/>
@@ -273,7 +307,7 @@
                         <Setter Target="BottomAppBarTextBox.Margin" Value="5,5,5,40"/>
                         <Setter Target="BottomAppBarTweetButton.Visibility" Value="Collapsed"/>
                         <Setter Target="BottomAppBarTweetSmallButton.Visibility" Value="Visible"/>
-                        <Setter Target="BottomAppBarCommandGrid.Margin" Value="50,0,72.5,0"/>
+                        <Setter Target="BottomAppBarCommandScrollViewer.Margin" Value="50,0,72.5,0"/>
                         <Setter Target="BottomAppBarCounterTextBlock.Margin" Value="0"/>
                         <Setter Target="BottomAppBarPictureButton.Visibility" Value="Visible"/>
                         <Setter Target="BottomAppBarPictureItemsControl.Visibility" Value="Visible"/>

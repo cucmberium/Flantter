@@ -4,11 +4,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 
 namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
-    public sealed partial class Gap : UserControl, IRecycleItem
+    public sealed partial class Gap : UserControl
     {
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(GapViewModel), typeof(Gap), null);

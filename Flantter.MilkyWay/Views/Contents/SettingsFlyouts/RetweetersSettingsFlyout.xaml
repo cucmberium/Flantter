@@ -14,7 +14,7 @@
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
 	xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
-    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
+    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Apis.Objects"
     mc:Ignorable="d"
     Title="Retweeters"
     HorizontalContentAlignment="Stretch"
@@ -35,9 +35,6 @@
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel>
-                        <i:Interaction.Behaviors>
-                            <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                        </i:Interaction.Behaviors>
                         <VirtualizingStackPanel.ChildrenTransitions>
                             <TransitionCollection/>
                         </VirtualizingStackPanel.ChildrenTransitions>

@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
@@ -158,7 +158,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     if (index == -1)
                     {
                         index = Statuses.IndexOf(
-                            Statuses.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) < id));
+                            Statuses.FirstOrDefault(
+                                x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) < id));
                         if (index == -1)
                             Statuses.Add(status);
                         else
@@ -212,11 +213,13 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                     var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                     var index = Favorites.IndexOf(
-                        Favorites.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) == id));
+                        Favorites.FirstOrDefault(x =>
+                            (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) == id));
                     if (index == -1)
                     {
                         index = Favorites.IndexOf(
-                            Favorites.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) < id));
+                            Favorites.FirstOrDefault(x =>
+                                (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) < id));
                         if (index == -1)
                             Favorites.Add(status);
                         else
@@ -804,7 +807,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #endregion
-        
+
 
         #region UpdatingUserInformation変更通知プロパティ
 

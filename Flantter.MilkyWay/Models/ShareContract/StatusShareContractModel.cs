@@ -8,8 +8,8 @@ using Windows.ApplicationModel.Resources;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.Notifications;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 using ToriatamaText;
@@ -135,8 +135,8 @@ namespace Flantter.MilkyWay.Models.ShareContract
                         while (memoryStream.Size > 3145728)
                         {
                             scale -= 0.05;
-                            picEncoder.BitmapTransform.ScaledHeight = (uint)(picDecoder.PixelHeight * scale);
-                            picEncoder.BitmapTransform.ScaledWidth = (uint)(picDecoder.PixelWidth * scale);
+                            picEncoder.BitmapTransform.ScaledHeight = (uint) (picDecoder.PixelHeight * scale);
+                            picEncoder.BitmapTransform.ScaledWidth = (uint) (picDecoder.PixelWidth * scale);
 
                             await picEncoder.FlushAsync();
                         }
@@ -258,9 +258,9 @@ namespace Flantter.MilkyWay.Models.ShareContract
                                 else if (e.Stage == CoreTweet.UploadChunkedProgressStage.Pending)
                                     progressPercentage = 0.5;
                                 else if (e.Stage == CoreTweet.UploadChunkedProgressStage.SendingContent)
-                                    progressPercentage = e.BytesSent / (double)pic.Stream.Size * 0.5 >= 0.5
+                                    progressPercentage = e.BytesSent / (double) pic.Stream.Size * 0.5 >= 0.5
                                         ? 0.5
-                                        : e.BytesSent / (double)pic.Stream.Size * 0.5;
+                                        : e.BytesSent / (double) pic.Stream.Size * 0.5;
                                 else
                                     progressPercentage = 0.0;
 
@@ -271,19 +271,19 @@ namespace Flantter.MilkyWay.Models.ShareContract
 
                             pic.Stream.Seek(0);
                             resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(),
-                                Twitter.Wrapper.Media.UploadMediaTypeEnum.Video, "tweet_video", progress: progress));
+                                Apis.Wrapper.Media.UploadMediaTypeEnum.Video, "tweet_video", progress: progress));
                         }
                         else
                         {
-                            foreach (var item in _pictures.Select((v, i) => new { v, i }))
+                            foreach (var item in _pictures.Select((v, i) => new {v, i}))
                             {
                                 var progress = new Progress<CoreTweet.UploadProgressInfo>();
                                 progress.ProgressChanged += (s, e) =>
                                 {
-                                    var progressPercentage = (item.i / (double)_pictures.Count +
-                                                              (e.BytesSent / (double)item.v.Stream.Size > 1.0
+                                    var progressPercentage = (item.i / (double) _pictures.Count +
+                                                              (e.BytesSent / (double) item.v.Stream.Size > 1.0
                                                                   ? 1.0
-                                                                  : e.BytesSent / (double)item.v.Stream.Size) /
+                                                                  : e.BytesSent / (double) item.v.Stream.Size) /
                                                               _pictures.Count) * 100.0;
                                     Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " +
                                               progressPercentage.ToString("#0.0") + "%";
@@ -291,7 +291,8 @@ namespace Flantter.MilkyWay.Models.ShareContract
 
                                 var pic = item.v;
                                 pic.Stream.Seek(0);
-                                resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), progress: progress));
+                                resultList.Add(
+                                    await tokens.Media.UploadAsync(pic.Stream.AsStream(), progress: progress));
                             }
                         }
 

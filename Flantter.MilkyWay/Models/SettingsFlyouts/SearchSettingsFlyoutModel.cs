@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Apis;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Twitter;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -18,7 +18,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class SearchSettingsFlyoutModel : BindableBase
     {
-        private ResourceLoader _resourceLoader;
+        private readonly ResourceLoader _resourceLoader;
         private string _savedSearchesLastScreenName = "";
         private DateTime _savedSearchesLastUpdate = DateTime.Now - TimeSpan.FromDays(1.0);
         private DateTime _trendsLastUpdate = DateTime.Now - TimeSpan.FromDays(1.0);

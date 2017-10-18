@@ -2,10 +2,8 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
@@ -63,7 +61,7 @@ namespace Flantter.MilkyWay.Themes
                 {
                 }
             }
-            
+
             var targetResourceDictionary = Application.Current.Resources;
             if (targetResourceDictionary == null)
                 return;

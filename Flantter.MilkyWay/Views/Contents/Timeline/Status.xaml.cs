@@ -7,12 +7,12 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Flantter.MilkyWay.Setting;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.Views.Util;
 
 namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
-    public sealed partial class Status : UserControl, IRecycleItem
+    public sealed partial class Status : UserControl
     {
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(StatusViewModel), typeof(Status), null);

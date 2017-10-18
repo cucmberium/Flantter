@@ -1,5 +1,4 @@
-﻿using Flantter.MilkyWay.Setting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -8,6 +7,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml.Controls;
+using Flantter.MilkyWay.Setting;
 using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace Flantter.MilkyWay.Plugin
@@ -142,7 +142,7 @@ namespace Flantter.MilkyWay.Plugin
             ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
 
-        public static void RunInUIThread(Delegate func)
+        public static void RunInUiThread(Delegate func)
         {
             if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
                 func.DynamicInvoke();

@@ -4,12 +4,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
-    xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
+    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Apis.Objects"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d"
     Title="Status"
     HorizontalContentAlignment="Stretch"
@@ -139,8 +137,8 @@
                                 <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_RetweetFavorite" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="リツイート + お気に入りに追加" FontSize="16"/>
                             </Grid>
                         </Button>
-                        <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.Model.InReplyToStatusId, Mode=OneWay, Converter={StaticResource LongToVisibilityConverter}}"/>
-                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.Model.InReplyToStatusId, Mode=OneWay, Converter={StaticResource LongToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowConversationCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                        <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.MentionStatusVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.MentionStatusVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowConversationCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>
@@ -324,9 +322,6 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
                                 <VirtualizingStackPanel.ChildrenTransitions>
                                     <TransitionCollection/>
                                 </VirtualizingStackPanel.ChildrenTransitions>

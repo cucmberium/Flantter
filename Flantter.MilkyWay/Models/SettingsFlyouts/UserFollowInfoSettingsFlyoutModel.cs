@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts

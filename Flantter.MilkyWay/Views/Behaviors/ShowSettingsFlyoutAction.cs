@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.SettingsFlyouts;
 using Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings;

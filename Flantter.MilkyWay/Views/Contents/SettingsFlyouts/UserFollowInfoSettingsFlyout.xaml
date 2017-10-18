@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Twitter.Objects"
+    xmlns:twitterObjectsViewModel="using:Flantter.MilkyWay.ViewModels.Apis.Objects"
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:contents="using:Flantter.MilkyWay.Views.Contents"
     xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
@@ -37,9 +37,6 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
                                 <VirtualizingStackPanel.ChildrenTransitions>
                                     <TransitionCollection/>
                                 </VirtualizingStackPanel.ChildrenTransitions>
@@ -73,9 +70,6 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
                                 <VirtualizingStackPanel.ChildrenTransitions>
                                     <TransitionCollection/>
                                 </VirtualizingStackPanel.ChildrenTransitions>
@@ -109,9 +103,6 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
                                 <VirtualizingStackPanel.ChildrenTransitions>
                                     <TransitionCollection/>
                                 </VirtualizingStackPanel.ChildrenTransitions>
@@ -145,9 +136,6 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
                                 <VirtualizingStackPanel.ChildrenTransitions>
                                     <TransitionCollection/>
                                 </VirtualizingStackPanel.ChildrenTransitions>
@@ -181,9 +169,6 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
                                 <VirtualizingStackPanel.ChildrenTransitions>
                                     <TransitionCollection/>
                                 </VirtualizingStackPanel.ChildrenTransitions>
@@ -217,9 +202,6 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel>
-                                <i:Interaction.Behaviors>
-                                    <behaviors:VirtualizingStackPanelRecycleItemResetBehavior/>
-                                </i:Interaction.Behaviors>
                                 <VirtualizingStackPanel.ChildrenTransitions>
                                     <TransitionCollection/>
                                 </VirtualizingStackPanel.ChildrenTransitions>

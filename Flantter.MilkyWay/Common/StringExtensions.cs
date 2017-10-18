@@ -28,23 +28,34 @@ namespace Flantter.MilkyWay.Common
             return string.Concat(sub);
         }
 
-        public static string EscapeEntity(this string text)
+        public static string EscapeEntity(this string text, bool escapeAllEntity = false)
         {
-            return text
+            var newtext = text
                 .Replace("&", "&amp;")
                 .Replace(">", "&gt;")
                 .Replace("<", "&lt;");
-                // .Replace("\"", "&quot;")
+
+            if (escapeAllEntity)
+                newtext = newtext
+                    .Replace("\"", "&quot;")
+                    .Replace("'", "&apos;");
+
+            return newtext;
         }
 
-        public static string ResolveEntity(this string text)
+        public static string ResolveEntity(this string text, bool resolveAllEntity = true)
         {
-            return text
-                .Replace("&quot;", "\"")
-                .Replace("&apos;", "'")
+            var newtext = text
                 .Replace("&lt;", "<")
                 .Replace("&gt;", ">")
                 .Replace("&amp;", "&");
+
+            if (resolveAllEntity)
+                newtext = newtext
+                    .Replace("&quot;", "\"")
+                    .Replace("&apos;", "'");
+
+            return newtext;
         }
     }
 }

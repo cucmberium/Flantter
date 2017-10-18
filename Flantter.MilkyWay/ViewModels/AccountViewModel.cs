@@ -14,12 +14,12 @@ using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.Xaml.Controls;
 using Flantter.MilkyWay.Models;
+using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Behaviors;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
@@ -29,7 +29,7 @@ namespace Flantter.MilkyWay.ViewModels
 {
     public class AccountViewModel : IDisposable
     {
-        private ResourceLoader _resourceLoader;
+        private readonly ResourceLoader _resourceLoader;
 
         #region Constructor
 
@@ -262,7 +262,7 @@ namespace Flantter.MilkyWay.ViewModels
                     var deferral = e.Request.GetDeferral();
 
                     IEnumerable<string> suggestHashtags;
-                    IEnumerable<Models.Twitter.Objects.User> suggestUsers;
+                    IEnumerable<Models.Apis.Objects.User> suggestUsers;
                     lock (Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId].EntitiesObjectsLock)
                     {
                         suggestHashtags = Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId]
@@ -831,7 +831,7 @@ namespace Flantter.MilkyWay.ViewModels
                     Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
                 })
                 .AddTo(Disposable);
-            
+
             Notice.Instance.ShowPublicTimelineCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Where(_ => Model.IsEnabled)
                 .Subscribe(x =>
@@ -1029,7 +1029,7 @@ namespace Flantter.MilkyWay.ViewModels
                 .Where(_ => Model.IsEnabled)
                 .Subscribe(async x =>
                 {
-                    var user = x as Models.Twitter.Objects.User;
+                    var user = x as Models.Apis.Objects.User;
                     if (user == null)
                         return;
 

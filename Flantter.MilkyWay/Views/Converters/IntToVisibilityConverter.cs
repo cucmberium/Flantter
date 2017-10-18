@@ -8,7 +8,7 @@ namespace Flantter.MilkyWay.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return value is int && (int) value == 0 ? Visibility.Collapsed : Visibility.Visible;
+            return value is int i && i == 0 ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

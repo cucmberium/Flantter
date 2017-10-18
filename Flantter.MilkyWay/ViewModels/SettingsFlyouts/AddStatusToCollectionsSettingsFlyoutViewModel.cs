@@ -2,11 +2,11 @@
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -15,7 +15,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
     public class AddStatusToCollectionSettingsFlyoutViewModel
     {
-        private ResourceLoader _resourceLoader;
+        private readonly ResourceLoader _resourceLoader;
 
         public AddStatusToCollectionSettingsFlyoutViewModel()
         {

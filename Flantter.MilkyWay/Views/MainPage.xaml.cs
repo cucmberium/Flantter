@@ -44,7 +44,7 @@ namespace Flantter.MilkyWay.Views
                     UpdateBackgroundBrush(SettingService.Setting.UseTransparentBackground);
                 };
             }
-                
+
             ThemeService.Theme.ChangeTheme();
 
             UpdateTitleBar(WindowSizeHelper.Instance.StatusBarHeight > 0);
@@ -59,19 +59,6 @@ namespace Flantter.MilkyWay.Views
                 )
                 .SubscribeOnUIDispatcher()
                 .Subscribe(x => UpdateBackgroundBrushSizeChange());
-
-            /*SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
-            {
-                var behavior = Flantter.MilkyWay.Views.Behaviors.ShowSettingsFlyoutAction.GetForCurrentView();
-                if (behavior == null)
-                    return;
-
-                if (behavior.ShowingPopupCount == 0)
-                    return;
-
-                e.Handled = true;
-                behavior.HideTopPopup();
-            };*/
 
             Window.Current.CoreWindow.PointerPressed += (s, e) =>
             {

@@ -106,11 +106,7 @@ namespace Flantter.MilkyWay.Setting
         public bool IncludeFollowingsActivity
         {
             get => _includeFollowingsActivity;
-            set
-            {
-                SetProperty(ref _includeFollowingsActivity, value);
-                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
-            }
+            set => SetProperty(ref _includeFollowingsActivity, value);
         }
 
         #endregion
@@ -122,12 +118,7 @@ namespace Flantter.MilkyWay.Setting
         public bool PossiblySensitive
         {
             get => _possiblySensitive;
-            set
-            {
-                SetProperty(ref _possiblySensitive, value);
-                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
-            }
-            
+            set => SetProperty(ref _possiblySensitive, value);
         }
 
         #endregion
@@ -139,11 +130,7 @@ namespace Flantter.MilkyWay.Setting
         public SettingSupport.StatusPrivacyEnum StatusPrivacy
         {
             get => _statusPrivacy;
-            set
-            {
-                SetProperty(ref _statusPrivacy, value);
-                AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
-            }
+            set => SetProperty(ref _statusPrivacy, value);
         }
 
         #endregion
@@ -430,11 +417,14 @@ namespace Flantter.MilkyWay.Setting
                     var jTokens = JToken.Parse(json);
 
                     Dict = new Dictionary<string, object>();
-                    foreach (JProperty jProperty in jTokens)
+                    foreach (var jToken in jTokens)
+                    {
+                        var jProperty = (JProperty) jToken;
                         if (jProperty.Name == "Accounts")
                             Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
                         else
                             Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
+                    }
                 }
                 catch
                 {

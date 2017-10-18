@@ -30,9 +30,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 return;
 
             if ((bool) e.NewValue)
-                (tweetMultipulActionGrid.Resources["TweetMultipulActionGridOpenAnimation"] as Storyboard).Begin();
+                ((Storyboard) tweetMultipulActionGrid.Resources["TweetMultipulActionGridOpenAnimation"]).Begin();
             else
-                (tweetMultipulActionGrid.Resources["TweetMultipulActionGridCloseAnimation"] as Storyboard).Begin();
+                ((Storyboard) tweetMultipulActionGrid.Resources["TweetMultipulActionGridCloseAnimation"]).Begin();
         }
     }
 }

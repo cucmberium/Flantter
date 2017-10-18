@@ -11,7 +11,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Behaviors;
 using Flantter.MilkyWay.Views.Contents.ShareContract;
@@ -25,18 +25,25 @@ namespace Flantter.MilkyWay
     {
         public App()
         {
-            HockeyClient.Current.Configure("12d0f9780e5645e3bf16ee0557054a03").SetExceptionDescriptionLoader(ex => ex.ToString());
             InitializeComponent();
+
+            HockeyClient.Current.Configure("12d0f9780e5645e3bf16ee0557054a03")
+                .SetExceptionDescriptionLoader(ex => ex.ToString());
 
             UnhandledException += App_UnhandledException;
             Suspending += App_Suspending;
             Resuming += App_Resuming;
 
-            RequestedTheme = (ApplicationTheme)Enum.Parse(typeof(ApplicationTheme), SettingService.Setting.Theme.ToString(), true);
+            RequestedTheme = (ApplicationTheme) Enum.Parse(typeof(ApplicationTheme),
+                SettingService.Setting.Theme.ToString(), true);
         }
 
-        private void App_Suspending(object sender, SuspendingEventArgs e)
+        private async void App_Suspending(object sender, SuspendingEventArgs e)
         {
+            var deferral = e.SuspendingOperation.GetDeferral();
+
+            await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
+
             if (BackgroundTaskRegistration.AllTasks.Count > 1)
                 foreach (var task in BackgroundTaskRegistration.AllTasks)
                     task.Value.Unregister(true);
@@ -61,6 +68,8 @@ namespace Flantter.MilkyWay
             catch
             {
             }
+
+            deferral.Complete();
         }
 
         private void App_Resuming(object sender, object e)
@@ -74,7 +83,8 @@ namespace Flantter.MilkyWay
 
         private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            var stacktrace = e.Exception.StackTrace; // 別変数に最初に入れないと次アクセスからNull , 一番最初のUnhandledExceptionじゃないとNull
+            // 別変数に最初に入れないと次アクセスからNull , 一番最初のUnhandledExceptionじゃないとNull
+            var stacktrace = e.Exception.StackTrace;
             if (SettingService.Setting.PreventForcedTermination)
                 e.Handled = true;
 
@@ -83,8 +93,7 @@ namespace Flantter.MilkyWay
 
         protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-#if _DEBUG
-// デバッグ用コードをここに突っ込む
+#if _DEBUG // デバッグ用コードをここに突っ込む
             var sw = System.Diagnostics.Stopwatch.StartNew();
             //Models.Filter.Compiler.Compile("(!(User.ScreenName In [\"cucmberium\", \"cucmberium_sub\"] || User.Id !In [10, 20, 30]) && RetweetCount >= FavoriteCount * 10 + 10 / (2 + 3))");
 
@@ -105,7 +114,7 @@ namespace Flantter.MilkyWay
 
             SettingService.Setting.LatestNotificationDate = DateTimeOffset.Now;
 
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 320, Height = 500 });
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size {Width = 320, Height = 500});
 
             if (AdvancedSettingService.AdvancedSetting.Accounts == null ||
                 AdvancedSettingService.AdvancedSetting.Accounts.Count == 0)
@@ -126,8 +135,6 @@ namespace Flantter.MilkyWay
                 e.Cancel = true;
                 behavior.HideTopPopup();
             };
-
-            //return Task.FromResult<object>(null);
         }
 
         protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs e)
@@ -142,10 +149,8 @@ namespace Flantter.MilkyWay
         {
             base.OnActivated(e);
 
-            if (e is ToastNotificationActivatedEventArgs)
+            if (e is ToastNotificationActivatedEventArgs args)
             {
-                var args = e as ToastNotificationActivatedEventArgs;
-
                 if (string.IsNullOrWhiteSpace(args.Argument))
                     return;
 

@@ -7,12 +7,12 @@ namespace Flantter.MilkyWay.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return !(value is bool && (bool) value);
+            return !(value is bool b && b);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return !(value is bool && (bool) value);
+            return !(value is bool b && b);
         }
     }
 }

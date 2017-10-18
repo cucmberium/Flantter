@@ -6,8 +6,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Models.Exceptions;
-using Flantter.MilkyWay.Models.Twitter.Objects;
 using Jint.Native;
 using Jint.Native.Function;
 
@@ -41,6 +41,9 @@ namespace Flantter.MilkyWay.Models.Filter
 
             var function = Functions[functionName];
             var target = function.Delegate.Target as ScriptFunctionInstance;
+            if (target == null)
+                return defaultValue;
+
             try
             {
                 var jsparams = param.Select(x => JsValue.FromObject(target.Engine, x)).ToArray();

@@ -4,12 +4,12 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Windows.ApplicationModel.Resources;
 using Windows.System;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -113,10 +113,10 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 .ToReactiveProperty();
 
             OpenUserListEnabled = Tokens
-                .Select(x => x?.Platform == Models.Twitter.Wrapper.Tokens.PlatformEnum.Twitter)
+                .Select(x => x?.Platform == Models.Apis.Wrapper.Tokens.PlatformEnum.Twitter)
                 .ToReactiveProperty();
             OpenUserCollectionEnabled = Tokens
-                .Select(x => x?.Platform == Models.Twitter.Wrapper.Tokens.PlatformEnum.Twitter)
+                .Select(x => x?.Platform == Models.Apis.Wrapper.Tokens.PlatformEnum.Twitter)
                 .ToReactiveProperty();
 
             FollowButtonText = Model.ObserveProperty(x => x.IsBlocking)
@@ -309,10 +309,11 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             OpenUserProfileInWebCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
-                    if (Model.Tokens.Platform == Models.Twitter.Wrapper.Tokens.PlatformEnum.Twitter)
+                    if (Model.Tokens.Platform == Models.Apis.Wrapper.Tokens.PlatformEnum.Twitter)
                         await Launcher.LaunchUriAsync(new Uri("https://twitter.com/" + Model.ScreenName));
                     else
-                        await Launcher.LaunchUriAsync(new Uri("https://" + Model.Tokens.Instance + "/@" + Model.ScreenName));
+                        await Launcher.LaunchUriAsync(
+                            new Uri("https://" + Model.Tokens.Instance + "/@" + Model.ScreenName));
                 });
 
             AddColumnCommand = new ReactiveCommand();

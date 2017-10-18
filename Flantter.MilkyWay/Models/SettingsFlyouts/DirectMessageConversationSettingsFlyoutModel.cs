@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.Notifications;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
@@ -83,7 +83,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 foreach (var directMessage in directMessages)
                 {
-                    if (directMessage.Sender.ScreenName != _screenName && directMessage.Recipient.ScreenName != _screenName)
+                    if (directMessage.Sender.ScreenName != _screenName &&
+                        directMessage.Recipient.ScreenName != _screenName)
                         continue;
 
                     var index = DirectMessages.IndexOf(DirectMessages.FirstOrDefault(x => x.Id == directMessage.Id));
@@ -182,7 +183,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         }
 
         #endregion
-        
+
         #region ScreenName変更通知プロパティ
 
         private string _screenName;

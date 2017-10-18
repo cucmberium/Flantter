@@ -5,11 +5,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Flantter.MilkyWay.Setting;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 
 namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
-    public sealed partial class EventMessage : UserControl, IRecycleItem
+    public sealed partial class EventMessage : UserControl
     {
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(EventMessageViewModel), typeof(EventMessage), null);

@@ -7,8 +7,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Twitter;
-using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Apis;
+using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.Views.Behaviors

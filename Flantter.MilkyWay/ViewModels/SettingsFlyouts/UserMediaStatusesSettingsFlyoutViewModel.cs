@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
@@ -34,10 +33,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
             UserMediaStatusesIncrementalLoadCommand = new ReactiveCommand();
             UserMediaStatusesIncrementalLoadCommand.SubscribeOn(ThreadPoolScheduler.Default)
-                .Subscribe(async x =>
-                {
-                    await Model.UpdateUserMediaStatuses(true);
-                });
+                .Subscribe(async x => { await Model.UpdateUserMediaStatuses(true); });
 
             UserMediaStatuses =
                 Model.UserMediaStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, Tokens.Value.UserId));

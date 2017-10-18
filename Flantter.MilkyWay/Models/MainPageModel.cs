@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 
@@ -50,12 +50,10 @@ namespace Flantter.MilkyWay.Models
         }
 
         #endregion
-        
 
         public void CopyTweetToClipBoard(object tweet)
         {
-            var status = tweet as Status;
-            if (status != null)
+            if (tweet is Status status)
             {
                 try
                 {
@@ -70,8 +68,7 @@ namespace Flantter.MilkyWay.Models
                 return;
             }
 
-            var directMessage = tweet as DirectMessage;
-            if (directMessage != null)
+            if (tweet is DirectMessage directMessage)
                 try
                 {
                     var textPackage = new DataPackage();
@@ -203,19 +200,13 @@ namespace Flantter.MilkyWay.Models
         {
             foreach (var accountModel in _accounts)
             {
-                if (account.UserId == accountModel.AccountSetting.UserId)
-                    accountModel.IsEnabled = true;
-                else
-                    accountModel.IsEnabled = false;
+                accountModel.IsEnabled = account.UserId == accountModel.AccountSetting.UserId;
 
                 accountModel.LeftSwipeMenuIsOpen = false;
             }
 
             foreach (var accountSetting in AdvancedSettingService.AdvancedSetting.Accounts)
-                if (account.UserId == accountSetting.UserId)
-                    accountSetting.IsEnabled = true;
-                else
-                    accountSetting.IsEnabled = false;
+                accountSetting.IsEnabled = account.UserId == accountSetting.UserId;
 
             await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }

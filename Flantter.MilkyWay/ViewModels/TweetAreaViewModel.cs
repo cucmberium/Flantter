@@ -12,8 +12,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -77,26 +77,26 @@ namespace Flantter.MilkyWay.ViewModels
             Pictures = Model.ReadonlyPictures.ToReadOnlyReactiveCollection(x => new PictureViewModel(x));
 
             AccountImageSize = Observable.Merge(
-                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth).Select(x => (object)null),
-                SelectedAccounts.Select(x => (object)null)
-                ).Select(_ =>
+                WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth).Select(x => (object) null),
+                SelectedAccounts.Select(x => (object) null)
+            ).Select(_ =>
                 {
                     if (WindowSizeHelper.Instance.ClientWidth <= 700)
                     {
                         if (SelectedAccounts.Value.Count() < 2)
                             return 40.0;
-                        else
-                            return 20.0;
+
+                        return 20.0;
                     }
                     else
                     {
                         if (SelectedAccounts.Value.Count() < 2)
                             return 60.0;
-                        else
-                            return 30.0;
+
+                        return 30.0;
                     }
                 }
-                ).ToReactiveProperty();
+            ).ToReactiveProperty();
 
             Model.ObserveProperty(x => x.ReplyOrQuotedStatus)
                 .Subscribe(x =>
@@ -119,11 +119,12 @@ namespace Flantter.MilkyWay.ViewModels
                 .Subscribe(x =>
                 {
                     if (SelectedAccounts.Value.Count() == 1)
-                        Notice.Instance.ShowAccountSettingCommand.Execute(SelectedAccounts.Value.First().Model.AccountSetting);
+                        Notice.Instance.ShowAccountSettingCommand.Execute(SelectedAccounts.Value.First().Model
+                            .AccountSetting);
                     else
                         Notice.Instance.ShowAccountsSettingCommand.Execute();
                 });
-            
+
             AddPictureCommand = new ReactiveCommand();
             AddPictureCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
@@ -213,7 +214,7 @@ namespace Flantter.MilkyWay.ViewModels
                         Model.IsQuotedRetweet = false;
                         Model.IsReply = true;
                         Model.ReplyOrQuotedStatus = statusViewModel.Model;
-                        
+
                         Model.ContentWarningText = "";
 
                         Model.Text = "@" + statusViewModel.Model.User.ScreenName + " ";
@@ -365,7 +366,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<IEnumerable<AccountViewModel>> SelectedAccounts { get; }
 
         public ReadOnlyReactiveCollection<PictureViewModel> Pictures { get; }
-        
+
         public ReactiveProperty<StatusViewModel> ReplyOrQuotedStatus { get; set; }
         public ReactiveProperty<bool> IsQuotedRetweet { get; set; }
         public ReactiveProperty<bool> IsReply { get; set; }

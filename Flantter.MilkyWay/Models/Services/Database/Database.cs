@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Windows.Storage;
-using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Setting;
 using Newtonsoft.Json;
 using SQLite.Net;

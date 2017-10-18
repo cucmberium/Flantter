@@ -51,7 +51,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
         private static void PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var symbol = obj as SymbolIcon;
-
             if (symbol == null)
                 return;
 

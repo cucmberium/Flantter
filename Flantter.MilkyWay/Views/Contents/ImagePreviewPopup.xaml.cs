@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Web.Http;
 using Flantter.MilkyWay.Models.Notifications;
-using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Controls;
 using Flantter.MilkyWay.Views.Util;

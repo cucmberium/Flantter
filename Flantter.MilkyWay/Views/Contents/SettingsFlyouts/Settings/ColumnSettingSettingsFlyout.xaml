@@ -42,7 +42,7 @@
 
                 <controls:HorizontalBar/>
 
-                <Slider x:Uid="SettingsFlyout_Settings_Column_FetchingNumberOfTweet_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイート取得件数" Maximum="200" Minimum="20" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{x:Bind ViewModel.FetchingNumberOfTweet.Value, Converter={StaticResource DoubleToIntConverter}, Mode=TwoWay}" />
+                <Slider x:Uid="SettingsFlyout_Settings_Column_FetchingNumberOfTweet_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="ツイート取得件数" Maximum="200" Minimum="20" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{x:Bind ViewModel.FetchingNumberOfTweet.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 

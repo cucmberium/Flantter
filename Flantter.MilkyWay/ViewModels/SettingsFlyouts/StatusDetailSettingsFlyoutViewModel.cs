@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 

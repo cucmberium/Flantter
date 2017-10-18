@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Services.Database;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Prism.Mvvm;
 
@@ -37,7 +37,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (status == null)
                 try
                 {
-                    status = await Tokens.Statuses.ShowAsync(id => _statusId, tweet_mode => CoreTweet.TweetMode.Extended);
+                    status = await Tokens.Statuses.ShowAsync(id => _statusId,
+                        tweet_mode => CoreTweet.TweetMode.Extended);
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
                         new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
                 }
@@ -136,7 +137,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                     var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                     var index = ActionStatuses.IndexOf(
-                        ActionStatuses.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) == id));
+                        ActionStatuses.FirstOrDefault(x =>
+                            (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) == id));
                     if (index == -1)
                     {
                         index = ActionStatuses.IndexOf(
@@ -158,7 +160,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                     var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                     var index = ActionStatuses.IndexOf(
-                        ActionStatuses.FirstOrDefault(x => (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) == id));
+                        ActionStatuses.FirstOrDefault(x =>
+                            (x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id) == id));
                     if (index == -1)
                     {
                         index = ActionStatuses.IndexOf(

@@ -16,8 +16,7 @@ namespace Flantter.MilkyWay.Common
                 return null;
 
             var dict = (IDictionary<object, object>) Templates;
-            object result;
-            dict.TryGetValue(item.GetType().Name, out result);
+            dict.TryGetValue(item.GetType().Name, out var result);
             return result as DataTemplate;
         }
     }

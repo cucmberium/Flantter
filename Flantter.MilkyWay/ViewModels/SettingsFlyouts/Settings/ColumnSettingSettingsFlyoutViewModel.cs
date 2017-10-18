@@ -25,7 +25,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
             DisableStartupRefresh = new ReactiveProperty<bool>();
             AutoRefresh = new ReactiveProperty<bool>();
             AutoRefreshTimerInterval = new ReactiveProperty<double>();
-            FetchingNumberOfTweet = new ReactiveProperty<int>();
+            FetchingNumberOfTweet = new ReactiveProperty<double>();
 
             ErrorMessage = new ReactiveProperty<string>();
             UpdateButtonEnabled = new ReactiveProperty<bool>(true);
@@ -109,7 +109,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                 ColumnSetting.Value.DisableStartupRefresh = DisableStartupRefresh.Value;
                 ColumnSetting.Value.AutoRefresh = AutoRefresh.Value;
                 ColumnSetting.Value.AutoRefreshTimerInterval = AutoRefreshTimerInterval.Value;
-                ColumnSetting.Value.FetchingNumberOfTweet = FetchingNumberOfTweet.Value;
+                ColumnSetting.Value.FetchingNumberOfTweet = (int) FetchingNumberOfTweet.Value;
 
                 await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
 
@@ -130,7 +130,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
         public ReactiveProperty<bool> DisableStartupRefresh { get; set; }
         public ReactiveProperty<bool> AutoRefresh { get; set; }
         public ReactiveProperty<double> AutoRefreshTimerInterval { get; set; }
-        public ReactiveProperty<int> FetchingNumberOfTweet { get; set; }
+        public ReactiveProperty<double> FetchingNumberOfTweet { get; set; }
 
         public ReactiveProperty<string> ErrorMessage { get; set; }
 

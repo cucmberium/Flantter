@@ -9,16 +9,15 @@ using Windows.ApplicationModel.Resources;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Flantter.MilkyWay.Models.Apis;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services;
-using Flantter.MilkyWay.Models.Twitter;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.Views.Behaviors;
 using Flantter.MilkyWay.Views.Util;
 using Prism.Mvvm;
-using SharpDX.DirectWrite;
 using ToriatamaText;
 
 namespace Flantter.MilkyWay.Models
@@ -156,8 +155,8 @@ namespace Flantter.MilkyWay.Models
                         while (memoryStream.Size > 3145728)
                         {
                             scale -= 0.05;
-                            picEncoder.BitmapTransform.ScaledHeight = (uint)(picDecoder.PixelHeight * scale);
-                            picEncoder.BitmapTransform.ScaledWidth = (uint)(picDecoder.PixelWidth * scale);
+                            picEncoder.BitmapTransform.ScaledHeight = (uint) (picDecoder.PixelHeight * scale);
+                            picEncoder.BitmapTransform.ScaledWidth = (uint) (picDecoder.PixelWidth * scale);
 
                             await picEncoder.FlushAsync();
                         }
@@ -211,7 +210,7 @@ namespace Flantter.MilkyWay.Models
             }
 
             var bitmap = await Clipboard.GetContent().GetBitmapAsync();
-            
+
             var memoryStream = new InMemoryRandomAccessStream();
             using (IRandomAccessStream fileStream = await bitmap.OpenReadAsync())
             {
@@ -336,7 +335,6 @@ namespace Flantter.MilkyWay.Models
                     }
 
                     // Upload Media
-
                     if (_pictures.Count > 0)
                     {
                         Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + "0.0%";
@@ -355,9 +353,9 @@ namespace Flantter.MilkyWay.Models
                                 else if (e.Stage == CoreTweet.UploadChunkedProgressStage.Pending)
                                     progressPercentage = 0.5;
                                 else if (e.Stage == CoreTweet.UploadChunkedProgressStage.SendingContent)
-                                    progressPercentage = e.BytesSent / (double)pic.Stream.Size * 0.5 >= 0.5
+                                    progressPercentage = e.BytesSent / (double) pic.Stream.Size * 0.5 >= 0.5
                                         ? 0.5
-                                        : e.BytesSent / (double)pic.Stream.Size * 0.5;
+                                        : e.BytesSent / (double) pic.Stream.Size * 0.5;
                                 else
                                     progressPercentage = 0.0;
 
@@ -368,19 +366,19 @@ namespace Flantter.MilkyWay.Models
 
                             pic.Stream.Seek(0);
                             resultList.Add(await tokens.Media.UploadChunkedAsync(pic.Stream.AsStream(),
-                                Twitter.Wrapper.Media.UploadMediaTypeEnum.Video, "tweet_video", progress: progress));
+                                Apis.Wrapper.Media.UploadMediaTypeEnum.Video, "tweet_video", progress: progress));
                         }
                         else
                         {
-                            foreach (var item in _pictures.Select((v, i) => new { v, i }))
+                            foreach (var item in _pictures.Select((v, i) => new {v, i}))
                             {
                                 var progress = new Progress<CoreTweet.UploadProgressInfo>();
                                 progress.ProgressChanged += (s, e) =>
                                 {
-                                    var progressPercentage = (item.i / (double)_pictures.Count +
-                                                              (e.BytesSent / (double)item.v.Stream.Size > 1.0
+                                    var progressPercentage = (item.i / (double) _pictures.Count +
+                                                              (e.BytesSent / (double) item.v.Stream.Size > 1.0
                                                                   ? 1.0
-                                                                  : e.BytesSent / (double)item.v.Stream.Size) /
+                                                                  : e.BytesSent / (double) item.v.Stream.Size) /
                                                               _pictures.Count) * 100.0;
                                     Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " +
                                               progressPercentage.ToString("#0.0") + "%";
@@ -388,19 +386,19 @@ namespace Flantter.MilkyWay.Models
 
                                 var pic = item.v;
                                 pic.Stream.Seek(0);
-                                resultList.Add(await tokens.Media.UploadAsync(pic.Stream.AsStream(), progress: progress));
+                                resultList.Add(
+                                    await tokens.Media.UploadAsync(pic.Stream.AsStream(), progress: progress));
                             }
                         }
 
                         param.Add("media_ids", resultList);
                         param.Add("possibly_sensitive", account.AccountSetting.PossiblySensitive);
-                        
                     }
 
                     param.Add("status", text.Replace("\r", "\n"));
                     if (account.AccountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)
                     {
-                        param.Add("visibility", account.AccountSetting.StatusPrivacy.ToString());
+                        param.Add("visibility", account.AccountSetting.StatusPrivacy.ToString().ToLower());
                         if (IsContentWarning == true && !string.IsNullOrWhiteSpace(ContentWarningText))
                             param.Add("spoiler_text", ContentWarningText.Replace("\r", "\n"));
                     }
@@ -576,7 +574,7 @@ namespace Flantter.MilkyWay.Models
                     break;
             }
 
-            
+
             Text = text;
             SelectionStart = text.Length - endText.Length;
         }
@@ -811,15 +809,8 @@ namespace Flantter.MilkyWay.Models
 
         public string ContentWarningText
         {
-            get { return _contentWarningText; }
-            set
-            {
-                if (_contentWarningText != value)
-                {
-                    _contentWarningText = value;
-                    RaisePropertyChanged();
-                }
-            }
+            get => _contentWarningText;
+            set => SetProperty(ref _contentWarningText, value);
         }
 
         #endregion

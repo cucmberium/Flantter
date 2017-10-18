@@ -8,13 +8,13 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
+using Flantter.MilkyWay.Models.Apis;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.Filter;
 using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.Services.Database;
-using Flantter.MilkyWay.Models.Twitter;
-using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -25,7 +25,7 @@ namespace Flantter.MilkyWay.Models
 {
     public class ColumnModel : BindableBase, IDisposable
     {
-        private ResourceLoader _resourceLoader;
+        private readonly ResourceLoader _resourceLoader;
 
         private List<long> _listStreamUserIdList;
 
@@ -132,7 +132,7 @@ namespace Flantter.MilkyWay.Models
                                         status.Entities.UserMentions.Any(x => x.Id == AccountSetting.UserId))
                                         paramList.Add("mentions://");
                                     else if (SettingService.Setting.ShowRetweetInMentionColumn &&
-                                        status.HasRetweetInformation && status.User.Id == AccountSetting.UserId)
+                                             status.HasRetweetInformation && status.User.Id == AccountSetting.UserId)
                                         paramList.Add("mentions://");
                                 }
                                 else if (_action == SettingSupport.ColumnTypeEnum.Search)
@@ -477,7 +477,10 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var home = await Tokens.Statuses.HomeTimelineAsync(param);
-                var lastId = home.Count > 0 ? home.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
+                var lastId = home.Count > 0
+                    ? home.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id)
+                        .OrderByDescending(x => x).Last()
+                    : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in home)
@@ -528,7 +531,10 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var mentions = await Tokens.Statuses.MentionsTimelineAsync(param);
-                var lastId = mentions.Count > 0 ? mentions.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
+                var lastId = mentions.Count > 0
+                    ? mentions.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id)
+                        .OrderByDescending(x => x).Last()
+                    : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in mentions)
@@ -627,7 +633,10 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var favorites = await Tokens.Favorites.ListAsync(param);
-                var lastId = favorites.Count > 0 ? favorites.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
+                var lastId = favorites.Count > 0
+                    ? favorites.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id)
+                        .OrderByDescending(x => x).Last()
+                    : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in favorites)
@@ -679,7 +688,10 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var lists = await Tokens.Lists.StatusesAsync(param);
-                var lastId = lists.Count > 0 ? lists.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
+                var lastId = lists.Count > 0
+                    ? lists.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id)
+                        .OrderByDescending(x => x).Last()
+                    : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in lists)
@@ -718,7 +730,7 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                IEnumerable<Status> search ;
+                IEnumerable<Status> search;
 
                 if (SettingService.Setting.UseOfficialApi &&
                     TwitterConnectionHelper.OfficialConsumerKeyList.Contains(AccountSetting.ConsumerKey))
@@ -768,7 +780,10 @@ namespace Flantter.MilkyWay.Models
                     search = await Tokens.Search.TweetsAsync(param);
                 }
 
-                var lastId = search.Any() ? search.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
+                var lastId = search.Any()
+                    ? search.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id)
+                        .OrderByDescending(x => x).Last()
+                    : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in search)
@@ -820,7 +835,10 @@ namespace Flantter.MilkyWay.Models
                     param.Add("since_id", sinceid);
 
                 var userTimeline = await Tokens.Statuses.UserTimelineAsync(param);
-                var lastId = userTimeline.Count > 0 ? userTimeline.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
+                var lastId = userTimeline.Count > 0
+                    ? userTimeline.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id)
+                        .OrderByDescending(x => x).Last()
+                    : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in userTimeline)
@@ -896,9 +914,6 @@ namespace Flantter.MilkyWay.Models
             }
             catch (NotImplementedException e)
             {
-                // Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                //     _resourceLoader.GetString("Notification_System_NotImplementedException"),
-                //     _resourceLoader.GetString("Notification_System_NotImplementedException"));
             }
             catch (Exception e)
             {
@@ -952,7 +967,6 @@ namespace Flantter.MilkyWay.Models
                 }
                 catch (NotImplementedException e)
                 {
-                    // Notifications.Core.Instance.PopupToastNotification(Notifications.PopupNotificationType.System, _resourceLoader.GetString("Notification_System_NotImplementedException"), _resourceLoader.GetString("Notification_System_NotImplementedException"));
                 }
                 catch (Exception e)
                 {
@@ -962,7 +976,7 @@ namespace Flantter.MilkyWay.Models
                 }
             }
         }
-        
+
         private async Task UpdatePublicTimeline(bool local = false, long maxid = 0, long sinceid = 0)
         {
             try
@@ -972,14 +986,17 @@ namespace Flantter.MilkyWay.Models
                     {"count", ColumnSetting.FetchingNumberOfTweet},
                 };
                 if (local)
-                    param.Add("local", local);
+                    param.Add("local", true);
                 if (maxid != 0)
                     param.Add("max_id", maxid);
                 if (sinceid != 0)
                     param.Add("since_id", sinceid);
 
                 var publicTimeline = await Tokens.Statuses.PublicTimelineAsync(param);
-                var lastId = publicTimeline.Count > 0 ? publicTimeline.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id).OrderByDescending(x => x).Last() : -1;
+                var lastId = publicTimeline.Count > 0
+                    ? publicTimeline.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id)
+                        .OrderByDescending(x => x).Last()
+                    : -1;
                 var gapCheck = GapCheck(lastId);
 
                 foreach (var status in publicTimeline)
@@ -1186,7 +1203,9 @@ namespace Flantter.MilkyWay.Models
             if (streaming)
             {
                 if (SettingService.Setting.RemoveRetweetOfMyTweet && status.HasRetweetInformation &&
-                    status.User.Id == AccountSetting.UserId && !(Action == SettingSupport.ColumnTypeEnum.Mentions && SettingService.Setting.ShowRetweetInMentionColumn))
+                    status.User.Id == AccountSetting.UserId &&
+                    !(Action == SettingSupport.ColumnTypeEnum.Mentions &&
+                      SettingService.Setting.ShowRetweetInMentionColumn))
                     return;
 
                 var retindex = Tweets.IndexOf(Tweets.FirstOrDefault(x => x?.Id == status.Id));

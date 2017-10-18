@@ -66,8 +66,8 @@ namespace Flantter.MilkyWay.Models.Notifications
                                         e.Status.RetweetInformation.User.Name), e.Status.Text,
                                     e.Status.RetweetInformation.User.ProfileImageUrl);
 
-                            if (e.Status.InReplyToUserId == e.UserId && e.Parameter.Contains("home://") &&
-                                !e.Status.HasRetweetInformation)
+                            else if (e.Status.InReplyToUserId == e.UserId && e.Parameter.Contains("home://") &&
+                                     !e.Status.HasRetweetInformation)
                                 PopupToastNotification(PopupNotificationType.Mention,
                                     string.Format(_resourceLoader.GetString("Notification_Mention_Mention"),
                                         e.Status.User.Name), e.Status.Text, e.Status.User.ProfileImageUrl,
@@ -81,7 +81,7 @@ namespace Flantter.MilkyWay.Models.Notifications
                                     e.Status.User.Name + "(@" + e.Status.User.ScreenName + ")" + "\n" + e.Status.Text,
                                     e.Status.Entities.Media.First(x => x.Type == "Image").MediaUrl);
 
-                            if (e.Status.InReplyToUserId == e.UserId)
+                            else if (e.Status.InReplyToUserId == e.UserId)
                                 UpdateTileNotification(TileNotificationType.Mentions,
                                     e.Status.User.Name + "(@" + e.Status.User.ScreenName + ")" + "\n" + e.Status.Text);
 
@@ -108,29 +108,33 @@ namespace Flantter.MilkyWay.Models.Notifications
                                     break;
                             }
 
-                            if (e.EventMessage.Type == "Favorite")
-                                PopupToastNotification(PopupNotificationType.Favorite,
-                                    string.Format(_resourceLoader.GetString("Notification_Favorite_Favorite"),
-                                        e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text,
-                                    e.EventMessage.Source.ProfileImageUrl);
-
-                            else if (e.EventMessage.Type == "QuotedTweet")
-                                PopupToastNotification(PopupNotificationType.QuotedTweet,
-                                    string.Format(_resourceLoader.GetString("Notification_QuotedTweet_QuotedTweet"),
-                                        e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text,
-                                    e.EventMessage.Source.ProfileImageUrl);
-
-                            else if (e.EventMessage.Type == "Unfavorite")
-                                PopupToastNotification(PopupNotificationType.Unfavorite,
-                                    string.Format(_resourceLoader.GetString("Notification_Unfavorite_Unfavorite"),
-                                        e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text,
-                                    e.EventMessage.Source.ProfileImageUrl);
-
-                            else if (e.EventMessage.Type == "Follow")
-                                PopupToastNotification(PopupNotificationType.Follow,
-                                    string.Format(_resourceLoader.GetString("Notification_Follow_Follow"),
-                                        e.EventMessage.Source.Name), imageUrl: e.EventMessage.Source.ProfileImageUrl);
-
+                            switch (e.EventMessage.Type)
+                            {
+                                case "Favorite":
+                                    PopupToastNotification(PopupNotificationType.Favorite,
+                                        string.Format(_resourceLoader.GetString("Notification_Favorite_Favorite"),
+                                            e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text,
+                                        e.EventMessage.Source.ProfileImageUrl);
+                                    break;
+                                case "QuotedTweet":
+                                    PopupToastNotification(PopupNotificationType.QuotedTweet,
+                                        string.Format(_resourceLoader.GetString("Notification_QuotedTweet_QuotedTweet"),
+                                            e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text,
+                                        e.EventMessage.Source.ProfileImageUrl);
+                                    break;
+                                case "Unfavorite":
+                                    PopupToastNotification(PopupNotificationType.Unfavorite,
+                                        string.Format(_resourceLoader.GetString("Notification_Unfavorite_Unfavorite"),
+                                            e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text,
+                                        e.EventMessage.Source.ProfileImageUrl);
+                                    break;
+                                case "Follow":
+                                    PopupToastNotification(PopupNotificationType.Follow,
+                                        string.Format(_resourceLoader.GetString("Notification_Follow_Follow"),
+                                            e.EventMessage.Source.Name),
+                                        imageUrl: e.EventMessage.Source.ProfileImageUrl);
+                                    break;
+                            }
                             break;
                     }
                 });
@@ -196,49 +200,41 @@ namespace Flantter.MilkyWay.Models.Notifications
                         return;
 
                     break;
-
                 case PopupNotificationType.Favorite:
                     if (!SettingService.Setting.FavoriteNotification)
                         return;
 
                     break;
-
                 case PopupNotificationType.Follow:
                     if (!SettingService.Setting.FollowNotification)
                         return;
 
                     break;
-
                 case PopupNotificationType.Mention:
                     if (!SettingService.Setting.MentionNotification)
                         return;
 
                     break;
-
                 case PopupNotificationType.QuotedTweet:
                     if (!SettingService.Setting.QuotedTweetNotification)
                         return;
 
                     break;
-
                 case PopupNotificationType.Retweet:
                     if (!SettingService.Setting.RetweetNotification)
                         return;
 
                     break;
-
                 case PopupNotificationType.System:
                     if (!SettingService.Setting.SystemNotification)
                         return;
 
                     break;
-
                 case PopupNotificationType.Unfavorite:
                     if (!SettingService.Setting.UnfavoriteNotification)
                         return;
 
                     break;
-
                 case PopupNotificationType.TweetCompleted:
                     if (!SettingService.Setting.TweetCompleteNotification)
                         return;

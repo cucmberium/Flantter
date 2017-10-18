@@ -90,8 +90,6 @@ namespace Flantter.MilkyWay.Views.Controls
             _renderTimer.Stop();
             if (_isReadyToRefresh)
                 Timer_Tick(null, null);
-            //_IsCompressionTimerRunning = false;
-            //_IsCompressedEnough = false;
             _isReadyToRefresh = false;
             VisualStateManager.GoToState(this, "Normal", true);
             ((CompositeTransform) PullToRefreshIndicator.RenderTransform).TranslateY = 0;

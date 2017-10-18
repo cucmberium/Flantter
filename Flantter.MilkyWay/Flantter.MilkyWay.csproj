@@ -101,12 +101,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\AdvancedSettingBase.cs" />
+    <Compile Include="Common\AdvancedSettingServiceBase.cs" />
     <Compile Include="Common\AsyncLock.cs" />
     <Compile Include="Common\DataTypeTempleteSelector.cs" />
     <Compile Include="Common\ExtendedBindableBase.cs" />
     <Compile Include="Common\GetMethodHelper.cs" />
-    <Compile Include="Common\IEnumerableExtensions.cs" />
     <Compile Include="Common\SettingServiceBase.cs" />
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Common\VisualTreeHelperExtensions.cs" />
@@ -114,12 +113,10 @@
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\ColumnModel.cs" />
     <Compile Include="Models\Exceptions\Main.cs" />
-    <Compile Include="Models\Exceptions\Service.cs" />
     <Compile Include="Models\Filter\Compiler.cs" />
     <Compile Include="Models\MainPageModel.cs" />
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Plugin\Core.cs" />
-    <Compile Include="Models\Plugin\Extensions.cs" />
     <Compile Include="Models\Plugin\Interface.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Database\Database.cs" />
@@ -141,29 +138,26 @@
     <Compile Include="Models\SettingsFlyouts\UserProfileSettingsFlyoutModel.cs" />
     <Compile Include="Models\ShareContract\StatusShareContractModel.cs" />
     <Compile Include="Models\TweetAreaModel.cs" />
-    <Compile Include="Models\Twitter\EmojiPatterns.cs" />
-    <Compile Include="Models\Twitter\ExtractTextParts.cs" />
-    <Compile Include="Models\Twitter\MediaParser.cs" />
-    <Compile Include="Models\Twitter\Objects\Collection.cs" />
-    <Compile Include="Models\Twitter\Objects\DirectMessage.cs" />
-    <Compile Include="Models\Twitter\Objects\Entities.cs" />
-    <Compile Include="Models\Twitter\Objects\EventMessage.cs" />
-    <Compile Include="Models\Twitter\Objects\Gap.cs" />
-    <Compile Include="Models\Twitter\Objects\ITweet.cs" />
-    <Compile Include="Models\Twitter\Objects\List.cs" />
-    <Compile Include="Models\Twitter\Objects\Relationship.cs" />
-    <Compile Include="Models\Twitter\Objects\SearchQuery.cs" />
-    <Compile Include="Models\Twitter\Objects\Status.cs" />
-    <Compile Include="Models\Twitter\Objects\StreamingMessage.cs" />
-    <Compile Include="Models\Twitter\Objects\Trend.cs" />
-    <Compile Include="Models\Twitter\Objects\User.cs" />
-    <Compile Include="Models\Twitter\SuggestionService.cs" />
-    <Compile Include="Models\Twitter\Thumbnail\NicoVideo.cs" />
-    <Compile Include="Models\Twitter\Thumbnail\Pixiv.cs" />
-    <Compile Include="Models\Twitter\TweetRegexPatterns.cs" />
-    <Compile Include="Models\Twitter\TwitterConnectionHelper.cs" />
-    <Compile Include="Models\Twitter\Video\NicoVideo.cs" />
-    <Compile Include="Models\Twitter\Wrapper\Core.cs" />
+    <Compile Include="Models\Apis\EmojiPatterns.cs" />
+    <Compile Include="Models\Apis\ExtractTextParts.cs" />
+    <Compile Include="Models\Apis\MediaParser.cs" />
+    <Compile Include="Models\Apis\Objects\Collection.cs" />
+    <Compile Include="Models\Apis\Objects\DirectMessage.cs" />
+    <Compile Include="Models\Apis\Objects\Entities.cs" />
+    <Compile Include="Models\Apis\Objects\EventMessage.cs" />
+    <Compile Include="Models\Apis\Objects\Gap.cs" />
+    <Compile Include="Models\Apis\Objects\ITweet.cs" />
+    <Compile Include="Models\Apis\Objects\List.cs" />
+    <Compile Include="Models\Apis\Objects\Relationship.cs" />
+    <Compile Include="Models\Apis\Objects\SearchQuery.cs" />
+    <Compile Include="Models\Apis\Objects\Status.cs" />
+    <Compile Include="Models\Apis\Objects\StreamingMessage.cs" />
+    <Compile Include="Models\Apis\Objects\Trend.cs" />
+    <Compile Include="Models\Apis\Objects\User.cs" />
+    <Compile Include="Models\Apis\SuggestionService.cs" />
+    <Compile Include="Models\Apis\TweetRegexPatterns.cs" />
+    <Compile Include="Models\Apis\TwitterConnectionHelper.cs" />
+    <Compile Include="Models\Apis\Wrapper\Core.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setting\AdvancedSettingService.cs" />
     <Compile Include="Setting\SettingService.cs" />
@@ -193,17 +187,17 @@
     <Compile Include="ViewModels\SettingsFlyouts\UserProfileSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\ShareContract\StatusShareContractViewModel.cs" />
     <Compile Include="ViewModels\TweetAreaViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\CollectionViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\DirectMessageViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\EntitiesViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\EventMessageViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\GapViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\ITweetViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\ListViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\SearchQueryViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\StatusViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\TrendViewModel.cs" />
-    <Compile Include="ViewModels\Twitter\Objects\UserViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\CollectionViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\DirectMessageViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\EntitiesViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\EventMessageViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\GapViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\ITweetViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\ListViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\SearchQueryViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\StatusViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\TrendViewModel.cs" />
+    <Compile Include="ViewModels\Apis\Objects\UserViewModel.cs" />
     <Compile Include="Views\Behaviors\AppBarShowBehavior.cs" />
     <Compile Include="Views\Behaviors\AuthorizeAction.cs" />
     <Compile Include="Views\Behaviors\LeftSwipeMenuShowBehavior.cs" />
@@ -218,7 +212,6 @@
     <Compile Include="Views\Behaviors\TitlebarSwitchAction.cs" />
     <Compile Include="Views\Behaviors\TweetAreaSuggestionBehavior.cs" />
     <Compile Include="Views\Behaviors\TweetMultipulSelectBehavior.cs" />
-    <Compile Include="Views\Behaviors\VirtualizingStackPanelRecycleItemResetBehavior.cs" />
     <Compile Include="Views\Contents\Authorize\AuthorizePopup.xaml.cs">
       <DependentUpon>AuthorizePopup.xaml</DependentUpon>
     </Compile>
@@ -350,7 +343,6 @@
     <Compile Include="Views\Contents\Timeline\Gap.xaml.cs">
       <DependentUpon>Gap.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Contents\Timeline\IRecycleItem.cs" />
     <Compile Include="Views\Contents\Timeline\List.xaml.cs">
       <DependentUpon>List.xaml</DependentUpon>
     </Compile>
@@ -382,12 +374,9 @@
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\ColorCodeToBrushConverter.cs" />
     <Compile Include="Views\Converters\DoublePlusConverter.cs" />
-    <Compile Include="Views\Converters\DoubleToIntConverter.cs" />
     <Compile Include="Views\Converters\EnumToDoubleConverter.cs" />
-    <Compile Include="Views\Converters\IntNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\IntToStringConverter.cs" />
     <Compile Include="Views\Converters\IntToVisibilityConverter.cs" />
-    <Compile Include="Views\Converters\LongToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\ObjectToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\PlatformEnumToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\StringToVisibilityConverter.cs" />
@@ -443,7 +432,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CoreTweet">
-      <Version>0.8.0.384</Version>
+      <Version>0.8.1.394</Version>
     </PackageReference>
     <PackageReference Include="HockeySDK.UWP">
       <Version>4.1.6</Version>
@@ -452,7 +441,7 @@
       <Version>2.9.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.4.0</Version>
+      <Version>6.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>2.0.0</Version>
@@ -483,6 +472,9 @@
     </PackageReference>
     <PackageReference Include="SQLite.Net-PCL">
       <Version>3.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="TootNet">
+      <Version>1.0.4</Version>
     </PackageReference>
     <PackageReference Include="ToriatamaText">
       <Version>1.1.0</Version>
@@ -737,10 +729,6 @@
     <ProjectReference Include="..\Flantter.MilkyWay.BackgroundTask\Flantter.MilkyWay.BackgroundTask.csproj">
       <Project>{0e6efce5-9891-420d-9fb3-3ef3479a959d}</Project>
       <Name>Flantter.MilkyWay.BackgroundTask</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mastodot\Mastodot\Mastodot.csproj">
-      <Project>{65b02b2e-ed1d-4d74-b6fa-9fdeeecfe77f}</Project>
-      <Name>Mastodot</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -23,7 +23,7 @@ namespace Flantter.MilkyWay.Views.Util
                 return null;
 
             if (obj.Resources.ContainsKey(Key))
-                (obj.Resources[Key] as Storyboard).Begin();
+                ((Storyboard) obj.Resources[Key]).Begin();
 
             return null;
         }

@@ -5,12 +5,12 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Windows.ApplicationModel.Search.Core;
 using Windows.UI.Xaml.Controls;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
@@ -177,7 +177,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                         StatusSuggestion.ClearOnScheduler();
                         return;
                     }
-                    
+
                     IEnumerable<string> suggestHashtags;
                     lock (Connecter.Instance.TweetCollecter[Tokens.Value.UserId].EntitiesObjectsLock)
                     {
@@ -424,7 +424,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveCommand AdvancedSearchCommand { get; set; }
         public ReactiveCommand AdvancedSearchContentCommand { get; set; }
         public ReactiveCommand AdvancedSearchEngagementCommand { get; set; }
-        
+
         public ReactiveCommand AddColumnCommand { get; set; }
 
         public Notice Notice { get; set; }

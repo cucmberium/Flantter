@@ -22,18 +22,15 @@
 
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <converters:EnumToDoubleConverter x:Key="EnumToDoubleConverter"/>
-            <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
             <converters:StringToTweetBackgroundBrushConverter x:Key="StringToTweetBackgroundBrushConverter"/>
             <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
             <converters:BooleanNegationToVisibilityConverter x:Key="BooleanNegationToVisibilityConverter"/>
             <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
             <converters:DoublePlusConverter x:Key="DoublePlusConverter"/>
+            <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
             <converters:IntToStringConverter x:Key="IntToStringConverter"/>
             <converters:ColorCodeToBrushConverter x:Key="ColorCodeToBrushConverter"/>
-            <converters:LongToVisibilityConverter x:Key="LongToVisibilityConverter"/>
-            <converters:DoubleToIntConverter x:Key="DoubleToIntConverter"/>
-            <converters:IntNegationToVisibilityConverter x:Key="IntNegationToVisibilityConverter"/>
             <converters:PlatformEnumToVisibilityConverter x:Key="PlatformEnumToVisibilityConverter"/>
 
             <setting:SettingProvider x:Key="Setting"/>
@@ -41,7 +38,6 @@
             <setting:SettingSupportProvider x:Key="SettingSupport" />
             <notice:NoticeProvider x:Key="Notice"/>
             <license:LicenseProvider x:Key="License"/>
-
         </ResourceDictionary>
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>

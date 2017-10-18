@@ -9,10 +9,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using CoreTweet;
-using Mastodot;
-using Mastodot.Entities;
-using Mastodot.Enums;
-using Mastodot.Utils;
+using TootNet;
+using Tokens = CoreTweet.Tokens;
 
 namespace Flantter.MilkyWay.Views.Contents.Authorize
 {
@@ -50,7 +48,7 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
 
         private AuthorizeStep _authorizeStep = AuthorizeStep.Exit;
 
-        private RegisteredApp _mastodonAppRegistration;
+        private TootNet.Authorize _mastodonAuthorize;
         private OAuth.OAuthSession _twitterOAuthSettion;
         private bool _urlCallbackAuthorization;
 
@@ -185,9 +183,9 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
                 AuthorizePopupConfigNextButton.IsEnabled = false;
                 try
                 {
-                    _mastodonAppRegistration =
-                        await ApplicaionManager.RegistApp(instance, appName, Scope.Read | Scope.Write | Scope.Follow);
-                    url = ApplicaionManager.GetOAuthUrl(_mastodonAppRegistration);
+                    _mastodonAuthorize = new TootNet.Authorize();
+                    await _mastodonAuthorize.CreateApp(instance, appName, Scope.Read | Scope.Write | Scope.Follow);
+                    url = _mastodonAuthorize.GetAuthorizeUri();
                 }
                 catch
                 {
@@ -249,19 +247,18 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             {
                 try
                 {
-                    var auth = await ApplicaionManager.GetAccessTokenByCode(_mastodonAppRegistration, pin);
-                    var client = new MastodonClient(_mastodonAppRegistration.Host, auth.AccessToken);
-                    var user = await client.GetCurrentAccount();
+                    var tokens = await _mastodonAuthorize.AuthorizeWithCode(pin);
+                    var user = await tokens.Accounts.VerifyCredentialsAsync();
                     _accountInfo = new AccountInfo
                     {
-                        ConsumerKey = _mastodonAppRegistration.ClientId,
-                        ConsumerSecret = _mastodonAppRegistration.ClientSecret,
-                        AccessToken = auth.AccessToken,
+                        ConsumerKey = tokens.ClientId,
+                        ConsumerSecret = tokens.ClientSecret,
+                        AccessToken = tokens.AccessToken,
                         AccessTokenSecret = "",
                         ScreenName = user.UserName,
                         UserId = user.Id,
                         Service = "Mastodon",
-                        Instance = _mastodonAppRegistration.Host
+                        Instance = tokens.Instance
                     };
                 }
                 catch
@@ -302,11 +299,11 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             }
             else if (_authorizeStep == AuthorizeStep.MastodonAuthorize)
             {
-                if (url.StartsWith("https://" + _mastodonAppRegistration.Host + "/oauth/authorize/"))
+                if (url.StartsWith("https://" + _mastodonAuthorize.Instance + "/oauth/authorize/"))
                 {
                     args.Cancel = true;
                     var match = Regex.Match(url,
-                        @"^https://" + _mastodonAppRegistration.Host + "/oauth/authorize/(?<OauthVerifier>.*)$");
+                        @"^https://" + _mastodonAuthorize.Instance + "/oauth/authorize/(?<OauthVerifier>.*)$");
                     AuthorizeWithCallback(match.Groups["OauthVerifier"].Value);
                 }
             }
@@ -348,19 +345,18 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             {
                 try
                 {
-                    var auth = await ApplicaionManager.GetAccessTokenByCode(_mastodonAppRegistration, oauthVerifier);
-                    var client = new MastodonClient(_mastodonAppRegistration.Host, auth.AccessToken);
-                    var user = await client.GetCurrentAccount();
+                    var tokens = await _mastodonAuthorize.AuthorizeWithCode(oauthVerifier);
+                    var user = await tokens.Accounts.VerifyCredentialsAsync();
                     _accountInfo = new AccountInfo
                     {
-                        ConsumerKey = _mastodonAppRegistration.ClientId,
-                        ConsumerSecret = _mastodonAppRegistration.ClientSecret,
-                        AccessToken = auth.AccessToken,
+                        ConsumerKey = tokens.ClientId,
+                        ConsumerSecret = tokens.ClientSecret,
+                        AccessToken = tokens.AccessToken,
                         AccessTokenSecret = "",
                         ScreenName = user.UserName,
                         UserId = user.Id,
                         Service = "Mastodon",
-                        Instance = _mastodonAppRegistration.Host
+                        Instance = tokens.Instance
                     };
                 }
                 catch

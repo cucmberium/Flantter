@@ -1,6 +1,4 @@
-﻿using Jint;
-using Jint.Runtime.Interop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,12 +6,14 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Jint;
+using Jint.Runtime.Interop;
 
 namespace Flantter.MilkyWay.Models.Plugin
 {
     public class Core
     {
-        private readonly Dictionary<string, Plugin> _plugins = new Dictionary<string, Plugin>();
+        private readonly Dictionary<string, PluginInfo> _plugins = new Dictionary<string, PluginInfo>();
         public static Core Instance { get; } = new Core();
 
         public async Task Initialize()
@@ -39,13 +39,14 @@ namespace Flantter.MilkyWay.Models.Plugin
 
                     var engine = new Engine(clr => clr
                         .AllowClr(typeof(Flantter.MilkyWay.Plugin.Debug).GetTypeInfo().Assembly,
-                            typeof(Flantter.MilkyWay.Plugin.Utility).GetTypeInfo().Assembly, typeof(Flantter.MilkyWay.Plugin.Event).GetTypeInfo().Assembly,
+                            typeof(Flantter.MilkyWay.Plugin.Utility).GetTypeInfo().Assembly,
+                            typeof(Flantter.MilkyWay.Plugin.Event).GetTypeInfo().Assembly,
                             typeof(Flantter.MilkyWay.Plugin.Filter).GetTypeInfo().Assembly));
                     engine.Global.FastAddProperty("Windows", new NamespaceReference(engine, "Windows"), false, false,
                         false);
                     engine.Global.FastAddProperty("Flantter", new NamespaceReference(engine, "Flantter"), false, false,
                         false);
-                    _plugins[name] = new Plugin {Engine = engine};
+                    _plugins[name] = new PluginInfo {Engine = engine};
 
                     engine.SetValue("registerPlugin", new Action<string, string, string>(
                         (pname, description, version) =>
@@ -77,7 +78,7 @@ namespace Flantter.MilkyWay.Models.Plugin
         }
     }
 
-    public class Plugin
+    public class PluginInfo
     {
         public string Name { get; set; }
 

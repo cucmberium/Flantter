@@ -15,13 +15,13 @@ using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Flantter.MilkyWay.License;
 using Flantter.MilkyWay.Models;
+using Flantter.MilkyWay.Models.Apis;
+using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Models.Exceptions;
 using Flantter.MilkyWay.Models.Filter;
-using Flantter.MilkyWay.Models.Twitter;
-using Flantter.MilkyWay.Models.Twitter.Objects;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Behaviors;
 using Flantter.MilkyWay.Views.Util;
 using Prism.Windows.Mvvm;
@@ -33,7 +33,7 @@ namespace Flantter.MilkyWay.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private ResourceLoader _resourceLoader;
+        private readonly ResourceLoader _resourceLoader;
 
         #region Constructor
 
@@ -421,7 +421,7 @@ namespace Flantter.MilkyWay.ViewModels
                         ViewMode = PickerViewMode.Thumbnail
                     });
 
-                    if (result.Result.Count() == 0)
+                    if (!result.Result.Any())
                         return;
 
                     var file = result.Result.First();
@@ -439,7 +439,7 @@ namespace Flantter.MilkyWay.ViewModels
                         ViewMode = PickerViewMode.Thumbnail
                     });
 
-                    if (result.Result.Count() == 0)
+                    if (!result.Result.Any())
                         return;
 
                     var file = result.Result.First();
@@ -752,10 +752,10 @@ namespace Flantter.MilkyWay.ViewModels
                     if (SelectedTweet.Value == null)
                         return;
 
-                    if (SelectedTweet.Value is StatusViewModel)
-                        Notice.Instance.CopyTweetCommand.Execute(((StatusViewModel) SelectedTweet.Value).Model);
-                    else if (SelectedTweet.Value is DirectMessageViewModel)
-                        Notice.Instance.CopyTweetCommand.Execute(((DirectMessageViewModel) SelectedTweet.Value).Model);
+                    if (SelectedTweet.Value is StatusViewModel statusViewModel)
+                        Notice.Instance.CopyTweetCommand.Execute(statusViewModel.Model);
+                    else if (SelectedTweet.Value is DirectMessageViewModel directMessageViewModel)
+                        Notice.Instance.CopyTweetCommand.Execute(directMessageViewModel.Model);
                 });
 
             Notice.Instance.ReplyToSelectedTweetCommand.SubscribeOn(ThreadPoolScheduler.Default)
@@ -773,10 +773,10 @@ namespace Flantter.MilkyWay.ViewModels
                     {
                         var tweet = SelectedTweet.Value;
                         var screenName = string.Empty;
-                        if (tweet is DirectMessageViewModel)
-                            screenName = ((DirectMessageViewModel) tweet).ScreenName;
-                        else if (tweet is EventMessageViewModel)
-                            screenName = ((EventMessageViewModel) tweet).ScreenName;
+                        if (tweet is DirectMessageViewModel directMessageViewModel)
+                            screenName = directMessageViewModel.ScreenName;
+                        else if (tweet is EventMessageViewModel eventMessageViewModel)
+                            screenName = eventMessageViewModel.ScreenName;
 
                         Notice.Instance.ReplyCommand.Execute(screenName);
                     }
@@ -790,12 +790,12 @@ namespace Flantter.MilkyWay.ViewModels
 
                     var tweet = SelectedTweet.Value;
                     var userId = 0L;
-                    if (tweet is StatusViewModel)
-                        userId = ((StatusViewModel) tweet).Model.User.Id;
-                    else if (tweet is DirectMessageViewModel)
-                        userId = ((DirectMessageViewModel) tweet).Model.Sender.Id;
-                    else if (tweet is EventMessageViewModel)
-                        userId = ((EventMessageViewModel) tweet).Model.Source.Id;
+                    if (tweet is StatusViewModel statusViewModel)
+                        userId = statusViewModel.Model.User.Id;
+                    else if (tweet is DirectMessageViewModel directMessageViewModel)
+                        userId = directMessageViewModel.Model.Sender.Id;
+                    else if (tweet is EventMessageViewModel eventMessageViewModel)
+                        userId = eventMessageViewModel.Model.Source.Id;
 
                     Notice.Instance.SendDirectMessageCommand.Execute(userId);
                 });
@@ -828,12 +828,12 @@ namespace Flantter.MilkyWay.ViewModels
 
                     var tweet = SelectedTweet.Value;
                     var screenName = string.Empty;
-                    if (tweet is StatusViewModel)
-                        screenName = ((StatusViewModel) tweet).ScreenName;
-                    else if (tweet is DirectMessageViewModel)
-                        screenName = ((DirectMessageViewModel) tweet).ScreenName;
-                    else if (tweet is EventMessageViewModel)
-                        screenName = ((EventMessageViewModel) tweet).ScreenName;
+                    if (tweet is StatusViewModel statusViewModel)
+                        screenName = statusViewModel.ScreenName;
+                    else if (tweet is DirectMessageViewModel directMessageViewModel)
+                        screenName = directMessageViewModel.ScreenName;
+                    else if (tweet is EventMessageViewModel eventMessageViewModel)
+                        screenName = eventMessageViewModel.ScreenName;
 
                     Notice.Instance.ShowUserProfileCommand.Execute(screenName);
                 });
@@ -859,7 +859,7 @@ namespace Flantter.MilkyWay.ViewModels
                 });
 
             Notice.Instance.ShowContentWarningTextCommand.SubscribeOn(ThreadPoolScheduler.Default)
-                .Subscribe(async x =>
+                .Subscribe(x =>
                 {
                     var statusViewModel = x as StatusViewModel;
                     if (statusViewModel == null)
@@ -918,7 +918,7 @@ namespace Flantter.MilkyWay.ViewModels
             foreach (var account in Accounts)
                 account.IsTweetEnabled.Value = account.Model.IsEnabled;
         }
-        
+
         private void Application_Suspending(object sender, object e)
         {
             Debug.WriteLine("Suspending...");

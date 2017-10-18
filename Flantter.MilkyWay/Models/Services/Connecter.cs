@@ -1,10 +1,10 @@
-﻿using Flantter.MilkyWay.Models.Twitter.Objects;
-using Flantter.MilkyWay.Setting;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Setting;
 
 namespace Flantter.MilkyWay.Models.Services
 {
@@ -42,19 +42,6 @@ namespace Flantter.MilkyWay.Models.Services
             EventMessage,
             CollectionEntry
         }
-
-        public bool Streaming { get; }
-
-        public long UserId { get; }
-
-        public Status Status { get; }
-        public DirectMessage DirectMessage { get; }
-        public EventMessage EventMessage { get; }
-        public CollectionEntry CollectionEntry { get; }
-
-        public TypeEnum Type { get; }
-
-        public List<string> Parameter { get; }
 
         #region Constructor
 
@@ -96,6 +83,19 @@ namespace Flantter.MilkyWay.Models.Services
         }
 
         #endregion
+
+        public bool Streaming { get; }
+
+        public long UserId { get; }
+
+        public Status Status { get; }
+        public DirectMessage DirectMessage { get; }
+        public EventMessage EventMessage { get; }
+        public CollectionEntry CollectionEntry { get; }
+
+        public TypeEnum Type { get; }
+
+        public List<string> Parameter { get; }
     }
 
     public class Connecter
@@ -153,7 +153,6 @@ namespace Flantter.MilkyWay.Models.Services
         {
             private readonly IDisposable _tweetDeleteDisposableObject;
             private readonly IDisposable _tweetReceiveDisposableObject;
-            public object EntitiesObjectsLock = new object();
 
             public TweetCollecterService(long userId)
             {
@@ -173,11 +172,8 @@ namespace Flantter.MilkyWay.Models.Services
                         h => Instance.TweetDeleteCommandExecute += h,
                         h => Instance.TweetDeleteCommandExecute -= h)
                     .Where(x => x.UserId == UserId)
-                    .Subscribe(
-                        e => { TweetDeleteCommandExecute?.Invoke(this, e); },
-                        ex => Debug.WriteLine(ex.ToString() + "\nMessage:" + ex.Message),
-                        () => Debug.WriteLine(
-                            "Flantter.MilkyWay.Models.Services.Connecter.TweetCollecterService.OnCompleted"));
+                    .SubscribeOn(NewThreadScheduler.Default)
+                    .Subscribe(e => { TweetDeleteCommandExecute?.Invoke(this, e); });
 
 
                 _tweetReceiveDisposableObject = Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
@@ -185,6 +181,7 @@ namespace Flantter.MilkyWay.Models.Services
                         h => Instance.TweetReceiveCommandExecute += h,
                         h => Instance.TweetReceiveCommandExecute -= h)
                     .Where(x => x.UserId == UserId)
+                    .SubscribeOn(NewThreadScheduler.Default)
                     .Subscribe(
                         e =>
                         {
@@ -209,7 +206,6 @@ namespace Flantter.MilkyWay.Models.Services
                                 }
 
                             // Todo : 起動時の軽量化必須？
-
                             if (e.Type == TweetEventArgs.TypeEnum.Status)
                                 lock (EntitiesObjectsLock)
                                 {
@@ -228,13 +224,12 @@ namespace Flantter.MilkyWay.Models.Services
                                             if (!HashTagObjects.Contains(hashTag.Tag))
                                                 HashTagObjects.Add(hashTag.Tag);
                                 }
-                        },
-                        ex => Debug.WriteLine(ex.ToString() + "\nMessage:" + ex.Message),
-                        () => Debug.WriteLine("TweetServiceProvider.TweetCollecterService.OnCompleted"));
+                        });
             }
 
             public long UserId { get; set; }
 
+            public object EntitiesObjectsLock { get; set; } = new object();
             public object MuteIdsLock { get; set; } = new object();
 
             public List<long> MuteIds { get; set; }
@@ -249,7 +244,6 @@ namespace Flantter.MilkyWay.Models.Services
             public void Remove()
             {
                 _tweetReceiveDisposableObject?.Dispose();
-
                 _tweetDeleteDisposableObject?.Dispose();
             }
         }

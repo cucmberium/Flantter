@@ -83,7 +83,7 @@ namespace Flantter.MilkyWay.Setting
             Slide = 2,
             ScrollToTop = 3
         }
-        
+
         public enum StatusPrivacyEnum
         {
             Public = 0,
@@ -645,9 +645,7 @@ namespace Flantter.MilkyWay.Setting
                 if (UseBackgroundImage)
                 {
                     var str = GetValue("http://localhost/");
-                    if (string.IsNullOrWhiteSpace(str))
-                        return "http://localhost/";
-                    return str;
+                    return string.IsNullOrWhiteSpace(str) ? "http://localhost/" : str;
                 }
                 return "http://localhost/";
             }
@@ -791,7 +789,6 @@ namespace Flantter.MilkyWay.Setting
         }
 
         // データベース設定
-
         public bool EnableDatabase
         {
             get => GetValue(false);

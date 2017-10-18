@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using Flantter.MilkyWay.Models.Apis.Wrapper;
 using Flantter.MilkyWay.Models.SettingsFlyouts;
-using Flantter.MilkyWay.Models.Twitter.Wrapper;
+using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using Flantter.MilkyWay.Setting;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
@@ -23,7 +23,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             IconSource = new ReactiveProperty<string>("http://localhost/");
 
             ClearCommand = new ReactiveCommand();
-            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default).Subscribe(x => { Model.PublicTimelineStatuses.Clear(); });
+            ClearCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Subscribe(x => { Model.PublicTimelineStatuses.Clear(); });
 
             UpdateCommand = new ReactiveCommand();
             UpdateCommand.SubscribeOn(ThreadPoolScheduler.Default)
@@ -49,7 +50,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 });
 
             PublicTimelineStatuses =
-                Model.PublicTimelineStatuses.ToReadOnlyReactiveCollection(x => new StatusViewModel(x, Tokens.Value.UserId));
+                Model.PublicTimelineStatuses.ToReadOnlyReactiveCollection(x =>
+                    new StatusViewModel(x, Tokens.Value.UserId));
 
             AddColumnCommand = new ReactiveCommand();
             AddColumnCommand.SubscribeOn(ThreadPoolScheduler.Default)
@@ -57,7 +59,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 {
                     var columnSetting = new ColumnSetting
                     {
-                        Action = Model.Type == "Local" ? SettingSupport.ColumnTypeEnum.Local : SettingSupport.ColumnTypeEnum.Federated,
+                        Action = Model.Type == "Local"
+                            ? SettingSupport.ColumnTypeEnum.Local
+                            : SettingSupport.ColumnTypeEnum.Federated,
                         AutoRefresh = false,
                         AutoRefreshTimerInterval = 180.0,
                         Filter = "()",

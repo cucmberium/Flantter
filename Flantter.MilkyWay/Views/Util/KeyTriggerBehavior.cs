@@ -61,8 +61,7 @@ namespace Flantter.MilkyWay.Views.Util
             uiElement.AddHandler(UIElement.KeyDownEvent, _keydownEventHandler, true);
             uiElement.AddHandler(UIElement.KeyUpEvent, _keyupEventHandler, true);
 
-            var control = AssociatedObject as Control;
-            if (control != null)
+            if (AssociatedObject is Control control)
                 control.IsEnabledChanged += Control_IsEnabledChanged;
         }
 
@@ -72,8 +71,7 @@ namespace Flantter.MilkyWay.Views.Util
             uiElement.RemoveHandler(UIElement.KeyDownEvent, _keydownEventHandler);
             uiElement.RemoveHandler(UIElement.KeyUpEvent, _keyupEventHandler);
 
-            var control = AssociatedObject as Control;
-            if (control != null)
+            if (AssociatedObject is Control control)
                 control.IsEnabledChanged -= Control_IsEnabledChanged;
         }
 

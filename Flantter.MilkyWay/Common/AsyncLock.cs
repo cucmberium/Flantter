@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-// From WinRTXamlToolkit
-
 namespace Flantter.MilkyWay.Common
 {
     public class AsyncSemaphore
@@ -86,9 +84,6 @@ namespace Flantter.MilkyWay.Common
                 _toRelease = toRelease;
             }
 
-            /// <summary>
-            ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-            /// </summary>
             public void Dispose()
             {
                 _toRelease?._semaphore.Release();

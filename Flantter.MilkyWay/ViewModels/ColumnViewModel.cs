@@ -7,10 +7,10 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Flantter.MilkyWay.Models;
-using Flantter.MilkyWay.Models.Twitter.Objects;
+using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Setting;
+using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
-using Flantter.MilkyWay.ViewModels.Twitter.Objects;
 using Flantter.MilkyWay.Views.Util;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -132,6 +132,8 @@ namespace Flantter.MilkyWay.ViewModels
             SelectedIndex = column.ToReactivePropertyAsSynchronized(x => x.SelectedIndex).AddTo(Disposable);
 
             UnreadCount = column.ToReactivePropertyAsSynchronized(x => x.UnreadCount).AddTo(Disposable);
+            UnreadButtonVisibility = column.ObserveProperty(x => x.UnreadCount).Select(x => x >= 0).ToReactiveProperty()
+                .AddTo(Disposable);
             IsScrollLockToTopEnabled = new ReactiveProperty<bool>().AddTo(Disposable);
             IsScrollLockEnabled = column.ToReactivePropertyAsSynchronized(x => x.IsScrollLockEnabled).AddTo(Disposable);
 
@@ -209,12 +211,12 @@ namespace Flantter.MilkyWay.ViewModels
                     var tweet = Tweets[SelectedIndex.Value];
 
                     var screenName = string.Empty;
-                    if (tweet is StatusViewModel)
-                        screenName = ((StatusViewModel) tweet).ScreenName;
-                    if (tweet is DirectMessageViewModel)
-                        screenName = ((DirectMessageViewModel) tweet).ScreenName;
-                    if (tweet is EventMessageViewModel)
-                        screenName = ((EventMessageViewModel) tweet).ScreenName;
+                    if (tweet is StatusViewModel statusViewModel)
+                        screenName = statusViewModel.ScreenName;
+                    if (tweet is DirectMessageViewModel directMessageViewModel)
+                        screenName = directMessageViewModel.ScreenName;
+                    if (tweet is EventMessageViewModel eventMessageViewModel)
+                        screenName = eventMessageViewModel.ScreenName;
 
                     var status = Tweets[SelectedIndex.Value] as StatusViewModel;
 
@@ -304,14 +306,14 @@ namespace Flantter.MilkyWay.ViewModels
 
             Tweets = Model.Tweets.ToReadOnlyReactiveCollection(item =>
                 {
-                    if (item is Status)
-                        return new StatusViewModel((Status) item, Model.AccountSetting.UserId) as object;
-                    if (item is DirectMessage)
-                        return new DirectMessageViewModel((DirectMessage) item, Model.AccountSetting.UserId) as object;
-                    if (item is EventMessage)
-                        return new EventMessageViewModel((EventMessage) item, Model.AccountSetting.UserId) as object;
-                    if (item is CollectionEntry)
-                        return new StatusViewModel(((CollectionEntry) item).Status, Model.AccountSetting.UserId,
+                    if (item is Status status)
+                        return new StatusViewModel(status, Model.AccountSetting.UserId) as object;
+                    if (item is DirectMessage directMessage)
+                        return new DirectMessageViewModel(directMessage, Model.AccountSetting.UserId) as object;
+                    if (item is EventMessage eventMessage)
+                        return new EventMessageViewModel(eventMessage, Model.AccountSetting.UserId) as object;
+                    if (item is CollectionEntry collectionEntry)
+                        return new StatusViewModel(collectionEntry.Status, Model.AccountSetting.UserId,
                             Model.Parameter) as object;
                     return new GapViewModel((Gap) item) as object;
                 })
@@ -346,6 +348,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<int> SelectedIndex { get; }
 
         public ReactiveProperty<int> UnreadCount { get; }
+        public ReactiveProperty<bool> UnreadButtonVisibility { get; }
         public ReactiveProperty<bool> IsScrollLockToTopEnabled { get; }
         public ReactiveProperty<bool> IsScrollLockEnabled { get; }
 

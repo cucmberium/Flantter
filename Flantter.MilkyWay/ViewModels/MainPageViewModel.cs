@@ -121,7 +121,7 @@ namespace Flantter.MilkyWay.ViewModels
 
                 foreach (var file in files)
                 {
-                    if (!supportedFormat.Contains(file.FileType))
+                    if (!supportedFormat.Contains(file.FileType.ToLower()))
                         continue;
 
                     await TweetArea.Model.AddPicture(file);
@@ -136,7 +136,6 @@ namespace Flantter.MilkyWay.ViewModels
                 .Subscribe(x =>
                 {
                     var media = x as MediaEntity;
-
                     if (media == null)
                         return;
 

@@ -2030,7 +2030,7 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                                                     new Apis.Objects.EventMessage(notification)));
                                                 break;
                                             case "delete":
-                                                var statusId = int.Parse(data);
+                                                var statusId = long.Parse(data);
                                                 observer.OnNext(new Apis.Objects.StreamingMessage(statusId));
                                                 break;
                                         }

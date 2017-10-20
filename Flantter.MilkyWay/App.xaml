@@ -29,6 +29,7 @@
             <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
             <converters:DoublePlusConverter x:Key="DoublePlusConverter"/>
             <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
+            <converters:IntNegationToVisibilityConverter x:Key="IntNegationToVisibilityConverter"/>
             <converters:IntToStringConverter x:Key="IntToStringConverter"/>
             <converters:ColorCodeToBrushConverter x:Key="ColorCodeToBrushConverter"/>
             <converters:PlatformEnumToVisibilityConverter x:Key="PlatformEnumToVisibilityConverter"/>

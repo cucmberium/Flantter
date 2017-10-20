@@ -105,13 +105,13 @@
                                     <Run Text="@"/><Run Text="{x:Bind AccountName.Value, Mode=OneWay}"/>
                                 </TextBlock>
 
-                                <Border Grid.Column="3" Visibility="{x:Bind UnreadButtonVisibility.Value, Converter={StaticResource BooleanNegationToVisibilityConverter}, Mode=OneWay}" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
+                                <Border Grid.Column="3" Visibility="{x:Bind UnreadCount.Value, Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay}" Width="40" Height="30" Margin="0" Background="{StaticResource ColumnViewControlBarUnreadCountGridBackgroundBrush}">
                                     <Button Background="Transparent" BorderThickness="0" Width="40" Height="30" Padding="0" Command="{x:Bind ScrollToTopCommand}">
                                         <TextBlock Foreground="{StaticResource ColumnViewControlBarUnreadCountTextblockForegroundBrush}" Text="{x:Bind UnreadCount.Value, Mode=OneWay}" FontSize="14" FontWeight="Bold"/>
                                     </Button>
                                 </Border>
 
-                                <Button Grid.Column="3" Visibility="{x:Bind UnreadButtonVisibility.Value, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" BorderThickness="0" Width="40" Height="30" Padding="0" Command="{x:Bind ScrollToTopCommand}">
+                                <Button Grid.Column="3" Visibility="{x:Bind UnreadCount.Value, Converter={StaticResource IntNegationToVisibilityConverter}, Mode=OneWay}" BorderThickness="0" Width="40" Height="30" Padding="0" Command="{x:Bind ScrollToTopCommand}">
                                     <SymbolIcon Foreground="{StaticResource ColumnViewControlBarSymbolIconForegroundBrush}" Symbol="Up"/>
                                 </Button>
 

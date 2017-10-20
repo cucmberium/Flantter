@@ -1838,11 +1838,7 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     return (await Tokens.TwitterTokens.Media.UploadAsync(media, additional_owners, progress: progress))
                         .MediaId;
                 case Tokens.PlatformEnum.Mastodon:
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        media.CopyTo(ms);
-                        return (await Tokens.MastodonTokens.Media.PostAsync(file => ms.ToArray())).Id;
-                    }
+                    return (await Tokens.MastodonTokens.Media.PostAsync(file => media)).Id;
             }
             throw new NotImplementedException();
         }

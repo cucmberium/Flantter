@@ -346,8 +346,6 @@
                 <ProgressBar Background="Transparent" Visibility="{x:Bind ViewModel.UpdatingActionStatuses.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{x:Bind ViewModel.UpdatingActionStatuses.Value, Mode=OneWay}" VerticalAlignment="Top" />
 
             </Grid>
-
-
         </PivotItem>
     </Pivot>
     

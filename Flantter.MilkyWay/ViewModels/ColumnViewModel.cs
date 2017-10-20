@@ -132,8 +132,6 @@ namespace Flantter.MilkyWay.ViewModels
             SelectedIndex = column.ToReactivePropertyAsSynchronized(x => x.SelectedIndex).AddTo(Disposable);
 
             UnreadCount = column.ToReactivePropertyAsSynchronized(x => x.UnreadCount).AddTo(Disposable);
-            UnreadButtonVisibility = column.ObserveProperty(x => x.UnreadCount).Select(x => x >= 0).ToReactiveProperty()
-                .AddTo(Disposable);
             IsScrollLockToTopEnabled = new ReactiveProperty<bool>().AddTo(Disposable);
             IsScrollLockEnabled = column.ToReactivePropertyAsSynchronized(x => x.IsScrollLockEnabled).AddTo(Disposable);
 
@@ -348,7 +346,6 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<int> SelectedIndex { get; }
 
         public ReactiveProperty<int> UnreadCount { get; }
-        public ReactiveProperty<bool> UnreadButtonVisibility { get; }
         public ReactiveProperty<bool> IsScrollLockToTopEnabled { get; }
         public ReactiveProperty<bool> IsScrollLockEnabled { get; }
 

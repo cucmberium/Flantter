@@ -375,6 +375,7 @@
     <Compile Include="Views\Converters\ColorCodeToBrushConverter.cs" />
     <Compile Include="Views\Converters\DoublePlusConverter.cs" />
     <Compile Include="Views\Converters\EnumToDoubleConverter.cs" />
+    <Compile Include="Views\Converters\IntNegationToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\IntToStringConverter.cs" />
     <Compile Include="Views\Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\ObjectToVisibilityConverter.cs" />
@@ -472,9 +473,6 @@
     </PackageReference>
     <PackageReference Include="SQLite.Net-PCL">
       <Version>3.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="TootNet">
-      <Version>1.0.4</Version>
     </PackageReference>
     <PackageReference Include="ToriatamaText">
       <Version>1.1.0</Version>
@@ -726,6 +724,10 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\TootNet\TootNet\TootNet.csproj">
+      <Project>{d5b51cb7-ed50-4eae-8ded-899c1dddeac9}</Project>
+      <Name>TootNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Flantter.MilkyWay.BackgroundTask\Flantter.MilkyWay.BackgroundTask.csproj">
       <Project>{0e6efce5-9891-420d-9fb3-3ef3479a959d}</Project>
       <Name>Flantter.MilkyWay.BackgroundTask</Name>

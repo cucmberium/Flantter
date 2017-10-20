@@ -256,8 +256,13 @@ namespace Flantter.MilkyWay.ViewModels
             Notice.Instance.ChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
+                    var accountSetting = x as AccountSetting;
+                    if (accountSetting == null)
+                        return;
+
                     await Model.ChangeAccount(
-                        AdvancedSettingService.AdvancedSetting.Accounts.First(y => y.UserId == (long) x));
+                        AdvancedSettingService.AdvancedSetting.Accounts.First(y =>
+                            y.UserId == accountSetting.UserId && y.Instance == accountSetting.Instance));
                 });
 
             Notice.Instance.ExitAppCommand.SubscribeOn(ThreadPoolScheduler.Default)
@@ -570,10 +575,10 @@ namespace Flantter.MilkyWay.ViewModels
                         return;
 
                     // 禁忌 : Taboo
-                    if (AdvancedSettingService.AdvancedSetting.Accounts.Any(y => y.UserId == account.UserId))
+                    if (AdvancedSettingService.AdvancedSetting.Accounts.Any(y => y.UserId == account.UserId && y.Instance == account.Instance))
                     {
                         var accountSetting =
-                            AdvancedSettingService.AdvancedSetting.Accounts.First(y => y.UserId == account.UserId);
+                            AdvancedSettingService.AdvancedSetting.Accounts.First(y => y.UserId == account.UserId && y.Instance == account.Instance);
                         accountSetting.ScreenName = account.ScreenName;
                         accountSetting.ConsumerKey = account.ConsumerKey;
                         accountSetting.ConsumerSecret = account.ConsumerSecret;

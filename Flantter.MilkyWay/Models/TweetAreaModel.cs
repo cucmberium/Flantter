@@ -91,10 +91,9 @@ namespace Flantter.MilkyWay.Models
 
             try
             {
-                if (SettingService.Setting.ConvertPostingImage &&
-                    (picture.FileType == ".jpeg" || picture.FileType == ".jpg" || picture.FileType == ".png"))
+                if (picture.FileType == ".jpeg" || picture.FileType == ".jpg" || picture.FileType == ".png")
                 {
-                    if (property.Size <= 3145728)
+                    if (property.Size <= 3145728 && SettingService.Setting.ConvertPostingImage)
                     {
                         var memoryStream = new InMemoryRandomAccessStream();
                         using (IRandomAccessStream fileStream =

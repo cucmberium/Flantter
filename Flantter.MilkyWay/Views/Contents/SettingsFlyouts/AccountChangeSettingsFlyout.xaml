@@ -28,7 +28,7 @@
             <ItemsControl ItemsSource="{Binding Source={StaticResource AdvancedSetting}, Path=AdvancedSetting.Accounts}" Tapped="ItemsControl_Tapped">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding Notice.ChangeAccountCommand, Source={StaticResource Notice}}" CommandParameter="{Binding UserId, Mode=OneWay}">
+                        <Button Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding Notice.ChangeAccountCommand, Source={StaticResource Notice}}" CommandParameter="{Binding Mode=OneWay}">
                             <Grid>
                                 <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Account" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                 <TextBlock Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">

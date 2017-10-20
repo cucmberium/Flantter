@@ -418,14 +418,14 @@
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">
-                <Hyperlink NavigateUri="https://github.com/yamachu/Mastodot">
-                    <Run Text="Mastodot"/>
+                <Hyperlink NavigateUri="https://github.com/cucmberium/TootNet">
+                    <Run Text="Tootnet"/>
                 </Hyperlink>
             </TextBlock>
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontSize="10" Margin="5" HorizontalAlignment="Stretch" TextWrapping="Wrap">
-                MIT License<LineBreak/><LineBreak/>
+                The MIT License (MIT)<LineBreak/><LineBreak/>
 
-                Copyright (c) 2017 Yusuke Yamada<LineBreak/><LineBreak/>
+                Copyright (c) 2017 cucmberium<LineBreak/><LineBreak/>
 
                 Permission is hereby granted, free of charge, to any person obtaining a copy
                 of this software and associated documentation files (the "Software"), to deal
@@ -434,16 +434,16 @@
                 copies of the Software, and to permit persons to whom the Software is
                 furnished to do so, subject to the following conditions:<LineBreak/><LineBreak/>
 
-                The above copyright notice and this permission notice shall be included in all
-                copies or substantial portions of the Software.<LineBreak/><LineBreak/>
+                The above copyright notice and this permission notice shall be included in
+                all copies or substantial portions of the Software.<LineBreak/><LineBreak/>
 
                 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
                 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
                 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
                 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
                 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-                OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-                SOFTWARE.
+                OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+                THE SOFTWARE.
             </TextBlock>
 
             <TextBlock Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" FontWeight="Bold" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10,5,0,5">

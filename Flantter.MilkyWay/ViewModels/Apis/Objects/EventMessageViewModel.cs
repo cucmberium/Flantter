@@ -8,7 +8,7 @@ using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.ViewModels.Apis.Objects
 {
-    public class EventMessageViewModel : ExtendedBindableBase, ITweetViewModel
+    public class EventMessageViewModel : ExtendedBindableBase
     {
         private static readonly ResourceLoader _resourceLoader = new ResourceLoader();
 
@@ -32,7 +32,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             ProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.Source.ProfileImageUrl)
                 ? "http://localhost/"
                 : eventMessage.Source.ProfileImageUrl;
-            Id = 0;
 
             var sourceUser = "@" + eventMessage.Source.ScreenName + " (" + eventMessage.Source.Name + ") ";
             string targetUser;
@@ -154,7 +153,5 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
         public Notice Notice { get; set; }
 
         public SettingService Setting { get; set; }
-
-        public long Id { get; set; }
     }
 }

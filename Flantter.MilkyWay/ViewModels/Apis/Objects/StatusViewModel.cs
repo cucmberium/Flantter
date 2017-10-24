@@ -8,7 +8,7 @@ using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.ViewModels.Apis.Objects
 {
-    public class StatusViewModel : ExtendedBindableBase, ITweetViewModel
+    public class StatusViewModel : ExtendedBindableBase
     {
         public StatusViewModel()
         {
@@ -22,7 +22,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             ScreenName = "";
             Name = "";
             ProfileImageUrl = "http://localhost/";
-            Id = 0;
             Entities = null;
             ProtectedText = "";
 
@@ -81,7 +80,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl)
                 ? "http://localhost/"
                 : status.User.ProfileImageUrl;
-            Id = status.Id;
             Entities = status.Entities;
             ProtectedText = status.User.IsProtected ? "🔒" : "";
 
@@ -231,7 +229,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl)
                 ? "http://localhost/"
                 : status.User.ProfileImageUrl;
-            Id = status.Id;
             Entities = status.Entities;
             ProtectedText = status.User.IsProtected ? "🔒" : "";
 
@@ -389,7 +386,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl)
                 ? "http://localhost/"
                 : status.User.ProfileImageUrl;
-            Id = status.Id;
             Entities = status.Entities;
             ProtectedText = status.User.IsProtected ? "🔒" : "";
 
@@ -631,7 +627,5 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
         public Notice Notice { get; set; }
 
         public SettingService Setting { get; set; }
-
-        public long Id { get; set; }
     }
 }

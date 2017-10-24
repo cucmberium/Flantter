@@ -1102,4 +1102,7 @@
   <data name="TweetArea_Message_ContentWarningIsEmpty" xml:space="preserve">
     <value>CWメッセージが空になっています</value>
   </data>
+  <data name="Tweet_Text_ReadMore.Text" xml:space="preserve">
+    <value>続きを見る</value>
+  </data>
 </root>

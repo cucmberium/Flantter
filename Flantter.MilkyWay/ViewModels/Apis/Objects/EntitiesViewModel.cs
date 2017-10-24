@@ -36,8 +36,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
     {
         public EntityViewModel(UrlEntity urlEntity)
         {
-            Model = urlEntity;
-
             ExpandedUrl = urlEntity.ExpandedUrl;
             DisplayUrl = urlEntity.DisplayUrl;
 
@@ -46,8 +44,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
 
         public EntityViewModel(HashtagEntity hashtagEntity)
         {
-            Model = hashtagEntity;
-
             ExpandedUrl = "#" + hashtagEntity.Tag;
             DisplayUrl = "#" + hashtagEntity.Tag;
 
@@ -56,16 +52,11 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
 
         public EntityViewModel(UserMentionEntity userMentionEntity)
         {
-            Model = userMentionEntity;
-
             ExpandedUrl = "@" + userMentionEntity.ScreenName;
             DisplayUrl = "@" + userMentionEntity.ScreenName;
 
             Notice = Notice.Instance;
         }
-
-        public object Model { get; }
-
         public string ExpandedUrl { get; set; }
 
         public string DisplayUrl { get; set; }

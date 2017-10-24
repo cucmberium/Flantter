@@ -7,7 +7,7 @@ using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.ViewModels.Apis.Objects
 {
-    public class DirectMessageViewModel : ExtendedBindableBase, ITweetViewModel
+    public class DirectMessageViewModel : ExtendedBindableBase
     {
         public DirectMessageViewModel(DirectMessage directMessage, long userId)
         {
@@ -26,7 +26,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileImageUrl)
                 ? "http://localhost/"
                 : directMessage.Sender.ProfileImageUrl;
-            Id = directMessage.Id;
             Entities = directMessage.Entities;
 
             MediaVisibility = directMessage.Entities.Media.Count != 0;
@@ -71,7 +70,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileImageUrl)
                 ? "http://localhost/"
                 : directMessage.Sender.ProfileImageUrl;
-            Id = directMessage.Id;
             Entities = directMessage.Entities;
 
             MediaVisibility = directMessage.Entities.Media.Count != 0;
@@ -132,7 +130,5 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
         public Notice Notice { get; set; }
 
         public SettingService Setting { get; set; }
-
-        public long Id { get; set; }
     }
 }

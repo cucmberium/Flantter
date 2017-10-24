@@ -42,6 +42,5 @@
 
         <TextBlock x:Name="GapTextblock" x:Uid="Tweet_Gap_GetGapStatus_Textblock" Foreground="{StaticResource TweetGapTextblockForegroundBrush}" Style="{StaticResource BodyTextBlockStyle}" Text="ギャップツイートを取得" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <ProgressBar x:Name="GapProgressBar" x:DeferLoadStrategy="Lazy" Background="Transparent" Foreground="{StaticResource ProgressBarForegroundBrush}" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-
     </Grid>
 </UserControl>

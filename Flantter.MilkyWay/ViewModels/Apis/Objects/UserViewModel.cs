@@ -14,14 +14,11 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             Description = user.Description;
             Entities = user.Entities;
 
-            IsMuting = user.IsMuting;
-            IsProtected = user.IsProtected;
             Name = user.Name;
             ProfileImageUrl = string.IsNullOrWhiteSpace(user.ProfileImageUrl)
                 ? "http://localhost/"
                 : user.ProfileImageUrl;
             ScreenName = user.ScreenName;
-            Url = user.Url;
 
             Notice = Notice.Instance;
             Setting = SettingService.Setting;
@@ -41,18 +38,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
 
         #endregion
 
-        #region IsMuting変更通知プロパティ
-
-        public bool IsMuting { get; set; }
-
-        #endregion
-
-        #region IsProtected変更通知プロパティ
-
-        public bool IsProtected { get; set; }
-
-        #endregion
-
         #region Name変更通知プロパティ
 
         public string Name { get; set; }
@@ -68,12 +53,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
         #region ScreenName変更通知プロパティ
 
         public string ScreenName { get; set; }
-
-        #endregion
-
-        #region Url変更通知プロパティ
-
-        public string Url { get; set; }
 
         #endregion
 

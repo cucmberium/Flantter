@@ -1102,4 +1102,7 @@
   <data name="TweetArea_Message_ContentWarningIsEmpty" xml:space="preserve">
     <value>Content warning message is empty</value>
   </data>
+  <data name="Tweet_Text_ReadMore.Text" xml:space="preserve">
+    <value>Read more</value>
+  </data>
 </root>

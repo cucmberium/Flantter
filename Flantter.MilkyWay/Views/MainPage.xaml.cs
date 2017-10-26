@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using System.Reactive.Linq;
-using Windows.ApplicationModel.Background;
 using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -152,17 +151,11 @@ namespace Flantter.MilkyWay.Views
                     (float) FlantterHostBackgroundCanvas.ActualHeight);
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             Frame.BackStack.Clear();
             Frame.ForwardStack.Clear();
-
-            if (SettingService.Setting.TileNotification == SettingSupport.TileNotificationEnum.None &&
-                !SettingService.Setting.BackgroundNotification)
-                return;
-
-            await BackgroundExecutionManager.RequestAccessAsync();
         }
     }
 }

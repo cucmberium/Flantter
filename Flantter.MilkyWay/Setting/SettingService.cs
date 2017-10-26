@@ -642,12 +642,10 @@ namespace Flantter.MilkyWay.Setting
         {
             get
             {
-                if (UseBackgroundImage)
-                {
-                    var str = GetValue("http://localhost/");
-                    return string.IsNullOrWhiteSpace(str) ? "http://localhost/" : str;
-                }
-                return "http://localhost/";
+                if (!UseBackgroundImage)
+                    return "http://localhost/";
+                var str = GetValue("http://localhost/");
+                return string.IsNullOrWhiteSpace(str) ? "http://localhost/" : str;
             }
             set
             {
@@ -917,18 +915,6 @@ namespace Flantter.MilkyWay.Setting
                 SetValue(value);
                 OnPropertyChanged();
                 ThemeService.Theme.ChangeTheme();
-            }
-        }
-
-        // その他
-        [LocalValue]
-        public DateTimeOffset LatestNotificationDate
-        {
-            get => new DateTimeOffset(GetValue(DateTimeOffset.Now.Ticks), DateTimeOffset.Now.Offset);
-            set
-            {
-                SetValue(value.Ticks);
-                OnPropertyChanged();
             }
         }
     }

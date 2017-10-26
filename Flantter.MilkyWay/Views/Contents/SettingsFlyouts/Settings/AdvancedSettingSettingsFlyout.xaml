@@ -17,7 +17,11 @@
 
     <ScrollViewer Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Auto">
         <StackPanel>
+            <!--
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_BackgroundNotification_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.BackgroundNotification, Mode=TwoWay}" Header="プッシュ通知"/>
 
+            <controls:HorizontalBar/>
+            -->
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_UseOfficialApi_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.UseOfficialApi, Mode=TwoWay}" Header="公式APIを使用する(使用できる場合)"/>
 
             <controls:HorizontalBar/>
@@ -27,10 +31,6 @@
             <controls:HorizontalBar/>
 
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_ComplementListStream_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ComplementListStream, Mode=TwoWay}" Header="リストのストリームをユーザーストリームで補完する"/>
-
-            <controls:HorizontalBar/>
-
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_BackgroundNotification_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.BackgroundNotification, Mode=TwoWay}" Header="バックグラウンド通知"/>
 
             <controls:HorizontalBar/>
 

@@ -872,7 +872,7 @@
     <value>Tile notification</value>
   </data>
   <data name="SettingsFlyout_Settings_Advanced_BackgroundNotification_ToggleSwitch.Header" xml:space="preserve">
-    <value>Background notification</value>
+    <value>Push notification</value>
   </data>
   <data name="TitleBar_ColumnButton_TextBlock.Text" xml:space="preserve">
     <value>    Sort column</value>

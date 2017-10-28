@@ -11,6 +11,7 @@
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:media="using:Microsoft.Xaml.Interactions.Media"
     mc:Ignorable="d"
     Title="UserCollections"
     HorizontalContentAlignment="Stretch"
@@ -23,6 +24,81 @@
     d:DesignWidth="320">
 
     <Grid x:Name="UserCollectionsGrid" Background="{StaticResource SettingsFlyoutBackgroundBrush}">
+
+        <Grid.Resources>
+            <Storyboard x:Name="CreateCollectionOpenAnimation">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CreateCollectionStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CreateCollectionStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="330">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="CreateCollectionCloseAnimation">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CreateCollectionStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="Collapsed"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CreateCollectionStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="UpdateCollectionOpenAnimation">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="UpdateCollectionStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="UpdateCollectionStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="330">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="UpdateCollectionCloseAnimation">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="UpdateCollectionStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="Collapsed"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="UpdateCollectionStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="CollectionMenuOpenAnimation">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CollectionMenuStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CollectionMenuStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="126">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="CollectionMenuCloseAnimation">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CollectionMenuStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                </ObjectAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CollectionMenuStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+        </Grid.Resources>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -55,102 +131,27 @@
             <i:Interaction.Behaviors>
 
                 <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CreateCollectionOpen.Value, Mode=OneWay}" Value="True">
-                    <util:StoryboardBeginAction Key="CreateCollectionOpenAnimation"/>
+                    <media:ControlStoryboardAction Storyboard="{StaticResource CreateCollectionOpenAnimation}"/>
                 </core:DataTriggerBehavior>
                 <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CreateCollectionOpen.Value, Mode=OneWay}" Value="False">
-                    <util:StoryboardBeginAction Key="CreateCollectionCloseAnimation"/>
+                    <media:ControlStoryboardAction Storyboard="{StaticResource CreateCollectionCloseAnimation}"/>
                 </core:DataTriggerBehavior>
 
                 <core:DataTriggerBehavior Binding="{x:Bind ViewModel.UpdateCollectionOpen.Value, Mode=OneWay}" Value="True">
-                    <util:StoryboardBeginAction Key="UpdateCollectionOpenAnimation"/>
+                    <media:ControlStoryboardAction Storyboard="{StaticResource UpdateCollectionOpenAnimation}"/>
                 </core:DataTriggerBehavior>
                 <core:DataTriggerBehavior Binding="{x:Bind ViewModel.UpdateCollectionOpen.Value, Mode=OneWay}" Value="False">
-                    <util:StoryboardBeginAction Key="UpdateCollectionCloseAnimation"/>
+                    <media:ControlStoryboardAction Storyboard="{StaticResource UpdateCollectionCloseAnimation}"/>
                 </core:DataTriggerBehavior>
 
                 <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CollectionMenuOpen.Value, Mode=OneWay}" Value="True">
-                    <util:StoryboardBeginAction Key="CollectionMenuOpenAnimation"/>
+                    <media:ControlStoryboardAction Storyboard="{StaticResource CollectionMenuOpenAnimation}"/>
                 </core:DataTriggerBehavior>
                 <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CollectionMenuOpen.Value, Mode=OneWay}" Value="False">
-                    <util:StoryboardBeginAction Key="CollectionMenuCloseAnimation"/>
+                    <media:ControlStoryboardAction Storyboard="{StaticResource CollectionMenuCloseAnimation}"/>
                 </core:DataTriggerBehavior>
 
             </i:Interaction.Behaviors>
-
-            <Grid.Resources>
-                <Storyboard x:Name="CreateCollectionOpenAnimation">
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CreateCollectionStackPanel" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                    </ObjectAnimationUsingKeyFrames>
-                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CreateCollectionStackPanel">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="330">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                                <SineEase EasingMode="EaseInOut"/>
-                            </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                    </DoubleAnimationUsingKeyFrames>
-                </Storyboard>
-                <Storyboard x:Name="CreateCollectionCloseAnimation">
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CreateCollectionStackPanel" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="Collapsed"/>
-                    </ObjectAnimationUsingKeyFrames>
-                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CreateCollectionStackPanel">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                                <SineEase EasingMode="EaseInOut"/>
-                            </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                    </DoubleAnimationUsingKeyFrames>
-                </Storyboard>
-                <Storyboard x:Name="UpdateCollectionOpenAnimation">
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="UpdateCollectionStackPanel" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                    </ObjectAnimationUsingKeyFrames>
-                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="UpdateCollectionStackPanel">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="330">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                                <SineEase EasingMode="EaseInOut"/>
-                            </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                    </DoubleAnimationUsingKeyFrames>
-                </Storyboard>
-                <Storyboard x:Name="UpdateCollectionCloseAnimation">
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="UpdateCollectionStackPanel" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="Collapsed"/>
-                    </ObjectAnimationUsingKeyFrames>
-                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="UpdateCollectionStackPanel">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                                <SineEase EasingMode="EaseInOut"/>
-                            </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                    </DoubleAnimationUsingKeyFrames>
-                </Storyboard>
-                <Storyboard x:Name="CollectionMenuOpenAnimation">
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CollectionMenuStackPanel" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                    </ObjectAnimationUsingKeyFrames>
-                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CollectionMenuStackPanel">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="126">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                                <SineEase EasingMode="EaseInOut"/>
-                            </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                    </DoubleAnimationUsingKeyFrames>
-                </Storyboard>
-                <Storyboard x:Name="CollectionMenuCloseAnimation">
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CollectionMenuStackPanel" Storyboard.TargetProperty="Visibility">
-                        <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-                    </ObjectAnimationUsingKeyFrames>
-                    <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="CollectionMenuStackPanel">
-                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                                <SineEase EasingMode="EaseInOut"/>
-                            </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                    </DoubleAnimationUsingKeyFrames>
-                </Storyboard>
-            </Grid.Resources>
 
             <StackPanel x:Name="UpdateCollectionStackPanel" Height="0" Visibility="Collapsed">
                 <controls:HorizontalBar/>

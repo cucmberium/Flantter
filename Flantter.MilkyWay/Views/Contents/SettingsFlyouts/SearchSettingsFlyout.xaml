@@ -11,6 +11,7 @@
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
     xmlns:util="using:Flantter.MilkyWay.Views.Util"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:media="using:Microsoft.Xaml.Interactions.Media"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d"
     Title="Search"
@@ -25,6 +26,149 @@
 
     <Pivot x:Name="SearchSettingsFlyoutPivot" Style="{StaticResource PivotStyleDynamicHeader}" Background="{ThemeResource SettingsFlyoutBackgroundBrush}" SelectedIndex="{x:Bind ViewModel.PivotSelectedIndex.Value, Mode=TwoWay}">
 
+        <Pivot.Resources>
+            <Storyboard x:Name="AdvancedSearchOpenAnimation">
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="36">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="AdvancedSearchCloseAnimation">
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Storyboard.TargetProperty="Visibility">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+
+            <Storyboard x:Name="AdvancedSearchContentOpenAnimation">
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="162">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentFontIcon">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="AdvancedSearchContentCloseAnimation">
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentFontIcon">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+
+            <Storyboard x:Name="AdvancedSearchEngagementOpenAnimation">
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="122">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="AdvancedSearchEngagementCloseAnimation">
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+
+                <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <SineEase EasingMode="EaseInOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+        </Pivot.Resources>
+
         <PivotItem Margin="0">
             <PivotItem.Header>
                 <contents:TabHeader Label="Tweets" Glyph="&#xE15F;" />
@@ -35,171 +179,27 @@
                 <i:Interaction.Behaviors>
 
                     <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchContentOpen.Value, Mode=OneWay}" Value="True">
-                        <util:StoryboardBeginAction Key="AdvancedSearchContentOpenAnimation"/>
+                        <media:ControlStoryboardAction Storyboard="{StaticResource AdvancedSearchContentOpenAnimation}"/>
                     </core:DataTriggerBehavior>
                     <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchContentOpen.Value, Mode=OneWay}" Value="False">
-                        <util:StoryboardBeginAction Key="AdvancedSearchContentCloseAnimation"/>
+                        <media:ControlStoryboardAction Storyboard="{StaticResource AdvancedSearchContentCloseAnimation}"/>
                     </core:DataTriggerBehavior>
 
                     <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchEngagementOpen.Value, Mode=OneWay}" Value="True">
-                        <util:StoryboardBeginAction Key="AdvancedSearchEngagementOpenAnimation"/>
+                        <media:ControlStoryboardAction Storyboard="{StaticResource AdvancedSearchEngagementOpenAnimation}"/>
                     </core:DataTriggerBehavior>
                     <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchEngagementOpen.Value, Mode=OneWay}" Value="False">
-                        <util:StoryboardBeginAction Key="AdvancedSearchEngagementCloseAnimation"/>
+                        <media:ControlStoryboardAction Storyboard="{StaticResource AdvancedSearchEngagementCloseAnimation}"/>
                     </core:DataTriggerBehavior>
-
 
                     <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchOpen.Value, Mode=OneWay}" Value="True">
-                        <util:StoryboardBeginAction Key="AdvancedSearchOpenAnimation"/>
+                        <media:ControlStoryboardAction Storyboard="{StaticResource AdvancedSearchOpenAnimation}"/>
                     </core:DataTriggerBehavior>
                     <core:DataTriggerBehavior Binding="{x:Bind ViewModel.AdvancedSearchOpen.Value, Mode=OneWay}" Value="False">
-                        <util:StoryboardBeginAction Key="AdvancedSearchCloseAnimation"/>
+                        <media:ControlStoryboardAction Storyboard="{StaticResource AdvancedSearchCloseAnimation}"/>
                     </core:DataTriggerBehavior>
 
                 </i:Interaction.Behaviors>
-
-                <Grid.Resources>
-                    <Storyboard x:Name="AdvancedSearchOpenAnimation">
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="36">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                    <Storyboard x:Name="AdvancedSearchCloseAnimation">
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchMenuStackPanel" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-
-                    <Storyboard x:Name="AdvancedSearchContentOpenAnimation">
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="162">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentFontIcon">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-                    <Storyboard x:Name="AdvancedSearchContentCloseAnimation">
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentStackPanel">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchContentFontIcon">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-
-                    <Storyboard x:Name="AdvancedSearchEngagementOpenAnimation">
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="122">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-                    <Storyboard x:Name="AdvancedSearchEngagementCloseAnimation">
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="Height" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementStackPanel">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="38">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="SearchSettingsFlyoutAdvancedSearchEngagementFontIcon">
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <SineEase EasingMode="EaseInOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-                </Grid.Resources>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

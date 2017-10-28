@@ -405,25 +405,22 @@ namespace Flantter.MilkyWay.Setting
             {
                 try
                 {
-                    string json;
-
                     var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml");
                     using (var s = await readStorageFile.OpenStreamForReadAsync())
-                    using (var st = new StreamReader(s))
+                    using (var sr = new StreamReader(s))
+                    using (var jtr = new JsonTextReader(sr))
                     {
-                        json = st.ReadToEnd();
-                    }
+                        var jTokens = JToken.ReadFrom(jtr);
 
-                    var jTokens = JToken.Parse(json);
-
-                    Dict = new Dictionary<string, object>();
-                    foreach (var jToken in jTokens)
-                    {
-                        var jProperty = (JProperty) jToken;
-                        if (jProperty.Name == "Accounts")
-                            Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
-                        else
-                            Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
+                        Dict = new Dictionary<string, object>();
+                        foreach (var jToken in jTokens)
+                        {
+                            var jProperty = (JProperty)jToken;
+                            if (jProperty.Name == "Accounts")
+                                Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
+                            else
+                                Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
+                        }
                     }
                 }
                 catch

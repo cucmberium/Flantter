@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
+    xmlns:setting="using:Flantter.MilkyWay.Setting"
     mc:Ignorable="d"
     Title="Setting"
     HorizontalContentAlignment="Stretch"
@@ -14,6 +15,11 @@
     HeaderBackground="{StaticResource SettingsFlyoutHeaderForegroundBrush}"
     d:DesignHeight="720"
     d:DesignWidth="320">
+    
+    <controls:ExtendedSettingsFlyout.Resources>
+        <setting:SettingSupportProvider x:Key="SettingSupport" />
+        <setting:SettingProvider x:Key="Setting"/>
+    </controls:ExtendedSettingsFlyout.Resources>
 
     <ScrollViewer Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Auto">
         <StackPanel>

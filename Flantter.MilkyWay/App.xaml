@@ -2,7 +2,6 @@
     x:Class="Flantter.MilkyWay.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:license="using:Flantter.MilkyWay.License"
     xmlns:setting="using:Flantter.MilkyWay.Setting"
     xmlns:notice="using:Flantter.MilkyWay.ViewModels.Services"
     xmlns:converters="using:Flantter.MilkyWay.Views.Converters"
@@ -34,11 +33,7 @@
             <converters:ColorCodeToBrushConverter x:Key="ColorCodeToBrushConverter"/>
             <converters:PlatformEnumToVisibilityConverter x:Key="PlatformEnumToVisibilityConverter"/>
 
-            <setting:SettingProvider x:Key="Setting"/>
-            <setting:AdvancedSettingProvider x:Key="AdvancedSetting" />
-            <setting:SettingSupportProvider x:Key="SettingSupport" />
             <notice:NoticeProvider x:Key="Notice"/>
-            <license:LicenseProvider x:Key="License"/>
         </ResourceDictionary>
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>

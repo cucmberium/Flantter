@@ -192,7 +192,6 @@
     <Compile Include="ViewModels\Apis\Objects\EntitiesViewModel.cs" />
     <Compile Include="ViewModels\Apis\Objects\EventMessageViewModel.cs" />
     <Compile Include="ViewModels\Apis\Objects\GapViewModel.cs" />
-    <Compile Include="ViewModels\Apis\Objects\ITweetViewModel.cs" />
     <Compile Include="ViewModels\Apis\Objects\ListViewModel.cs" />
     <Compile Include="ViewModels\Apis\Objects\SearchQueryViewModel.cs" />
     <Compile Include="ViewModels\Apis\Objects\StatusViewModel.cs" />
@@ -396,7 +395,6 @@
     <Compile Include="Views\Util\MessengerTriggerBehavior.cs" />
     <Compile Include="Views\Util\OpenLinkAction.cs" />
     <Compile Include="Views\Util\ShowAttachedFlyoutAction.cs" />
-    <Compile Include="Views\Util\StoryboardBeginAction.cs" />
     <Compile Include="Views\Util\WindowSizeHelper.cs" />
   </ItemGroup>
   <ItemGroup>

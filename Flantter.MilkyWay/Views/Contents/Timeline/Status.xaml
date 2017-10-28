@@ -11,7 +11,6 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:uwpToolKit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:uwpToolKitBehaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -133,14 +132,15 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" BorderThickness="0" Height="30" Width="30" CornerRadius="4" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Border Grid.Column="0" Height="30" Width="30" CornerRadius="4" HorizontalAlignment="Right" VerticalAlignment="Top">
                     <Border.Background>
                         <ImageBrush ImageSource="{x:Bind ViewModel.MentionStatusProfileImageUrl, Mode=OneWay}" />
                     </Border.Background>
                 </Border>
-                <StackPanel Grid.Column="2" Orientation="Vertical">
-                    <TextBlock>
-                        <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.MentionStatusName, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.MentionStatusScreenName, Mode=OneWay}"/>
+                <StackPanel Grid.Column="2">
+                    <TextBlock FontSize="10.5">
+                        <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.MentionStatusName, Mode=OneWay}" FontWeight="Bold"/>
+                        <Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text="{x:Bind ViewModel.MentionStatusScreenName, Mode=OneWay}"/>
                     </TextBlock>
                     <TextBlock FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" Height="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay, Converter={StaticResource DoublePlusConverter}, ConverterParameter=7}" TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="0,2" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.MentionStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.MentionStatusText, Mode=OneWay}"/>
                 </StackPanel>
@@ -169,11 +169,13 @@
             </StackPanel>
 
             <StackPanel Grid.Column="1" Margin="5,0">
-                <TextBlock HorizontalAlignment="Left">
-                    <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.ProtectedText, Mode=OneWay}" FontWeight="Bold" /><Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
+                <TextBlock FontSize="10.5" HorizontalAlignment="Left">
+                    <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.ProtectedText, Mode=OneWay}" FontWeight="Bold" />
+                    <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/>
+                    <Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock Foreground="{StaticResource TweetTextTextblockForegroundBrush}" Visibility="{x:Bind ViewModel.SpoilerText, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" TextWrapping="Wrap" Margin="0,2,0,0" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" Text="{x:Bind ViewModel.SpoilerText, Mode=OneWay}"/>
-                <TextBlock x:Name="StatusReadMoreSpoilerText" Visibility="{x:Bind ViewModel.IsContentWarning, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" TextWrapping="Wrap" Margin="0,2,0,0" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}">
+                <TextBlock Visibility="{x:Bind ViewModel.SpoilerText, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" Foreground="{StaticResource TweetTextTextblockForegroundBrush}" TextWrapping="Wrap" Margin="0,2,0,0" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" Text="{x:Bind ViewModel.SpoilerText, Mode=OneWay}"/>
+                <TextBlock x:Name="StatusReadMoreSpoilerText" Visibility="{x:Bind ViewModel.IsContentWarning, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,2,0,0">
                     <Hyperlink>
                         <i:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="Click">
@@ -181,14 +183,13 @@
                                 <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowContentWarningTextCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
                             </core:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
-                        <Run Foreground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" Text="続きを見る"/>
+                        <Run x:Uid="Tweet_Text_ReadMore" Foreground="{StaticResource TweetTextHyperlinkTextblockForegroundBrush}" Text="続きを見る"/>
                     </Hyperlink>
                 </TextBlock>
-                <TextBlock Visibility="{x:Bind ViewModel.IsContentWarning, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" x:Name="StatusBodyText" TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
+                <TextBlock x:Name="StatusBodyText" Visibility="{x:Bind ViewModel.IsContentWarning, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Text, Mode=OneWay}"/>
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
                     <i:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            
                             <util:OpenLinkAction x:Name="StatusDateTimeLinkAction" IsEnabled="False" Uri="{x:Bind ViewModel.Model.Url, Mode=OneWay}"/>
                         </core:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
@@ -209,7 +210,7 @@
                                         <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
                                     </core:EventTriggerBehavior>
                                 </i:Interaction.Behaviors>
-                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill">
                                     <i:Interaction.Behaviors>
                                         <uwpToolKitBehaviors:Blur Value="{x:Bind PossibilySensitiveBlur}"
                                                         Duration="0"
@@ -241,9 +242,9 @@
                     <TextBlock Grid.Column="1" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="5,0,0,0" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetInformationText, Mode=OneWay}"/>
                 </Grid>
 
-                <StackPanel Orientation="Vertical" Margin="0,2,0,0">
-                    <TextBlock Visibility="{x:Bind ViewModel.RetweetCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,0" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetCounterText, Mode=OneWay}"/>
-                    <TextBlock Visibility="{x:Bind ViewModel.FavoriteCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="2,0" TextWrapping="Wrap" Text="{x:Bind ViewModel.FavoriteCounterText, Mode=OneWay}"/>
+                <StackPanel Margin="0,4,0,2">
+                    <TextBlock Visibility="{x:Bind ViewModel.RetweetCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetCounterText, Mode=OneWay}"/>
+                    <TextBlock Visibility="{x:Bind ViewModel.FavoriteCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" TextWrapping="Wrap" Text="{x:Bind ViewModel.FavoriteCounterText, Mode=OneWay}"/>
                 </StackPanel>
             </StackPanel>
 
@@ -259,8 +260,8 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                
                 <Grid Grid.Row="0">
-
                     <i:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ShowStatusDetailCommand}" CommandParameter="{x:Bind ViewModel.Model.QuotedStatus, Mode=OneWay}"/>
@@ -279,8 +280,9 @@
                         </Border.Background>
                     </Border>
                     <StackPanel Grid.Column="2">
-                        <TextBlock>
-                        <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.QuotedStatusName, Mode=OneWay}" FontWeight="Bold"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" FontSize="10.5" Text="{x:Bind ViewModel.QuotedStatusScreenName, Mode=OneWay}"/>
+                        <TextBlock FontSize="10.5">
+                            <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.QuotedStatusName, Mode=OneWay}" FontWeight="Bold"/>
+                            <Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text="{x:Bind ViewModel.QuotedStatusScreenName, Mode=OneWay}"/>
                         </TextBlock>
                         <TextBlock TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{Binding Setting.CustomFontName, Mode=OneWay}" FontSize="{Binding Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.QuotedStatusEntities, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.QuotedStatusText, Mode=OneWay}"/>
                     </StackPanel>

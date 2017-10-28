@@ -574,7 +574,7 @@ namespace Flantter.MilkyWay.ViewModels
                     if (statusViewModel == null)
                         return;
 
-                    await Model.DeleteTweetFromCollection(statusViewModel.Id, statusViewModel.CollectionParameter);
+                    await Model.DeleteTweetFromCollection(statusViewModel.Model.Id, statusViewModel.CollectionParameter);
 
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
                         _resourceLoader.GetString("Notification_System_ClearColumn"));

@@ -79,7 +79,7 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                 Name = eventMessage.Source.Name
             });
 
-            ProtectedText = eventMessage.Source.IsProtected ? "🔒" : "";
+            ProtectedText = eventMessage.Source.IsProtected ? "🔒 " : "";
 
             if (eventMessage.Target != null)
                 Entities.UserMentions.Add(new UserMentionEntity

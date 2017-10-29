@@ -27,7 +27,7 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                 ? "http://localhost/"
                 : directMessage.Sender.ProfileImageUrl;
             Entities = directMessage.Entities;
-            ProtectedText = directMessage.Sender.IsProtected ? "🔒" : "";
+            ProtectedText = directMessage.Sender.IsProtected ? "🔒 " : "";
 
             MediaVisibility = directMessage.Entities.Media.Count != 0;
             MediaEntities = new List<MediaEntityViewModel>();
@@ -72,7 +72,7 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                 ? "http://localhost/"
                 : directMessage.Sender.ProfileImageUrl;
             Entities = directMessage.Entities;
-            ProtectedText = directMessage.Sender.IsProtected ? "🔒" : "";
+            ProtectedText = directMessage.Sender.IsProtected ? "🔒 " : "";
 
             MediaVisibility = directMessage.Entities.Media.Count != 0;
             MediaEntities = new List<MediaEntityViewModel>();

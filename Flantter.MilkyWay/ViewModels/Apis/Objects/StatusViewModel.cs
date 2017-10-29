@@ -81,7 +81,7 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                 ? "http://localhost/"
                 : status.User.ProfileImageUrl;
             Entities = status.Entities;
-            ProtectedText = status.User.IsProtected ? "🔒" : "";
+            ProtectedText = status.User.IsProtected ? "🔒 " : "";
 
             RetweetInformationVisibility = status.HasRetweetInformation;
             MediaVisibility = status.Entities.Media.Count != 0;
@@ -230,7 +230,7 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                 ? "http://localhost/"
                 : status.User.ProfileImageUrl;
             Entities = status.Entities;
-            ProtectedText = status.User.IsProtected ? "🔒" : "";
+            ProtectedText = status.User.IsProtected ? "🔒 " : "";
 
             RetweetInformationVisibility = status.HasRetweetInformation;
             MediaVisibility = status.Entities.Media.Count != 0;
@@ -387,7 +387,7 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                 ? "http://localhost/"
                 : status.User.ProfileImageUrl;
             Entities = status.Entities;
-            ProtectedText = status.User.IsProtected ? "🔒" : "";
+            ProtectedText = status.User.IsProtected ? "🔒 " : "";
 
             RetweetInformationVisibility = status.HasRetweetInformation;
             MediaVisibility = status.Entities.Media.Count != 0;

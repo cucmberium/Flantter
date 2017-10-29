@@ -287,7 +287,7 @@
                     </StackPanel>
                 </Grid>
 
-                <uwpToolKit:AdaptiveGridView Grid.Row="1" x:DeferLoadStrategy="Lazy" x:Name="QuotedStatusMediaItemsControl" Visibility="Collapsed" ItemsSource="{x:Bind ViewModel.QuotedStatusMediaEntities, Mode=OneWay}" ItemHeight="{x:Bind ViewModel.Setting.TweetMediaThumbnailHeight, Mode=OneWay}" DesiredWidth="{x:Bind ViewModel.Setting.TweetMediaThumbnailWidth, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="True" StretchContentForSingleRow="False" Margin="38,0,0,0" Padding="0,0,0,0">
+                <uwpToolKit:AdaptiveGridView Grid.Row="1" Padding="0" x:DeferLoadStrategy="Lazy" x:Name="QuotedStatusMediaItemsControl" Visibility="Collapsed" ItemsSource="{x:Bind ViewModel.QuotedStatusMediaEntities, Mode=OneWay}" ItemHeight="{x:Bind ViewModel.Setting.TweetMediaThumbnailHeight, Mode=OneWay}" DesiredWidth="{x:Bind ViewModel.Setting.TweetMediaThumbnailWidth, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="True" StretchContentForSingleRow="False" Margin="38,0,0,0">
                     <ItemsControl.ItemContainerTransitions>
                         <TransitionCollection/>
                     </ItemsControl.ItemContainerTransitions>

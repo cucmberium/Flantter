@@ -42,7 +42,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
         {
             CreateAt = cUser.CreatedAt;
             Description = ContentRegex
-                .Replace(LinkRegex.Replace(cUser.Note.Replace("<br>", "\n"), x => " " + x.Groups[1].Value + " "), "")
+                .Replace(LinkRegex.Replace(cUser.Note.Replace("<br />", "\n").Replace("</p>", "\n"), x => " " + x.Groups[1].Value + " "), "")
                 .Trim();
             Entities = new UserEntities();
             FavouritesCount = 0;

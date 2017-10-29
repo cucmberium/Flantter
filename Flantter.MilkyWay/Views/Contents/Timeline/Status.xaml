@@ -170,12 +170,11 @@
 
             <StackPanel Grid.Column="1" Margin="5,0">
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
-                    <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.ProtectedText, Mode=OneWay}" FontWeight="Bold" />
-                    <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/>
+                    <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.ProtectedText, Mode=OneWay}" FontWeight="Bold" /><Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/>
                     <Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
                 <TextBlock Visibility="{x:Bind ViewModel.SpoilerText, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" Foreground="{StaticResource TweetTextTextblockForegroundBrush}" TextWrapping="Wrap" Margin="0,2,0,0" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" Text="{x:Bind ViewModel.SpoilerText, Mode=OneWay}"/>
-                <TextBlock x:Name="StatusReadMoreSpoilerText" Visibility="{x:Bind ViewModel.IsContentWarning, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,2,0,0">
+                <TextBlock x:Name="StatusReadMoreSpoilerText" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsContentWarning, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,2,0,0">
                     <Hyperlink>
                         <i:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="Click">
@@ -242,7 +241,7 @@
                     <TextBlock Grid.Column="1" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" Margin="5,0,0,0" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetInformationText, Mode=OneWay}"/>
                 </Grid>
 
-                <StackPanel Margin="0,4,0,2">
+                <StackPanel Margin="0,2,0,0">
                     <TextBlock Visibility="{x:Bind ViewModel.RetweetCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" TextWrapping="Wrap" Text="{x:Bind ViewModel.RetweetCounterText, Mode=OneWay}"/>
                     <TextBlock Visibility="{x:Bind ViewModel.FavoriteCounterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" Foreground="{StaticResource TweetRetweetTextblockForegroundBrush}" FontSize="10" TextWrapping="Wrap" Text="{x:Bind ViewModel.FavoriteCounterText, Mode=OneWay}"/>
                 </StackPanel>

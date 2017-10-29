@@ -78,6 +78,9 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                 ScreenName = eventMessage.Source.ScreenName,
                 Name = eventMessage.Source.Name
             });
+
+            ProtectedText = eventMessage.Source.IsProtected ? "🔒" : "";
+
             if (eventMessage.Target != null)
                 Entities.UserMentions.Add(new UserMentionEntity
                 {
@@ -127,6 +130,8 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
         public string ScreenName { get; set; }
 
         public string Name { get; set; }
+
+        public string ProtectedText { get; set; }
 
         public string ProfileImageUrl { get; set; }
 

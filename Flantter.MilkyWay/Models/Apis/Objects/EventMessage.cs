@@ -5,7 +5,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
 {
     public class EventMessage : ITweet
     {
-        private readonly Dictionary<string, string> _mastodonTypeReplaceDictionary = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> MastodonTypeReplaceDictionary = new Dictionary<string, string>
         {
             {"mention", "Mention"},
             {"reblog", "Retweet"},
@@ -30,8 +30,8 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             Source = new User(cNotification.Account);
             Target = null;
             TargetStatus = cNotification.Status != null ? new Status(cNotification.Status) : null;
-            Type = _mastodonTypeReplaceDictionary.ContainsKey(cNotification.Type.ToLower())
-                ? _mastodonTypeReplaceDictionary[cNotification.Type.ToLower()]
+            Type = MastodonTypeReplaceDictionary.ContainsKey(cNotification.Type.ToLower())
+                ? MastodonTypeReplaceDictionary[cNotification.Type.ToLower()]
                 : cNotification.Type.ToLower();
         }
 

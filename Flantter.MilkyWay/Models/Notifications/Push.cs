@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Networking.PushNotifications;
 using Flantter.MilkyWay.Setting;
-using Microsoft.WindowsAzure.Messaging;
 using System.Text;
 using Windows.Globalization;
 using Newtonsoft.Json;

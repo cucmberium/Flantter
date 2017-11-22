@@ -121,7 +121,7 @@ namespace Flantter.MilkyWay.Models.Notifications
             if (string.IsNullOrWhiteSpace(SettingService.Setting.UserUuid))
                 return;
 
-            var userLanguage = string.Empty;
+            string userLanguage;
             switch (ApplicationLanguages.Languages.First())
             {
                 case "ja":

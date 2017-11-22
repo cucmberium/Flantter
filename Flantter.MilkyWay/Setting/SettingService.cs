@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Globalization;
 using Flantter.MilkyWay.Common;
+using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services.Database;
 using Flantter.MilkyWay.Themes;
 using SharpDX.DirectWrite;
@@ -862,7 +863,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
-        public bool BackgroundNotification
+        public bool PushNotification
         {
             get => GetValue(false);
             set
@@ -915,6 +916,17 @@ namespace Flantter.MilkyWay.Setting
                 SetValue(value);
                 OnPropertyChanged();
                 ThemeService.Theme.ChangeTheme();
+            }
+        }
+
+        // Other
+        public string UserUuid
+        {
+            get => GetValue(string.Empty);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
             }
         }
     }

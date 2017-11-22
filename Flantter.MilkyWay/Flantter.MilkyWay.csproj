@@ -116,6 +116,7 @@
     <Compile Include="Models\Filter\Compiler.cs" />
     <Compile Include="Models\MainPageModel.cs" />
     <Compile Include="Models\Notifications\Core.cs" />
+    <Compile Include="Models\Notifications\Push.cs" />
     <Compile Include="Models\Plugin\Core.cs" />
     <Compile Include="Models\Plugin\Interface.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
@@ -477,6 +478,9 @@
     </PackageReference>
     <PackageReference Include="ToriatamaText">
       <Version>1.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="WindowsAzure.Messaging.Managed">
+      <Version>0.1.7.9</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

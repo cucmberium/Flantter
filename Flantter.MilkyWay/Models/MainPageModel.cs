@@ -42,9 +42,13 @@ namespace Flantter.MilkyWay.Models
             await Task.WhenAll(_accounts.Select(x => x.Initialize()));
 
             Core.Instance.Initialize();
+            Push.Instance.Initialize();
 
             if (SettingService.Setting.EnablePlugins)
                 await Task.Run(() => Plugin.Core.Instance.Initialize());
+
+            if (SettingService.Setting.PushNotification)
+                await Task.Run(() => Push.Instance.Update());
 
             _initialized = true;
         }

@@ -608,19 +608,19 @@
     <value>アプリを終了しますか?</value>
   </data>
   <data name="Notification_DirectMessage_DirectMessage" xml:space="preserve">
-    <value>{0} がダイレクトメッセージを送りました</value>
+    <value>{0} があなたにダイレクトメッセージを送りました</value>
   </data>
   <data name="Notification_Favorite_Favorite" xml:space="preserve">
-    <value>{0} がお気に入りに登録しました</value>
+    <value>{0} がツイートをお気に入りに登録しました</value>
   </data>
   <data name="Notification_Follow_Follow" xml:space="preserve">
-    <value>{0} がフォローしました</value>
+    <value>{0} があなたをフォローしました</value>
   </data>
   <data name="Notification_Mention_Mention" xml:space="preserve">
-    <value>{0} がリプライしました</value>
+    <value>{0} があなたにリプライしました</value>
   </data>
   <data name="Notification_QuotedTweet_QuotedTweet" xml:space="preserve">
-    <value>{0} がコメント付きリツイートしました</value>
+    <value>{0} がツイートにコメントしました</value>
   </data>
   <data name="Notification_Retweet_Retweet" xml:space="preserve">
     <value>{0} がリツイートしました</value>

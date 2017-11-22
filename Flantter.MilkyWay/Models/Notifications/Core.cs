@@ -63,14 +63,14 @@ namespace Flantter.MilkyWay.Models.Notifications
                                 e.Status.RetweetInformation.User.Id != e.UserId && e.Parameter.Contains("home://"))
                                 PopupToastNotification(PopupNotificationType.Retweet,
                                     string.Format(_resourceLoader.GetString("Notification_Retweet_Retweet"),
-                                        e.Status.RetweetInformation.User.Name), e.Status.Text,
+                                        "@" + e.Status.RetweetInformation.User.ScreenName), e.Status.Text,
                                     e.Status.RetweetInformation.User.ProfileImageUrl);
 
                             else if (e.Status.InReplyToUserId == e.UserId && e.Parameter.Contains("home://") &&
                                      !e.Status.HasRetweetInformation)
                                 PopupToastNotification(PopupNotificationType.Mention,
                                     string.Format(_resourceLoader.GetString("Notification_Mention_Mention"),
-                                        e.Status.User.Name), e.Status.Text, e.Status.User.ProfileImageUrl,
+                                        "@" + e.Status.User.ScreenName), e.Status.Text, e.Status.User.ProfileImageUrl,
                                     e.Status.Entities.Media.Count != 0
                                         ? e.Status.Entities.Media.First().MediaThumbnailUrl
                                         : "");
@@ -91,7 +91,7 @@ namespace Flantter.MilkyWay.Models.Notifications
                             if (e.DirectMessage.Recipient.Id == e.UserId)
                                 PopupToastNotification(PopupNotificationType.DirectMessage,
                                     string.Format(_resourceLoader.GetString("Notification_DirectMessage_DirectMessage"),
-                                        e.DirectMessage.Sender.Name), e.DirectMessage.Text,
+                                        "@" + e.DirectMessage.Sender.ScreenName), e.DirectMessage.Text,
                                     e.DirectMessage.Sender.ProfileImageUrl);
 
                             break;
@@ -113,25 +113,25 @@ namespace Flantter.MilkyWay.Models.Notifications
                                 case "Favorite":
                                     PopupToastNotification(PopupNotificationType.Favorite,
                                         string.Format(_resourceLoader.GetString("Notification_Favorite_Favorite"),
-                                            e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text,
+                                            "@" + e.EventMessage.Source.ScreenName), e.EventMessage.TargetStatus.Text,
                                         e.EventMessage.Source.ProfileImageUrl);
                                     break;
                                 case "QuotedTweet":
                                     PopupToastNotification(PopupNotificationType.QuotedTweet,
                                         string.Format(_resourceLoader.GetString("Notification_QuotedTweet_QuotedTweet"),
-                                            e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text,
+                                            "@" + e.EventMessage.Source.ScreenName), e.EventMessage.TargetStatus.Text,
                                         e.EventMessage.Source.ProfileImageUrl);
                                     break;
                                 case "Unfavorite":
                                     PopupToastNotification(PopupNotificationType.Unfavorite,
                                         string.Format(_resourceLoader.GetString("Notification_Unfavorite_Unfavorite"),
-                                            e.EventMessage.Source.Name), e.EventMessage.TargetStatus.Text,
+                                            "@" + e.EventMessage.Source.ScreenName), e.EventMessage.TargetStatus.Text,
                                         e.EventMessage.Source.ProfileImageUrl);
                                     break;
                                 case "Follow":
                                     PopupToastNotification(PopupNotificationType.Follow,
                                         string.Format(_resourceLoader.GetString("Notification_Follow_Follow"),
-                                            e.EventMessage.Source.Name),
+                                            "@" + e.EventMessage.Source.ScreenName),
                                         imageUrl: e.EventMessage.Source.ProfileImageUrl);
                                     break;
                             }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Networking.PushNotifications;
 using Flantter.MilkyWay.Setting;
 using Microsoft.WindowsAzure.Messaging;
 using System.Text;
+using Windows.Globalization;
 using Newtonsoft.Json;
 using Reactive.Bindings.Extensions;
 
@@ -54,6 +56,8 @@ namespace Flantter.MilkyWay.Models.Notifications
             public bool FavoriteNotification { get; set; }
 
             public bool FollowNotification { get; set; }
+
+            public string Language { get; set; }
         }
 
         private Push()
@@ -117,6 +121,18 @@ namespace Flantter.MilkyWay.Models.Notifications
             if (string.IsNullOrWhiteSpace(SettingService.Setting.UserUuid))
                 return;
 
+            var userLanguage = string.Empty;
+            switch (ApplicationLanguages.Languages.First())
+            {
+                case "ja":
+                case "ja-JP":
+                    userLanguage = "ja";
+                    break;
+                default:
+                    userLanguage = "en";
+                    break;
+            }
+
             var pushAccountSettings = new List<AccountSetting>();
             foreach (var accountSetting in AdvancedSettingService.AdvancedSetting.Accounts)
             {
@@ -134,7 +150,8 @@ namespace Flantter.MilkyWay.Models.Notifications
                     FavoriteNotification = SettingService.Setting.FavoriteNotification,
                     FollowNotification = SettingService.Setting.FollowNotification,
                     ReplyNotification = SettingService.Setting.MentionNotification,
-                    RetweetNotification = SettingService.Setting.RetweetNotification
+                    RetweetNotification = SettingService.Setting.RetweetNotification,
+                    Language = userLanguage
                 };
                 pushAccountSettings.Add(pushAccountSetting);
             }

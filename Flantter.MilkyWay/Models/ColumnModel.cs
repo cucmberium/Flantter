@@ -523,7 +523,8 @@ namespace Flantter.MilkyWay.Models
                 {
                     {"count", ColumnSetting.FetchingNumberOfTweet},
                     {"include_entities", true},
-                    {"tweet_mode", CoreTweet.TweetMode.Extended}
+                    {"tweet_mode", CoreTweet.TweetMode.Extended},
+                    {"exclude_types", new List<string>{"follow", "favourite", "reblog"}}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);

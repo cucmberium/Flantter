@@ -425,6 +425,51 @@ namespace Flantter.MilkyWay.Setting
                 }
                 catch
                 {
+                    try
+                    {
+                        var readStorageFile = await ApplicationData.Current.RoamingFolder.GetFileAsync("setting.xml.bak");
+                        using (var s = await readStorageFile.OpenStreamForReadAsync())
+                        using (var sr = new StreamReader(s))
+                        using (var jtr = new JsonTextReader(sr))
+                        {
+                            var jTokens = JToken.ReadFrom(jtr);
+
+                            Dict = new Dictionary<string, object>();
+                            foreach (var jToken in jTokens)
+                            {
+                                var jProperty = (JProperty)jToken;
+                                if (jProperty.Name == "Accounts")
+                                    Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
+                                else
+                                    Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
+                            }
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+        }
+        
+        public async Task BackupToAppSettings()
+        {
+            using (await _asyncLock.LockAsync())
+            {
+                try
+                {
+                    var json = JsonConvert.SerializeObject(Dict);
+                    var writeStorageFile =
+                        await ApplicationData.Current.RoamingFolder.CreateFileAsync("setting.xml.bak",
+                            CreationCollisionOption.ReplaceExisting);
+                    using (var s = await writeStorageFile.OpenStreamForWriteAsync())
+                    using (var st = new StreamWriter(s))
+                    {
+                        st.Write(json);
+                    }
+                }
+                catch
+                {
                 }
             }
         }

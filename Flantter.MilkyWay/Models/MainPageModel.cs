@@ -48,6 +48,8 @@ namespace Flantter.MilkyWay.Models
                 await Task.Run(() => Plugin.Core.Instance.Initialize());
 
             _initialized = true;
+
+            await AdvancedSettingService.AdvancedSetting.BackupToAppSettings();
         }
 
         #endregion

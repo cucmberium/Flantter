@@ -61,6 +61,10 @@ namespace Flantter.MilkyWay.Models.Notifications
 
         private Push()
         {
+        }
+
+        public void Initialize()
+        {
             SettingService.Setting.ObserveProperty(x => x.PushNotification).Subscribe(async pushNotification =>
             {
                 if (pushNotification)
@@ -73,10 +77,36 @@ namespace Flantter.MilkyWay.Models.Notifications
                     await Unregister();
                 }
             });
-        }
 
-        public void Initialize()
-        {
+            SettingService.Setting.ObserveProperty(x => x.FavoriteNotification).Subscribe(async x =>
+            {
+                if (SettingService.Setting.PushNotification)
+                    await Update();
+            });
+
+            SettingService.Setting.ObserveProperty(x => x.RetweetNotification).Subscribe(async x =>
+            {
+                if (SettingService.Setting.PushNotification)
+                    await Update();
+            });
+
+            SettingService.Setting.ObserveProperty(x => x.MentionNotification).Subscribe(async x =>
+            {
+                if (SettingService.Setting.PushNotification)
+                    await Update();
+            });
+
+            SettingService.Setting.ObserveProperty(x => x.DirectMessageNotification).Subscribe(async x =>
+            {
+                if (SettingService.Setting.PushNotification)
+                    await Update();
+            });
+
+            SettingService.Setting.ObserveProperty(x => x.FollowNotification).Subscribe(async x =>
+            {
+                if (SettingService.Setting.PushNotification)
+                    await Update();
+            });
         }
 
         public static Push Instance { get; } = new Push();

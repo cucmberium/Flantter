@@ -193,6 +193,9 @@ namespace Flantter.MilkyWay.Models.Notifications
         public void PopupToastNotification(PopupNotificationType type, string text, string text2 = "",
             string imageUrl = "", string inlineImageUrl = "")
         {
+            if (SettingService.Setting.PushNotification)
+                return;
+
             switch (type)
             {
                 case PopupNotificationType.DirectMessage:

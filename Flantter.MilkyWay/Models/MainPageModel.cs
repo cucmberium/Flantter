@@ -47,9 +47,6 @@ namespace Flantter.MilkyWay.Models
             if (SettingService.Setting.EnablePlugins)
                 await Task.Run(() => Plugin.Core.Instance.Initialize());
 
-            if (SettingService.Setting.PushNotification)
-                await Task.Run(() => Push.Instance.Update());
-
             _initialized = true;
         }
 

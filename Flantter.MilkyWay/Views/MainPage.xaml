@@ -41,7 +41,7 @@
 
         <behaviors:ShareDataBehavior Messenger="{x:Bind ViewModel.ShowShareUIMessenger}"/>
 
-        <behaviors:AppBarShowBehavior IsOpen="{x:Bind ViewModel.AppBarIsOpen.Value, Mode=TwoWay}" IsTopAppBar="{x:Bind ViewModel.Setting.ShowAppBarToTop, Mode=OneWay}">
+        <behaviors:AppBarShowBehavior IsOpen="{x:Bind ViewModel.AppBarIsOpen.Value, Mode=TwoWay}" IsTopAppBar="{x:Bind ViewModel.Setting.ShowAppBarToTop, Mode=OneWay, Converter={StaticResource NullableBooleanToBooleanConverter}}">
             <behaviors:AppBarShowBehavior.AppBar>
                 <AppBar Style="{StaticResource ExpandedAppBar}" ClosedDisplayMode="Hidden" IsSticky="False" BorderBrush="{StaticResource AppBarBorderBrush}">
                     <contents:TweetArea ViewModel="{x:Bind ViewModel.TweetArea, Mode=OneWay}" />

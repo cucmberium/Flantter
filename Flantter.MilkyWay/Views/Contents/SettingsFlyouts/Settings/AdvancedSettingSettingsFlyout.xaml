@@ -24,6 +24,10 @@
     <ScrollViewer Background="{StaticResource SettingsFlyoutBackgroundBrush}" VerticalScrollBarVisibility="Auto">
         <StackPanel>
 
+            <TextBlock x:Uid="SettingsFlyout_Settings_Advanced_BackgroundNotification_Permission_Textblock" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="10" TextWrapping="Wrap" Text="プッシュ通知を有効にすると一部の設定がFlantterのサーバーに送信されます。"/>
+
+            <controls:HorizontalBar/>
+            
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_BackgroundNotification_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.PushNotification, Mode=TwoWay}" Header="プッシュ通知"/>
 
             <controls:HorizontalBar/>

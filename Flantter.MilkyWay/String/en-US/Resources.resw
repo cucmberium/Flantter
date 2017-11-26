@@ -1096,4 +1096,7 @@
   <data name="Tweet_Text_ReadMore.Text" xml:space="preserve">
     <value>Read more</value>
   </data>
+  <data name="SettingsFlyout_Settings_Advanced_BackgroundNotification_Permission_Textblock.Text" xml:space="preserve">
+    <value>Some settings are sent to Flantter's server when push notification is enabled.</value>
+  </data>
 </root>

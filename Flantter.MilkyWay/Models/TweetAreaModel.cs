@@ -522,8 +522,8 @@ namespace Flantter.MilkyWay.Models
                                 lock (Connecter.Instance.TweetCollecter[userId].EntitiesObjectsLock)
                                 {
                                     words.AddRange(Connecter.Instance.TweetCollecter[userId]
-                                        .ScreenNameObjects.Where(x => x.StartsWith(token.Value))
-                                        .OrderBy(x => x));
+                                        .ScreenNameObjects.Where(x => x.Key.StartsWith(token.Value))
+                                        .OrderBy(x => x.Key).Select(x => x.Key));
                                 }
                             }
                         }

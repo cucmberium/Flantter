@@ -162,7 +162,7 @@ namespace Flantter.MilkyWay.Models.Services
                 MuteIds = new List<long>();
                 BlockIds = new List<long>();
 
-                ScreenNameObjects = new List<string>();
+                ScreenNameObjects = new List<KeyValuePair<string, long>>();
                 HashTagObjects = new List<string>();
                 UserObjects = new List<User>();
 
@@ -209,16 +209,16 @@ namespace Flantter.MilkyWay.Models.Services
                             if (e.Type == TweetEventArgs.TypeEnum.Status)
                                 lock (EntitiesObjectsLock)
                                 {
-                                    if (!ScreenNameObjects.Contains(e.Status.User.ScreenName))
-                                        ScreenNameObjects.Add(e.Status.User.ScreenName);
+                                    if (ScreenNameObjects.All(x => x.Key != e.Status.User.ScreenName))
+                                        ScreenNameObjects.Add(new KeyValuePair<string, long>(e.Status.User.ScreenName, e.Status.User.Id));
 
                                     if (UserObjects.All(x => x.ScreenName != e.Status.User.ScreenName))
                                         UserObjects.Add(e.Status.User);
 
                                     if (e.Status.Entities.UserMentions != null)
                                         foreach (var screenName in e.Status.Entities.UserMentions)
-                                            if (!ScreenNameObjects.Contains(screenName.ScreenName))
-                                                ScreenNameObjects.Add(screenName.ScreenName);
+                                            if (ScreenNameObjects.All(x => x.Key != screenName.ScreenName))
+                                                ScreenNameObjects.Add(new KeyValuePair<string, long>(screenName.ScreenName, screenName.Id));
                                     if (e.Status.Entities.HashTags != null)
                                         foreach (var hashTag in e.Status.Entities.HashTags)
                                             if (!HashTagObjects.Contains(hashTag.Tag))
@@ -235,7 +235,7 @@ namespace Flantter.MilkyWay.Models.Services
             public List<long> MuteIds { get; set; }
             public List<long> NoRetweetIds { get; set; }
             public List<long> BlockIds { get; set; }
-            public List<string> ScreenNameObjects { get; set; }
+            public List<KeyValuePair<string, long>> ScreenNameObjects { get; set; }
             public List<string> HashTagObjects { get; set; }
             public List<User> UserObjects { get; set; }
             public event EventHandler<TweetDeleteEventArgs> TweetDeleteCommandExecute;

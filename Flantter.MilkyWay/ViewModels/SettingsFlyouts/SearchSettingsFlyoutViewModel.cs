@@ -212,8 +212,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     lock (Connecter.Instance.TweetCollecter[Tokens.Value.UserId].EntitiesObjectsLock)
                     {
                         suggestUsers = Connecter.Instance.TweetCollecter[Tokens.Value.UserId]
-                            .ScreenNameObjects.Where(x => x.StartsWith(UserSearchWords.Value.TrimStart('@')))
-                            .OrderBy(x => x);
+                            .ScreenNameObjects.Where(x => x.Key.StartsWith(UserSearchWords.Value.TrimStart('@')))
+                            .OrderBy(x => x.Key).Select(x => x.Key);
                     }
                     if (suggestUsers.Any())
                     {

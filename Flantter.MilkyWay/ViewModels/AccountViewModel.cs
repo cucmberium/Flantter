@@ -247,7 +247,10 @@ namespace Flantter.MilkyWay.ViewModels
                     if (string.IsNullOrWhiteSpace(e?.Tag))
                         return;
 
-                    Notice.ShowUserProfileCommand.Execute(e.Tag);
+                    var userId = Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId]
+                        .UserObjects.First(x => x.ScreenName == e.Tag).Id;
+
+                    Notice.ShowUserProfileCommand.Execute(userId);
                 })
                 .AddTo(Disposable);
 

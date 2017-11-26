@@ -23,11 +23,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 "IsTopAppBar",
                 typeof(bool),
                 typeof(AppBarShowBehavior),
-                new PropertyMetadata(false, IsTopAppBarChanged));
+                new PropertyMetadata(false));
 
         public static readonly DependencyProperty IsOpenProperty =
-            DependencyProperty.Register("IsOpen", typeof(bool), typeof(AppBarShowBehavior),
-                new PropertyMetadata(false, IsOpenChanged));
+            DependencyProperty.Register("IsOpen", typeof(bool?), typeof(AppBarShowBehavior),
+                new PropertyMetadata(null, IsOpenChanged));
 
         private bool _rightMouseButtonPressed;
 
@@ -39,9 +39,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
             set => SetValue(AppBarProperty, value);
         }
 
-        public bool IsTopAppBar
+        public bool? IsTopAppBar
         {
-            get => (bool) GetValue(IsTopAppBarProperty);
+            get => (bool?) GetValue(IsTopAppBarProperty);
             set => SetValue(IsTopAppBarProperty, value);
         }
 
@@ -107,17 +107,15 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         public void AppBarLayoutRefresh()
         {
+            // TODO : 禁忌
+            if (IsTopAppBar == null)
+                IsTopAppBar = Setting.SettingService.Setting.ShowAppBarToTop;
+
             ((AppBar.Content as TweetArea).Content as Grid).BorderThickness =
-                IsTopAppBar ? new Thickness(0, 0, 0, 2) : new Thickness(0, 2, 0, 0);
-            AppBar.Margin = IsTopAppBar
+                IsTopAppBar.Value ? new Thickness(0, 0, 0, 2) : new Thickness(0, 2, 0, 0);
+            AppBar.Margin = IsTopAppBar.Value
                 ? new Thickness(0, WindowSizeHelper.Instance.StatusBarHeight, 0, 0)
                 : new Thickness();
-        }
-
-        private static void IsTopAppBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var behavior = d as AppBarShowBehavior;
-            behavior.AppBarLayoutRefresh();
         }
 
         private static void AppBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -195,12 +193,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
             behavior.AppBarLayoutRefresh();
 
             var isOpen = (bool) e.NewValue;
-            if (behavior.IsTopAppBar)
+            if (behavior.IsTopAppBar.Value)
             {
                 if (isOpen)
                 {
                     page.TopAppBar = behavior.AppBar;
-                    await Task.Delay(10);
+                    await Task.Delay(20);
                     page.TopAppBar.IsOpen = true;
                 }
                 else
@@ -215,7 +213,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 if (isOpen)
                 {
                     page.BottomAppBar = behavior.AppBar;
-                    await Task.Delay(10);
+                    await Task.Delay(20);
                     page.BottomAppBar.IsOpen = true;
                 }
                 else

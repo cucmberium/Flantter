@@ -70,11 +70,6 @@ namespace Flantter.MilkyWay.ViewModels
                     await Task.Delay(50);
                     await TweetArea.TextBoxFocusMessenger.Raise(new Notification());
                 }
-                else
-                {
-                    if (TweetArea != null)
-                        TweetArea.ToolTipIsOpen.Value = false;
-                }
             });
 
             SelectedTweet = new ReactiveProperty<object>();

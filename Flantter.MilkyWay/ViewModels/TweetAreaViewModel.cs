@@ -36,26 +36,8 @@ namespace Flantter.MilkyWay.ViewModels
                 .Select(x => x.ToString())
                 .ToReactiveProperty();
 
-            Message = Model.ObserveProperty(x => x.Message).ToReactiveProperty();
-            ToolTipIsOpen = Model.ToReactivePropertyAsSynchronized(x => x.ToolTipIsOpen);
-
             LockingHashTagsSymbol = Model.ObserveProperty(x => x.LockingHashTags)
                 .Select(x => x ? Symbol.UnPin : Symbol.Pin)
-                .ToReactiveProperty();
-
-            StateSymbol = Model.ObserveProperty(x => x.State)
-                .Select(x =>
-                {
-                    switch (x)
-                    {
-                        case "Accept":
-                            return Symbol.Accept;
-                        case "Cancel":
-                            return Symbol.Cancel;
-                        default:
-                            return Symbol.Accept;
-                    }
-                })
                 .ToReactiveProperty();
 
             Updating = Model.ObserveProperty(x => x.Updating).ToReactiveProperty();
@@ -105,10 +87,6 @@ namespace Flantter.MilkyWay.ViewModels
                     if (status == null)
                         ReplyOrQuotedStatus.Value = null;
                 });
-
-            MessageShowCommand = new ReactiveCommand();
-            MessageShowCommand.SubscribeOn(ThreadPoolScheduler.Default)
-                .Subscribe(x => { Model.ToolTipIsOpen = !Model.ToolTipIsOpen; });
 
             ChangeLockHashTagsCommand = new ReactiveCommand();
             ChangeLockHashTagsCommand.SubscribeOn(ThreadPoolScheduler.Default)
@@ -377,15 +355,9 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<string> Text { get; set; }
         public ReactiveProperty<int> SelectionStart { get; set; }
         public ReactiveProperty<string> CharacterCount { get; set; }
-
-        public ReactiveProperty<string> Message { get; set; }
-
-        public ReactiveProperty<bool> ToolTipIsOpen { get; set; }
-
+        
         public ReactiveProperty<Symbol> LockingHashTagsSymbol { get; set; }
-
-        public ReactiveProperty<Symbol> StateSymbol { get; set; }
-
+        
         public ReactiveProperty<bool> Updating { get; set; }
 
         public ReactiveProperty<double> AccountImageSize { get; set; }
@@ -399,8 +371,6 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveCommand DeleteReplyOrQuotedStatusCommand { get; set; }
 
         public ReactiveCommand PasteClipbordPictureCommand { get; set; }
-
-        public ReactiveCommand MessageShowCommand { get; set; }
 
         public Messenger SuggestionMessenger { get; }
 

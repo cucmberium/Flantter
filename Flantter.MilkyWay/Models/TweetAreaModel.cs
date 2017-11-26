@@ -41,8 +41,6 @@ namespace Flantter.MilkyWay.Models
             _readonlyPictures = new ReadOnlyObservableCollection<PictureModel>(_pictures);
             _text = string.Empty;
             CharacterCount = 140;
-            State = "Accept";
-            Message = _resourceLoader.GetString("TweetArea_Message_AllSet");
             IsContentWarning = false;
 
             _extractor = new Extractor();
@@ -277,59 +275,57 @@ namespace Flantter.MilkyWay.Models
 
             if (Updating)
                 return false;
-
-            ToolTipIsOpen = true;
-
+            
             if (CharacterCount < 0)
             {
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_OverMaxTweetLength");
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("TweetArea_Message_OverMaxTweetLength"));
                 return false;
             }
             if (!LessThanMaxTweetLength && accounts.Any(x => x.Platform == "Twitter"))
             {
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_OverMaxTweetLength");
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("TweetArea_Message_OverMaxTweetLength"));
                 return false;
             }
             if (IsContentWarning == true && accounts.Any(x => x.Platform == "Twitter"))
             {
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_ContentWarningIsAvailableOnlyMastodon");
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("TweetArea_Message_ContentWarningIsAvailableOnlyMastodon"));
                 return false;
             }
             if (IsContentWarning == true && string.IsNullOrWhiteSpace(ContentWarningText))
             {
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_ContentWarningIsEmpty");
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("TweetArea_Message_ContentWarningIsEmpty"));
                 return false;
             }
             if (_pictures.Count == 0 && string.IsNullOrWhiteSpace(Text))
             {
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_TextIsEmptyOrWhiteSpace");
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("TweetArea_Message_TextIsEmptyOrWhiteSpace"));
                 return false;
             }
             if (_pictures.Count(x => !x.IsVideo && !x.IsGifAnimation) > 4 ||
                 _pictures.Count(x => x.IsVideo || x.IsGifAnimation) > 1 ||
                 _pictures.Count(x => !x.IsVideo && x.IsGifAnimation) > 1)
             {
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity"));
                 return false;
             }
             if (_pictures.Any(x => x.IsVideo || x.IsGifAnimation) &&
                 _pictures.Any(x => !x.IsVideo && !x.IsGifAnimation))
             {
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity");
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("TweetArea_Message_TwitterMediaOverCapacity"));
                 return false;
             }
             if (_pictures.Where(x => !x.IsVideo).Any(x => x.Stream.Size > 3145728) || _pictures.Where(x => x.IsVideo)
                     .Any(x => x.Stream.Size > 536870912))
             {
-                State = "Cancel";
-                Message = _resourceLoader.GetString("TweetArea_Message_MediaSizeOver");
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("TweetArea_Message_MediaSizeOver"));
                 return false;
             }
 
@@ -361,8 +357,6 @@ namespace Flantter.MilkyWay.Models
                     // Upload Media
                     if (_pictures.Count > 0)
                     {
-                        Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " + "0.0%";
-
                         var resultList = new List<long>();
 
                         if (_pictures.First().IsVideo)
@@ -384,8 +378,6 @@ namespace Flantter.MilkyWay.Models
                                     progressPercentage = 0.0;
 
                                 progressPercentage *= 100.0;
-                                Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " +
-                                          progressPercentage.ToString("#0.0") + "%";
                             };
 
                             pic.Stream.Seek(0);
@@ -404,8 +396,6 @@ namespace Flantter.MilkyWay.Models
                                                                   ? 1.0
                                                                   : e.BytesSent / (double) item.v.Stream.Size) /
                                                               _pictures.Count) * 100.0;
-                                    Message = _resourceLoader.GetString("TweetArea_Message_UploadingMedia") + " , " +
-                                              progressPercentage.ToString("#0.0") + "%";
                                 };
 
                                 var pic = item.v;
@@ -428,15 +418,12 @@ namespace Flantter.MilkyWay.Models
                             param.Add("spoiler_text", ContentWarningText.Replace("\r", "\n"));
                     }
 
-                    Message = _resourceLoader.GetString("TweetArea_Message_UpdatingStatus");
                     await tokens.Statuses.UpdateAsync(param);
                 }
                 catch (CoreTweet.TwitterException ex)
                 {
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                        _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                    State = "Cancel";
-                    Message = _resourceLoader.GetString("TweetArea_Message_Error");
+                        _resourceLoader.GetString("TweetArea_Message_Error"), ex.Errors.First().Message);
                     return false;
                 }
                 catch (NotImplementedException ex)
@@ -444,8 +431,6 @@ namespace Flantter.MilkyWay.Models
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
                         _resourceLoader.GetString("Notification_System_NotImplementedException"),
                         _resourceLoader.GetString("Notification_System_NotImplementedException"));
-                    State = "Cancel";
-                    Message = _resourceLoader.GetString("TweetArea_Message_Error");
                     return false;
                 }
                 catch (Exception ex)
@@ -453,8 +438,6 @@ namespace Flantter.MilkyWay.Models
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
                         _resourceLoader.GetString("Notification_System_ErrorOccurred"),
                         _resourceLoader.GetString("Notification_System_CheckNetwork"));
-                    State = "Cancel";
-                    Message = _resourceLoader.GetString("TweetArea_Message_Error");
                     return false;
                 }
                 finally
@@ -483,10 +466,6 @@ namespace Flantter.MilkyWay.Models
             IsReply = false;
 
             ContentWarningText = "";
-
-            State = "Accept";
-            Message = _resourceLoader.GetString("TweetArea_Message_AllSet");
-            ToolTipIsOpen = false;
 
             return true;
         }
@@ -690,19 +669,7 @@ namespace Flantter.MilkyWay.Models
         }
 
         #endregion
-
-        #region State変更通知プロパティ
-
-        private string _state;
-
-        public string State
-        {
-            get => _state;
-            set => SetProperty(ref _state, value);
-        }
-
-        #endregion
-
+        
         #region Pictures変更通知プロパティ
 
         private readonly ObservableCollection<PictureModel> _pictures;
@@ -712,30 +679,6 @@ namespace Flantter.MilkyWay.Models
         {
             get => _readonlyPictures;
             set => SetProperty(ref _readonlyPictures, value);
-        }
-
-        #endregion
-
-        #region Message変更通知プロパティ
-
-        private string _message;
-
-        public string Message
-        {
-            get => _message;
-            set => SetProperty(ref _message, value);
-        }
-
-        #endregion
-
-        #region ToolTipIsOpen変更通知プロパティ
-
-        private bool _toolTipIsOpen;
-
-        public bool ToolTipIsOpen
-        {
-            get => _toolTipIsOpen;
-            set => SetProperty(ref _toolTipIsOpen, value);
         }
 
         #endregion

@@ -1099,4 +1099,7 @@
   <data name="SettingsFlyout_Settings_Advanced_BackgroundNotification_Permission_Textblock.Text" xml:space="preserve">
     <value>プッシュ通知を有効にすると一部の設定がFlantterのサーバーに送信されます。</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_ShowGifProfileImage_ToggleSwitch.Header" xml:space="preserve">
+    <value>Gifのプロフィール画像を動かす</value>
+  </data>
 </root>

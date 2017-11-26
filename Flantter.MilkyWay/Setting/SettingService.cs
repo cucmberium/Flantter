@@ -596,6 +596,16 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        public bool ShowGifProfileImage
+        {
+            get => GetValue(false);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
         public bool ShowQuotedStatusMedia
         {
             get => GetValue(true);

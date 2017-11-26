@@ -16,7 +16,18 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             Description = collection.Description;
             Name = collection.Name;
             ScreenName = collection.User.ScreenName;
-            ProfileImageUrl = collection.User.ProfileImageUrl;
+            if (SettingService.Setting.ShowGifProfileImage)
+            {
+                ProfileImageUrl = string.IsNullOrWhiteSpace(collection.User.ProfileGifImageUrl)
+                    ? "http://localhost/"
+                    : collection.User.ProfileGifImageUrl;
+            }
+            else
+            {
+                ProfileImageUrl = string.IsNullOrWhiteSpace(collection.User.ProfileImageUrl)
+                    ? "http://localhost/"
+                    : collection.User.ProfileImageUrl;
+            }
 
             Notice = Notice.Instance;
             Setting = SettingService.Setting;

@@ -64,7 +64,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             Id = cStatus.Id;
 
             var urlEntities = new List<string>();
-            var text = cStatus.Content.Replace("<br />", "\n");
+            var text = cStatus.Content.Replace("<br />", "\n").Replace("<br>", "\n");
             text = LinkRegex.Replace(text, match =>
             {
                 var userMention = cStatus.Mentions.Where(x =>

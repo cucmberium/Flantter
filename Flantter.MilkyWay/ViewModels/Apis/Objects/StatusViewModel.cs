@@ -77,9 +77,19 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             Text = status.Text;
             ScreenName = status.User.ScreenName;
             Name = status.User.Name;
-            ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl)
-                ? "http://localhost/"
-                : status.User.ProfileImageUrl;
+            if (SettingService.Setting.ShowGifProfileImage)
+            {
+                ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileGifImageUrl)
+                    ? "http://localhost/"
+                    : status.User.ProfileGifImageUrl;
+            }
+            else
+            {
+                ProfileImageUrl = string.IsNullOrWhiteSpace(status.User.ProfileImageUrl)
+                    ? "http://localhost/"
+                    : status.User.ProfileImageUrl;
+            }
+            
             Entities = status.Entities;
             ProtectedText = status.User.IsProtected ? "🔒 " : "";
 

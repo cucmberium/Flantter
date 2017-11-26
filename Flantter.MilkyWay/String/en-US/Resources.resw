@@ -1099,4 +1099,7 @@
   <data name="SettingsFlyout_Settings_Advanced_BackgroundNotification_Permission_Textblock.Text" xml:space="preserve">
     <value>Some settings are sent to Flantter's server when push notification is enabled.</value>
   </data>
+  <data name="SettingsFlyout_Settings_Display_ShowGifProfileImage_ToggleSwitch.Header" xml:space="preserve">
+    <value>Show animated user profile image.</value>
+  </data>
 </root>

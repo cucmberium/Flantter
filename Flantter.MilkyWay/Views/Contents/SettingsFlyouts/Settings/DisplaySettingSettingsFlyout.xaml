@@ -94,6 +94,10 @@
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_ShowHighQualityImageResolution_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ShowHighQualityImageResolution, Mode=TwoWay}" Header="高画質なサムネイルを表示する"/>
 
             <controls:HorizontalBar/>
+
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_ShowGifProfileImage_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ShowGifProfileImage, Mode=TwoWay}" Header="Gifのプロフィール画像を動かす"/>
+
+            <controls:HorizontalBar/>
             
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Display_ShowQuotedStatusMedia_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ShowQuotedStatusMedia, Mode=TwoWay}" Header="引用ツイート等のサムネイルを表示する"/>
 

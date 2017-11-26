@@ -29,9 +29,18 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             CreatedAt = eventMessage.CreatedAt.ToLocalTime().ToString(CultureInfo.CurrentCulture);
             ScreenName = eventMessage.Source.ScreenName;
             Name = eventMessage.Source.Name;
-            ProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.Source.ProfileImageUrl)
-                ? "http://localhost/"
-                : eventMessage.Source.ProfileImageUrl;
+            if (SettingService.Setting.ShowGifProfileImage)
+            {
+                ProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.Source.ProfileGifImageUrl)
+                    ? "http://localhost/"
+                    : eventMessage.Source.ProfileGifImageUrl;
+            }
+            else
+            {
+                ProfileImageUrl = string.IsNullOrWhiteSpace(eventMessage.Source.ProfileImageUrl)
+                    ? "http://localhost/"
+                    : eventMessage.Source.ProfileImageUrl;
+            }
 
             var sourceUser = "@" + eventMessage.Source.ScreenName + " (" + eventMessage.Source.Name + ") ";
             string targetUser;

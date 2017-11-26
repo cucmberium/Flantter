@@ -15,9 +15,18 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             Entities = user.Entities;
 
             Name = user.Name;
-            ProfileImageUrl = string.IsNullOrWhiteSpace(user.ProfileImageUrl)
-                ? "http://localhost/"
-                : user.ProfileImageUrl;
+            if (SettingService.Setting.ShowGifProfileImage)
+            {
+                ProfileImageUrl = string.IsNullOrWhiteSpace(user.ProfileGifImageUrl)
+                    ? "http://localhost/"
+                    : user.ProfileGifImageUrl;
+            }
+            else
+            {
+                ProfileImageUrl = string.IsNullOrWhiteSpace(user.ProfileImageUrl)
+                    ? "http://localhost/"
+                    : user.ProfileImageUrl;
+            }
             ScreenName = user.ScreenName;
 
             Notice = Notice.Instance;

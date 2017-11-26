@@ -19,9 +19,18 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             Text = directMessage.Text;
             ScreenName = directMessage.Sender.ScreenName;
             Name = directMessage.Sender.Name;
-            ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileImageUrl)
-                ? "http://localhost/"
-                : directMessage.Sender.ProfileImageUrl;
+            if (SettingService.Setting.ShowGifProfileImage)
+            {
+                ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileGifImageUrl)
+                    ? "http://localhost/"
+                    : directMessage.Sender.ProfileGifImageUrl;
+            }
+            else
+            {
+                ProfileImageUrl = string.IsNullOrWhiteSpace(directMessage.Sender.ProfileImageUrl)
+                    ? "http://localhost/"
+                    : directMessage.Sender.ProfileImageUrl;
+            }
             Entities = directMessage.Entities;
             ProtectedText = directMessage.Sender.IsProtected ? "🔒 " : "";
 

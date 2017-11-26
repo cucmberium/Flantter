@@ -32,6 +32,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             ProfileBackgroundImageUrl = cUser.ProfileBackgroundImageUrl;
             ProfileBannerUrl = cUser.ProfileBannerUrl;
             ProfileImageUrl = cUser.ProfileImageUrl;
+            ProfileGifImageUrl = cUser.ProfileImageUrl;
             ScreenName = cUser.ScreenName;
             StatusesCount = cUser.StatusesCount;
             TimeZone = cUser.TimeZone;
@@ -42,7 +43,9 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
         {
             CreateAt = cUser.CreatedAt;
             Description = ContentRegex
-                .Replace(LinkRegex.Replace(cUser.Note.Replace("<br />", "\n").Replace("</p>", "\n"), x => " " + x.Groups[1].Value + " "), "")
+                .Replace(
+                    LinkRegex.Replace(cUser.Note.Replace("<br />", "\n").Replace("<br>", "\n").Replace("</p>", "\n"),
+                        x => " " + x.Groups[1].Value + " "), "")
                 .Trim();
             Entities = new UserEntities();
             FavouritesCount = 0;
@@ -62,8 +65,9 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             Name = name;
             ProfileBackgroundColor = "C0DEED";
             ProfileBackgroundImageUrl = "http://localhost/";
-            ProfileBannerUrl = cUser.Header.StartsWith("http") ? cUser.Header : "http://localhost/";
-            ProfileImageUrl = cUser.Avatar.StartsWith("http") ? cUser.Avatar : "http://localhost/";
+            ProfileBannerUrl = cUser.HeaderStatic;
+            ProfileImageUrl = cUser.AvatarStatic;
+            ProfileGifImageUrl = cUser.Avatar;
             ScreenName = cUser.Acct;
             StatusesCount = cUser.StatusesCount;
             TimeZone = null;
@@ -188,6 +192,12 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
         #region ProfileImageUrl変更通知プロパティ
 
         public string ProfileImageUrl { get; set; }
+
+        #endregion
+
+        #region ProfileGifImageUrl変更通知プロパティ
+
+        public string ProfileGifImageUrl { get; set; }
 
         #endregion
 

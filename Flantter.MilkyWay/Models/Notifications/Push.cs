@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Windows.Networking.PushNotifications;
 using Flantter.MilkyWay.Setting;
@@ -65,7 +66,7 @@ namespace Flantter.MilkyWay.Models.Notifications
 
         public void Initialize()
         {
-            SettingService.Setting.ObserveProperty(x => x.PushNotification).Subscribe(async pushNotification =>
+            SettingService.Setting.ObserveProperty(x => x.PushNotification).Skip(1).Subscribe(async pushNotification =>
             {
                 if (pushNotification)
                 {
@@ -78,31 +79,31 @@ namespace Flantter.MilkyWay.Models.Notifications
                 }
             });
 
-            SettingService.Setting.ObserveProperty(x => x.FavoriteNotification).Subscribe(async x =>
+            SettingService.Setting.ObserveProperty(x => x.FavoriteNotification).Skip(1).Subscribe(async x =>
             {
                 if (SettingService.Setting.PushNotification)
                     await Update();
             });
 
-            SettingService.Setting.ObserveProperty(x => x.RetweetNotification).Subscribe(async x =>
+            SettingService.Setting.ObserveProperty(x => x.RetweetNotification).Skip(1).Subscribe(async x =>
             {
                 if (SettingService.Setting.PushNotification)
                     await Update();
             });
 
-            SettingService.Setting.ObserveProperty(x => x.MentionNotification).Subscribe(async x =>
+            SettingService.Setting.ObserveProperty(x => x.MentionNotification).Skip(1).Subscribe(async x =>
             {
                 if (SettingService.Setting.PushNotification)
                     await Update();
             });
 
-            SettingService.Setting.ObserveProperty(x => x.DirectMessageNotification).Subscribe(async x =>
+            SettingService.Setting.ObserveProperty(x => x.DirectMessageNotification).Skip(1).Subscribe(async x =>
             {
                 if (SettingService.Setting.PushNotification)
                     await Update();
             });
 
-            SettingService.Setting.ObserveProperty(x => x.FollowNotification).Subscribe(async x =>
+            SettingService.Setting.ObserveProperty(x => x.FollowNotification).Skip(1).Subscribe(async x =>
             {
                 if (SettingService.Setting.PushNotification)
                     await Update();

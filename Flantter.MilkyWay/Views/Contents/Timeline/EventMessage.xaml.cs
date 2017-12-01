@@ -82,7 +82,7 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
             CommandGrid_PropertyChanged(obj, e);
 
             var eventMessage = obj as EventMessage;
-            var textblock = eventMessage.FindName("EventMessageBodyText") as TextBlock;
+            var textblock = eventMessage.FindName("EventMessageBodyText") as RichTextBlock;
             textblock.IsTextSelectionEnabled = (bool) e.NewValue && SettingService.Setting.EnableTweetTextSelection;
         }
 

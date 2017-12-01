@@ -340,8 +340,7 @@ namespace Flantter.MilkyWay.ViewModels
                     }
 
                     // この設計はメモリ使用量削減に貢献しているのだろうか・・・？
-
-                    statusViewModel.MentionStatusEntities = statusViewModel.Model.MentionStatus.Entities;
+                    
                     statusViewModel.MentionStatusName = statusViewModel.Model.MentionStatus.User.Name;
                     statusViewModel.MentionStatusProfileImageUrl =
                         string.IsNullOrWhiteSpace(statusViewModel.Model.MentionStatus.User.ProfileImageUrl)

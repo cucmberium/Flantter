@@ -44,9 +44,11 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
                 : null;
             QuotedStatusId = cStatus.QuotedStatusId.HasValue && QuotedStatus != null ? cStatus.QuotedStatusId.Value : 0;
             Url = "https://twitter.com/" + cStatus.User?.ScreenName + "/status/" + cStatus.Id;
-
             var sourceMatch = SourceRegex.Match(cStatus.Source);
             Source = sourceMatch.Success ? sourceMatch.Groups[1].Value : cStatus.Source;
+
+            SpoilerText = string.Empty;
+            Emojis = null;
         }
 
         public Status(TootNet.Objects.Status cOrigStatus)
@@ -96,6 +98,9 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             Source = cStatus.Application != null ? cStatus.Application.Name : "Web";
 
             SpoilerText = cStatus.SpoilerText;
+            Emojis = new List<Emoji>();
+            foreach (var emoji in cStatus.Emojis)
+                Emojis.Add(new Emoji(emoji));
         }
 
         public Status()
@@ -227,6 +232,12 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
         public string SpoilerText { get; set; }
 
         #endregion
+
+        #region Emojis変更通知プロパティ
+
+        public List<Emoji> Emojis { get; set; }
+
+        #endregion
     }
 
     public class RetweetInformation
@@ -272,5 +283,21 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
         public DateTime CreatedAt { get; set; }
 
         #endregion
+    }
+
+    public class Emoji
+    {
+        public Emoji(TootNet.Objects.Emoji cEmoji)
+        {
+            Shortcode = cEmoji.Shortcode;
+            StaticUrl = cEmoji.StaticUrl;
+            Url = cEmoji.Url;
+        }
+
+        public string Shortcode { get; set; }
+        
+        public string StaticUrl { get; set; }
+        
+        public string Url { get; set; }
     }
 }

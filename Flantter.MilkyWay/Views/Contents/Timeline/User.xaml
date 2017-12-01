@@ -39,7 +39,7 @@
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/>
                     <Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.DeficientEntity="True" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities.Description, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Description, Mode=OneWay}"/>
+                <RichTextBlock TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.DeficientEntity="True" behaviors:TexbblockNavigationServiceBehavior.Entities="{x:Bind ViewModel.Entities.Description, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Description, Mode=OneWay}"/>
             </StackPanel>
         </Grid>
         

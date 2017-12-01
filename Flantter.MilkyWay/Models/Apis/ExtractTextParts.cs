@@ -222,7 +222,8 @@ namespace Flantter.MilkyWay.Models.Apis
         Hashtag,
         Cashtag,
         Url,
-        UserMention
+        UserMention,
+        Emoji
     }
 
     public class TextPart

@@ -94,7 +94,7 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
             MentionStatus_PropertyChanged(obj, e);
 
             var status = obj as Status;
-            var textblock = status.FindName("StatusBodyText") as TextBlock;
+            var textblock = status.FindName("StatusBodyText") as RichTextBlock;
             textblock.IsTextSelectionEnabled = (bool) e.NewValue && SettingService.Setting.EnableTweetTextSelection;
 
             await Task.Delay(10);

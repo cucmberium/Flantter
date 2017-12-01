@@ -66,6 +66,12 @@ namespace Flantter.MilkyWay.Models.Notifications
 
         public void Initialize()
         {
+            SettingService.Setting.ObserveProperty(x => x.PushNotification).Take(1).Subscribe(async pushNotification =>
+            {
+                if (pushNotification)
+                    await Register();
+            });
+
             SettingService.Setting.ObserveProperty(x => x.PushNotification).Skip(1).Subscribe(async pushNotification =>
             {
                 if (pushNotification)

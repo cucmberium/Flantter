@@ -308,9 +308,6 @@ namespace Flantter.MilkyWay.Views.Behaviors
             if (entities == null || entities.HashTags == null || entities.UserMentions == null || entities.Urls == null)
                 foreach (var token in TokenizeImpl(text, emojis))
                     yield return token;
-            else if (emojis != null)
-                foreach (var token in TokenizeImpl(text, emojis))
-                    yield return token;
             else if (GetDeficientEntity(sender) || entities.DeficientEntity)
                 foreach (var token in TokenizeImpl(text, emojis))
                 {
@@ -337,6 +334,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     yield return token;
                 }
+            else if (emojis != null)
+                foreach (var token in TokenizeImpl(text, emojis))
+                    yield return token;
             else
                 foreach (var token in ExtractTextParts.EnumerateTextParts(text, entities))
                     yield return token;

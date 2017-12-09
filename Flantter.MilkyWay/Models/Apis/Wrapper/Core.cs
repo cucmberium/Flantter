@@ -1974,10 +1974,9 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     var token = _cancel.Token;
                     try
                     {
-                        using (var client = new HttpClient())
+                        using (var client = tokens.MastodonTokens.ConnectionOptions.GetHttpClient(tokens.AccessToken, false))
                         using (token.Register(client.Dispose))
                         {
-                            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + tokens.AccessToken);
                             using (var stream = await client.GetStreamAsync(url))
                             using (token.Register(stream.Dispose))
                             using (var reader = new StreamReader(stream))

@@ -215,10 +215,8 @@ namespace Flantter.MilkyWay.Models
                 .SubscribeOn(NewThreadScheduler.Default)
                 .Subscribe(e =>
                 {
-                    if (e is TweetEventArgs)
+                    if (e is TweetEventArgs tweetEventArgs)
                     {
-                        var tweetEventArgs = (TweetEventArgs) e;
-
                         if (tweetEventArgs.Streaming == false && Action != SettingSupport.ColumnTypeEnum.Filter)
                             return;
 
@@ -249,9 +247,8 @@ namespace Flantter.MilkyWay.Models
                                 break;
                         }
                     }
-                    else if (e is TweetDeleteEventArgs)
+                    else if (e is TweetDeleteEventArgs tweetDeleteEventArgs)
                     {
-                        var tweetDeleteEventArgs = (TweetDeleteEventArgs) e;
                         Delete(tweetDeleteEventArgs.Id);
                     }
                 })

@@ -316,6 +316,9 @@ namespace Flantter.MilkyWay.Models
                 }
                 else if (_action == SettingSupport.ColumnTypeEnum.Search)
                 {
+                    if (string.IsNullOrWhiteSpace(ColumnSetting.Parameter))
+                        return;
+
                     if (AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
                         AccountModel.DisconnectAllFilterStreaming(this);
 
@@ -325,6 +328,9 @@ namespace Flantter.MilkyWay.Models
                 }
                 else if (_action == SettingSupport.ColumnTypeEnum.List)
                 {
+                    if (string.IsNullOrWhiteSpace(ColumnSetting.Parameter))
+                        return;
+
                     if (AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
                         AccountModel.DisconnectAllFilterStreaming(this);
 

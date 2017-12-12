@@ -96,17 +96,26 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 CreatingCollection = false;
                 return false;
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                CreatingCollection = false;
+                return false;
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_NotImplementedException"),
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                CreatingCollection = false;
+                return false;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
                 CreatingCollection = false;
                 return false;
             }
@@ -140,17 +149,26 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 CreatingCollection = false;
                 return false;
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                CreatingCollection = false;
+                return false;
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_NotImplementedException"),
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                CreatingCollection = false;
+                return false;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
                 CreatingCollection = false;
                 return false;
             }
@@ -183,17 +201,26 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 CreatingCollection = false;
                 return false;
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                CreatingCollection = false;
+                return false;
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_NotImplementedException"),
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                CreatingCollection = false;
+                return false;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
                 CreatingCollection = false;
                 return false;
             }

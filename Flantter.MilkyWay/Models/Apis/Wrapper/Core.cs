@@ -46,6 +46,16 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                 parameters.Add("sensitive", parameters["possibly_sensitive"]);
                 parameters.Remove("possibly_sensitive");
             }
+            if (parameters.ContainsKey("name"))
+            {
+                parameters.Add("title", parameters["name"]);
+                parameters.Remove("name");
+            }
+            if (parameters.ContainsKey("list_id"))
+            {
+                parameters.Add("id", parameters["list_id"]);
+                parameters.Remove("id");
+            }
 
             return parameters;
         }
@@ -901,7 +911,8 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     return new Apis.Objects.List(
                         await Tokens.TwitterTokens.Lists.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    return new Apis.Objects.List(
+                        await Tokens.MastodonTokens.Lists.CreateAsync(Utils.ConvertToMastodonParameters(parameters)));
             }
             throw new NotImplementedException();
         }
@@ -924,7 +935,8 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     return new Apis.Objects.List(
                         await Tokens.TwitterTokens.Lists.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    await Tokens.MastodonTokens.Lists.DeleteAsync(Utils.ConvertToMastodonParameters(parameters));
+                    return new Apis.Objects.List();
             }
             throw new NotImplementedException();
         }
@@ -947,7 +959,8 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     return new Apis.Objects.List(
                         await Tokens.TwitterTokens.Lists.UpdateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    return new Apis.Objects.List(
+                        await Tokens.MastodonTokens.Lists.UpdateAsync(Utils.ConvertToMastodonParameters(parameters)));
             }
             throw new NotImplementedException();
         }
@@ -1005,7 +1018,12 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    var data = await Tokens.MastodonTokens.Lists.GetAsync(
+                        Utils.ConvertToMastodonParameters(parameters));
+                    var result = new CursoredList<Apis.Objects.List>(data.Select(x => new Apis.Objects.List(x)));
+                    result.NextCursor = data.MaxId ?? 0;
+                    result.PreviousCursor = data.SinceId ?? 0;
+                    return result;
             }
             throw new NotImplementedException();
         }
@@ -1029,7 +1047,9 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                         .Select(x => new Apis.Objects.Status(x))
                         .ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    return (await Tokens.MastodonTokens.Timelines.ListAsync(parameters))
+                        .Select(x => new Apis.Objects.Status(x))
+                        .ToList();
             }
             throw new NotImplementedException();
         }

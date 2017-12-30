@@ -15,6 +15,13 @@
             User = new User(cList.User);
         }
 
+        public List(TootNet.Objects.List cList)
+        {
+            Name = cList.Title;
+            Id = cList.Id;
+            User = new User();
+        }
+
         public List()
         {
         }

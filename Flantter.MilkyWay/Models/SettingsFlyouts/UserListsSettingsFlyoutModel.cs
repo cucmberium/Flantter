@@ -1,14 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Models.Apis.Wrapper;
+using Flantter.MilkyWay.Models.Notifications;
 using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class UserListsSettingsFlyoutModel : BindableBase
     {
+        private readonly ResourceLoader _resourceLoader;
+
         private long _memberListsCursor;
 
         private long _subscribeListsCursor;
@@ -17,6 +23,8 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         public UserListsSettingsFlyoutModel()
         {
+            _resourceLoader = new ResourceLoader();
+
             UserLists = new ObservableCollection<List>();
             SubscribeLists = new ObservableCollection<List>();
             MembershipLists = new ObservableCollection<List>();
@@ -169,6 +177,163 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             UpdatingMembershipLists = false;
         }
 
+        public async Task<bool> CreateList(string cname, string cdescription, string cmode)
+        {
+            if (CreatingOrUpdatingList)
+                return false;
+
+            if (_userId == 0 || Tokens == null)
+                return false;
+
+            if (_userId != Tokens.UserId)
+                return false;
+
+            CreatingOrUpdatingList = true;
+
+            try
+            {
+                await Tokens.Lists.CreateAsync(name => cname, description => cdescription, mode => cmode);
+            }
+            catch (CoreTweet.TwitterException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+            catch (Exception e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    e.ToString());
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+
+            CreatingOrUpdatingList = false;
+            return true;
+        }
+
+        public async Task<bool> UpdateList(long cid, string cname, string cdescription, string cmode)
+        {
+            if (CreatingOrUpdatingList)
+                return false;
+
+            if (_userId == 0 || Tokens == null)
+                return false;
+
+            if (_userId != Tokens.UserId)
+                return false;
+
+            CreatingOrUpdatingList = true;
+
+            try
+            {
+                await Tokens.Lists.UpdateAsync(list_id => cid, name => cname, description => cdescription,
+                    mode => cmode);
+            }
+            catch (CoreTweet.TwitterException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+            catch (Exception e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    e.ToString());
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+
+            CreatingOrUpdatingList = false;
+            return true;
+        }
+
+        public async Task<bool> DeleteList(long cid)
+        {
+            if (CreatingOrUpdatingList)
+                return false;
+
+            if (_userId == 0 || Tokens == null)
+                return false;
+
+            if (_userId != Tokens.UserId)
+                return false;
+
+            CreatingOrUpdatingList = true;
+
+            try
+            {
+                await Tokens.Lists.DestroyAsync(list_id => cid);
+            }
+            catch (CoreTweet.TwitterException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+            catch (Exception e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    e.ToString());
+                CreatingOrUpdatingList = false;
+                return false;
+            }
+
+            CreatingOrUpdatingList = false;
+            return true;
+        }
+
         #region Tokens変更通知プロパティ
 
         private Tokens _tokens;
@@ -261,6 +426,18 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
         {
             get => _updatingMembershipLists;
             set => SetProperty(ref _updatingMembershipLists, value);
+        }
+
+        #endregion
+
+        #region CreatingOrUpdatingList変更通知プロパティ
+
+        private bool _creatingOrUpdatingList;
+
+        public bool CreatingOrUpdatingList
+        {
+            get => _creatingOrUpdatingList;
+            set => SetProperty(ref _creatingOrUpdatingList, value);
         }
 
         #endregion

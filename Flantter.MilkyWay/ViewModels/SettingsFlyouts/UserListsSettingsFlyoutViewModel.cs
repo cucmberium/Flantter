@@ -65,6 +65,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             UpdatingUserLists = Model.ObserveProperty(x => x.UpdatingUserLists).ToReactiveProperty();
             UpdatingSubscribeLists = Model.ObserveProperty(x => x.UpdatingSubscribeLists).ToReactiveProperty();
             UpdatingMembershipLists = Model.ObserveProperty(x => x.UpdatingMembershipLists).ToReactiveProperty();
+            CreatingOrUpdatingList = Model.ObserveProperty(x => x.CreatingOrUpdatingList).ToReactiveProperty();
 
             ClearCommand = new ReactiveCommand();
             ClearCommand.SubscribeOn(ThreadPoolScheduler.Default)
@@ -187,10 +188,10 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     if (EditingListId.Value != 0)
                         return;
 
-                    // var result = await Model.CreateCollection(Name.Value, Description.Value, Url.Value);
+                    var result = await Model.CreateList(EditingListName.Value, EditingListDescription.Value, EditingListIsPrivate.Value ? "private" : "public");
 
-                    //if (!result)
-                    //    return;
+                    if (!result)
+                        return;
 
                     EditingListMenuOpen.Value = true;
                     UpdateListMenuOpen.Value = false;
@@ -205,13 +206,13 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     if (EditingListId.Value == 0)
                         return;
 
-                    //var result = await Model.UpdateCollection(Id.Value, Name.Value, Description.Value, Url.Value);
+                    var result = await Model.UpdateList(EditingListId.Value, EditingListName.Value, EditingListDescription.Value, EditingListIsPrivate.Value ? "private" : "public");
 
-                    //if (!result)
-                    //    return;
+                    if (!result)
+                        return;
 
                     EditingListMenuOpen.Value = true;
-                    CreateListMenuOpen.Value = false;
+                    UpdateListMenuOpen.Value = false;
                     CreateListMenuOpen.Value = false;
                     await Model.UpdateUserLists();
                 });
@@ -225,7 +226,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
                     var msgNotification = new ConfirmMessageDialogNotification
                     {
-                        Message = _resourceLoader.GetString("ConfirmDialog_DeleteCollection"),
+                        Message = _resourceLoader.GetString("ConfirmDialog_DeleteList"),
                         Title = "Confirmation"
                     };
                     await Notice.ShowComfirmMessageDialogMessenger.Raise(msgNotification);
@@ -233,14 +234,14 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     if (!msgNotification.Result)
                         return;
 
-                    var collection = Model.UserLists.ElementAt(UserListsSelectedIndex.Value);
-                    //var result = await Model.DeleteCollection(collection.Id);
+                    var list = Model.UserLists.ElementAt(UserListsSelectedIndex.Value);
+                    var result = await Model.DeleteList(list.Id);
 
-                    //if (!result)
-                    //    return;
+                    if (!result)
+                        return;
 
                     EditingListMenuOpen.Value = true;
-                    CreateListMenuOpen.Value = false;
+                    UpdateListMenuOpen.Value = false;
                     CreateListMenuOpen.Value = false;
                     await Model.UpdateUserLists();
                 });

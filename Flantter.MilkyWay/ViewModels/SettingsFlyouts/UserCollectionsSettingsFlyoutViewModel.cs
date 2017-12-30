@@ -39,6 +39,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             UserCollectionsSelectedIndex = new ReactiveProperty<int>(-1);
             UpdateCollectionButtonIsEnabled = UserCollectionsSelectedIndex.Select(x => x != -1).ToReactiveProperty();
 
+            UpdatingUserCollections = Model.ObserveProperty(x => x.UpdatingUserCollections).ToReactiveProperty();
+            CreatingOrUpdatingCollection = Model.ObserveProperty(x => x.CreatingOrUpdatingCollection).ToReactiveProperty();
+
             ClearCommand = new ReactiveCommand();
             ClearCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x =>
@@ -194,9 +197,6 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                 });
 
             UserCollections = Model.UserCollections.ToReadOnlyReactiveCollection(x => new CollectionViewModel(x));
-
-            UpdatingUserCollections = Model.ObserveProperty(x => x.UpdatingUserCollections).ToReactiveProperty();
-            CreatingOrUpdatingCollection = Model.ObserveProperty(x => x.CreatingOrUpdatingCollection).ToReactiveProperty();
 
             Notice = Notice.Instance;
         }

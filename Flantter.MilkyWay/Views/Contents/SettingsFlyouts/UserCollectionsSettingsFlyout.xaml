@@ -104,7 +104,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <ListView Grid.Row="0" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.UserCollections}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}" SelectedIndex="{x:Bind ViewModel.SelectedIndex.Value, Mode=TwoWay}">
+        <ListView Grid.Row="0" Background="{StaticResource ColumnViewBackgroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.UserCollections}" ItemContainerStyle="{StaticResource TimelineAreaListViewItem}" SelectedIndex="{x:Bind ViewModel.UserCollectionsSelectedIndex.Value, Mode=TwoWay}">
             <i:Interaction.Behaviors>
                 <behaviors:ListViewIncrementalLoadBehavior Command="{x:Bind ViewModel.UserCollectionsIncrementalLoadCommand}" />
             </i:Interaction.Behaviors>
@@ -129,24 +129,24 @@
         <Grid Grid.Row="1">
             <i:Interaction.Behaviors>
 
-                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CreateCollectionOpen.Value, Mode=OneWay}" Value="True">
+                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CreateCollectionMenuOpen.Value, Mode=OneWay}" Value="True">
                     <media:ControlStoryboardAction Storyboard="{StaticResource CreateCollectionOpenAnimation}"/>
                 </core:DataTriggerBehavior>
-                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CreateCollectionOpen.Value, Mode=OneWay}" Value="False">
+                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CreateCollectionMenuOpen.Value, Mode=OneWay}" Value="False">
                     <media:ControlStoryboardAction Storyboard="{StaticResource CreateCollectionCloseAnimation}"/>
                 </core:DataTriggerBehavior>
 
-                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.UpdateCollectionOpen.Value, Mode=OneWay}" Value="True">
+                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.UpdateCollectionMenuOpen.Value, Mode=OneWay}" Value="True">
                     <media:ControlStoryboardAction Storyboard="{StaticResource UpdateCollectionOpenAnimation}"/>
                 </core:DataTriggerBehavior>
-                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.UpdateCollectionOpen.Value, Mode=OneWay}" Value="False">
+                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.UpdateCollectionMenuOpen.Value, Mode=OneWay}" Value="False">
                     <media:ControlStoryboardAction Storyboard="{StaticResource UpdateCollectionCloseAnimation}"/>
                 </core:DataTriggerBehavior>
 
-                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CollectionMenuOpen.Value, Mode=OneWay}" Value="True">
+                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.EditingCollectionMenuOpen.Value, Mode=OneWay}" Value="True">
                     <media:ControlStoryboardAction Storyboard="{StaticResource CollectionMenuOpenAnimation}"/>
                 </core:DataTriggerBehavior>
-                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.CollectionMenuOpen.Value, Mode=OneWay}" Value="False">
+                <core:DataTriggerBehavior Binding="{x:Bind ViewModel.EditingCollectionMenuOpen.Value, Mode=OneWay}" Value="False">
                     <media:ControlStoryboardAction Storyboard="{StaticResource CollectionMenuCloseAnimation}"/>
                 </core:DataTriggerBehavior>
 
@@ -155,19 +155,19 @@
             <StackPanel x:Name="UpdateCollectionStackPanel" Height="0" Visibility="Collapsed">
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_UserCollections_Name_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="コレクション名" Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Name_TextBox" IsEnabled="{x:Bind ViewModel.CreatingOrUpdatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="コレクション名" Text="{x:Bind ViewModel.EditingCollectionName.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_UserCollections_Description_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="説明" Text="{x:Bind ViewModel.Description.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Description_TextBox" IsEnabled="{x:Bind ViewModel.CreatingOrUpdatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="説明" Text="{x:Bind ViewModel.EditingCollectionDescription.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_UserCollections_Url_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="Url" Text="{x:Bind ViewModel.Url.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Url_TextBox" IsEnabled="{x:Bind ViewModel.CreatingOrUpdatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="Url" Text="{x:Bind ViewModel.EditingCollectionUrl.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <Button IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.UpdateCollectionCommand}">
+                <Button IsEnabled="{x:Bind ViewModel.CreatingOrUpdatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.UpdateCollectionCommand}">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Refresh" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         <TextBlock x:Uid="SettingsFlyout_UserCollections_UpdateCollection_Textblock" Text="コレクションを更新する" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -176,7 +176,7 @@
 
                 <controls:HorizontalBar/>
 
-                <Button IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.CloseUpdateCollectionCommand}">
+                <Button IsEnabled="{x:Bind ViewModel.CreatingOrUpdatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.CloseUpdateCollectionCommand}">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Clear" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         <TextBlock x:Uid="SettingsFlyout_UserCollections_CloseUpdateCollection_Textblock" Text="閉じる" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -187,19 +187,19 @@
             <StackPanel x:Name="CreateCollectionStackPanel" Height="0" Visibility="Collapsed">
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_UserCollections_Name_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="コレクション名" Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Name_TextBox" IsEnabled="{x:Bind ViewModel.CreatingOrUpdatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="コレクション名" Text="{x:Bind ViewModel.EditingCollectionName.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_UserCollections_Description_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="説明" Text="{x:Bind ViewModel.Description.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Description_TextBox" IsEnabled="{x:Bind ViewModel.CreatingOrUpdatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="説明" Text="{x:Bind ViewModel.EditingCollectionDescription.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <TextBox x:Uid="SettingsFlyout_UserCollections_Url_TextBox" IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="Url" Text="{x:Bind ViewModel.Url.Value, Mode=TwoWay}" />
+                <TextBox x:Uid="SettingsFlyout_UserCollections_Url_TextBox" IsEnabled="{x:Bind ViewModel.CreatingOrUpdatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Margin="10" Header="Url" Text="{x:Bind ViewModel.EditingCollectionUrl.Value, Mode=TwoWay}" />
 
                 <controls:HorizontalBar/>
 
-                <Button IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.CreateCollectionCommand}">
+                <Button IsEnabled="{x:Bind ViewModel.CreatingOrUpdatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.CreateCollectionCommand}">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Add" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         <TextBlock x:Uid="SettingsFlyout_UserCollections_CreateCollection_Textblock" Text="コレクションを作成する" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -208,7 +208,7 @@
 
                 <controls:HorizontalBar/>
 
-                <Button IsEnabled="{x:Bind ViewModel.CreatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.CloseCreateCollectionCommand}">
+                <Button IsEnabled="{x:Bind ViewModel.CreatingOrUpdatingCollection.Value, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{x:Bind ViewModel.CloseCreateCollectionCommand}">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Clear" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         <TextBlock x:Uid="SettingsFlyout_UserCollections_CloseCreateCollection_Textblock" Text="閉じる" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>

@@ -334,7 +334,7 @@ namespace Flantter.MilkyWay.Models.ShareContract
                 {
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
                         _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                        e.ToString());
+                        ex.ToString());
                     State = "Cancel";
                     Message = _resourceLoader.GetString("TweetArea_Message_Error");
                     return false;

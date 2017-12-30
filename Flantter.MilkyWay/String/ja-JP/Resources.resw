@@ -1102,4 +1102,31 @@
   <data name="SettingsFlyout_Settings_Display_ShowGifProfileImage_ToggleSwitch.Header" xml:space="preserve">
     <value>Gifのプロフィール画像を動かす</value>
   </data>
+  <data name="SettingsFlyout_UserLists_CloseCreateList_Textblock.Text" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_CloseUpdateList_Textblock.Text" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_CreateList_Textblock.Text" xml:space="preserve">
+    <value>リストを作成する</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_DeleteList_Textblock.Text" xml:space="preserve">
+    <value>リストを削除する</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_Description_TextBox.Header" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_IsPrivate_ToggleSwitch.Header" xml:space="preserve">
+    <value>プライベートリスト</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_Name_TextBox.Header" xml:space="preserve">
+    <value>リスト名</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_UpdateList_Textblock.Text" xml:space="preserve">
+    <value>リストを更新する</value>
+  </data>
+  <data name="ConfirmDialog_DeleteList" xml:space="preserve">
+    <value>リストを削除しますか?</value>
+  </data>
 </root>

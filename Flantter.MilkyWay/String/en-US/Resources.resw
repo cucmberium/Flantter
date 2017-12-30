@@ -1102,4 +1102,31 @@
   <data name="SettingsFlyout_Settings_Display_ShowGifProfileImage_ToggleSwitch.Header" xml:space="preserve">
     <value>Show animated user profile image.</value>
   </data>
+  <data name="SettingsFlyout_UserLists_CloseCreateList_Textblock.Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_CloseUpdateList_Textblock.Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_CreateList_Textblock.Text" xml:space="preserve">
+    <value>Create list</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_DeleteList_Textblock.Text" xml:space="preserve">
+    <value>Delete list</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_Description_TextBox.Header" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_IsPrivate_ToggleSwitch.Header" xml:space="preserve">
+    <value>Is private list</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_Name_TextBox.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SettingsFlyout_UserLists_UpdateList_Textblock.Text" xml:space="preserve">
+    <value>Update list</value>
+  </data>
+  <data name="ConfirmDialog_DeleteList" xml:space="preserve">
+    <value>Delete list?</value>
+  </data>
 </root>

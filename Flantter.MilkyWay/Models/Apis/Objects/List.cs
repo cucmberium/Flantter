@@ -10,6 +10,7 @@
             Slug = cList.Slug;
             SubscriberCount = cList.SubscriberCount;
             MemberCount = cList.MemberCount;
+            Mode = cList.Mode;
             Id = cList.Id;
             User = new User(cList.User);
         }
@@ -51,6 +52,12 @@
         #region MemberCount変更通知プロパティ
 
         public int MemberCount { get; set; }
+
+        #endregion
+
+        #region Mode変更通知プロパティ
+
+        public string Mode { get; set; }
 
         #endregion
 

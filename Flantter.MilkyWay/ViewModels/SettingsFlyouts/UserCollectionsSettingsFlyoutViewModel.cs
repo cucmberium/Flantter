@@ -204,6 +204,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public UserCollectionsSettingsFlyoutModel Model { get; set; }
 
         public ReactiveProperty<bool> UpdatingUserCollections { get; set; }
+
         public ReactiveProperty<bool> CreatingCollection { get; set; }
 
         public ReactiveProperty<Tokens> Tokens { get; set; }
@@ -215,6 +216,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReadOnlyReactiveCollection<CollectionViewModel> UserCollections { get; }
 
         public ReactiveProperty<int> SelectedIndex { get; set; }
+
         public ReactiveProperty<bool> UpdateCollectionButtonIsEnabled { get; set; }
 
         public ReactiveProperty<bool> CreateCollectionOpen { get; set; }
@@ -222,14 +224,15 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveProperty<bool> UpdateCollectionOpen { get; set; }
 
         public ReactiveProperty<bool> CollectionMenuOpen { get; set; }
-
-
+        
         public ReactiveProperty<string> Name { get; set; }
+
         public ReactiveProperty<string> Description { get; set; }
+
         public ReactiveProperty<string> Url { get; set; }
+
         public ReactiveProperty<string> Id { get; set; }
-
-
+        
         public ReactiveCommand ClearCommand { get; set; }
 
         public ReactiveCommand UpdateCommand { get; set; }
@@ -237,12 +240,17 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveCommand UserCollectionsIncrementalLoadCommand { get; set; }
 
         public ReactiveCommand OpenCreateCollectionCommand { get; set; }
+
         public ReactiveCommand CloseCreateCollectionCommand { get; set; }
+
         public ReactiveCommand OpenUpdateCollectionCommand { get; set; }
+
         public ReactiveCommand CloseUpdateCollectionCommand { get; set; }
 
         public ReactiveCommand CreateCollectionCommand { get; set; }
+
         public ReactiveCommand UpdateCollectionCommand { get; set; }
+
         public ReactiveCommand DeleteCollectionCommand { get; set; }
 
         public Notice Notice { get; set; }

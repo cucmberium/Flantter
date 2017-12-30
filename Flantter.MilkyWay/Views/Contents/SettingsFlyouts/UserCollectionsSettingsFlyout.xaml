@@ -8,7 +8,6 @@
     xmlns:behaviors="using:Flantter.MilkyWay.Views.Behaviors"
     xmlns:timeline="using:Flantter.MilkyWay.Views.Contents.Timeline"
     xmlns:controls="using:Flantter.MilkyWay.Views.Controls"
-    xmlns:util="using:Flantter.MilkyWay.Views.Util"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:media="using:Microsoft.Xaml.Interactions.Media"

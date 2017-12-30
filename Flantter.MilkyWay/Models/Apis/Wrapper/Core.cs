@@ -883,6 +883,75 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
         public ListsSubscribers Subscribers { get; set; }
         public ListsMembers Members { get; set; }
 
+        public Task<Apis.Objects.List> CreateAsync(params Expression<Func<string, object>>[] parameters)
+        {
+            return CreateAsyncImpl(ExpressionToDictionary(parameters));
+        }
+
+        public Task<Apis.Objects.List> CreateAsync(IDictionary<string, object> parameters)
+        {
+            return CreateAsyncImpl(parameters);
+        }
+
+        private async Task<Apis.Objects.List> CreateAsyncImpl(IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    return new Apis.Objects.List(
+                        await Tokens.TwitterTokens.Lists.CreateAsync(parameters));
+                case Tokens.PlatformEnum.Mastodon:
+                    throw new NotImplementedException();
+            }
+            throw new NotImplementedException();
+        }
+
+        public Task<Apis.Objects.List> DestroyAsync(params Expression<Func<string, object>>[] parameters)
+        {
+            return DestroyAsyncImpl(ExpressionToDictionary(parameters));
+        }
+
+        public Task<Apis.Objects.List> DestroyAsync(IDictionary<string, object> parameters)
+        {
+            return DestroyAsyncImpl(parameters);
+        }
+
+        private async Task<Apis.Objects.List> DestroyAsyncImpl(IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    return new Apis.Objects.List(
+                        await Tokens.TwitterTokens.Lists.DestroyAsync(parameters));
+                case Tokens.PlatformEnum.Mastodon:
+                    throw new NotImplementedException();
+            }
+            throw new NotImplementedException();
+        }
+
+        public Task<Apis.Objects.List> UpdateAsync(params Expression<Func<string, object>>[] parameters)
+        {
+            return UpdateAsyncImpl(ExpressionToDictionary(parameters));
+        }
+
+        public Task<Apis.Objects.List> UpdateAsync(IDictionary<string, object> parameters)
+        {
+            return UpdateAsyncImpl(parameters);
+        }
+
+        private async Task<Apis.Objects.List> UpdateAsyncImpl(IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    return new Apis.Objects.List(
+                        await Tokens.TwitterTokens.Lists.UpdateAsync(parameters));
+                case Tokens.PlatformEnum.Mastodon:
+                    throw new NotImplementedException();
+            }
+            throw new NotImplementedException();
+        }
+
         public Task<CursoredList<Apis.Objects.List>> MembershipsAsync(
             params Expression<Func<string, object>>[] parameters)
         {

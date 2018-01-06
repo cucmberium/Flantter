@@ -314,6 +314,38 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     PopupList.Insert(0, settingsFlyout);
                     break;
+                case "MastodonUserLists":
+                    settingsFlyoutList =
+                        _settingsFlyoutList.Where(x => x is MastodonUserListsSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Any())
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new MastodonUserListsSettingsFlyout();
+                        ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel =
+                            new MastodonUserListsSettingsFlyoutViewModel();
+                        _settingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel.UserId.Value =
+                        (long)notification.Content;
+
+                    ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((MastodonUserListsSettingsFlyout)settingsFlyout).DataContext =
+                        ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+
+                    PopupList.Insert(0, settingsFlyout);
+                    break;
                 case "UserMediaStatuses":
                     settingsFlyoutList =
                         _settingsFlyoutList.Where(x => x is UserMediaStatusesSettingsFlyout && !x.IsOpen);

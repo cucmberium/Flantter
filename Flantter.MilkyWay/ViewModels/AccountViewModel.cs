@@ -880,6 +880,21 @@ namespace Flantter.MilkyWay.ViewModels
                 })
                 .AddTo(Disposable);
 
+            Notice.Instance.ShowMyMastodonListsCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Where(_ => Model.IsEnabled)
+                .Subscribe(x =>
+                {
+                    var notification = new ShowSettingsFlyoutNotification
+                    {
+                        SettingsFlyoutType = "MastodonUserLists",
+                        Tokens = Model.Tokens,
+                        UserIcon = ProfileImageUrl.Value,
+                        Content = Model.Tokens.UserId
+                    };
+                    Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+                })
+                .AddTo(Disposable);
+
             Notice.Instance.RetweetStatusesCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Where(_ => Model.IsEnabled)
                 .Subscribe(async x =>

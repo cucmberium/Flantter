@@ -54,7 +54,7 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
             if (parameters.ContainsKey("list_id"))
             {
                 parameters.Add("id", parameters["list_id"]);
-                parameters.Remove("id");
+                parameters.Remove("list_id");
             }
 
             return parameters;
@@ -1228,7 +1228,12 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    var data = await Tokens.MastodonTokens.Lists.AccountsAsync(
+                        Utils.ConvertToMastodonParameters(parameters));
+                    var result = new CursoredList<Apis.Objects.User>(data.Select(x => new Apis.Objects.User(x)));
+                    result.NextCursor = data.MaxId ?? 0;
+                    result.PreviousCursor = data.SinceId ?? 0;
+                    return result;
             }
             throw new NotImplementedException();
         }

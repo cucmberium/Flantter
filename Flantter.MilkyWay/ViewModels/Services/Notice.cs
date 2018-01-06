@@ -47,6 +47,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             FavoriteStatusesCommand = new ReactiveCommand();
             ShowMyListsCommand = new ReactiveCommand();
             ShowMyCollectionsCommand = new ReactiveCommand();
+            ShowMyMastodonListsCommand = new ReactiveCommand();
             GetGapStatusCommand = new ReactiveCommand();
             ShowContentWarningTextCommand = new ReactiveCommand();
 
@@ -170,6 +171,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand FavoriteStatusesCommand { get; }
         public ReactiveCommand ShowMyListsCommand { get; }
         public ReactiveCommand ShowMyCollectionsCommand { get; }
+        public ReactiveCommand ShowMyMastodonListsCommand { get; }
         public ReactiveCommand GetGapStatusCommand { get; }
         public ReactiveCommand ShowContentWarningTextCommand { get; }
 

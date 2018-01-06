@@ -11,12 +11,12 @@ using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
-    public class MastodonUserListsSettingsFlyoutModel : BindableBase
+    public class SimpleUserListsSettingsFlyoutModel : BindableBase
     {
         private readonly ResourceLoader _resourceLoader;
         private long _userListsCursor = 0;
 
-        public MastodonUserListsSettingsFlyoutModel()
+        public SimpleUserListsSettingsFlyoutModel()
         {
             _resourceLoader = new ResourceLoader();
 

@@ -314,33 +314,33 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     PopupList.Insert(0, settingsFlyout);
                     break;
-                case "MastodonUserLists":
+                case "SimpleUserLists":
                     settingsFlyoutList =
-                        _settingsFlyoutList.Where(x => x is MastodonUserListsSettingsFlyout && !x.IsOpen);
+                        _settingsFlyoutList.Where(x => x is SimpleUserListsSettingsFlyout && !x.IsOpen);
                     if (settingsFlyoutList.Any())
                     {
                         settingsFlyout = settingsFlyoutList.First();
                     }
                     else
                     {
-                        settingsFlyout = new MastodonUserListsSettingsFlyout();
-                        ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel =
-                            new MastodonUserListsSettingsFlyoutViewModel();
+                        settingsFlyout = new SimpleUserListsSettingsFlyout();
+                        ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel =
+                            new SimpleUserListsSettingsFlyoutViewModel();
                         _settingsFlyoutList.Add(settingsFlyout);
                     }
 
-                    ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
-                    ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
 
-                    ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel.UserId.Value =
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel.UserId.Value =
                         (long)notification.Content;
 
-                    ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
 
-                    ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
 
-                    ((MastodonUserListsSettingsFlyout)settingsFlyout).DataContext =
-                        ((MastodonUserListsSettingsFlyout)settingsFlyout).ViewModel;
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).DataContext =
+                        ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel;
 
                     settingsFlyout.Show();
 

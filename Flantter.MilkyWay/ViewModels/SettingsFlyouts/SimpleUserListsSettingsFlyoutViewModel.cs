@@ -13,15 +13,15 @@ using Reactive.Bindings.Extensions;
 
 namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 {
-    public class MastodonUserListsSettingsFlyoutViewModel
+    public class SimpleUserListsSettingsFlyoutViewModel
     {
         private readonly ResourceLoader _resourceLoader;
 
-        public MastodonUserListsSettingsFlyoutViewModel()
+        public SimpleUserListsSettingsFlyoutViewModel()
         {
             _resourceLoader = new ResourceLoader();
 
-            Model = new MastodonUserListsSettingsFlyoutModel();
+            Model = new SimpleUserListsSettingsFlyoutModel();
 
             Tokens = Model.ToReactivePropertyAsSynchronized(x => x.Tokens);
             IconSource = new ReactiveProperty<string>("http://localhost/");
@@ -191,7 +191,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             Notice = Notice.Instance;
         }
 
-        public MastodonUserListsSettingsFlyoutModel Model { get; set; }
+        public SimpleUserListsSettingsFlyoutModel Model { get; set; }
 
         public ReactiveProperty<bool> UpdatingUserLists { get; set; }
 

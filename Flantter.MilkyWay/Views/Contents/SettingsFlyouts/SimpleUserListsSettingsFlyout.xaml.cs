@@ -4,22 +4,22 @@ using Flantter.MilkyWay.Views.Controls;
 
 namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
 {
-    public sealed partial class MastodonUserListsSettingsFlyout : ExtendedSettingsFlyout
+    public sealed partial class SimpleUserListsSettingsFlyout : ExtendedSettingsFlyout
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(MastodonUserListsSettingsFlyoutViewModel),
+            DependencyProperty.Register("ViewModel", typeof(SimpleUserListsSettingsFlyoutViewModel),
                 typeof(UserCollectionsSettingsFlyout), null);
 
-        public MastodonUserListsSettingsFlyout()
+        public SimpleUserListsSettingsFlyout()
         {
             InitializeComponent();
             SizeChanged += UserCollectionsSettingsFlyout_SizeChanged;
             UserCollectionsSettingsFlyout_SizeChanged(null, null);
         }
 
-        public MastodonUserListsSettingsFlyoutViewModel ViewModel
+        public SimpleUserListsSettingsFlyoutViewModel ViewModel
         {
-            get => (MastodonUserListsSettingsFlyoutViewModel) GetValue(ViewModelProperty);
+            get => (SimpleUserListsSettingsFlyoutViewModel) GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 

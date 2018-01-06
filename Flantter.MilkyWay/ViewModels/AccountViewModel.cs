@@ -886,7 +886,7 @@ namespace Flantter.MilkyWay.ViewModels
                 {
                     var notification = new ShowSettingsFlyoutNotification
                     {
-                        SettingsFlyoutType = "MastodonUserLists",
+                        SettingsFlyoutType = "SimpleUserLists",
                         Tokens = Model.Tokens,
                         UserIcon = ProfileImageUrl.Value,
                         Content = Model.Tokens.UserId

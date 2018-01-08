@@ -313,6 +313,14 @@ namespace Flantter.MilkyWay.Models.ShareContract
                     Message = _resourceLoader.GetString("TweetArea_Message_Error");
                     return false;
                 }
+                catch (TootNet.Exception.MastodonException ex)
+                {
+                    Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                        _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                    State = "Cancel";
+                    Message = _resourceLoader.GetString("TweetArea_Message_Error");
+                    return false;
+                }
                 catch (NotImplementedException ex)
                 {
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -326,7 +334,7 @@ namespace Flantter.MilkyWay.Models.ShareContract
                 {
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
                         _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                        _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                        ex.ToString());
                     State = "Cancel";
                     Message = _resourceLoader.GetString("TweetArea_Message_Error");
                     return false;

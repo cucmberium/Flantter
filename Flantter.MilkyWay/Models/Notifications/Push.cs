@@ -140,6 +140,9 @@ namespace Flantter.MilkyWay.Models.Notifications
 
         public async Task Unregister()
         {
+            if (string.IsNullOrWhiteSpace(SettingService.Setting.UserUuid))
+                SettingService.Setting.UserUuid = Guid.NewGuid().ToString();
+
             var registration = new Registration
             {
                 UserUuid = SettingService.Setting.UserUuid,

@@ -118,6 +118,8 @@
                                     <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_Unblock" Visibility="{x:Bind ViewModel.UnblockMenuEnabled.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" FontFamily="Segoe UI Symbol" Text="ブロック解除" Command="{x:Bind ViewModel.UnblockUserCommand}"/>
                                     <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_UserMute" Visibility="{x:Bind ViewModel.MuteMenuEnabled.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" FontFamily="Segoe UI Symbol" Text="ユーザーをミュート" Command="{x:Bind ViewModel.MuteUserCommand}"/>
                                     <MenuFlyoutItem x:Uid="SettingsFlyout_UserProfile_Add_Flyout_UserUnmute" Visibility="{x:Bind ViewModel.UnmuteMenuEnabled.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" FontFamily="Segoe UI Symbol" Text="ミュート解除" Command="{x:Bind ViewModel.UnmuteUserCommand}"/>
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_AddToList" Text="&#xE109;    リストに追加" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.AddToListCommand}" CommandParameter="{x:Bind ViewModel.Model.UserId, Mode=OneWay}"/>
                                 </MenuFlyout>
                             </Button.Flyout>
                         </Button>

@@ -217,17 +217,24 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                return;
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_NotImplementedException"),
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                return;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
                 return;
             }
 
@@ -249,17 +256,24 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 return;
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                return;
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_NotImplementedException"),
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                return;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
                 return;
             }
 

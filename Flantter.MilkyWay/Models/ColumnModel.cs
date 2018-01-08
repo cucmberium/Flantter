@@ -215,10 +215,8 @@ namespace Flantter.MilkyWay.Models
                 .SubscribeOn(NewThreadScheduler.Default)
                 .Subscribe(e =>
                 {
-                    if (e is TweetEventArgs)
+                    if (e is TweetEventArgs tweetEventArgs)
                     {
-                        var tweetEventArgs = (TweetEventArgs) e;
-
                         if (tweetEventArgs.Streaming == false && Action != SettingSupport.ColumnTypeEnum.Filter)
                             return;
 
@@ -249,9 +247,8 @@ namespace Flantter.MilkyWay.Models
                                 break;
                         }
                     }
-                    else if (e is TweetDeleteEventArgs)
+                    else if (e is TweetDeleteEventArgs tweetDeleteEventArgs)
                     {
-                        var tweetDeleteEventArgs = (TweetDeleteEventArgs) e;
                         Delete(tweetDeleteEventArgs.Id);
                     }
                 })
@@ -319,6 +316,9 @@ namespace Flantter.MilkyWay.Models
                 }
                 else if (_action == SettingSupport.ColumnTypeEnum.Search)
                 {
+                    if (string.IsNullOrWhiteSpace(ColumnSetting.Parameter))
+                        return;
+
                     if (AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
                         AccountModel.DisconnectAllFilterStreaming(this);
 
@@ -328,16 +328,25 @@ namespace Flantter.MilkyWay.Models
                 }
                 else if (_action == SettingSupport.ColumnTypeEnum.List)
                 {
+                    if (string.IsNullOrWhiteSpace(ColumnSetting.Parameter))
+                        return;
+
                     if (AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
+                    {
                         AccountModel.DisconnectAllFilterStreaming(this);
 
-                    var userList =
-                        await Tokens.Lists.Members.ListAsync(list_id => long.Parse(Parameter), count => 4999);
-                    _listStreamUserIdList = userList.Select(x => x.Id).ToList();
+                        var userList =
+                            await Tokens.Lists.Members.ListAsync(list_id => long.Parse(Parameter), count => 4999);
+                        _listStreamUserIdList = userList.Select(x => x.Id).ToList();
 
-                    var param = new Dictionary<string, object>();
-                    param.Add("follow", string.Join(",", _listStreamUserIdList));
-                    iObservable = Tokens.Streaming.FilterAsObservable(param);
+                        var param = new Dictionary<string, object>();
+                        param.Add("follow", string.Join(",", _listStreamUserIdList));
+                        iObservable = Tokens.Streaming.FilterAsObservable(param);
+                    }
+                    else
+                    {
+                        iObservable = Tokens.Streaming.ListAsObservable(list => long.Parse(ColumnSetting.Parameter));
+                    }
                 }
                 else if (_action == SettingSupport.ColumnTypeEnum.Federated)
                 {
@@ -368,6 +377,12 @@ namespace Flantter.MilkyWay.Models
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 Streaming = false;
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                Streaming = false;
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -375,11 +390,11 @@ namespace Flantter.MilkyWay.Models
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
                 Streaming = false;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
                 Streaming = false;
             }
         }
@@ -501,6 +516,11 @@ namespace Flantter.MilkyWay.Models
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -511,7 +531,7 @@ namespace Flantter.MilkyWay.Models
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
             }
         }
 
@@ -556,6 +576,11 @@ namespace Flantter.MilkyWay.Models
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -566,7 +591,7 @@ namespace Flantter.MilkyWay.Models
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
             }
         }
 
@@ -604,6 +629,11 @@ namespace Flantter.MilkyWay.Models
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -614,7 +644,7 @@ namespace Flantter.MilkyWay.Models
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
             }
         }
 
@@ -658,6 +688,11 @@ namespace Flantter.MilkyWay.Models
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -668,7 +703,7 @@ namespace Flantter.MilkyWay.Models
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
             }
         }
 
@@ -713,6 +748,11 @@ namespace Flantter.MilkyWay.Models
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -723,7 +763,7 @@ namespace Flantter.MilkyWay.Models
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
             }
         }
 
@@ -805,6 +845,11 @@ namespace Flantter.MilkyWay.Models
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -815,7 +860,7 @@ namespace Flantter.MilkyWay.Models
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
             }
         }
 
@@ -860,6 +905,11 @@ namespace Flantter.MilkyWay.Models
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -870,7 +920,7 @@ namespace Flantter.MilkyWay.Models
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
             }
         }
 
@@ -913,6 +963,11 @@ namespace Flantter.MilkyWay.Models
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+            }
             catch (NotImplementedException e)
             {
             }
@@ -920,7 +975,7 @@ namespace Flantter.MilkyWay.Models
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
             }
         }
 
@@ -966,6 +1021,11 @@ namespace Flantter.MilkyWay.Models
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
                         _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
                 }
+                catch (TootNet.Exception.MastodonException ex)
+                {
+                    Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                        _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                }
                 catch (NotImplementedException e)
                 {
                 }
@@ -973,7 +1033,7 @@ namespace Flantter.MilkyWay.Models
                 {
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
                         _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                        _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                        e.ToString());
                 }
             }
         }
@@ -1022,6 +1082,11 @@ namespace Flantter.MilkyWay.Models
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
             }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+            }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -1032,7 +1097,7 @@ namespace Flantter.MilkyWay.Models
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                    e.ToString());
             }
         }
 

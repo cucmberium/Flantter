@@ -107,7 +107,7 @@
                 </Button>
 
                 <controls:HorizontalBar Margin="50,0,0,0"/>
-                
+
                 <Button Visibility="{x:Bind ViewModel.IsPlatformTwitter.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowMyListsCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Bullets" HorizontalAlignment="Left" VerticalAlignment="Center" />
@@ -134,6 +134,15 @@
                 </Button>
 
                 <controls:HorizontalBar Visibility="{x:Bind ViewModel.IsPlatformTwitter.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="50,0,0,0"/>
+
+                <Button Visibility="{x:Bind ViewModel.IsPlatformMastodon.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowMySimpleListsCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid>
+                        <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Bullets" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <TextBlock x:Uid="MainSwipeMenu_MyUserLists" Text="リスト" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+
+                <controls:HorizontalBar Visibility="{x:Bind ViewModel.IsPlatformMastodon.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="50,0,0,0"/>
 
                 <Button Visibility="{x:Bind ViewModel.IsPlatformMastodon.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowPublicTimelineCommand}" CommandParameter="Federated" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>

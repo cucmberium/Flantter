@@ -74,7 +74,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         public async Task<bool> CreateCollection(string cname, string cdescription, string curl)
         {
-            if (CreatingCollection)
+            if (CreatingOrUpdatingCollection)
                 return false;
 
             if (_userId == 0 || Tokens == null)
@@ -83,7 +83,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (_userId != Tokens.UserId)
                 return false;
 
-            CreatingCollection = true;
+            CreatingOrUpdatingCollection = true;
 
             try
             {
@@ -93,7 +93,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                CreatingCollection = false;
+                CreatingOrUpdatingCollection = false;
+                return false;
+            }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                CreatingOrUpdatingCollection = false;
                 return false;
             }
             catch (NotImplementedException e)
@@ -101,23 +108,25 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_NotImplementedException"),
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                CreatingOrUpdatingCollection = false;
+                return false;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
-                CreatingCollection = false;
+                    e.ToString());
+                CreatingOrUpdatingCollection = false;
                 return false;
             }
 
-            CreatingCollection = false;
+            CreatingOrUpdatingCollection = false;
             return true;
         }
 
         public async Task<bool> UpdateCollection(string cid, string cname, string cdescription, string curl)
         {
-            if (CreatingCollection)
+            if (CreatingOrUpdatingCollection)
                 return false;
 
             if (_userId == 0 || Tokens == null)
@@ -126,7 +135,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (_userId != Tokens.UserId)
                 return false;
 
-            CreatingCollection = true;
+            CreatingOrUpdatingCollection = true;
 
             try
             {
@@ -137,7 +146,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                CreatingCollection = false;
+                CreatingOrUpdatingCollection = false;
+                return false;
+            }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                CreatingOrUpdatingCollection = false;
                 return false;
             }
             catch (NotImplementedException e)
@@ -145,23 +161,25 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_NotImplementedException"),
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                CreatingOrUpdatingCollection = false;
+                return false;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
-                CreatingCollection = false;
+                    e.ToString());
+                CreatingOrUpdatingCollection = false;
                 return false;
             }
 
-            CreatingCollection = false;
+            CreatingOrUpdatingCollection = false;
             return true;
         }
 
         public async Task<bool> DeleteCollection(string cid)
         {
-            if (CreatingCollection)
+            if (CreatingOrUpdatingCollection)
                 return false;
 
             if (_userId == 0 || Tokens == null)
@@ -170,7 +188,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (_userId != Tokens.UserId)
                 return false;
 
-            CreatingCollection = true;
+            CreatingOrUpdatingCollection = true;
 
             try
             {
@@ -180,7 +198,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                CreatingCollection = false;
+                CreatingOrUpdatingCollection = false;
+                return false;
+            }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                CreatingOrUpdatingCollection = false;
                 return false;
             }
             catch (NotImplementedException e)
@@ -188,17 +213,19 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_NotImplementedException"),
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                CreatingOrUpdatingCollection = false;
+                return false;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    _resourceLoader.GetString("Notification_System_CheckNetwork"));
-                CreatingCollection = false;
+                    e.ToString());
+                CreatingOrUpdatingCollection = false;
                 return false;
             }
 
-            CreatingCollection = false;
+            CreatingOrUpdatingCollection = false;
             return true;
         }
 
@@ -238,14 +265,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         #endregion
 
-        #region CreatingCollection変更通知プロパティ
+        #region CreatingOrUpdatingCollection変更通知プロパティ
 
-        private bool _creatingCollection;
+        private bool _CreatingOrUpdatingCollection;
 
-        public bool CreatingCollection
+        public bool CreatingOrUpdatingCollection
         {
-            get => _creatingCollection;
-            set => SetProperty(ref _creatingCollection, value);
+            get => _CreatingOrUpdatingCollection;
+            set => SetProperty(ref _CreatingOrUpdatingCollection, value);
         }
 
         #endregion

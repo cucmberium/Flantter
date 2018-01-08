@@ -314,6 +314,38 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     PopupList.Insert(0, settingsFlyout);
                     break;
+                case "SimpleUserLists":
+                    settingsFlyoutList =
+                        _settingsFlyoutList.Where(x => x is SimpleUserListsSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Any())
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new SimpleUserListsSettingsFlyout();
+                        ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel =
+                            new SimpleUserListsSettingsFlyoutViewModel();
+                        _settingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel.UserId.Value =
+                        (long)notification.Content;
+
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((SimpleUserListsSettingsFlyout)settingsFlyout).DataContext =
+                        ((SimpleUserListsSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+
+                    PopupList.Insert(0, settingsFlyout);
+                    break;
                 case "UserMediaStatuses":
                     settingsFlyoutList =
                         _settingsFlyoutList.Where(x => x is UserMediaStatusesSettingsFlyout && !x.IsOpen);
@@ -398,6 +430,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((ListMembersSettingsFlyout) settingsFlyout).ViewModel.ClearCommand.Execute();
 
                     ((ListMembersSettingsFlyout) settingsFlyout).ViewModel.Id.Value = ((List) notification.Content).Id;
+                    ((ListMembersSettingsFlyout) settingsFlyout).ViewModel.IsMyList.Value =
+                        ((List) notification.Content).User.Id == notification.Tokens.UserId ||
+                        ((List) notification.Content).User.Id == 0;
 
                     ((ListMembersSettingsFlyout) settingsFlyout).ViewModel.UpdateCommand.Execute();
 
@@ -587,6 +622,41 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     ((AddStatusToCollectionSettingsFlyout) settingsFlyout).DataContext =
                         ((AddStatusToCollectionSettingsFlyout) settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+
+                    PopupList.Insert(0, settingsFlyout);
+                    break;
+                case "AddToList":
+                    settingsFlyoutList =
+                        _settingsFlyoutList.Where(x => x is AddUserToListsSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Any())
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new AddUserToListsSettingsFlyout();
+                        ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel =
+                            new AddUserToListsSettingsFlyoutViewModel();
+                        _settingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value =
+                        notification.UserIcon;
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.UserId.Value =
+                        notification.Tokens.UserId;
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.TargetUserId.Value =
+                        (long)notification.Content;
+
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).DataContext =
+                        ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel;
 
                     settingsFlyout.Show();
 

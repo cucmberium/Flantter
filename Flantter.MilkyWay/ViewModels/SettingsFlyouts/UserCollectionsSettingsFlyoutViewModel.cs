@@ -27,25 +27,28 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             IconSource = new ReactiveProperty<string>("http://localhost/");
             UserId = Model.ToReactivePropertyAsSynchronized(x => x.UserId);
 
-            CreateCollectionOpen = new ReactiveProperty<bool>();
-            UpdateCollectionOpen = new ReactiveProperty<bool>();
-            CollectionMenuOpen = new ReactiveProperty<bool>();
+            CreateCollectionMenuOpen = new ReactiveProperty<bool>();
+            UpdateCollectionMenuOpen = new ReactiveProperty<bool>();
+            EditingCollectionMenuOpen = new ReactiveProperty<bool>();
 
-            Name = new ReactiveProperty<string>();
-            Description = new ReactiveProperty<string>();
-            Url = new ReactiveProperty<string>();
-            Id = new ReactiveProperty<string>();
+            EditingCollectionName = new ReactiveProperty<string>();
+            EditingCollectionDescription = new ReactiveProperty<string>();
+            EditingCollectionUrl = new ReactiveProperty<string>();
+            EditingCollectionId = new ReactiveProperty<string>();
 
-            SelectedIndex = new ReactiveProperty<int>(-1);
-            UpdateCollectionButtonIsEnabled = SelectedIndex.Select(x => x != -1).ToReactiveProperty();
+            UserCollectionsSelectedIndex = new ReactiveProperty<int>(-1);
+            UpdateCollectionButtonIsEnabled = UserCollectionsSelectedIndex.Select(x => x != -1).ToReactiveProperty();
+
+            UpdatingUserCollections = Model.ObserveProperty(x => x.UpdatingUserCollections).ToReactiveProperty();
+            CreatingOrUpdatingCollection = Model.ObserveProperty(x => x.CreatingOrUpdatingCollection).ToReactiveProperty();
 
             ClearCommand = new ReactiveCommand();
             ClearCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x =>
                 {
-                    UpdateCollectionOpen.Value = false;
-                    CreateCollectionOpen.Value = false;
-                    CollectionMenuOpen.Value = false;
+                    UpdateCollectionMenuOpen.Value = false;
+                    CreateCollectionMenuOpen.Value = false;
+                    EditingCollectionMenuOpen.Value = false;
 
                     Model.UserCollections.Clear();
                 });
@@ -57,7 +60,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     await Model.UpdateUserCollections();
 
                     if (Tokens.Value.UserId == UserId.Value)
-                        CollectionMenuOpen.Value = true;
+                        EditingCollectionMenuOpen.Value = true;
                 });
 
             UserCollectionsIncrementalLoadCommand = new ReactiveCommand();
@@ -72,77 +75,77 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             OpenCreateCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x =>
                 {
-                    Name.Value = "";
-                    Description.Value = "";
-                    Url.Value = "";
-                    Id.Value = "";
+                    EditingCollectionName.Value = "";
+                    EditingCollectionDescription.Value = "";
+                    EditingCollectionUrl.Value = "";
+                    EditingCollectionId.Value = "";
 
-                    CollectionMenuOpen.Value = false;
-                    UpdateCollectionOpen.Value = false;
-                    CreateCollectionOpen.Value = true;
+                    EditingCollectionMenuOpen.Value = false;
+                    UpdateCollectionMenuOpen.Value = false;
+                    CreateCollectionMenuOpen.Value = true;
                 });
 
             CloseCreateCollectionCommand = new ReactiveCommand();
             CloseCreateCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x =>
                 {
-                    Name.Value = "";
-                    Description.Value = "";
-                    Url.Value = "";
-                    Id.Value = "";
+                    EditingCollectionName.Value = "";
+                    EditingCollectionDescription.Value = "";
+                    EditingCollectionUrl.Value = "";
+                    EditingCollectionId.Value = "";
 
-                    CollectionMenuOpen.Value = true;
-                    UpdateCollectionOpen.Value = false;
-                    CreateCollectionOpen.Value = false;
+                    EditingCollectionMenuOpen.Value = true;
+                    UpdateCollectionMenuOpen.Value = false;
+                    CreateCollectionMenuOpen.Value = false;
                 });
 
             OpenUpdateCollectionCommand = new ReactiveCommand();
             OpenUpdateCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x =>
                 {
-                    if (SelectedIndex.Value == -1)
+                    if (UserCollectionsSelectedIndex.Value == -1)
                         return;
 
-                    var collection = Model.UserCollections.ElementAt(SelectedIndex.Value);
-                    Name.Value = collection.Name;
-                    Description.Value = collection.Description;
-                    Url.Value = collection.Url;
-                    Id.Value = collection.Id;
+                    var collection = Model.UserCollections.ElementAt(UserCollectionsSelectedIndex.Value);
+                    EditingCollectionName.Value = collection.Name;
+                    EditingCollectionDescription.Value = collection.Description;
+                    EditingCollectionUrl.Value = collection.Url;
+                    EditingCollectionId.Value = collection.Id;
 
-                    CollectionMenuOpen.Value = false;
-                    UpdateCollectionOpen.Value = true;
-                    CreateCollectionOpen.Value = false;
+                    EditingCollectionMenuOpen.Value = false;
+                    UpdateCollectionMenuOpen.Value = true;
+                    CreateCollectionMenuOpen.Value = false;
                 });
 
             CloseUpdateCollectionCommand = new ReactiveCommand();
             CloseUpdateCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x =>
                 {
-                    Name.Value = "";
-                    Description.Value = "";
-                    Url.Value = "";
-                    Id.Value = "";
+                    EditingCollectionName.Value = "";
+                    EditingCollectionDescription.Value = "";
+                    EditingCollectionUrl.Value = "";
+                    EditingCollectionId.Value = "";
 
-                    CollectionMenuOpen.Value = true;
-                    UpdateCollectionOpen.Value = false;
-                    CreateCollectionOpen.Value = false;
+                    EditingCollectionMenuOpen.Value = true;
+                    UpdateCollectionMenuOpen.Value = false;
+                    CreateCollectionMenuOpen.Value = false;
                 });
 
             CreateCollectionCommand = new ReactiveCommand();
             CreateCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
-                    if (!string.IsNullOrWhiteSpace(Id.Value))
+                    if (!string.IsNullOrWhiteSpace(EditingCollectionId.Value))
                         return;
 
-                    var result = await Model.CreateCollection(Name.Value, Description.Value, Url.Value);
+                    var result = await Model.CreateCollection(EditingCollectionName.Value, EditingCollectionDescription.Value, EditingCollectionUrl.Value);
 
                     if (!result)
                         return;
 
-                    CollectionMenuOpen.Value = true;
-                    UpdateCollectionOpen.Value = false;
-                    CreateCollectionOpen.Value = false;
+                    EditingCollectionMenuOpen.Value = true;
+                    UpdateCollectionMenuOpen.Value = false;
+                    CreateCollectionMenuOpen.Value = false;
                     await Model.UpdateUserCollections();
                 });
 
@@ -150,17 +153,17 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             UpdateCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
-                    if (string.IsNullOrWhiteSpace(Id.Value))
+                    if (string.IsNullOrWhiteSpace(EditingCollectionId.Value))
                         return;
 
-                    var result = await Model.UpdateCollection(Id.Value, Name.Value, Description.Value, Url.Value);
+                    var result = await Model.UpdateCollection(EditingCollectionId.Value, EditingCollectionName.Value, EditingCollectionDescription.Value, EditingCollectionUrl.Value);
 
                     if (!result)
                         return;
 
-                    CollectionMenuOpen.Value = true;
-                    UpdateCollectionOpen.Value = false;
-                    CreateCollectionOpen.Value = false;
+                    EditingCollectionMenuOpen.Value = true;
+                    UpdateCollectionMenuOpen.Value = false;
+                    CreateCollectionMenuOpen.Value = false;
                     await Model.UpdateUserCollections();
                 });
 
@@ -168,7 +171,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             DeleteCollectionCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {
-                    if (SelectedIndex.Value == -1)
+                    if (UserCollectionsSelectedIndex.Value == -1)
                         return;
 
                     var msgNotification = new ConfirmMessageDialogNotification
@@ -181,22 +184,19 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     if (!msgNotification.Result)
                         return;
 
-                    var collection = Model.UserCollections.ElementAt(SelectedIndex.Value);
+                    var collection = Model.UserCollections.ElementAt(UserCollectionsSelectedIndex.Value);
                     var result = await Model.DeleteCollection(collection.Id);
 
                     if (!result)
                         return;
 
-                    CollectionMenuOpen.Value = true;
-                    UpdateCollectionOpen.Value = false;
-                    CreateCollectionOpen.Value = false;
+                    EditingCollectionMenuOpen.Value = true;
+                    UpdateCollectionMenuOpen.Value = false;
+                    CreateCollectionMenuOpen.Value = false;
                     await Model.UpdateUserCollections();
                 });
 
             UserCollections = Model.UserCollections.ToReadOnlyReactiveCollection(x => new CollectionViewModel(x));
-
-            UpdatingUserCollections = Model.ObserveProperty(x => x.UpdatingUserCollections).ToReactiveProperty();
-            CreatingCollection = Model.ObserveProperty(x => x.CreatingCollection).ToReactiveProperty();
 
             Notice = Notice.Instance;
         }
@@ -204,7 +204,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public UserCollectionsSettingsFlyoutModel Model { get; set; }
 
         public ReactiveProperty<bool> UpdatingUserCollections { get; set; }
-        public ReactiveProperty<bool> CreatingCollection { get; set; }
+
+        public ReactiveProperty<bool> CreatingOrUpdatingCollection { get; set; }
 
         public ReactiveProperty<Tokens> Tokens { get; set; }
 
@@ -214,22 +215,24 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
 
         public ReadOnlyReactiveCollection<CollectionViewModel> UserCollections { get; }
 
-        public ReactiveProperty<int> SelectedIndex { get; set; }
+        public ReactiveProperty<int> UserCollectionsSelectedIndex { get; set; }
+
         public ReactiveProperty<bool> UpdateCollectionButtonIsEnabled { get; set; }
 
-        public ReactiveProperty<bool> CreateCollectionOpen { get; set; }
+        public ReactiveProperty<bool> CreateCollectionMenuOpen { get; set; }
 
-        public ReactiveProperty<bool> UpdateCollectionOpen { get; set; }
+        public ReactiveProperty<bool> UpdateCollectionMenuOpen { get; set; }
 
-        public ReactiveProperty<bool> CollectionMenuOpen { get; set; }
+        public ReactiveProperty<bool> EditingCollectionMenuOpen { get; set; }
+        
+        public ReactiveProperty<string> EditingCollectionName { get; set; }
 
+        public ReactiveProperty<string> EditingCollectionDescription { get; set; }
 
-        public ReactiveProperty<string> Name { get; set; }
-        public ReactiveProperty<string> Description { get; set; }
-        public ReactiveProperty<string> Url { get; set; }
-        public ReactiveProperty<string> Id { get; set; }
+        public ReactiveProperty<string> EditingCollectionUrl { get; set; }
 
-
+        public ReactiveProperty<string> EditingCollectionId { get; set; }
+        
         public ReactiveCommand ClearCommand { get; set; }
 
         public ReactiveCommand UpdateCommand { get; set; }
@@ -237,12 +240,17 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveCommand UserCollectionsIncrementalLoadCommand { get; set; }
 
         public ReactiveCommand OpenCreateCollectionCommand { get; set; }
+
         public ReactiveCommand CloseCreateCollectionCommand { get; set; }
+
         public ReactiveCommand OpenUpdateCollectionCommand { get; set; }
+
         public ReactiveCommand CloseUpdateCollectionCommand { get; set; }
 
         public ReactiveCommand CreateCollectionCommand { get; set; }
+
         public ReactiveCommand UpdateCollectionCommand { get; set; }
+
         public ReactiveCommand DeleteCollectionCommand { get; set; }
 
         public Notice Notice { get; set; }

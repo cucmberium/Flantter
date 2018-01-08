@@ -11,102 +11,101 @@ using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
-    public class ListMembersSettingsFlyoutModel : BindableBase
+    public class AddUserToListsSettingsFlyoutModel : BindableBase
     {
         private readonly ResourceLoader _resourceLoader;
 
-        private long _listMembersCursor;
+        private long _userListsCursor;
 
-        public ListMembersSettingsFlyoutModel()
+        public AddUserToListsSettingsFlyoutModel()
         {
             _resourceLoader = new ResourceLoader();
-
-            ListMembers = new ObservableCollection<User>();
+            UserLists = new ObservableCollection<List>();
         }
 
-        public ObservableCollection<User> ListMembers { get; set; }
+        public ObservableCollection<List> UserLists { get; set; }
 
-        public async Task UpdateListMembers(bool useCursor = false)
+        public async Task UpdateUserLists(bool useCursor = false)
         {
-            if (Updating)
+            if (UpdatingUserLists)
                 return;
 
-            if (_id == 0 || Tokens == null)
+            if (_userId == 0 || Tokens == null)
                 return;
 
-            if (useCursor && _listMembersCursor == 0)
+            if (useCursor && _userListsCursor == 0)
                 return;
 
-            Updating = true;
+            UpdatingUserLists = true;
 
-            if (!useCursor || _listMembersCursor == 0)
-                ListMembers.Clear();
+            if (!useCursor || _userListsCursor == 0)
+                UserLists.Clear();
 
             try
             {
                 var param = new Dictionary<string, object>
                 {
-                    {"list_id", _id},
+                    {"user_id", _userId},
                     {"count", 20}
                 };
-                if (useCursor && _listMembersCursor != 0)
-                    param.Add("cursor", _listMembersCursor);
+                if (useCursor && _userListsCursor != 0)
+                    param.Add("cursor", _userListsCursor);
 
-                var listMembers = await Tokens.Lists.Members.ListAsync(param);
-                if (!useCursor || _listMembersCursor == 0)
-                    ListMembers.Clear();
+                var userLists = await Tokens.Lists.OwnershipsAsync(param);
+                if (!useCursor || _userListsCursor == 0)
+                    UserLists.Clear();
 
-                foreach (var user in listMembers)
-                    ListMembers.Add(user);
+                foreach (var item in userLists)
+                {
+                    var list = item;
+                    UserLists.Add(list);
+                }
 
-                _listMembersCursor = listMembers.NextCursor;
+                _userListsCursor = userLists.NextCursor;
             }
             catch
             {
-                if (!useCursor || _listMembersCursor == 0)
-                    ListMembers.Clear();
-            }
+                if (!useCursor || _userListsCursor == 0)
+                    UserLists.Clear();
 
-            Updating = false;
+                UpdatingUserLists = false;
+                return;
+            }
+            
+            UpdatingUserLists = false;
         }
 
-        public async Task<bool> DeleteUser(long cid)
+        public async Task AddUserToList(long listId, long userId)
         {
-            if (_id == 0 || Tokens == null)
-                return false;
-            
+            if (_userId == 0 || Tokens == null)
+                return;
+
             try
             {
-                await Tokens.Lists.Members.DestroyAsync(list_id => _id, user_id => cid);
+                await Tokens.Lists.Members.CreateAsync(list_id => listId, user_id => userId);
             }
             catch (CoreTweet.TwitterException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-                return false;
             }
             catch (TootNet.Exception.MastodonException ex)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
-                return false;
             }
             catch (NotImplementedException e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_NotImplementedException"),
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
-                return false;
             }
             catch (Exception e)
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_ErrorOccurred"),
                     e.ToString());
-                return false;
             }
-            
-            return true;
         }
 
         #region Tokens変更通知プロパティ
@@ -121,26 +120,26 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         #endregion
 
-        #region Id変更通知プロパティ
+        #region UserId変更通知プロパティ
 
-        private long _id;
+        private long _userId;
 
-        public long Id
+        public long UserId
         {
-            get => _id;
-            set => SetProperty(ref _id, value);
+            get => _userId;
+            set => SetProperty(ref _userId, value);
         }
 
         #endregion
 
-        #region Updating変更通知プロパティ
+        #region UpdatingUserLists変更通知プロパティ
 
-        private bool _updating;
+        private bool _updatingUserLists;
 
-        public bool Updating
+        public bool UpdatingUserLists
         {
-            get => _updating;
-            set => SetProperty(ref _updating, value);
+            get => _updatingUserLists;
+            set => SetProperty(ref _updatingUserLists, value);
         }
 
         #endregion

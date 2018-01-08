@@ -46,6 +46,16 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                 parameters.Add("sensitive", parameters["possibly_sensitive"]);
                 parameters.Remove("possibly_sensitive");
             }
+            if (parameters.ContainsKey("name"))
+            {
+                parameters.Add("title", parameters["name"]);
+                parameters.Remove("name");
+            }
+            if (parameters.ContainsKey("list_id"))
+            {
+                parameters.Add("id", parameters["list_id"]);
+                parameters.Remove("list_id");
+            }
 
             return parameters;
         }
@@ -883,6 +893,78 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
         public ListsSubscribers Subscribers { get; set; }
         public ListsMembers Members { get; set; }
 
+        public Task<Apis.Objects.List> CreateAsync(params Expression<Func<string, object>>[] parameters)
+        {
+            return CreateAsyncImpl(ExpressionToDictionary(parameters));
+        }
+
+        public Task<Apis.Objects.List> CreateAsync(IDictionary<string, object> parameters)
+        {
+            return CreateAsyncImpl(parameters);
+        }
+
+        private async Task<Apis.Objects.List> CreateAsyncImpl(IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    return new Apis.Objects.List(
+                        await Tokens.TwitterTokens.Lists.CreateAsync(parameters));
+                case Tokens.PlatformEnum.Mastodon:
+                    return new Apis.Objects.List(
+                        await Tokens.MastodonTokens.Lists.CreateAsync(Utils.ConvertToMastodonParameters(parameters)));
+            }
+            throw new NotImplementedException();
+        }
+
+        public Task<Apis.Objects.List> DestroyAsync(params Expression<Func<string, object>>[] parameters)
+        {
+            return DestroyAsyncImpl(ExpressionToDictionary(parameters));
+        }
+
+        public Task<Apis.Objects.List> DestroyAsync(IDictionary<string, object> parameters)
+        {
+            return DestroyAsyncImpl(parameters);
+        }
+
+        private async Task<Apis.Objects.List> DestroyAsyncImpl(IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    return new Apis.Objects.List(
+                        await Tokens.TwitterTokens.Lists.DestroyAsync(parameters));
+                case Tokens.PlatformEnum.Mastodon:
+                    await Tokens.MastodonTokens.Lists.DeleteAsync(Utils.ConvertToMastodonParameters(parameters));
+                    return new Apis.Objects.List();
+            }
+            throw new NotImplementedException();
+        }
+
+        public Task<Apis.Objects.List> UpdateAsync(params Expression<Func<string, object>>[] parameters)
+        {
+            return UpdateAsyncImpl(ExpressionToDictionary(parameters));
+        }
+
+        public Task<Apis.Objects.List> UpdateAsync(IDictionary<string, object> parameters)
+        {
+            return UpdateAsyncImpl(parameters);
+        }
+
+        private async Task<Apis.Objects.List> UpdateAsyncImpl(IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    return new Apis.Objects.List(
+                        await Tokens.TwitterTokens.Lists.UpdateAsync(parameters));
+                case Tokens.PlatformEnum.Mastodon:
+                    return new Apis.Objects.List(
+                        await Tokens.MastodonTokens.Lists.UpdateAsync(Utils.ConvertToMastodonParameters(parameters)));
+            }
+            throw new NotImplementedException();
+        }
+
         public Task<CursoredList<Apis.Objects.List>> MembershipsAsync(
             params Expression<Func<string, object>>[] parameters)
         {
@@ -936,7 +1018,12 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    var data = await Tokens.MastodonTokens.Lists.GetAsync(
+                        Utils.ConvertToMastodonParameters(parameters));
+                    var result = new CursoredList<Apis.Objects.List>(data.Select(x => new Apis.Objects.List(x)));
+                    result.NextCursor = data.MaxId ?? 0;
+                    result.PreviousCursor = data.SinceId ?? 0;
+                    return result;
             }
             throw new NotImplementedException();
         }
@@ -960,7 +1047,9 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                         .Select(x => new Apis.Objects.Status(x))
                         .ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    return (await Tokens.MastodonTokens.Timelines.ListAsync(parameters))
+                        .Select(x => new Apis.Objects.Status(x))
+                        .ToList();
             }
             throw new NotImplementedException();
         }
@@ -1090,7 +1179,10 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Apis.Objects.List(await Tokens.TwitterTokens.Lists.Members.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    parameters["account_ids"] = new List<long> {(long) parameters["user_id"]};
+                    parameters.Remove("user_id");
+                    await Tokens.MastodonTokens.Lists.AddAccountAsync(Utils.ConvertToMastodonParameters(parameters));
+                    return new Apis.Objects.List();
             }
             throw new NotImplementedException();
         }
@@ -1112,7 +1204,10 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Apis.Objects.List(await Tokens.TwitterTokens.Lists.Members.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    parameters["account_ids"] = new List<long> { (long)parameters["user_id"] };
+                    parameters.Remove("user_id");
+                    await Tokens.MastodonTokens.Lists.DeleteAccountAsync(Utils.ConvertToMastodonParameters(parameters));
+                    return new Apis.Objects.List();
             }
             throw new NotImplementedException();
         }
@@ -1139,7 +1234,12 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     list.PreviousCursor = response.PreviousCursor;
                     return list;
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    var data = await Tokens.MastodonTokens.Lists.AccountsAsync(
+                        Utils.ConvertToMastodonParameters(parameters));
+                    var result = new CursoredList<Apis.Objects.User>(data.Select(x => new Apis.Objects.User(x)));
+                    result.NextCursor = data.MaxId ?? 0;
+                    result.PreviousCursor = data.SinceId ?? 0;
+                    return result;
             }
             throw new NotImplementedException();
         }
@@ -1922,7 +2022,8 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
             {
                 User = 0,
                 Tag = 1,
-                Public = 2
+                Public = 2,
+                List = 3
             }
 
             public class StreamingObservable : IObservable<Apis.Objects.StreamingMessage>
@@ -1949,16 +2050,25 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                             conn.Start(observer, _tokens, "https://" + streamingUrl + "/api/v1/streaming/user");
                             break;
                         case StreamingType.Tag:
+                            if (!_parameters.ContainsKey("tag") || string.IsNullOrEmpty(_parameters["tag"].ToString()))
+                                throw new ArgumentException("You must specify a hashtag");
+
                             conn.Start(observer, _tokens,
                                 "https://" + streamingUrl + "/api/v1/streaming/hashtag" + "?tag=" +
-                                _parameters["track"]);
+                                _parameters["tag"]);
                             break;
                         case StreamingType.Public:
                             var publicStreamingUrl = "https://" + streamingUrl + "/api/v1/streaming/public";
-                            if (_parameters.ContainsKey("local") && (bool) _parameters["local"])
+                            if (_parameters.ContainsKey("local") && (bool)_parameters["local"])
                                 publicStreamingUrl += "/local";
 
                             conn.Start(observer, _tokens, publicStreamingUrl);
+                            break;
+                        case StreamingType.List:
+                            if (!_parameters.ContainsKey("list") || string.IsNullOrEmpty(_parameters["list"].ToString()))
+                                throw new ArgumentException("You must specify a list_id");
+
+                            conn.Start(observer, _tokens, "https://" + streamingUrl + "/api/v1/streaming/list" + "?list=" + _parameters["list"]);
                             break;
                     }
                     return conn;
@@ -1974,10 +2084,9 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     var token = _cancel.Token;
                     try
                     {
-                        using (var client = new HttpClient())
+                        using (var client = tokens.MastodonTokens.ConnectionOptions.GetHttpClient(tokens.AccessToken, false))
                         using (token.Register(client.Dispose))
                         {
-                            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + tokens.AccessToken);
                             using (var stream = await client.GetStreamAsync(url))
                             using (token.Register(stream.Dispose))
                             using (var reader = new StreamReader(stream))
@@ -2227,6 +2336,8 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     return new TwitterStreaming.StreamingObservable(Tokens, TwitterStreaming.StreamingType.Filter,
                         parameters);
                 case Tokens.PlatformEnum.Mastodon:
+                    parameters["tag"] = parameters["track"];
+                    parameters.Remove("track");
                     return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Tag,
                         parameters);
             }
@@ -2304,6 +2415,31 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     throw new NotImplementedException();
                 case Tokens.PlatformEnum.Mastodon:
                     return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Public,
+                        parameters);
+            }
+            throw new NotImplementedException();
+        }
+
+        public IObservable<Apis.Objects.StreamingMessage> ListAsObservable(
+            params Expression<Func<string, object>>[] parameters)
+        {
+            return ListAsObservableImpl(ExpressionToDictionary(parameters));
+        }
+
+        public IObservable<Apis.Objects.StreamingMessage> ListAsObservable(IDictionary<string, object> parameters)
+        {
+            return ListAsObservableImpl(parameters);
+        }
+
+        private IObservable<Apis.Objects.StreamingMessage> ListAsObservableImpl(
+            IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    throw new NotImplementedException();
+                case Tokens.PlatformEnum.Mastodon:
+                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.List,
                         parameters);
             }
             throw new NotImplementedException();

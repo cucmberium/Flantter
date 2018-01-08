@@ -433,6 +433,7 @@
                             <MenuFlyoutSeparator />
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_AddToCollection" Text="&#xE109;    コレクションに追加" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.AddToCollectionCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_DeleteFromCollection" Text="&#xE107;    コレクションから削除" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.IsCollectionStatus, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.DeleteFromCollectionCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_AddToList" Text="&#xE109;    リストに追加" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.AddToListCommand}" CommandParameter="{x:Bind ViewModel.Model.User.Id, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_DeleteTweet" Text="&#xE107;    削除" FontFamily="Segoe UI Symbol" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.DeleteTweetCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>

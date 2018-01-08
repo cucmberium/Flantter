@@ -11,27 +11,19 @@ using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
-    public class UserListsSettingsFlyoutModel : BindableBase
+    public class SimpleUserListsSettingsFlyoutModel : BindableBase
     {
         private readonly ResourceLoader _resourceLoader;
+        private long _userListsCursor = 0;
 
-        private long _memberListsCursor;
-
-        private long _subscribeListsCursor;
-
-        private long _userListsCursor;
-
-        public UserListsSettingsFlyoutModel()
+        public SimpleUserListsSettingsFlyoutModel()
         {
             _resourceLoader = new ResourceLoader();
 
             UserLists = new ObservableCollection<List>();
-            SubscribeLists = new ObservableCollection<List>();
-            MembershipLists = new ObservableCollection<List>();
         }
 
-        public bool OpenSubscribeLists { get; set; }
-        public bool OpenMembershipLists { get; set; }
+        public ObservableCollection<List> UserLists { get; set; }
 
         public async Task UpdateUserLists(bool useCursor = false)
         {
@@ -58,7 +50,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 };
                 if (useCursor && _userListsCursor != 0)
                     param.Add("cursor", _userListsCursor);
-
                 var userLists = await Tokens.Lists.OwnershipsAsync(param);
 
                 if (!useCursor || _userListsCursor == 0)
@@ -81,103 +72,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             UpdatingUserLists = false;
         }
 
-        public async Task UpdateSubscribeLists(bool useCursor = false)
-        {
-            if (UpdatingSubscribeLists)
-                return;
-
-            if (_userId == 0 || Tokens == null)
-                return;
-
-            if (useCursor && _subscribeListsCursor == 0)
-                return;
-
-            UpdatingSubscribeLists = true;
-
-            if (!useCursor || _subscribeListsCursor == 0)
-                SubscribeLists.Clear();
-
-            try
-            {
-                var param = new Dictionary<string, object>
-                {
-                    {"user_id", _userId},
-                    {"count", 20}
-                };
-                if (useCursor && _subscribeListsCursor != 0)
-                    param.Add("cursor", _subscribeListsCursor);
-
-                var subscribeLists = await Tokens.Lists.SubscriptionsAsync(param);
-
-                if (!useCursor || _subscribeListsCursor == 0)
-                    SubscribeLists.Clear();
-
-                foreach (var list in subscribeLists)
-                    SubscribeLists.Add(list);
-
-                _subscribeListsCursor = subscribeLists.NextCursor;
-            }
-            catch
-            {
-                if (!useCursor || _subscribeListsCursor == 0)
-                    SubscribeLists.Clear();
-
-                UpdatingSubscribeLists = false;
-                return;
-            }
-
-            UpdatingSubscribeLists = false;
-        }
-
-        public async Task UpdateMembershipLists(bool useCursor = false)
-        {
-            if (UpdatingMembershipLists)
-                return;
-
-            if (_userId == 0 || Tokens == null)
-                return;
-
-            if (useCursor && _memberListsCursor == 0)
-                return;
-
-            UpdatingMembershipLists = true;
-
-            if (!useCursor || _memberListsCursor == 0)
-                MembershipLists.Clear();
-
-            try
-            {
-                var param = new Dictionary<string, object>
-                {
-                    {"user_id", _userId},
-                    {"count", 20}
-                };
-                if (useCursor && _memberListsCursor != 0)
-                    param.Add("cursor", _memberListsCursor);
-
-                var membershipLists = await Tokens.Lists.MembershipsAsync(param);
-
-                if (!useCursor || _memberListsCursor == 0)
-                    MembershipLists.Clear();
-
-                foreach (var list in membershipLists)
-                    MembershipLists.Add(list);
-
-                _memberListsCursor = membershipLists.NextCursor;
-            }
-            catch
-            {
-                if (!useCursor || _memberListsCursor == 0)
-                    MembershipLists.Clear();
-
-                UpdatingMembershipLists = false;
-                return;
-            }
-
-            UpdatingMembershipLists = false;
-        }
-
-        public async Task<bool> CreateList(string cname, string cdescription, string cmode)
+        public async Task<bool> CreateList(string cname)
         {
             if (CreatingOrUpdatingList)
                 return false;
@@ -192,7 +87,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             try
             {
-                await Tokens.Lists.CreateAsync(name => cname, description => cdescription, mode => cmode);
+                await Tokens.Lists.CreateAsync(name => cname);
             }
             catch (CoreTweet.TwitterException ex)
             {
@@ -229,7 +124,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             return true;
         }
 
-        public async Task<bool> UpdateList(long cid, string cname, string cdescription, string cmode)
+        public async Task<bool> UpdateList(long cid, string cname)
         {
             if (CreatingOrUpdatingList)
                 return false;
@@ -244,8 +139,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             try
             {
-                await Tokens.Lists.UpdateAsync(list_id => cid, name => cname, description => cdescription,
-                    mode => cmode);
+                await Tokens.Lists.UpdateAsync(id => cid, name => cname);
             }
             catch (CoreTweet.TwitterException ex)
             {
@@ -297,7 +191,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
             try
             {
-                await Tokens.Lists.DestroyAsync(list_id => cid);
+                await Tokens.Lists.DestroyAsync(id => cid);
             }
             catch (CoreTweet.TwitterException ex)
             {
@@ -358,42 +252,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         #endregion
 
-        #region UserLists変更通知プロパティ
-
-        private ObservableCollection<List> _userLists;
-
-        public ObservableCollection<List> UserLists
-        {
-            get => _userLists;
-            set => SetProperty(ref _userLists, value);
-        }
-
-        #endregion
-
-        #region SubscribeLists変更通知プロパティ
-
-        private ObservableCollection<List> _subscribeLists;
-
-        public ObservableCollection<List> SubscribeLists
-        {
-            get => _subscribeLists;
-            set => SetProperty(ref _subscribeLists, value);
-        }
-
-        #endregion
-
-        #region MembershipLists変更通知プロパティ
-
-        private ObservableCollection<List> _membershipLists;
-
-        public ObservableCollection<List> MembershipLists
-        {
-            get => _membershipLists;
-            set => SetProperty(ref _membershipLists, value);
-        }
-
-        #endregion
-
         #region UpdatingUserLists変更通知プロパティ
 
         private bool _updatingUserLists;
@@ -406,38 +264,14 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
         #endregion
 
-        #region UpdatingSubscribeLists変更通知プロパティ
-
-        private bool _updatingSubscribeLists;
-
-        public bool UpdatingSubscribeLists
-        {
-            get => _updatingSubscribeLists;
-            set => SetProperty(ref _updatingSubscribeLists, value);
-        }
-
-        #endregion
-
-        #region UpdatingMembershipLists変更通知プロパティ
-
-        private bool _updatingMembershipLists;
-
-        public bool UpdatingMembershipLists
-        {
-            get => _updatingMembershipLists;
-            set => SetProperty(ref _updatingMembershipLists, value);
-        }
-
-        #endregion
-
         #region CreatingOrUpdatingList変更通知プロパティ
 
-        private bool _creatingOrUpdatingList;
+        private bool _CreatingOrUpdatingList;
 
         public bool CreatingOrUpdatingList
         {
-            get => _creatingOrUpdatingList;
-            set => SetProperty(ref _creatingOrUpdatingList, value);
+            get => _CreatingOrUpdatingList;
+            set => SetProperty(ref _CreatingOrUpdatingList, value);
         }
 
         #endregion

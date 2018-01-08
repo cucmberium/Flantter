@@ -8,16 +8,20 @@ using Flantter.MilkyWay.ViewModels.Apis.Objects;
 
 namespace Flantter.MilkyWay.Views.Contents.Timeline
 {
-    public sealed partial class List : UserControl
+    public sealed partial class SimpleList : UserControl
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(ListViewModel), typeof(List), null);
-        
+            DependencyProperty.Register("ViewModel", typeof(ListViewModel), typeof(SimpleList), null);
+
+        public static readonly DependencyProperty IsCommandBarEnabledProperty =
+            DependencyProperty.Register("IsCommandBarEnabled", typeof(bool), typeof(Collection),
+                new PropertyMetadata(true));
+
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register("IsSelected", typeof(bool), typeof(List),
+            DependencyProperty.Register("IsSelected", typeof(bool), typeof(SimpleList),
                 new PropertyMetadata(false, IsSelectedPropertyChanged));
 
-        public List()
+        public SimpleList()
         {
             InitializeComponent();
             Loaded += (s, e) =>
@@ -65,7 +69,17 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
 
             SetIsSelected(this, false);
         }
-        
+
+        public static bool GetIsCommandBarEnabled(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsCommandBarEnabledProperty);
+        }
+
+        public static void SetIsCommandBarEnabled(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsCommandBarEnabledProperty, value);
+        }
+
         public static bool GetIsSelected(DependencyObject obj)
         {
             return (bool) obj.GetValue(IsSelectedProperty);
@@ -87,7 +101,10 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
 
         private static void CommandGrid_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            var status = obj as List;
+            if (!GetIsCommandBarEnabled(obj))
+                return;
+
+            var status = obj as SimpleList;
             var grid = status.FindName("CommandGrid") as Grid;
 
             if (grid == null)

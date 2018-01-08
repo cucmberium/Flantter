@@ -426,6 +426,12 @@ namespace Flantter.MilkyWay.Models
                         _resourceLoader.GetString("TweetArea_Message_Error"), ex.Errors.First().Message);
                     return false;
                 }
+                catch (TootNet.Exception.MastodonException ex)
+                {
+                    Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                        _resourceLoader.GetString("TweetArea_Message_Error"), ex.Message);
+                    return false;
+                }
                 catch (NotImplementedException ex)
                 {
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
@@ -437,7 +443,7 @@ namespace Flantter.MilkyWay.Models
                 {
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
                         _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                        _resourceLoader.GetString("Notification_System_CheckNetwork"));
+                        ex.ToString());
                     return false;
                 }
                 finally

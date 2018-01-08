@@ -332,15 +332,21 @@ namespace Flantter.MilkyWay.Models
                         return;
 
                     if (AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
+                    {
                         AccountModel.DisconnectAllFilterStreaming(this);
 
-                    var userList =
-                        await Tokens.Lists.Members.ListAsync(list_id => long.Parse(Parameter), count => 4999);
-                    _listStreamUserIdList = userList.Select(x => x.Id).ToList();
+                        var userList =
+                            await Tokens.Lists.Members.ListAsync(list_id => long.Parse(Parameter), count => 4999);
+                        _listStreamUserIdList = userList.Select(x => x.Id).ToList();
 
-                    var param = new Dictionary<string, object>();
-                    param.Add("follow", string.Join(",", _listStreamUserIdList));
-                    iObservable = Tokens.Streaming.FilterAsObservable(param);
+                        var param = new Dictionary<string, object>();
+                        param.Add("follow", string.Join(",", _listStreamUserIdList));
+                        iObservable = Tokens.Streaming.FilterAsObservable(param);
+                    }
+                    else
+                    {
+                        iObservable = Tokens.Streaming.ListAsObservable(list => long.Parse(ColumnSetting.Parameter));
+                    }
                 }
                 else if (_action == SettingSupport.ColumnTypeEnum.Federated)
                 {

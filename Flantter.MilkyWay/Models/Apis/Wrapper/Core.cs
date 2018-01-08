@@ -2022,7 +2022,8 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
             {
                 User = 0,
                 Tag = 1,
-                Public = 2
+                Public = 2,
+                List = 3
             }
 
             public class StreamingObservable : IObservable<Apis.Objects.StreamingMessage>
@@ -2049,16 +2050,25 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                             conn.Start(observer, _tokens, "https://" + streamingUrl + "/api/v1/streaming/user");
                             break;
                         case StreamingType.Tag:
+                            if (!_parameters.ContainsKey("tag") || string.IsNullOrEmpty(_parameters["tag"].ToString()))
+                                throw new ArgumentException("You must specify a hashtag");
+
                             conn.Start(observer, _tokens,
                                 "https://" + streamingUrl + "/api/v1/streaming/hashtag" + "?tag=" +
                                 _parameters["track"]);
                             break;
                         case StreamingType.Public:
                             var publicStreamingUrl = "https://" + streamingUrl + "/api/v1/streaming/public";
-                            if (_parameters.ContainsKey("local") && (bool) _parameters["local"])
+                            if (_parameters.ContainsKey("local") && (bool)_parameters["local"])
                                 publicStreamingUrl += "/local";
 
                             conn.Start(observer, _tokens, publicStreamingUrl);
+                            break;
+                        case StreamingType.List:
+                            if (!_parameters.ContainsKey("list") || string.IsNullOrEmpty(_parameters["list"].ToString()))
+                                throw new ArgumentException("You must specify a list_id");
+
+                            conn.Start(observer, _tokens, "https://" + streamingUrl + "/api/v1/streaming/list" + "?list=" + _parameters["list"]);
                             break;
                     }
                     return conn;
@@ -2403,6 +2413,31 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     throw new NotImplementedException();
                 case Tokens.PlatformEnum.Mastodon:
                     return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Public,
+                        parameters);
+            }
+            throw new NotImplementedException();
+        }
+
+        public IObservable<Apis.Objects.StreamingMessage> ListAsObservable(
+            params Expression<Func<string, object>>[] parameters)
+        {
+            return ListAsObservableImpl(ExpressionToDictionary(parameters));
+        }
+
+        public IObservable<Apis.Objects.StreamingMessage> ListAsObservable(IDictionary<string, object> parameters)
+        {
+            return ListAsObservableImpl(parameters);
+        }
+
+        private IObservable<Apis.Objects.StreamingMessage> ListAsObservableImpl(
+            IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    throw new NotImplementedException();
+                case Tokens.PlatformEnum.Mastodon:
+                    return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.List,
                         parameters);
             }
             throw new NotImplementedException();

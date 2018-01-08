@@ -77,7 +77,7 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
             CommandGrid_PropertyChanged(obj, e);
 
             var directMessage = obj as DirectMessage;
-            var textblock = directMessage.FindName("DirectMessageBodyText") as TextBlock;
+            var textblock = directMessage.FindName("DirectMessageBodyText") as RichTextBlock;
             textblock.IsTextSelectionEnabled = (bool) e.NewValue && SettingService.Setting.EnableTweetTextSelection;
         }
 

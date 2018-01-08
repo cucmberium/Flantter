@@ -39,7 +39,7 @@
                     <Run Foreground="{StaticResource TweetNameTextblockForegroundBrush}" FontSize="12" Text="{x:Bind ViewModel.Name, Mode=OneWay}" FontWeight="Bold"/>
                     <Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text=" @"/><Run Foreground="{StaticResource TweetScreenNameTextblockForegroundBrush}" Text="{x:Bind ViewModel.ScreenName, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock TextWrapping="Wrap" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Description, Mode=OneWay}"/>
+                <RichTextBlock TextWrapping="Wrap" IsTextSelectionEnabled="False" Margin="0,2" FontWeight="{x:Bind ViewModel.Setting.FontWeight, Mode=OneWay}" FontFamily="{x:Bind ViewModel.Setting.CustomFontName, Mode=OneWay}" FontSize="{x:Bind ViewModel.Setting.FontSize, Mode=OneWay}" behaviors:TexbblockNavigationServiceBehavior.Text="{x:Bind ViewModel.Description, Mode=OneWay}"/>
                 <TextBlock FontSize="10.5" HorizontalAlignment="Left">
                     <Run x:Uid="SettingsFlyout_UserLists_MemberCountTextblock" Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="メンバー : "/><Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text="{x:Bind ViewModel.MemberCount, Mode=OneWay}"/>
                     <Run Foreground="{StaticResource TweetDateTimeTextblockForegroundBrush}" Text=" "/>

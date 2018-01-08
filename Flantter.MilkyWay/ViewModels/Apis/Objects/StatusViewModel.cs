@@ -22,7 +22,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             ScreenName = "";
             Name = "";
             ProfileImageUrl = "http://localhost/";
-            Entities = null;
             ProtectedText = "";
 
             RetweetInformationVisibility = false;
@@ -90,7 +89,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                     : status.User.ProfileImageUrl;
             }
             
-            Entities = status.Entities;
             ProtectedText = status.User.IsProtected ? "🔒 " : "";
 
             RetweetInformationVisibility = status.HasRetweetInformation;
@@ -187,10 +185,13 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                 QuotedStatusName = status.QuotedStatus.User.Name;
                 QuotedStatusScreenName = status.QuotedStatus.User.ScreenName;
                 QuotedStatusText = status.QuotedStatus.Text;
-                QuotedStatusEntities = status.QuotedStatus.Entities;
                 QuotedStatusProfileImageUrl = string.IsNullOrWhiteSpace(status.QuotedStatus.User.ProfileImageUrl)
                     ? "http://localhost/"
                     : status.QuotedStatus.User.ProfileImageUrl;
+
+                QuotedStatusMediaEntities = new List<MediaEntityViewModel>();
+                foreach (var mediaEntity in status.QuotedStatus.Entities.Media)
+                    QuotedStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity, status.PossiblySensitive));
             }
             else
             {
@@ -261,8 +262,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
 
         public string ProfileImageUrl { get; set; }
 
-        public Entities Entities { get; set; }
-
         public bool IsFavorited { get; set; }
 
         public bool IsRetweeted { get; set; }
@@ -311,8 +310,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
 
         public bool QuotedStatusMediaVisibility { get; set; }
 
-        public Entities QuotedStatusEntities { get; set; }
-
         public List<MediaEntityViewModel> QuotedStatusMediaEntities { get; }
 
 
@@ -329,8 +326,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
         public string MentionStatusText { get; set; }
 
         public string MentionStatusProfileImageUrl { get; set; }
-
-        public Entities MentionStatusEntities { get; set; }
 
         public int RetweetCount { get; set; }
 

@@ -6,9 +6,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Apis;
 using Flantter.MilkyWay.Models.Apis.Objects;
+using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Services;
 
 namespace Flantter.MilkyWay.Views.Behaviors
@@ -38,6 +40,10 @@ namespace Flantter.MilkyWay.Views.Behaviors
         public static readonly DependencyProperty LinkForegroundProperty =
             DependencyProperty.RegisterAttached("LinkForeground", typeof(object),
                 typeof(TexbblockNavigationServiceBehavior), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty EmojisProperty =
+            DependencyProperty.RegisterAttached("Emojis", typeof(object), typeof(TexbblockNavigationServiceBehavior),
+                new PropertyMetadata(null));
 
         public static string GetText(DependencyObject obj)
         {
@@ -99,30 +105,45 @@ namespace Flantter.MilkyWay.Views.Behaviors
             obj.SetValue(LinkForegroundProperty, value);
         }
 
+        public static object GetEmojis(DependencyObject obj)
+        {
+            return obj.GetValue(LinkForegroundProperty);
+        }
+
+        public static void SetEmojis(DependencyObject obj, object value)
+        {
+            obj.SetValue(LinkForegroundProperty, value);
+        }
+
+
         private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            var textBlock = obj as TextBlock;
-
+            var textBlock = obj as RichTextBlock;
             if (textBlock == null)
                 return;
 
-            textBlock.Inlines.Clear();
+            textBlock.Blocks.Clear();
 
             var text = GetText(obj);
             var entities = GetEntities(obj) as Entities;
+            var emojis = GetEmojis(obj) as List<Emoji>;
+
+            var paragraph = new Paragraph();
 
             if (string.IsNullOrEmpty(text))
                 return;
 
-            foreach (var inline in GenerateInlines(obj, text, entities))
-                textBlock.Inlines.Add(inline);
+            foreach (var inline in GenerateInlines(obj, text, entities, emojis))
+                paragraph.Inlines.Add(inline);
 
-            textBlock.Inlines.Add(new Run {Text = " "});
+            paragraph.Inlines.Add(new Run {Text = " "});
+
+            textBlock.Blocks.Add(paragraph);
         }
 
-        private static IEnumerable<Inline> GenerateInlines(DependencyObject obj, string text, Entities entities = null)
+        private static IEnumerable<Inline> GenerateInlines(DependencyObject obj, string text, Entities entities = null, List<Emoji> emojis = null)
         {
-            foreach (var token in Tokenize(obj, text, entities))
+            foreach (var token in Tokenize(obj, text, entities, emojis))
                 switch (token.Type)
                 {
                     case TextPartType.Plain:
@@ -139,6 +160,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         break;
                     case TextPartType.Url:
                         yield return GenerateLink(obj, token.Text, token.RawText);
+                        break;
+                    case TextPartType.Emoji:
+                        yield return GenerateEmoji(obj, token.Text);
                         break;
                 }
         }
@@ -183,7 +207,22 @@ namespace Flantter.MilkyWay.Views.Behaviors
             return hyperLink;
         }
 
-        private static IEnumerable<TextPart> TokenizeImpl(string text)
+        private static Inline GenerateEmoji(DependencyObject obj, string url)
+        {
+            var inlineUiContainer = new InlineUIContainer();
+            var image = new Image
+            {
+                Source = new BitmapImage(new Uri(url)),
+                Width = SettingService.Setting.FontSize + 2,
+                Height = SettingService.Setting.FontSize + 2,
+                Margin = new Thickness(0, -2, 0, -2)
+            };
+            inlineUiContainer.Child = image;
+            
+            return inlineUiContainer;
+        }
+        
+        private static IEnumerable<TextPart> TokenizeImpl(string text, List<Emoji> emojis)
         {
             if (string.IsNullOrEmpty(text))
                 yield break;
@@ -211,6 +250,12 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 m.Groups[TweetRegexPatterns.ValidHashtagGroupHash].Value +
                 m.Groups[TweetRegexPatterns.ValidHashtagGroupTag].Value +
                 "<");
+
+            if (emojis != null && emojis.Count >= 1)
+            {
+                foreach (var emoji in emojis)
+                    escapedText = escapedText.Replace(":" + emoji.Shortcode + ":", "<E>" + emoji.StaticUrl + "<");
+            }
 
             var splitted = escapedText.Split(new[] {'<'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var s in splitted)
@@ -242,6 +287,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
                         case 'H':
                             yield return new TextPart {RawText = body, Text = body, Type = TextPartType.Hashtag};
                             break;
+                        case 'E':
+                            yield return new TextPart { RawText = body, Text = body, Type = TextPartType.Emoji };
+                            break;
                         default:
                             throw new InvalidOperationException("Invalid grouping:" + kind);
                     }
@@ -252,16 +300,16 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 }
         }
 
-        private static IEnumerable<TextPart> Tokenize(DependencyObject sender, string text, Entities entities)
+        private static IEnumerable<TextPart> Tokenize(DependencyObject sender, string text, Entities entities, List<Emoji> emojis)
         {
             if (string.IsNullOrEmpty(text))
                 yield break;
 
             if (entities == null || entities.HashTags == null || entities.UserMentions == null || entities.Urls == null)
-                foreach (var token in TokenizeImpl(text))
+                foreach (var token in TokenizeImpl(text, emojis))
                     yield return token;
             else if (GetDeficientEntity(sender) || entities.DeficientEntity)
-                foreach (var token in TokenizeImpl(text))
+                foreach (var token in TokenizeImpl(text, emojis))
                 {
                     if (token.Type == TextPartType.Url && entities.Urls.Any(x => x.Url == token.RawText))
                     {
@@ -286,6 +334,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     yield return token;
                 }
+            else if (emojis != null)
+                foreach (var token in TokenizeImpl(text, emojis))
+                    yield return token;
             else
                 foreach (var token in ExtractTextParts.EnumerateTextParts(text, entities))
                     yield return token;

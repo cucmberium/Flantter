@@ -1103,7 +1103,7 @@ namespace Flantter.MilkyWay.ViewModels
                         AutoRefresh = false,
                         AutoRefreshTimerInterval = 180.0,
                         Filter = "()",
-                        Name = "List : " + list.FullName,
+                        Name = "List : " + list.Name,
                         Parameter = list.Id.ToString(),
                         Streaming = false,
                         Index = -1,

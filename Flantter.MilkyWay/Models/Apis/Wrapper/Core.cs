@@ -2055,7 +2055,7 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
 
                             conn.Start(observer, _tokens,
                                 "https://" + streamingUrl + "/api/v1/streaming/hashtag" + "?tag=" +
-                                _parameters["track"]);
+                                _parameters["tag"]);
                             break;
                         case StreamingType.Public:
                             var publicStreamingUrl = "https://" + streamingUrl + "/api/v1/streaming/public";
@@ -2336,6 +2336,8 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     return new TwitterStreaming.StreamingObservable(Tokens, TwitterStreaming.StreamingType.Filter,
                         parameters);
                 case Tokens.PlatformEnum.Mastodon:
+                    parameters["tag"] = parameters["track"];
+                    parameters.Remove("track");
                     return new MastodonStreaming.StreamingObservable(Tokens, MastodonStreaming.StreamingType.Tag,
                         parameters);
             }

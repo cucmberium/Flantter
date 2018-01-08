@@ -430,6 +430,9 @@ namespace Flantter.MilkyWay.Views.Behaviors
                     ((ListMembersSettingsFlyout) settingsFlyout).ViewModel.ClearCommand.Execute();
 
                     ((ListMembersSettingsFlyout) settingsFlyout).ViewModel.Id.Value = ((List) notification.Content).Id;
+                    ((ListMembersSettingsFlyout) settingsFlyout).ViewModel.IsMyList.Value =
+                        ((List) notification.Content).User.Id == notification.Tokens.UserId ||
+                        ((List) notification.Content).User.Id == 0;
 
                     ((ListMembersSettingsFlyout) settingsFlyout).ViewModel.UpdateCommand.Execute();
 

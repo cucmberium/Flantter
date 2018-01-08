@@ -1,18 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Models.Apis.Wrapper;
+using Flantter.MilkyWay.Models.Notifications;
 using Prism.Mvvm;
 
 namespace Flantter.MilkyWay.Models.SettingsFlyouts
 {
     public class ListMembersSettingsFlyoutModel : BindableBase
     {
+        private readonly ResourceLoader _resourceLoader;
+
         private long _listMembersCursor;
 
         public ListMembersSettingsFlyoutModel()
         {
+            _resourceLoader = new ResourceLoader();
+
             ListMembers = new ObservableCollection<User>();
         }
 
@@ -23,7 +31,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             if (Updating)
                 return;
 
-            if (Id == 0 || Tokens == null)
+            if (_id == 0 || Tokens == null)
                 return;
 
             if (useCursor && _listMembersCursor == 0)
@@ -60,6 +68,45 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             }
 
             Updating = false;
+        }
+
+        public async Task<bool> DeleteUser(long cid)
+        {
+            if (_id == 0 || Tokens == null)
+                return false;
+            
+            try
+            {
+                await Tokens.Lists.Members.DestroyAsync(list_id => _id, user_id => cid);
+            }
+            catch (CoreTweet.TwitterException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
+                return false;
+            }
+            catch (TootNet.Exception.MastodonException ex)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
+                return false;
+            }
+            catch (NotImplementedException e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
+                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
+                return false;
+            }
+            catch (Exception e)
+            {
+                Core.Instance.PopupToastNotification(PopupNotificationType.System,
+                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
+                    e.ToString());
+                return false;
+            }
+            
+            return true;
         }
 
         #region Tokens変更通知プロパティ

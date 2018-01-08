@@ -1135,4 +1135,7 @@
   <data name="Tweet_Command_MenuFlyout_AddToList.Text" xml:space="preserve">
     <value>    リストに追加</value>
   </data>
+  <data name="SettingsFlyout_ListMembers_DeleteUser_Textblock.Text" xml:space="preserve">
+    <value>リストからユーザーを削除する</value>
+  </data>
 </root>

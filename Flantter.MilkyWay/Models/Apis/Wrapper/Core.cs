@@ -1179,7 +1179,10 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Apis.Objects.List(await Tokens.TwitterTokens.Lists.Members.CreateAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    parameters["account_ids"] = new List<long> {(long) parameters["user_id"]};
+                    parameters.Remove("user_id");
+                    await Tokens.MastodonTokens.Lists.AddAccountAsync(Utils.ConvertToMastodonParameters(parameters));
+                    return new Apis.Objects.List();
             }
             throw new NotImplementedException();
         }
@@ -1201,7 +1204,10 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                 case Tokens.PlatformEnum.Twitter:
                     return new Apis.Objects.List(await Tokens.TwitterTokens.Lists.Members.DestroyAsync(parameters));
                 case Tokens.PlatformEnum.Mastodon:
-                    throw new NotImplementedException();
+                    parameters["account_ids"] = new List<long> { (long)parameters["user_id"] };
+                    parameters.Remove("user_id");
+                    await Tokens.MastodonTokens.Lists.DeleteAccountAsync(Utils.ConvertToMastodonParameters(parameters));
+                    return new Apis.Objects.List();
             }
             throw new NotImplementedException();
         }

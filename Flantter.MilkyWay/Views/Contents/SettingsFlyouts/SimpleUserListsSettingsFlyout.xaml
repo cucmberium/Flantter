@@ -119,7 +119,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="twitterObjectsViewModel:ListViewModel">
-                    <timeline:MastodonList ViewModel="{x:Bind}" />
+                    <timeline:SimpleList ViewModel="{x:Bind}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListView>

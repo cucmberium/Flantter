@@ -1129,4 +1129,10 @@
   <data name="ConfirmDialog_DeleteList" xml:space="preserve">
     <value>リストを削除しますか?</value>
   </data>
+  <data name="ConfirmDialog_AddToList" xml:space="preserve">
+    <value>リストに追加しますか?</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_AddToList.Text" xml:space="preserve">
+    <value>    リストに追加</value>
+  </data>
 </root>

@@ -624,6 +624,41 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     PopupList.Insert(0, settingsFlyout);
                     break;
+                case "AddToList":
+                    settingsFlyoutList =
+                        _settingsFlyoutList.Where(x => x is AddUserToListsSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Any())
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new AddUserToListsSettingsFlyout();
+                        ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel =
+                            new AddUserToListsSettingsFlyoutViewModel();
+                        _settingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value =
+                        notification.UserIcon;
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.UserId.Value =
+                        notification.Tokens.UserId;
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.TargetUserId.Value =
+                        (long)notification.Content;
+
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((AddUserToListsSettingsFlyout)settingsFlyout).DataContext =
+                        ((AddUserToListsSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+
+                    PopupList.Insert(0, settingsFlyout);
+                    break;
                 case "MainSetting":
                     settingsFlyoutList = _settingsFlyoutList.Where(x => x is MainSettingSettingsFlyout && !x.IsOpen);
                     if (settingsFlyoutList.Any())

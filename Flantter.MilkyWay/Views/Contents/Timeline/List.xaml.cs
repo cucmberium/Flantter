@@ -12,7 +12,7 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
     {
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(ListViewModel), typeof(List), null);
-
+        
         public static readonly DependencyProperty IsSelectedProperty =
             DependencyProperty.Register("IsSelected", typeof(bool), typeof(List),
                 new PropertyMetadata(false, IsSelectedPropertyChanged));
@@ -65,7 +65,7 @@ namespace Flantter.MilkyWay.Views.Contents.Timeline
 
             SetIsSelected(this, false);
         }
-
+        
         public static bool GetIsSelected(DependencyObject obj)
         {
             return (bool) obj.GetValue(IsSelectedProperty);

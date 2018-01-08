@@ -31,6 +31,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             DeleteRetweetCommand = new ReactiveCommand();
             DeleteFromCollectionCommand = new ReactiveCommand();
             AddToCollectionCommand = new ReactiveCommand();
+            AddToListCommand = new ReactiveCommand();
             ShowUserListsCommand = new ReactiveCommand();
             ShowUserCollectionsCommand = new ReactiveCommand();
             ShowUserMediaStatusesCommand = new ReactiveCommand();
@@ -47,7 +48,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             FavoriteStatusesCommand = new ReactiveCommand();
             ShowMyListsCommand = new ReactiveCommand();
             ShowMyCollectionsCommand = new ReactiveCommand();
-            ShowMyMastodonListsCommand = new ReactiveCommand();
+            ShowMySimpleListsCommand = new ReactiveCommand();
             GetGapStatusCommand = new ReactiveCommand();
             ShowContentWarningTextCommand = new ReactiveCommand();
 
@@ -155,6 +156,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand DeleteRetweetCommand { get; }
         public ReactiveCommand DeleteFromCollectionCommand { get; }
         public ReactiveCommand AddToCollectionCommand { get; }
+        public ReactiveCommand AddToListCommand { get; }
         public ReactiveCommand ShowUserListsCommand { get; }
         public ReactiveCommand ShowUserCollectionsCommand { get; }
         public ReactiveCommand ShowUserMediaStatusesCommand { get; }
@@ -171,7 +173,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand FavoriteStatusesCommand { get; }
         public ReactiveCommand ShowMyListsCommand { get; }
         public ReactiveCommand ShowMyCollectionsCommand { get; }
-        public ReactiveCommand ShowMyMastodonListsCommand { get; }
+        public ReactiveCommand ShowMySimpleListsCommand { get; }
         public ReactiveCommand GetGapStatusCommand { get; }
         public ReactiveCommand ShowContentWarningTextCommand { get; }
 

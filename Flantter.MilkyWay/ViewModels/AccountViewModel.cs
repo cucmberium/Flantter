@@ -599,6 +599,20 @@ namespace Flantter.MilkyWay.ViewModels
                 })
                 .AddTo(Disposable);
 
+            Notice.Instance.AddToListCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Where(_ => Model.IsEnabled)
+                .Subscribe(x =>
+                {
+                    var notification = new ShowSettingsFlyoutNotification
+                    {
+                        SettingsFlyoutType = "AddToList",
+                        Tokens = Model.Tokens,
+                        UserIcon = ProfileImageUrl.Value,
+                        Content = x
+                    };
+                    Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+                })
+                .AddTo(Disposable);
 
             Notice.Instance.ShowUserProfileCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Where(_ => Model.IsEnabled)
@@ -880,7 +894,7 @@ namespace Flantter.MilkyWay.ViewModels
                 })
                 .AddTo(Disposable);
 
-            Notice.Instance.ShowMyMastodonListsCommand.SubscribeOn(ThreadPoolScheduler.Default)
+            Notice.Instance.ShowMySimpleListsCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Where(_ => Model.IsEnabled)
                 .Subscribe(x =>
                 {

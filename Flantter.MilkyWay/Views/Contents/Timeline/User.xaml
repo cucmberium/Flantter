@@ -96,6 +96,8 @@
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_OtherMenu" Text="&#xE16F;    その他" FontFamily="Segoe UI Symbol">
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_MuteUser" Text="&#xE1E0;    ユーザーミュート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.MuteUserCommand}" CommandParameter="{x:Bind ViewModel.Model, Mode=OneWay}"/>
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_AddToList" Text="&#xE109;    リストに追加" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.AddToListCommand}" CommandParameter="{x:Bind ViewModel.Model.Id, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>
                     </MenuFlyout>
                 </Button.Flyout>

@@ -76,7 +76,7 @@ namespace Flantter.MilkyWay.Models
             else
             {
                 LessThanMaxTweetLength = false;
-                CharacterCount = MaxTootLength - text.Length;
+                CharacterCount = MaxTootLength - length;
             }
         }
 

@@ -719,13 +719,13 @@
     <value>アカウント選択</value>
   </data>
   <data name="ConfirmDialog_DonateSuccessfully" xml:space="preserve">
-    <value>寄付ありがとうございます! 寄付専用の機能が開放されました!</value>
+    <value>アップグレードありがとうございます! Flantter Pro専用の機能が開放されました!</value>
   </data>
   <data name="ConfirmDialog_FailedToDonate" xml:space="preserve">
-    <value>寄付はキャンセルされました。支払いは発生しません</value>
+    <value>アップグレードはキャンセルされました。支払いは発生しません</value>
   </data>
   <data name="ConfirmDialog_NeedAppDonation" xml:space="preserve">
-    <value>寄付をすることで一部の機能が開放されます。これにはバックグラウンド通知やフォントの変更が含まれます。寄付を行いますか?</value>
+    <value>Flantter Proにすることで一部の機能が開放されます。これにはバックグラウンド通知やフォントの変更が含まれます。アップグレードを行いますか?</value>
   </data>
   <data name="SettingsFlyout_Settings_Advanced_Browse_Button.Content" xml:space="preserve">
     <value>参照</value>
@@ -869,7 +869,7 @@
     <value>    カラム並び替え</value>
   </data>
   <data name="MainSwipeMenu_Donation.Text" xml:space="preserve">
-    <value>寄付</value>
+    <value>アップグレード</value>
   </data>
   <data name="MainSwipeMenu_Help.Text" xml:space="preserve">
     <value>ヘルプ</value>
@@ -920,7 +920,7 @@
     <value>データベースの削除</value>
   </data>
   <data name="ConfirmDialog_DonatedAlready" xml:space="preserve">
-    <value>あなたはすでに寄付しています</value>
+    <value>あなたはすでにアップグレードしています</value>
   </data>
   <data name="SettingsFlyout_Settings_Behavior_EnableCreateAtLink_ToggleSwitch.Header" xml:space="preserve">
     <value>ツイート選択時日時クリックで対象ツイートをブラウザで開く</value>

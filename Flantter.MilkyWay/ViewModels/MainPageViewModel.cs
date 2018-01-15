@@ -372,7 +372,8 @@ namespace Flantter.MilkyWay.ViewModels
                         await Notice.ShowMessageDialogMessenger.Raise(new MessageDialogNotification
                         {
                             Message = _resourceLoader.GetString("ConfirmDialog_DonatedAlready"),
-                            Title = "Donation"
+                            Title = "Upgrade"
+                            //Title = "Donation"
                         });
                         return;
                     }

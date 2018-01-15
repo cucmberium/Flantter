@@ -719,13 +719,13 @@
     <value>Select account</value>
   </data>
   <data name="ConfirmDialog_DonateSuccessfully" xml:space="preserve">
-    <value>Thanks for your donation! You can access new feature for donator.</value>
+    <value>Thanks for your upgrade! You can access new feature for Flantter Pro.</value>
   </data>
   <data name="ConfirmDialog_FailedToDonate" xml:space="preserve">
-    <value>Donation progress is canceled.</value>
+    <value>Upgrade progress is canceled.</value>
   </data>
   <data name="ConfirmDialog_NeedAppDonation" xml:space="preserve">
-    <value>This future can be used only donator. Donate now?</value>
+    <value>This future can be used only Flantter Pro. Upgrade now?</value>
   </data>
   <data name="SettingsFlyout_Settings_Advanced_Browse_Button.Content" xml:space="preserve">
     <value>Browse</value>
@@ -869,7 +869,7 @@
     <value>    Sort column</value>
   </data>
   <data name="MainSwipeMenu_Donation.Text" xml:space="preserve">
-    <value>Donation</value>
+    <value>Upgrade to Flantter Pro</value>
   </data>
   <data name="MainSwipeMenu_Help.Text" xml:space="preserve">
     <value>Help</value>
@@ -920,7 +920,7 @@
     <value>Delete database file</value>
   </data>
   <data name="ConfirmDialog_DonatedAlready" xml:space="preserve">
-    <value>You already donated.</value>
+    <value>You already upgraded.</value>
   </data>
   <data name="SettingsFlyout_Settings_Behavior_EnableCreateAtLink_ToggleSwitch.Header" xml:space="preserve">
     <value>Enable create at link</value>

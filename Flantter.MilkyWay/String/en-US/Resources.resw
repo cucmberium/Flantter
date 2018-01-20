@@ -914,7 +914,7 @@
     <value>Disable startup timeline update</value>
   </data>
   <data name="SettingsFlyout_Settings_Database_RestoreTimelineOnStartup_ToggleSwitch.Header" xml:space="preserve">
-    <value>Retwet timeline on startup</value>
+    <value>Restore timeline on startup</value>
   </data>
   <data name="SettingsFlyout_Settings_Database_DeleteDatabaseFile_Textblock.Text" xml:space="preserve">
     <value>Delete database file</value>

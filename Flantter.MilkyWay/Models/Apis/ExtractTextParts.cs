@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,6 @@ namespace Flantter.MilkyWay.Models.Apis
                 (char) (code % 0x400 + 0xDC00)
             });
         }
-
 
         private static string HtmlDecode(string source)
         {
@@ -60,24 +60,25 @@ namespace Flantter.MilkyWay.Models.Apis
                         if (s[0] == '#')
                         {
                             var code = s[1] == 'x'
-                                ? uint.Parse(s.Substring(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)
-                                : uint.Parse(s.Substring(1), CultureInfo.InvariantCulture);
+                                ? uint.Parse(s.Substring(2), NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo)
+                                : uint.Parse(s.Substring(1), NumberFormatInfo.InvariantInfo);
                             sb.Append(CharFromInt(code));
                         }
                         else
                         {
                             sb.Append('&').Append(s).Append(';');
                         }
+
                         break;
                 }
 
                 i = semicolonIndex;
             }
+
             return sb.ToString();
         }
 
-
-        private static List<DoubleUtf16Char> EnumerateChars(string str)
+        private static List<DoubleUtf16Char> GetCodePoints(string str)
         {
             var result = new List<DoubleUtf16Char>(str.Length);
             for (var i = 0; i < str.Length; i++)
@@ -87,22 +88,8 @@ namespace Flantter.MilkyWay.Models.Apis
                     ? new DoubleUtf16Char(c, str[++i])
                     : new DoubleUtf16Char(c));
             }
-            return result;
-        }
 
-        private static string ToString(IList<DoubleUtf16Char> source, int start)
-        {
-            var sourceLen = source.Count;
-            var arr = new char[sourceLen * 2];
-            var strLen = 0;
-            for (var i = start; i < sourceLen; i++)
-            {
-                var x = source[i];
-                arr[strLen++] = x.X;
-                if (char.IsHighSurrogate(x.X))
-                    arr[strLen++] = x.Y;
-            }
-            return new string(arr, 0, strLen);
+            return result;
         }
 
         private static string ToString(IList<DoubleUtf16Char> source, int start, int count)
@@ -117,13 +104,27 @@ namespace Flantter.MilkyWay.Models.Apis
                 if (char.IsHighSurrogate(x.X))
                     arr[strLen++] = x.Y;
             }
+
             return new string(arr, 0, strLen);
         }
 
         public static IEnumerable<TextPart> EnumerateTextParts(string text, Entities entities)
         {
+            if (text == null)
+                throw new ArgumentNullException(nameof(text));
+
+            var chars = GetCodePoints(text);
+            return EnumerateTextParts(chars, entities, 0, chars.Count);
+        }
+
+        private static IEnumerable<TextPart> EnumerateTextParts(IList<DoubleUtf16Char> chars, Entities entities,
+            int startIndex, int endIndex)
+        {
+            if (startIndex == endIndex) yield break;
+
             if (entities == null)
             {
+                var text = ToString(chars, startIndex, endIndex - startIndex);
                 yield return new TextPart
                 {
                     RawText = text,
@@ -133,45 +134,47 @@ namespace Flantter.MilkyWay.Models.Apis
             }
 
             var list = new LinkedList<TextPart>(
-                entities.HashTags
+                (entities.HashTags ?? Enumerable.Empty<HashtagEntity>())
+                .Select(e => new TextPart
+                {
+                    Type = TextPartType.Hashtag,
+                    Start = e.Start,
+                    End = e.End,
+                    RawText = "#" + e.Tag,
+                    Text = "#" + e.Tag,
+                    Entity = e
+                })
+                .Concat(
+                    (entities.Urls ?? Enumerable.Empty<UrlEntity>())
                     .Select(e => new TextPart
                     {
-                        Type = TextPartType.Hashtag,
+                        Type = TextPartType.Url,
                         Start = e.Start,
                         End = e.End,
-                        RawText = "#" + e.Tag,
-                        Text = "#" + e.Tag,
+                        RawText = e.Url,
+                        Text = e.DisplayUrl,
                         Entity = e
                     })
-                    .Concat(
-                        entities.Urls
-                            .Select(e => new TextPart
-                            {
-                                Type = TextPartType.Url,
-                                Start = e.Start,
-                                End = e.End,
-                                RawText = e.Url,
-                                Text = e.DisplayUrl,
-                                Entity = e
-                            })
-                    )
-                    .Concat(
-                        entities.UserMentions
-                            .Select(e => new TextPart
-                            {
-                                Type = TextPartType.UserMention,
-                                Start = e.Start,
-                                End = e.End,
-                                RawText = e.Id.ToString(),
-                                Text = "@" + e.ScreenName,
-                                Entity = e
-                            })
-                    )
-                    .OrderBy(part => part.Start)
+                )
+                .Concat(
+                    (entities.UserMentions ?? Enumerable.Empty<UserMentionEntity>())
+                    .Select(e => new TextPart
+                    {
+                        Type = TextPartType.UserMention,
+                        Start = e.Start,
+                        End = e.End,
+                        RawText = e.Id.ToString(),
+                        Text = "@" + e.ScreenName,
+                        Entity = e
+                    })
+                )
+                .Where(e => e.Start >= startIndex && e.Start < endIndex)
+                .OrderBy(part => part.Start)
             );
 
             if (list.Count == 0)
             {
+                var text = ToString(chars, startIndex, endIndex - startIndex);
                 yield return new TextPart
                 {
                     RawText = text,
@@ -181,11 +184,10 @@ namespace Flantter.MilkyWay.Models.Apis
             }
 
             var current = list.First;
-            var chars = EnumerateChars(text);
 
             while (true)
             {
-                var start = current.Previous?.Value.End ?? 0;
+                var start = current.Previous?.Value.End ?? startIndex;
                 var count = current.Value.Start - start;
                 if (count > 0)
                 {
@@ -204,9 +206,9 @@ namespace Flantter.MilkyWay.Models.Apis
             }
 
             var lastStart = current.Value.End;
-            if (lastStart < chars.Count)
+            if (lastStart < endIndex)
             {
-                var lastOutput = ToString(chars, lastStart);
+                var lastOutput = ToString(chars, lastStart, endIndex - lastStart);
                 yield return new TextPart
                 {
                     RawText = lastOutput,

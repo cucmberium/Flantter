@@ -288,7 +288,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                             yield return new TextPart {RawText = body, Text = body, Type = TextPartType.Hashtag};
                             break;
                         case 'E':
-                            yield return new TextPart { RawText = body, Text = body, Type = TextPartType.Emoji };
+                            yield return new TextPart {RawText = body, Text = body, Type = TextPartType.Emoji};
                             break;
                         default:
                             throw new InvalidOperationException("Invalid grouping:" + kind);

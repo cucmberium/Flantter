@@ -76,7 +76,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
                     return " @" + userMention.First().Acct + " ";
 
                 urlEntities.Add(match.Groups[2].Value);
-                return " " + match.Groups[1]?.Value + match.Groups[3].Value + " ";
+                return " " + match.Groups[1].Value + match.Groups[3].Value + " ";
             });
             text = ContentRegex.Replace(text, "").Trim();
             text = EmojiPatterns.LightValidEmoji.Replace(text,
@@ -99,8 +99,9 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
 
             SpoilerText = cStatus.SpoilerText;
             Emojis = new List<Emoji>();
-            foreach (var emoji in cStatus.Emojis)
-                Emojis.Add(new Emoji(emoji));
+            if (cStatus.Emojis != null)
+                foreach (var emoji in cStatus.Emojis)
+                    Emojis.Add(new Emoji(emoji));
         }
 
         public Status()
@@ -289,6 +290,9 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
     {
         public Emoji(TootNet.Objects.Emoji cEmoji)
         {
+            if (cEmoji == null)
+                return;
+
             Shortcode = cEmoji.Shortcode;
             StaticUrl = cEmoji.StaticUrl;
             Url = cEmoji.Url;

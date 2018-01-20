@@ -69,10 +69,10 @@ namespace Flantter.MilkyWay.Models.Services.Database
                             _tweetDataQueue.Clear();
                         }
 
-                        db.Execute(
-                            "delete from TweetData where Id in (select Id from TweetData order by Id desc limit -1 offset ?);",
-                            SettingService.Setting.MaximumHoldingNumberOfTweet);
+                        db.Execute($"delete from TweetData where Id in (select Id from TweetData order by Id desc limit -1 offset {SettingService.Setting.MaximumHoldingNumberOfTweet});");
+                        System.Diagnostics.Debug.WriteLine($"delete from TweetData where Id in (select Id from TweetData order by Id desc limit -1 offset {SettingService.Setting.MaximumHoldingNumberOfTweet});");
                         db.Execute("delete from TweetInfo where Id not in (select Id from TweetData);");
+                        System.Diagnostics.Debug.WriteLine("delete from TweetInfo where Id not in (select Id from TweetData);");
 
                         db.Commit();
                     }
@@ -223,6 +223,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 //                                  .Take(count).ToList();
                 var tweets = db.Query<TweetData>(
                     $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"{param}\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                System.Diagnostics.Debug.WriteLine($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"{param}\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
                 db.Commit();
 
                 jsons = tweets.Select(x => x.Json);
@@ -251,6 +252,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "directmessages://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
                 var tweets = db.Query<TweetData>(
                     $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"directmessages://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                System.Diagnostics.Debug.WriteLine($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"directmessages://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
                 db.Commit();
 
                 jsons = tweets.Select(x => x.Json);
@@ -279,6 +281,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
                 var tweets = db.Query<TweetData>(
                     $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"events://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                System.Diagnostics.Debug.WriteLine($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"events://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
                 db.Commit();
 
                 jsons = tweets.Select(x => x.Json);
@@ -305,6 +308,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
                 var tweets = db.Query<TweetData>(
                     $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"collection://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                System.Diagnostics.Debug.WriteLine($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"collection://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
                 db.Commit();
 
                 jsons = tweets.Select(x => x.Json);
@@ -329,8 +333,10 @@ namespace Flantter.MilkyWay.Models.Services.Database
 
                 db.Query<TweetData>(
                     $"delete from TweetInfo where TweetInfo.Parameter = \"{parameter}\" and TweetInfo.UserId = {userId}");
+                System.Diagnostics.Debug.WriteLine($"delete from TweetInfo where TweetInfo.Parameter = \"{parameter}\" and TweetInfo.UserId = {userId}");
                 db.Query<TweetInfo>(
                     "delete from TweetData where TweetData.Id not in (select TweetInfo.Id from TweetInfo)");
+                System.Diagnostics.Debug.WriteLine("delete from TweetData where TweetData.Id not in (select TweetInfo.Id from TweetInfo)");
             }
         }
     }

@@ -18,6 +18,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
     public class Database
     {
         private readonly object _lock = new object();
+        private readonly object _dblock = new object();
         private readonly List<TweetData> _tweetDataQueue = new List<TweetData>();
         private readonly List<TweetInfo> _tweetInfoQueue = new List<TweetInfo>();
 
@@ -36,45 +37,48 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 return;
 
             _initialized = true;
-
+            
             var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
             _timer = Observable.Timer(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5))
                 .SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(_ =>
                 {
-                    using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+                    lock (_dblock)
                     {
-                        db.BeginTransaction();
-
-                        db.CreateTable<TweetInfo>();
-                        db.CreateTable<TweetData>(CreateFlags.AllImplicit);
-
-                        lock (_lock)
+                        using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
                         {
-                            foreach (var tweetInfo in _tweetInfoQueue)
-                            {
-                                var count = db.Table<TweetInfo>()
-                                    .Count(x => x.Id == tweetInfo.Id && x.Parameter == tweetInfo.Parameter &&
-                                                x.UserId == tweetInfo.UserId);
-                                if (count != 0)
-                                    continue;
+                            db.BeginTransaction();
 
-                                db.Insert(tweetInfo);
+                            db.CreateTable<TweetInfo>();
+                            db.CreateTable<TweetData>(CreateFlags.AllImplicit);
+
+                            lock (_lock)
+                            {
+                                foreach (var tweetInfo in _tweetInfoQueue)
+                                {
+                                    var count = db.Table<TweetInfo>()
+                                        .Count(x => x.Id == tweetInfo.Id && x.Parameter == tweetInfo.Parameter &&
+                                                    x.UserId == tweetInfo.UserId);
+                                    if (count != 0)
+                                        continue;
+
+                                    db.Insert(tweetInfo);
+                                }
+
+                                foreach (var tweetData in _tweetDataQueue)
+                                    db.InsertOrReplace(tweetData);
+
+                                _tweetInfoQueue.Clear();
+                                _tweetDataQueue.Clear();
                             }
 
-                            foreach (var tweetData in _tweetDataQueue)
-                                db.InsertOrReplace(tweetData);
+                            db.Execute($"delete from TweetData where Id in (select Id from TweetData order by Id desc limit -1 offset {SettingService.Setting.MaximumHoldingNumberOfTweet});");
+                            System.Diagnostics.Debug.WriteLine($"delete from TweetData where Id in (select Id from TweetData order by Id desc limit -1 offset {SettingService.Setting.MaximumHoldingNumberOfTweet});");
+                            db.Execute("delete from TweetInfo where Id not in (select Id from TweetData);");
+                            System.Diagnostics.Debug.WriteLine("delete from TweetInfo where Id not in (select Id from TweetData);");
 
-                            _tweetInfoQueue.Clear();
-                            _tweetDataQueue.Clear();
+                            db.Commit();
                         }
-
-                        db.Execute($"delete from TweetData where Id in (select Id from TweetData order by Id desc limit -1 offset {SettingService.Setting.MaximumHoldingNumberOfTweet});");
-                        System.Diagnostics.Debug.WriteLine($"delete from TweetData where Id in (select Id from TweetData order by Id desc limit -1 offset {SettingService.Setting.MaximumHoldingNumberOfTweet});");
-                        db.Execute("delete from TweetInfo where Id not in (select Id from TweetData);");
-                        System.Diagnostics.Debug.WriteLine("delete from TweetInfo where Id not in (select Id from TweetData);");
-
-                        db.Commit();
                     }
                 });
         }
@@ -158,20 +162,23 @@ namespace Flantter.MilkyWay.Models.Services.Database
         {
             string json;
             var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
-            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            lock (_dblock)
             {
-                db.BeginTransaction();
+                using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+                {
+                    db.BeginTransaction();
 
-                db.CreateTable<TweetInfo>();
-                db.CreateTable<TweetData>(CreateFlags.AllImplicit);
+                    db.CreateTable<TweetInfo>();
+                    db.CreateTable<TweetData>(CreateFlags.AllImplicit);
 
-                var tweets = db.Table<TweetData>().Where(x => x.Id == id).ToList();
-                db.Commit();
+                    var tweets = db.Table<TweetData>().Where(x => x.Id == id).ToList();
+                    db.Commit();
 
-                if (tweets.Count == 0)
-                    return null;
+                    if (tweets.Count == 0)
+                        return null;
 
-                json = tweets.First().Json;
+                    json = tweets.First().Json;
+                }
             }
 
             var status = JsonConvert.DeserializeObject<Status>(json);
@@ -184,20 +191,23 @@ namespace Flantter.MilkyWay.Models.Services.Database
         {
             string json;
             var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
-            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            lock (_dblock)
             {
-                db.BeginTransaction();
+                using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+                {
+                    db.BeginTransaction();
 
-                db.CreateTable<TweetInfo>();
-                db.CreateTable<TweetData>(CreateFlags.AllImplicit);
+                    db.CreateTable<TweetInfo>();
+                    db.CreateTable<TweetData>(CreateFlags.AllImplicit);
 
-                var tweets = db.Table<TweetData>().Where(x => x.InReplyToStatusId == id).ToList();
-                db.Commit();
+                    var tweets = db.Table<TweetData>().Where(x => x.InReplyToStatusId == id).ToList();
+                    db.Commit();
 
-                if (tweets.Count == 0)
-                    return null;
+                    if (tweets.Count == 0)
+                        return null;
 
-                json = tweets.First().Json;
+                    json = tweets.First().Json;
+                }
             }
 
             var status = JsonConvert.DeserializeObject<Status>(json);
@@ -210,23 +220,27 @@ namespace Flantter.MilkyWay.Models.Services.Database
         {
             IEnumerable<string> jsons;
             var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
-            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            lock (_dblock)
             {
-                db.BeginTransaction();
+                using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+                {
+                    db.BeginTransaction();
 
-                db.CreateTable<TweetInfo>();
-                db.CreateTable<TweetData>(CreateFlags.AllImplicit);
+                    db.CreateTable<TweetInfo>();
+                    db.CreateTable<TweetData>(CreateFlags.AllImplicit);
 
-                //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData } )
-                //                                  .Where(x => x.TweetInfo.Parameter == param)
-                //                                  .OrderByDescending(x => x.TweetInfo.Id)
-                //                                  .Take(count).ToList();
-                var tweets = db.Query<TweetData>(
-                    $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"{param}\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
-                System.Diagnostics.Debug.WriteLine($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"{param}\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
-                db.Commit();
+                    //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData } )
+                    //                                  .Where(x => x.TweetInfo.Parameter == param)
+                    //                                  .OrderByDescending(x => x.TweetInfo.Id)
+                    //                                  .Take(count).ToList();
+                    var tweets = db.Query<TweetData>(
+                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"{param}\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                    System.Diagnostics.Debug.WriteLine(
+                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"{param}\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                    db.Commit();
 
-                jsons = tweets.Select(x => x.Json);
+                    jsons = tweets.Select(x => x.Json);
+                }
             }
 
             foreach (var json in jsons)
@@ -242,28 +256,32 @@ namespace Flantter.MilkyWay.Models.Services.Database
         {
             IEnumerable<string> jsons;
             var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
-            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            lock (_dblock)
             {
-                db.BeginTransaction();
+                using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+                {
+                    db.BeginTransaction();
 
-                db.CreateTable<TweetInfo>();
-                db.CreateTable<TweetData>(CreateFlags.AllImplicit);
+                    db.CreateTable<TweetInfo>();
+                    db.CreateTable<TweetData>(CreateFlags.AllImplicit);
 
-                //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "directmessages://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
-                var tweets = db.Query<TweetData>(
-                    $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"directmessages://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
-                System.Diagnostics.Debug.WriteLine($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"directmessages://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
-                db.Commit();
+                    //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "directmessages://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
+                    var tweets = db.Query<TweetData>(
+                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"directmessages://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                    System.Diagnostics.Debug.WriteLine(
+                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"directmessages://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                    db.Commit();
 
-                jsons = tweets.Select(x => x.Json);
-            }
+                    jsons = tweets.Select(x => x.Json);
+                }
 
-            foreach (var json in jsons)
-            {
-                var dm = JsonConvert.DeserializeObject<DirectMessage>(json);
-                dm.Entities.Media.ForEach(x => x.ParentEntities = dm.Entities);
+                foreach (var json in jsons)
+                {
+                    var dm = JsonConvert.DeserializeObject<DirectMessage>(json);
+                    dm.Entities.Media.ForEach(x => x.ParentEntities = dm.Entities);
 
-                yield return dm;
+                    yield return dm;
+                }
             }
         }
 
@@ -271,20 +289,24 @@ namespace Flantter.MilkyWay.Models.Services.Database
         {
             IEnumerable<string> jsons;
             var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
-            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            lock (_dblock)
             {
-                db.BeginTransaction();
+                using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+                {
+                    db.BeginTransaction();
 
-                db.CreateTable<TweetInfo>();
-                db.CreateTable<TweetData>(CreateFlags.AllImplicit);
+                    db.CreateTable<TweetInfo>();
+                    db.CreateTable<TweetData>(CreateFlags.AllImplicit);
 
-                //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
-                var tweets = db.Query<TweetData>(
-                    $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"events://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
-                System.Diagnostics.Debug.WriteLine($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"events://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
-                db.Commit();
+                    //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
+                    var tweets = db.Query<TweetData>(
+                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"events://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                    System.Diagnostics.Debug.WriteLine(
+                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"events://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                    db.Commit();
 
-                jsons = tweets.Select(x => x.Json);
+                    jsons = tweets.Select(x => x.Json);
+                }
             }
 
             foreach (var json in jsons)
@@ -298,20 +320,24 @@ namespace Flantter.MilkyWay.Models.Services.Database
         {
             IEnumerable<string> jsons;
             var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
-            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            lock (_dblock)
             {
-                db.BeginTransaction();
+                using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+                {
+                    db.BeginTransaction();
 
-                db.CreateTable<TweetInfo>();
-                db.CreateTable<TweetData>(CreateFlags.AllImplicit);
+                    db.CreateTable<TweetInfo>();
+                    db.CreateTable<TweetData>(CreateFlags.AllImplicit);
 
-                //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
-                var tweets = db.Query<TweetData>(
-                    $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"collection://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
-                System.Diagnostics.Debug.WriteLine($"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"collection://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
-                db.Commit();
+                    //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
+                    var tweets = db.Query<TweetData>(
+                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"collection://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                    System.Diagnostics.Debug.WriteLine(
+                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"collection://\" and TweetInfo.UserId = {userId}) order by TweetData.Id desc limit {count}");
+                    db.Commit();
 
-                jsons = tweets.Select(x => x.Json);
+                    jsons = tweets.Select(x => x.Json);
+                }
             }
 
             foreach (var json in jsons)
@@ -323,20 +349,25 @@ namespace Flantter.MilkyWay.Models.Services.Database
 
         public void ClearTweet(long userId, string parameter)
         {
-            var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
-            using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+            lock (_dblock)
             {
-                db.BeginTransaction();
+                var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "tweet.db");
+                using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
+                {
+                    db.BeginTransaction();
 
-                db.CreateTable<TweetInfo>();
-                db.CreateTable<TweetData>(CreateFlags.AllImplicit);
+                    db.CreateTable<TweetInfo>();
+                    db.CreateTable<TweetData>(CreateFlags.AllImplicit);
 
-                db.Query<TweetData>(
-                    $"delete from TweetInfo where TweetInfo.Parameter = \"{parameter}\" and TweetInfo.UserId = {userId}");
-                System.Diagnostics.Debug.WriteLine($"delete from TweetInfo where TweetInfo.Parameter = \"{parameter}\" and TweetInfo.UserId = {userId}");
-                db.Query<TweetInfo>(
-                    "delete from TweetData where TweetData.Id not in (select TweetInfo.Id from TweetInfo)");
-                System.Diagnostics.Debug.WriteLine("delete from TweetData where TweetData.Id not in (select TweetInfo.Id from TweetInfo)");
+                    db.Query<TweetData>(
+                        $"delete from TweetInfo where TweetInfo.Parameter = \"{parameter}\" and TweetInfo.UserId = {userId}");
+                    System.Diagnostics.Debug.WriteLine(
+                        $"delete from TweetInfo where TweetInfo.Parameter = \"{parameter}\" and TweetInfo.UserId = {userId}");
+                    db.Query<TweetInfo>(
+                        "delete from TweetData where TweetData.Id not in (select TweetInfo.Id from TweetInfo)");
+                    System.Diagnostics.Debug.WriteLine(
+                        "delete from TweetData where TweetData.Id not in (select TweetInfo.Id from TweetInfo)");
+                }
             }
         }
     }

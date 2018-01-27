@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Globalization;
 using Flantter.MilkyWay.Common;
-using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services.Database;
 using Flantter.MilkyWay.Themes;
 using SharpDX.DirectWrite;
@@ -178,26 +177,33 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
-        public static IEnumerable<string> GetSystemFontFamilies()
+        public static List<string> GetSystemFontFamilies()
         {
-            var fontlist = new List<string>();
-
-            using (var factory = new Factory())
-            using (var fontCollection = factory.GetSystemFontCollection(false))
+            try
             {
-                var familyCount = fontCollection.FontFamilyCount;
-                for (var i = 0; i < familyCount; i++)
-                    using (var fontFamily = fontCollection.GetFontFamily(i))
-                    using (var familyNames = fontFamily.FamilyNames)
-                    {
-                        familyNames.FindLocaleName("en-us", out int index);
-                        fontlist.Add(familyNames.GetString(index));
-                    }
+                var fontlist = new List<string>();
+
+                using (var factory = new Factory())
+                using (var fontCollection = factory.GetSystemFontCollection(false))
+                {
+                    var familyCount = fontCollection.FontFamilyCount;
+                    for (var i = 0; i < familyCount; i++)
+                        using (var fontFamily = fontCollection.GetFontFamily(i))
+                        using (var familyNames = fontFamily.FamilyNames)
+                        {
+                            familyNames.FindLocaleName("en-us", out int index);
+                            fontlist.Add(familyNames.GetString(index));
+                        }
+                }
+
+                fontlist.Sort(StringComparer.OrdinalIgnoreCase);
+                return fontlist;
+            }
+            catch
+            {
             }
 
-            fontlist.Add("Global User Interface");
-            fontlist.Sort(StringComparer.OrdinalIgnoreCase);
-            return fontlist;
+            return new List<string>();
         }
     }
 

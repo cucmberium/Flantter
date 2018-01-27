@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
@@ -15,10 +16,9 @@ namespace Flantter.MilkyWay.Common
 
         protected SettingServiceBase()
         {
-            Cache = new Dictionary<string, object>();
+            Cache = new ConcurrentDictionary<string, object>();
         }
-
-        public Dictionary<string, object> Cache { get; set; }
+        public ConcurrentDictionary<string, object> Cache { get; set; }
         public static TImpl Setting => _instance ?? (_instance = new TImpl());
 
         public event PropertyChangedEventHandler PropertyChanged;

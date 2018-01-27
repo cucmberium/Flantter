@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Core;
@@ -12,12 +13,12 @@ namespace Flantter.MilkyWay.Common
 
         protected AdvancedSettingServiceBase()
         {
-            Dict = new Dictionary<string, object>();
+            Dict = new ConcurrentDictionary<string, object>();
         }
 
         public static TImpl AdvancedSetting => _instance ?? (_instance = new TImpl());
 
-        public Dictionary<string, object> Dict { get; set; }
+        public ConcurrentDictionary<string, object> Dict { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -58,10 +59,7 @@ namespace Flantter.MilkyWay.Common
         {
             try
             {
-                if (Dict.ContainsKey(name))
-                    Dict[name] = value;
-                else
-                    Dict.Add(name, value);
+                Dict[name] = value;
             }
             catch
             {

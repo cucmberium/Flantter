@@ -192,6 +192,8 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                 QuotedStatusMediaEntities = new List<MediaEntityViewModel>();
                 foreach (var mediaEntity in status.QuotedStatus.Entities.Media)
                     QuotedStatusMediaEntities.Add(new MediaEntityViewModel(mediaEntity, status.PossiblySensitive));
+
+                QuotedStatusMediaVisibility = QuotedStatusMediaEntities.Count != 0 && SettingService.Setting.ShowQuotedStatusMedia;
             }
             else
             {

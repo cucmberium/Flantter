@@ -118,27 +118,23 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            var textBlock = obj as RichTextBlock;
+            var textBlock = obj as TextBlock;
             if (textBlock == null)
                 return;
 
-            textBlock.Blocks.Clear();
+            textBlock.Inlines.Clear();
 
             var text = GetText(obj);
             var entities = GetEntities(obj) as Entities;
             var emojis = GetEmojis(obj) as List<Emoji>;
 
-            var paragraph = new Paragraph();
-
             if (string.IsNullOrEmpty(text))
                 return;
 
             foreach (var inline in GenerateInlines(obj, text, entities, emojis))
-                paragraph.Inlines.Add(inline);
+                textBlock.Inlines.Add(inline);
 
-            paragraph.Inlines.Add(new Run {Text = " "});
-
-            textBlock.Blocks.Add(paragraph);
+            textBlock.Inlines.Add(new Run {Text = " "});
         }
 
         private static IEnumerable<Inline> GenerateInlines(DependencyObject obj, string text, Entities entities = null, List<Emoji> emojis = null)
@@ -251,11 +247,11 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 m.Groups[TweetRegexPatterns.ValidHashtagGroupTag].Value +
                 "<");
 
-            if (emojis != null && emojis.Count >= 1)
-            {
-                foreach (var emoji in emojis)
-                    escapedText = escapedText.Replace(":" + emoji.Shortcode + ":", "<E>" + emoji.StaticUrl + "<");
-            }
+            // if (emojis != null && emojis.Count >= 1)
+            // {
+            //     foreach (var emoji in emojis)
+            //         escapedText = escapedText.Replace(":" + emoji.Shortcode + ":", "<E>" + emoji.StaticUrl + "<");
+            // }
 
             var splitted = escapedText.Split(new[] {'<'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var s in splitted)

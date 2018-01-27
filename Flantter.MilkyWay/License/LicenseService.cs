@@ -32,7 +32,8 @@ namespace Flantter.MilkyWay.License
             get
             {
 #if DEBUG
-                return true;
+                // return true;
+                return LicenseInformation.ProductLicenses["AppDonation"].IsActive;
 #else
                 return LicenseInformation.ProductLicenses["AppDonation"].IsActive;
 #endif

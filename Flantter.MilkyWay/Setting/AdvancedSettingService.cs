@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -412,7 +413,7 @@ namespace Flantter.MilkyWay.Setting
                     {
                         var jTokens = JToken.ReadFrom(jtr);
 
-                        Dict = new Dictionary<string, object>();
+                        Dict = new ConcurrentDictionary<string, object>();
                         foreach (var jToken in jTokens)
                         {
                             var jProperty = (JProperty)jToken;
@@ -434,7 +435,7 @@ namespace Flantter.MilkyWay.Setting
                         {
                             var jTokens = JToken.ReadFrom(jtr);
 
-                            Dict = new Dictionary<string, object>();
+                            Dict = new ConcurrentDictionary<string, object>();
                             foreach (var jToken in jTokens)
                             {
                                 var jProperty = (JProperty)jToken;

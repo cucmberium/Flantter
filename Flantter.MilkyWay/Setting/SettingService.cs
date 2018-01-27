@@ -857,6 +857,17 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
+        public bool StopStreamingOnStartup
+        {
+            get => GetValue(false);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
         // プラグイン設定
         [LocalValue]
         public bool EnablePlugins

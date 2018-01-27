@@ -1138,4 +1138,7 @@
   <data name="SettingsFlyout_ListMembers_DeleteUser_Textblock.Text" xml:space="preserve">
     <value>Delete user from list.</value>
   </data>
+  <data name="SettingsFlyout_Settings_Behavior_StopStreamingOnStartup_ToggleSwitch.Header" xml:space="preserve">
+    <value>Stop streaming on startup</value>
+  </data>
 </root>

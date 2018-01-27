@@ -293,7 +293,8 @@ namespace Flantter.MilkyWay.Models
             if (!ColumnSetting.DisableStartupRefresh && !SettingService.Setting.DisableStartupTimelineUpdate)
                 await Update();
 
-            Streaming = ColumnSetting.Streaming;
+            if (!SettingService.Setting.StopStreamingOnStartup)
+                Streaming = ColumnSetting.Streaming;
         }
 
         #endregion

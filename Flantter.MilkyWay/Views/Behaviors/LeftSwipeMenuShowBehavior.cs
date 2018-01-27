@@ -116,8 +116,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
             Window.Current.SizeChanged += (s, e) =>
             {
-                RootGrid.Width = e.Size.Width;
-                RootGrid.Height = e.Size.Height;
+                RootGrid.Width = WindowSizeHelper.Instance.ClientWidth;
+                RootGrid.Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top;
             };
 
             var canvas = new Canvas {Background = new SolidColorBrush(Colors.Transparent)};

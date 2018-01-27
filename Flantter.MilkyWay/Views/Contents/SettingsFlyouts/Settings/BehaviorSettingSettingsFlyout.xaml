@@ -52,6 +52,10 @@
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_StopStreamingOnStartup_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.StopStreamingOnStartup, Mode=TwoWay}" Header="起動時のストリーミング接続をすべて無効にする"/>
+
+            <controls:HorizontalBar/>
+
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_ExtendTitleBar_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ExtendTitleBar, Mode=TwoWay}" Header="タイトルバーに機能を追加する"/>
 
             <controls:HorizontalBar/>

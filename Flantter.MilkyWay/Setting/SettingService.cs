@@ -453,6 +453,7 @@ namespace Flantter.MilkyWay.Setting
         }
 
         // 表示設定
+        [LocalValue]
         public SettingSupport.ThemeEnum Theme
         {
             get => (SettingSupport.ThemeEnum) GetValue(1);
@@ -464,6 +465,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public double FontSize
         {
             get => GetValue(12.0);
@@ -474,6 +476,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public double ColumnBackgroundBrushAlpha
         {
             get => GetValue(255.0);
@@ -485,6 +488,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public double TweetBackgroundBrushAlpha
         {
             get => GetValue(10.0);
@@ -496,6 +500,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public double MinColumnSize
         {
             get => GetValue(320.0);
@@ -506,6 +511,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public int MaxColumnCount
         {
             get => GetValue(2);
@@ -516,6 +522,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public double TweetAreaFontSize
         {
             get => GetValue(14.5);
@@ -526,6 +533,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public double TweetCommandBarHeight
         {
             get => GetValue(40.0);
@@ -536,6 +544,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public SettingSupport.SizeEnum IconSize
         {
             get => (SettingSupport.SizeEnum) GetValue(45);
@@ -546,6 +555,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public SettingSupport.TweetAnimationEnum TweetAnimation
         {
             get => (SettingSupport.TweetAnimationEnum) GetValue(3);
@@ -556,6 +566,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public bool DisableStreamingScroll
         {
             get => GetValue(false);
@@ -566,6 +577,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public double TweetMediaThumbnailHeight
         {
             get => GetValue(100.0);
@@ -576,6 +588,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public double TweetMediaThumbnailWidth
         {
             get => GetValue(160.0);
@@ -586,6 +599,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public bool ShowHighQualityImageResolution
         {
             get => GetValue(false);
@@ -596,6 +610,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public bool ShowGifProfileImage
         {
             get => GetValue(false);
@@ -606,6 +621,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public bool ShowQuotedStatusMedia
         {
             get => GetValue(true);
@@ -616,6 +632,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public bool UseTransparentBackground
         {
             get => GetValue(false);
@@ -626,6 +643,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public bool EnableNsfwFilter
         {
             get => GetValue(true);
@@ -798,6 +816,7 @@ namespace Flantter.MilkyWay.Setting
         }
 
         // データベース設定
+        [LocalValue]
         public bool EnableDatabase
         {
             get => GetValue(false);
@@ -810,6 +829,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public int MaximumHoldingNumberOfTweet
         {
             get => GetValue(10000);
@@ -820,6 +840,7 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        [LocalValue]
         public bool RestoreTimelineOnStartup
         {
             get => GetValue(false);

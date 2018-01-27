@@ -162,9 +162,6 @@ namespace Flantter.MilkyWay.Views.Util
 
         private void UIElement_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Handled)
-                return;
-
             if (e.OriginalSource is TextBox || e.OriginalSource is SearchBox || e.OriginalSource is PasswordBox ||
                 e.OriginalSource is RichEditBox)
                 return;

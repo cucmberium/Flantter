@@ -9,7 +9,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             new Regex(@"<(""[^""]*""|'[^']*'|[^'"">])*>", RegexOptions.Compiled);
 
         private static readonly Regex LinkRegex =
-            new Regex(@"\s*<a href=\""(.*?)\"".*?>(.*?)</a>\s*", RegexOptions.Compiled);
+            new Regex(@"[　 ]*<a href=\""(.*?)\"".*?>(.*?)</a>[　 ]*", RegexOptions.Compiled);
 
         public User(CoreTweet.User cUser)
         {

@@ -14,6 +14,7 @@ using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.Xaml.Controls;
 using Flantter.MilkyWay.Models;
+using Flantter.MilkyWay.Models.Apis;
 using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Models.Notifications;
 using Flantter.MilkyWay.Models.Services;
@@ -288,7 +289,7 @@ namespace Flantter.MilkyWay.ViewModels
                             e.Request.SearchSuggestionCollection.AppendResultSuggestion("@" + user.ScreenName,
                                 user.Name,
                                 user.ScreenName,
-                                RandomAccessStreamReference.CreateFromUri(new Uri(user.ProfileImageUrl)),
+                                RandomAccessStreamReference.CreateFromUri(new Uri(string.IsNullOrWhiteSpace(user.ProfileImageUrl) ? "http://localhost/" : user.ProfileImageUrl)),
                                 "Result");
                     }
 
@@ -1248,6 +1249,38 @@ namespace Flantter.MilkyWay.ViewModels
                     column.Model.Delete(gapViewModel.Model);
                 })
                 .AddTo(Disposable);
+
+            Notice.Instance.UrlClickCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Where(_ => Model.IsEnabled)
+                .Subscribe(async x =>
+                {
+                    var linkUrl = x as string;
+                    if (string.IsNullOrWhiteSpace(linkUrl))
+                        return;
+
+                    if (linkUrl.StartsWith("@"))
+                    {
+                        var userMention = linkUrl.Replace("@", "");
+                        Notice.Instance.ShowUserProfileCommand.Execute(userMention.Replace("@", ""));
+                        return;
+                    }
+                    if (linkUrl.StartsWith("#"))
+                    {
+                        var hashTag = linkUrl;
+                        Notice.Instance.ShowSearchCommand.Execute(hashTag);
+                        return;
+                    }
+
+                    var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
+                    // var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
+                    if (statusMatch.Success && Model.Tokens.Platform == Models.Apis.Wrapper.Tokens.PlatformEnum.Twitter)
+                        Notice.Instance.ShowStatusDetailCommand.Execute(long.Parse(statusMatch.Groups["Id"]
+                            .ToString()));
+                    // else if (userMatch.Success)
+                    //     Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"].ToString());
+                    else
+                        await Launcher.LaunchUriAsync(new Uri(linkUrl));
+                });
 
             #endregion
         }

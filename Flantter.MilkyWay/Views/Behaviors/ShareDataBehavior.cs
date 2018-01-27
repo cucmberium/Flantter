@@ -66,8 +66,8 @@ namespace Flantter.MilkyWay.Views.Behaviors
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             //var deferral = args.Request.GetDeferral();
-
-            args.Request.Data.SetWebLink(new Uri(LatestNotificationData.Url));
+            if (!string.IsNullOrWhiteSpace(LatestNotificationData.Url))
+                args.Request.Data.SetWebLink(new Uri(LatestNotificationData.Url));
             args.Request.Data.SetText(LatestNotificationData.Text);
 
             args.Request.Data.Properties.ApplicationName = "Flantter";

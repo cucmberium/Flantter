@@ -15,7 +15,6 @@ using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Flantter.MilkyWay.License;
 using Flantter.MilkyWay.Models;
-using Flantter.MilkyWay.Models.Apis;
 using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Models.Exceptions;
 using Flantter.MilkyWay.Models.Filter;
@@ -158,37 +157,6 @@ namespace Flantter.MilkyWay.ViewModels
 
             Notice.Instance.CopyTweetUrlCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(x => { Model.CopyTweetUrlToClipBoard(x); });
-
-            Notice.Instance.UrlClickCommand.SubscribeOn(ThreadPoolScheduler.Default)
-                .Subscribe(async x =>
-                {
-                    var linkUrl = x as string;
-                    if (string.IsNullOrWhiteSpace(linkUrl))
-                        return;
-
-                    if (linkUrl.StartsWith("@"))
-                    {
-                        var userMention = linkUrl.Replace("@", "");
-                        Notice.Instance.ShowUserProfileCommand.Execute(userMention.Replace("@", ""));
-                        return;
-                    }
-                    if (linkUrl.StartsWith("#"))
-                    {
-                        var hashTag = linkUrl;
-                        Notice.Instance.ShowSearchCommand.Execute(hashTag);
-                        return;
-                    }
-
-                    var statusMatch = TweetRegexPatterns.StatusUrl.Match(linkUrl);
-                    // var userMatch = TweetRegexPatterns.UserUrl.Match(linkUrl);
-                    if (statusMatch.Success)
-                        Notice.Instance.ShowStatusDetailCommand.Execute(long.Parse(statusMatch.Groups["Id"]
-                            .ToString()));
-                    // else if (userMatch.Success)
-                    //     Notice.Instance.ShowUserProfileCommand.Execute(userMatch.Groups["ScreenName"].ToString());
-                    else
-                        await Launcher.LaunchUriAsync(new Uri(linkUrl));
-                });
 
             Notice.Instance.OpenStatusUrlCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>

@@ -32,6 +32,9 @@ namespace Flantter.MilkyWay.Views.Util
             if (!IsEnabled)
                 return null;
 
+            if (string.IsNullOrWhiteSpace(Uri))
+                return null;
+
             Launcher.LaunchUriAsync(new Uri(Uri));
             return null;
         }

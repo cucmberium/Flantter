@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
+using Flantter.MilkyWay.Views.Util;
 
 namespace Flantter.MilkyWay.Views.Controls
 {
@@ -60,9 +61,9 @@ namespace Flantter.MilkyWay.Views.Controls
             _popupGrid = new Grid
             {
                 Background = transparentBrush,
-                Width = Window.Current.Bounds.Width,
-                Height = Window.Current.Bounds.Height
-            };
+                Width = WindowSizeHelper.Instance.ClientWidth + WindowSizeHelper.Instance.VisibleBounds.Left,
+                Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top
+        };
 
             _popupGrid.Tapped += (s, e) =>
             {
@@ -113,20 +114,18 @@ namespace Flantter.MilkyWay.Views.Controls
         public void Show()
         {
             Visibility = Visibility.Visible;
-            Height = Window.Current.Bounds.Height;
+            Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top;
 
             _contentPopup.Child = _popupGrid;
 
             _contentPopup.HorizontalOffset = 0;
             _contentPopup.VerticalOffset = 0;
 
-            _popupGrid.Width = Window.Current.Bounds.Width;
-            _popupGrid.Height = Window.Current.Bounds.Height;
-
-            Height = Window.Current.Bounds.Height;
+            _popupGrid.Width = WindowSizeHelper.Instance.ClientWidth + WindowSizeHelper.Instance.VisibleBounds.Left;
+            _popupGrid.Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top;
 
             if (_rootBorder != null && _rootGrid != null)
-                if (Width >= Window.Current.Bounds.Width)
+                if (Width >= WindowSizeHelper.Instance.ClientWidth + WindowSizeHelper.Instance.VisibleBounds.Left)
                 {
                     _rootGrid.BorderThickness = new Thickness(0, 0, 0, 0);
                 }
@@ -214,7 +213,7 @@ namespace Flantter.MilkyWay.Views.Controls
                 ? new EdgeUIThemeTransition {Edge = EdgeTransitionLocation.Right}
                 : new EdgeUIThemeTransition {Edge = EdgeTransitionLocation.Left});
 
-            if (Width >= Window.Current.Bounds.Width)
+            if (Width >= WindowSizeHelper.Instance.ClientWidth + WindowSizeHelper.Instance.VisibleBounds.Left)
             {
                 _rootGrid.BorderThickness = new Thickness(0, 0, 0, 0);
             }
@@ -226,8 +225,6 @@ namespace Flantter.MilkyWay.Views.Controls
 
         private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            Height = Window.Current.Bounds.Height;
-
             SizeChanged?.Invoke(this, null);
 
             if (!_contentPopup.IsOpen)
@@ -236,12 +233,12 @@ namespace Flantter.MilkyWay.Views.Controls
             _contentPopup.HorizontalOffset = 0;
             _contentPopup.VerticalOffset = 0;
 
-            _popupGrid.Width = Window.Current.Bounds.Width;
-            _popupGrid.Height = Window.Current.Bounds.Height;
+            _popupGrid.Width = WindowSizeHelper.Instance.ClientWidth + WindowSizeHelper.Instance.VisibleBounds.Left;
+            _popupGrid.Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top;
 
-            Height = Window.Current.Bounds.Height;
+            Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top;
 
-            if (Width >= Window.Current.Bounds.Width)
+            if (Width >= WindowSizeHelper.Instance.ClientWidth + WindowSizeHelper.Instance.VisibleBounds.Left)
             {
                 _rootGrid.BorderThickness = new Thickness(0, 0, 0, 0);
             }

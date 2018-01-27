@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Flantter.MilkyWay.Views.Util;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Xaml.Interactivity;
 
@@ -109,7 +110,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 _capturingPointer = false;
             };
 
-            RootGrid = new Grid {Width = Window.Current.Bounds.Width, Height = Window.Current.Bounds.Height};
+            RootGrid = new Grid {Width = WindowSizeHelper.Instance.ClientWidth, Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top };
             RootGrid.ColumnDefinitions.Add(new ColumnDefinition {Width = new GridLength(1, GridUnitType.Auto)});
             RootGrid.ColumnDefinitions.Add(new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)});
 

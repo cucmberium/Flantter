@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using CoreTweet;
+using Flantter.MilkyWay.Views.Util;
 using TootNet;
 using Tokens = CoreTweet.Tokens;
 
@@ -68,8 +69,8 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
 
         private void SizeChanced_Event(object sender, WindowSizeChangedEventArgs e)
         {
-            Height = Window.Current.Bounds.Height;
-            Width = Window.Current.Bounds.Width;
+            Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top;
+            Width = WindowSizeHelper.Instance.ClientWidth + WindowSizeHelper.Instance.VisibleBounds.Left;
         }
 
         private void AuthorizePopupHeaderBackButton_Click(object sender, RoutedEventArgs e)
@@ -376,8 +377,8 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
 
         public async Task<AccountInfo> ShowAsync()
         {
-            Height = Window.Current.Bounds.Height;
-            Width = Window.Current.Bounds.Width;
+            Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top;
+            Width = WindowSizeHelper.Instance.ClientWidth + WindowSizeHelper.Instance.VisibleBounds.Left;
             Window.Current.SizeChanged += SizeChanced_Event;
 
             _accountInfo = null;

@@ -4,6 +4,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Flantter.MilkyWay.ViewModels.SettingsFlyouts;
 using Flantter.MilkyWay.Views.Controls;
+using Flantter.MilkyWay.Views.Util;
 
 namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
 {
@@ -201,7 +202,7 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
 
         private void UserProfileSettingsFlyout_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var width = Window.Current.Bounds.Width;
+            var width = WindowSizeHelper.Instance.ClientWidth;
 
             if (width <= 320)
                 width = 320;
@@ -213,7 +214,7 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
             Width = width;
 
             RootStackPanel.Orientation = width >= 800 ? Orientation.Horizontal : Orientation.Vertical;
-            UserProfileTweetPivot.Height = Window.Current.Bounds.Height - 70;
+            UserProfileTweetPivot.Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top - 70;
 
             if (width >= 802)
             {

@@ -129,10 +129,10 @@ namespace Flantter.MilkyWay.Views.Contents
 
                 Canvas.SetTop(_videoPreview,
                     WindowSizeHelper.Instance.ClientHeight - videoHeight - bottomMargin +
-                    WindowSizeHelper.Instance.StatusBarHeight);
+                    WindowSizeHelper.Instance.VisibleBounds.Top);
                 Canvas.SetLeft(_videoPreview,
                     WindowSizeHelper.Instance.ClientWidth - videoWidth - rightMargin +
-                    WindowSizeHelper.Instance.StatusBarWidth);
+                    WindowSizeHelper.Instance.VisibleBounds.Left);
 
                 Width = videoWidth;
                 Height = videoHeight;
@@ -142,8 +142,8 @@ namespace Flantter.MilkyWay.Views.Contents
             }
             else
             {
-                Canvas.SetTop(_videoPreview, WindowSizeHelper.Instance.StatusBarHeight);
-                Canvas.SetLeft(_videoPreview, WindowSizeHelper.Instance.StatusBarWidth);
+                Canvas.SetTop(_videoPreview, WindowSizeHelper.Instance.VisibleBounds.Top);
+                Canvas.SetLeft(_videoPreview, WindowSizeHelper.Instance.VisibleBounds.Left);
 
                 Width = WindowSizeHelper.Instance.ClientWidth;
                 Height = WindowSizeHelper.Instance.ClientHeight;

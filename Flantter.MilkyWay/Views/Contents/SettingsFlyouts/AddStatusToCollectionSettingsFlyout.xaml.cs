@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Flantter.MilkyWay.ViewModels.SettingsFlyouts;
 using Flantter.MilkyWay.Views.Controls;
+using Flantter.MilkyWay.Views.Util;
 
 namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
 {
@@ -25,7 +26,7 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
 
         private void AddStatusToCollectionSettingsFlyout_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var width = Window.Current.Bounds.Width;
+            var width = WindowSizeHelper.Instance.ClientWidth;
 
             if (width < 320)
                 width = 320;

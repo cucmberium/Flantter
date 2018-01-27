@@ -85,7 +85,7 @@
                                         <core:InvokeCommandAction Command="{x:Bind Notice.ShowMediaCommand}" CommandParameter="{x:Bind Model, Mode=OneWay}"/>
                                     </core:EventTriggerBehavior>
                                 </i:Interaction.Behaviors>
-                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Source="{x:Bind MediaThumbnailUrl, Mode=OneWay}" Stretch="UniformToFill" VerticalAlignment="Center">
                                     <i:Interaction.Behaviors>
                                         <uwpToolKitBehaviors:Blur Value="{x:Bind PossibilySensitiveBlur}"
                                                                   Duration="0"

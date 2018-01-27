@@ -44,12 +44,13 @@ namespace Flantter.MilkyWay.Views
                 };
             }
 
+
             ThemeService.Theme.ChangeTheme();
 
-            UpdateTitleBar(WindowSizeHelper.Instance.StatusBarHeight > 0);
-            WindowSizeHelper.Instance.ObserveProperty(x => x.StatusBarHeight)
+            UpdateTitleBar(WindowSizeHelper.Instance.VisibleBounds.Top > 0);
+            WindowSizeHelper.Instance.ObserveProperty(x => x.TitleBarVisibility)
                 .SubscribeOnUIDispatcher()
-                .Subscribe(x => UpdateTitleBar(x > 0));
+                .Subscribe(x => UpdateTitleBar(x));
             SettingService.Setting.ObserveProperty(x => x.UseTransparentBackground)
                 .SubscribeOnUIDispatcher()
                 .Subscribe(x => UpdateBackgroundBrush(x));

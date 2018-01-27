@@ -19,34 +19,31 @@ namespace Flantter.MilkyWay.Views.Util
 
         private double _clientWidth;
 
-        private double _statusBarHeight;
-
-        private double _statusBarWidth;
-
         private UserInteractionMode _userInteractionMode;
 
         private double _windowHeight;
 
         private double _windowWidth;
 
+        private Rect _visibleBounds;
+
+        private bool _titleBarVisibility;
+
         private WindowSizeHelper()
         {
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
             {
-                bool titleBarVisiblity;
-                titleBarVisiblity =
+                TitleBarVisibility =
                     (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode ==
                     UserInteractionMode.Mouse || SettingService.Setting.ExtendTitleBar;
-
                 WindowWidth = Window.Current.Bounds.Width;
                 WindowHeight = Window.Current.Bounds.Height;
                 ClientWidth = Window.Current.Bounds.Width;
                 ClientHeight = Window.Current.Bounds.Height -
-                               (titleBarVisiblity ? 32.0 : 0);
-                StatusBarHeight = titleBarVisiblity ? 32.0 : 0;
-                StatusBarWidth = 0.0;
+                               (TitleBarVisibility ? 32.0 : 0);
                 UserInteractionMode =
                     (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode;
+                VisibleBounds = new Rect(0, TitleBarVisibility ? 32.0 : 0, ClientWidth, ClientHeight);
 
                 Observable.Merge(
                         Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
@@ -66,40 +63,27 @@ namespace Flantter.MilkyWay.Views.Util
                     )
                     .Subscribe(_ =>
                     {
-                        titleBarVisiblity = false;
-                        titleBarVisiblity =
+                        TitleBarVisibility =
                             (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode ==
                             UserInteractionMode.Mouse || SettingService.Setting.ExtendTitleBar;
-
                         WindowWidth = Window.Current.Bounds.Width;
                         WindowHeight = Window.Current.Bounds.Height;
                         ClientWidth = Window.Current.Bounds.Width;
                         ClientHeight = Window.Current.Bounds.Height -
-                                       (titleBarVisiblity ? 32.0 : 0);
-                        StatusBarHeight = titleBarVisiblity ? 32.0 : 0;
-                        StatusBarWidth = 0.0;
+                                       (TitleBarVisibility ? 32.0 : 0);
                         UserInteractionMode =
                             (UserInteractionMode) (int) UIViewSettings.GetForCurrentView().UserInteractionMode;
+                        VisibleBounds = new Rect(0, TitleBarVisibility ? 32.0 : 0, ClientWidth, ClientHeight);
                     });
             }
             else if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
             {
-                var statusBarHeight = StatusBar.GetForCurrentView().OccludedRect.Height == Window.Current.Bounds.Height
-                    ? 0
-                    : StatusBar.GetForCurrentView().OccludedRect.Height;
-                var statusBarWidth = StatusBar.GetForCurrentView().OccludedRect.Width == Window.Current.Bounds.Width
-                    ? 0
-                    : StatusBar.GetForCurrentView().OccludedRect.Width;
-
+                TitleBarVisibility = false;
+                VisibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
                 WindowWidth = Window.Current.Bounds.Width;
                 WindowHeight = Window.Current.Bounds.Height;
-                ClientWidth = Window.Current.Bounds.Width - statusBarWidth;
-                ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
-                StatusBarHeight = statusBarHeight;
-                StatusBarWidth = DisplayInformation.GetForCurrentView().CurrentOrientation ==
-                                 DisplayOrientations.Landscape
-                    ? statusBarWidth
-                    : 0.0;
+                ClientWidth = VisibleBounds.Width;
+                ClientHeight = VisibleBounds.Height;
                 UserInteractionMode = UserInteractionMode.Touch;
 
                 Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
@@ -114,23 +98,11 @@ namespace Flantter.MilkyWay.Views.Util
                         .Select(e => e))
                     .Subscribe(_ =>
                     {
-                        statusBarHeight =
-                            StatusBar.GetForCurrentView().OccludedRect.Height == Window.Current.Bounds.Height
-                                ? 0
-                                : StatusBar.GetForCurrentView().OccludedRect.Height;
-                        statusBarWidth = StatusBar.GetForCurrentView().OccludedRect.Width == Window.Current.Bounds.Width
-                            ? 0
-                            : StatusBar.GetForCurrentView().OccludedRect.Width;
-
+                        VisibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
                         WindowWidth = Window.Current.Bounds.Width;
                         WindowHeight = Window.Current.Bounds.Height;
-                        ClientWidth = Window.Current.Bounds.Width - statusBarWidth;
-                        ClientHeight = Window.Current.Bounds.Height - statusBarHeight;
-                        StatusBarHeight = statusBarHeight;
-                        StatusBarWidth = DisplayInformation.GetForCurrentView().CurrentOrientation ==
-                                         DisplayOrientations.Landscape
-                            ? statusBarWidth
-                            : 0.0;
+                        ClientWidth = VisibleBounds.Width;
+                        ClientHeight = VisibleBounds.Height;
                         UserInteractionMode = UserInteractionMode.Touch;
                     });
             }
@@ -162,22 +134,22 @@ namespace Flantter.MilkyWay.Views.Util
             set => SetProperty(ref _windowHeight, value);
         }
 
-        public double StatusBarHeight
+        public Rect VisibleBounds
         {
-            get => _statusBarHeight;
-            set => SetProperty(ref _statusBarHeight, value);
-        }
-
-        public double StatusBarWidth
-        {
-            get => _statusBarWidth;
-            set => SetProperty(ref _statusBarWidth, value);
+            get => _visibleBounds;
+            set => SetProperty(ref _visibleBounds, value);
         }
 
         public UserInteractionMode UserInteractionMode
         {
             get => _userInteractionMode;
             set => SetProperty(ref _userInteractionMode, value);
+        }
+
+        public bool TitleBarVisibility
+        {
+            get => _titleBarVisibility;
+            set => SetProperty(ref _titleBarVisibility, value);
         }
     }
 

@@ -71,8 +71,9 @@ namespace Flantter.MilkyWay
             sw.Stop();
             System.Diagnostics.Debug.WriteLine(sw.Elapsed);
 #endif
-            await AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
 
+            await AdvancedSettingService.AdvancedSetting.LoadFromAppSettings();
+            
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size {Width = 320, Height = 500});
 
             if (AdvancedSettingService.AdvancedSetting.Accounts == null ||

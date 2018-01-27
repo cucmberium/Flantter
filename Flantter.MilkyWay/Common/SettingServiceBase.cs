@@ -84,6 +84,7 @@ namespace Flantter.MilkyWay.Common
                     Cache[name] = (T) values[name];
                     return (T) Cache[name];
                 }
+
                 Cache[name] = defaultValue;
                 return defaultValue;
             }

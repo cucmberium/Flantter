@@ -52,8 +52,8 @@ namespace Flantter.MilkyWay.Views.Contents
             Width = WindowSizeHelper.Instance.ClientWidth;
             Height = WindowSizeHelper.Instance.ClientHeight;
 
-            Canvas.SetTop(_imagePreview, WindowSizeHelper.Instance.StatusBarHeight);
-            Canvas.SetLeft(_imagePreview, WindowSizeHelper.Instance.StatusBarWidth);
+            Canvas.SetTop(_imagePreview, WindowSizeHelper.Instance.VisibleBounds.Top);
+            Canvas.SetLeft(_imagePreview, WindowSizeHelper.Instance.VisibleBounds.Left);
         }
 
         public List<MediaEntity> Images { get; set; }
@@ -63,8 +63,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
         public void Show()
         {
-            Canvas.SetTop(_imagePreview, WindowSizeHelper.Instance.StatusBarHeight);
-            Canvas.SetLeft(_imagePreview, WindowSizeHelper.Instance.StatusBarWidth);
+            Canvas.SetTop(_imagePreview, WindowSizeHelper.Instance.VisibleBounds.Top);
+            Canvas.SetLeft(_imagePreview, WindowSizeHelper.Instance.VisibleBounds.Left);
 
             ImagePreviewCanvas.Clip = new RectangleGeometry
             {
@@ -117,8 +117,8 @@ namespace Flantter.MilkyWay.Views.Contents
 
         private void ImagePreviewPopup_LayoutRefresh()
         {
-            Canvas.SetTop(_imagePreview, WindowSizeHelper.Instance.StatusBarHeight);
-            Canvas.SetLeft(_imagePreview, WindowSizeHelper.Instance.StatusBarWidth);
+            Canvas.SetTop(_imagePreview, WindowSizeHelper.Instance.VisibleBounds.Top);
+            Canvas.SetLeft(_imagePreview, WindowSizeHelper.Instance.VisibleBounds.Left);
 
             Width = WindowSizeHelper.Instance.ClientWidth;
             Height = WindowSizeHelper.Instance.ClientHeight;
@@ -430,12 +430,12 @@ namespace Flantter.MilkyWay.Views.Contents
 
             var translateAnimXVal = transform.TranslateX +
                                     (e.GetPosition(Window.Current.Content).X -
-                                     (WindowSizeHelper.Instance.StatusBarWidth + Canvas.GetLeft(element) +
+                                     (WindowSizeHelper.Instance.VisibleBounds.Left + Canvas.GetLeft(element) +
                                       ImagePreviewImage.ActualWidth / 2 + transform.TranslateX)) *
                                     (1 - scale / transform.ScaleX);
             var translateAnimYVal = transform.TranslateY +
                                     (e.GetPosition(Window.Current.Content).Y -
-                                     (WindowSizeHelper.Instance.StatusBarHeight + Canvas.GetTop(element) +
+                                     (WindowSizeHelper.Instance.VisibleBounds.Top + Canvas.GetTop(element) +
                                       ImagePreviewImage.ActualHeight / 2 + transform.TranslateY)) *
                                     (1 - scale / transform.ScaleY);
             if (scale <= 1.0)

@@ -153,25 +153,27 @@ namespace Flantter.MilkyWay.Models
                                 }
 
                                 Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                                    new TweetEventArgs(status, AccountSetting.UserId, paramList, true));
+                                    new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance,
+                                        paramList, true));
 
                                 if (status.HasRetweetInformation && status.User.Id == AccountSetting.UserId &&
                                     AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
                                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
                                         new TweetEventArgs(new EventMessage(status), AccountSetting.UserId,
+                                            AccountSetting.Instance,
                                             new List<string> {"events://"}, true));
 
                                 break;
                             case StreamingMessage.MessageType.DirectMesssage:
                                 var directMessage = m.DirectMessage;
                                 Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                                    new TweetEventArgs(directMessage, AccountSetting.UserId,
+                                    new TweetEventArgs(directMessage, AccountSetting.UserId, AccountSetting.Instance,
                                         new List<string> {"directmessages://"}, true));
                                 break;
                             case StreamingMessage.MessageType.Event:
                                 var eventMessage = m.EventMessage;
                                 Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                                    new TweetEventArgs(eventMessage, AccountSetting.UserId,
+                                    new TweetEventArgs(eventMessage, AccountSetting.UserId, AccountSetting.Instance,
                                         new List<string> {"events://"},
                                         true));
 
@@ -182,20 +184,22 @@ namespace Flantter.MilkyWay.Models
                                     eventMessage.TargetStatus.IsFavorited = true;
                                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
                                         new TweetEventArgs(eventMessage.TargetStatus, AccountSetting.UserId,
+                                            AccountSetting.Instance,
                                             new List<string> {"favorites://"}, true));
                                 }
+
                                 break;
                             case StreamingMessage.MessageType.DeleteStatus:
                                 var deletedStatusId = m.DeletedStatusId;
                                 Connecter.Instance.TweetDelete_OnCommandExecute(this,
                                     new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.Status, deletedStatusId,
-                                        AccountSetting.UserId));
+                                        AccountSetting.UserId, AccountSetting.Instance));
                                 break;
                             case StreamingMessage.MessageType.DeleteDirectMessage:
                                 var deletedDirectMessageId = m.DeletedDirectMessageId;
                                 Connecter.Instance.TweetDelete_OnCommandExecute(this,
                                     new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.DirectMessage,
-                                        deletedDirectMessageId, AccountSetting.UserId));
+                                        deletedDirectMessageId, AccountSetting.UserId, AccountSetting.Instance));
                                 break;
                         }
                     }
@@ -204,13 +208,17 @@ namespace Flantter.MilkyWay.Models
 
             Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
                     h => (sender, e) => h(e),
-                    h => Connecter.Instance.TweetCollecter[AccountSetting.UserId].TweetReceiveCommandExecute += h,
-                    h => Connecter.Instance.TweetCollecter[AccountSetting.UserId].TweetReceiveCommandExecute -= h)
+                    h => Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance]
+                        .TweetReceiveCommandExecute += h,
+                    h => Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance]
+                        .TweetReceiveCommandExecute -= h)
                 .Select(e => (object) e)
                 .Merge(Observable.FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                         h => (sender, e) => h(e),
-                        h => Connecter.Instance.TweetCollecter[AccountSetting.UserId].TweetDeleteCommandExecute += h,
-                        h => Connecter.Instance.TweetCollecter[AccountSetting.UserId].TweetDeleteCommandExecute -= h)
+                        h => Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance]
+                            .TweetDeleteCommandExecute += h,
+                        h => Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance]
+                            .TweetDeleteCommandExecute -= h)
                     .Select(e => (object) e))
                 .SubscribeOn(NewThreadScheduler.Default)
                 .Subscribe(e =>
@@ -267,26 +275,31 @@ namespace Flantter.MilkyWay.Models
                 switch (Action)
                 {
                     case SettingSupport.ColumnTypeEnum.Collection:
-                        foreach (var collection in Database.Instance.GetCollectionEntryFromParam(AccountSetting.UserId))
+                        foreach (var collection in Database.Instance.GetCollectionEntryFromParam(AccountSetting.UserId,
+                            AccountSetting.Instance))
                             Add(collection);
                         break;
                     case SettingSupport.ColumnTypeEnum.DirectMessages:
-                        foreach (var dm in Database.Instance.GetDirectMessagesFromParam(AccountSetting.UserId))
+                        foreach (var dm in Database.Instance.GetDirectMessagesFromParam(AccountSetting.UserId,
+                            AccountSetting.Instance))
                             Add(dm);
                         break;
                     case SettingSupport.ColumnTypeEnum.Events:
-                        foreach (var ev in Database.Instance.GetEventMessagesFromParam(AccountSetting.UserId))
+                        foreach (var ev in Database.Instance.GetEventMessagesFromParam(AccountSetting.UserId,
+                            AccountSetting.Instance))
                             Add(ev);
                         break;
                     default:
                         foreach (var status in Database.Instance.GetStatusesFromParam(
-                            Action.ToString("F").ToLower() + "://" + _parameter, AccountSetting.UserId))
+                            Action.ToString("F").ToLower() + "://" + _parameter, AccountSetting.UserId,
+                            AccountSetting.Instance))
                         {
                             if (!Check(status))
                                 continue;
 
                             Add(status);
                         }
+
                         break;
                 }
 
@@ -506,7 +519,7 @@ namespace Flantter.MilkyWay.Models
 
                     var paramList = new List<string> {"home://", "filter://"};
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, AccountSetting.UserId, paramList, false));
+                        new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance, paramList, false));
                 }
 
                 if (gapCheck)
@@ -545,7 +558,7 @@ namespace Flantter.MilkyWay.Models
                     {"count", ColumnSetting.FetchingNumberOfTweet},
                     {"include_entities", true},
                     {"tweet_mode", CoreTweet.TweetMode.Extended},
-                    {"exclude_types", new List<string>{"follow", "favourite", "reblog"}}
+                    {"exclude_types", new List<string> {"follow", "favourite", "reblog"}}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
@@ -566,7 +579,7 @@ namespace Flantter.MilkyWay.Models
 
                     var paramList = new List<string> {"mentions://"};
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, AccountSetting.UserId, paramList, false));
+                        new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance, paramList, false));
                 }
 
                 if (gapCheck)
@@ -622,7 +635,8 @@ namespace Flantter.MilkyWay.Models
 
                     var paramList = new List<string> {"directmessages://"};
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(directMessage, AccountSetting.UserId, paramList, false));
+                        new TweetEventArgs(directMessage, AccountSetting.UserId, AccountSetting.Instance, paramList,
+                            false));
                 }
             }
             catch (CoreTweet.TwitterException ex)
@@ -678,7 +692,7 @@ namespace Flantter.MilkyWay.Models
 
                     var paramList = new List<string> {"favorites://"};
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, AccountSetting.UserId, paramList, false));
+                        new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance, paramList, false));
                 }
 
                 if (gapCheck)
@@ -738,7 +752,7 @@ namespace Flantter.MilkyWay.Models
 
                     var paramList = new List<string> {"list://" + _parameter};
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, AccountSetting.UserId, paramList, false));
+                        new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance, paramList, false));
                 }
 
                 if (gapCheck)
@@ -835,7 +849,7 @@ namespace Flantter.MilkyWay.Models
 
                     var paramList = new List<string> {"search://" + _parameter};
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, AccountSetting.UserId, paramList, false));
+                        new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance, paramList, false));
                 }
 
                 if (gapCheck)
@@ -895,7 +909,7 @@ namespace Flantter.MilkyWay.Models
 
                     var paramList = new List<string> {"usertimeline://" + _parameter};
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, AccountSetting.UserId, paramList, false));
+                        new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance, paramList, false));
                 }
 
                 if (gapCheck)
@@ -952,7 +966,8 @@ namespace Flantter.MilkyWay.Models
 
                         var paramList = new List<string> {"events://"};
                         Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                            new TweetEventArgs(evObject, AccountSetting.UserId, paramList, false));
+                            new TweetEventArgs(evObject, AccountSetting.UserId, AccountSetting.Instance, paramList,
+                                false));
                     }
 
                     if (gapCheck)
@@ -1014,7 +1029,8 @@ namespace Flantter.MilkyWay.Models
 
                         var paramList = new List<string> {"collection://" + _parameter};
                         Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                            new TweetEventArgs(collection, AccountSetting.UserId, paramList, false));
+                            new TweetEventArgs(collection, AccountSetting.UserId, AccountSetting.Instance, paramList,
+                                false));
                     }
                 }
                 catch (CoreTweet.TwitterException ex)
@@ -1072,7 +1088,7 @@ namespace Flantter.MilkyWay.Models
                     else
                         paramList.Add("federated://" + _parameter);
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, AccountSetting.UserId, paramList, false));
+                        new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance, paramList, false));
                 }
 
                 if (gapCheck)
@@ -1105,20 +1121,24 @@ namespace Flantter.MilkyWay.Models
         // Streaming用ツイート受信時チェック
         private bool MuteCheck(Status status)
         {
-            lock (Connecter.Instance.TweetCollecter[AccountSetting.UserId].MuteIdsLock)
+            lock (Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].MuteIdsLock)
             {
-                if (Connecter.Instance.TweetCollecter[AccountSetting.UserId].MuteIds.Contains(status.User.Id))
+                if (Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].MuteIds
+                    .Contains(status.User.Id))
                     return false;
 
-                if (status.HasRetweetInformation && Connecter.Instance.TweetCollecter[AccountSetting.UserId]
+                if (status.HasRetweetInformation && Connecter.Instance
+                        .TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance]
                         .MuteIds.Contains(status.RetweetInformation.User.Id))
                     return false;
 
-                if (status.HasRetweetInformation && Connecter.Instance.TweetCollecter[AccountSetting.UserId]
+                if (status.HasRetweetInformation && Connecter.Instance
+                        .TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance]
                         .NoRetweetIds.Contains(status.RetweetInformation.User.Id))
                     return false;
 
-                if (Connecter.Instance.TweetCollecter[AccountSetting.UserId].BlockIds.Contains(status.User.Id))
+                if (Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].BlockIds
+                    .Contains(status.User.Id))
                     return false;
             }
 
@@ -1432,6 +1452,7 @@ namespace Flantter.MilkyWay.Models
                     var status = x as Status;
                     return (status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id) == id;
                 }
+
                 return x.Id == id;
             }));
 
@@ -1465,7 +1486,7 @@ namespace Flantter.MilkyWay.Models
             Tweets.Clear();
 
             if (SettingService.Setting.EnableDatabase)
-                Database.Instance.ClearTweet(AccountSetting.UserId,
+                Database.Instance.ClearTweet(AccountSetting.UserId, AccountSetting.Instance,
                     Action.ToString("F").ToLower() + "://" + _parameter);
         }
 

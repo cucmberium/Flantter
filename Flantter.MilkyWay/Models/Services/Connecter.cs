@@ -18,16 +18,18 @@ namespace Flantter.MilkyWay.Models.Services
 
         #region Constructor
 
-        public TweetDeleteEventArgs(TypeEnum type, long id, long userId)
+        public TweetDeleteEventArgs(TypeEnum type, long id, long userId, string instance)
         {
             Type = type;
             UserId = userId;
+            Instance = instance;
             Id = id;
         }
 
         #endregion
 
         public long UserId { get; }
+        public string Instance { get; }
         public long Id { get; }
 
         public TypeEnum Type { get; }
@@ -45,39 +47,43 @@ namespace Flantter.MilkyWay.Models.Services
 
         #region Constructor
 
-        public TweetEventArgs(Status status, long userId, List<string> parameter, bool streaming = false)
+        public TweetEventArgs(Status status, long userId, string instance, List<string> parameter, bool streaming = false)
         {
             Type = TypeEnum.Status;
             Status = status;
             UserId = userId;
+            Instance = instance;
             Parameter = parameter;
             Streaming = streaming;
         }
 
-        public TweetEventArgs(DirectMessage directMessage, long userId, List<string> parameter, bool streaming = false)
+        public TweetEventArgs(DirectMessage directMessage, long userId, string instance, List<string> parameter, bool streaming = false)
         {
             Type = TypeEnum.DirectMessage;
             DirectMessage = directMessage;
             UserId = userId;
+            Instance = instance;
             Parameter = parameter;
             Streaming = streaming;
         }
 
-        public TweetEventArgs(EventMessage eventMessage, long userId, List<string> parameter, bool streaming = true)
+        public TweetEventArgs(EventMessage eventMessage, long userId, string instance, List<string> parameter, bool streaming = true)
         {
             Type = TypeEnum.EventMessage;
             EventMessage = eventMessage;
             UserId = userId;
+            Instance = instance;
             Parameter = parameter;
             Streaming = streaming;
         }
 
-        public TweetEventArgs(CollectionEntry collectionEntry, long userId, List<string> parameter,
+        public TweetEventArgs(CollectionEntry collectionEntry, long userId, string instance, List<string> parameter,
             bool streaming = false)
         {
             Type = TypeEnum.CollectionEntry;
             CollectionEntry = collectionEntry;
             UserId = userId;
+            Instance = instance;
             Parameter = parameter;
             Streaming = streaming;
         }
@@ -87,6 +93,7 @@ namespace Flantter.MilkyWay.Models.Services
         public bool Streaming { get; }
 
         public long UserId { get; }
+        public string Instance { get; }
 
         public Status Status { get; }
         public DirectMessage DirectMessage { get; }
@@ -106,7 +113,7 @@ namespace Flantter.MilkyWay.Models.Services
 
         public static Connecter Instance { get; } = new Connecter();
 
-        public Dictionary<long, TweetCollecterService> TweetCollecter { get; set; }
+        public Dictionary<string, TweetCollecterService> TweetCollecter { get; set; }
 
         public event EventHandler<TweetEventArgs> TweetReceiveCommandExecute;
 
@@ -124,7 +131,7 @@ namespace Flantter.MilkyWay.Models.Services
 
         public void Initialize()
         {
-            TweetCollecter = new Dictionary<long, TweetCollecterService>();
+            TweetCollecter = new Dictionary<string, TweetCollecterService>();
             if (SettingService.Setting.EnableDatabase)
                 Database.Database.Instance.Initialize();
         }
@@ -136,16 +143,16 @@ namespace Flantter.MilkyWay.Models.Services
 
         public void AddAccount(AccountSetting account)
         {
-            if (!TweetCollecter.ContainsKey(account.UserId))
-                TweetCollecter[account.UserId] = new TweetCollecterService(account.UserId);
+            if (!TweetCollecter.ContainsKey(account.UserId + ":" + account.Instance))
+                TweetCollecter[account.UserId + ":" + account.Instance] = new TweetCollecterService(account.UserId, account.Instance);
         }
 
         public void RemoveAccount(AccountSetting account)
         {
-            if (TweetCollecter.ContainsKey(account.UserId))
+            if (TweetCollecter.ContainsKey(account.UserId + ":" + account.Instance))
             {
-                TweetCollecter[account.UserId].Remove();
-                TweetCollecter.Remove(account.UserId);
+                TweetCollecter[account.UserId + ":" + account.Instance].Remove();
+                TweetCollecter.Remove(account.UserId + ":" + account.Instance);
             }
         }
 
@@ -154,9 +161,10 @@ namespace Flantter.MilkyWay.Models.Services
             private readonly IDisposable _tweetDeleteDisposableObject;
             private readonly IDisposable _tweetReceiveDisposableObject;
 
-            public TweetCollecterService(long userId)
+            public TweetCollecterService(long userId, string instance)
             {
                 UserId = userId;
+                Instance = instance;
 
                 NoRetweetIds = new List<long>();
                 MuteIds = new List<long>();
@@ -169,18 +177,18 @@ namespace Flantter.MilkyWay.Models.Services
                 _tweetDeleteDisposableObject = Observable
                     .FromEvent<EventHandler<TweetDeleteEventArgs>, TweetDeleteEventArgs>(
                         h => (sender, e) => h(e),
-                        h => Instance.TweetDeleteCommandExecute += h,
-                        h => Instance.TweetDeleteCommandExecute -= h)
-                    .Where(x => x.UserId == UserId)
+                        h => Connecter.Instance.TweetDeleteCommandExecute += h,
+                        h => Connecter.Instance.TweetDeleteCommandExecute -= h)
+                    .Where(x => x.UserId == UserId && x.Instance == Instance)
                     .SubscribeOn(NewThreadScheduler.Default)
                     .Subscribe(e => { TweetDeleteCommandExecute?.Invoke(this, e); });
 
 
                 _tweetReceiveDisposableObject = Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
                         h => (sender, e) => h(e),
-                        h => Instance.TweetReceiveCommandExecute += h,
-                        h => Instance.TweetReceiveCommandExecute -= h)
-                    .Where(x => x.UserId == UserId)
+                        h => Connecter.Instance.TweetReceiveCommandExecute += h,
+                        h => Connecter.Instance.TweetReceiveCommandExecute -= h)
+                    .Where(x => x.UserId == UserId && x.Instance == Instance)
                     .SubscribeOn(NewThreadScheduler.Default)
                     .Subscribe(
                         e =>
@@ -191,17 +199,17 @@ namespace Flantter.MilkyWay.Models.Services
                                 switch (e.Type)
                                 {
                                     case TweetEventArgs.TypeEnum.Status:
-                                        Database.Database.Instance.InsertTweet(e.Status, e.Parameter, e.UserId);
+                                        Database.Database.Instance.InsertTweet(e.Status, e.Parameter, e.UserId, e.Instance);
                                         break;
                                     case TweetEventArgs.TypeEnum.DirectMessage:
-                                        Database.Database.Instance.InsertTweet(e.DirectMessage, e.Parameter, e.UserId);
+                                        Database.Database.Instance.InsertTweet(e.DirectMessage, e.Parameter, e.UserId, e.Instance);
                                         break;
                                     case TweetEventArgs.TypeEnum.EventMessage:
-                                        Database.Database.Instance.InsertTweet(e.EventMessage, e.Parameter, e.UserId);
+                                        Database.Database.Instance.InsertTweet(e.EventMessage, e.Parameter, e.UserId, e.Instance);
                                         break;
                                     case TweetEventArgs.TypeEnum.CollectionEntry:
                                         Database.Database.Instance.InsertTweet(e.CollectionEntry, e.Parameter,
-                                            e.UserId);
+                                            e.UserId, e.Instance);
                                         break;
                                 }
 
@@ -228,6 +236,7 @@ namespace Flantter.MilkyWay.Models.Services
             }
 
             public long UserId { get; set; }
+            public string Instance { get; set; }
 
             public object EntitiesObjectsLock { get; set; } = new object();
             public object MuteIdsLock { get; set; } = new object();

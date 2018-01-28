@@ -179,9 +179,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     }
 
                     IEnumerable<string> suggestHashtags;
-                    lock (Connecter.Instance.TweetCollecter[Tokens.Value.UserId].EntitiesObjectsLock)
+                    lock (Connecter.Instance.TweetCollecter[Tokens.Value.UserId + ":" + Tokens.Value.Instance].EntitiesObjectsLock)
                     {
-                        suggestHashtags = Connecter.Instance.TweetCollecter[Tokens.Value.UserId]
+                        suggestHashtags = Connecter.Instance.TweetCollecter[Tokens.Value.UserId + ":" + Tokens.Value.Instance]
                             .HashTagObjects.Where(x => x.StartsWith(StatusSearchWords.Value.TrimStart('#')))
                             .OrderBy(x => x).Select(x => "#" + x);
                     }
@@ -209,9 +209,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
                     }
 
                     IEnumerable<string> suggestUsers;
-                    lock (Connecter.Instance.TweetCollecter[Tokens.Value.UserId].EntitiesObjectsLock)
+                    lock (Connecter.Instance.TweetCollecter[Tokens.Value.UserId + ":" + Tokens.Value.Instance].EntitiesObjectsLock)
                     {
-                        suggestUsers = Connecter.Instance.TweetCollecter[Tokens.Value.UserId]
+                        suggestUsers = Connecter.Instance.TweetCollecter[Tokens.Value.UserId + ":" + Tokens.Value.Instance]
                             .ScreenNameObjects.Where(x => x.Key.StartsWith(UserSearchWords.Value.TrimStart('@')))
                             .OrderBy(x => x.Key).Select(x => x.Key);
                     }

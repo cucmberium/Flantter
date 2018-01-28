@@ -60,7 +60,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {
                         var statusObject = new Status(item);
                         Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                            new TweetEventArgs(statusObject, Tokens.UserId, new List<string> {"none://"}, false));
+                            new TweetEventArgs(statusObject, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
 
                         statusObject.InReplyToStatusId = 0;
 
@@ -88,7 +88,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {
                         conversation.Add(item);
                         Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                            new TweetEventArgs(item, Tokens.UserId, new List<string> {"none://"}, false));
+                            new TweetEventArgs(item, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
                     }
                     conversationTweets =
                         await Tokens.Search.TweetsAsync(
@@ -98,7 +98,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     {
                         conversation.Add(item);
                         Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                            new TweetEventArgs(item, Tokens.UserId, new List<string> {"none://"}, false));
+                            new TweetEventArgs(item, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
                     }
 
                     while (true)
@@ -146,7 +146,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                                 status = item;
                                 Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                                    new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
+                                    new TweetEventArgs(status, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
                             }
 
                         nextId = status.InReplyToStatusId;
@@ -205,7 +205,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                         status = item;
                         Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                            new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
+                            new TweetEventArgs(status, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
                     }
 
                     nextId = status.InReplyToStatusId;

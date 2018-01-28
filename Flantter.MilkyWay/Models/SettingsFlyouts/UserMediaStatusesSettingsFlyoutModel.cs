@@ -52,7 +52,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 foreach (var status in userMediaStatuses)
                 {
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
+                        new TweetEventArgs(status, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
 
                     if (status.Entities.Media.Count == 0 || status.HasRetweetInformation)
                         continue;

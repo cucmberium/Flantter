@@ -159,7 +159,7 @@ namespace Flantter.MilkyWay.Models
                 {
                     mentionStatus = await Tokens.Statuses.ShowAsync(id => status.InReplyToStatusId);
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(mentionStatus, AccountSetting.UserId, new List<string> {"none://"}, false));
+                        new TweetEventArgs(mentionStatus, AccountSetting.UserId, AccountSetting.Instance, new List<string> {"none://"}, false));
                 }
                 catch (CoreTweet.TwitterException ex)
                 {
@@ -465,12 +465,12 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 var noRetweetIds = await Tokens.Friendships.NoRetweetsIdsAsync();
-                lock (Connecter.Instance.TweetCollecter[AccountSetting.UserId].MuteIdsLock)
+                lock (Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].MuteIdsLock)
                 {
-                    Connecter.Instance.TweetCollecter[AccountSetting.UserId].NoRetweetIds.Clear();
+                    Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].NoRetweetIds.Clear();
 
                     foreach (var id in noRetweetIds)
-                        Connecter.Instance.TweetCollecter[AccountSetting.UserId].NoRetweetIds.Add(id);
+                        Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].NoRetweetIds.Add(id);
                 }
             }
             catch
@@ -480,12 +480,12 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 var muteIds = await Tokens.Mutes.Users.IdsAsync();
-                lock (Connecter.Instance.TweetCollecter[AccountSetting.UserId].MuteIdsLock)
+                lock (Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].MuteIdsLock)
                 {
-                    Connecter.Instance.TweetCollecter[AccountSetting.UserId].MuteIds.Clear();
+                    Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].MuteIds.Clear();
 
                     foreach (var id in muteIds)
-                        Connecter.Instance.TweetCollecter[AccountSetting.UserId].MuteIds.Add(id);
+                        Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].MuteIds.Add(id);
                 }
             }
             catch
@@ -495,12 +495,12 @@ namespace Flantter.MilkyWay.Models
             try
             {
                 var blockIds = await Tokens.Blocks.IdsAsync();
-                lock (Connecter.Instance.TweetCollecter[AccountSetting.UserId].BlockIds)
+                lock (Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].BlockIds)
                 {
-                    Connecter.Instance.TweetCollecter[AccountSetting.UserId].BlockIds.Clear();
+                    Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].BlockIds.Clear();
 
                     foreach (var id in blockIds)
-                        Connecter.Instance.TweetCollecter[AccountSetting.UserId].BlockIds.Add(id);
+                        Connecter.Instance.TweetCollecter[AccountSetting.UserId + ":" + AccountSetting.Instance].BlockIds.Add(id);
                 }
             }
             catch

@@ -40,7 +40,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                     status = await Tokens.Statuses.ShowAsync(id => _statusId,
                         tweet_mode => CoreTweet.TweetMode.Extended);
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
+                        new TweetEventArgs(status, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
                 }
                 catch
                 {
@@ -133,7 +133,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         continue;
 
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
+                        new TweetEventArgs(status, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
 
                     var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                     var index = ActionStatuses.IndexOf(
@@ -156,7 +156,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                         continue;
 
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
+                        new TweetEventArgs(status, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
 
                     var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                     var index = ActionStatuses.IndexOf(

@@ -49,7 +49,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 foreach (var status in publicTimelineStatuses)
                 {
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, Tokens.UserId, new List<string> {"none://"}, false));
+                        new TweetEventArgs(status, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
 
                     var id = status.HasRetweetInformation ? status.RetweetInformation.Id : status.Id;
                     var index = PublicTimelineStatuses.IndexOf(

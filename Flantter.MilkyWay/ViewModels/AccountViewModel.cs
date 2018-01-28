@@ -248,7 +248,7 @@ namespace Flantter.MilkyWay.ViewModels
                     if (string.IsNullOrWhiteSpace(e?.Tag))
                         return;
 
-                    var userId = Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId]
+                    var userId = Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId + ":" + Model.AccountSetting.Instance]
                         .UserObjects.First(x => x.ScreenName == e.Tag).Id;
 
                     Notice.ShowUserProfileCommand.Execute(userId);
@@ -267,12 +267,12 @@ namespace Flantter.MilkyWay.ViewModels
 
                     IEnumerable<string> suggestHashtags;
                     IEnumerable<Models.Apis.Objects.User> suggestUsers;
-                    lock (Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId].EntitiesObjectsLock)
+                    lock (Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId + ":" + Model.AccountSetting.Instance].EntitiesObjectsLock)
                     {
-                        suggestHashtags = Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId]
+                        suggestHashtags = Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId + ":" + Model.AccountSetting.Instance]
                             .HashTagObjects.Where(x => x.StartsWith(e.QueryText.TrimStart('#')))
                             .OrderBy(x => x);
-                        suggestUsers = Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId]
+                        suggestUsers = Connecter.Instance.TweetCollecter[Model.AccountSetting.UserId + ":" + Model.AccountSetting.Instance]
                             .UserObjects.Where(x => x.ScreenName.StartsWith(e.QueryText.TrimStart('@')))
                             .OrderBy(x => x.ScreenName);
                     }

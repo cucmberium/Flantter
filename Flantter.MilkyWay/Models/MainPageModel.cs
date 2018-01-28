@@ -203,20 +203,20 @@ namespace Flantter.MilkyWay.Models
         {
             foreach (var accountModel in _accounts)
             {
-                accountModel.IsEnabled = account.UserId == accountModel.AccountSetting.UserId;
+                accountModel.IsEnabled = account.UserId == accountModel.AccountSetting.UserId && account.Instance == accountModel.AccountSetting.Instance;
 
                 accountModel.LeftSwipeMenuIsOpen = false;
             }
 
             foreach (var accountSetting in AdvancedSettingService.AdvancedSetting.Accounts)
-                accountSetting.IsEnabled = account.UserId == accountSetting.UserId;
+                accountSetting.IsEnabled = account.UserId == accountSetting.UserId && account.Instance == accountSetting.Instance;
 
             await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
         }
 
         public async Task DeleteAccount(AccountSetting account)
         {
-            var accountModel = _accounts.First(x => x.AccountSetting.UserId == account.UserId);
+            var accountModel = _accounts.First(x => x.AccountSetting.UserId == account.UserId && x.AccountSetting.Instance == account.Instance);
 
             accountModel.LeftSwipeMenuIsOpen = false;
 
@@ -231,7 +231,7 @@ namespace Flantter.MilkyWay.Models
                 _accounts.First().IsEnabled = true;
 
                 AdvancedSettingService.AdvancedSetting.Accounts
-                    .First(x => x.UserId == _accounts.First().AccountSetting.UserId)
+                    .First(x => x.UserId == _accounts.First().AccountSetting.UserId && x.Instance == _accounts.First().Instance)
                     .IsEnabled = true;
             }
 

@@ -48,7 +48,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 foreach (var item in collectionStatuses)
                 {
                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(item.Status, Tokens.UserId, new List<string> {"none://"}, false));
+                        new TweetEventArgs(item.Status, Tokens.UserId, Tokens.Instance, new List<string> {"none://"}, false));
 
                     if (CollectionStatuses.All(x => x.Status.Id != item.Status.Id))
                         CollectionStatuses.Add(item);

@@ -56,10 +56,13 @@ namespace Flantter.MilkyWay.Views.Util
                                 CoreApplicationViewTitleBar>(
                                 h => (sender, e) => h(sender),
                                 h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += h,
-                                h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged -= h)
-                            .Select(e => (object) e),
+                                h => CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged -= h),
+                        Observable.FromEvent<TypedEventHandler<ApplicationView, object>, object>(
+                            h => (sender, e) => h(e),
+                            h => ApplicationView.GetForCurrentView().VisibleBoundsChanged += h,
+                            h => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= h),
                         SettingService.Setting.ObserveProperty(x => x.ExtendTitleBar)
-                            .Select(e => (object) e)
+                            .Select(e => (object)e)
                     )
                     .Subscribe(_ =>
                     {
@@ -85,7 +88,6 @@ namespace Flantter.MilkyWay.Views.Util
                 ClientWidth = VisibleBounds.Width;
                 ClientHeight = VisibleBounds.Height;
                 UserInteractionMode = UserInteractionMode.Touch;
-
                 Observable.FromEvent<WindowSizeChangedEventHandler, WindowSizeChangedEventArgs>(
                         h => (sender, e) => h(e),
                         h => Window.Current.SizeChanged += h,
@@ -94,8 +96,11 @@ namespace Flantter.MilkyWay.Views.Util
                     .Merge(Observable.FromEvent<TypedEventHandler<DisplayInformation, object>, object>(
                             h => (sender, e) => h(e),
                             h => DisplayInformation.GetForCurrentView().OrientationChanged += h,
-                            h => DisplayInformation.GetForCurrentView().OrientationChanged -= h)
-                        .Select(e => e))
+                            h => DisplayInformation.GetForCurrentView().OrientationChanged -= h))
+                    .Merge(Observable.FromEvent<TypedEventHandler<ApplicationView, object>, object>(
+                            h => (sender, e) => h(e),
+                            h => ApplicationView.GetForCurrentView().VisibleBoundsChanged += h,
+                            h => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= h))
                     .Subscribe(_ =>
                     {
                         VisibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;

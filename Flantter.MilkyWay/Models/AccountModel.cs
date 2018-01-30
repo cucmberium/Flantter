@@ -520,7 +520,13 @@ namespace Flantter.MilkyWay.Models
                     foreach (var columnModel in _columns)
                         if (t % (int) columnModel.ColumnSetting.AutoRefreshTimerInterval == 0 &&
                             columnModel.ColumnSetting.AutoRefresh && !columnModel.Streaming)
+                        {
+                            columnModel.IsScrollLockEnabled = true;
+                            await Task.Delay(50);
                             await columnModel.Update();
+                            await Task.Delay(200);
+                            columnModel.IsScrollLockEnabled = false;
+                        }
                 });
         }
 

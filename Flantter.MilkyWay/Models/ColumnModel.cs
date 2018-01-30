@@ -364,11 +364,17 @@ namespace Flantter.MilkyWay.Models
                 }
                 else if (_action == SettingSupport.ColumnTypeEnum.Federated)
                 {
-                    var param = new Dictionary<string, object>();
+                    if (AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
+                        return;
+
+                        var param = new Dictionary<string, object>();
                     iObservable = Tokens.Streaming.PublicAsObservable(param);
                 }
                 else if (_action == SettingSupport.ColumnTypeEnum.Local)
                 {
+                    if (AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
+                        return;
+
                     var param = new Dictionary<string, object> {{"local", true}};
                     iObservable = Tokens.Streaming.PublicAsObservable(param);
                 }
@@ -381,7 +387,7 @@ namespace Flantter.MilkyWay.Models
                 _streamingDisposableObject = iObservable
                     .SubscribeOn(NewThreadScheduler.Default)
                     .Catch(
-                        (Exception ex) => iObservable.DelaySubscription(TimeSpan.FromSeconds(10)).Retry())
+                        (Exception ex) => iObservable.DelaySubscription(TimeSpan.FromSeconds(15)).Retry())
                     .Repeat()
                     .Subscribe(x => _stream.OnNext(x), ex => _stream.OnError(ex), () => _stream.OnCompleted());
             }

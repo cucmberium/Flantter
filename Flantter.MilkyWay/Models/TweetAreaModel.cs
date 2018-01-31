@@ -146,26 +146,10 @@ namespace Flantter.MilkyWay.Models
                             {
                                 memoryStream = new InMemoryRandomAccessStream();
 
-                                var transform = new BitmapTransform
-                                {
-                                    ScaledHeight = (uint) (scale * picDecoder.PixelHeight),
-                                    ScaledWidth = (uint) (scale * picDecoder.PixelWidth)
-                                };
-                                var picDecoderPixels = await picDecoder.GetPixelDataAsync(
-                                    BitmapPixelFormat.Bgra8,
-                                    BitmapAlphaMode.Premultiplied,
-                                    transform,
-                                    ExifOrientationMode.RespectExifOrientation,
-                                    ColorManagementMode.DoNotColorManage);
-
-                                var picEncoder =
-                                    await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, memoryStream);
+                                var picEncoder = await BitmapEncoder.CreateForTranscodingAsync(memoryStream, picDecoder);
                                 picEncoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Linear;
-
-                                picEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied,
-                                    transform.ScaledWidth, transform.ScaledHeight, picDecoder.DpiX, picDecoder.DpiY,
-                                    picDecoderPixels.DetachPixelData());
-
+                                picEncoder.BitmapTransform.ScaledHeight = (uint) Math.Floor(scale * picDecoder.PixelHeight);
+                                picEncoder.BitmapTransform.ScaledWidth = (uint) Math.Floor(scale * picDecoder.PixelWidth);
                                 await picEncoder.FlushAsync();
 
                                 scale -= 0.05;

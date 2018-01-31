@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Flantter.MilkyWay.Views.Util;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Xaml.Interactivity;
+using Reactive.Bindings.Extensions;
 
 namespace Flantter.MilkyWay.Views.Behaviors
 {
@@ -110,15 +111,15 @@ namespace Flantter.MilkyWay.Views.Behaviors
                 _capturingPointer = false;
             };
 
-            RootGrid = new Grid {Width = WindowSizeHelper.Instance.ClientWidth, Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top };
+            RootGrid = new Grid {Width = WindowSizeHelper.Instance.ClientWidth, Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top};
             RootGrid.ColumnDefinitions.Add(new ColumnDefinition {Width = new GridLength(1, GridUnitType.Auto)});
             RootGrid.ColumnDefinitions.Add(new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)});
 
-            Window.Current.SizeChanged += (s, e) =>
+            WindowSizeHelper.Instance.ObserveProperty(x => x.ClientHeight).SubscribeOnUIDispatcher().Subscribe(x => 
             {
                 RootGrid.Width = WindowSizeHelper.Instance.ClientWidth;
                 RootGrid.Height = WindowSizeHelper.Instance.ClientHeight + WindowSizeHelper.Instance.VisibleBounds.Top;
-            };
+            });
 
             var canvas = new Canvas {Background = new SolidColorBrush(Colors.Transparent)};
             canvas.Tapped += (s, e) => { Hide(); };

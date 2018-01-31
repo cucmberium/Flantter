@@ -23,7 +23,11 @@ namespace Flantter.MilkyWay.Views.Contents.SettingsFlyouts
 
         public UserProfileSettingsFlyout()
         {
-            Showed += (s, e) => { RootScrollViewer.ChangeView(null, 0.0, null, true); };
+            Showed += (s, e) =>
+            {
+                RootScrollViewer.ChangeView(null, 0.0, null, true);
+                UserProfileSettingsFlyout_SizeChanged(null, null);
+            };
 
             InitializeComponent();
 

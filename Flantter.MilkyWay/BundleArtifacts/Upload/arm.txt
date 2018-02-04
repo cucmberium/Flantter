@@ -1,3 +1,3 @@
-MainPackage=D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\ARM\Release\Upload\Flantter.MilkyWay_3.2.7.0_ARM.appx
-SymbolPackage=D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\ARM\Release\Upload\Flantter.MilkyWay_3.2.7.0\Flantter.MilkyWay_3.2.7.0_ARM.appxsym
-ResourcePack=D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\ARM\Release\Flantter.MilkyWay_3.2.7.0_language-ja.appx
+MainPackage=D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\ARM\Release\Upload\Flantter.MilkyWay_3.2.8.0_ARM.appx
+SymbolPackage=D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\ARM\Release\Upload\Flantter.MilkyWay_3.2.8.0\Flantter.MilkyWay_3.2.8.0_ARM.appxsym
+ResourcePack=D:\Users\cucmberium\Documents\GitHub\Flantter.MilkyWay\Flantter.MilkyWay\bin\ARM\Release\Flantter.MilkyWay_3.2.8.0_language-ja.appx

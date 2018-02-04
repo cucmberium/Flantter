@@ -894,7 +894,11 @@ namespace Flantter.MilkyWay.ViewModels
             {
                 account.Model.StopTimer();
                 foreach (var column in account.Columns)
+                {
                     column.IsScrollLockEnabled.Value = true;
+                    if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                        column.Model.StopStreaming();
+                }
             }
         }
 

@@ -312,7 +312,7 @@ namespace Flantter.MilkyWay.Models
 
         #endregion
 
-        private async void StartStreaming()
+        public async void StartStreaming()
         {
             if (_streamingDisposableObject != null)
                 return;
@@ -419,7 +419,7 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
-        private void StopStreaming()
+        public void StopStreaming()
         {
             if (_streamingDisposableObject == null)
                 return;

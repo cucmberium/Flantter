@@ -75,16 +75,6 @@ namespace Flantter.MilkyWay.Models.Notifications
                                         ? e.Status.Entities.Media.First().MediaThumbnailUrl
                                         : "");
 
-                            if (e.Status.Entities.Media.Any(x => x.Type == "Image") &&
-                                !e.Status.User.IsProtected)
-                                UpdateTileNotification(TileNotificationType.Images,
-                                    e.Status.User.Name + "(@" + e.Status.User.ScreenName + ")" + "\n" + e.Status.Text,
-                                    e.Status.Entities.Media.First(x => x.Type == "Image").MediaUrl);
-
-                            else if (e.Status.InReplyToUserId == e.UserId)
-                                UpdateTileNotification(TileNotificationType.Mentions,
-                                    e.Status.User.Name + "(@" + e.Status.User.ScreenName + ")" + "\n" + e.Status.Text);
-
                             break;
 
                         case TweetEventArgs.TypeEnum.DirectMessage:
@@ -135,6 +125,30 @@ namespace Flantter.MilkyWay.Models.Notifications
                                         imageUrl: e.EventMessage.Source.ProfileImageUrl);
                                     break;
                             }
+                            break;
+                    }
+                });
+
+            Observable.FromEvent<EventHandler<TweetEventArgs>, TweetEventArgs>(
+                    h => (sender, e) => h(e),
+                    h => Connecter.Instance.TweetReceiveCommandExecute += h,
+                    h => Connecter.Instance.TweetReceiveCommandExecute -= h)
+                .SubscribeOn(NewThreadScheduler.Default)
+                .Subscribe(e =>
+                {
+                    switch (e.Type)
+                    {
+                        case TweetEventArgs.TypeEnum.Status:
+                            if (e.Status.Entities.Media.Any(x => x.Type == "Image") &&
+                                !e.Status.User.IsProtected)
+                                UpdateTileNotification(TileNotificationType.Images,
+                                    e.Status.User.Name + "(@" + e.Status.User.ScreenName + ")" + "\n" + e.Status.Text,
+                                    e.Status.Entities.Media.First(x => x.Type == "Image").MediaUrl);
+
+                            else if (e.Status.InReplyToUserId == e.UserId)
+                                UpdateTileNotification(TileNotificationType.Mentions,
+                                    e.Status.User.Name + "(@" + e.Status.User.ScreenName + ")" + "\n" + e.Status.Text);
+
                             break;
                     }
                 });

@@ -187,7 +187,7 @@
     <value>    リツイート</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_Retweeter.Text" xml:space="preserve">
-    <value>    リツイートした人</value>
+    <value>    リツイートした人</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_RetweetMenu.Text" xml:space="preserve">
     <value>    リツイート関連</value>
@@ -202,7 +202,7 @@
     <value>    コメント付きリツイート</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_UserProfile.Text" xml:space="preserve">
-    <value>    ユーザープロフィール</value>
+    <value>    ユーザープロフィール</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_DeleteRetweet.Text" xml:space="preserve">
     <value>    リツイートの削除</value>
@@ -1140,5 +1140,11 @@
   </data>
   <data name="SettingsFlyout_Settings_Behavior_StopStreamingOnStartup_ToggleSwitch.Header" xml:space="preserve">
     <value>起動時のストリーミング接続をすべて無効にする</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_FavoriteMenu.Text" xml:space="preserve">
+    <value>    お気に入り関連</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_Favoriter.Text" xml:space="preserve">
+    <value>    お気に入りした人</value>
   </data>
 </root>

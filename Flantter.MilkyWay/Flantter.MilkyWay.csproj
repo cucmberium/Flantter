@@ -127,6 +127,7 @@
     <Compile Include="Models\SettingsFlyouts\ConversationSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\DirectMessageConversationSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ListMembersSettingsFlyoutModel.cs" />
+    <Compile Include="Models\SettingsFlyouts\FavoritersSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\SimpleUserListsSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\UserMediaStatusesSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\ListStatusesSettingsFlyoutModel.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="ViewModels\SettingsFlyouts\ConversationSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\DirectMessageConversationSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ListMembersSettingsFlyoutViewModel.cs" />
+    <Compile Include="ViewModels\SettingsFlyouts\FavoritersSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\SimpleUserListsSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\UserMediaStatusesSettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\SettingsFlyouts\ListStatusesSettingsFlyoutViewModel.cs" />
@@ -256,6 +258,9 @@
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\ListMembersSettingsFlyout.xaml.cs">
       <DependentUpon>ListMembersSettingsFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Contents\SettingsFlyouts\FavoritersSettingsFlyout.xaml.cs">
+      <DependentUpon>FavoritersSettingsFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Contents\SettingsFlyouts\SimpleUserListsSettingsFlyout.xaml.cs">
       <DependentUpon>SimpleUserListsSettingsFlyout.xaml</DependentUpon>
@@ -568,6 +573,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Contents\SettingsFlyouts\ListMembersSettingsFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Contents\SettingsFlyouts\FavoritersSettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

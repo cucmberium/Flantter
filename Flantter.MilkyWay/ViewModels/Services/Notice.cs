@@ -24,6 +24,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
             CopyTweetCommand = new ReactiveCommand();
             CopyTweetUrlCommand = new ReactiveCommand();
             ShowRetweetersCommand = new ReactiveCommand();
+            ShowFavoritersCommand = new ReactiveCommand();
             MuteUserCommand = new ReactiveCommand();
             MuteClientCommand = new ReactiveCommand();
             MuteWordCommand = new ReactiveCommand();
@@ -149,6 +150,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
         public ReactiveCommand CopyTweetCommand { get; }
         public ReactiveCommand CopyTweetUrlCommand { get; }
         public ReactiveCommand ShowRetweetersCommand { get; }
+        public ReactiveCommand ShowFavoritersCommand { get; }
         public ReactiveCommand MuteUserCommand { get; }
         public ReactiveCommand MuteClientCommand { get; }
         public ReactiveCommand MuteWordCommand { get; }

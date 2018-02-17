@@ -508,6 +508,35 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     PopupList.Insert(0, settingsFlyout);
                     break;
+                case "Favoriters":
+                    settingsFlyoutList = _settingsFlyoutList.Where(x => x is FavoritersSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Any())
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new FavoritersSettingsFlyout();
+                        ((FavoritersSettingsFlyout)settingsFlyout).ViewModel = new FavoritersSettingsFlyoutViewModel();
+                        _settingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((FavoritersSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((FavoritersSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((FavoritersSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((FavoritersSettingsFlyout)settingsFlyout).ViewModel.Id.Value = ((Status)notification.Content).Id;
+
+                    ((FavoritersSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((FavoritersSettingsFlyout)settingsFlyout).DataContext =
+                        ((FavoritersSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+
+                    PopupList.Insert(0, settingsFlyout);
+                    break;
                 case "RetweetsOfMe":
                     settingsFlyoutList = _settingsFlyoutList.Where(x => x is RetweetsOfMeSettingsFlyout && !x.IsOpen);
                     if (settingsFlyoutList.Any())

@@ -51,6 +51,7 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             IsMentionStatusLoading = false;
 
             RetweetCount = 0;
+            FavoriteCount = 0;
 
             IsMyTweet = false;
             IsMyRetweet = false;
@@ -207,6 +208,9 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             IsMentionStatusLoading = false;
 
             RetweetCount = status.RetweetCount;
+            // TODO: ちょっとここのコード汚い
+            if (status.Emojis != null)
+                FavoriteCount = status.FavoriteCount;
 
             IsMyTweet = false;
             IsMyRetweet = status.IsRetweeted;
@@ -330,6 +334,8 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
         public string MentionStatusProfileImageUrl { get; set; }
 
         public int RetweetCount { get; set; }
+
+        public int FavoriteCount { get; set; }
 
         public bool IsMyTweet { get; set; }
 

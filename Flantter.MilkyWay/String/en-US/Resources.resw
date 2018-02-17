@@ -190,7 +190,7 @@
     <value>    Retweet</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_Retweeter.Text" xml:space="preserve">
-    <value>    Show retweeter</value>
+    <value>    Show retweeter</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_RetweetMenu.Text" xml:space="preserve">
     <value>    Retweet menu</value>
@@ -205,7 +205,7 @@
     <value>    Retweet with comment</value>
   </data>
   <data name="Tweet_Command_MenuFlyout_UserProfile.Text" xml:space="preserve">
-    <value>    User profile</value>
+    <value>    User profile</value>
   </data>
   <data name="ImagePreviewPopup_FailedtoImageSave" xml:space="preserve">
     <value>Failed to save image</value>
@@ -1140,5 +1140,11 @@
   </data>
   <data name="SettingsFlyout_Settings_Behavior_StopStreamingOnStartup_ToggleSwitch.Header" xml:space="preserve">
     <value>Stop streaming on startup</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_FavoriteMenu.Text" xml:space="preserve">
+    <value>    Favorite menu</value>
+  </data>
+  <data name="Tweet_Command_MenuFlyout_Favoriter.Text" xml:space="preserve">
+    <value>    Show favoriter</value>
   </data>
 </root>

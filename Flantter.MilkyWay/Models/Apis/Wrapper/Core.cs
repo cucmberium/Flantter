@@ -533,6 +533,62 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
             throw new NotImplementedException();
         }
 
+        public Task<CursoredList<long>> FavoritersIdsAsync(params Expression<Func<string, object>>[] parameters)
+        {
+            return FavoritersIdsAsyncImpl(ExpressionToDictionary(parameters));
+        }
+
+        public Task<CursoredList<long>> FavoritersIdsAsync(IDictionary<string, object> parameters)
+        {
+            return FavoritersIdsAsyncImpl(parameters);
+        }
+
+        private async Task<CursoredList<long>> FavoritersIdsAsyncImpl(IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    throw new NotImplementedException();
+                case Tokens.PlatformEnum.Mastodon:
+                    var data = await Tokens.MastodonTokens.Statuses.FavouritedByAsync(
+                        Utils.ConvertToMastodonParameters(parameters));
+                    var result = new CursoredList<long>(data.Select(x => x.Id));
+                    result.NextCursor = data.MaxId ?? 0;
+                    result.PreviousCursor = data.SinceId ?? 0;
+                    return result;
+            }
+            throw new NotImplementedException();
+        }
+
+        public Task<CursoredList<Apis.Objects.User>> FavoritersAsync(
+            params Expression<Func<string, object>>[] parameters)
+        {
+            return FavoritersAsyncImpl(ExpressionToDictionary(parameters));
+        }
+
+        public Task<CursoredList<Apis.Objects.User>> FavoritersAsync(IDictionary<string, object> parameters)
+        {
+            return FavoritersAsyncImpl(parameters);
+        }
+
+        private async Task<CursoredList<Apis.Objects.User>> FavoritersAsyncImpl(
+            IDictionary<string, object> parameters)
+        {
+            switch (Tokens.Platform)
+            {
+                case Tokens.PlatformEnum.Twitter:
+                    throw new NotImplementedException();
+                case Tokens.PlatformEnum.Mastodon:
+                    var data = await Tokens.MastodonTokens.Statuses.FavouritedByAsync(
+                        Utils.ConvertToMastodonParameters(parameters));
+                    var result = new CursoredList<Apis.Objects.User>(data.Select(x => new Apis.Objects.User(x)));
+                    result.NextCursor = data.MaxId ?? 0;
+                    result.PreviousCursor = data.SinceId ?? 0;
+                    return result;
+            }
+            throw new NotImplementedException();
+        }
+
         public Task<Apis.Objects.Status> ShowAsync(params Expression<Func<string, object>>[] parameters)
         {
             return ShowAsyncImpl(ExpressionToDictionary(parameters));

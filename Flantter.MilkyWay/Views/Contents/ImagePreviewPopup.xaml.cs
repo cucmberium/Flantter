@@ -8,6 +8,7 @@ using Windows.Graphics.Display;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -41,6 +42,7 @@ namespace Flantter.MilkyWay.Views.Contents
             KeyDown += ImagePreviewPopup_KeyDown;
             Window.Current.SizeChanged += (s, e) => ImagePreviewPopup_LayoutRefresh();
             DisplayInformation.GetForCurrentView().OrientationChanged += (s, e) => ImagePreviewPopup_LayoutRefresh();
+            ApplicationView.GetForCurrentView().VisibleBoundsChanged += (s, e) => ImagePreviewPopup_LayoutRefresh();
 
             _imagePreview = new Popup
             {

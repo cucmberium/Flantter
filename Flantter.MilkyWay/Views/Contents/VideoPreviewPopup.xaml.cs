@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.Graphics.Display;
 using Windows.System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -49,6 +50,7 @@ namespace Flantter.MilkyWay.Views.Contents
 
             Window.Current.SizeChanged += (s, e) => VideoPreviewPopup_LayoutRefresh();
             DisplayInformation.GetForCurrentView().OrientationChanged += (s, e) => VideoPreviewPopup_LayoutRefresh();
+            ApplicationView.GetForCurrentView().VisibleBoundsChanged += (s, e) => VideoPreviewPopup_LayoutRefresh();
 
             VideoPreviewPopup_LayoutRefresh();
         }

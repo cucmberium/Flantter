@@ -114,7 +114,7 @@ namespace Flantter.MilkyWay.Views.Behaviors
             ((AppBar.Content as TweetArea).Content as Grid).BorderThickness =
                 IsTopAppBar.Value ? new Thickness(0, 0, 0, 2) : new Thickness(0, 2, 0, 0);
             AppBar.Margin = IsTopAppBar.Value
-                ? new Thickness(0, WindowSizeHelper.Instance.VisibleBounds.Top, 0, 0)
+                ? new Thickness(0, WindowSizeHelper.Instance.TitleBarVisibility ? 32 : 0, 0, 0)
                 : new Thickness();
         }
 

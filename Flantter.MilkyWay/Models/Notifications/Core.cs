@@ -139,6 +139,9 @@ namespace Flantter.MilkyWay.Models.Notifications
                     switch (e.Type)
                     {
                         case TweetEventArgs.TypeEnum.Status:
+                            if (e.Status.PossiblySensitive)
+                                break;
+
                             if (e.Status.Entities.Media.Any(x => x.Type == "Image") &&
                                 !e.Status.User.IsProtected)
                                 UpdateTileNotification(TileNotificationType.Images,

@@ -1147,4 +1147,7 @@
   <data name="Tweet_Command_MenuFlyout_Favoriter.Text" xml:space="preserve">
     <value>    お気に入りした人</value>
   </data>
+  <data name="SettingsFlyout_StatusDetail_Menu_ShowFavoriter.Text" xml:space="preserve">
+    <value>お気に入りした人</value>
+  </data>
 </root>

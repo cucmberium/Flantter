@@ -163,6 +163,19 @@
                                 <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_ShowRetweeter" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="リツイートした人" FontSize="16"/>
                             </Grid>
                         </Button>
+                        <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.Model.FavoriteCount, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}"/>
+                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.Model.FavoriteCount, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowFavoritersCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model, Mode=OneWay}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Grid.Column="1" Width="30" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Symbol="Favorite"/>
+                                <TextBlock x:Uid="SettingsFlyout_StatusDetail_Menu_ShowFavoriter" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="お気に入りした人" FontSize="16"/>
+                            </Grid>
+                        </Button>
                         <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.EntitiesList.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}"/>
                         <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.Status.Value.EntitiesList.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}">
                             <Grid>

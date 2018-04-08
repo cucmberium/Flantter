@@ -17,7 +17,16 @@ namespace Flantter.MilkyWay.Views.Util
             KeyCollection = new List<VirtualKey>();
         }
 
+        private readonly List<VirtualKey> Modifiers =
+            new List<VirtualKey> {VirtualKey.Control, VirtualKey.Shift, VirtualKey.Menu};
         public List<VirtualKey> KeyCollection { get; }
+
+        public void ClearKeyPress()
+        {
+            foreach (var key in KeyCollection.ToArray())
+                if (!Modifiers.Contains(key))
+                    KeyCollection.Remove(key);
+        }
     }
 
     [ContentProperty(Name = "Triggers")]
@@ -99,7 +108,7 @@ namespace Flantter.MilkyWay.Views.Util
             }
 
             if (e.Handled)
-                _keysEventArgs.KeyCollection.Clear();
+                _keysEventArgs.ClearKeyPress();
         }
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -185,7 +194,7 @@ namespace Flantter.MilkyWay.Views.Util
             }
 
             if (e.Handled)
-                _keysEventArgs.KeyCollection.Clear();
+                _keysEventArgs.ClearKeyPress();
         }
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)

@@ -32,7 +32,18 @@ namespace Flantter.MilkyWay.ViewModels
 
             SelectionStart = Model.ToReactivePropertyAsSynchronized(x => x.SelectionStart);
             Text = Model.ToReactivePropertyAsSynchronized(x => x.Text);
-            CharacterCount = Model.ObserveProperty(x => x.CharacterCount)
+            CharacterCount = Observable.CombineLatest(
+                    Model.ObserveProperty(x => x.TwitterCharacterCount),
+                    Model.ObserveProperty(x => x.MastodonCharacterCount),
+                    SelectedAccounts.AsObservable(),
+                    (twitterCharacterCount, mastodonCharacterCount, selectedAccounts) =>
+                    {
+                        if (selectedAccounts.Any(x => x.Model.Platform == "Twitter"))
+                            return twitterCharacterCount;
+
+                        return mastodonCharacterCount;
+                    }
+                )
                 .Select(x => x.ToString())
                 .ToReactiveProperty();
 
@@ -119,7 +130,18 @@ namespace Flantter.MilkyWay.ViewModels
                         await Model.AddPicture(pic);
                 });
 
-            TweetCommand = Model.ObserveProperty(x => x.CharacterCount).Select(x => x >= 0).ToReactiveCommand();
+            TweetCommand = Observable.CombineLatest(
+                    Model.ObserveProperty(x => x.TwitterCharacterCount),
+                    Model.ObserveProperty(x => x.MastodonCharacterCount),
+                    SelectedAccounts.AsObservable(),
+                    (twitterCharacterCount, mastodonCharacterCount, selectedAccounts) =>
+                    {
+                        if (selectedAccounts.Any(x => x.Model.Platform == "Twitter"))
+                            return twitterCharacterCount;
+
+                        return mastodonCharacterCount;
+                    }
+                ).Select(x => x >= 0).ToReactiveCommand();
             TweetCommand.SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async x =>
                 {

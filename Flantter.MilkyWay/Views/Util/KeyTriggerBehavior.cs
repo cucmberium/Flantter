@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
+using Flantter.MilkyWay.Views.Controls;
 using Microsoft.Xaml.Interactivity;
 
 namespace Flantter.MilkyWay.Views.Util
@@ -179,6 +180,11 @@ namespace Flantter.MilkyWay.Views.Util
         {
             if (e.OriginalSource is TextBox || e.OriginalSource is SearchBox || e.OriginalSource is PasswordBox ||
                 e.OriginalSource is RichEditBox)
+                return;
+
+            // 画像プレビュー, 動画プレビュー表示時にカラムが切り替わらないようにするための対策
+            // 若干中途半端なのでもう少しちゃんと治す + UtilからBehaviorsに移動する
+            if (e.OriginalSource is TriangleButton)
                 return;
 
             if (e.Key == VirtualKey.Enter)

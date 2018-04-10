@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.ViewModels;
+using Flantter.MilkyWay.Views.Controls;
 
 namespace Flantter.MilkyWay.Views.Contents
 {
@@ -101,7 +102,12 @@ namespace Flantter.MilkyWay.Views.Contents
                 columnArea._tempSelectedIndex = (int) e.NewValue;
 
             columnArea.ColumnArea_UpdateView(false);
-            Debug.WriteLine("SelectedIndex : " + e.NewValue);
+
+            var children = VisualTreeHelperExtensions.FindVisualChildren<PullToRefreshListView>(columnArea.ColumnAreaColumnList).ToList();
+            if ((int) e.NewValue < children.Count && (int) e.NewValue >= 0)
+                children[(int)e.NewValue].Focus(FocusState.Pointer);
+            
+            Debug.WriteLine("SelectedIndex : " + e.NewValue + " + ");
         }
 
         private void ExtendedCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -115,14 +121,12 @@ namespace Flantter.MilkyWay.Views.Contents
             var snapPointsList =
                 _extendedCanvas.GetIrregularSnapPoints(Orientation.Horizontal, SnapPointsAlignment.Near);
             _scrollViewer.ChangeView(snapPointsList.Last(), null, null, false);
+
+            Debug.WriteLine("SelectedIndex : " + SelectedIndex + " / ");
         }
 
         private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
         {
-            _inertialEvent = e.IsInertial;
-            if (!e.IsInertial)
-                return;
-
             _inertialEvent = e.IsInertial;
         }
 
@@ -158,6 +162,8 @@ namespace Flantter.MilkyWay.Views.Contents
             catch
             {
             }
+
+            Debug.WriteLine("SelectedIndex : " + SelectedIndex + " * ");
         }
 
         public async void ColumnArea_UpdateView(bool disableAnimation = true)
@@ -168,10 +174,7 @@ namespace Flantter.MilkyWay.Views.Contents
                 return;
 
             if (_isManualOperation)
-            {
                 _scrollViewer.HorizontalSnapPointsType = SnapPointsType.Mandatory;
-                AnimationCooldown(500);
-            }
 
             // GetIrregularSnapPointsの更新に少し時間がいる
             await Task.Delay(10);
@@ -191,7 +194,10 @@ namespace Flantter.MilkyWay.Views.Contents
 
             _scrollViewerControlDisabled = false;
 
-            //System.Diagnostics.Debug.WriteLine("SelectedIndex : " + this.SelectedIndex);
+            Debug.WriteLine("SelectedIndex : " + SelectedIndex + " - ");
+
+            if (_isManualOperation)
+                AnimationCooldown(500);
         }
 
         private async void AnimationCooldown(int time)

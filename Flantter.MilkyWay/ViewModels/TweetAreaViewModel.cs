@@ -38,6 +38,9 @@ namespace Flantter.MilkyWay.ViewModels
                     SelectedAccounts.AsObservable(),
                     (twitterCharacterCount, mastodonCharacterCount, selectedAccounts) =>
                     {
+                        if (selectedAccounts == null)
+                            return twitterCharacterCount;
+
                         if (selectedAccounts.Any(x => x.Model.Platform == "Twitter"))
                             return twitterCharacterCount;
 
@@ -136,6 +139,9 @@ namespace Flantter.MilkyWay.ViewModels
                     SelectedAccounts.AsObservable(),
                     (twitterCharacterCount, mastodonCharacterCount, selectedAccounts) =>
                     {
+                        if (selectedAccounts == null)
+                            return twitterCharacterCount;
+
                         if (selectedAccounts.Any(x => x.Model.Platform == "Twitter"))
                             return twitterCharacterCount;
 

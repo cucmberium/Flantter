@@ -63,7 +63,21 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
             Description = new ReactiveProperty<string>(uiThreadScheduler);
 
             Text = Model.ToReactivePropertyAsSynchronized(x => x.Text, uiThreadScheduler).AddTo(Disposable);
-            CharacterCount = Model.ObserveProperty(x => x.CharacterCount)
+            CharacterCount = Observable.CombineLatest(
+                    Model.ObserveProperty(x => x.TwitterCharacterCount),
+                    Model.ObserveProperty(x => x.MastodonCharacterCount),
+                    SelectedAccounts.AsObservable(),
+                    (twitterCharacterCount, mastodonCharacterCount, selectedAccounts) =>
+                    {
+                        if (selectedAccounts == null)
+                            return twitterCharacterCount;
+
+                        if (selectedAccounts.Any(x => x.AccountSetting.Value.Platform == SettingSupport.PlatformEnum.Twitter))
+                            return twitterCharacterCount;
+
+                        return mastodonCharacterCount;
+                    }
+                )
                 .Select(x => x.ToString())
                 .ToReactiveProperty(uiThreadScheduler)
                 .AddTo(Disposable);
@@ -87,7 +101,21 @@ namespace Flantter.MilkyWay.ViewModels.ShareContract
                 .ToReadOnlyReactiveCollection(x => new PictureViewModel(x), uiThreadScheduler)
                 .AddTo(Disposable);
 
-            TweetCommand = Model.ObserveProperty(x => x.CharacterCount)
+            TweetCommand = Observable.CombineLatest(
+                    Model.ObserveProperty(x => x.TwitterCharacterCount),
+                    Model.ObserveProperty(x => x.MastodonCharacterCount),
+                    SelectedAccounts.AsObservable(),
+                    (twitterCharacterCount, mastodonCharacterCount, selectedAccounts) =>
+                    {
+                        if (selectedAccounts == null)
+                            return twitterCharacterCount;
+
+                        if (selectedAccounts.Any(x => x.AccountSetting.Value.Platform == SettingSupport.PlatformEnum.Twitter))
+                            return twitterCharacterCount;
+
+                        return mastodonCharacterCount;
+                    }
+                )
                 .Select(x => x >= 0)
                 .ToReactiveCommand(uiThreadScheduler)
                 .AddTo(Disposable);

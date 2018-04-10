@@ -52,31 +52,29 @@ namespace Flantter.MilkyWay.Models
         {
             var text = _text;
 
-            /*var resultReplies = this._Extractor.ExtractMentionedScreenNames(text);
-            var replyScreenNames = new List<string>();
-            var hiddenPrefixLength = 0;
-            foreach (var reply in resultReplies)
-            {
-                if (reply.StartIndex > hiddenPrefixLength + 1 || replyScreenNames.Any(x => x == text.Substring(reply.StartIndex, reply.Length)))
-                    break;
-
-                replyScreenNames.Add(text.Substring(reply.StartIndex, reply.Length));
-                hiddenPrefixLength = reply.StartIndex + reply.Length;
-            }
-
-            text = text.Substring(hiddenPrefixLength).TrimStart();*/
+            // var resultReplies = this._extractor.ExtractMentionedScreenNames(text);
+            // var replyScreenNames = new List<string>();
+            // var hiddenPrefixLength = 0;
+            // foreach (var reply in resultReplies)
+            // {
+            //     if (reply.StartIndex > hiddenPrefixLength + 1 || replyScreenNames.Any(x => x == text.Substring(reply.StartIndex, reply.Length)))
+            //         break;
+            // 
+            //     replyScreenNames.Add(text.Substring(reply.StartIndex, reply.Length));
+            //     hiddenPrefixLength = reply.StartIndex + reply.Length;
+            // }
+            // text = text.Substring(hiddenPrefixLength).TrimStart();
             
             var resultUrls = _extractor.ExtractUrls(text);
             var length = text.Count(x => !char.IsLowSurrogate(x)) - resultUrls.Sum(x => x.Length) +
                          23 * resultUrls.Count;
 
-            /**
-               * v2.json has the following unicode code point blocks defined
-               * 0x0000 (0)    - 0x10FF (4351) Basic Latin to Georgian block: Weight 100
-               * 0x2000 (8192) - 0x200D (8205) Spaces in the General Punctuation Block: Weight 100
-               * 0x2010 (8208) - 0x201F (8223) Hyphens &amp; Quotes in the General Punctuation Block: Weight 100
-               * 0x2032 (8242) - 0x2037 (8247) Quotes in the General Punctuation Block: Weight 100
-               */
+            /* v2.json has the following unicode code point blocks defined
+             * 0x0000 (0)    - 0x10FF (4351) Basic Latin to Georgian block: Weight 100
+             * 0x2000 (8192) - 0x200D (8205) Spaces in the General Punctuation Block: Weight 100
+             * 0x2010 (8208) - 0x201F (8223) Hyphens &amp; Quotes in the General Punctuation Block: Weight 100
+             * 0x2032 (8242) - 0x2037 (8247) Quotes in the General Punctuation Block: Weight 100
+             * */
 
             var lightWeightCharactorCount = text.Count(x => (x >= 0 && x <= 4351) ||
                                                             (x >= 8192 && x <= 8205) ||

@@ -18,7 +18,7 @@ namespace Flantter.MilkyWay.Models.ShareContract
 {
     public class StatusShareContractModel : BindableBase
     {
-        public const int MaxTweetLength = 140;
+        public const int MaxTweetLength = 280;
         public const int MaxTootLength = 500;
         private readonly Extractor _extractor;
 
@@ -32,7 +32,9 @@ namespace Flantter.MilkyWay.Models.ShareContract
             _pictures = new ObservableCollection<PictureModel>();
             _readonlyPictures = new ReadOnlyObservableCollection<PictureModel>(_pictures);
             _text = string.Empty;
-            CharacterCount = 140;
+
+            TwitterCharacterCount = MaxTweetLength;
+            MastodonCharacterCount = MaxTootLength;
 
             _extractor = new Extractor();
         }
@@ -41,34 +43,37 @@ namespace Flantter.MilkyWay.Models.ShareContract
         {
             var text = _text;
 
-            /*var resultReplies = this._Extractor.ExtractMentionedScreenNames(text);
-            var replyScreenNames = new List<string>();
-            var hiddenPrefixLength = 0;
-            foreach (var reply in resultReplies)
-            {
-                if (reply.StartIndex > hiddenPrefixLength + 1 || replyScreenNames.Any(x => x == text.Substring(reply.StartIndex, reply.Length)))
-                    break;
-
-                replyScreenNames.Add(text.Substring(reply.StartIndex, reply.Length));
-                hiddenPrefixLength = reply.StartIndex + reply.Length;
-            }
-
-            text = text.Substring(hiddenPrefixLength).TrimStart();*/
+            // var resultReplies = this._extractor.ExtractMentionedScreenNames(text);
+            // var replyScreenNames = new List<string>();
+            // var hiddenPrefixLength = 0;
+            // foreach (var reply in resultReplies)
+            // {
+            //     if (reply.StartIndex > hiddenPrefixLength + 1 || replyScreenNames.Any(x => x == text.Substring(reply.StartIndex, reply.Length)))
+            //         break;
+            // 
+            //     replyScreenNames.Add(text.Substring(reply.StartIndex, reply.Length));
+            //     hiddenPrefixLength = reply.StartIndex + reply.Length;
+            // }
+            // text = text.Substring(hiddenPrefixLength).TrimStart();
 
             var resultUrls = _extractor.ExtractUrls(text);
             var length = text.Count(x => !char.IsLowSurrogate(x)) - resultUrls.Sum(x => x.Length) +
                          23 * resultUrls.Count;
 
-            if (MaxTweetLength - length >= 0)
-            {
-                LessThanMaxTweetLength = true;
-                CharacterCount = MaxTweetLength - length;
-            }
-            else
-            {
-                LessThanMaxTweetLength = false;
-                CharacterCount = MaxTootLength - length;
-            }
+            /* v2.json has the following unicode code point blocks defined
+             * 0x0000 (0)    - 0x10FF (4351) Basic Latin to Georgian block: Weight 100
+             * 0x2000 (8192) - 0x200D (8205) Spaces in the General Punctuation Block: Weight 100
+             * 0x2010 (8208) - 0x201F (8223) Hyphens &amp; Quotes in the General Punctuation Block: Weight 100
+             * 0x2032 (8242) - 0x2037 (8247) Quotes in the General Punctuation Block: Weight 100
+             * */
+
+            var lightWeightCharactorCount = text.Count(x => (x >= 0 && x <= 4351) ||
+                                                            (x >= 8192 && x <= 8205) ||
+                                                            (x >= 8208 && x <= 8223) ||
+                                                            (x >= 8242 && x <= 8247));
+
+            TwitterCharacterCount = MaxTweetLength - length * 2 + lightWeightCharactorCount;
+            MastodonCharacterCount = MaxTootLength - length;
         }
 
         public async Task AddPicture(StorageFile picture)
@@ -199,13 +204,13 @@ namespace Flantter.MilkyWay.Models.ShareContract
             if (Updating)
                 return false;
 
-            if (CharacterCount < 0)
+            if (TwitterCharacterCount < 0 && accounts.Any(x => x.Platform == SettingSupport.PlatformEnum.Twitter))
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("TweetArea_Message_OverMaxTweetLength"));
                 return false;
             }
-            if (!LessThanMaxTweetLength && accounts.Any(x => x.Platform == SettingSupport.PlatformEnum.Twitter))
+            if (MastodonCharacterCount < 0 && accounts.All(x => x.Platform == SettingSupport.PlatformEnum.Mastodon))
             {
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("TweetArea_Message_OverMaxTweetLength"));
@@ -381,15 +386,27 @@ namespace Flantter.MilkyWay.Models.ShareContract
         }
 
         #endregion
+        
+        #region TwitterCharacterCount変更通知プロパティ
 
-        #region CharacterCount変更通知プロパティ
+        private int _twitterCharacterCount;
 
-        private int _characterCount;
-
-        public int CharacterCount
+        public int TwitterCharacterCount
         {
-            get => _characterCount;
-            set => SetProperty(ref _characterCount, value);
+            get => _twitterCharacterCount;
+            set => SetProperty(ref _twitterCharacterCount, value);
+        }
+
+        #endregion
+
+        #region MastodonCharacterCount変更通知プロパティ
+
+        private int _mastodonCharacterCount;
+
+        public int MastodonCharacterCount
+        {
+            get => _mastodonCharacterCount;
+            set => SetProperty(ref _mastodonCharacterCount, value);
         }
 
         #endregion

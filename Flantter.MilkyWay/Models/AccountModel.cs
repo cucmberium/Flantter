@@ -514,6 +514,7 @@ namespace Flantter.MilkyWay.Models
                 return;
 
             _timerDisposable = Observable.Timer(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1))
+                .Catch((Exception ex) => Observable.Timer(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1)))
                 .SubscribeOn(ThreadPoolScheduler.Default)
                 .Subscribe(async t =>
                 {

@@ -58,8 +58,15 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         private void UIElement_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
+            if (KeysEventArgs.Modifiers.Any(x => x == e.Key))
+            {
+                if (_keysEventArgs.ModifierCollection.All(x => x != e.Key))
+                    _keysEventArgs.ModifierCollection.Add(e.Key);
+            }
+            else if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
+            {
                 _keysEventArgs.KeyCollection.Add(e.Key);
+            }
 
             e.Handled = Interaction.ExecuteActions(AssociatedObject, Triggers, _keysEventArgs).Any(x => (bool) x);
 
@@ -69,12 +76,15 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)
         {
+            if (_keysEventArgs.ModifierCollection.Any(x => x == e.Key))
+                _keysEventArgs.ModifierCollection.Remove(e.Key);
             if (_keysEventArgs.KeyCollection.Any(x => x == e.Key))
                 _keysEventArgs.KeyCollection.Remove(e.Key);
         }
 
         private void UIElement_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            _keysEventArgs.ModifierCollection.Clear();
             _keysEventArgs.KeyCollection.Clear();
         }
     }

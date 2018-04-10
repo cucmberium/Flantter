@@ -104,7 +104,6 @@ namespace Flantter.MilkyWay.Views.Util
                 }
                 else if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
                 {
-
                     _keysEventArgs.KeyCollection.Add(e.Key);
                 }
 
@@ -125,8 +124,8 @@ namespace Flantter.MilkyWay.Views.Util
 
         private void Control_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            _keysEventArgs.KeyCollection.Clear();
             _keysEventArgs.ModifierCollection.Clear();
+            _keysEventArgs.KeyCollection.Clear();
         }
     }
 
@@ -201,7 +200,6 @@ namespace Flantter.MilkyWay.Views.Util
                 }
                 else if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
                 {
-
                     _keysEventArgs.KeyCollection.Add(e.Key);
                 }
 

@@ -210,10 +210,25 @@ namespace Flantter.MilkyWay.ViewModels
                 .Subscribe(async x =>
                 {
                     var index = int.Parse((string) x);
-                    if (int.Parse((string) x) >= AdvancedSettingService.AdvancedSetting.Accounts.Count)
-                        return;
+                    if (index < 0)
+                    {
+                        var currentIndex = AdvancedSettingService.AdvancedSetting.Accounts
+                            .Select((account, idx) => new {account, idx})
+                            .Where(d => d.account.IsEnabled)
+                            .Select(d => d.idx).First();
 
-                    await Model.ChangeAccount(AdvancedSettingService.AdvancedSetting.Accounts[index]);
+                        if (index == -2 && currentIndex > 0)
+                            await Model.ChangeAccount(AdvancedSettingService.AdvancedSetting.Accounts[currentIndex - 1]);
+                        else if (index == -1 && currentIndex < AdvancedSettingService.AdvancedSetting.Accounts.Count - 1)
+                            await Model.ChangeAccount(AdvancedSettingService.AdvancedSetting.Accounts[currentIndex + 1]);
+                    }
+                    else
+                    {
+                        if (int.Parse((string)x) >= AdvancedSettingService.AdvancedSetting.Accounts.Count)
+                            return;
+
+                        await Model.ChangeAccount(AdvancedSettingService.AdvancedSetting.Accounts[index]);
+                    }
                 });
 
             Notice.Instance.ChangeAccountCommand.SubscribeOn(ThreadPoolScheduler.Default)

@@ -14,19 +14,15 @@ namespace Flantter.MilkyWay.Views.Util
     {
         public KeysEventArgs()
         {
+            ModifierCollection = new List<VirtualKey>();
             KeyCollection = new List<VirtualKey>();
         }
 
-        private readonly List<VirtualKey> Modifiers =
-            new List<VirtualKey> {VirtualKey.Control, VirtualKey.Shift, VirtualKey.Menu};
-        public List<VirtualKey> KeyCollection { get; }
+        public static readonly List<VirtualKey> Modifiers =
+            new List<VirtualKey> { VirtualKey.Control, VirtualKey.Shift, VirtualKey.Menu };
 
-        public void ClearKeyPress()
-        {
-            foreach (var key in KeyCollection.ToArray())
-                if (!Modifiers.Contains(key))
-                    KeyCollection.Remove(key);
-        }
+        public List<VirtualKey> ModifierCollection { get; }
+        public List<VirtualKey> KeyCollection { get; }
     }
 
     [ContentProperty(Name = "Triggers")]
@@ -101,18 +97,28 @@ namespace Flantter.MilkyWay.Views.Util
             }
             else
             {
-                if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
+                if (KeysEventArgs.Modifiers.Any(x => x == e.Key))
+                {
+                    if (_keysEventArgs.ModifierCollection.All(x => x != e.Key))
+                        _keysEventArgs.ModifierCollection.Add(e.Key);
+                }
+                else if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
+                {
+
                     _keysEventArgs.KeyCollection.Add(e.Key);
+                }
 
                 e.Handled = Interaction.ExecuteActions(AssociatedObject, Triggers, _keysEventArgs).Any(x => (bool) x);
             }
 
             if (e.Handled)
-                _keysEventArgs.ClearKeyPress();
+                _keysEventArgs.KeyCollection.Clear();
         }
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)
         {
+            if (_keysEventArgs.ModifierCollection.Any(x => x == e.Key))
+                _keysEventArgs.ModifierCollection.Remove(e.Key);
             if (_keysEventArgs.KeyCollection.Any(x => x == e.Key))
                 _keysEventArgs.KeyCollection.Remove(e.Key);
         }
@@ -120,6 +126,7 @@ namespace Flantter.MilkyWay.Views.Util
         private void Control_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             _keysEventArgs.KeyCollection.Clear();
+            _keysEventArgs.ModifierCollection.Clear();
         }
     }
 
@@ -187,18 +194,28 @@ namespace Flantter.MilkyWay.Views.Util
             }
             else
             {
-                if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
+                if (KeysEventArgs.Modifiers.Any(x => x == e.Key))
+                {
+                    if (_keysEventArgs.ModifierCollection.All(x => x != e.Key))
+                        _keysEventArgs.ModifierCollection.Add(e.Key);
+                }
+                else if (_keysEventArgs.KeyCollection.All(x => x != e.Key))
+                {
+
                     _keysEventArgs.KeyCollection.Add(e.Key);
+                }
 
                 e.Handled = Interaction.ExecuteActions(AssociatedObject, Triggers, _keysEventArgs).Any(x => (bool) x);
             }
 
             if (e.Handled)
-                _keysEventArgs.ClearKeyPress();
+                _keysEventArgs.KeyCollection.Clear();
         }
 
         private void UIElement_KeyUp(object sender, KeyRoutedEventArgs e)
         {
+            if (_keysEventArgs.ModifierCollection.Any(x => x == e.Key))
+                _keysEventArgs.ModifierCollection.Remove(e.Key);
             if (_keysEventArgs.KeyCollection.Any(x => x == e.Key))
                 _keysEventArgs.KeyCollection.Remove(e.Key);
         }
@@ -264,8 +281,11 @@ namespace Flantter.MilkyWay.Views.Util
             if (keysEventArgs.KeyCollection.All(x => x.ToString("F") != Key))
                 return false;
 
+            if (string.IsNullOrWhiteSpace(Modifiers) && keysEventArgs.ModifierCollection.Any())
+                return false;
+
             if (!string.IsNullOrWhiteSpace(Modifiers) &&
-                keysEventArgs.KeyCollection.All(x => x.ToString("F") != Modifiers))
+                keysEventArgs.ModifierCollection.All(x => x.ToString("F") != Modifiers))
                 return false;
 
             Interaction.ExecuteActions(sender, Actions, null);

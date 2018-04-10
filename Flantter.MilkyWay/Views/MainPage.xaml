@@ -129,6 +129,13 @@
             <util:KeyTrigger Key="Number0" Modifiers="Menu">
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="9"/>
             </util:KeyTrigger>
+
+            <util:KeyTrigger Key="Right" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="-1"/>
+            </util:KeyTrigger>
+            <util:KeyTrigger Key="Left" Modifiers="Control">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.Notice.ChangeAccountFromShortcutKeyCommand}" CommandParameter="-2"/>
+            </util:KeyTrigger>
         </util:GlobalKeyTriggerBehavior>
     </i:Interaction.Behaviors>
 

@@ -204,7 +204,15 @@ namespace Flantter.MilkyWay.Models.Notifications
             };
 
             var n = new TileNotification(tileContent.GetXml());
-            TileUpdateManager.CreateTileUpdaterForApplication().Update(n);
+
+            // 通知が許可されていない場合の例外処理
+            try
+            {
+                TileUpdateManager.CreateTileUpdaterForApplication().Update(n);
+            }
+            catch
+            {
+            }
         }
 
         public void PopupToastNotification(PopupNotificationType type, string text, string text2 = "",
@@ -303,8 +311,15 @@ namespace Flantter.MilkyWay.Models.Notifications
             if (!SettingService.Setting.NotificationSound)
                 toastContent.Audio = new ToastAudio {Silent = true};
 
-            var toast = new ToastNotification(toastContent.GetXml());
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
+            // 通知が許可されていない場合の例外処理
+            try
+            {
+                var toast = new ToastNotification(toastContent.GetXml());
+                ToastNotificationManager.CreateToastNotifier().Show(toast);
+            }
+            catch
+            {
+            }
         }
     }
 }

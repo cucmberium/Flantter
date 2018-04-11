@@ -397,6 +397,16 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
+        public bool ExtendedExecution
+        {
+            get => GetValue(true);
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
         // 投稿設定
         public bool ShowAppBarToTop
         {

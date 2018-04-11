@@ -88,6 +88,10 @@
 
             <controls:HorizontalBar/>
 
+            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Behavior_ExtendedExecution_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ExtendedExecution, Mode=TwoWay}" Header="電源接続時には最小化状態でも動作を継続する"/>
+
+            <controls:HorizontalBar/>
+
         </StackPanel>
     </ScrollViewer>
     

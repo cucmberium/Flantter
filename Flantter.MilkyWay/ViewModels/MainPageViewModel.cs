@@ -7,10 +7,13 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.ExtendedExecution;
+using Windows.ApplicationModel.ExtendedExecution.Foreground;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.System.Power;
 using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Flantter.MilkyWay.License;
@@ -18,6 +21,7 @@ using Flantter.MilkyWay.Models;
 using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Models.Exceptions;
 using Flantter.MilkyWay.Models.Filter;
+using Flantter.MilkyWay.Models.Services;
 using Flantter.MilkyWay.Setting;
 using Flantter.MilkyWay.ViewModels.Apis.Objects;
 using Flantter.MilkyWay.ViewModels.Services;
@@ -900,6 +904,10 @@ namespace Flantter.MilkyWay.ViewModels
 
             foreach (var account in Accounts)
                 account.IsTweetEnabled.Value = account.Model.IsEnabled;
+            
+            if (Setting.ExtendedExecution && AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop" &&
+                PowerManager.BatteryStatus == BatteryStatus.NotPresent)
+                await ExtendedExecutionHelper.RequestSessionAsync(ExtendedExecutionReason.Unspecified);
         }
 
         private void Application_Suspending(object sender, object e)
@@ -933,6 +941,10 @@ namespace Flantter.MilkyWay.ViewModels
             foreach (var account in Accounts)
             foreach (var column in account.Columns)
                 column.IsScrollLockEnabled.Value = false;
+
+            if (Setting.ExtendedExecution && AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop" &&
+                PowerManager.BatteryStatus == BatteryStatus.NotPresent)
+                await ExtendedExecutionHelper.RequestSessionAsync(ExtendedExecutionReason.Unspecified);
         }
 
         #endregion

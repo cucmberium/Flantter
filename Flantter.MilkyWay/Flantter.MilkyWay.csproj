@@ -121,6 +121,7 @@
     <Compile Include="Models\Plugin\Interface.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Database\Database.cs" />
+    <Compile Include="Models\Services\ExtendedExecutionHelper.cs" />
     <Compile Include="Models\SettingsFlyouts\AddUserToListsSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\AddStatusToCollectionsSettingsFlyoutModel.cs" />
     <Compile Include="Models\SettingsFlyouts\CollectionStatusesSettingsFlyoutModel.cs" />

@@ -1150,4 +1150,7 @@
   <data name="SettingsFlyout_StatusDetail_Menu_ShowFavoriter.Text" xml:space="preserve">
     <value>お気に入りした人</value>
   </data>
+  <data name="SettingsFlyout_Settings_Behavior_ExtendedExecution_ToggleSwitch.Header" xml:space="preserve">
+    <value>電源接続時には最小化状態でも動作を継続する</value>
+  </data>
 </root>

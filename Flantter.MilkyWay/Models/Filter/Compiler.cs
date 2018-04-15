@@ -8,8 +8,6 @@ using System.Text.RegularExpressions;
 using Flantter.MilkyWay.Common;
 using Flantter.MilkyWay.Models.Apis.Objects;
 using Flantter.MilkyWay.Models.Exceptions;
-using Jint.Native;
-using Jint.Native.Function;
 
 namespace Flantter.MilkyWay.Models.Filter
 {
@@ -38,21 +36,6 @@ namespace Flantter.MilkyWay.Models.Filter
         {
             if (!Functions.ContainsKey(functionName))
                 return defaultValue;
-
-            var function = Functions[functionName];
-            var target = function.Delegate.Target as ScriptFunctionInstance;
-            if (target == null)
-                return defaultValue;
-
-            try
-            {
-                var jsparams = param.Select(x => JsValue.FromObject(target.Engine, x)).ToArray();
-                var result = (JsValue) function.Delegate.DynamicInvoke(JsValue.Undefined, jsparams);
-                return result.AsBoolean();
-            }
-            catch
-            {
-            }
 
             return defaultValue;
         }

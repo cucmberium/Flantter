@@ -118,7 +118,6 @@
     <Compile Include="Models\Notifications\Core.cs" />
     <Compile Include="Models\Notifications\Push.cs" />
     <Compile Include="Models\Plugin\Core.cs" />
-    <Compile Include="Models\Plugin\Interface.cs" />
     <Compile Include="Models\Services\Connecter.cs" />
     <Compile Include="Models\Services\Database\Database.cs" />
     <Compile Include="Models\Services\ExecutionExtender.cs" />
@@ -456,9 +455,6 @@
     </PackageReference>
     <PackageReference Include="HockeySDK.UWP">
       <Version>4.1.6</Version>
-    </PackageReference>
-    <PackageReference Include="Jint">
-      <Version>2.11.58</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.8</Version>

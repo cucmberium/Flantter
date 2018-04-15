@@ -33,7 +33,6 @@ FlantterはWindowsで使用できるストアアプリのツイッタークラ�
 * [The Prism Mvvm library](https://github.com/PrismLibrary/Prism)
 * [ReactiveProperty](https://github.com/runceel/ReactiveProperty)
 * [SharpDX](https://github.com/sharpdx/SharpDX)
-* [jint](https://github.com/sebastienros/jint)
 * [TootNet](https://github.com/cucmberium/TootNet)
 
 ### 使用ウェブサービス

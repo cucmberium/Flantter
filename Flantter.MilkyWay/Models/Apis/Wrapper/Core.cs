@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -1617,9 +1616,8 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                             Utils.ConvertToMastodonParameters(parameters)))
                         .Where(x => x.Type == "mention")
                         .Select(x => x.Status);
-                    var tasks = statuses.Select(async x => new Apis.Objects.DirectMessage(x,
-                        (await Tokens.MastodonTokens.Statuses.IdAsync(id => x.InReplyToId.Value)).Account));
-                    return (await Task.WhenAll(tasks)).ToList();
+                    var account = await Tokens.MastodonTokens.Accounts.VerifyCredentialsAsync();
+                    return statuses.Select(x => new Apis.Objects.DirectMessage(x, account)).ToList();
             }
             throw new NotImplementedException();
         }
@@ -2145,7 +2143,7 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                         {
                             using (var stream = await client.GetStreamAsync(url))
                             using (token.Register(stream.Dispose))
-                            using (var reader = new StreamReader(stream))
+                            using (var reader = new StreamReader(stream, Encoding.UTF8, true, 16384))
                             using (token.Register(reader.Dispose))
                             {
                                 string eventName = null;
@@ -2326,7 +2324,7 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                             using (var stream = await res.GetResponseStreamAsync())
                             using (token.Register(stream.Dispose))
                             {
-                                using (var reader = new StreamReader(stream))
+                                using (var reader = new StreamReader(stream, Encoding.UTF8, true, 16384))
                                 using (token.Register(reader.Dispose))
                                 {
                                     while (!reader.EndOfStream)

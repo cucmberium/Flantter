@@ -451,13 +451,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CoreTweet">
-      <Version>0.8.2.404</Version>
+      <Version>0.9.0.415</Version>
     </PackageReference>
     <PackageReference Include="HockeySDK.UWP">
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.8</Version>
+      <Version>6.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>2.2.0</Version>
@@ -490,7 +490,7 @@
       <Version>3.1.1</Version>
     </PackageReference>
     <PackageReference Include="TootNet">
-      <Version>1.1.1</Version>
+      <Version>1.1.2</Version>
     </PackageReference>
     <PackageReference Include="ToriatamaText">
       <Version>1.1.0</Version>

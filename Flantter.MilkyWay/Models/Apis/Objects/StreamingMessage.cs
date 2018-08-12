@@ -1,4 +1,6 @@
-﻿namespace Flantter.MilkyWay.Models.Apis.Objects
+﻿using System;
+
+namespace Flantter.MilkyWay.Models.Apis.Objects
 {
     public class StreamingMessage
     {
@@ -21,10 +23,7 @@
                     Status = new Status(tweet.Status);
                     break;
                 case CoreTweet.Streaming.MessageType.DirectMesssage:
-                    var directMessage = m as CoreTweet.Streaming.DirectMessageMessage;
-                    Type = MessageType.DirectMesssage;
-                    DirectMessage = new DirectMessage(directMessage.DirectMessage);
-                    break;
+                    throw new NotImplementedException();
                 case CoreTweet.Streaming.MessageType.Event:
                     var eventMessage = m as CoreTweet.Streaming.EventMessage;
                     Type = MessageType.Event;

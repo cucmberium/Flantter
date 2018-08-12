@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Flantter.MilkyWay.Models.Apis.Objects;
 using Newtonsoft.Json;
 
 namespace Flantter.MilkyWay.Models.Apis.Wrapper
@@ -1538,26 +1539,25 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
 
     public class DirectMessages : ApiBase
     {
-        public Task<Apis.Objects.DirectMessage> DestroyAsync(params Expression<Func<string, object>>[] parameters)
+        public Task DestroyAsync(params Expression<Func<string, object>>[] parameters)
         {
             return DestroyAsyncImpl(ExpressionToDictionary(parameters));
         }
 
-        public Task<Apis.Objects.DirectMessage> DestroyAsync(IDictionary<string, object> parameters)
+        public Task DestroyAsync(IDictionary<string, object> parameters)
         {
             return DestroyAsyncImpl(parameters);
         }
 
-        private async Task<Apis.Objects.DirectMessage> DestroyAsyncImpl(IDictionary<string, object> parameters)
+        private async Task DestroyAsyncImpl(IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Apis.Objects.DirectMessage(
-                        await Tokens.TwitterTokens.DirectMessages.DestroyAsync(parameters));
+                    await Tokens.TwitterTokens.DirectMessages.Events.DestroyAsync(parameters);
+                    return;
                 case Tokens.PlatformEnum.Mastodon:
-                    await Tokens.MastodonTokens.Statuses.DeleteAsync(Utils.ConvertToMastodonParameters(parameters));
-                    return null;
+                    throw new NotImplementedException();
             }
             throw new NotImplementedException();
         }
@@ -1577,15 +1577,14 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return new Apis.Objects.DirectMessage(
-                        await Tokens.TwitterTokens.DirectMessages.NewAsync(parameters));
+                    var dmEvent = await Tokens.TwitterTokens.DirectMessages.Events.NewAsync(parameters);
+                    var recipient =
+                        await Tokens.TwitterTokens.Users.ShowAsync(dmEvent.Event.MessageCreate.Target.RecipientId);
+                    var sender =
+                        await Tokens.TwitterTokens.Users.ShowAsync(dmEvent.Event.MessageCreate.SenderId);
+                    return new DirectMessage(dmEvent.Event, recipient, sender);
                 case Tokens.PlatformEnum.Mastodon:
-                    if (!parameters.ContainsKey("in_reply_to_status_id"))
-                        throw new NotImplementedException();
-                    var status =
-                        await Tokens.MastodonTokens.Statuses.PostAsync(Utils.ConvertToMastodonParameters(parameters));
-                    return new Apis.Objects.DirectMessage(status,
-                        (await Tokens.MastodonTokens.Statuses.IdAsync(id => status.InReplyToId.Value)).Account);
+                    throw new NotImplementedException();
             }
             throw new NotImplementedException();
         }
@@ -1607,17 +1606,16 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.DirectMessages.ReceivedAsync(parameters))
-                        .Select(x => new Apis.Objects.DirectMessage(x))
-                        .ToList();
+                    var dmEvents = await Tokens.TwitterTokens.DirectMessages.Events.ListAsync();
+                    var userIds = dmEvents.Events.Select(x => x.MessageCreate.SenderId).ToList();
+                    userIds.AddRange(dmEvents.Events.Select(x => x.MessageCreate.Target.RecipientId));
+                    var userDictionary = new Dictionary<long, CoreTweet.User>();
+                    foreach (var user in await Tokens.TwitterTokens.Users.LookupAsync(user_id => userIds.Distinct()))
+                        userDictionary[user.Id.Value] = user;
+                    return dmEvents.Select(x => new Apis.Objects.DirectMessage(x,
+                        userDictionary[x.MessageCreate.Target.RecipientId], userDictionary[x.MessageCreate.SenderId])).ToList();
                 case Tokens.PlatformEnum.Mastodon:
-                    var statuses =
-                        (await Tokens.MastodonTokens.Notifications.GetAsync(
-                            Utils.ConvertToMastodonParameters(parameters)))
-                        .Where(x => x.Type == "mention")
-                        .Select(x => x.Status);
-                    var account = await Tokens.MastodonTokens.Accounts.VerifyCredentialsAsync();
-                    return statuses.Select(x => new Apis.Objects.DirectMessage(x, account)).ToList();
+                    throw new NotImplementedException();
             }
             throw new NotImplementedException();
         }
@@ -1637,9 +1635,7 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
             switch (Tokens.Platform)
             {
                 case Tokens.PlatformEnum.Twitter:
-                    return (await Tokens.TwitterTokens.DirectMessages.SentAsync(parameters))
-                        .Select(x => new Apis.Objects.DirectMessage(x))
-                        .ToList();
+                    throw new NotImplementedException();
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }

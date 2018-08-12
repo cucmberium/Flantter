@@ -6,14 +6,14 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
 {
     public class DirectMessage : ITweet
     {
-        public DirectMessage(CoreTweet.DirectMessage cDirectMessage)
+        public DirectMessage(CoreTweet.MessageCreateEvent cDirectMessage, CoreTweet.User cRecipient, CoreTweet.User cSender)
         {
-            CreatedAt = cDirectMessage.CreatedAt.DateTime;
-            Entities = new Entities(cDirectMessage.Entities, null);
-            Id = cDirectMessage.Id;
-            Text = cDirectMessage.Text;
-            Recipient = new User(cDirectMessage.Recipient);
-            Sender = new User(cDirectMessage.Sender);
+            CreatedAt = cDirectMessage.CreatedTimestamp.DateTime;
+            Entities = new Entities(cDirectMessage.MessageCreate.MessageData.Entities, null);
+            Id = long.Parse(cDirectMessage.Id);
+            Text = cDirectMessage.MessageCreate.MessageData.Text;
+            Recipient = new User(cRecipient);
+            Sender = new User(cSender);
             PossiblySensitive = false;
         }
 

@@ -710,16 +710,6 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
-        public bool UnfavoriteNotification
-        {
-            get => GetValue(false);
-            set
-            {
-                SetValue(value);
-                OnPropertyChanged();
-            }
-        }
-
         public bool FollowNotification
         {
             get => GetValue(true);
@@ -741,26 +731,6 @@ namespace Flantter.MilkyWay.Setting
         }
 
         public bool MentionNotification
-        {
-            get => GetValue(true);
-            set
-            {
-                SetValue(value);
-                OnPropertyChanged();
-            }
-        }
-
-        public bool DirectMessageNotification
-        {
-            get => GetValue(true);
-            set
-            {
-                SetValue(value);
-                OnPropertyChanged();
-            }
-        }
-
-        public bool QuotedTweetNotification
         {
             get => GetValue(true);
             set

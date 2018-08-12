@@ -220,11 +220,6 @@ namespace Flantter.MilkyWay.Models.Notifications
         {
             switch (type)
             {
-                case PopupNotificationType.DirectMessage:
-                    if (!SettingService.Setting.DirectMessageNotification)
-                        return;
-
-                    break;
                 case PopupNotificationType.Favorite:
                     if (!SettingService.Setting.FavoriteNotification)
                         return;
@@ -240,11 +235,6 @@ namespace Flantter.MilkyWay.Models.Notifications
                         return;
 
                     break;
-                case PopupNotificationType.QuotedTweet:
-                    if (!SettingService.Setting.QuotedTweetNotification)
-                        return;
-
-                    break;
                 case PopupNotificationType.Retweet:
                     if (!SettingService.Setting.RetweetNotification)
                         return;
@@ -252,11 +242,6 @@ namespace Flantter.MilkyWay.Models.Notifications
                     break;
                 case PopupNotificationType.System:
                     if (!SettingService.Setting.SystemNotification)
-                        return;
-
-                    break;
-                case PopupNotificationType.Unfavorite:
-                    if (!SettingService.Setting.UnfavoriteNotification)
                         return;
 
                     break;

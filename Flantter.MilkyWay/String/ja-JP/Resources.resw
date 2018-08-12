@@ -619,9 +619,6 @@
   <data name="Notification_Unfavorite_Unfavorite" xml:space="preserve">
     <value>{0}がお気に入りを解除しました</value>
   </data>
-  <data name="SettingsFlyout_Settings_Notification_DirectMessage_ToggleSwitch.Header" xml:space="preserve">
-    <value>ダイレクトメッセージ通知</value>
-  </data>
   <data name="SettingsFlyout_Settings_Notification_Favorite_ToggleSwitch.Header" xml:space="preserve">
     <value>お気に入り通知</value>
   </data>
@@ -629,22 +626,16 @@
     <value>リプライ通知</value>
   </data>
   <data name="SettingsFlyout_Settings_Notification_Message_TextBlock.Text" xml:space="preserve">
-    <value>各通知はUserStreamに接続している場合に有効になります</value>
+    <value>一部の通知はTwitterでは正しく受け取れません</value>
   </data>
   <data name="SettingsFlyout_Settings_Notification_Retweet_ToggleSwitch.Header" xml:space="preserve">
     <value>リツイート通知</value>
-  </data>
-  <data name="SettingsFlyout_Settings_Notification_Unfavorite_ToggleSwitch.Header" xml:space="preserve">
-    <value>お気に入り解除通知</value>
   </data>
   <data name="SettingsFlyout_Settings_Notification_EnableNotificationSound_ToggleSwitch.Header" xml:space="preserve">
     <value>通知音を有効にする</value>
   </data>
   <data name="SettingsFlyout_Settings_Notification_Follow_ToggleSwitch.Header" xml:space="preserve">
     <value>フォロー通知</value>
-  </data>
-  <data name="SettingsFlyout_Settings_Notification_QuotedTweet_ToggleSwitch.Header" xml:space="preserve">
-    <value>コメント付きリツイート通知</value>
   </data>
   <data name="SettingsFlyout_Settings_Notification_System_ToggleSwitch.Header" xml:space="preserve">
     <value>システム通知</value>

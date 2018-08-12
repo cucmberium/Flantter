@@ -32,10 +32,6 @@
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Notification_DirectMessage_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.DirectMessageNotification, Mode=TwoWay}" Header="ダイレクトメッセージ通知"/>
-
-            <controls:HorizontalBar/>
-
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Notification_Retweet_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.RetweetNotification, Mode=TwoWay}" Header="リツイート通知"/>
 
             <controls:HorizontalBar/>
@@ -44,15 +40,7 @@
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Notification_Unfavorite_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.UnfavoriteNotification, Mode=TwoWay}" Header="お気に入り解除通知"/>
-
-            <controls:HorizontalBar/>
-
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Notification_Follow_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.FollowNotification, Mode=TwoWay}" Header="フォロー通知"/>
-
-            <controls:HorizontalBar/>
-
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Notification_QuotedTweet_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.QuotedTweetNotification, Mode=TwoWay}" Header="コメント付きリツイート通知"/>
 
             <controls:HorizontalBar/>
 

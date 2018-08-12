@@ -99,18 +99,6 @@ namespace Flantter.MilkyWay.Setting
 
         #endregion
 
-        #region IncludeFollowingsActivity変更通知プロパティ
-
-        private bool _includeFollowingsActivity;
-
-        public bool IncludeFollowingsActivity
-        {
-            get => _includeFollowingsActivity;
-            set => SetProperty(ref _includeFollowingsActivity, value);
-        }
-
-        #endregion
-
         #region PossiblySensitive変更通知プロパティ
 
         private bool _possiblySensitive;

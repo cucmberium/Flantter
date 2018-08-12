@@ -703,9 +703,6 @@
   <data name="SettingsFlyout_Settings_Account_DeleteAccount_Textblock.Text" xml:space="preserve">
     <value>アプリからアカウントを削除</value>
   </data>
-  <data name="SettingsFlyout_Settings_Account_IncludeFollowingActivity_ToggleSwitch.Header" xml:space="preserve">
-    <value>フォローしているユーザーのイベントを受信する</value>
-  </data>
   <data name="SettingsFlyout_Settings_Account_PossiblySensitive_ToggleSwitch.Header" xml:space="preserve">
     <value>投稿する画像にSensitiveフラグを立てる</value>
   </data>

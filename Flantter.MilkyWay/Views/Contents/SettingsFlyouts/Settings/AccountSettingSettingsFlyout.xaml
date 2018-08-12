@@ -31,10 +31,6 @@
 
             <controls:HorizontalBar/>
 
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Account_IncludeFollowingActivity_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{x:Bind ViewModel.IncludeFollowingsActivity, Mode=TwoWay}" Header="フォローしているユーザーのイベントを受信する"/>
-
-            <controls:HorizontalBar/>
-
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Account_PossiblySensitive_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{x:Bind ViewModel.PossiblySensitive, Mode=TwoWay}" Header="投稿する画像にSensitiveフラグを立てる"/>
 
             <controls:HorizontalBar/>

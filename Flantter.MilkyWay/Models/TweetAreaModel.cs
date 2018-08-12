@@ -407,7 +407,25 @@ namespace Flantter.MilkyWay.Models
                             param.Add("spoiler_text", ContentWarningText.Replace("\r", "\n"));
                     }
 
-                    await tokens.Statuses.UpdateAsync(param);
+                    var status = await tokens.Statuses.UpdateAsync(param);
+
+                    if (account.ReadOnlyColumns.Any(x =>
+                            x.Action == SettingSupport.ColumnTypeEnum.Home && x.Streaming) &&
+                        account.AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
+                    {
+                        var paramList = new List<string>();
+                        paramList.Add("home://");
+                        paramList.Add("filter://");
+                        if (status.Entities.UserMentions != null &&
+                            status.Entities.UserMentions.Any(x => x.Id == account.AccountSetting.UserId))
+                            paramList.Add("mentions://");
+                        else if (SettingService.Setting.ShowRetweetInMentionColumn &&
+                                 status.HasRetweetInformation && status.User.Id == account.AccountSetting.UserId)
+                            paramList.Add("mentions://");
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                            new TweetEventArgs(status, account.AccountSetting.UserId, account.AccountSetting.Instance,
+                                paramList, true));
+                    }
                 }
                 catch (CoreTweet.TwitterException ex)
                 {

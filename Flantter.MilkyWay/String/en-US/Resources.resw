@@ -703,9 +703,6 @@
   <data name="SettingsFlyout_Settings_Account_DeleteAccount_Textblock.Text" xml:space="preserve">
     <value>Delete account from flantter</value>
   </data>
-  <data name="SettingsFlyout_Settings_Account_IncludeFollowingActivity_ToggleSwitch.Header" xml:space="preserve">
-    <value>Include following activity</value>
-  </data>
   <data name="SettingsFlyout_Settings_Account_PossiblySensitive_ToggleSwitch.Header" xml:space="preserve">
     <value>Possibly sensitive</value>
   </data>

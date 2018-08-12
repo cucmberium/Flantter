@@ -378,6 +378,7 @@
     <Compile Include="Views\Contents\VideoPreviewPopup.xaml.cs">
       <DependentUpon>VideoPreviewPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\ExtendedAdaptiveGridView.cs" />
     <Compile Include="Views\Controls\ExtendedSearchBox.cs" />
     <Compile Include="Views\Controls\ExtendedSettingsFlyout.cs" />
     <Compile Include="Views\Controls\ExtendedTextBox.cs" />

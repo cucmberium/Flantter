@@ -18,6 +18,7 @@ namespace Flantter.MilkyWay.Common
                 if (child != null)
                     break;
             }
+
             return child;
         }
 
@@ -36,7 +37,7 @@ namespace Flantter.MilkyWay.Common
             }
         }
 
-        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        public static IEnumerable<T> FindVisualChildren<T>(this DependencyObject depObj) where T : DependencyObject
         {
             if (depObj != null)
                 for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)

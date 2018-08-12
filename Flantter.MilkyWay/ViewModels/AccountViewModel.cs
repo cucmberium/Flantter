@@ -69,45 +69,7 @@ namespace Flantter.MilkyWay.ViewModels
                 .AddTo(Disposable);
 
             Columns = Model.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x)).AddTo(Disposable);
-
-            OtherColumnNames = new ObservableCollection<string>(Model.ReadOnlyColumns.ToObservable()
-                .Where(x => x.Name != "Home" && x.Name != "Mentions" && x.Name != "DirectMessages")
-                .Select(x => x.Name)
-                .ToEnumerable());
-            Model.ReadOnlyColumns.CollectionChangedAsObservable()
-                .SubscribeOnUIDispatcher()
-                .Subscribe(e =>
-                {
-                    switch (e.Action)
-                    {
-                        case NotifyCollectionChangedAction.Add:
-                            foreach (var obj in e.NewItems)
-                            {
-                                var column = obj as ColumnModel;
-                                if (column.Name == "Home" || column.Name == "Mentions" ||
-                                    column.Name == "DirectMessages")
-                                    continue;
-
-                                OtherColumnNames.Add(column.Name);
-                            }
-                            break;
-                        case NotifyCollectionChangedAction.Remove:
-                            foreach (var obj in e.OldItems)
-                            {
-                                var column = obj as ColumnModel;
-                                if (column.Name == "Home" || column.Name == "Mentions" ||
-                                    column.Name == "DirectMessages")
-                                    continue;
-
-                                OtherColumnNames.Remove(column.Name);
-                            }
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
-                })
-                .AddTo(Disposable);
-
+            
             ReorderColumns =
                 new ObservableCollection<ColumnViewModel>(Columns.OrderBy(x => x.Index.Value).AsEnumerable());
             Columns.CollectionChangedAsObservable()
@@ -1308,7 +1270,6 @@ namespace Flantter.MilkyWay.ViewModels
         public Notice Notice { get; set; }
 
         public ReadOnlyReactiveCollection<ColumnViewModel> Columns { get; }
-        public ObservableCollection<string> OtherColumnNames { get; }
         public ObservableCollection<ColumnViewModel> ReorderColumns { get; }
 
 

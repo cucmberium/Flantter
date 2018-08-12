@@ -911,26 +911,6 @@ namespace Flantter.MilkyWay.Setting
             }
         }
 
-        public bool ComplementListStream
-        {
-            get => GetValue(false);
-            set
-            {
-                SetValue(value);
-                OnPropertyChanged();
-            }
-        }
-
-        public bool PushNotification
-        {
-            get => GetValue(false);
-            set
-            {
-                SetValue(value);
-                OnPropertyChanged();
-            }
-        }
-
         [LocalValue]
         public string CustomFontName
         {

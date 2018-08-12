@@ -742,9 +742,6 @@
   <data name="SettingsFlyout_Settings_Advanced_UseOfficialApi_ToggleSwitch.Header" xml:space="preserve">
     <value>Use official search api and conversation api (If it can be used)</value>
   </data>
-  <data name="SettingsFlyout_Settings_Advanced_ComplementListStream_ToggleSwitch.Header" xml:space="preserve">
-    <value>Complement liststream with using userstream</value>
-  </data>
   <data name="BottomBarArea_ProfileImageButton_Flyout_ColumnSort.Text" xml:space="preserve">
     <value>    Sort column</value>
   </data>
@@ -861,9 +858,6 @@
   </data>
   <data name="SettingsFlyout_Settings_Notification_TileNotification_ComboBox.Header" xml:space="preserve">
     <value>Tile notification</value>
-  </data>
-  <data name="SettingsFlyout_Settings_Advanced_BackgroundNotification_ToggleSwitch.Header" xml:space="preserve">
-    <value>Push notification</value>
   </data>
   <data name="TitleBar_ColumnButton_TextBlock.Text" xml:space="preserve">
     <value>    Sort column</value>

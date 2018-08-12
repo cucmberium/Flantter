@@ -231,7 +231,7 @@ namespace Flantter.MilkyWay.Models
                         switch (tweetEventArgs.Type)
                         {
                             case TweetEventArgs.TypeEnum.Status:
-                                if (!Check(tweetEventArgs.Status, tweetEventArgs.Parameter))
+                                if (!Check(tweetEventArgs.Status))
                                     return;
 
                                 if (Action == SettingSupport.ColumnTypeEnum.Favorites)
@@ -1166,7 +1166,7 @@ namespace Flantter.MilkyWay.Models
             return true;
         }
 
-        // 通常ツイート追加時チェック
+        // ツイート追加時チェック
         private bool Check(Status status)
         {
             if (Action != SettingSupport.ColumnTypeEnum.Mentions && Action != SettingSupport.ColumnTypeEnum.Favorites)
@@ -1209,88 +1209,7 @@ namespace Flantter.MilkyWay.Models
 
             return true;
         }
-
-        // Streaming用ツイート追加時チェック
-        private bool Check(Status status, List<string> param)
-        {
-            if (!param.Contains(Action.ToString("F").ToLower() + "://" + _parameter))
-            {
-                // リストのストリームをホームから補完するためのチェック
-
-                if (!SettingService.Setting.ComplementListStream)
-                    return false;
-
-                if (Action != SettingSupport.ColumnTypeEnum.List)
-                {
-                    if (!Streaming)
-                        return false;
-
-                    if (!param.Contains("home://") || !status.User.IsProtected)
-                        return false;
-
-                    if (_listStreamUserIdList == null)
-                        return false;
-
-                    if (!_listStreamUserIdList.Contains(status.HasRetweetInformation
-                        ? status.RetweetInformation.User.Id
-                        : status.User.Id))
-                        return false;
-
-                    if (!status.HasRetweetInformation && status.InReplyToUserId != 0 &&
-                        !_listStreamUserIdList.Contains(status.InReplyToUserId))
-                        return false;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            if (Action == SettingSupport.ColumnTypeEnum.Mentions && !SettingService.Setting.ShowRetweetInMentionColumn)
-                if (status.HasRetweetInformation)
-                    return false;
-
-            if (Action != SettingSupport.ColumnTypeEnum.Mentions && Action != SettingSupport.ColumnTypeEnum.Favorites)
-            {
-                if (AdvancedSettingService.AdvancedSetting.MuteClients != null)
-                    if (AdvancedSettingService.AdvancedSetting.MuteClients.Contains(status.Source))
-                        return false;
-                if (AdvancedSettingService.AdvancedSetting.MuteUsers != null)
-                    if (AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(status.User.ScreenName))
-                        return false;
-                    else if (status.HasRetweetInformation &&
-                             AdvancedSettingService.AdvancedSetting.MuteUsers.Contains(status.RetweetInformation.User
-                                 .ScreenName))
-                        return false;
-                if (AdvancedSettingService.AdvancedSetting.MuteWords != null)
-                    if (AdvancedSettingService.AdvancedSetting.MuteWords.Any(x => status.Text.Contains(x)))
-                        return false;
-
-                if (MuteFilterDelegate != null)
-                    try
-                    {
-                        if ((bool) MuteFilterDelegate.DynamicInvoke(status))
-                            return false;
-                    }
-                    catch
-                    {
-                    }
-            }
-
-            if (FilterDelegate != null)
-                try
-                {
-                    if (!(bool) FilterDelegate.DynamicInvoke(status))
-                        return false;
-                }
-                catch
-                {
-                    return false;
-                }
-
-            return true;
-        }
-
+        
         private void Add(Status status, bool streaming = false)
         {
             if (streaming)

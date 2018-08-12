@@ -28,19 +28,11 @@
 
             <controls:HorizontalBar/>
             
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_BackgroundNotification_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.PushNotification, Mode=TwoWay}" Header="プッシュ通知"/>
-
-            <controls:HorizontalBar/>
-            
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_UseOfficialApi_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.UseOfficialApi, Mode=TwoWay}" Header="公式APIを使用する(使用できる場合)"/>
 
             <controls:HorizontalBar/>
 
             <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_UseExtendedConversation_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.UseExtendedConversation, Mode=TwoWay}" Header="会話の未来表示をする"/>
-
-            <controls:HorizontalBar/>
-
-            <ToggleSwitch x:Uid="SettingsFlyout_Settings_Advanced_ComplementListStream_ToggleSwitch" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" IsOn="{Binding Source={StaticResource Setting}, Path=Setting.ComplementListStream, Mode=TwoWay}" Header="リストのストリームをユーザーストリームで補完する"/>
 
             <controls:HorizontalBar/>
 

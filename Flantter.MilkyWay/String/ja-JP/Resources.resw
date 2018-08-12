@@ -742,9 +742,6 @@
   <data name="SettingsFlyout_Settings_Advanced_UseOfficialApi_ToggleSwitch.Header" xml:space="preserve">
     <value>公式APIを使用する(使用できる場合)</value>
   </data>
-  <data name="SettingsFlyout_Settings_Advanced_ComplementListStream_ToggleSwitch.Header" xml:space="preserve">
-    <value>リストのストリームをユーザーストリームで補完する</value>
-  </data>
   <data name="BottomBarArea_ProfileImageButton_Flyout_ColumnSort.Text" xml:space="preserve">
     <value>    カラム並び替え</value>
   </data>
@@ -861,9 +858,6 @@
   </data>
   <data name="SettingsFlyout_Settings_Notification_TileNotification_ComboBox.Header" xml:space="preserve">
     <value>タイル通知</value>
-  </data>
-  <data name="SettingsFlyout_Settings_Advanced_BackgroundNotification_ToggleSwitch.Header" xml:space="preserve">
-    <value>プッシュ通知</value>
   </data>
   <data name="TitleBar_ColumnButton_TextBlock.Text" xml:space="preserve">
     <value>    カラム並び替え</value>

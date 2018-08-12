@@ -111,22 +111,6 @@ namespace Flantter.MilkyWay.Models.Services.Database
             }
         }
 
-        public void InsertTweet(DirectMessage directMessage, IEnumerable<string> param, long userid, string instance)
-        {
-            lock (_lock)
-            {
-                var id = directMessage.Id;
-                foreach (var p in param)
-                {
-                    var tweetInfo = new TweetInfo {Id = id, Parameter = p, UserId = userid, Instance = instance };
-                    _tweetInfoQueue.Add(tweetInfo);
-                }
-
-                var tweetData = new TweetData {Id = id, Json = JsonConvert.SerializeObject(directMessage)};
-                _tweetDataQueue.Add(tweetData);
-            }
-        }
-
         public void InsertTweet(EventMessage eventMessage, IEnumerable<string> param, long userid, string instance)
         {
             lock (_lock)
@@ -252,40 +236,7 @@ namespace Flantter.MilkyWay.Models.Services.Database
                 yield return status;
             }
         }
-
-        public IEnumerable<DirectMessage> GetDirectMessagesFromParam(long userId, string instance, int count = 200)
-        {
-            var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, DatabaseFileName);
-            lock (_dblock)
-            {
-                IEnumerable<string> jsons;
-                using (var db = new SQLiteConnection(new SQLitePlatformWinRT(), storagePath))
-                {
-                    db.BeginTransaction();
-
-                    db.CreateTable<TweetInfo>();
-                    db.CreateTable<TweetData>(CreateFlags.AllImplicit);
-
-                    //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "directmessages://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
-                    var tweets = db.Query<TweetData>(
-                        "select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"directmessages://\" and TweetInfo.UserId = ? and TweetInfo.Instance = ?) order by TweetData.Id desc limit ?", userId, instance, count);
-                    System.Diagnostics.Debug.WriteLine(
-                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"directmessages://\" and TweetInfo.UserId = {userId} and TweetInfo.Instance = {instance}) order by TweetData.Id desc limit {count}");
-                    db.Commit();
-
-                    jsons = tweets.Select(x => x.Json);
-                }
-
-                foreach (var json in jsons)
-                {
-                    var dm = JsonConvert.DeserializeObject<DirectMessage>(json);
-                    dm.Entities.Media.ForEach(x => x.ParentEntities = dm.Entities);
-
-                    yield return dm;
-                }
-            }
-        }
-
+        
         public IEnumerable<EventMessage> GetEventMessagesFromParam(long userId, string instance, int count = 200)
         {
             IEnumerable<string> jsons;

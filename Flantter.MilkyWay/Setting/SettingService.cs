@@ -15,8 +15,6 @@ namespace Flantter.MilkyWay.Setting
         {
             Home = 0,
             Mentions = 1,
-            DirectMessages = 2,
-            Events = 3,
             Favorites = 4,
             Search = 5,
             UserTimeline = 6,
@@ -924,17 +922,6 @@ namespace Flantter.MilkyWay.Setting
                 SetValue(value);
                 OnPropertyChanged();
                 ThemeService.Theme.ChangeTheme();
-            }
-        }
-
-        // Other
-        public string UserUuid
-        {
-            get => GetValue(string.Empty);
-            set
-            {
-                SetValue(value);
-                OnPropertyChanged();
             }
         }
     }

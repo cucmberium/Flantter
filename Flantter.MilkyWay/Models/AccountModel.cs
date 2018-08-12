@@ -376,37 +376,7 @@ namespace Flantter.MilkyWay.Models
                     e.ToString());
             }
         }
-
-        public async Task DestroyDirectMessage(long directMessageId)
-        {
-            try
-            {
-                await Tokens.DirectMessages.DestroyAsync(id => directMessageId);
-            }
-            catch (CoreTweet.TwitterException ex)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-            }
-            catch (TootNet.Exception.MastodonException ex)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
-            }
-            catch (NotImplementedException e)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
-                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
-            }
-            catch (Exception e)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    e.ToString());
-            }
-        }
-
+        
         public async Task DeleteTweetFromCollection(long statusId, string collectionId)
         {
             try

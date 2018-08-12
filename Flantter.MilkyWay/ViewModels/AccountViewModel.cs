@@ -67,11 +67,25 @@ namespace Flantter.MilkyWay.ViewModels
 
             LeftSwipeMenuIsOpen = account.ToReactivePropertyAsSynchronized(x => x.LeftSwipeMenuIsOpen)
                 .AddTo(Disposable);
-
-            Columns = Model.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x)).AddTo(Disposable);
             
+            ColumnWidth = WindowSizeHelper.Instance.ObserveProperty(x => x.ClientWidth)
+                .CombineLatest(WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
+                    LayoutHelper.Instance.ColumnCount,
+                    (width, winHeight, count) =>
+                    {
+                        if (winHeight >= 500)
+                            if (width < 384.0)
+                                return width;
+                            else
+                                return (width - 5.0 * 2) / Math.Min(count, account.ReadOnlyColumns.Count) - 10.0;
+                        return width;
+                    })
+                .ToReactiveProperty();
+
+            Columns = Model.ReadOnlyColumns.ToReadOnlyReactiveCollection(x => new ColumnViewModel(x, this)).AddTo(Disposable);
             ReorderColumns =
                 new ObservableCollection<ColumnViewModel>(Columns.OrderBy(x => x.Index.Value).AsEnumerable());
+
             Columns.CollectionChangedAsObservable()
                 .SubscribeOnUIDispatcher()
                 .Subscribe(e =>
@@ -105,14 +119,14 @@ namespace Flantter.MilkyWay.ViewModels
                     switch (e.Action)
                     {
                         case NotifyCollectionChangedAction.Remove:
-                            foreach (var column in ReorderColumns.Select((x, i) => new {x, i}))
+                            foreach (var column in ReorderColumns.Select((x, i) => new { x, i }))
                                 column.x.Model.Index = column.i;
 
                             await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
                             break;
 
                         case NotifyCollectionChangedAction.Add:
-                            foreach (var column in ReorderColumns.Select((x, i) => new {x, i}))
+                            foreach (var column in ReorderColumns.Select((x, i) => new { x, i }))
                                 column.x.Model.Index = column.i;
 
                             await AdvancedSettingService.AdvancedSetting.SaveToAppSettings();
@@ -121,7 +135,7 @@ namespace Flantter.MilkyWay.ViewModels
                 })
                 .AddTo(Disposable);
 
-            PanelWidth = LayoutHelper.Instance.ColumnWidth.CombineLatest(
+            PanelWidth = ColumnWidth.CombineLatest(
                     WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
                     Columns.ObserveProperty(x => x.Count),
                     (width, winHeight, count) =>
@@ -136,7 +150,7 @@ namespace Flantter.MilkyWay.ViewModels
                 .ToReactiveProperty()
                 .AddTo(Disposable);
 
-            SnapPointsSpaceing = LayoutHelper.Instance.ColumnWidth.Select(x => x + 10.0)
+            SnapPointsSpaceing = ColumnWidth.Select(x => x + 10.0)
                 .ToReactiveProperty()
                 .AddTo(Disposable);
 
@@ -169,6 +183,7 @@ namespace Flantter.MilkyWay.ViewModels
                 })
                 .ToReactiveProperty()
                 .AddTo(Disposable);
+
 
             Notice = Notice.Instance;
 
@@ -483,8 +498,6 @@ namespace Flantter.MilkyWay.ViewModels
                 {
                     if (x is Status status)
                         await Model.DestroyStatus(status.Id);
-                    else if (x is DirectMessage directMessage)
-                        await Model.DestroyDirectMessage(directMessage.Id);
 
                     Core.Instance.PopupToastNotification(PopupNotificationType.System,
                         _resourceLoader.GetString("Notification_System_ClearColumn"));
@@ -1284,6 +1297,7 @@ namespace Flantter.MilkyWay.ViewModels
         public ReactiveProperty<bool> IsPlatformMastodon { get; }
         public ReactiveProperty<bool> IsEnabled { get; }
 
+        public ReactiveProperty<double> ColumnWidth { get; }
         public ReactiveProperty<double> PanelWidth { get; }
         public ReactiveProperty<double> SnapPointsSpaceing { get; }
         public ReactiveProperty<double> MaxSnapPoint { get; }

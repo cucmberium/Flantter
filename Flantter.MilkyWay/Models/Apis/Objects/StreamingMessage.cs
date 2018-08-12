@@ -22,8 +22,6 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
                     Type = MessageType.Create;
                     Status = new Status(tweet.Status);
                     break;
-                case CoreTweet.Streaming.MessageType.DirectMesssage:
-                    throw new NotImplementedException();
                 case CoreTweet.Streaming.MessageType.Event:
                     var eventMessage = m as CoreTweet.Streaming.EventMessage;
                     Type = MessageType.Event;
@@ -33,11 +31,6 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
                     var deleteStatus = m as CoreTweet.Streaming.DeleteMessage;
                     Type = MessageType.DeleteStatus;
                     DeletedStatusId = deleteStatus.Id;
-                    break;
-                case CoreTweet.Streaming.MessageType.DeleteDirectMessage:
-                    var deleteDirectMessage = m as CoreTweet.Streaming.DeleteMessage;
-                    Type = MessageType.DeleteDirectMessage;
-                    DeletedDirectMessageId = deleteDirectMessage.Id;
                     break;
             }
         }

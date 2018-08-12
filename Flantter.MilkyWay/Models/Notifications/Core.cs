@@ -15,11 +15,8 @@ namespace Flantter.MilkyWay.Models.Notifications
         System,
         Retweet,
         Mention,
-        DirectMessage,
         Favorite,
-        Unfavorite,
         Follow,
-        QuotedTweet,
         TweetCompleted
     }
 
@@ -77,15 +74,6 @@ namespace Flantter.MilkyWay.Models.Notifications
 
                             break;
 
-                        case TweetEventArgs.TypeEnum.DirectMessage:
-                            if (e.DirectMessage.Recipient.Id == e.UserId)
-                                PopupToastNotification(PopupNotificationType.DirectMessage,
-                                    string.Format(_resourceLoader.GetString("Notification_DirectMessage_DirectMessage"),
-                                        "@" + e.DirectMessage.Sender.ScreenName), e.DirectMessage.Text,
-                                    e.DirectMessage.Sender.ProfileImageUrl);
-
-                            break;
-
                         case TweetEventArgs.TypeEnum.EventMessage:
                             if (e.EventMessage.Target == null)
                             {
@@ -103,18 +91,6 @@ namespace Flantter.MilkyWay.Models.Notifications
                                 case "Favorite":
                                     PopupToastNotification(PopupNotificationType.Favorite,
                                         string.Format(_resourceLoader.GetString("Notification_Favorite_Favorite"),
-                                            "@" + e.EventMessage.Source.ScreenName), e.EventMessage.TargetStatus.Text,
-                                        e.EventMessage.Source.ProfileImageUrl);
-                                    break;
-                                case "QuotedTweet":
-                                    PopupToastNotification(PopupNotificationType.QuotedTweet,
-                                        string.Format(_resourceLoader.GetString("Notification_QuotedTweet_QuotedTweet"),
-                                            "@" + e.EventMessage.Source.ScreenName), e.EventMessage.TargetStatus.Text,
-                                        e.EventMessage.Source.ProfileImageUrl);
-                                    break;
-                                case "Unfavorite":
-                                    PopupToastNotification(PopupNotificationType.Unfavorite,
-                                        string.Format(_resourceLoader.GetString("Notification_Unfavorite_Unfavorite"),
                                             "@" + e.EventMessage.Source.ScreenName), e.EventMessage.TargetStatus.Text,
                                         e.EventMessage.Source.ProfileImageUrl);
                                     break;

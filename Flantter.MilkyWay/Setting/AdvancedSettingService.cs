@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Flantter.MilkyWay.Common;
@@ -405,7 +406,7 @@ namespace Flantter.MilkyWay.Setting
                         {
                             var jProperty = (JProperty)jToken;
                             if (jProperty.Name == "Accounts")
-                                Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
+                                Dict[jProperty.Name] = ValidateAccountSetting(jProperty.Value.ToObject<ObservableCollection<AccountSetting>>());
                             else
                                 Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
                         }
@@ -427,7 +428,7 @@ namespace Flantter.MilkyWay.Setting
                             {
                                 var jProperty = (JProperty)jToken;
                                 if (jProperty.Name == "Accounts")
-                                    Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<AccountSetting>>();
+                                    Dict[jProperty.Name] = ValidateAccountSetting(jProperty.Value.ToObject<ObservableCollection<AccountSetting>>());
                                 else
                                     Dict[jProperty.Name] = jProperty.Value.ToObject<ObservableCollection<string>>();
                             }
@@ -460,6 +461,31 @@ namespace Flantter.MilkyWay.Setting
                 {
                 }
             }
+        }
+
+        private ObservableCollection<AccountSetting> ValidateAccountSetting(ObservableCollection<AccountSetting> accountSettings)
+        {
+            foreach (var accountSetting in accountSettings)
+            {
+                var validatedColumnSettings = new ObservableCollection<ColumnSetting>();
+                foreach (var columnSetting in accountSetting.Column)
+                {
+                    if (!Enum.IsDefined(typeof(SettingSupport.ColumnTypeEnum), (int) columnSetting.Action))
+                        continue;
+
+                    validatedColumnSettings.Add(columnSetting);
+                }
+
+                foreach (var (columnSetting, index) in validatedColumnSettings.OrderBy(x => x.Index)
+                    .Select((columnSetting, index) => (columnSetting, index)))
+                {
+                    columnSetting.Index = index;
+                }
+
+                accountSetting.Column = validatedColumnSettings;
+            }
+
+            return accountSettings;
         }
     }
 

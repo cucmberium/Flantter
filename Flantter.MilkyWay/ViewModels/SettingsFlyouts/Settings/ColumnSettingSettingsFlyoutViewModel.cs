@@ -44,9 +44,7 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts.Settings
                 FetchingNumberOfTweet.Value = x.FetchingNumberOfTweet;
 
                 if (ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Home ||
-                    ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Mentions ||
-                    ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.DirectMessages ||
-                    ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Events || ColumnSetting.Value.Action ==
+                    ColumnSetting.Value.Action == SettingSupport.ColumnTypeEnum.Mentions || ColumnSetting.Value.Action ==
                     SettingSupport.ColumnTypeEnum.Favorites)
                     CanChangeSetting.Value = false;
                 else

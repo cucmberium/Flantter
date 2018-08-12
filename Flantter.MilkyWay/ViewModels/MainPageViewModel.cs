@@ -616,34 +616,6 @@ namespace Flantter.MilkyWay.ViewModels
                                 },
                                 new ColumnSetting
                                 {
-                                    Action = SettingSupport.ColumnTypeEnum.DirectMessages,
-                                    AutoRefresh = false,
-                                    AutoRefreshTimerInterval = 180.0,
-                                    Filter = "()",
-                                    Name = "DirectMessages",
-                                    Parameter = string.Empty,
-                                    Streaming = false,
-                                    Index = 2,
-                                    DisableStartupRefresh = false,
-                                    FetchingNumberOfTweet = 40,
-                                    Identifier = DateTime.Now.Ticks + 2
-                                },
-                                new ColumnSetting
-                                {
-                                    Action = SettingSupport.ColumnTypeEnum.Events,
-                                    AutoRefresh = false,
-                                    AutoRefreshTimerInterval = 180.0,
-                                    Filter = "()",
-                                    Name = "Events",
-                                    Parameter = string.Empty,
-                                    Streaming = false,
-                                    Index = 3,
-                                    DisableStartupRefresh = false,
-                                    FetchingNumberOfTweet = 100,
-                                    Identifier = DateTime.Now.Ticks + 3
-                                },
-                                new ColumnSetting
-                                {
                                     Action = SettingSupport.ColumnTypeEnum.Favorites,
                                     AutoRefresh = false,
                                     AutoRefreshTimerInterval = 180.0,
@@ -662,11 +634,11 @@ namespace Flantter.MilkyWay.ViewModels
                         if (accountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)
                             accountSetting.Column.Add(new ColumnSetting
                             {
-                                Action = SettingSupport.ColumnTypeEnum.Federated,
+                                Action = SettingSupport.ColumnTypeEnum.Local,
                                 AutoRefresh = false,
                                 AutoRefreshTimerInterval = 180.0,
                                 Filter = "()",
-                                Name = "Federated",
+                                Name = "Local",
                                 Parameter = string.Empty,
                                 Streaming = true,
                                 Index = 5,

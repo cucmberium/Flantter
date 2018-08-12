@@ -21,7 +21,7 @@ namespace Flantter.MilkyWay.ViewModels
     {
         #region Constructor
 
-        public ColumnViewModel(ColumnModel column)
+        public ColumnViewModel(ColumnModel column, AccountViewModel accountViewModel)
         {
             Model = column;
 
@@ -36,12 +36,8 @@ namespace Flantter.MilkyWay.ViewModels
                             return Symbol.Home;
                         case SettingSupport.ColumnTypeEnum.Mentions:
                             return Symbol.Account;
-                        case SettingSupport.ColumnTypeEnum.DirectMessages:
-                            return Symbol.Mail;
                         case SettingSupport.ColumnTypeEnum.Favorites:
                             return Symbol.Favorite;
-                        case SettingSupport.ColumnTypeEnum.Events:
-                            return Symbol.Important;
                         case SettingSupport.ColumnTypeEnum.Search:
                             return Symbol.Find;
                         case SettingSupport.ColumnTypeEnum.List:
@@ -114,8 +110,7 @@ namespace Flantter.MilkyWay.ViewModels
                 .ToReactiveProperty()
                 .AddTo(Disposable);
             IsEnabledMultipulSelect = column.ObserveProperty(x => x.Action)
-                .Select(x => x != SettingSupport.ColumnTypeEnum.Events &&
-                             x != SettingSupport.ColumnTypeEnum.DirectMessages)
+                .Select(x => x != SettingSupport.ColumnTypeEnum.Mentions)
                 .ToReactiveProperty()
                 .AddTo(Disposable);
             IsCollectionColumn = column.ObserveProperty(x => x.Action)
@@ -286,9 +281,9 @@ namespace Flantter.MilkyWay.ViewModels
 
             Height = LayoutHelper.Instance.ColumnHeight;
 
-            Width = LayoutHelper.Instance.ColumnWidth;
+            Width = accountViewModel.ColumnWidth;
 
-            Left = Index.CombineLatest(LayoutHelper.Instance.ColumnWidth,
+            Left = Index.CombineLatest(Width,
                     WindowSizeHelper.Instance.ObserveProperty(x => x.WindowHeight),
                     (index, columnWidth, winHeight) =>
                     {

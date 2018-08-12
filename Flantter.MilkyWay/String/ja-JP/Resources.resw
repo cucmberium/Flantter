@@ -598,9 +598,6 @@
   <data name="ConfirmDialog_ExitApp" xml:space="preserve">
     <value>アプリを終了しますか?</value>
   </data>
-  <data name="Notification_DirectMessage_DirectMessage" xml:space="preserve">
-    <value>{0}があなたにダイレクトメッセージを送りました</value>
-  </data>
   <data name="Notification_Favorite_Favorite" xml:space="preserve">
     <value>{0}がツイートをお気に入りに登録しました</value>
   </data>
@@ -610,14 +607,8 @@
   <data name="Notification_Mention_Mention" xml:space="preserve">
     <value>{0}が@ツイートしました</value>
   </data>
-  <data name="Notification_QuotedTweet_QuotedTweet" xml:space="preserve">
-    <value>{0}がツイートにコメントしました</value>
-  </data>
   <data name="Notification_Retweet_Retweet" xml:space="preserve">
     <value>{0}がリツイートしました</value>
-  </data>
-  <data name="Notification_Unfavorite_Unfavorite" xml:space="preserve">
-    <value>{0}がお気に入りを解除しました</value>
   </data>
   <data name="SettingsFlyout_Settings_Notification_Favorite_ToggleSwitch.Header" xml:space="preserve">
     <value>お気に入り通知</value>

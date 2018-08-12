@@ -161,20 +161,14 @@ namespace Flantter.MilkyWay.Models
                                     Connecter.Instance.TweetReceive_OnCommandExecute(this,
                                         new TweetEventArgs(new EventMessage(status), AccountSetting.UserId,
                                             AccountSetting.Instance,
-                                            new List<string> {"events://"}, true));
+                                            new List<string> {"mentions://"}, true));
 
-                                break;
-                            case StreamingMessage.MessageType.DirectMesssage:
-                                var directMessage = m.DirectMessage;
-                                Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                                    new TweetEventArgs(directMessage, AccountSetting.UserId, AccountSetting.Instance,
-                                        new List<string> {"directmessages://"}, true));
                                 break;
                             case StreamingMessage.MessageType.Event:
                                 var eventMessage = m.EventMessage;
                                 Connecter.Instance.TweetReceive_OnCommandExecute(this,
                                     new TweetEventArgs(eventMessage, AccountSetting.UserId, AccountSetting.Instance,
-                                        new List<string> {"events://"},
+                                        new List<string> { "mentions://" },
                                         true));
 
                                 if (eventMessage.Type == "Favorite" && eventMessage.TargetStatus != null &&
@@ -194,12 +188,6 @@ namespace Flantter.MilkyWay.Models
                                 Connecter.Instance.TweetDelete_OnCommandExecute(this,
                                     new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.Status, deletedStatusId,
                                         AccountSetting.UserId, AccountSetting.Instance));
-                                break;
-                            case StreamingMessage.MessageType.DeleteDirectMessage:
-                                var deletedDirectMessageId = m.DeletedDirectMessageId;
-                                Connecter.Instance.TweetDelete_OnCommandExecute(this,
-                                    new TweetDeleteEventArgs(TweetDeleteEventArgs.TypeEnum.DirectMessage,
-                                        deletedDirectMessageId, AccountSetting.UserId, AccountSetting.Instance));
                                 break;
                         }
                     }
@@ -240,14 +228,8 @@ namespace Flantter.MilkyWay.Models
                                     Add(tweetEventArgs.Status, tweetEventArgs.Streaming);
 
                                 break;
-                            case TweetEventArgs.TypeEnum.DirectMessage:
-                                if (Action != SettingSupport.ColumnTypeEnum.DirectMessages)
-                                    return;
-
-                                Add(tweetEventArgs.DirectMessage, tweetEventArgs.Streaming);
-                                break;
                             case TweetEventArgs.TypeEnum.EventMessage:
-                                if (Action != SettingSupport.ColumnTypeEnum.Events ||
+                                if (Action != SettingSupport.ColumnTypeEnum.Mentions ||
                                     tweetEventArgs.EventMessage.Source.Id == AccountSetting.UserId)
                                     return;
 
@@ -279,12 +261,7 @@ namespace Flantter.MilkyWay.Models
                             AccountSetting.Instance))
                             Add(collection);
                         break;
-                    case SettingSupport.ColumnTypeEnum.DirectMessages:
-                        foreach (var dm in Database.Instance.GetDirectMessagesFromParam(AccountSetting.UserId,
-                            AccountSetting.Instance))
-                            Add(dm);
-                        break;
-                    case SettingSupport.ColumnTypeEnum.Events:
+                    case SettingSupport.ColumnTypeEnum.Mentions:
                         foreach (var ev in Database.Instance.GetEventMessagesFromParam(AccountSetting.UserId,
                             AccountSetting.Instance))
                             Add(ev);
@@ -476,9 +453,6 @@ namespace Flantter.MilkyWay.Models
                 case SettingSupport.ColumnTypeEnum.Mentions:
                     await UpdateMentions(maxid, sinceid);
                     break;
-                case SettingSupport.ColumnTypeEnum.DirectMessages:
-                    await UpdateDirectMessages(maxid, sinceid);
-                    break;
                 case SettingSupport.ColumnTypeEnum.Favorites:
                     await UpdateFavorites(maxid, sinceid);
                     break;
@@ -490,9 +464,6 @@ namespace Flantter.MilkyWay.Models
                     break;
                 case SettingSupport.ColumnTypeEnum.UserTimeline:
                     await UpdateUserTimeline(maxid, sinceid);
-                    break;
-                case SettingSupport.ColumnTypeEnum.Events:
-                    await UpdateEvents(maxid, sinceid);
                     break;
                 case SettingSupport.ColumnTypeEnum.Collection:
                     await UpdateCollection(maxid, sinceid);
@@ -571,90 +542,58 @@ namespace Flantter.MilkyWay.Models
         {
             try
             {
-                var param = new Dictionary<string, object>
                 {
-                    {"count", ColumnSetting.FetchingNumberOfTweet},
-                    {"include_entities", true},
-                    {"tweet_mode", CoreTweet.TweetMode.Extended},
-                    {"exclude_types", new List<string> {"follow", "favourite", "reblog"}}
-                };
-                if (maxid != 0)
-                    param.Add("max_id", maxid);
-                if (sinceid != 0)
-                    param.Add("since_id", sinceid);
+                    var param = new Dictionary<string, object>
+                    {
+                        {"count", ColumnSetting.FetchingNumberOfTweet},
+                        {"include_entities", true},
+                        {"tweet_mode", CoreTweet.TweetMode.Extended},
+                        {"exclude_types", new List<string> {"follow", "favourite", "reblog"}}
+                    };
+                    if (maxid != 0)
+                        param.Add("max_id", maxid);
+                    if (sinceid != 0)
+                        param.Add("since_id", sinceid);
 
-                var mentions = await Tokens.Statuses.MentionsTimelineAsync(param);
-                var lastId = mentions.Count > 0
-                    ? mentions.Select(x => x.HasRetweetInformation ? x.RetweetInformation.Id : x.Id)
-                        .OrderByDescending(x => x).Last()
-                    : -1;
-                var gapCheck = GapCheck(lastId);
+                    var mentions = await Tokens.Statuses.MentionsTimelineAsync(param);
 
-                foreach (var status in mentions)
-                {
-                    if (Check(status))
-                        Add(status);
+                    foreach (var status in mentions)
+                    {
+                        if (Check(status))
+                            Add(status);
 
-                    var paramList = new List<string> {"mentions://"};
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance, paramList, false));
+                        var paramList = new List<string> { "mentions://" };
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                            new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance, paramList, false));
+                    }
+
+                    // 丼のイベントも受信するためコメントアウト
+                    // if (gapCheck)
+                    //    Add(new Gap(0, lastId - 1, DateTime.Now));
                 }
-
-                if (gapCheck)
-                    Add(new Gap(0, lastId - 1, DateTime.Now));
-            }
-            catch (CoreTweet.TwitterException ex)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-            }
-            catch (TootNet.Exception.MastodonException ex)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
-            }
-            catch (NotImplementedException e)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_NotImplementedException"),
-                    _resourceLoader.GetString("Notification_System_NotImplementedException"));
-            }
-            catch (Exception e)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    e.ToString());
-            }
-        }
-
-        private async Task UpdateDirectMessages(long maxid = 0, long sinceid = 0)
-        {
-            try
-            {
-                var param = new Dictionary<string, object>
+                
+                if (AccountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)
                 {
-                    {"count", ColumnSetting.FetchingNumberOfTweet},
-                    {"include_entities", true},
-                    {"full_text", true}
-                };
-                if (maxid != 0)
-                    param.Add("max_id", maxid);
-                if (sinceid != 0)
-                    param.Add("since_id", sinceid);
+                    var param = new Dictionary<string, object>
+                    {
+                        {"count", ColumnSetting.FetchingNumberOfTweet}
+                    };
+                    if (maxid != 0)
+                        param.Add("max_id", maxid);
+                    if (sinceid != 0)
+                        param.Add("since_id", sinceid);
 
-                IEnumerable<DirectMessage> directMessages = await Tokens.DirectMessages.ReceivedAsync(param);
-                if (AccountSetting.Platform == SettingSupport.PlatformEnum.Twitter)
-                    directMessages = directMessages.Concat(await Tokens.DirectMessages.SentAsync(param));
-                directMessages = directMessages.OrderByDescending(x => x.Id);
+                    var events = await Tokens.Activity.AboutMeAsync(param);
+                    foreach (var ev in events)
+                    {
+                        var evObject = ev;
+                        Add(evObject);
 
-                foreach (var directMessage in directMessages)
-                {
-                    Add(directMessage);
-
-                    var paramList = new List<string> {"directmessages://"};
-                    Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                        new TweetEventArgs(directMessage, AccountSetting.UserId, AccountSetting.Instance, paramList,
-                            false));
+                        var paramList = new List<string> { "mentions://" };
+                        Connecter.Instance.TweetReceive_OnCommandExecute(this,
+                            new TweetEventArgs(evObject, AccountSetting.UserId, AccountSetting.Instance, paramList,
+                                false));
+                    }
                 }
             }
             catch (CoreTweet.TwitterException ex)
@@ -948,62 +887,6 @@ namespace Flantter.MilkyWay.Models
                 Core.Instance.PopupToastNotification(PopupNotificationType.System,
                     _resourceLoader.GetString("Notification_System_NotImplementedException"),
                     _resourceLoader.GetString("Notification_System_NotImplementedException"));
-            }
-            catch (Exception e)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_ErrorOccurred"),
-                    e.ToString());
-            }
-        }
-
-        private async Task UpdateEvents(long maxid = 0, long sinceid = 0)
-        {
-            try
-            {
-                if (AccountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)
-                {
-                    var param = new Dictionary<string, object>
-                    {
-                        {"count", ColumnSetting.FetchingNumberOfTweet},
-                        {"include_entities", true},
-                        {"tweet_mode", CoreTweet.TweetMode.Extended}
-                    };
-                    if (maxid != 0)
-                        param.Add("max_id", maxid);
-                    if (sinceid != 0)
-                        param.Add("since_id", sinceid);
-
-                    var events = await Tokens.Activity.AboutMeAsync(param);
-                    var lastId = events.Count > 0 ? events.Select(x => x.Id).OrderByDescending(x => x).Last() : -1;
-                    var gapCheck = GapCheck(lastId);
-                    foreach (var ev in events)
-                    {
-                        var evObject = ev;
-                        Add(evObject);
-
-                        var paramList = new List<string> {"events://"};
-                        Connecter.Instance.TweetReceive_OnCommandExecute(this,
-                            new TweetEventArgs(evObject, AccountSetting.UserId, AccountSetting.Instance, paramList,
-                                false));
-                    }
-
-                    if (gapCheck)
-                        Add(new Gap(0, lastId - 1, DateTime.Now));
-                }
-            }
-            catch (CoreTweet.TwitterException ex)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Errors.First().Message);
-            }
-            catch (TootNet.Exception.MastodonException ex)
-            {
-                Core.Instance.PopupToastNotification(PopupNotificationType.System,
-                    _resourceLoader.GetString("Notification_System_ErrorOccurred"), ex.Message);
-            }
-            catch (NotImplementedException e)
-            {
             }
             catch (Exception e)
             {
@@ -1319,33 +1202,6 @@ namespace Flantter.MilkyWay.Models
             }
         }
 
-        private void Add(DirectMessage directMessage, bool streaming = false)
-        {
-            if (streaming)
-            {
-                var index = Tweets.IndexOf(
-                    Tweets.FirstOrDefault(x => x is DirectMessage && ((DirectMessage) x).Id == directMessage.Id));
-                if (index != -1)
-                    return;
-
-                Tweets.Insert(0, directMessage);
-            }
-            else
-            {
-                var index = Tweets.IndexOf(
-                    Tweets.FirstOrDefault(x => x is DirectMessage && ((DirectMessage) x).Id == directMessage.Id));
-                if (index == -1)
-                {
-                    index = Tweets.IndexOf(
-                        Tweets.FirstOrDefault(x => x is DirectMessage && ((DirectMessage) x).Id < directMessage.Id));
-                    if (index == -1)
-                        Tweets.Add(directMessage);
-                    else
-                        Tweets.Insert(index, directMessage);
-                }
-            }
-        }
-
         private void Add(EventMessage eventMessage, bool streaming = false)
         {
             switch (eventMessage.Type)
@@ -1379,7 +1235,7 @@ namespace Flantter.MilkyWay.Models
                 if (index == -1)
                 {
                     index = Tweets.IndexOf(
-                        Tweets.FirstOrDefault(x => x is EventMessage && ((EventMessage) x).Id < eventMessage.Id));
+                        Tweets.FirstOrDefault(x => x.CreatedAt < eventMessage.CreatedAt));
                     if (index == -1)
                         Tweets.Add(eventMessage);
                     else

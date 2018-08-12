@@ -598,9 +598,6 @@
   <data name="ConfirmDialog_ExitApp" xml:space="preserve">
     <value>Exit app?</value>
   </data>
-  <data name="Notification_DirectMessage_DirectMessage" xml:space="preserve">
-    <value>{0} send DM to you.</value>
-  </data>
   <data name="Notification_Favorite_Favorite" xml:space="preserve">
     <value>{0} favorite your tweet.</value>
   </data>
@@ -610,14 +607,8 @@
   <data name="Notification_Mention_Mention" xml:space="preserve">
     <value>{0} mention to your tweet.</value>
   </data>
-  <data name="Notification_QuotedTweet_QuotedTweet" xml:space="preserve">
-    <value>{0} quote your tweet</value>
-  </data>
   <data name="Notification_Retweet_Retweet" xml:space="preserve">
     <value>{0} retweet your tweet.</value>
-  </data>
-  <data name="Notification_Unfavorite_Unfavorite" xml:space="preserve">
-    <value>{0} unfavorite your tweet.</value>
   </data>
   <data name="SettingsFlyout_Settings_Notification_Favorite_ToggleSwitch.Header" xml:space="preserve">
     <value>Favorite notification</value>

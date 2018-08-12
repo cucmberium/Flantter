@@ -12,8 +12,7 @@ namespace Flantter.MilkyWay.Models.Services
     {
         public enum TypeEnum
         {
-            Status,
-            DirectMessage
+            Status
         }
 
         #region Constructor
@@ -40,7 +39,6 @@ namespace Flantter.MilkyWay.Models.Services
         public enum TypeEnum
         {
             Status,
-            DirectMessage,
             EventMessage,
             CollectionEntry
         }
@@ -51,16 +49,6 @@ namespace Flantter.MilkyWay.Models.Services
         {
             Type = TypeEnum.Status;
             Status = status;
-            UserId = userId;
-            Instance = instance;
-            Parameter = parameter;
-            Streaming = streaming;
-        }
-
-        public TweetEventArgs(DirectMessage directMessage, long userId, string instance, List<string> parameter, bool streaming = false)
-        {
-            Type = TypeEnum.DirectMessage;
-            DirectMessage = directMessage;
             UserId = userId;
             Instance = instance;
             Parameter = parameter;
@@ -96,7 +84,6 @@ namespace Flantter.MilkyWay.Models.Services
         public string Instance { get; }
 
         public Status Status { get; }
-        public DirectMessage DirectMessage { get; }
         public EventMessage EventMessage { get; }
         public CollectionEntry CollectionEntry { get; }
 
@@ -200,9 +187,6 @@ namespace Flantter.MilkyWay.Models.Services
                                 {
                                     case TweetEventArgs.TypeEnum.Status:
                                         Database.Database.Instance.InsertTweet(e.Status, e.Parameter, e.UserId, e.Instance);
-                                        break;
-                                    case TweetEventArgs.TypeEnum.DirectMessage:
-                                        Database.Database.Instance.InsertTweet(e.DirectMessage, e.Parameter, e.UserId, e.Instance);
                                         break;
                                     case TweetEventArgs.TypeEnum.EventMessage:
                                         Database.Database.Instance.InsertTweet(e.EventMessage, e.Parameter, e.UserId, e.Instance);

@@ -115,6 +115,15 @@
                     </Grid>
                 </Button>
 
+                <controls:HorizontalBar Margin="50,0,0,0"/>
+
+                <Button Visibility="{x:Bind ViewModel.IsPlatformTwitter.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowDirectMessagesCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid>
+                        <SymbolIcon Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Width="30" Margin="10,0,0,0" Symbol="Mail" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <TextBlock x:Uid="MainSwipeMenu_DirectMessages" Text="ダイレクトメッセージ" Padding="0" FontSize="16" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Margin="60,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+
                 <controls:HorizontalBar Visibility="{x:Bind ViewModel.IsPlatformTwitter.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="50,0,0,0"/>
 
                 <Button Visibility="{x:Bind ViewModel.IsPlatformTwitter.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Bind ViewModel.Notice.ShowMyCollectionsCommand}" Height="40" Background="Transparent" Foreground="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">

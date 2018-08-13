@@ -1589,18 +1589,18 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
             throw new NotImplementedException();
         }
 
-        public Task<List<Apis.Objects.DirectMessage>> ReceivedAsync(
+        public Task<StringCursoredList<Apis.Objects.DirectMessage>> ReceivedAsync(
             params Expression<Func<string, object>>[] parameters)
         {
             return ReceivedAsyncImpl(ExpressionToDictionary(parameters));
         }
 
-        public Task<List<Apis.Objects.DirectMessage>> ReceivedAsync(IDictionary<string, object> parameters)
+        public Task<StringCursoredList<Apis.Objects.DirectMessage>> ReceivedAsync(IDictionary<string, object> parameters)
         {
             return ReceivedAsyncImpl(parameters);
         }
 
-        private async Task<List<Apis.Objects.DirectMessage>> ReceivedAsyncImpl(
+        private async Task<StringCursoredList<Apis.Objects.DirectMessage>> ReceivedAsyncImpl(
             IDictionary<string, object> parameters)
         {
             switch (Tokens.Platform)
@@ -1612,8 +1612,12 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                     var userDictionary = new Dictionary<long, CoreTweet.User>();
                     foreach (var user in await Tokens.TwitterTokens.Users.LookupAsync(user_id => userIds.Distinct()))
                         userDictionary[user.Id.Value] = user;
-                    return dmEvents.Select(x => new Apis.Objects.DirectMessage(x,
-                        userDictionary[x.MessageCreate.Target.RecipientId], userDictionary[x.MessageCreate.SenderId])).ToList();
+                    var list =
+                        new StringCursoredList<Apis.Objects.DirectMessage>(
+                            dmEvents.Select(x => new Apis.Objects.DirectMessage(x,
+                                userDictionary[x.MessageCreate.Target.RecipientId], userDictionary[x.MessageCreate.SenderId])).ToList());
+                    list.NextCursor = dmEvents.NextCursor;
+                    return list;
                 case Tokens.PlatformEnum.Mastodon:
                     throw new NotImplementedException();
             }
@@ -2164,19 +2168,8 @@ namespace Flantter.MilkyWay.Models.Apis.Wrapper
                                             case "update":
                                                 var status =
                                                     JsonConvert.DeserializeObject<TootNet.Objects.Status>(data);
-                                                if (status.Visibility == "direct")
-                                                {
-                                                    var dm =
-                                                        new Apis.Objects.DirectMessage(status,
-                                                            (await tokens.MastodonTokens.Statuses.IdAsync(id =>
-                                                                status.InReplyToId.Value)).Account);
-                                                    observer.OnNext(new Apis.Objects.StreamingMessage(dm));
-                                                }
-                                                else
-                                                {
-                                                    var s = new Apis.Objects.Status(status);
-                                                    observer.OnNext(new Apis.Objects.StreamingMessage(s));
-                                                }
+                                                var s = new Apis.Objects.Status(status);
+                                                observer.OnNext(new Apis.Objects.StreamingMessage(s));
                                                 break;
                                             case "notification":
                                                 var notification =

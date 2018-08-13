@@ -680,6 +680,9 @@ namespace Flantter.MilkyWay.ViewModels
                 .Where(_ => Model.IsEnabled)
                 .Subscribe(x =>
                 {
+                    if (IsPlatformMastodon.Value)
+                        return;
+
                     var notification = new ShowSettingsFlyoutNotification
                     {
                         SettingsFlyoutType = "DirectMessageConversation",
@@ -864,6 +867,20 @@ namespace Flantter.MilkyWay.ViewModels
                         Tokens = Model.Tokens,
                         UserIcon = ProfileImageUrl.Value,
                         Content = Model.Tokens.UserId
+                    };
+                    Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
+                })
+                .AddTo(Disposable);
+
+            Notice.Instance.ShowDirectMessagesCommand.SubscribeOn(ThreadPoolScheduler.Default)
+                .Where(_ => Model.IsEnabled)
+                .Subscribe(x =>
+                {
+                    var notification = new ShowSettingsFlyoutNotification
+                    {
+                        SettingsFlyoutType = "DirectMessages",
+                        Tokens = Model.Tokens,
+                        UserIcon = ProfileImageUrl.Value
                     };
                     Notice.Instance.ShowSettingsFlyoutCommand.Execute(notification);
                 })

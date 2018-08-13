@@ -282,6 +282,33 @@ namespace Flantter.MilkyWay.Views.Behaviors
 
                     PopupList.Insert(0, settingsFlyout);
                     break;
+                case "DirectMessages":
+                    settingsFlyoutList = _settingsFlyoutList.Where(x => x is DirectMessagesSettingsFlyout && !x.IsOpen);
+                    if (settingsFlyoutList.Any())
+                    {
+                        settingsFlyout = settingsFlyoutList.First();
+                    }
+                    else
+                    {
+                        settingsFlyout = new DirectMessagesSettingsFlyout();
+                        ((DirectMessagesSettingsFlyout)settingsFlyout).ViewModel = new DirectMessagesSettingsFlyoutViewModel();
+                        _settingsFlyoutList.Add(settingsFlyout);
+                    }
+
+                    ((DirectMessagesSettingsFlyout)settingsFlyout).ViewModel.IconSource.Value = notification.UserIcon;
+                    ((DirectMessagesSettingsFlyout)settingsFlyout).ViewModel.Tokens.Value = notification.Tokens;
+
+                    ((DirectMessagesSettingsFlyout)settingsFlyout).ViewModel.ClearCommand.Execute();
+
+                    ((DirectMessagesSettingsFlyout)settingsFlyout).ViewModel.UpdateCommand.Execute();
+
+                    ((DirectMessagesSettingsFlyout)settingsFlyout).DataContext =
+                        ((DirectMessagesSettingsFlyout)settingsFlyout).ViewModel;
+
+                    settingsFlyout.Show();
+
+                    PopupList.Insert(0, settingsFlyout);
+                    break;
                 case "UserCollections":
                     settingsFlyoutList =
                         _settingsFlyoutList.Where(x => x is UserCollectionsSettingsFlyout && !x.IsOpen);

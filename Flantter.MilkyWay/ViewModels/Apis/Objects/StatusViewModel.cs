@@ -208,9 +208,16 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             IsMentionStatusLoading = false;
 
             RetweetCount = status.RetweetCount;
-            // TODO: ちょっとここのコード汚い
-            if (status.Emojis != null)
+            if (status.Platform == "Mastodon")
+            {
                 FavoriteCount = status.FavoriteCount;
+                IsDirectMessageEnabled = false;
+            }
+            else
+            {
+                FavoriteCount = 0;
+                IsDirectMessageEnabled = true;
+            }
 
             IsMyTweet = false;
             IsMyRetweet = status.IsRetweeted;
@@ -350,6 +357,8 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
         public string SpoilerText { get; set; }
 
         public bool IsContentWarning { get; set; }
+
+        public bool IsDirectMessageEnabled { get; set; }
 
         public Notice Notice { get; set; }
 

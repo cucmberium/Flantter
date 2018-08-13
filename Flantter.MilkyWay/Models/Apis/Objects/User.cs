@@ -37,6 +37,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             StatusesCount = cUser.StatusesCount;
             TimeZone = cUser.TimeZone;
             Url = cUser.Url;
+            Platform = "Twitter";
         }
 
         public User(TootNet.Objects.Account cUser)
@@ -72,6 +73,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             StatusesCount = cUser.StatusesCount;
             TimeZone = null;
             Url = cUser.Url;
+            Platform = "Mastodon";
         }
 
         public User(TootNet.Objects.Relationship cUser)
@@ -81,6 +83,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             IsFollowRequestSent = cUser.Requested;
             IsMuting = cUser.Muting;
             IsVerified = false;
+            Platform = "Mastodon";
         }
 
         public User()
@@ -228,6 +231,12 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
         #region Url変更通知プロパティ
 
         public string Url { get; set; }
+
+        #endregion
+
+        #region Platform変更通知プロパティ
+
+        public string Platform { get; set; }
 
         #endregion
     }

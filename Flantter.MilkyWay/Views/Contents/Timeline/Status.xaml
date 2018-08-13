@@ -365,7 +365,7 @@
                     <MenuFlyout>
                         <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Reply" Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
                         <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_ReplyToAll" Text="&#xE165;    全員に返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyToAllCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
-                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.Model.User.Id, Mode=OneWay}"/>
+                        <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Visibility="{x:Bind ViewModel.IsDirectMessageEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.Model.User.Id, Mode=OneWay}"/>
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
             </Button>
@@ -413,7 +413,7 @@
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_ReplyMenu" Text="&#xE172;    リプライ関連" FontFamily="Segoe UI Symbol">
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Reply" Text="&#xE172;    返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_ReplyToAll" Text="&#xE165;    全員に返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.ReplyToAllCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>
-                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Visibility="{x:Bind ViewModel.IsMyTweet, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.Model.User.Id, Mode=OneWay}"/>
+                            <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_SendDirectMessage" Visibility="{x:Bind ViewModel.IsDirectMessageEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Text="&#xE119;    DMで返信" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.Model.User.Id, Mode=OneWay}"/>
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem x:Uid="Tweet_Command_MenuFlyout_RetweetMenu" Text="&#xE1CA;    リツイート関連" Visibility="{x:Bind ViewModel.IsUserProtected, Mode=OneWay, Converter={StaticResource BooleanNegationToVisibilityConverter}}" FontFamily="Segoe UI Symbol">
                             <MenuFlyoutItem x:Uid="Tweet_Command_MenuFlyout_Retweet" Text="&#xE1CA;    リツイート" FontFamily="Segoe UI Symbol" Command="{x:Bind ViewModel.Notice.RetweetCommand}" CommandParameter="{x:Bind ViewModel, Mode=OneWay}"/>

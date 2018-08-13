@@ -49,6 +49,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
 
             SpoilerText = string.Empty;
             Emojis = null;
+            Platform = "Twitter";
         }
 
         public Status(TootNet.Objects.Status cOrigStatus)
@@ -102,6 +103,8 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             if (cStatus.Emojis != null)
                 foreach (var emoji in cStatus.Emojis)
                     Emojis.Add(new Emoji(emoji));
+
+            Platform = "Mastodon";
         }
 
         public Status()
@@ -237,6 +240,12 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
         #region Emojis変更通知プロパティ
 
         public List<Emoji> Emojis { get; set; }
+
+        #endregion
+
+        #region Platform変更通知プロパティ
+
+        public string Platform { get; set; }
 
         #endregion
     }

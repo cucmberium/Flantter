@@ -257,11 +257,22 @@ namespace Flantter.MilkyWay.Models
                 switch (Action)
                 {
                     case SettingSupport.ColumnTypeEnum.Collection:
-                        foreach (var collection in Database.Instance.GetCollectionEntryFromParam(AccountSetting.UserId,
+                        foreach (var collection in Database.Instance.GetCollectionEntryFromParam(Action.ToString("F").ToLower() + "://" + _parameter,
+                            AccountSetting.UserId,
                             AccountSetting.Instance))
                             Add(collection);
                         break;
                     case SettingSupport.ColumnTypeEnum.Mentions:
+                        foreach (var status in Database.Instance.GetStatusesFromParam(
+                            Action.ToString("F").ToLower() + "://" + _parameter, AccountSetting.UserId,
+                            AccountSetting.Instance))
+                        {
+                            if (!Check(status))
+                                continue;
+
+                            Add(status);
+                        }
+
                         foreach (var ev in Database.Instance.GetEventMessagesFromParam(AccountSetting.UserId,
                             AccountSetting.Instance))
                             Add(ev);

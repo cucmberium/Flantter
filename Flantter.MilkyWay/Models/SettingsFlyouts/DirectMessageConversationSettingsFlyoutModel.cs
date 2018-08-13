@@ -65,9 +65,7 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
             {
                 var param = new Dictionary<string, object>
                 {
-                    {"count", 50},
-                    {"include_entities", true},
-                    {"full_text", true}
+                    {"count", 50}
                 };
                 if (maxid != 0)
                     param.Add("max_id", maxid);
@@ -77,8 +75,6 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
 
                 IEnumerable<DirectMessage> directMessages =
                     await Tokens.DirectMessages.ReceivedAsync(param);
-                if (Tokens.Platform == Tokens.PlatformEnum.Twitter)
-                    directMessages = directMessages.Concat(await Tokens.DirectMessages.SentAsync(param));
                 directMessages = directMessages.OrderByDescending(x => x.Id);
 
                 foreach (var directMessage in directMessages)
@@ -125,19 +121,9 @@ namespace Flantter.MilkyWay.Models.SettingsFlyouts
                 var param = new Dictionary<string, object>
                 {
                     {"text", _text.Replace("\r", "\n")},
-                    {"user_id", _userId}
+                    {"recipient_id", _userId}
                 };
-                if (Tokens.Platform == Tokens.PlatformEnum.Mastodon)
-                {
-                    var id = DirectMessages.FirstOrDefault(x => x.Sender.Id != Tokens.UserId)?.Id;
-                    if (id == 0)
-                    {
-                        var userTimeline = await Tokens.Statuses.UserTimelineAsync(user_id => _userId);
-                        id = userTimeline.FirstOrDefault()?.Id;
-                    }
-                    param.Add("in_reply_to_status_id", id);
-                }
-                var directMessage = await Tokens.DirectMessages.NewAsync(text => _text, user_id => _userId);
+                var directMessage = await Tokens.DirectMessages.NewAsync(param);
                 DirectMessages.Insert(0, directMessage);
             }
             catch (CoreTweet.TwitterException ex)

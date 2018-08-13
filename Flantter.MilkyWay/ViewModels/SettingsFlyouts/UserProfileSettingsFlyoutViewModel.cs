@@ -118,6 +118,9 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
             OpenUserCollectionEnabled = Tokens
                 .Select(x => x?.Platform == Models.Apis.Wrapper.Tokens.PlatformEnum.Twitter)
                 .ToReactiveProperty();
+            IsDirectMessageEnabled = Tokens
+                .Select(x => x?.Platform == Models.Apis.Wrapper.Tokens.PlatformEnum.Twitter)
+                .ToReactiveProperty();
 
             FollowButtonText = Model.ObserveProperty(x => x.IsBlocking)
                 .CombineLatest(Model.ObserveProperty(x => x.IsFollowing),
@@ -378,6 +381,8 @@ namespace Flantter.MilkyWay.ViewModels.SettingsFlyouts
         public ReactiveProperty<bool> OpenUserListEnabled { get; set; }
 
         public ReactiveProperty<bool> OpenUserCollectionEnabled { get; set; }
+
+        public ReactiveProperty<bool> IsDirectMessageEnabled { get; set; }
 
         public ReactiveProperty<bool> UpdatingStatuses { get; set; }
         public ReactiveProperty<bool> UpdatingFavorites { get; set; }

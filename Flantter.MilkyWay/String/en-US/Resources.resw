@@ -1126,4 +1126,7 @@
   <data name="SettingsFlyout_Settings_Behavior_ExtendedExecution_ToggleSwitch.Header" xml:space="preserve">
     <value>Prevent app suspention if the device is connected to wall power</value>
   </data>
+  <data name="MainSwipeMenu_DirectMessages" xml:space="preserve">
+    <value>Direct message</value>
+  </data>
 </root>

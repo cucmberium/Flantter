@@ -230,9 +230,16 @@ namespace Flantter.MilkyWay.Models.Services.Database
 
             foreach (var json in jsons)
             {
-                var status = JsonConvert.DeserializeObject<Status>(json);
+                Status status;
+                try
+                {
+                    status = JsonConvert.DeserializeObject<Status>(json);
+                }
+                catch
+                {
+                    continue;
+                }
                 status.Entities.Media.ForEach(x => x.ParentEntities = status.Entities);
-
                 yield return status;
             }
         }
@@ -252,9 +259,9 @@ namespace Flantter.MilkyWay.Models.Services.Database
 
                     //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
                     var tweets = db.Query<TweetData>(
-                        "select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"events://\" and TweetInfo.UserId = ? and TweetInfo.Instance = ?) order by TweetData.Id desc limit ?", userId, instance, count);
+                        "select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"mentions://\" and TweetInfo.UserId = ? and TweetInfo.Instance = ?) order by TweetData.Id desc limit ?", userId, instance, count);
                     System.Diagnostics.Debug.WriteLine(
-                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"events://\" and TweetInfo.UserId = {userId} and TweetInfo.Instance = {instance}) order by TweetData.Id desc limit {count}");
+                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"mentions://\" and TweetInfo.UserId = {userId} and TweetInfo.Instance = {instance}) order by TweetData.Id desc limit {count}");
                     db.Commit();
 
                     jsons = tweets.Select(x => x.Json);
@@ -263,12 +270,20 @@ namespace Flantter.MilkyWay.Models.Services.Database
 
             foreach (var json in jsons)
             {
-                var ev = JsonConvert.DeserializeObject<EventMessage>(json);
+                EventMessage ev;
+                try
+                {
+                    ev = JsonConvert.DeserializeObject<EventMessage>(json);
+                }
+                catch
+                {
+                    continue;
+                }
                 yield return ev;
             }
         }
 
-        public IEnumerable<CollectionEntry> GetCollectionEntryFromParam(long userId, string instance, int count = 200)
+        public IEnumerable<CollectionEntry> GetCollectionEntryFromParam(string param, long userId, string instance, int count = 200)
         {
             IEnumerable<string> jsons;
             var storagePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, DatabaseFileName);
@@ -283,9 +298,9 @@ namespace Flantter.MilkyWay.Models.Services.Database
 
                     //var tweets = db.Table<TweetInfo>().Join(db.Table<TweetData>(), x => x.Id, x => x.Id, (TweetInfo, TweetData) => new { TweetInfo, TweetData }).Where(x => x.TweetInfo.Parameter == "events://").OrderByDescending(x => x.TweetInfo.Id).Take(count).ToList();
                     var tweets = db.Query<TweetData>(
-                        "select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"collection://\" and TweetInfo.UserId = ? and TweetInfo.Instance = ?) order by TweetData.Id desc limit ?", userId, instance, count);
+                        "select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = ? and TweetInfo.UserId = ? and TweetInfo.Instance = ?) order by TweetData.Id desc limit ?", param, userId, instance, count);
                     System.Diagnostics.Debug.WriteLine(
-                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = \"collection://\" and TweetInfo.UserId = {userId} and TweetInfo.Instance = {instance}) order by TweetData.Id desc limit {count}");
+                        $"select * from TweetData where TweetData.Id in (select TweetInfo.Id from TweetInfo where TweetInfo.Parameter = {param} and TweetInfo.UserId = {userId} and TweetInfo.Instance = {instance}) order by TweetData.Id desc limit {count}");
                     db.Commit();
 
                     jsons = tweets.Select(x => x.Json);

@@ -623,7 +623,7 @@ namespace Flantter.MilkyWay.ViewModels
                                     Name = "Favorites",
                                     Parameter = string.Empty,
                                     Streaming = false,
-                                    Index = 4,
+                                    Index = 2,
                                     DisableStartupRefresh = false,
                                     FetchingNumberOfTweet = 40,
                                     Identifier = DateTime.Now.Ticks + 4
@@ -641,7 +641,7 @@ namespace Flantter.MilkyWay.ViewModels
                                 Name = "Local",
                                 Parameter = string.Empty,
                                 Streaming = true,
-                                Index = 5,
+                                Index = 3,
                                 DisableStartupRefresh = false,
                                 FetchingNumberOfTweet = 40,
                                 Identifier = DateTime.Now.Ticks + 5

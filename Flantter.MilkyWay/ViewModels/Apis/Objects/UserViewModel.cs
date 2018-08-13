@@ -28,6 +28,7 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
                     : user.ProfileImageUrl;
             }
             ScreenName = user.ScreenName;
+            IsDirectMessageEnabled = user.Platform == "Twitter";
 
             Notice = Notice.Instance;
             Setting = SettingService.Setting;
@@ -62,6 +63,12 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
         #region ScreenName変更通知プロパティ
 
         public string ScreenName { get; set; }
+
+        #endregion
+
+        #region IsDirectMessageEnabled変更通知プロパティ
+
+        public bool IsDirectMessageEnabled { get; set; }
 
         #endregion
 

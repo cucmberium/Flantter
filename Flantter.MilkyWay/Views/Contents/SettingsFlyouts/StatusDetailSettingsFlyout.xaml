@@ -72,8 +72,8 @@
                                 <TextBlock  x:Uid="SettingsFlyout_StatusDetail_Menu_ReplyToAll" Grid.Column="3" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Text="全員に返信する" FontSize="16"/>
                             </Grid>
                         </Button>
-                        <controls:HorizontalBar/>
-                        <Button Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model.User.Id, Mode=OneWay}">
+                        <controls:HorizontalBar Visibility="{x:Bind ViewModel.Status.Value.IsDirectMessageEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <Button Visibility="{x:Bind ViewModel.Status.Value.IsDirectMessageEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Height="40" Background="Transparent" BorderThickness="0" Padding="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.Notice.SendDirectMessageCommand}" CommandParameter="{x:Bind ViewModel.Status.Value.Model.User.Id, Mode=OneWay}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="10"/>

@@ -59,7 +59,7 @@
 
             <controls:HorizontalBar/>
 
-            <Slider x:Uid="SettingsFlyout_Settings_Display_MaxColumnCount_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="表示するカラムの最大数" Maximum="5" Minimum="1" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.MaxColumnCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider x:Uid="SettingsFlyout_Settings_Display_MaxColumnCount_Slider" Margin="10" HorizontalAlignment="Stretch" Foreground="{StaticResource SettingsFlyoutTextblockForegroundBrush}" Header="表示するカラムの最大数" Maximum="8" Minimum="1" LargeChange="1" StepFrequency="1" SmallChange="1" Value="{Binding Source={StaticResource Setting}, Path=Setting.MaxColumnCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <controls:HorizontalBar/>
 

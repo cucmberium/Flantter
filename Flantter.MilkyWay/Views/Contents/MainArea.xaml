@@ -16,7 +16,7 @@
 
         <contents:ColumnArea ViewModel="{x:Bind ViewModel}" Grid.Row="0" SelectedIndex="{x:Bind ViewModel.ColumnSelectedIndex.Value, Mode=TwoWay}" />
 
-        <contents:BottomBarArea x:Name="MainAreaBottomBar" ViewModel="{x:Bind ViewModel}" Grid.Row="1" SelectedIndex="{x:Bind ViewModel.ColumnSelectedIndex.Value, Mode=TwoWay}" Height="75"/>
+        <contents:BottomBarArea x:Name="MainAreaBottomBar" ViewModel="{x:Bind ViewModel}" Grid.Row="1" SelectedIndex="{x:Bind ViewModel.ColumnSelectedIndex.Value, Mode=TwoWay}" Height="64"/>
 
         <Border Grid.Row="0" Visibility="{x:Bind ViewModel.IsZoomedInViewActive.Value, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,0,30" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <controls:TriangleButton x:Name="MainAreaTweetButton" Visibility="Collapsed" Width="60" Height="60" Points="60,60,60,0,0,60" Command="{x:Bind ViewModel.Notice.TweetAreaOpenCommand}">
@@ -36,7 +36,6 @@
                         <AdaptiveTrigger MinWindowWidth="0" MinWindowHeight="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MainAreaBottomBar.Height" Value="64"/>
                         <Setter Target="MainAreaTweetButton.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -44,9 +43,6 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="384" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="MainAreaBottomBar.Height" Value="64"/>
-                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
                     <VisualState.StateTriggers>

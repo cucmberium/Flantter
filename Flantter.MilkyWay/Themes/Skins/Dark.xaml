@@ -37,6 +37,7 @@
     <SolidColorBrush x:Key="BottomBarButtonSelectedForegroundBrush" Color="Black" />
     <SolidColorBrush x:Key="BottomBarButtonUnselectedBackgroundBrush" Color="#FF222233" />
     <SolidColorBrush x:Key="BottomBarButtonUnselectedForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="BottomBarTweetButtonBackgroundBrush" Color="#22000000"/>
 
     <SolidColorBrush x:Key="PullToRefreshCharacterBrush" Color="White" />
 

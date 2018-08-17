@@ -50,7 +50,7 @@ namespace Flantter.MilkyWay.ViewModels.Services
                             else if (width < 500.0)
                                 retheight = height - 64.0 - 20.0;
                             else
-                                retheight = height - 75.0 - 20.0;
+                                retheight = height - 64.0 - 20.0;
 
                             return retheight;
                         }

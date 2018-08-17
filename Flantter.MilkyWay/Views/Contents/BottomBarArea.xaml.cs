@@ -74,6 +74,7 @@ namespace Flantter.MilkyWay.Views.Contents
         {
             BottomBarAreaProfileImageButton.Width = e.NewSize.Height;
             BottomBarAreaProfileImageButton.Height = e.NewSize.Height;
+            BottomBarAreaTweetButton.Height = e.NewSize.Height;
             BottomBarAreaColumnSelecter.ItemHeight = e.NewSize.Height;
         }
     }

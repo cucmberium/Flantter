@@ -221,7 +221,7 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
 
             IsMyTweet = false;
             IsMyRetweet = status.IsRetweeted;
-            IsUserProtected = status.User.IsProtected;
+            IsUserProtected = status.Platform == "Twitter" ? status.User.IsProtected : (status.Visibility == "direct" || status.Visibility == "private");
 
             IsContentWarning = !string.IsNullOrWhiteSpace(status.SpoilerText);
             SpoilerText = status.SpoilerText;
@@ -248,7 +248,6 @@ namespace Flantter.MilkyWay.ViewModels.Apis.Objects
             IsMyTweet = status.User.Id == userId;
             IsMyRetweet = status.RetweetInformation != null && status.RetweetInformation.User.Id == userId ||
                           status.IsRetweeted;
-            IsUserProtected = status.User.IsProtected && status.User.Id != userId;
         }
 
         public StatusViewModel(Status status, long userId, string collectionParameter) : this(status, userId)

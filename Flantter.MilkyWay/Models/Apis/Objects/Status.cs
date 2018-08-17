@@ -48,6 +48,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             Source = sourceMatch.Success ? sourceMatch.Groups[1].Value : cStatus.Source;
 
             SpoilerText = string.Empty;
+            Visibility = string.Empty;
             Emojis = null;
             Platform = "Twitter";
         }
@@ -99,6 +100,7 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
             Source = cStatus.Application != null ? cStatus.Application.Name : "Web";
 
             SpoilerText = cStatus.SpoilerText;
+            Visibility = cStatus.Visibility;
             Emojis = new List<Emoji>();
             if (cStatus.Emojis != null)
                 foreach (var emoji in cStatus.Emojis)
@@ -240,6 +242,12 @@ namespace Flantter.MilkyWay.Models.Apis.Objects
         #region Emojis変更通知プロパティ
 
         public List<Emoji> Emojis { get; set; }
+
+        #endregion
+
+        #region Visibility変更通知プロパティ
+
+        public string Visibility { get; set; }
 
         #endregion
 

@@ -577,10 +577,6 @@ namespace Flantter.MilkyWay.Models
                         Connecter.Instance.TweetReceive_OnCommandExecute(this,
                             new TweetEventArgs(status, AccountSetting.UserId, AccountSetting.Instance, paramList, false));
                     }
-
-                    // 丼のイベントも受信するためコメントアウト
-                    // if (gapCheck)
-                    //    Add(new Gap(0, lastId - 1, DateTime.Now));
                 }
                 
                 if (AccountSetting.Platform == SettingSupport.PlatformEnum.Mastodon)

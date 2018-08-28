@@ -300,11 +300,11 @@ namespace Flantter.MilkyWay.Views.Contents.Authorize
             }
             else if (_authorizeStep == AuthorizeStep.MastodonAuthorize)
             {
-                if (url.StartsWith("https://" + _mastodonAuthorize.Instance + "/oauth/authorize/"))
+                if (url.StartsWith("https://" + _mastodonAuthorize.Instance + "/oauth/authorize/native?code="))
                 {
                     args.Cancel = true;
                     var match = Regex.Match(url,
-                        @"^https://" + _mastodonAuthorize.Instance + "/oauth/authorize/(?<OauthVerifier>.*)$");
+                        @"^https://" + _mastodonAuthorize.Instance + "/oauth/authorize/native\\?code=(?<OauthVerifier>.*)$");
                     AuthorizeWithCallback(match.Groups["OauthVerifier"].Value);
                 }
             }

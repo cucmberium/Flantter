@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="6840cucmberium.Flantter.Cascade" Publisher="CN=56F5618A-2E10-4F20-ACBF-EC8E5E05F7D0" Version="3.3.0.0" />
+  <Identity Name="6840cucmberium.Flantter.Cascade" Publisher="CN=56F5618A-2E10-4F20-ACBF-EC8E5E05F7D0" Version="3.3.1.0" />
   <mp:PhoneIdentity PhoneProductId="4b8022d1-5b27-49f7-9b95-373ad256c2c2" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Flantter</DisplayName>

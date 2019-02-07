@@ -6,7 +6,7 @@ You can also use it with mastodon. (Some functions can not be used)
 
 To obtain the application, please visit [here](http://apps.microsoft.com/windows/en-jp/app/flantter/cedc3eca-9d14-452e-bf40-0e32bd76b5b7).
 
-For more information, see [wiki](https://github.com/cucmberium/Flantter.MilkyWay/wiki/Home_en).
+For more information, see [wiki](https://github.com/cucmberium/Flantter/wiki/Home_en).
 
 - - -
 
@@ -15,7 +15,7 @@ FlantterはWindowsで使用できるストアアプリのツイッタークラ�
 
 アプリの入手は[こちら](http://apps.microsoft.com/windows/ja-jp/app/flantter/cedc3eca-9d14-452e-bf40-0e32bd76b5b7)よりどうぞ。
 
-より詳しい情報は[wiki](https://github.com/cucmberium/Flantter.MilkyWay/wiki)を参照してください。
+より詳しい情報は[wiki](https://github.com/cucmberium/Flantter/wiki)を参照してください。
 
 - - -
 

@@ -1,0 +1,14 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FF202020" />
+
+    <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#FF222233" />
+    <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="TitleBarButtonBackgroundBrush" Color="#FF222233" />
+    <SolidColorBrush x:Key="TitleBarButtonForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="TitleBarButtonInactiveBackgroundBrush" Color="#FF222233" />
+    <SolidColorBrush x:Key="TitleBarButtonInactiveForegroundBrush" Color="#FFFFFFFF" />
+
+</ResourceDictionary>

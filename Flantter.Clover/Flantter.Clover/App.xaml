@@ -1,7 +1,16 @@
-﻿<Application
+﻿<prism:PrismApplication
     x:Class="Flantter.Clover.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Flantter.Clover">
+    xmlns:prism="using:Prism.Windows">
+    <prism:PrismApplication.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark" Source="ms-appx:///Themes/Skins/Dark.xaml" />
+                <ResourceDictionary x:Key="Light" Source="ms-appx:///Themes/Skins/Light.xaml" />
+            </ResourceDictionary.ThemeDictionaries>
 
-</Application>
+            <SolidColorBrush x:Key="AppThemeBrush" Color="#FFB01E00"/>
+        </ResourceDictionary>
+    </prism:PrismApplication.Resources>
+</prism:PrismApplication>

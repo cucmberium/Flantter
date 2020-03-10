@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mvvm="using:Prism.Windows.Mvvm"
+    xmlns:controls="using:Flantter.Clover.Views.Controls"
+    xmlns:excontrols="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 
@@ -17,7 +19,9 @@
         <Grid Grid.Row="0" Background="{StaticResource TitleBarBackgroundBrush}" Height="32" Padding="0,0,180,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" MinWidth="80"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="25"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
@@ -25,44 +29,135 @@
             <Button Grid.Column="0" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0" VerticalAlignment="Stretch" Width="48">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
             </Button>
+
             <Border x:Name="TitleBarMain" Grid.Column="1" Background="Transparent">
                 <TextBlock FontSize="11.5" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Text="Flantter" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0"/>
             </Border>
-            <Button x:Name="TitleBarColumnButton" Grid.Column="2" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0">
+
+            <excontrols:TabView x:Name="TitleBarAccountSelector" Grid.Column="2" MaxWidth="340" Background="Transparent" TabWidthBehavior="Compact" CanCloseTabs="False" CanDragItems="True" CanReorderItems="True" AllowDrop="True" SelectedTabWidth="140">
+                <excontrols:TabView.Resources>
+                    <ResourceDictionary>
+                        <x:Double x:Key="TabViewItemHeaderMinHeight">32</x:Double>
+
+                        <ResourceDictionary.ThemeDictionaries>
+                            <ResourceDictionary x:Key="Light">
+                                <SolidColorBrush x:Key="TabViewSelectionIndicatorForeground" Color="Transparent" />
+                            </ResourceDictionary>
+
+                            <ResourceDictionary x:Key="Dark">
+                                <SolidColorBrush x:Key="TabViewSelectionIndicatorForeground" Color="Transparent" />
+                            </ResourceDictionary>
+                        </ResourceDictionary.ThemeDictionaries>
+                    </ResourceDictionary>
+                </excontrols:TabView.Resources>
+
+                <excontrols:TabView.ItemTemplate>
+                    <DataTemplate/>
+                </excontrols:TabView.ItemTemplate>
+
+                <excontrols:TabViewItem>
+                    <excontrols:TabViewItem.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="16" Width="16" Margin="0,0,8,0" Source="https://mstdn.maud.io/system/accounts/avatars/000/002/365/original/9fb85fba9069ba37.png"/>
+                            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                                <TextBlock FontSize="11.5" FontWeight="Normal" Text="Global" />
+                                <TextBlock FontSize="9" FontWeight="Normal" Text="すべてのアカウント" />
+                            </StackPanel>
+                        </Grid>
+                    </excontrols:TabViewItem.Header>
+                </excontrols:TabViewItem>
+
+                <excontrols:TabViewItem>
+                    <excontrols:TabViewItem.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="16" Width="16" Margin="0,0,8,0" Source="https://mstdn.maud.io/system/accounts/avatars/000/002/365/original/9fb85fba9069ba37.png"/>
+                            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                                <TextBlock FontSize="11.5" FontWeight="Normal" Text="cucmberium" />
+                                <TextBlock FontSize="9" FontWeight="Normal" Text="Twitter" />
+                            </StackPanel>
+                        </Grid>
+                    </excontrols:TabViewItem.Header>
+                </excontrols:TabViewItem>
+
+                <excontrols:TabViewItem>
+                    <excontrols:TabViewItem.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="16" Width="16" Margin="0,0,8,0" Source="https://mstdn.maud.io/system/accounts/avatars/000/002/365/original/9fb85fba9069ba37.png"/>
+                            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                                <TextBlock FontSize="11.5" FontWeight="Normal" Text="cucmberium" />
+                                <TextBlock FontSize="9" FontWeight="Normal" Text="mstdn.maud.io" />
+                            </StackPanel>
+                        </Grid>
+                    </excontrols:TabViewItem.Header>
+                </excontrols:TabViewItem>
+            </excontrols:TabView>
+
+            <Button x:Name="TitleBarColumnButton" Grid.Column="4" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0">
                 <TextBlock FontSize="11" FontFamily="Segoe UI Symbol" Text="&#xE125;    カラム並び替え"/>
             </Button>
-            <Button x:Name="TitleBarSettingButton" Grid.Column="3" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0">
+
+            <Button x:Name="TitleBarSettingButton" Grid.Column="5" Style="{StaticResource TextBlockButtonStyle}" Foreground="{StaticResource TitleBarButtonForegroundBrush}" Background="{StaticResource TitleBarButtonBackgroundBrush}" BorderThickness="0">
                 <TextBlock FontSize="11" FontFamily="Segoe UI Symbol" Text="&#xE115;    Setting"/>
             </Button>
+
         </Grid>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="SizeStateGroup">
-                <VisualState x:Name="Minimal">
+                <VisualState x:Name="Minimum">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" MinWindowHeight="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="TitleBarColumnButton.Visibility" Value="Collapsed"/>
                         <Setter Target="TitleBarSettingButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="TitleBarAccountSelector.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="Min">
+                <VisualState x:Name="Small">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="384" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="TitleBarColumnButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="TitleBarSettingButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="TitleBarAccountSelector.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="512" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TitleBarColumnButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="TitleBarSettingButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="TitleBarAccountSelector.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="768" MinWindowHeight="500" />
+                        <AdaptiveTrigger MinWindowWidth="640" MinWindowHeight="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TitleBarColumnButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="TitleBarSettingButton.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Maximum">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1024" MinWindowHeight="500" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>

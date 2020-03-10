@@ -2,6 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <SolidColorBrush x:Key="TabViewSelectionIndicatorForeground" Color="Transparent" />
+
     <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FFEBEBEB" />
 
     <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#FF2387C1" />

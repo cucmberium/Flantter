@@ -20,7 +20,7 @@ namespace Flantter.Clover
             Resuming += OnResuming;
             UnhandledException += OnUnhandledException;
 
-            RequestedTheme = ApplicationTheme.Dark;
+            RequestedTheme = ApplicationTheme.Light;
         }
 
         private void OnSuspending(object sender, SuspendingEventArgs e)
